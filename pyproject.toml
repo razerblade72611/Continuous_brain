@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuous-brain"
+version = "0.13.0.dev0"
+description = "Hybrid persistent agent: a spiking executive core bridged to a frozen pretrained transformer, with episodic memory and sleep-phase consolidation."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+# The real backbone (Qwen / Gemma / etc.) via Hugging Face, with 4-bit loading.
+backbone = [
+    "transformers>=4.45",
+    "accelerate>=0.33",
+    "bitsandbytes>=0.43",
+]
+dev = [
+    "pytest>=8",
+]
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
