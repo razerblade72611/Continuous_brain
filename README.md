@@ -1,137 +1,53 @@
-# Continuous Brain
+# Continuous Brain: SNN program, E0 (Genesis)
 
-A persistent agent built from three parts:
+The deterministic, continuous-time spiking substrate for the E0–E6 program in the *Complete Project Dossier* (23 Sep 2026) and the Linear project. Stage E0 has **no semantic inputs and no pretrained models** (DAV-5).
 
-- a **spiking executive core** that runs continuously and carries the individual's continuity,
-- a **frozen pretrained transformer** the core consults when it needs language or reasoning,
-- **episodic memory and sleep-phase consolidation**: the only times anything learns, and every change passes a regression gate.
+This package (`continuous_brain_snn`) lives **alongside** the legacy `continuous_brain` (v0.12.2 + overlays); it doesn't replace it. That follows the migration rules: freeze the originals, inventory first, replace only behind tests.
 
-Design reference: *Continuous Brain — Hybrid Architecture Spec v0.1* (the living spec doc). This repo implements its Phases 0–3 infrastructure.
+## Status against the Linear issues
 
-## Status
-
-| Piece | State |
-| --- | --- |
-| State preservation (snapshots, checksums, never-overwrite, rollback) | Built, tested |
-| Spike→token transducer (events, multiscale traces, features, synchrony, pooling, latent tokens) | Built, tested |
-| Bridge: soft-prefix read path, write-back current decoder, invocation gate | Built, tested |
-| Frozen backbone adapter (Hugging Face, 4-bit) | Built; tested on a locally built tiny Qwen2, **not yet on a real checkpoint** |
-| Episodic memory (append-only, salience, recall) | Built, tested |
-| Sleep consolidation with per-component regression gate | Built, tested |
-| Waking loop | Built, tested end to end |
-| **InfantBrain / CorticalNucleus v0.11.3** | **Not in this repo yet.** See [Porting InfantBrain](#porting-infantbrain) |
-
-`ReferenceLIFCore` is a stand-in spiking core (LIF + sparse Dale's-law recurrence + reward-modulated STDP) so everything around InfantBrain can be built and tested now. **It is not InfantBrain.** Nothing trained on it is project history.
-
-## Architecture
-
-```mermaid
-flowchart TD
-  S[Sensory input] --> C[Spiking core<br/>InfantBrain]
-  WB[Write-back current] --> C
-  C -->|projection spikes| T[Transducer<br/>traces · features · synchrony]
-  T --> P[Population features]
-  P --> G{Invocation gate}
-  P --> L[Latent tokens]
-  L --> X[Soft prefix]
-  G -->|consult| B[Frozen backbone]
-  X --> B
-  M[(Episodic memory)] -->|recall| B
-  B --> WB
-  B -->|episode| M
-  M -->|sleep replay| Z[Consolidation<br/>+ regression gate]
-  Z -.-> C
-  Z -.-> L
-```
-
-| Module | What it does |
-| --- | --- |
-| `state/snapshot.py` | Timestamped, SHA-256-checksummed, read-only snapshots; atomic directory claim; COMPLETE marker; append-only version log; restore only into new directories. `scripts/snapshot.sh` is the shell equivalent. |
-| `core/interface.py` | `SpikingCore`: the contract InfantBrain implements. |
-| `transducer/` | Sparse `(batch, neuron, time)` events → multiscale leaky traces (5 ms–2 s) integrated in parallel with a decay kernel → per-neuron features `[X, ΔX, Δ²X, recency, burst]` → population mean-pooling + Golomb–Rinzel synchrony χ² → K latent tokens via Perceiver/Q-Former cross-attention, with an amplitude/direction split so activity level survives normalization. |
-| `bridge/prefix.py` | Latent tokens → soft-prompt prefix at the backbone's embedding scale (BLIP-2 pattern; no layers spliced into the frozen model). |
-| `bridge/writeback.py` | Backbone hidden state → bounded current on the core's input neurons (Gaussian policy). |
-| `bridge/gate.py` | Consult iff trigger-population activity > θ and past the refractory period, or a message arrives. |
-| `bridge/backbone.py` | `Backbone` interface + `HFBackbone` (frozen, optional 4-bit, gradient checkpointing). |
-| `memory/episodic.py` | Append-only episode log + atomic array files; salience = outcome + novelty + explicit flag; cosine recall. |
-| `sleep/` | Consolidation cycle and regression probes. |
-| `agent/loop.py` | `ContinuousBrain`: the waking loop, feedback, sleep, checkpoints. |
-
-### What learns, how, and when
-
-Nothing learns while awake. During `sleep()`:
-
-| Component | Rule | Signal |
+| Issue | What | State |
 | --- | --- | --- |
-| Latent pool + prefix | Backprop *through* the frozen backbone | NLL of the episode's target given its stored features and prompt, salience-weighted |
-| Write-back decoder | REINFORCE with baseline | Episode outcome |
-| Spiking core | Its own local plasticity only (never in the backprop graph) | Replayed inputs + neuromodulator `m = outcome − mean outcome` |
-| Backbone | Never trains | — |
+| DAV-32 | 1 ms Euler LIF engine: E/I drive kept separate, refractory, homeostatic threshold, seeded noise | Built. Bit-identical per seed on CPU (tested). Cross-backend: statistical harness built; **see the parity finding below** |
+| DAV-33 | Traces τ = 5/25/100/500/2000 ms, per-population summaries | Built. Analytic decay, variable-dt partition and steady-state tests pass |
+| DAV-34 | Procedural anatomy: retina ON/OFF, proprioception (angle/velocity per joint), motor M+/M−/Mco, cortex 80/20 E/I in spatial columns | Built. Anatomy hash deterministic from seed; semantic firewall validator |
+| DAV-35 | Fixed-capacity slots (src/weight/candidate/active/eligibility/utility), dormant candidates | Built. Prune/activate by mask, no shape change; activation that would break occupancy/fan-out caps is refused |
+| DAV-36 | Checkpoint + manifest (state, RNG, config/anatomy/connectivity/state hashes, schema, stage, git revision, Linear issue) | Built. Restore → continue reproduces the trajectory bit-exactly; mismatched anatomy is refused |
+| DAV-37 | Telemetry schema: JSONL (offline) + optional W&B | Built. Every window record has all `REQUIRED_KEYS` |
+| DAV-76 | Run registry: code + config + seed + anatomy + checkpoint + Linear issue + artifact SHA-256 | Partial: registry refuses PASS/FAIL claims without an artifact. Seed-range registry not built |
+| DAV-74 / DAV-75 | Audit and migration of the legacy tree | Not started. Needs the WSL tree; the Windows mirror has source code but no checkpoints |
 
-This resolves the spec's open question the way it assumed: backprop for the bridge, local rules only for the core. The boundary is structural, since spikes are read after the fact and never enter the gradient graph.
-
-### The regression gate
-
-Each sleep is bracketed by identical probe runs (same inputs, same noise seeds):
-
-- `general_language` (guards the bridge): does the prefix make the backbone worse at generic text?
-- `core_health` (guards the core): is spontaneous firing still inside a healthy band?
-- `matched_pair_discrimination` (guards the core): d′ between the core's responses to mirror-image input pairs, over independent noise seeds. This probe targets the core's **own** weights.
-- `episode_recall`: reported, not guarded.
-
-A component whose guarded probe regresses is restored exactly from the pre-sleep snapshot; the other keeps its update. Episodes are marked consolidated only when every component accepted.
-
-First end-to-end run, for the record: on the reference core, the R-STDP replay **lowered** matched-pair discrimination (d′ 0.77 → 0.70). The gate rolled the core back and kept the bridge's improvement. That's the stand-in core, not evidence about InfantBrain, but it's the risk the spec flagged: local plasticity is the unproven bet, and the gate is what keeps it honest.
-
-## Quickstart
+## E0 gate
 
 ```bash
-pip install -e ".[dev]"            # torch, numpy, pytest
-python -m pytest                   # 58 tests, CPU, ~15 s
+# inside WSL, from the repo root
+pip install -e ".[dev]"
+python -m pytest                                    # 68 tests, ~30 s on CPU
+python scripts/e0_gate.py --device cpu --out runs/e0_gate
+python scripts/e0_gate.py --device dml --out runs/e0_gate \
+    --compare-to runs/e0_gate/<cpu_run_id>/parity_stats.json
 ```
 
-Minimal run with the stand-in core and the test backbone:
+The gate checks genesis invariants, 10 s stability under synthetic physical input, bit-exact determinism, checkpoint continuation, structural prune/activate, telemetry completeness, and records 60 s of plasticity-off statistics for cross-backend parity. It writes a report, records its SHA-256 in `runs/.../logs/run_registry.jsonl`, and saves a never-overwrite checkpoint. A pass is an **INFRASTRUCTURE PASS**. It makes no cognitive claim.
 
-```python
-import torch
-from continuous_brain.agent import ContinuousBrain
-from continuous_brain.core import ReferenceLIFCore
-from continuous_brain.testing import TinyBackbone
+The first full-size CPU run (10,000 neurons) passed every gated check. Rates under drive: cortex ~9 Hz, motor ~11 Hz, retina and proprioception ~5 Hz. Speed was 3.9 ms per 1 ms step on a 2-core cloud CPU, about 3.9× slower than real time. It hasn't been run on your machine or on DirectML yet, so treat it as UNVERIFIED there.
 
-brain = ContinuousBrain(ReferenceLIFCore(), TinyBackbone(), root="runs/dev")
-brain.run(100, sensory=torch.full((64,), 0.8))        # 2 s of continuous core activity
-r = brain.tick(message="What is my name?")            # forces a consultation
-brain.feedback(r.episode_id, outcome=1.0, target=" David.")
-report = brain.sleep()                                # consolidate, gated
-print(report.accepted_components, report.rolled_back_components)
-```
+## Parity finding: DAV-32 tolerances need an amendment
 
-With the real backbone (GPU, `pip install -e ".[backbone]"`):
+The correlation criterion (KS < 0.1) is well-behaved: KS was 0.005–0.013 between equivalent runs.
 
-```python
-from continuous_brain.bridge import HFBackbone
-# Set this to the exact Hugging Face repo id after confirming the current
-# ~27B Apache-2.0 checkpoint (spec: "Frozen backbone"). Not hard-coded here
-# because open-weight releases change monthly.
-MODEL_ID = ...
-backbone = HFBackbone.from_pretrained(MODEL_ID, load_in_4bit=True)
-```
+The per-population criteria (rate within ±5%, ISI CV within ±0.05, applied to every one of the 140 populations) are underpowered. I simulated 12 pairs of *statistically identical* 60 s runs on the full anatomy, and **4 of 12 failed**. The smallest populations have 10 neurons, and sampling noise alone crosses ±5% in one of 140 comparisons about a third of the time.
 
-VRAM budget on a 24 GB card: ~13.5 GB for a 27B backbone in 4-bit, a bridge of order 10⁷ parameters, and the rest for KV cache and backward activations (gradient checkpointing is on).
+The code implements the rule exactly as written. One possible amendment is to scale each population's tolerance to its measured sampling error, e.g. max(5%, 3.5 standard errors of the difference), with a family-wise correction across populations. That changes the acceptance rule, so it's David's decision, and it should be frozen before any cross-backend acceptance run.
 
-## Porting InfantBrain
+## Design notes
 
-InfantBrain v0.11.3 and its 14,000-update checkpoint are on the home machine. From there:
+- **Determinism.** Anatomy, candidate edges, and weights are generated on CPU from the seed. Spike propagation is a gather (each neuron reads its own K sources), so there are no atomic adds. Noise comes from a seeded CPU generator by default, so every backend gets identical noise; DirectML has no device-side generator.
+- **Time.** Absolute time is `steps × dt`, an integer count, so it never drifts.
+- **E/I.** `g_e` and `g_i` are integrated and reported separately.
+- **Semantic firewall.** Population metadata is restricted to physical keys per region; `validate_physical` rejects anything else, and genesis refuses to build if it fails.
+- **Hardware.** The documented local GPU is an RX 6600 8 GB on DirectML. E0–E4 fit locally. A ~27B frozen Qwen (E5) does not, so it has to run on a rented GPU.
 
-1. **Snapshot first**: `scripts/snapshot.sh <checkpoint> pre-port`.
-2. Copy the v0.11.3 source into `continuous_brain/core/infantbrain/` unchanged.
-3. Implement `core/infantbrain_adapter.py` against `SpikingCore` (the steps are in that file). Map its stream/region labels to `projection_regions()` so populations follow its real anatomy.
-4. Wire its working-memory input (fed zeros to date) to real input neurons.
-5. Add the adapter to `CORE_FACTORIES` in `tests/test_core_contract.py` and make that file pass.
-6. Replace `MatchedPairProbe`'s default pairs with the real varied task family (matched left/right pairs).
+## What was parked
 
-## State rules
-
-- `runs/`, checkpoints, episodes, and logs are git-ignored and never committed.
-- Snapshots are never overwritten; restores go into new directories.
-- Sleep refuses to start if its pre-sleep snapshot fails verification.
+An earlier prototype written against the *Hybrid Architecture Spec v0.1* (spike→token transducer, soft-prefix bridge, episodic store, gated sleep) is kept in git history at commit `01bd411`. It conflicted with the dossier: language in from the start, the core learning only during sleep, and a 24 GB CUDA assumption. The parts that fit have moved here (never-overwrite snapshots, the float64-time lesson, the trace math). The bridge and memory ideas belong to E4/E5 and must re-enter only through those stages' gates.

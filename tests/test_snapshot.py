@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from continuous_brain.state import SnapshotExistsError, SnapshotIntegrityError, SnapshotStore
+from continuous_brain_snn.snapshot import SnapshotExistsError, SnapshotIntegrityError, SnapshotStore
 
 REPO = Path(__file__).resolve().parents[1]
 
