@@ -29,6 +29,24 @@
       "status": "DRAFT",
       "linear_doc": "https://linear.app/david1/document/continuous-brain-unified-individual-integration-gate-and-indicator-map-2e16d71b6f9f",
       "notes": "G1-G5 harness exists; thresholds, margins and the G2 sign matrix are not frozen."
+    },
+    {
+      "id": "G0-LEGACY-REQUAL-v1",
+      "title": "G0 Isolated Legacy Requalification on Fresh DEV Families",
+      "status": "PROPOSED",
+      "allowed_slots": [
+        "episodic_memory",
+        "planner",
+        "world_model",
+        "self_state",
+        "autobiography",
+        "goal_genesis",
+        "curriculum"
+      ],
+      "allowed_items": [
+        "G0"
+      ],
+      "notes": "Fresh DEV only. Historical sealed TEST ranges remain spent. Frozen evaluator source/thresholds/interventions stay byte-identical; only the explicitly preregistered seed-family symbol is substituted at runtime and state-dir is redirected outside the frozen legacy root. David approval required before any G0 scientific run."
     }
   ]
 }

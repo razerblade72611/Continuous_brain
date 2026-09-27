@@ -32,3 +32,8 @@ Pre-release marker (C3). No scientific gate has been passed; no historical mecha
 
 ## 0.1.0.dev0 — 2026-09-23 (commit 882e584)
 - E0 Genesis SNN substrate per DAV-5 (see git history). The hybrid prototype remains parked at commit 01bd411.
+
+## 0.38.1.dev1 — G0 runner
+- Engineering-pass baseline retained.
+- Added fail-closed G0 fresh-DEV runner, proposed seed plan, and preregistration draft.
+- No G0 scientific seed family is registered or opened in this artifact.

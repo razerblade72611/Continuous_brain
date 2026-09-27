@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 # Never "continuous-brain" / "continuous_brain": those names belong to the frozen legacy line (C3).
 name = "continuous-brain-unified"
-version = "0.38.1.dev0"
-description = "Continuous Brain v0.38.1.dev0 (G0 Legacy Requalification Foundation): neutral protocols, E0 SNN + DENSE-RNN substrates, Unified Individual composition runtime, integration-gate harness and shared battery. Lives alongside the legacy continuous_brain (v0.12.2 + overlays)."
+version = "0.38.1.dev1"
+description = "Continuous Brain v0.38.1.dev1 (G0 Isolated Requalification Runner): neutral protocols, E0 SNN + DENSE-RNN substrates, Unified Individual composition runtime, integration-gate harness and shared battery. Lives alongside the legacy continuous_brain (v0.12.2 + overlays)."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

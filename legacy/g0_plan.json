@@ -785,10 +785,10 @@
     },
     {
       "candidate_unverified_reasons": [
-        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+        "fresh G0 execution still requires explicit preregistration approval"
       ],
       "disposition": "READY_FOR_G0",
-      "dossier_status": "PASS/closed per later protocols; direct primary bundle not yet recovered (DAV-77)",
+      "dossier_status": "DEV PASS + frozen TEST PASS/closed; direct WSL primary result recovered",
       "files": [
         {
           "relpath": "state/event_consistent_self_development_test_v1/developmental_state_probe.memory.pt",
@@ -878,18 +878,17 @@
       "historical_admissible_flag": true,
       "lineage_version": "v0.34.0/0.34.1",
       "mechanism_id": "event_consistent_self_development_v0341",
-      "reason": "WSL tree contains passing TEST result and state probes; historical direct-bundle archival caveat remains separate",
+      "reason": "direct WSL result.json recovered: test_admission_passed=true on spent 80000-80127; no sealed TEST rerun",
       "slot_options": [
         "curriculum"
       ]
     },
     {
       "candidate_unverified_reasons": [
-        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
-        "state/endogenous_goal_genesis_v1/result.json records ['development_gate_passed'] = false"
+        "fresh G0 execution still requires explicit preregistration approval"
       ],
-      "disposition": "NEEDS_REFRESHED_RESULT_PARSE",
-      "dossier_status": "v0.35.0 DEV FAIL; v0.35.2 DEV PASS; v0.35.3 frozen TEST PASS/closed",
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "v0.35.0 DEV FAIL preserved; v0.35.2 DEV PASS; v0.35.3 frozen TEST PASS/closed",
       "files": [
         {
           "relpath": "state/endogenous_goal_genesis_v1/goal_lifecycle_probe.pt",
@@ -991,7 +990,7 @@
       "historical_admissible_flag": true,
       "lineage_version": "v0.35.0-v0.35.3",
       "mechanism_id": "endogenous_goal_genesis_v0353",
-      "reason": "WSL hash lists contain v0.35.2/v0.35.3 evaluator/result files, but the v0.38 candidate spec did not parse them; refresh inventory before promotion",
+      "reason": "refreshed WSL primary result directly records v0.35.3 test_admission_passed=true; spent 100000-100127 remains closed",
       "slot_options": [
         "goal_genesis"
       ]
@@ -1777,9 +1776,18 @@
     "READY_FOR_G0 means evidence is sufficient to write an isolated fresh-DEV requalification adapter; it is not a new PASS.",
     "SUPPORT_ONLY and CONTROL_ONLY can be used as controls but cannot be promoted to admitted capabilities.",
     "NEEDS_ADJUDICATION and NEEDS_REFRESHED_RESULT_PARSE remain blocked until the missing evidence is resolved.",
-    "Before runtime binding, the transitive in-package import closure and all state/result artifacts must be hash-pinned."
+    "Before runtime binding, the transitive in-package import closure and all state/result artifacts must be hash-pinned.",
+    "v0.38.1 engineering validation: 174 tests passed and E0 INFRASTRUCTURE PASS on David WSL; this is engineering provenance, not a G0 result"
   ],
   "source_bundle_sha256": "76697543b19a2ecf7b6b2dfd45e0d84a7e0871ad8dc05368d53ab5f4a526e805",
   "source_inventory_sha256": "6d93d85961d48fadd38d67e74e3acd73c68056812f63faf923fcca78c8edf62c",
-  "source_repo_commit": "c011d4048969b969520c6f8814f18e7ec11cc02e"
+  "source_repo_commit": "c011d4048969b969520c6f8814f18e7ec11cc02e",
+  "validation": {
+    "engineering_bundle_sha256": "540e94d7d7b3961dd31b3bf20aa2984fc58b1b7ec5f3b50b85f6873e03508976",
+    "validated_repo_commit": "337f2a2d516f610feee678d7f94edb26f798f1ce",
+    "refreshed_inventory_sha256": "5409d82ad1c2a65017bc19919faccab9d9660b696115503a6574ba8b113af0c8",
+    "pytest": "174 passed in 34.60s",
+    "e0_report_sha256": "1152ec64bc9f30e69552f099fad264fcb4c9ee41cb668decc7e52585160b7797",
+    "e0_result": "INFRASTRUCTURE PASS"
+  }
 }

@@ -11,7 +11,7 @@ def test_committed_g0_plan_preserves_failures_and_has_expected_classes():
     assert plan.get("self_broadcast_v029").disposition == G0Disposition.CONTROL_ONLY
     assert plan.get("memory_guided_goal_options_v021").disposition == G0Disposition.SUPPORT_ONLY
     assert plan.get("working_memory_components_v013_v019").disposition == G0Disposition.NEEDS_ADJUDICATION
-    assert plan.get("endogenous_goal_genesis_v0353").disposition == G0Disposition.NEEDS_REFRESHED_RESULT_PARSE
+    assert plan.get("endogenous_goal_genesis_v0353").disposition == G0Disposition.READY_FOR_G0
     assert not plan.get("self_broadcast_v029").can_prepare_adapter
 
 

@@ -14,7 +14,7 @@ from .dense_rnn import (BudgetMatchError, DenseRNNConfig, DenseRNNSubstrate, Sin
 from .encoders import EncoderConfig, SensoryEncoder, motor_stream_spec, sensory_stream_spec
 from .snn_adapter import SNNAdapterConfig, SNNSubstrate
 
-__version__ = "0.38.1.dev0"
+__version__ = "0.38.1.dev1"
 
 
 def build_matched_pair(e0_config, dense: DenseRNNConfig | None = None, frame_dt_s: float = 0.01,
