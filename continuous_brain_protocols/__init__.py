@@ -21,7 +21,7 @@ from .substrate import (BudgetReport, Capability, CapabilityUnavailable, Gradien
                         LesionRecord, LesionSpec, PlasticityReport, Substrate, SubstrateFrozenError,
                         SubstrateMetadata, TrainReport, read_only)
 
-__version__ = "0.38.0.dev0"
+__version__ = "0.38.1.dev0"
 
 __all__ = [
     "BudgetReport", "Capability", "CapabilityUnavailable", "ChannelKind", "ChannelSpec", "Checkpointable",

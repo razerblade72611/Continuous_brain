@@ -25,7 +25,7 @@ from typing import Callable
 
 from ..components import Component, ComponentProvenance, ProvenanceKind
 from .loader import import_verified_module
-from .manifest import LegacyManifest, ManifestEntry, VerificationResult, verify_entry
+from .manifest import LegacyManifest, ManifestEntry, VerificationResult, root_for_entry, verify_entry
 
 StepContractFactory = Callable[[ManifestEntry, object, Path, VerificationResult], Component]
 
@@ -79,19 +79,20 @@ class BindingOutcome:
     verification: VerificationResult | None = None
 
 
-def build_legacy_components(manifest: LegacyManifest, root: Path, dev_override: bool = False,
+def build_legacy_components(manifest: LegacyManifest, root, dev_override: bool = False,
                             override_log: str | os.PathLike | None = None) -> list[BindingOutcome]:
     outcomes = []
     for entry in manifest.entries:
-        result = verify_entry(entry, root, dev_override, override_log)
+        entry_root = root_for_entry(entry, root)
+        result = verify_entry(entry, entry_root, dev_override, override_log)
         contract = _CONTRACTS.get((entry.mechanism_id, entry.file("module").sha256))
         if contract is None:
             outcomes.append(BindingOutcome(entry.mechanism_id, entry.slot, False,
                                            f"no audited step contract for {entry.mechanism_id}@"
                                            f"{entry.file('module').sha256[:12]}", None, result))
             continue
-        module = import_verified_module(entry, root)
-        component = contract.factory(entry, module, root, result)
+        module = import_verified_module(entry, entry_root)
+        component = contract.factory(entry, module, entry_root, result)
         if component.slot != entry.slot:
             raise ValueError(f"step contract for {entry.mechanism_id} built a component for slot {component.slot}")
         _ISSUED[component] = (entry.digest(), result)

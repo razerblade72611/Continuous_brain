@@ -59,7 +59,9 @@ class SingleExposureViolation(RuntimeError):
 class DenseRNNConfig:
     seed: int = 0
     hidden_size: int | None = None               # None: solve from target_learned_scalars
-    target_learned_scalars: int | None = None    # the SNN's active synapse count
+    target_learned_scalars: int | None = None    # total-match target (A1.1)
+    target_recurrent_scalars: int | None = None  # recurrent-core target (A1.1b)
+    budget_mode: str = "total"                   # total | recurrent_core
     budget_tolerance: float = 0.10
     min_hidden: int = 4
     learning_rate: float = 1e-3
@@ -82,6 +84,29 @@ def gru_parameter_count(hidden: int, n_in: int, n_pred: int, n_motor: int) -> in
     gru = 3 * hidden * n_in + 3 * hidden * hidden + 6 * hidden
     return gru + hidden * n_pred + n_pred + hidden * n_motor + n_motor
 
+
+
+
+def gru_recurrent_weight_count(hidden: int) -> int:
+    """Learned recurrent matrix scalars only (GRUCell.weight_hh = [3H, H]).
+
+    A1.1b matches these weights to SNN cortex->cortex active synapses. Recurrent
+    biases are reported but deliberately excluded: an SNN synapse maps to a
+    learned weight, not a bias.
+    """
+    return 3 * hidden * hidden
+
+
+def solve_hidden_size_recurrent(target: int, tolerance: float = 0.10, min_hidden: int = 4) -> tuple[int, int]:
+    if target <= 0:
+        raise BudgetMatchError("recurrent target must be positive")
+    root = (target / 3.0) ** 0.5
+    candidates = {max(min_hidden, int(math.floor(root))), max(min_hidden, int(math.ceil(root)))}
+    best = min(candidates, key=lambda h: abs(gru_recurrent_weight_count(h) - target))
+    count = gru_recurrent_weight_count(best)
+    if abs(count - target) > tolerance * target:
+        raise BudgetMatchError(f"closest recurrent GRU core has {count} weights, outside +-{tolerance:.0%} of {target}")
+    return best, count
 
 def solve_hidden_size(n_in: int, n_pred: int, n_motor: int, target: int, tolerance: float = 0.10,
                       min_hidden: int = 4) -> tuple[int, int]:
@@ -162,24 +187,31 @@ class DenseRNNSubstrate(Substrate):
         self.n_in = self.encoder.input_size()
         self.n_pred = self.encoder.sensory_size()
         self.n_motor = encoder_cfg.n_joints * encoder_cfg.motor_channels
+        if cfg.budget_mode not in ("total", "recurrent_core"):
+            raise ValueError("budget_mode must be 'total' or 'recurrent_core'")
+        target = cfg.target_learned_scalars if cfg.budget_mode == "total" else cfg.target_recurrent_scalars
         if cfg.hidden_size is not None:
             self.hidden_size = cfg.hidden_size
             self.budget_match = None
-            if cfg.target_learned_scalars is not None:
-                count = gru_parameter_count(cfg.hidden_size, self.n_in, self.n_pred, self.n_motor)
-                err = (count - cfg.target_learned_scalars) / cfg.target_learned_scalars
+            if target is not None:
+                count = (gru_parameter_count(cfg.hidden_size, self.n_in, self.n_pred, self.n_motor)
+                         if cfg.budget_mode == "total" else gru_recurrent_weight_count(cfg.hidden_size))
+                err = (count - target) / target
                 if abs(err) > cfg.budget_tolerance:
-                    raise BudgetMatchError(f"hidden_size={cfg.hidden_size} gives {count} parameters, outside "
-                                           f"+-{cfg.budget_tolerance:.0%} of the target {cfg.target_learned_scalars}")
-                self.budget_match = {"target": cfg.target_learned_scalars, "achieved": count, "relative_error": err}
-        elif cfg.target_learned_scalars is not None:
-            self.hidden_size, count = solve_hidden_size(self.n_in, self.n_pred, self.n_motor,
-                                                        cfg.target_learned_scalars, cfg.budget_tolerance,
-                                                        cfg.min_hidden)
-            self.budget_match = {"target": cfg.target_learned_scalars, "achieved": count,
-                                 "relative_error": (count - cfg.target_learned_scalars) / cfg.target_learned_scalars}
+                    raise BudgetMatchError(f"hidden_size={cfg.hidden_size} gives {count} {cfg.budget_mode} scalars, outside "
+                                           f"+-{cfg.budget_tolerance:.0%} of the target {target}")
+                self.budget_match = {"mode": cfg.budget_mode, "target": target, "achieved": count,
+                                     "relative_error": err}
+        elif target is not None:
+            if cfg.budget_mode == "total":
+                self.hidden_size, count = solve_hidden_size(self.n_in, self.n_pred, self.n_motor, target,
+                                                            cfg.budget_tolerance, cfg.min_hidden)
+            else:
+                self.hidden_size, count = solve_hidden_size_recurrent(target, cfg.budget_tolerance, cfg.min_hidden)
+            self.budget_match = {"mode": cfg.budget_mode, "target": target, "achieved": count,
+                                 "relative_error": (count - target) / target}
         else:
-            raise ValueError("give hidden_size or target_learned_scalars")
+            raise ValueError("give hidden_size or the target required by budget_mode")
         if cfg.prediction_horizon_frames < 1 or cfg.tbptt_frames < 1:
             raise ValueError("horizon and TBPTT length must be >= 1 frame")
         with torch.random.fork_rng(devices=[]):
@@ -442,6 +474,7 @@ class DenseRNNSubstrate(Substrate):
             peak_memory_bytes=peak_rss_bytes(self.device), device=str(self.device),
             gradient_updates=self._grad_updates,
             notes={"hidden_size": self.hidden_size, "budget_match": self.budget_match,
+                   "recurrent_weight_count": gru_recurrent_weight_count(self.hidden_size),
                    "targets_trained": self._ledger.total(), "replayed_targets": self._replayed,
                    "untrained_inputs_dropped": self._untrained_dropped,
                    "torch": torch.__version__,

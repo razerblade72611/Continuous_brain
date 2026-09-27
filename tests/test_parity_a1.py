@@ -3,8 +3,9 @@ import pytest
 
 from continuous_brain_snn.anatomy import build_anatomy
 from continuous_brain_snn.config import small_config
-from continuous_brain_eval.parity_a1 import (Z_BONFERRONI_140, bonferroni_z, compare_a1, pilot_false_fail,
-                                             pilot_sensitivity, poisson_events, population_arrays)
+from continuous_brain_eval.parity_a1 import (Z_BONFERRONI_140, Z_BONFERRONI_280, bonferroni_z, compare_a1,
+                                             compare_a1b, pilot_false_fail, pilot_sensitivity, poisson_events,
+                                             population_arrays)
 
 DT = 0.001
 
@@ -44,3 +45,8 @@ def test_pilots_run_and_report_their_acceptance_criteria(anatomy):
     rates = {p.name: 20.0 for p in anatomy.populations}
     sens = pilot_sensitivity(anatomy, rates, shift=0.5, duration_s=10.0, min_expected_spikes=5000)
     assert sens["eligible_populations"] > 0 and sens["meets_criterion"], sens["missed"]
+
+
+def test_a1b_uses_280_test_bonferroni_family():
+    assert abs(Z_BONFERRONI_280 - bonferroni_z(280)) < 1e-9
+    assert Z_BONFERRONI_280 > bonferroni_z(140)

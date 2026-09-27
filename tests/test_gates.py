@@ -51,7 +51,8 @@ def _matrix():
                "wm_mean": lambda v: float(np.mean(v.read("working_memory.contents")))}
     cells = {("erase_autobiography", "self_mean"): "-", ("erase_autobiography", "wm_mean"): "0",
              ("stale_plan", "wm_mean"): "0"}
-    return InteractionMatrix(ivs, metrics, cells, equivalence_margin=1e-9, start_tick=2)
+    return InteractionMatrix(ivs, metrics, cells, equivalence_margin=1e-9, start_tick=2,
+                             not_applicable={("stale_plan", "self_mean"): "fixture does not preregister this relation"})
 
 
 def test_g2_matrix_must_be_frozen_and_detects_predicted_signs():
@@ -64,10 +65,31 @@ def test_g2_matrix_must_be_frozen_and_detects_predicted_signs():
     assert cells[("erase_autobiography", "self_mean")]["consistent_with_prediction"]
     assert cells[("erase_autobiography", "wm_mean")]["consistent_with_prediction"]   # non-interference holds
     assert cells[("stale_plan", "wm_mean")]["status"] == "BLOCKED"                    # no planner bound
-    assert rec.status == ResultStatus.ENGINEERING_ONLY
+    assert rec.status == ResultStatus.BLOCKED       # one required stale_plan cell cannot run: planner unbound
     m.equivalence_margin = 0.5
     with pytest.raises(RuntimeError, match="changed"):
         run_g2(fixture_runtime, m, [905001], ticks=3, observe=observation)
+
+
+def test_g1_blocks_when_required_mechanism_lacks_evaluator_or_threshold():
+    rec = run_g1(fixture_runtime, [RecordMean()], FRESH,
+                 [RetentionThreshold("fixture_autobiography", "record_mean", 1.0, "fixture")], ticks=2,
+                 observe=observation, required_mechanisms={"fixture_autobiography", "missing_mechanism"}, max_seeds=1)
+    assert rec.status == ResultStatus.BLOCKED
+    assert rec.metrics["missing_evaluators"] == ["missing_mechanism"]
+    assert rec.metrics["missing_thresholds"] == ["missing_mechanism"]
+
+
+def test_g2_incomplete_required_matrix_is_blocked_before_running():
+    ivs = (STANDARD_INTERVENTIONS[0],)
+    metrics = {"self_mean": lambda v: float(np.mean(v.read("self_state.vector"))),
+               "wm_mean": lambda v: float(np.mean(v.read("working_memory.contents")))}
+    m = InteractionMatrix(ivs, metrics, {("erase_autobiography", "self_mean"): "-"},
+                          equivalence_margin=1e-9, start_tick=2)
+    m.freeze()
+    rec = run_g2(fixture_runtime, m, [905001], ticks=3, observe=observation)
+    assert rec.status == ResultStatus.BLOCKED
+    assert rec.metrics["missing_required_cells"] == [["erase_autobiography", "wm_mean"]]
 
 
 def test_g3_blocks_schedules_whose_slots_are_unbound():

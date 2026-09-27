@@ -5,8 +5,9 @@ import torch
 from continuous_brain_protocols import (Capability, CapabilityUnavailable, LesionSpec, SubstrateFrozenError)
 from continuous_brain_snn.config import small_config
 from continuous_brain_substrates import (BudgetMatchError, DenseRNNConfig, DenseRNNSubstrate, EncoderConfig,
-                                         SingleExposureViolation, build_matched_pair, gru_parameter_count,
-                                         solve_hidden_size)
+                                         SingleExposureViolation, build_a1b_comparators, build_matched_pair,
+                                         gru_parameter_count, gru_recurrent_weight_count, solve_hidden_size,
+                                         solve_hidden_size_recurrent)
 from continuous_brain_substrates.dense_rnn import TrainBatch
 
 ENC = EncoderConfig.from_anatomy_config(small_config(0).anatomy)
@@ -31,6 +32,19 @@ def test_budget_matching_within_ten_percent():
     assert gru.metadata.track == "H2" and Capability.GRADIENT_TRAINING in gru.metadata.capabilities
     with pytest.raises(BudgetMatchError):
         solve_hidden_size(1000, 1000, 6, target=5000)
+
+
+def test_a1b_core_comparator_matches_recurrent_capacity_separately_from_total_match():
+    snn, dense_total, dense_core = build_a1b_comparators(small_config(2))
+    b = snn.budget()
+    total_target = b.active_synapses
+    core_target = b.notes["cortex_to_cortex_active_synapses"]
+    assert abs(dense_total.parameter_count() - total_target) <= 0.10 * total_target
+    assert abs(gru_recurrent_weight_count(dense_core.hidden_size) - core_target) <= 0.10 * core_target
+    assert dense_core.hidden_size > dense_total.hidden_size
+    assert dense_core.budget().notes["budget_match"]["mode"] == "recurrent_core"
+    h, got = solve_hidden_size_recurrent(core_target)
+    assert h == dense_core.hidden_size and got == gru_recurrent_weight_count(h)
 
 
 def test_objective_is_causal():

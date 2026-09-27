@@ -63,6 +63,7 @@ class ManifestEntry:
     audit_ref: str                    # link to the DAV-74 audit record
     verified_by: str
     verified_utc: str
+    root_name: str = "legacy-main"
     notes: str = ""
 
     def as_dict(self) -> dict:
@@ -70,7 +71,7 @@ class ManifestEntry:
                 "evidence_status": self.evidence_status, "status": self.status,
                 "files": [f.as_dict() for f in self.files], "entry_points": dict(self.entry_points),
                 "audit_ref": self.audit_ref, "verified_by": self.verified_by, "verified_utc": self.verified_utc,
-                "notes": self.notes}
+                "root_name": self.root_name, "notes": self.notes}
 
     def digest(self) -> str:
         return sha256_json(self.as_dict())
@@ -114,9 +115,12 @@ def parse_entry(d: dict[str, Any]) -> ManifestEntry:
     if missing:
         raise ManifestError(f"{d['mechanism_id']}: missing required file roles {missing}")
     datetime.fromisoformat(d["verified_utc"].replace("Z", "+00:00"))
+    root_name = str(d.get("root_name", "legacy-main")).strip()
+    if not root_name or any(ch in root_name for ch in "/\\"):
+        raise ManifestError(f"{d['mechanism_id']}: invalid root_name {root_name!r}")
     return ManifestEntry(d["mechanism_id"], d["slot"], d["lineage_version"], d["evidence_status"], d["status"],
                          tuple(files), dict(d["entry_points"]), d["audit_ref"], d["verified_by"],
-                         d["verified_utc"], d.get("notes", ""))
+                         d["verified_utc"], root_name, d.get("notes", ""))
 
 
 @dataclass
@@ -149,6 +153,26 @@ def resolve_legacy_root(cli_root: str | os.PathLike | None = None) -> Path:
     root = Path(raw).expanduser().resolve()
     if not root.is_dir():
         raise ManifestError(f"legacy root {root} is not a directory")
+    return root
+
+
+def root_for_entry(entry: ManifestEntry, roots) -> Path:
+    """Resolve a manifest entry to an immutable named root.
+
+    Backward compatibility: a single Path is accepted only for the default
+    `legacy-main` root. Multi-root manifests pass a mapping name -> path.
+    """
+    from collections.abc import Mapping
+    if isinstance(roots, Mapping):
+        if entry.root_name not in roots:
+            raise ManifestError(f"{entry.mechanism_id}: root {entry.root_name!r} is not configured")
+        root = Path(roots[entry.root_name]).expanduser().resolve()
+    else:
+        if entry.root_name != "legacy-main":
+            raise ManifestError(f"{entry.mechanism_id}: entry uses named root {entry.root_name!r}; pass a root mapping")
+        root = Path(roots).expanduser().resolve()
+    if not root.is_dir():
+        raise ManifestError(f"{entry.mechanism_id}: configured root {root} is not a directory")
     return root
 
 

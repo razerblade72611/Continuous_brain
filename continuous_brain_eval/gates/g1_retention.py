@@ -25,7 +25,8 @@ class RetentionThreshold:
 
 def run_g1(factory: RuntimeFactory, evaluators: list[MechanismEvaluator], family: SeedFamily,
            thresholds: list[RetentionThreshold], ticks: int, observe: ObservationFn | None = None,
-           prereg_id: str | None = None, seeds: SeedRegistry | None = None, max_seeds: int | None = None):
+           prereg_id: str | None = None, seeds: SeedRegistry | None = None, max_seeds: int | None = None,
+           required_mechanisms: set[str] | None = None):
     registry = seeds or SeedRegistry.load()
     registry.check_usable(family)
     probe = factory(family.start)
@@ -34,6 +35,29 @@ def run_g1(factory: RuntimeFactory, evaluators: list[MechanismEvaluator], family
         rec.status = ResultStatus.BLOCKED
         rec.notes.append("no mechanism is bound (DAV-74 has not verified any legacy entry)")
         return rec
+    # G1 is a retention gate over a declared mechanism set, never over whichever
+    # evaluators happened to be supplied. Scientific runtimes infer legacy ids
+    # from component provenance; engineering fixtures may pass an explicit set.
+    inferred = set()
+    for comp in probe.components.values():
+        detail = dict(comp.provenance().detail)
+        mid = detail.get("mechanism_id")
+        if mid:
+            inferred.add(str(mid))
+    required = set(required_mechanisms if required_mechanisms is not None else (inferred or {e.mechanism_id for e in evaluators}))
+    evaluator_ids = {e.mechanism_id for e in evaluators if e.slot in probe.components}
+    threshold_ids = {t.mechanism_id for t in thresholds}
+    missing_evaluators = sorted(required - evaluator_ids)
+    missing_thresholds = sorted(required - threshold_ids)
+    if missing_evaluators or missing_thresholds:
+        rec = gate_record("G1", probe, prereg_id, family=family.as_dict(), bound=sorted(probe.components),
+                          required_mechanisms=sorted(required), evaluator_coverage=sorted(evaluator_ids),
+                          threshold_coverage=sorted(threshold_ids), missing_evaluators=missing_evaluators,
+                          missing_thresholds=missing_thresholds)
+        rec.status = ResultStatus.BLOCKED
+        rec.notes.append("G1 coverage is incomplete: every required mechanism needs its frozen evaluator and threshold")
+        return rec
+
     per_mech: dict[str, dict[str, list[float]]] = {}
     seed_list = list(family.seeds())[:max_seeds] if max_seeds else list(family.seeds())
     for seed in seed_list:
@@ -51,9 +75,16 @@ def run_g1(factory: RuntimeFactory, evaluators: list[MechanismEvaluator], family
         value = summary.get(th.mechanism_id, {}).get(th.metric)
         checks.append({"mechanism_id": th.mechanism_id, "metric": th.metric, "minimum": th.minimum,
                        "value": value, "meets": value is not None and value >= th.minimum, "source": th.source})
+    missing_values = sorted({c["mechanism_id"] for c in checks if c["value"] is None})
     rec = gate_record("G1", probe, prereg_id, family=family.as_dict(), seeds_run=len(seed_list), summary=summary,
-                      threshold_checks=checks, bound=sorted(probe.components))
-    propose_verdict(rec, probe.scientific and bool(checks), prereg_id, all(c["meets"] for c in checks))
+                      threshold_checks=checks, bound=sorted(probe.components),
+                      required_mechanisms=sorted(required), evaluator_coverage=sorted(evaluator_ids),
+                      threshold_coverage=sorted(threshold_ids), missing_metric_values=missing_values)
+    if missing_values:
+        rec.status = ResultStatus.BLOCKED
+        rec.notes.append("one or more required threshold metrics were not emitted by their evaluator")
+    else:
+        propose_verdict(rec, probe.scientific and bool(checks), prereg_id, all(c["meets"] for c in checks))
     if family.purpose == SeedPurpose.TEST:
         registry.spend(family, source="G1")          # a TEST family is opened once
     return rec

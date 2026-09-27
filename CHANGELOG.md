@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.38.1.dev0 — 2026-09-27
+
+- Starts from Claude c011d40 canonical v0.38.0 engineering baseline.
+- Adds G0 evidence qualification from David's WSL inventory without reopening historical TEST ranges.
+- Fixes engineering seed sibling-overlap leakage, G1 evaluator/threshold coverage, and G2 matrix completeness.
+- Adds report-only A1.1b DENSE-CORE comparator support and A1.2b z=3.74755 while preserving the original A1 rule id.
+- Adds DirectML lock capture rather than guessing a torch/torch-directml version pair.
+
+
 ## 0.38.0.dev0 — 2026-09-27 (Claude's build of the Joint Implementation Contract v0.38.0)
 
 Pre-release marker (C3). No scientific gate has been passed; no historical mechanism is integrated.

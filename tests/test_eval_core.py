@@ -120,6 +120,22 @@ def test_seed_registry_refuses_spent_ranges_and_reports_the_known_overlap():
     assert not any(a.startswith("UNEXPECTED") for a in anomalies)
 
 
+def test_engineering_reserve_allows_children_but_not_overlapping_siblings(tmp_path):
+    import shutil
+    from pathlib import Path
+    src = Path(__file__).resolve().parents[1] / "registry"
+    shutil.copy(src / "seed_ranges.json", tmp_path / "seed_ranges.json")
+    reg = SeedRegistry.load(tmp_path)
+    a = SeedFamily("eng-a", 901000, 901099, SeedPurpose.ENGINEERING)
+    b = SeedFamily("eng-b", 901050, 901149, SeedPurpose.ENGINEERING)
+    c = SeedFamily("eng-c", 901100, 901199, SeedPurpose.ENGINEERING)
+    reg.register(a, source="test")
+    with pytest.raises(SeedOverlapError, match="eng-a"):
+        reg.register(b, source="test")
+    reg.register(c, source="test")
+    assert not any("eng-a" in x and "eng-c" in x for x in reg.anomalies())
+
+
 def _approved_registry(tmp_path, items=("G2",)):
     from continuous_brain_unified.prereg import PreregistrationRegistry
     tmp_path.mkdir(parents=True, exist_ok=True)

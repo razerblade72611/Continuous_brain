@@ -34,6 +34,7 @@ import numpy as np
 from continuous_brain_snn.parity import KS_MAX, ks_statistic, statistics_from_events
 
 Z_BONFERRONI_140 = 3.57
+Z_BONFERRONI_280 = 3.7475483420041256
 RATE_REL_FLOOR = 0.05
 CV_ABS_FLOOR = 0.05
 
@@ -130,6 +131,13 @@ def compare_a1(a: PopulationArrays, b: PopulationArrays, z: float = Z_BONFERRONI
         failures.append(f"correlation KS {ks:.3f} >= {KS_MAX}")
     return A1Result(not failures, failures, under, ks, per)
 
+
+
+
+def compare_a1b(a: PopulationArrays, b: PopulationArrays, **kwargs) -> A1Result:
+    """A1.2b proposal: 280-test family (rate + CV over 140 populations), z ~= 3.75."""
+    kwargs.setdefault("z", Z_BONFERRONI_280)
+    return compare_a1(a, b, **kwargs)
 
 def poisson_events(anatomy, rates_hz: dict[str, float] | float, duration_s: float, dt: float,
                    seed: int) -> tuple[np.ndarray, np.ndarray, int]:

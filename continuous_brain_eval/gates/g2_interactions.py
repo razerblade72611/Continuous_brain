@@ -51,19 +51,42 @@ class InteractionMatrix:
     cells: dict[tuple[str, str], str]              # (intervention name, metric name) -> sign
     equivalence_margin: float
     start_tick: int
+    required_cells: frozenset[tuple[str, str]] | None = None
+    not_applicable: dict[tuple[str, str], str] = field(default_factory=dict)
     frozen_hash: str | None = field(default=None, init=False)
 
     def __post_init__(self) -> None:
         names = {i.name for i in self.interventions}
+        universe = {(iv, m) for iv in names for m in self.metrics}
+        if self.required_cells is None:
+            self.required_cells = frozenset(universe)
+        else:
+            self.required_cells = frozenset(self.required_cells)
+        if not self.required_cells <= universe:
+            raise ValueError(f"required cells name unknown intervention/metric: {sorted(self.required_cells - universe)}")
         for (iv, m), sign in self.cells.items():
-            if iv not in names or m not in self.metrics:
+            if (iv, m) not in universe:
                 raise ValueError(f"cell ({iv}, {m}) names an unknown intervention or metric")
             if sign not in SIGNS:
                 raise ValueError(f"cell ({iv}, {m}): sign must be one of {SIGNS}")
+        for key, reason in self.not_applicable.items():
+            if key not in universe:
+                raise ValueError(f"N/A cell {key} names an unknown intervention or metric")
+            if not str(reason).strip():
+                raise ValueError(f"N/A cell {key} needs a justification")
+            if key in self.cells:
+                raise ValueError(f"cell {key} cannot have both a prediction and N/A")
+
+    def missing_required(self) -> list[tuple[str, str]]:
+        covered = set(self.cells) | set(self.not_applicable)
+        return sorted(self.required_cells - covered)
 
     def describe(self) -> dict:
         return {"interventions": [(i.name, i.kind.value, i.target, i.payload_ref) for i in self.interventions],
-                "metrics": {k: _source_digest(f) for k, f in sorted(self.metrics.items())}, "cells": sorted((k[0], k[1], v) for k, v in self.cells.items()),
+                "metrics": {k: _source_digest(f) for k, f in sorted(self.metrics.items())},
+                "cells": sorted((k[0], k[1], v) for k, v in self.cells.items()),
+                "required_cells": sorted((a, b) for a, b in self.required_cells),
+                "not_applicable": sorted((k[0], k[1], v) for k, v in self.not_applicable.items()),
                 "equivalence_margin": self.equivalence_margin, "start_tick": self.start_tick}
 
     def freeze(self) -> str:
@@ -104,17 +127,25 @@ def run_g2(factory: RuntimeFactory, matrix: InteractionMatrix, seeds: list[int],
     matrix.check_frozen()
     check_seeds(seeds, seed_registry)
     probe = factory(seeds[0])
+    missing_required = matrix.missing_required()
+    if missing_required:
+        rec = gate_record("G2", probe, prereg_id, matrix_hash=matrix.frozen_hash, matrix=matrix.describe(),
+                          missing_required_cells=[list(x) for x in missing_required], seeds=len(seeds))
+        rec.status = ResultStatus.BLOCKED
+        rec.notes.append("G2 preregistration matrix is incomplete: every required cell needs a prediction or justified N/A")
+        return rec
     control: dict[str, list[float]] = {m: [] for m in matrix.metrics}
     for s in seeds:
         rt = factory(s)
         run_ticks(rt, ticks, observe, s)
         for m, fn in matrix.metrics.items():
             control[m].append(float(fn(rt.view())))
-    cells = []
+    cells = [{"intervention": iv, "metric": metric, "status": "N/A", "reason": reason}
+             for (iv, metric), reason in sorted(matrix.not_applicable.items()) if (iv, metric) in matrix.required_cells]
     for iv in matrix.interventions:
         if iv.target not in probe.store.names():
             for (name, m), sign in matrix.cells.items():
-                if name == iv.name:
+                if name == iv.name and (name, m) in matrix.required_cells:
                     cells.append({"intervention": name, "metric": m, "sign": sign, "status": "BLOCKED",
                                   "reason": f"{iv.target} does not exist (slot unbound)"})
             continue
@@ -130,7 +161,7 @@ def run_g2(factory: RuntimeFactory, matrix: InteractionMatrix, seeds: list[int],
             for m, fn in matrix.metrics.items():
                 treated[m].append(float(fn(rt.view())))
         for (name, m), sign in matrix.cells.items():
-            if name != iv.name:
+            if name != iv.name or (name, m) not in matrix.required_cells:
                 continue
             ci = paired_difference_ci(treated[m], control[m], n_resamples)
             cells.append({"intervention": name, "metric": m, "sign": sign, "status": "RUN", "difference": ci.as_dict(),
@@ -138,9 +169,13 @@ def run_g2(factory: RuntimeFactory, matrix: InteractionMatrix, seeds: list[int],
     rec = gate_record("G2", probe, prereg_id, matrix_hash=matrix.frozen_hash, matrix=matrix.describe(), cells=cells,
                       seeds=len(seeds))
     ran = [c for c in cells if c["status"] == "RUN"]
-    if not ran:
+    blocked = [c for c in cells if c["status"] == "BLOCKED"]
+    if not ran and not matrix.not_applicable:
         rec.status = ResultStatus.BLOCKED
         rec.notes.append("no cell could run: every targeted slot is unbound")
-    elif len(ran) == len(cells):
+    elif blocked:
+        rec.status = ResultStatus.BLOCKED
+        rec.notes.append("one or more required G2 cells were blocked by an unbound target")
+    elif ran:
         propose_verdict(rec, probe.scientific, prereg_id, all(c["consistent_with_prediction"] for c in ran))
     return rec

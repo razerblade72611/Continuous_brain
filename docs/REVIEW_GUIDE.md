@@ -69,3 +69,14 @@ Plausible concerns also addressed:
 Left open, as spec questions:
 - A1's z = 3.57 assumes 140 tests, but with rate and CV tests per population the family is 280 tests (z = 3.75);
 - Python cannot seal the evaluator view or the override token against deliberate subversion. These guard against accidents.
+
+
+## v0.38.1.dev0 second-author changes
+
+This branch starts from `c011d40` and addresses ChatGPT's three confirmed follow-up defects before G0 composition work:
+
+1. engineering sibling seed ranges no longer overlap merely because they share the ENGINEERING purpose; only containment by an explicit reserve (or a declared historical overlap) is tolerated;
+2. G1 cannot propose a verdict unless every required mechanism has evaluator and threshold coverage;
+3. G2 cannot propose a verdict over a sparse matrix: required cells must be present or explicitly justified `N/A`.
+
+It also adds the read-only G0 evidence plan, named immutable legacy roots, DirectML lock capture, and report-only A1.1b/A1.2b support. See `G0_LEGACY_REQUALIFICATION.md`, `A1_AMENDMENT_SUPPORT.md`, and `VALIDATION_v0.38.1.dev0.md`.

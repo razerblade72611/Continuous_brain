@@ -264,13 +264,20 @@ class SNNSubstrate(Substrate):
         return rec
 
     def budget(self) -> BudgetReport:
-        active = int(self.engine.slots.active.sum())
+        active_mask = self.engine.slots.active
+        active = int(active_mask.sum())
+        cortex_region = REGIONS.index("cortex")
+        region = torch.as_tensor(self.engine.anatomy.region, device=self.engine.device)
+        post_cortex = region == cortex_region
+        pre_cortex = region[self.engine.slots.src] == cortex_region
+        cortex_to_cortex = int((active_mask & post_cortex[:, None] & pre_cortex).sum())
         return BudgetReport(
             kind="snn-e0", learned_scalars=active, active_synapses=active, parameter_count=active,
             frames=self._frames, simulated_s=self.engine.time_s, wall_s=self._wall_s,
             peak_memory_bytes=peak_rss_bytes(self.engine.device), device=str(self.engine.device),
             notes={"trained_parameters_in_E0": 0, "homeostatic_thresholds": self.engine.n,
-                   "neurons": self.engine.n, "slot_capacity": self.engine.slots.n * self.engine.slots.capacity})
+                   "neurons": self.engine.n, "slot_capacity": self.engine.slots.n * self.engine.slots.capacity,
+                   "cortex_to_cortex_active_synapses": cortex_to_cortex})
 
     def _adapter_state(self) -> dict:
         return {"frozen": self.frozen,

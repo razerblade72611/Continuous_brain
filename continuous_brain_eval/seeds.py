@@ -32,6 +32,7 @@ class RegisteredRange:
     source: str
     note: str
     allowed_overlap_with: tuple[str, ...] = ()
+    reserve: bool = False
 
 
 def _key(f: SeedFamily) -> tuple:
@@ -62,19 +63,35 @@ class SeedRegistry:
     def _parse(r: dict) -> RegisteredRange:
         fam = SeedFamily(r["name"], int(r["start"]), int(r["stop"]), SeedPurpose(r["purpose"]),
                          bool(r.get("sealed", False)), bool(r.get("spent", False)))
-        return RegisteredRange(fam, r.get("source", ""), r.get("note", ""), tuple(r.get("allowed_overlap_with", ())))
+        return RegisteredRange(fam, r.get("source", ""), r.get("note", ""),
+                               tuple(r.get("allowed_overlap_with", ())), bool(r.get("reserve", False)))
 
     def overlaps(self, family: SeedFamily) -> list[RegisteredRange]:
         """Every registered range sharing a seed with `family`, compared by range (names are irrelevant)."""
         return [r for r in self.ranges if r.family.overlaps(family)]
 
     @staticmethod
-    def _tolerated(new: SeedFamily, old: SeedFamily) -> bool:
-        return new.purpose == SeedPurpose.ENGINEERING and old.purpose == SeedPurpose.ENGINEERING
+    def _contains(parent: SeedFamily, child: SeedFamily) -> bool:
+        return parent.start <= child.start and child.stop <= parent.stop
+
+    @classmethod
+    def _tolerated(cls, new: SeedFamily, old: RegisteredRange) -> bool:
+        """Only explicit overlap relationships are tolerated.
+
+        ENGINEERING is not a blanket exemption: independent engineering families
+        must remain disjoint. A child may sit inside a registered engineering
+        reserve (for example v0.38-ENGINEERING), and historical overlaps are
+        tolerated only when named in allowed_overlap_with.
+        """
+        if new.name in old.allowed_overlap_with or old.family.name in getattr(new, "allowed_overlap_with", ()):
+            return True
+        return (old.reserve and new.purpose == SeedPurpose.ENGINEERING
+                and old.family.purpose == SeedPurpose.ENGINEERING
+                and cls._contains(old.family, new))
 
     def check_fresh(self, family: SeedFamily) -> None:
         """A never-registered family: refuse any overlap, except ENGINEERING inside an ENGINEERING reserve."""
-        hits = [h for h in self.overlaps(family) if not self._tolerated(family, h.family)]
+        hits = [h for h in self.overlaps(family) if not self._tolerated(family, h)]
         if hits:
             desc = ", ".join(f"{h.family.name} [{h.family.start}-{h.family.stop}]" for h in hits)
             raise SeedOverlapError(f"{family.name} [{family.start}-{family.stop}] overlaps {desc}")
@@ -92,7 +109,7 @@ class SeedRegistry:
         if family.purpose == SeedPurpose.HISTORICAL:
             raise SeedOverlapError(f"{family.name} is a legacy-line range; this program never runs on it")
         others = [h for h in self.overlaps(family) if _key(h.family) != _key(family)
-                  and not self._tolerated(family, h.family)]
+                  and not self._tolerated(family, h)]
         if others:
             raise SeedOverlapError(f"{family.name} overlaps {[h.family.name for h in others]}")
 
@@ -121,24 +138,39 @@ class SeedRegistry:
             raise SeedOverlapError(f"family name {family.name!r} already registered")
         self._append({**family.as_dict(), "source": source, "note": note,
                       "registered_utc": datetime.now(timezone.utc).isoformat()})
-        self.ranges.append(RegisteredRange(family, source, note))
+        self.ranges.append(RegisteredRange(family, source, note, (), False))
 
     def spend(self, family: SeedFamily, source: str) -> None:
         """Record that a family has been opened (TEST families can then never run again)."""
         spent = SeedFamily(family.name, family.start, family.stop, family.purpose, family.sealed, True)
         self._append({**spent.as_dict(), "source": source, "note": "spent",
                       "registered_utc": datetime.now(timezone.utc).isoformat()})
-        self.ranges = [r for r in self.ranges if _key(r.family) != _key(family)] + [RegisteredRange(spent, source, "spent")]
+        old = next((r for r in self.ranges if _key(r.family) == _key(family)), None)
+        reserve = False if old is None else old.reserve
+        allowed = () if old is None else old.allowed_overlap_with
+        self.ranges = [r for r in self.ranges if _key(r.family) != _key(family)] + \
+                      [RegisteredRange(spent, source, "spent", allowed, reserve)]
 
     def anomalies(self) -> list[str]:
         out = []
         for i, a in enumerate(self.ranges):
             for b in self.ranges[i + 1:]:
-                if a.family.overlaps(b.family) and not self._tolerated(b.family, a.family):
-                    known = b.family.name in a.allowed_overlap_with or a.family.name in b.allowed_overlap_with
-                    out.append(f"{'known' if known else 'UNEXPECTED'} overlap: {a.family.name} "
-                               f"[{a.family.start}-{a.family.stop}] and {b.family.name} "
-                               f"[{b.family.start}-{b.family.stop}]")
+                if not a.family.overlaps(b.family):
+                    continue
+                known = b.family.name in a.allowed_overlap_with or a.family.name in b.allowed_overlap_with
+                if known:
+                    out.append(f"known overlap: {a.family.name} [{a.family.start}-{a.family.stop}] and "
+                               f"{b.family.name} [{b.family.start}-{b.family.stop}]")
+                    continue
+                # Parent engineering reserves are bookkeeping containers, not collisions.
+                reserve_overlap = ((a.reserve and self._contains(a.family, b.family) and
+                                    a.family.purpose == b.family.purpose == SeedPurpose.ENGINEERING) or
+                                   (b.reserve and self._contains(b.family, a.family) and
+                                    a.family.purpose == b.family.purpose == SeedPurpose.ENGINEERING))
+                if reserve_overlap:
+                    continue
+                out.append(f"UNEXPECTED overlap: {a.family.name} [{a.family.start}-{a.family.stop}] and "
+                           f"{b.family.name} [{b.family.start}-{b.family.stop}]")
         return out
 
     def get(self, name: str) -> SeedFamily:

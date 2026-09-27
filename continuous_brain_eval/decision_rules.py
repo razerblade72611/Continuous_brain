@@ -51,6 +51,11 @@ def _a1_proposed(a, b, **kw):
     return compare_a1(a, b, **kw)
 
 
+def _a1b_proposed(a, b, **kw):
+    from .parity_a1 import compare_a1b
+    return compare_a1b(a, b, **kw)
+
+
 def _e2_primary(delta_r2_per_replicate, threshold: float = 0.05, n_resamples: int = 10_000, seed: int = 0) -> dict:
     """E2 prereg: PASS iff mean dR2 >= threshold and the 95 % bootstrap CI lower bound > 0."""
     d = np.asarray(delta_r2_per_replicate, dtype=np.float64)
@@ -65,8 +70,12 @@ RULES: dict[str, DecisionRule] = {
                               "Linear DAV-32", _dav32_v1, ("continuous_brain_snn.parity",)),
     "A1-proposed": DecisionRule("A1-proposed", "PROPOSED",
                                 "power-aware parity: tolerance max(5 %, 3.57 SE), bootstrap CV SE, KS < 0.1",
-                                "Linear doc 'Proposed Amendment A1' (A1.2)", _a1_proposed,
+                                "Linear doc 'Proposed Amendment A1' (A1.2 original draft)", _a1_proposed,
                                 ("continuous_brain_eval.parity_a1", "continuous_brain_snn.parity")),
+    "A1b-proposed": DecisionRule("A1b-proposed", "PROPOSED",
+                                 "power-aware parity with 280-test Bonferroni family: z=3.74755 (~3.75)",
+                                 "ChatGPT/Claude review 2026-09-27; requires David approval before scientific use",
+                                 _a1b_proposed, ("continuous_brain_eval.parity_a1", "continuous_brain_snn.parity")),
     "E2-primary-v1": DecisionRule("E2-primary-v1", "DRAFT",
                                   "E2 primary endpoint: mean dR2(DEV - max baseline) >= 0.05 and CI lower bound > 0",
                                   "Linear doc 'E2 Preregistration & Decision Rule' (Draft v1)", _e2_primary,

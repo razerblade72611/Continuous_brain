@@ -9,10 +9,11 @@
 from .adapters import (BindingOutcome, StepContract, build_legacy_components, register_step_contract,
                        registered_contracts)
 from .loader import LegacyImportConflict, import_verified_module
+from .g0 import G0Disposition, G0Entry, G0Plan, G0Verification
 from .manifest import (ENV_ROOT, MANIFEST_FORMAT, LegacyFile, LegacyHashMismatch, LegacyManifest, ManifestEntry,
-                       ManifestError, VerificationResult, parse_entry, resolve_legacy_root, verify_entry)
+                       ManifestError, VerificationResult, parse_entry, resolve_legacy_root, root_for_entry, verify_entry)
 
-__all__ = ["BindingOutcome", "ENV_ROOT", "LegacyFile", "LegacyHashMismatch", "LegacyImportConflict", "LegacyManifest",
+__all__ = ["BindingOutcome", "G0Disposition", "G0Plan", "G0Entry", "G0Verification", "ENV_ROOT", "LegacyFile", "LegacyHashMismatch", "LegacyImportConflict", "LegacyManifest",
            "MANIFEST_FORMAT", "ManifestEntry", "ManifestError", "StepContract", "VerificationResult",
            "build_legacy_components", "import_verified_module", "parse_entry", "register_step_contract",
-           "registered_contracts", "resolve_legacy_root", "verify_entry"]
+           "registered_contracts", "resolve_legacy_root", "root_for_entry", "verify_entry"]

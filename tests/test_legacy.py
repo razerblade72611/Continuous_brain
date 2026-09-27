@@ -92,6 +92,18 @@ def test_verification_refuses_mismatch_unless_logged_override(legacy_root, tmp_p
     assert json.loads(log.read_text().splitlines()[0])["mechanism_id"] == "toy_memory_v1"
 
 
+def test_manifest_entries_can_resolve_named_immutable_roots(legacy_root, tmp_path):
+    e = parse_entry(entry_dict(legacy_root, root_name="legacy-main"))
+    from continuous_brain_unified.legacy import root_for_entry
+    assert root_for_entry(e, {"legacy-main": legacy_root}) == legacy_root.resolve()
+    overlay = parse_entry(entry_dict(legacy_root, mechanism_id="toy_overlay", root_name="overlay-v036"))
+    with pytest.raises(ManifestError, match="not configured"):
+        root_for_entry(overlay, {"legacy-main": legacy_root})
+    assert root_for_entry(overlay, {"overlay-v036": legacy_root}) == legacy_root.resolve()
+    with pytest.raises(ManifestError, match="root mapping"):
+        root_for_entry(overlay, legacy_root)
+
+
 def test_root_resolution(monkeypatch, legacy_root):
     monkeypatch.delenv(ENV_ROOT, raising=False)
     with pytest.raises(ManifestError, match="no legacy root"):

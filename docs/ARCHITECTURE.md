@@ -28,10 +28,10 @@ The protocols never import a track. The substrates package holds the shared enco
 | `train_step` | always `GradientFirewallError`; every tensor is checked for `requires_grad` | TBPTT on the causal window: predict encoded sensory input one frame ahead; single-exposure ledger |
 | `freeze` | homeostatic thresholds held exactly | training refused |
 | `lesion` | `synapses:<region>`, `neurons:<region>` (neurons are also silenced) | `units:hidden`, `weights:recurrent` (masks re-applied after every update) |
-| `budget` | active synapses | parameters; the hidden size is solved to ±10 % of the SNN's active synapses |
+| `budget` | active synapses plus cortex→cortex active synapses | two reportable modes: total learned parameters (`DENSE-TOTAL`) and recurrent `weight_hh` scalars (`DENSE-CORE`, proposed A1.1b) |
 | `state_dict` / `state_hash` | exact restore; continuation is bit-identical (tested) | exact restore, including Adam moments (deep-copied: the optimizer returns live references) |
 
-**Question for review (not changed):** matching the GRU's *total* parameter count to the SNN's active synapses, with the shared 2,182-channel encoder, leaves a 42-unit hidden layer at full size. Most of the budget is input and output weights. That is the literal A1.1 rule. An alternative would be to match *recurrent* capacity instead: count only the SNN's cortex→cortex synapses against the GRU's recurrent weights. That is a spec question for A1, so the code implements A1 as written.
+**v0.38.1 proposed A1.1b support:** the literal A1 total-budget interpretation remains available as `DENSE-TOTAL` (H=42 at the canonical E0 count). A second report-only `DENSE-CORE` path matches GRU recurrent `weight_hh` scalars to active SNN cortex→cortex synapses (H=338 at the same E0 count). The proposal remains distinguishable from the historical A1 rule; code support is not scientific approval. See `A1_AMENDMENT_SUPPORT.md`.
 
 ## Unified runtime (Contract §1, C1/C3/C4)
 

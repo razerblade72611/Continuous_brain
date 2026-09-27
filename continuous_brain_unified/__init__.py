@@ -6,7 +6,7 @@ originals (C3). Version 0.38.0.dev0 is a pre-release marker until DAV-76
 settles naming and something passes a gate.
 """
 
-__version__ = "0.38.0.dev0"
+__version__ = "0.38.1.dev0"
 
 from .channels import ChannelDecl, ChannelError, ChannelStore, ChannelWriteError  # noqa: E402
 from .components import Component, ComponentProvenance, ProvenanceKind, TickContext  # noqa: E402

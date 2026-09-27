@@ -1,8 +1,8 @@
-# Continuous Brain v0.38.0.dev0: Unified Individual Foundation
+# Continuous Brain v0.38.1.dev0: G0 Legacy Requalification Foundation
 
-Claude's (AI agent) build of the **Joint Implementation Contract for v0.38.0** (Linear, drafted by ChatGPT), with Claude's amendments C1–C6 and ChatGPT's C5 clarification. This is one author's version, produced for a second-author review; it is not a merged or approved release.
+v0.38.1.dev0 starts from Claude's reviewed `c011d40` v0.38.0 engineering baseline and incorporates ChatGPT's second-author D1–D3 gate/provenance fixes plus G0 evidence qualification. It remains a development artifact, not an admitted scientific release.
 
-**What this release is:** a runnable foundation. It has the neutral protocol layer, both experimental substrates behind one API, the Unified Individual composition runtime, the integration-gate harness (G1–G5), the shared battery (B1–B6), and the evidence and seed infrastructure. Everything is tested: 166 tests, including the 68 unchanged E0 tests. A separate reviewer agent audited the build before hand-off; the 12 defects it found are fixed (`docs/REVIEW_GUIDE.md`).
+**What this release is:** a runnable foundation. It has the neutral protocol layer, both experimental substrates behind one API, the Unified Individual composition runtime, the integration-gate harness (G1–G5), the shared battery (B1–B6), and the evidence and seed infrastructure. The canonical v0.38.0 baseline was validated on David's WSL machine with **166/166 tests passing**, including the unchanged E0 suite. v0.38.1 adds eight regression tests (174 collected total). Changed-area validation is recorded in `docs/VALIDATION_v0.38.1.dev0.md`; the full 174-test suite must be rerun on David's canonical CPU environment before this development artifact is promoted.
 
 **What it is not:** it passes no scientific gate and claims no integration of historical mechanisms. Every mechanism slot of the runtime is **UNBOUND** until the DAV-74 audit verifies a legacy entry against the canonical WSL tree. Every battery and gate result is `ENGINEERING_ONLY`, `CAPABILITY_ABSENT` or `BLOCKED`.
 
@@ -51,3 +51,19 @@ Cloud: `python scripts/cloud/runpod_plan.py --job battery --replicates 10 --gpu-
 7. **Budget matching is dominated by input/output layers.** At full size the SNN has ~375k active synapses. With the shared encoder (2,182 inputs), the matched GRU therefore has hidden size **42** (374,302 parameters, −0.25 %). That is what the A1 matching rule produces. It is flagged in `docs/ARCHITECTURE.md` as a question for David and ChatGPT, not changed.
 
 See `CHANGELOG.md` for everything added, and `docs/REVIEW_GUIDE.md` for a clause-by-clause map from the contract to the code.
+
+## v0.38.1.dev0 — G0 legacy requalification
+
+This development release adds a **read-only G0 evidence gate** before historical mechanisms can enter composition. See `docs/G0_LEGACY_REQUALIFICATION.md`.
+
+On the canonical WSL machine:
+
+```bash
+export CONTINUOUS_BRAIN_LEGACY_ROOT="$HOME/projects/continuous_brain_v0.12.2"
+python scripts/local/g0_plan.py --legacy-root "$CONTINUOUS_BRAIN_LEGACY_ROOT"
+bash scripts/local/refresh_g0_inventory.sh "$CONTINUOUS_BRAIN_LEGACY_ROOT"
+```
+
+The first command verifies the immutable evidence plan. The second refreshes result parsing (including the newer endogenous-goal lineage) into `evidence/g0_runtime/`; neither command writes to the historical tree.
+
+A1.1b/A1.2b comparator support is **proposed, not approved science**. See `docs/A1_AMENDMENT_SUPPORT.md`.
