@@ -1,53 +1,53 @@
-# Continuous Brain: SNN program, E0 (Genesis)
+# Continuous Brain v0.38.0.dev0: Unified Individual Foundation
 
-The deterministic, continuous-time spiking substrate for the E0–E6 program in the *Complete Project Dossier* (23 Sep 2026) and the Linear project. Stage E0 has **no semantic inputs and no pretrained models** (DAV-5).
+Claude's (AI agent) build of the **Joint Implementation Contract for v0.38.0** (Linear, drafted by ChatGPT), with Claude's amendments C1–C6 and ChatGPT's C5 clarification. This is one author's version, produced for a second-author review; it is not a merged or approved release.
 
-This package (`continuous_brain_snn`) lives **alongside** the legacy `continuous_brain` (v0.12.2 + overlays); it doesn't replace it. That follows the migration rules: freeze the originals, inventory first, replace only behind tests.
+**What this release is:** a runnable foundation. It has the neutral protocol layer, both experimental substrates behind one API, the Unified Individual composition runtime, the integration-gate harness (G1–G5), the shared battery (B1–B6), and the evidence and seed infrastructure. Everything is tested: 166 tests, including the 68 unchanged E0 tests. A separate reviewer agent audited the build before hand-off; the 12 defects it found are fixed (`docs/REVIEW_GUIDE.md`).
 
-## Status against the Linear issues
+**What it is not:** it passes no scientific gate and claims no integration of historical mechanisms. Every mechanism slot of the runtime is **UNBOUND** until the DAV-74 audit verifies a legacy entry against the canonical WSL tree. Every battery and gate result is `ENGINEERING_ONLY`, `CAPABILITY_ABSENT` or `BLOCKED`.
 
-| Issue | What | State |
-| --- | --- | --- |
-| DAV-32 | 1 ms Euler LIF engine: E/I drive kept separate, refractory, homeostatic threshold, seeded noise | Built. Bit-identical per seed on CPU (tested). Cross-backend: statistical harness built; **see the parity finding below** |
-| DAV-33 | Traces τ = 5/25/100/500/2000 ms, per-population summaries | Built. Analytic decay, variable-dt partition and steady-state tests pass |
-| DAV-34 | Procedural anatomy: retina ON/OFF, proprioception (angle/velocity per joint), motor M+/M−/Mco, cortex 80/20 E/I in spatial columns | Built. Anatomy hash deterministic from seed; semantic firewall validator |
-| DAV-35 | Fixed-capacity slots (src/weight/candidate/active/eligibility/utility), dormant candidates | Built. Prune/activate by mask, no shape change; activation that would break occupancy/fan-out caps is refused |
-| DAV-36 | Checkpoint + manifest (state, RNG, config/anatomy/connectivity/state hashes, schema, stage, git revision, Linear issue) | Built. Restore → continue reproduces the trajectory bit-exactly; mismatched anatomy is refused |
-| DAV-37 | Telemetry schema: JSONL (offline) + optional W&B | Built. Every window record has all `REQUIRED_KEYS` |
-| DAV-76 | Run registry: code + config + seed + anatomy + checkpoint + Linear issue + artifact SHA-256 | Partial: registry refuses PASS/FAIL claims without an artifact. Seed-range registry not built |
-| DAV-74 / DAV-75 | Audit and migration of the legacy tree | Not started. Needs the WSL tree; the Windows mirror has source code but no checkpoints |
+## Layout
 
-## E0 gate
+| Package | Role |
+| --- | --- |
+| `continuous_brain_protocols/` | Track-neutral contracts: `Substrate` (with separate `plasticity_step` / `train_step`, C2), `FeatureSource`, `Checkpointable`, `EmbodiedStream` (physical units only: the semantic firewall at the protocol level), `InterventionSpec`, `BudgetReport`, seed and provenance records, and the status vocabulary |
+| `continuous_brain_snn/` | E0 Genesis, **unchanged** from commit `882e584` (C6) |
+| `continuous_brain_substrates/` | The shared sensory encoder, the SNN adapter over E0 (H1), and the DENSE-RNN GRU comparator matched to the SNN's active synapses (H2, A1.1, report-only) |
+| `continuous_brain_unified/` | The runtime: 15 required slots, a single-writer channel store, the per-tick DAG scheduler, interventions, a coprocessor interface (disabled at boot, null by default), checkpointing, the legacy manifest, loader and read-only inventory, and workspace/attention-schema interfaces (C1, C3, C4) |
+| `continuous_brain_eval/` | G1–G5 harness, battery B1–B6, ridge probes with blocked CV, bootstrap statistics, versioned decision rules (`DAV-32-v1`, `A1-proposed`, `E2-primary-v1`), the A1 parity pilot, the indicator registry, the seed registry, content-addressed runs |
+| `registry/` | `seed_ranges.json`, `preregistrations.json`, `indicators.json` |
+| `legacy/` | `manifest.json` (VERIFIED entries only; empty), `manifest.schema.json`, `candidate_spec.json`, `candidates.json` (read-only inventory of the Windows source mirror, all UNVERIFIED) |
+| `scripts/` | `e0_gate.py`, `battery_smoke.py`, `unified_boot.py`, `a1_pilot.py`, `local/*.sh` (WSL), `cloud/runpod_plan.py` + `pod_setup.sh` (explicit invocation only) |
+| `docs/` | `ARCHITECTURE.md`, `EXPERIMENT_RULES.md`, `LEGACY_INVENTORY.md`, `SPECS.md`, `REVIEW_GUIDE.md` |
+
+## Run it (inside WSL, Ubuntu)
 
 ```bash
-# inside WSL, from the repo root
-pip install -e ".[dev]"
-python -m pytest                                    # 68 tests, ~30 s on CPU
-python scripts/e0_gate.py --device cpu --out runs/e0_gate
-python scripts/e0_gate.py --device dml --out runs/e0_gate \
-    --compare-to runs/e0_gate/<cpu_run_id>/parity_stats.json
+cd ~/projects/Continuous_brain                # your WSL clone of the repo
+bash scripts/local/setup_wsl.sh              # venv, editable install, full test suite
+source .venv/bin/activate
+
+python scripts/unified_boot.py --out runs/unified_boot                       # binding report: 12 unbound, 3 infrastructure
+python scripts/battery_smoke.py --size small --out runs/battery_smoke        # B1-B6 on both substrates, engineering-only
+python scripts/e0_gate.py --device cpu --out runs/e0_gate                    # the E0 infrastructure gate, as before
+
+bash scripts/local/verify_protected_checkpoint.sh                            # infant_training.pt SHA-256 check
+bash scripts/local/inventory_legacy.sh                                       # DAV-74 inventory of the canonical tree
+python scripts/unified_boot.py --legacy-root ~/projects/continuous_brain_v0.12.2 --out runs/unified_boot_legacy
 ```
 
-The gate checks genesis invariants, 10 s stability under synthetic physical input, bit-exact determinism, checkpoint continuation, structural prune/activate, telemetry completeness, and records 60 s of plasticity-off statistics for cross-backend parity. It writes a report, records its SHA-256 in `runs/.../logs/run_registry.jsonl`, and saves a never-overwrite checkpoint. A pass is an **INFRASTRUCTURE PASS**. It makes no cognitive claim.
+The legacy root is never committed. Pass it with `--legacy-root`, or set `CONTINUOUS_BRAIN_LEGACY_ROOT`.
 
-The first full-size CPU run (10,000 neurons) passed every gated check. Rates under drive: cortex ~9 Hz, motor ~11 Hz, retina and proprioception ~5 Hz. Speed was 3.9 ms per 1 ms step on a 2-core cloud CPU, about 3.9× slower than real time. It hasn't been run on your machine or on DirectML yet, so treat it as UNVERIFIED there.
+Cloud: `python scripts/cloud/runpod_plan.py --job battery --replicates 10 --gpu-hourly <quoted price>` prints commands and a cost estimate. It launches nothing and makes no network calls.
 
-## Parity finding: DAV-32 tolerances need an amendment
+## Findings from this build
 
-The correlation criterion (KS < 0.1) is well-behaved: KS was 0.005–0.013 between equivalent runs.
+1. **The v0.34.1 primary result appears to exist (DAV-77).** The Windows mirror has `state/event_consistent_self_development_test_v1/result.json`. It is SHA-256 `5ca0aa737f5dec2671049b7acd02783b52219a74dce3268737c52716b7585f4d`, records `split.test = [80000, 80127]` and `test_admission_passed: true`, and sits next to `result_bundle.zip` (`a944a4ac…70dd`). This is UNVERIFIED until it is hashed on the canonical tree.
+2. **No legacy mechanism can be bound from the mirror.** The mirror has modules, evaluators, protocols and result JSONs for 13 of 14 candidates, but no checkpoint files. The results themselves record the hashes their checkpoints had (for example, the v0.24 integration pins four `.pt` files), so DAV-74 can verify checkpoints on WSL against hashes recorded at test time.
+3. **The mirror stops at v0.35.0.** The v0.35.0 result is present (`development_gate_passed: false`, as the dossier says). Nothing for v0.35.2/.3 or v0.36.x (recursive curriculum) was found.
+4. **The v0.21–v0.22 components record formal failures in their own result files** (`development_gate_passed: false` twice, `test_admission_passed: false` once). v0.24 nonetheless integrated their checkpoints and passed. DAV-74 must decide which of those components count as admitted.
+5. **The legacy line's own manifests stop at v0.12.2.** Only `embodied.py` among the candidate modules matches a legacy-shipped SHA-256. Every later module is unlisted, which is expected but leaves no independent hash to check them against.
+6. **A1.2 is exercised, not approved.** `scripts/a1_pilot.py` runs both acceptance pilots (false-fail rate over ≥ 100 identical pairs; sensitivity to a 10 % shift) for `A1-proposed` and `DAV-32-v1` side by side.
+7. **Budget matching is dominated by input/output layers.** At full size the SNN has ~375k active synapses. With the shared encoder (2,182 inputs), the matched GRU therefore has hidden size **42** (374,302 parameters, −0.25 %). That is what the A1 matching rule produces. It is flagged in `docs/ARCHITECTURE.md` as a question for David and ChatGPT, not changed.
 
-The per-population criteria (rate within ±5%, ISI CV within ±0.05, applied to every one of the 140 populations) are underpowered. I simulated 12 pairs of *statistically identical* 60 s runs on the full anatomy, and **4 of 12 failed**. The smallest populations have 10 neurons, and sampling noise alone crosses ±5% in one of 140 comparisons about a third of the time.
-
-The code implements the rule exactly as written. One possible amendment is to scale each population's tolerance to its measured sampling error, e.g. max(5%, 3.5 standard errors of the difference), with a family-wise correction across populations. That changes the acceptance rule, so it's David's decision, and it should be frozen before any cross-backend acceptance run.
-
-## Design notes
-
-- **Determinism.** Anatomy, candidate edges, and weights are generated on CPU from the seed. Spike propagation is a gather (each neuron reads its own K sources), so there are no atomic adds. Noise comes from a seeded CPU generator by default, so every backend gets identical noise; DirectML has no device-side generator.
-- **Time.** Absolute time is `steps × dt`, an integer count, so it never drifts.
-- **E/I.** `g_e` and `g_i` are integrated and reported separately.
-- **Semantic firewall.** Population metadata is restricted to physical keys per region; `validate_physical` rejects anything else, and genesis refuses to build if it fails.
-- **Hardware.** The documented local GPU is an RX 6600 8 GB on DirectML. E0–E4 fit locally. A ~27B frozen Qwen (E5) does not, so it has to run on a rented GPU.
-
-## What was parked
-
-An earlier prototype written against the *Hybrid Architecture Spec v0.1* (spike→token transducer, soft-prefix bridge, episodic store, gated sleep) is kept in git history at commit `01bd411`. It conflicted with the dossier: language in from the start, the core learning only during sleep, and a 24 GB CUDA assumption. The parts that fit have moved here (never-overwrite snapshots, the float64-time lesson, the trace math). The bridge and memory ideas belong to E4/E5 and must re-enter only through those stages' gates.
+See `CHANGELOG.md` for everything added, and `docs/REVIEW_GUIDE.md` for a clause-by-clause map from the contract to the code.
