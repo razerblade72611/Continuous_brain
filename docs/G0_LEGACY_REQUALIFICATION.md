@@ -81,3 +81,11 @@ G0 does **not** mean:
 - the mechanism is evidence for consciousness or sentience.
 
 It is the prerequisite for testing those narrower functional questions safely.
+
+## dev3 historical-core recovery
+
+The first real G0 attempt exposed an important distinction between a **canonical accumulated tree** and a **historical runtime**. The current WSL tree contains later edits to shared core modules. In particular, `growth_v110.py` was changed after the first-wave frozen tests from 5 to 20 nucleus residual blocks. The protected base checkpoint still contains the 5-block state and therefore cannot be strictly loaded by the later 20-block class definition.
+
+v0.38.1.dev3 fixes this without modifying the frozen tree. The runner installs an import hook that redirects only the eight base-core modules proven to differ from the original v0.12.2 snapshot. Their source archive and per-file hashes are pinned in `legacy/historical_core_v0122.json`. Target mechanism/evaluator source remains the hash-pinned historical overlay already present in the canonical tree.
+
+A scientific G0 run is now impossible until a full ENGINEERING-only runtime preflight completes under the same overlay and writes an attestation. Preflight uses separate engineering IDs and does not expose or interpret evaluator metrics. This catches checkpoint/config/import/runtime incompatibilities before a scientific family is spent.

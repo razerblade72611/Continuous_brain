@@ -1,8 +1,8 @@
-# Continuous Brain v0.38.1.dev1: G0 Isolated Requalification Runner
+# Continuous Brain v0.38.1.dev3: Historical-Core G0 Recovery
 
-v0.38.1.dev1 starts from the WSL-validated v0.38.1.dev0 engineering baseline and adds a fail-closed G0 isolated-requalification runner plus a proposed preregistration and fresh-DEV seed plan. It remains a development artifact, not an admitted scientific release. No G0 scientific seed family is registered or opened in dev1.
+v0.38.1.dev3 starts from the WSL-validated dev2 G0 runner after the first real G0 attempt exposed a source/checkpoint incompatibility in the accumulated legacy tree. The v0.23 scientific DEV family 300000–300287 is permanently recorded as spent with **no scientific result**; the other six approved G0 DEV families remain unspent.
 
-**What this release is:** a runnable foundation. It has the neutral protocol layer, both experimental substrates behind one API, the Unified Individual composition runtime, the integration-gate harness (G1–G5), the shared battery (B1–B6), and the evidence and seed infrastructure. The canonical v0.38.0 baseline was validated on David's WSL machine with **166/166 tests passing**, including the unchanged E0 suite. The parent v0.38.1.dev0 baseline passed 174/174 tests and the unchanged E0 infrastructure gate on David's WSL machine. dev1 adds four G0-runner tests (178 collected total). Build-sandbox validation is recorded in `docs/VALIDATION_DEV1.md`; the full 178-test suite must be rerun on David's canonical CPU environment before dev1 receives an engineering PASS.
+**What this release is:** a recovery/hardening artifact. It adds a hash-pinned pre-growth historical-core overlay from the original v0.12.2 archive, single-use ENGINEERING-only full-runtime preflights for all seven first-wave evaluators, a required preflight attestation before scientific G0 execution, and an explicit `INFRASTRUCTURE_FAILURE` status so setup/provenance failures cannot masquerade as scientific FAIL.
 
 **What it is not:** it passes no scientific gate and claims no integration of historical mechanisms. Every mechanism slot of the runtime is **UNBOUND** until the DAV-74 audit verifies a legacy entry against the canonical WSL tree. Every battery and gate result is `ENGINEERING_ONLY`, `CAPABILITY_ABSENT` or `BLOCKED`.
 

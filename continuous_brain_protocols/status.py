@@ -27,6 +27,7 @@ class ResultStatus(str, Enum):
     BLOCKED = "BLOCKED"                            # a prerequisite does not exist yet (e.g. E2 body)
     UNVERIFIED = "UNVERIFIED"                      # a claim without a cited primary artifact
     INFRASTRUCTURE_PASS = "INFRASTRUCTURE_PASS"
+    INFRASTRUCTURE_FAILURE = "INFRASTRUCTURE_FAILURE"
     PASS = "PASS"
     FAIL = "FAIL"
 

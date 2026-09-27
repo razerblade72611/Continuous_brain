@@ -126,9 +126,9 @@ def test_engineering_reserve_allows_children_but_not_overlapping_siblings(tmp_pa
     src = Path(__file__).resolve().parents[1] / "registry"
     shutil.copy(src / "seed_ranges.json", tmp_path / "seed_ranges.json")
     reg = SeedRegistry.load(tmp_path)
-    a = SeedFamily("eng-a", 901000, 901099, SeedPurpose.ENGINEERING)
-    b = SeedFamily("eng-b", 901050, 901149, SeedPurpose.ENGINEERING)
-    c = SeedFamily("eng-c", 901100, 901199, SeedPurpose.ENGINEERING)
+    a = SeedFamily("eng-a", 905000, 905099, SeedPurpose.ENGINEERING)
+    b = SeedFamily("eng-b", 905050, 905149, SeedPurpose.ENGINEERING)
+    c = SeedFamily("eng-c", 905100, 905199, SeedPurpose.ENGINEERING)
     reg.register(a, source="test")
     with pytest.raises(SeedOverlapError, match="eng-a"):
         reg.register(b, source="test")

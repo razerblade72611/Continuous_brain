@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.38.1.dev3 — historical-core G0 recovery
+- Records `g0-v023-dev` (300000–300287) as permanently spent after an infrastructure failure that produced no result; it is not a scientific FAIL and is never reusable.
+- Adds `INFRASTRUCTURE_FAILURE` to the result vocabulary for evaluator/setup/provenance failures that cannot support a scientific verdict.
+- Adds a hash-pinned historical-core overlay from the original `continuous_brain_v0.12.2_unified_workspace.zip` (SHA-256 `a73545ba…aa554`). The protected checkpoint loads with the original 5-block nucleus growth stack; the later accumulated root had been changed to 20 blocks after the first-wave historical tests.
+- Adds seven disjoint single-use ENGINEERING-only runtime-preflight families inside the existing v0.38 engineering reserve.
+- Scientific G0 execution now requires a completed runtime-preflight attestation with matching evaluator and historical-core identities before a DEV family can be opened.
+- Runtime preflight runs the complete frozen evaluator on engineering IDs but intentionally does not surface or interpret its metric/pass field.
+- Fixes seed-open/result reports so the family is represented as spent after the irreversible open.
+- No replacement v0.23 scientific DEV family is allocated; that requires a preregistration amendment and explicit approval.
+
 ## 0.38.1.dev2 — G0 approved execution lock
 - Records David's explicit approval of `G0-LEGACY-REQUAL-v1`.
 - Registers the seven frozen fresh DEV families exactly as preregistered; all ship unspent.

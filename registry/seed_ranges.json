@@ -1,6 +1,6 @@
 {
   "format": "cb-seed-ranges/1",
-  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree). G0-LEGACY-REQUAL-v1 fresh DEV families were approved by David on 2026-09-27 and are single-use.",
+  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree). G0-LEGACY-REQUAL-v1 fresh DEV families were approved by David on 2026-09-27 and are single-use. v0.38.1.dev3 records g0-v023-dev as spent by the first infrastructure-failed attempt and adds single-use engineering runtime-preflight subfamilies.",
   "ranges": [
     {
       "name": "v0.31.1-TEST",
@@ -95,9 +95,9 @@
       "stop": 300287,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for episodic_two_item_v023; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1:episodic_two_item_v023:opened on 2026-09-27; evaluator infrastructure failure before result",
+      "note": "SPENT. Infrastructure failure before scientific result; never reuse."
     },
     {
       "name": "g0-v0252-dev",
@@ -158,6 +158,83 @@
       "spent": false,
       "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
       "note": "single-use fresh G0 DEV family for recursive_autobiographical_curriculum_v0361; spend before evaluator launch"
+    },
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "name": "g0-preflight-v023-eng",
+      "start": 900000,
+      "stop": 900287,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "name": "g0-preflight-v0252-eng",
+      "start": 900300,
+      "stop": 900555,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "name": "g0-preflight-v031-eng",
+      "start": 900600,
+      "stop": 901623,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "name": "g0-preflight-v0322-eng",
+      "start": 901700,
+      "stop": 901955,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "name": "g0-preflight-v0341-eng",
+      "start": 902000,
+      "stop": 902127,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "name": "g0-preflight-v0353-eng",
+      "start": 902200,
+      "stop": 902327,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "name": "g0-preflight-v0361-eng",
+      "start": 902400,
+      "stop": 902527,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
     }
   ]
 }
