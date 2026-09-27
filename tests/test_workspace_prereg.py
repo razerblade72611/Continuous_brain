@@ -31,10 +31,10 @@ class CandidateWorkspace(WorkspaceMechanism):
         return {"workspace.state": np.zeros(2)}
 
 
-def test_repository_preregistrations_unlock_nothing_yet():
+def test_repository_only_g0_preregistration_unlocks():
     reg = PreregistrationRegistry.load()
     assert {"E2-PREREG-v1", "A1-PROPOSED", "H1H2-BATTERY-v0", "UI-GATE-v0"} <= set(reg.entries)
-    assert not any(p.unlocks for p in reg.entries.values())
+    assert {p.id for p in reg.entries.values() if p.unlocks} == {"G0-LEGACY-REQUAL-v1"}
     with pytest.raises(PreregistrationError, match="DRAFT"):
         reg.require("UI-GATE-v0")
     with pytest.raises(PreregistrationError):

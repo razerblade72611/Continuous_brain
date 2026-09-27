@@ -244,7 +244,7 @@ def test_a_test_family_is_usable_exactly_once(tmp_path):
     shutil.copy(src / "seed_ranges.json", tmp_path / "seed_ranges.json")
     shutil.copy(src / "preregistrations.json", tmp_path / "preregistrations.json")
     reg = SeedRegistry.load(tmp_path)
-    fam = SeedFamily("G1-fresh-TEST", 300000, 300127, SeedPurpose.TEST, sealed=True)
+    fam = SeedFamily("G1-fresh-TEST", 500000, 500127, SeedPurpose.TEST, sealed=True)
     reg.register(fam, source="test")
     reg.check_usable(fam)
     reg.spend(fam, source="test")

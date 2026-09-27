@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.38.1.dev2 — G0 approved execution lock
+- Records David's explicit approval of `G0-LEGACY-REQUAL-v1`.
+- Registers the seven frozen fresh DEV families exactly as preregistered; all ship unspent.
+- Requires explicit `--confirm-open G0-LEGACY-REQUAL-v1` for scientific execution.
+- Marks a G0 family spent before evaluator launch, so failed/interrupted attempts cannot be repeated on the same scientific family.
+- Adds static evaluator preflight checks before any family is opened.
+- No historical sealed TEST range is reopened; E0 remains unchanged.
+
 ## 0.38.1.dev0 — 2026-09-27
 
 - Starts from Claude c011d40 canonical v0.38.0 engineering baseline.

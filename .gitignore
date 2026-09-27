@@ -19,3 +19,6 @@ build/
 dist/
 /evidence/g0_runtime/
 /constraints/directml.local.txt
+
+# Local append-only scientific seed opening/spend ledger.
+/registry/seed_ranges.local.jsonl

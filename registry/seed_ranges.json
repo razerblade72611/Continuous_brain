@@ -1,6 +1,6 @@
 {
   "format": "cb-seed-ranges/1",
-  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree).",
+  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree). G0-LEGACY-REQUAL-v1 fresh DEV families were approved by David on 2026-09-27 and are single-use.",
   "ranges": [
     {
       "name": "v0.31.1-TEST",
@@ -88,6 +88,76 @@
       "source": "v0.38.x engineering",
       "note": "parent reserve for named engineering sub-families; sibling sub-families may not overlap; never scientific evidence",
       "reserve": true
+    },
+    {
+      "name": "g0-v023-dev",
+      "start": 300000,
+      "stop": 300287,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for episodic_two_item_v023; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0252-dev",
+      "start": 301000,
+      "stop": 301255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for consequence_replanning_v0252; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v031-dev",
+      "start": 302000,
+      "stop": 303023,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for recurrent_self_trajectory_v031; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0322-dev",
+      "start": 304000,
+      "stop": 304255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for autobiographical_discrepancy_v0322; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0341-dev",
+      "start": 305000,
+      "stop": 305127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for event_consistent_self_development_v0341; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0353-dev",
+      "start": 306000,
+      "stop": 306127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for endogenous_goal_genesis_v0353; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0361-dev",
+      "start": 307000,
+      "stop": 307127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for recursive_autobiographical_curriculum_v0361; spend before evaluator launch"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "format": "cb-g0-seed-plan/1",
   "prereg_id": "G0-LEGACY-REQUAL-v1",
-  "status": "PROPOSED_NOT_REGISTERED",
-  "note": "These ranges are not opened or registered by this artifact. They become scientific DEV families only after David approves the preregistration and a follow-up artifact registers them.",
+  "status": "APPROVED_REGISTERED_UNSPENT",
+  "note": "Approved by David on 2026-09-27 under G0-LEGACY-REQUAL-v1. These exact DEV families are registered in registry/seed_ranges.json and remain unspent until explicitly opened. Opening is single-use: the runner records spent before evaluator launch.",
   "families": [
     {
       "mechanism_id": "episodic_two_item_v023",

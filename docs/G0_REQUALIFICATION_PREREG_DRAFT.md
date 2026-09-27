@@ -1,6 +1,6 @@
-# G0 Isolated Legacy Requalification — PROPOSED preregistration v1
+# G0 Isolated Legacy Requalification — APPROVED preregistration v1
 
-Status: **PROPOSED — NOT APPROVED**. This document authorizes no scientific run by itself.
+Status: **APPROVED by David — 2026-09-27**. Scientific execution remains one-shot per registered fresh DEV family and requires explicit command-line confirmation.
 
 ## Question
 For each historically admitted mechanism whose source, evaluator, learned state and primary result are hash-recovered, does the frozen mechanism still satisfy the *same evaluator checks, thresholds and causal interventions* when evaluated in isolation on a fresh registered DEV family?
@@ -14,8 +14,8 @@ G0 is a requalification prerequisite to composition. It is not a new admission T
 - The only runtime substitution permitted in first-wave recipes is the named module-level seed-family symbol (`TEST_IDS` or `TEST_ROUTE_IDS`).
 - `--state-dir` is redirected to the new G0 run directory outside the legacy root.
 
-## Fresh families (proposal)
-`legacy/g0_seed_plan.json` defines one disjoint DEV family per mechanism. They are proposals, not registered/opened ranges until David approves this preregistration.
+## Fresh families (approved and registered)
+`legacy/g0_seed_plan.json` defines one disjoint DEV family per mechanism. The seven first-wave families are registered in `registry/seed_ranges.json`, are unspent at release, and become permanently spent immediately before their evaluator is launched.
 
 ## Decision rule
 For a mechanism with an approved recipe:
@@ -32,4 +32,4 @@ If all six hold, outer G0 status is `PASS`; otherwise `FAIL` or `BLOCKED` depend
 v0.24, v0.28, v0.26, v0.21/v0.22, working-memory v0.13-v0.19, and v0.29 stay blocked/control for the reasons in `legacy/g0_recipes.json`.
 
 ## Approval
-David must explicitly approve `G0-LEGACY-REQUAL-v1` before a follow-up artifact changes its registry status from PROPOSED and registers any fresh DEV ranges.
+David explicitly approved `G0-LEGACY-REQUAL-v1` in ChatGPT on 2026-09-27. The approval is recorded in `registry/preregistrations.json` and the Linear collaboration contract. No change to evaluator thresholds, interventions, or historical sealed TEST ranges was authorized.
