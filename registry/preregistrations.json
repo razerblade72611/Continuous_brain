@@ -65,7 +65,24 @@
       "allowed_items": [
         "G1"
       ],
-      "notes": "Detailed frozen proposal is registry/g1_retention_v1.json. No G1 DEV family is registered; approval does not occur in this artifact."
+      "notes": "SUPERSEDED PROPOSAL. Never approved or executed. Superseded by G1-COMPOSITION-RETENTION-v2 before any G1 family was registered or opened."
+    },
+    {
+      "id": "G1-COMPOSITION-RETENTION-v2",
+      "title": "G1 Composition Retention of Six G0-Requalified Historical Mechanisms \u2014 Shared-State Composition",
+      "status": "PROPOSED",
+      "allowed_slots": [
+        "planner",
+        "world_model",
+        "self_state",
+        "autobiography",
+        "goal_genesis",
+        "curriculum"
+      ],
+      "allowed_items": [
+        "G1"
+      ],
+      "notes": "Detailed proposal is registry/g1_retention_v2.json. Requires one canonical shared state store, active six-way scheduler composition, frozen composition manifest and six ENGINEERING_ONLY full-composition preflights before any scientific G1 family can open. No G1 family is registered; approval does not occur in this artifact."
     }
   ]
 }

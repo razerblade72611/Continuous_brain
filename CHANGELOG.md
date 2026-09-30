@@ -63,3 +63,9 @@ Pre-release marker (C3). No scientific gate has been passed; no historical mecha
 - Engineering-pass baseline retained.
 - Added fail-closed G0 fresh-DEV runner, proposed seed plan, and preregistration draft.
 - No G0 scientific seed family is registered or opened in this artifact.
+
+## 0.38.1.dev5
+- Preserve the never-approved G1 v1 proposal as superseded.
+- Add `G1-COMPOSITION-RETENTION-v2` with canonical shared-state identity and six-way scheduler participation requirements.
+- Require a frozen composition manifest and six ENGINEERING_ONLY full-composition preflights before any scientific G1 family can open.
+- No G1 range is registered or spent.

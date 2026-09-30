@@ -64,3 +64,37 @@ def test_g1_prereg_is_proposed_fail_closed_and_has_fresh_disjoint_ranges():
         for b in fams[i+1:]: assert not a.overlaps(b)
     with pytest.raises(PreregistrationError):
         PreregistrationRegistry.load().require('G1-COMPOSITION-RETENTION-v1', item='G1')
+
+
+def test_g1_v2_supersedes_v1_and_is_fail_closed():
+    v1=json.loads((ROOT/'registry/g1_retention_v1.json').read_text())
+    v2=json.loads((ROOT/'registry/g1_retention_v2.json').read_text())
+    assert v1['id']=='G1-COMPOSITION-RETENTION-v1'
+    assert 'SUPERSEDED' in v1['notes']
+    assert v2['id']=='G1-COMPOSITION-RETENTION-v2' and v2['status']=='PROPOSED'
+    assert v2['supersedes']=='G1-COMPOSITION-RETENTION-v1'
+    assert 'canonical runtime-owned state store' in ' '.join(v2['preconditions']).lower()
+    assert 'scheduler' in ' '.join(v2['preconditions']).lower()
+    assert v2['design']['engineering_preflight_families_are_proposed_not_registered'] is True
+    with pytest.raises(PreregistrationError):
+        PreregistrationRegistry.load().require('G1-COMPOSITION-RETENTION-v2', item='G1')
+
+
+def test_g1_v2_exact_g0_check_vectors_and_fresh_science_and_preflight_ranges():
+    g0={r['mechanism_id']:r for r in json.loads((ROOT/'registry/g0_requalifications.json').read_text())['passes']}
+    v2=json.loads((ROOT/'registry/g1_retention_v2.json').read_text())
+    assert {r['mechanism_id'] for r in v2['mechanisms']}==EXPECTED
+    static=SeedRegistry.load()
+    fams=[]
+    for r in v2['mechanisms']:
+        mid=r['mechanism_id']
+        assert set(r['required_frozen_checks'])==set(g0[mid]['frozen_check_keys'])
+        assert r['required_check_count']==g0[mid]['frozen_check_count']
+        for key in ('proposed_dev_family','proposed_engineering_preflight_family'):
+            f=r[key]
+            fam=SeedFamily(f['name'],f['start'],f['stop'],SeedPurpose(f['purpose']))
+            static.check_fresh(fam)
+            fams.append(fam)
+    for i,a in enumerate(fams):
+        for b in fams[i+1:]:
+            assert not a.overlaps(b), (a,b)
