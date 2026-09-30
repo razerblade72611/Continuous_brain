@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.38.1.dev4 — freeze six G0 PASSes + propose G1 retention
+- Independently verifies the packaged six-result G0 bundle (202 manifest entries, zero mismatches) and freezes the six PASS records and their raw-result hashes in `registry/g0_requalifications.json`.
+- Marks the six completed G0 DEV families and seven engineering runtime-preflight families spent in the canonical static seed registry.
+- Fixes dev3 tests that assumed those legitimately spent engineering families were still unused.
+- Adds `G1-COMPOSITION-RETENTION-v1` as a **PROPOSED**, fail-closed preregistration scoped only to the six G0-cleared mechanisms.
+- Freezes each mechanism's full G0 check-key contract and proposed fresh G1 DEV family, but registers/opens no G1 scientific range.
+- v0.23 remains blocked pending a separate condition-ID preregistration amendment.
+
 ## 0.38.1.dev3 — historical-core G0 recovery
 - Records `g0-v023-dev` (300000–300287) as permanently spent after an infrastructure failure that produced no result; it is not a scientific FAIL and is never reusable.
 - Adds `INFRASTRUCTURE_FAILURE` to the result vocabulary for evaluator/setup/provenance failures that cannot support a scientific verdict.

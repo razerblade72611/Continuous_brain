@@ -1,6 +1,6 @@
 {
   "format": "cb-seed-ranges/1",
-  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree). G0-LEGACY-REQUAL-v1 fresh DEV families were approved by David on 2026-09-27 and are single-use. v0.38.1.dev3 records g0-v023-dev as spent by the first infrastructure-failed attempt and adds single-use engineering runtime-preflight subfamilies.",
+  "description": "Every seed range the program has used or reserved. v0.38.1.dev4 freezes the six G0 scientific PASS families and all seven completed engineering runtime-preflight families as spent. New families must overlap none of these except explicit engineering-reserve containment.",
   "ranges": [
     {
       "name": "v0.31.1-TEST",
@@ -105,9 +105,9 @@
       "stop": 301255,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for consequence_replanning_v0252; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 269ab9b10573b4589b72b69f1ecf02f271ec6b68f481d871b45728f69f109c29",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "name": "g0-v031-dev",
@@ -115,9 +115,9 @@
       "stop": 303023,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for recurrent_self_trajectory_v031; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 7bba68ae76bb6e12841933af8eeb087ae91dc08c9bf4a5ede0f3635cfdcd809d",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "name": "g0-v0322-dev",
@@ -125,9 +125,9 @@
       "stop": 304255,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for autobiographical_discrepancy_v0322; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 37f4489c2b1525b35cac7fcbe99f70401e325bb8a20df95aacba11e7c0a13b7d",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "name": "g0-v0341-dev",
@@ -135,9 +135,9 @@
       "stop": 305127,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for event_consistent_self_development_v0341; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 866c10d49ca08f979317260fa31d256c5a374827968588e1640fa9193e739307",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "name": "g0-v0353-dev",
@@ -145,9 +145,9 @@
       "stop": 306127,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for endogenous_goal_genesis_v0353; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 3a2a499fd8cd392273432a5a5291168039580d57a65165f29b916b1c380701e1",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "name": "g0-v0361-dev",
@@ -155,9 +155,9 @@
       "stop": 307127,
       "purpose": "DEV",
       "sealed": false,
-      "spent": false,
-      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
-      "note": "single-use fresh G0 DEV family for recursive_autobiographical_curriculum_v0361; spend before evaluator launch"
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 2a825494e6cee4c457e500bf39691f14ec09c80cfe9305e6a788855676209279",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
     },
     {
       "mechanism_id": "episodic_two_item_v023",
@@ -166,9 +166,9 @@
       "stop": 900287,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "consequence_replanning_v0252",
@@ -177,9 +177,9 @@
       "stop": 900555,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "recurrent_self_trajectory_v031",
@@ -188,9 +188,9 @@
       "stop": 901623,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "autobiographical_discrepancy_v0322",
@@ -199,9 +199,9 @@
       "stop": 901955,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "event_consistent_self_development_v0341",
@@ -210,9 +210,9 @@
       "stop": 902127,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "endogenous_goal_genesis_v0353",
@@ -221,9 +221,9 @@
       "stop": 902327,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     },
     {
       "mechanism_id": "recursive_autobiographical_curriculum_v0361",
@@ -232,9 +232,9 @@
       "stop": 902527,
       "purpose": "ENGINEERING",
       "sealed": false,
-      "spent": false,
-      "source": "v0.38.1.dev3 G0 runtime preflight",
-      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
     }
   ]
 }

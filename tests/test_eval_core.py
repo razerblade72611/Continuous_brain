@@ -111,7 +111,8 @@ def test_seed_registry_refuses_spent_ranges_and_reports_the_known_overlap():
         reg.check_seeds([80005])
     with pytest.raises(SeedOverlapError, match="not inside"):
         reg.check_seeds([12345678])
-    reg.check_seeds([900001, 905000])
+    # Completed engineering preflights are now frozen as spent; use still-unallocated reserve seeds.
+    reg.check_seeds([905000, 909999])
     with pytest.raises(SeedOverlapError, match="v0.34.1"):
         reg.check_fresh(SeedFamily("new", 80100, 80200, SeedPurpose.TEST))
     reg.check_fresh(SeedFamily("fresh", 200000, 200127, SeedPurpose.TEST))

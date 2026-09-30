@@ -49,6 +49,23 @@
       "notes": "Fresh DEV only. Explicitly approved by David in chat on 2026-09-27. Historical sealed TEST ranges remain spent and are never reopened. Frozen evaluator source/thresholds/interventions stay byte-identical; only the explicitly preregistered seed-family symbol is substituted at runtime and state-dir is redirected outside the frozen legacy root. Each registered G0 DEV family is single-use and is marked spent before evaluator launch.",
       "approved_by": "David",
       "approved_utc": "2026-09-27T20:30:00Z"
+    },
+    {
+      "id": "G1-COMPOSITION-RETENTION-v1",
+      "title": "G1 Composition Retention of Six G0-Requalified Historical Mechanisms",
+      "status": "PROPOSED",
+      "allowed_slots": [
+        "planner",
+        "world_model",
+        "self_state",
+        "autobiography",
+        "goal_genesis",
+        "curriculum"
+      ],
+      "allowed_items": [
+        "G1"
+      ],
+      "notes": "Detailed frozen proposal is registry/g1_retention_v1.json. No G1 DEV family is registered; approval does not occur in this artifact."
     }
   ]
 }

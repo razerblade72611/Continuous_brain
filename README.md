@@ -67,3 +67,7 @@ bash scripts/local/refresh_g0_inventory.sh "$CONTINUOUS_BRAIN_LEGACY_ROOT"
 The first command verifies the immutable evidence plan. The second refreshes result parsing (including the newer endogenous-goal lineage) into `evidence/g0_runtime/`; neither command writes to the historical tree.
 
 A1.1b/A1.2b comparator support is **proposed, not approved science**. See `docs/A1_AMENDMENT_SUPPORT.md`.
+
+## Current scientific status (v0.38.1.dev4)
+
+Six historical mechanisms have completed isolated G0 requalification with PASS on fresh preregistered DEV families; the verified hashes and complete frozen check sets are recorded in `registry/g0_requalifications.json`. This is isolated reproduction evidence only, not composition/integration evidence. `G1-COMPOSITION-RETENTION-v1` is PROPOSED and locked; no G1 seed family is registered in this artifact. v0.23 remains blocked pending a separate condition-ID amendment.

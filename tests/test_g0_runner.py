@@ -28,7 +28,8 @@ def test_registered_g0_seed_ranges_are_exact_disjoint_and_v023_is_spent():
     for name,s in seeds.items():
         f=reg.get(name); fs.append(f)
         assert f.purpose==SeedPurpose.DEV and not f.sealed
-        assert f.spent is (name=='g0-v023-dev')
+        # dev4 freezes the completed first-wave G0 history: v0.23 infrastructure spend + six scientific PASS families.
+        assert f.spent is True
         assert (f.start,f.stop)==(s['start'],s['stop'])
     for i,a in enumerate(fs):
         for b in fs[i+1:]: assert not a.overlaps(b)
@@ -92,6 +93,16 @@ def main():
     root=Path(__file__).resolve().parents[1]/'registry'
     shutil.copy(root/'preregistrations.json',regdir/'preregistrations.json')
     shutil.copy(root/'seed_ranges.json',regdir/'seed_ranges.json')
+    # This unit test exercises one-shot opening semantics with a synthetic pre-run registry.
+    # Canonical dev4 correctly freezes the real g0-v0252-dev family as spent, so reopen only
+    # the temporary fixture copy; the production registry remains immutable history.
+    raw=json.loads((regdir/'seed_ranges.json').read_text())
+    for row in raw['ranges']:
+        if row['name']=='g0-v0252-dev':
+            row['spent']=False
+            row['source']='unit-test synthetic pre-run fixture'
+            row['note']='unit-test only'
+    (regdir/'seed_ranges.json').write_text(json.dumps(raw))
 
     with pytest.raises(PreregistrationError,match='confirm-open'):
         run('consequence_replanning_v0252',legacy,tmp_path/'out-no-confirm',registry_dir=regdir,plan_path=plan,historical_core_archive='dummy')
@@ -119,7 +130,7 @@ def test_preflight_engineering_ranges_are_disjoint_and_inside_reserve():
     rows=list(load_preflight_seed_plan().values()); reg=SeedRegistry.load(); reserve=reg.get('v0.38-ENGINEERING')
     for r in rows:
         f=reg.get(r['name'])
-        assert f.purpose==SeedPurpose.ENGINEERING and not f.spent
+        assert f.purpose==SeedPurpose.ENGINEERING and f.spent
         assert reserve.start <= f.start <= f.stop <= reserve.stop
     for i,a in enumerate(rows):
         for b in rows[i+1:]: assert a['stop'] < b['start'] or b['stop'] < a['start']
