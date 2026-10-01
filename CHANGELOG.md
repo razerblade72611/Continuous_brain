@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)
+- **Composition package.** Adds `continuous_brain_unified/composition/` (codec, spec, boundary, route). A frozen legacy evaluator runs unmodified as the runtime's task driver, and every top-level call to one of the six mechanisms' APIs becomes one runtime tick: an encoded request is written to the canonical store, a `MechanismHost` serves it, and the encoded response is read back from the store. Every run writes a composition attestation (scheduler graph hash, per-host and per-API traces, read log, content flows, model-forward accounting, census).
+- **Runtime and channels.** Blob channels (`shape=None`); a per-reader read log (counts and hash chain); declared driver channels (`RuntimeConfig.driver`, owner `driver`), with the config hash unchanged when no driver is declared.
+- **Shared models.** Frozen models are loaded once per pinned checkpoint, with the global RNG state saved and restored around the load. The evaluator's first load is verified bit-identical to the shared instance. Later loads are reported as private reload probes. Stateless controllers and generators are registered per construction and checked against the default configuration.
+- **Dev scripts.** `scripts/dev/` adds the G0-route dev harness, the composition-route runner, E1 (null-composition equivalence) and E1b (per-API store-authority positive control). They run only on the registered engineering family `cloud-dev-claude-eng` (906000–906999), and every use is logged.
+- **E1: PASS for all six mechanisms on 32 cloud-dev seeds each.** The G0 route, full composition and used-hosts composition give byte-identical `result.json`; the faithfulness checks pass. Mediation is measured: v0.34.1, v0.35.3 and v0.36.1 are fully store-mediated; v0.31, v0.32.2 and v0.25.2 also make direct model calls in the driver (counted).
+- **Review.** An independent reviewer agent's nine confirmed findings are fixed, with regression tests. Tests: 205 pass.
+- **Versions.** Package `__version__` strings are aligned to 0.38.1.dev6. The code had said dev3 while `pyproject.toml` said dev5.
+- **Scope.** No G1 family is registered or opened, and no scientific claim is made. `docs/COMPOSITION_ROUTE_DEV6.md` explains why E1 makes a retention-style G1 predetermined, and what an integration experiment would need instead.
+
 ## 0.38.1.dev4 — freeze six G0 PASSes + propose G1 retention
 - Independently verifies the packaged six-result G0 bundle (202 manifest entries, zero mismatches) and freezes the six PASS records and their raw-result hashes in `registry/g0_requalifications.json`.
 - Marks the six completed G0 DEV families and seven engineering runtime-preflight families spent in the canonical static seed registry.

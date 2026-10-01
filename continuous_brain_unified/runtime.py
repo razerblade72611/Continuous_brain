@@ -39,7 +39,7 @@ from .components import Component, ProvenanceKind, TickContext
 from .coprocessor import Coprocessor, CoprocessorClient
 from .interventions import InterventionManager
 from .scheduler import schedule
-from .slots import ENVIRONMENT_OWNER, REQUIRED_SLOTS, SLOTS_BY_NAME, SlotKind, slot
+from .slots import DRIVER_OWNER, ENVIRONMENT_OWNER, REQUIRED_SLOTS, SLOTS_BY_NAME, SlotKind, slot
 from .legacy.adapters import issued_verification
 from .workspace import registered_prereg
 
@@ -63,12 +63,16 @@ class RuntimeConfig:
     coprocessor_enabled: bool = False
     max_coprocessor_calls_per_tick: int = 1
     observation: StreamSpec | None = None      # physical channels written by the environment each tick
+    driver: tuple[ChannelDecl, ...] = ()       # task-driver channels (owner "driver"), written every tick
 
     def config_hash(self) -> str:
         d = {"dt_s": self.dt_s, "seed": self.seed, "binding_policy": self.binding_policy.value,
              "coprocessor_enabled": self.coprocessor_enabled,
              "max_coprocessor_calls_per_tick": self.max_coprocessor_calls_per_tick,
              "observation": None if self.observation is None else self.observation.spec_hash()}
+        if self.driver:     # absent key keeps every pre-dev6 config hash unchanged
+            d["driver"] = [[c.name, None if c.shape is None else list(c.shape), c.dtype, c.intervenable]
+                           for c in self.driver]
         return sha256_json(d)
 
 
@@ -167,6 +171,13 @@ class UnifiedRuntime:
                 self.store.declare(ChannelDecl(name, ENVIRONMENT_OWNER, tuple(c.shape), "float64",
                                                description=f"{c.units} ({c.kind.value})"))
                 self._observation_channels.add(name)
+        self._driver_channels: tuple[str, ...] = ()
+        for d in self.config.driver:
+            if d.owner != DRIVER_OWNER or not d.name.startswith(DRIVER_OWNER + "."):
+                raise BindingError(f"driver channel {d.name!r} must be owned by {DRIVER_OWNER!r} and namespaced")
+            self.store.declare(d)
+            self._observation_channels.add(d.name)
+        self._driver_channels = tuple(d.name for d in self.config.driver)
 
     # ------------------------------------------------------------------ status
     @property
@@ -280,7 +291,8 @@ class UnifiedRuntime:
         return out
 
     # ------------------------------------------------------------------ running
-    def tick_once(self, observation: Mapping[str, np.ndarray] | None = None) -> TickResult:
+    def tick_once(self, observation: Mapping[str, np.ndarray] | None = None,
+                  driver: Mapping[str, Any] | None = None) -> TickResult:
         if self.tick < 0:
             self.interventions.lock()
         tick = self.tick + 1
@@ -303,10 +315,22 @@ class UnifiedRuntime:
                 result.writes[name] = value_sha256(self.store.read(name))
         elif observation:
             raise ValueError("this runtime has no observation channels")
+        if self._driver_channels:
+            if driver is None or set(driver) != set(self._driver_channels):
+                missing = sorted(set(self._driver_channels) - set(driver or {}))
+                extra = sorted(set(driver or {}) - set(self._driver_channels))
+                raise ValueError(f"driver must write every declared driver channel each tick "
+                                 f"(missing {missing}, undeclared {extra})")
+            for name in self._driver_channels:
+                self.store.write(name, driver[name], DRIVER_OWNER)
+                self.interventions.apply(name, tick)
+                result.writes[name] = value_sha256(self.store.read(name))
+        elif driver:
+            raise ValueError("this runtime has no driver channels")
         for comp in self._order:
             ctx = TickContext(tick, self.time_s, self.config.dt_s,
-                              {ch: self.store.read(ch) for ch in comp.reads},
-                              {ch: self.store.read(ch, delayed=True) for ch in comp.reads_delayed},
+                              {ch: self.store.read(ch, reader=comp.slot) for ch in comp.reads},
+                              {ch: self.store.read(ch, delayed=True, reader=comp.slot) for ch in comp.reads_delayed},
                               self.coprocessor.handle() if comp.uses_coprocessor else None)
             outputs = dict(comp.step(ctx))
             declared = {d.name for d in comp.writes}

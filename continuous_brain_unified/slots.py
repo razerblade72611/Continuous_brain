@@ -68,6 +68,7 @@ REQUIRED_SLOTS: tuple[SlotSpec, ...] = (
 SLOTS_BY_NAME = {s.name: s for s in REQUIRED_SLOTS}
 MECHANISM_SLOTS = tuple(s.name for s in REQUIRED_SLOTS if s.kind == SlotKind.MECHANISM)
 ENVIRONMENT_OWNER = "environment"          # owner of observation channels written by the runtime
+DRIVER_OWNER = "driver"                    # owner of task-driver channels (a hash-pinned frozen evaluator driving the runtime)
 
 
 def slot(name: str) -> SlotSpec:

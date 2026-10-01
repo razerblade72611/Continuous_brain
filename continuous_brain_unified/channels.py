@@ -9,6 +9,13 @@ Rules:
     `previous` (as it stood at the start of the tick) for recurrent edges
   * every write and every intervention override appends to the write log
     (tick, channel, writer, SHA-256 of the value bytes)
+  * every read made on behalf of a named reader is counted in the read log
+    (reader, channel, number of reads, reads of a value actually written
+    rather than the neutral default, and a running SHA-256 chain over the
+    (tick, value digest) pairs read), so an attestation can prove which
+    written values each component consumed
+  * a channel declared with shape=None is a variable-length 1-D uint8 blob
+    (used for legacy call payloads); its neutral value is the empty blob
 
 Interventions do not go through `write`; they go through `override`, which
 requires the InterventionManager's token, so an evaluator holding the store
@@ -42,14 +49,20 @@ class ChannelWriteError(ChannelError):
 class ChannelDecl:
     name: str
     owner: str
-    shape: tuple[int, ...]
+    shape: tuple[int, ...] | None       # None: variable-length 1-D uint8 blob
     dtype: str = "float64"
     neutral: float = 0.0               # value used by ERASE and before the first write
     intervenable: bool = True
     exact_contract: bool = False       # the owner promises exact preservation (G4 checks exactly)
     description: str = ""
 
+    @property
+    def is_blob(self) -> bool:
+        return self.shape is None
+
     def neutral_value(self) -> np.ndarray:
+        if self.is_blob:
+            return np.zeros(0, dtype=np.uint8)
         return np.full(self.shape, self.neutral, dtype=self.dtype)
 
 
@@ -69,9 +82,12 @@ class ChannelStore:
         self.log_total = 0
         self.log_path = Path(log_path) if log_path else None
         self._override_token: object | None = None
+        self.read_stats: dict[tuple[str, str], dict] = {}
 
     # ------------------------------------------------------------------ declaration
     def declare(self, decl: ChannelDecl) -> None:
+        if decl.is_blob and decl.dtype != "uint8":
+            raise ChannelError(f"blob channel {decl.name!r} must be declared with dtype uint8")
         if decl.name in self._decl:
             raise ChannelError(f"channel {decl.name!r} already declared by {self._decl[decl.name].owner!r}")
         prefix = decl.name.split(".", 1)[0]
@@ -107,6 +123,17 @@ class ChannelStore:
 
     # ------------------------------------------------------------------ access
     def _coerce(self, decl: ChannelDecl, value: Any) -> np.ndarray:
+        if decl.is_blob:
+            if isinstance(value, (bytes, bytearray, memoryview)):
+                arr = np.frombuffer(bytes(value), dtype=np.uint8).copy()
+            else:
+                arr = np.array(value, copy=True)
+                if arr.dtype != np.uint8:
+                    raise ChannelWriteError(f"{decl.name}: blob values must be bytes or uint8, got {arr.dtype}")
+            if arr.ndim != 1:
+                raise ChannelWriteError(f"{decl.name}: blob values must be 1-D")
+            arr.setflags(write=False)
+            return arr
         arr = np.array(value, dtype=decl.dtype, copy=True)
         if tuple(arr.shape) != tuple(decl.shape):
             raise ChannelWriteError(f"{decl.name}: shape {tuple(arr.shape)} != declared {decl.shape}")
@@ -142,12 +169,29 @@ class ChannelStore:
         self._override_token = object()
         return self._override_token
 
-    def read(self, name: str, delayed: bool = False) -> np.ndarray:
+    def read(self, name: str, delayed: bool = False, reader: str | None = None) -> np.ndarray:
         decl = self.decl(name)
         src = self._previous if delayed else self._current
-        if name in src:
-            return src[name].view()     # a view of a read-only base cannot be made writable again
-        return read_only(decl.neutral_value())
+        written = name in src
+        value = src[name].view() if written else read_only(decl.neutral_value())
+        # a view of a read-only base cannot be made writable again
+        if reader is not None:
+            self._count_read(reader, name, value, written, delayed)
+        return value
+
+    def _count_read(self, reader: str, name: str, value: np.ndarray, written: bool, delayed: bool) -> None:
+        st = self.read_stats.setdefault((reader, name), {"reads": 0, "written_reads": 0, "nonempty_reads": 0,
+                                                         "delayed_reads": 0, "chain": hashlib.sha256().hexdigest()})
+        st["reads"] += 1
+        st["delayed_reads"] += int(delayed)
+        st["written_reads"] += int(written)
+        st["nonempty_reads"] += int(written and value.size > 0)
+        st["chain"] = hashlib.sha256(f"{st['chain']}|{self.tick}|{value_sha256(value)}".encode()).hexdigest()
+
+    def read_report(self) -> list[dict]:
+        """Per (reader, channel): counts and the read chain, with the channel's writer."""
+        return [{"reader": r, "channel": c, "writer": self._decl[c].owner, **dict(st)}
+                for (r, c), st in sorted(self.read_stats.items())]
 
     def written(self, name: str) -> bool:
         return name in self._current

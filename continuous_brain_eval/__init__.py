@@ -5,4 +5,4 @@ Nothing here can emit a scientific PASS/FAIL without an APPROVED
 preregistration, a primary artifact, and a scientific runtime/substrate.
 """
 
-__version__ = "0.38.1.dev3"
+__version__ = "0.38.1.dev6"

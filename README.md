@@ -71,3 +71,9 @@ A1.1b/A1.2b comparator support is **proposed, not approved science**. See `docs/
 ## Current scientific status (v0.38.1.dev4)
 
 Six historical mechanisms have completed isolated G0 requalification with PASS on fresh preregistered DEV families; the verified hashes and complete frozen check sets are recorded in `registry/g0_requalifications.json`. This is isolated reproduction evidence only, not composition/integration evidence. `G1-COMPOSITION-RETENTION-v1` is PROPOSED and locked; no G1 seed family is registered in this artifact. v0.23 remains blocked pending a separate condition-ID amendment.
+
+## v0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)
+
+The six G0-requalified mechanisms run through one `UnifiedRuntime`. Each frozen evaluator runs unmodified as the task driver, and every top-level call to a mechanism API is one runtime tick, carried through the canonical store by an exact codec. E1 (null-composition equivalence) passes for all six on 32 engineering seeds each, and E1b (store-authority control) passes. Neither is a scientific result, and no G1 family has been opened.
+
+See `docs/COMPOSITION_ROUTE_DEV6.md` for what is and is not mediated, and why a retention-style G1 is predetermined by E1. WSL reproduction steps are in `evidence/dev6/WSL_COMMANDS.md`.
