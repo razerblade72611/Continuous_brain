@@ -26,6 +26,8 @@ ARMS = ["LEGACY_REF", "NORMAL", "FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK",
         *AUTHORITY_ARMS]
 MARK_OF = {"ERASED": "imprint", "DONOR": "imprint", "ROLLBACK": "before_second",
            **{a: "before_second" for a in AUTHORITY_ARMS}}
+# an AUTHORITY abort counts only if it is the erased mechanism's own error for missing state
+EXPECTED_ABORTS = {"AUTHORITY_SKILLS": "RuntimeError: developmental phases are not initialized"}
 SEAL_NOTE = ("primary and secondary values are withheld from display and committed by SHA-256; the sealed file "
              "is not encrypted and anyone with the run directory can read it. Open only after the scientific "
              "I1 result is frozen.")
@@ -149,9 +151,14 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
         for s, r in A[arm].items():
             if "record" not in r:
                 continue
-            res.append("aborted" in r or _second_half(r["record"]) != _second_half(N[s]))
+            if "aborted" in r:
+                res.append(r["aborted"] == EXPECTED_ABORTS.get(arm))
+            else:
+                res.append(_second_half(r["record"]) != _second_half(N[s]))
         authority[arm] = {"n": len(res), "changed_or_aborted": sum(res),
-                          "aborted": sum(1 for r in A[arm].values() if "aborted" in r)}
+                          "aborted": sum(1 for r in A[arm].values() if "aborted" in r),
+                          "unexpected_aborts": sorted({r["aborted"] for r in A[arm].values()
+                                                       if "aborted" in r and r["aborted"] != EXPECTED_ABORTS.get(arm)})}
     authority_ok = all(v["n"] > 0 and v["changed_or_aborted"] == v["n"] for v in authority.values())
     store_state = all(all(v > 0 for v in r["runtime"]["state_reads_nonempty"].values())
                       for r in A["NORMAL"].values() if "record" in r and r["record"]["first_goal"] is not None)
@@ -264,8 +271,9 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
         import hashlib
         visible = {"format": "cb-i1-validity/2", "status": "ENGINEERING_ONLY", "run": run.name, "n": len(sids),
                    "validity": validity, "valid": valid,
-                   "validity_diagnostics": {k: diagnostics[k] for k in ("replay_checks", "planned_individuals",
-                                                                       "arm_manifests", "expected_manifest_sha256",
+                   # only value-free diagnostics: counts of planned individuals or replay checks would
+                   # reveal the number of first-goal completers (C2), so they stay in the sealed file
+                   "validity_diagnostics": {k: diagnostics[k] for k in ("arm_manifests", "expected_manifest_sha256",
                                                                        "driver_side_model_forwards",
                                                                        "cross_slot_nested_calls", "host_blocked_calls",
                                                                        "unbound_calls")},

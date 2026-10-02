@@ -57,13 +57,12 @@
       "replay_bit_exact_before_every_intervention": "for every ERASED, DONOR, ROLLBACK and AUTHORITY life, the store digest after T-1 and the tick T of the intervention mark equal NORMAL's",
       "interventions_applied_exactly_as_planned": "in every planned arm the individuals run equal the planned individuals and each applied intervention list equals its plan (tick, target channel, kind); no intervention in NORMAL, FIXED_SCAFFOLD, PERSIST_SAVE, PERSIST_RESUME",
       "manifest_consistent_across_arms": "every arm process computes the manifest itself; all equal the runner's manifest",
-      "store_authority_controls_change_the_individual": "every AUTHORITY life changes its second half or aborts with the mechanism's own error",
+      "store_authority_controls_change_the_individual": "every AUTHORITY life changes its second half, or aborts with the erased mechanism's own error for missing state (AUTHORITY_SKILLS: 'RuntimeError: developmental phases are not initialized'); any other exception fails the control",
       "host_state_read_from_store": "every stateful host made non-empty start-of-tick reads of its own state channel in every NORMAL life that authored a goal",
       "driver_record_matches_store_lifecycle": "in NORMAL the driver's record of first-goal completion equals the store-held lifecycle's",
       "no_driver_side_model_forwards": "zero forwards of any registered model while the driver (not a host) is executing; host-side forwards > 0",
       "no_driver_side_mechanism_calls": "zero blocked host calls, zero unbound calls, zero nested calls from one slot's host into another slot's mechanism",
       "no_errors": "no arm records an exception outside the AUTHORITY controls' expected aborts",
-      "manifest_and_environment_match_preflight": "composition/integration source hashes, spec digest, codec version, legacy pins, historical-core SHA-256 and environment fingerprint equal the frozen preflight manifest",
       "legacy_tree_unchanged_and_pins_verified": true,
       "on_failure": "BLOCKED (not a scientific FAIL); the family stays spent; any retry needs a new preregistration version"
     },
@@ -124,13 +123,18 @@
       "S1_first_half_identical_controller_vs_fixed_scaffold": "prediction 1.0, derived from the code: the controller graduates a commitment at baseline+0.12 and the goal completes at baseline+0.12, so goal-1 pursuit is SCAFFOLD under both arms",
       "S2_second_goal_pursued_DIRECT": "prediction: majority of goal-2 episodes DIRECT (the commitment's phase graduates on the same 0.12 gain or was DIRECT from birth)",
       "S3_second_goal_completion_controller_vs_fixed": "estimation only (rates, paired difference, paired bootstrap 95% CI); no directional prediction. This is the new integration outcome: the frozen evaluators never let the developmental controller drive goal pursuit"
+    },
+    "pre_launch_refusals_science": {
+      "manifest_and_environment_match_preflight": "composition/integration source hashes, spec digest, codec version, legacy pins, historical-core SHA-256 and environment fingerprint equal the frozen preflight manifest (enforced before the family is spent: the run refuses, nothing is opened)",
+      "approval_names_this_design": "approved_design_sha256 equals design_digest of the file as it stands",
+      "central_registry_approved": "the I1 entry of registry/preregistrations.json is APPROVED"
     }
   },
   "families": {
     "scientific_dev_proposed": {
       "name": "i1-v1-dev",
-      "start": 320000,
-      "stop": 320127,
+      "start": 328000,
+      "stop": 328127,
       "purpose": "DEV",
       "registered": false
     },
@@ -141,7 +145,7 @@
       "purpose": "ENGINEERING",
       "registered": false
     },
-    "derived_id_check": "subject ids also seed sid+70000 (bootstrap records) and sid+90000 (episodes); for 320000-320127 these are 390000-390127 and 410000-410127, disjoint from every spent self-lineage family and its derived ids (G0 302000-307127 -> 372000-377127, 392000-397127; historical TESTs 80000/100000/120000 -> 150000-210127); the preflight family 907100-907163 derives 977100-977163 and 997100-997163, disjoint from the consumed 907000-907063 (977000-977063, 997000-997063) and from the cloud-dev slices used",
+    "derived_id_check": "subject ids also seed sid+70000 (bootstrap records) and sid+90000 (episodes). The check is conservative: every I1 family's ids at offsets 0, +70000 and +90000 are compared with every registered family's ids at the same three offsets, whatever that family's own seeding. i1-v1-dev 328000-328127 (derived 398000-398127, 418000-418127) and i1-v1-preflight-eng-b 907100-907163 (derived 977100-977163, 997100-997163) collide with nothing except the containing engineering reserve v0.38-ENGINEERING at equal offsets; tests/test_i1_runner.py recomputes this against the live registry",
     "engineering_dev_used": "cloud-dev-claude-eng, all ENGINEERING_ONLY with values visible to the author: 906600-906663 (i1_try1, i1_dev64), 906664-906671 (i1_runner_dev8), 906672-906675 (review_i1_a, independent reviewer), 906760-906767 (i1_dev7_smoke8), 906680-906743 (i1_dev7_64, BLOCKED: code changed mid-run), 906744-906807 (i1_dev7_64b; overlaps the smoke slice 906760-906767)",
     "consumed": {
       "i1-v1-preflight-eng 907000-907063": "consumed by mistake in the cloud workspace (see deviation log); spent in the static registry; never reused"
@@ -150,7 +154,7 @@
   "procedure": [
     "1. ChatGPT review of this proposal and of docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md; amendments become v2",
     "2. Engineering preflight on David's WSL on engineering_preflight_proposed (i1-v1-preflight-eng-b), validity-only output: primary and secondary values are withheld from display and committed by SHA-256 (not encrypted); it writes the manifest",
-    "3. Approval: David sets status APPROVED and approved_by, and writes preflight_manifest_sha256 (from the preflight's manifest.json) and approved_design_sha256 (printed by scripts/i1_run.py --print-design-digest, the SHA-256 of id, question, scope, design, decision_rule, families and procedure); any later change to those parts invalidates the approval",
+    "3. Approval: David runs scripts/i1_approve.py --preflight-dir runs/i1/<preflight label> --approver David --i-approve I1-INTEGRATED-INDIVIDUAL-v1 on the preflight machine. It refuses unless the preflight is a valid, spent preflight of engineering_preflight_proposed and the machine reproduces its manifest exactly; it then writes status APPROVED, approved_by, approved_utc, preflight_manifest_sha256 and approved_design_sha256 (SHA-256 of id, question, scope, design, decision_rule, families and procedure) here, and sets the I1 entry of registry/preregistrations.json to APPROVED. Any later change to the digested parts invalidates the approval",
     "4. scripts/i1_run.py refuses unless the approval names this design and the manifest matches; it registers and spends i1-v1-dev before launch, runs every arm, and records PASS/FAIL/BLOCKED (a failure after the spend writes a BLOCKED report)"
   ],
   "deviation_log": [
@@ -159,7 +163,8 @@
     "2026-10-02T00:56Z: while testing the preflight code path, a failed copy step in a chained shell command made the preflight run in the cloud working copy instead of a throwaway copy. It registered and spent i1-v1-preflight-eng (907000-907063) under the exact preflight construct on cloud CPU. Primary and secondary values were sealed by the runner (sealed report sha256 8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc) and have not been opened. The family is recorded spent in the static registry and replaced by i1-v1-preflight-eng-b (907100-907163). The sealed report ships in evidence/i1/cloud_preflight_incident/ and is to be opened only after the scientific I1 result is frozen.",
     "2026-10-02: an independent reviewer (fresh agent, no access to the authoring context) audited the dev6/I1 code. It re-ran the evaluator on runs/dev/i1_dev64 (identical values; the report file was rewritten with the same content) and ran 4 individuals as review_i1_a (906672-906675, recorded in runs/dev/seed_usage.jsonl). Its findings were fixed in dev7: manifest coverage, dev seed confinement, sealing wording, redirected APIs, store authority controls, store-gated second goal, projection staleness, verification before registration, BLOCKED report after spend, design-bound approval, goal-2 cycle labels.",
     "dev7 adds the AUTHORITY validity arms, the goal host's 'status' API (second-goal gate on the store), capability_after_first, and the 100+k completion label for goal 2. These change the life's tick sequence relative to dev6 runs; dev6-era run directories are not comparable tick-for-tick.",
-    "2026-10-02 dev7 run i1_dev7_64 (906680-906743) is BLOCKED by its own manifest_consistent_across_arms check: the author bumped the package version strings (continuous_brain_*/__init__.py, pyproject.toml) at 20:41:26, after the NORMAL arm and before FIXED_SCAFFOLD, so later arms ran different code. Its values are disclosed in evidence/i1/dev7/i1_dev7_64_blocked/ and are not used. The run was repeated with the tree unchanged as i1_dev7_64b (906744-906807), which passes every validity check. Operating rule added to the WSL procedure: no file in the repository is edited while a run is in progress."
+    "2026-10-02 dev7 run i1_dev7_64 (906680-906743) is BLOCKED by its own manifest_consistent_across_arms check: the author bumped the package version strings (continuous_brain_*/__init__.py, pyproject.toml) at 20:41:26, after the NORMAL arm and before FIXED_SCAFFOLD, so later arms ran different code. Its values are disclosed in evidence/i1/dev7/i1_dev7_64_blocked/ and are not used. The run was repeated with the tree unchanged as i1_dev7_64b (906744-906807), which passes every validity check. Operating rule added to the WSL procedure: no file in the repository is edited while a run is in progress.",
+    "2026-10-02 pre-approval amendment after an independent verification of the dev7 package (fresh agent): (a) i1-v1-dev moved from 320000-320127 to 328000-328127, because 320000-320127's +70000 ids (390000-390127) coincide with g0-v023-dev's +90000 ids under the conservative all-offsets check; the choice is not outcome-dependent and no I1 family had been registered; (b) the preflight's visible output no longer includes counts of planned individuals or replay checks, which would have revealed the number of first-goal completers; (c) an AUTHORITY abort now counts only if it is the erased mechanism's own missing-state error; (d) approval is one script (scripts/i1_approve.py) that also sets the central registry entry, which the dev7 procedure had omitted; (e) dev slices are now checked against every registered family at every offset pair."
   ],
   "sealing_note": "'sealed' means withheld from display and committed by SHA-256. The sealed file is plain JSON in the run directory and is not encrypted; the commitment makes later alteration detectable, it does not prevent reading."
 }

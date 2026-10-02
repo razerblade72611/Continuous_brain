@@ -77,6 +77,9 @@ def faults(src: Path) -> list[tuple]:
         ("host never read its state", "NORMAL",
          lambda R: _first(R)["runtime"]["state_reads_nonempty"].__setitem__("curriculum", 0), "host_state_read_from_store"),
         ("arm error", "PERSIST_RESUME", lambda R: _first(R).__setitem__("error", "injected"), "no_errors"),
+        ("authority abort by an unrelated exception", "AUTHORITY_SKILLS",
+         lambda R: [r.__setitem__("aborted", "ValueError: unrelated crash") for r in R if "aborted" in r],
+         "store_authority_controls_change_the_individual"),
     ]
 
 
@@ -107,6 +110,16 @@ def main() -> int:
         out.append({"fault": "one arm ran different code (manifest)", "arm": "DONOR",
                     "check": "manifest_consistent_across_arms", "detected": v["manifest_consistent_across_arms"] is False,
                     "all_valid": all(v.values())})
+        d = Path(tmp) / "sealed_view"
+        shutil.copytree(src, d, ignore=ignore)
+        visible = evaluate(d, sealed=True)
+        allowed = {"arm_manifests", "expected_manifest_sha256", "driver_side_model_forwards",
+                   "cross_slot_nested_calls", "host_blocked_calls", "unbound_calls"}
+        value_free = (set(visible) == {"format", "status", "run", "n", "validity", "valid", "validity_diagnostics",
+                                       "sealed_report_sha256", "note"}
+                      and set(visible["validity_diagnostics"]) == allowed)
+        out.append({"fault": "sealed (preflight) view is value-free (no outcome-bearing counts)", "arm": None,
+                    "check": "sealed view is value-free", "detected": value_free, "all_valid": False})
     ok = out[0]["all_valid"] and all(r["detected"] and not r["all_valid"] for r in out[1:])
     rep = {"format": "cb-i1-tamper/1", "run": src.name, "faults": len(out) - 1, "all_detected": ok, "results": out}
     for r in out:

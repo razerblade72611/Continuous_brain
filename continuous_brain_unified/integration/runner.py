@@ -120,7 +120,8 @@ def cpu_model() -> str:
 
 CODE_PACKAGES = ("continuous_brain_protocols", "continuous_brain_snn", "continuous_brain_substrates",
                  "continuous_brain_unified", "continuous_brain_eval")
-CODE_FILES = ("scripts/i1_preflight.py", "scripts/i1_run.py", "scripts/dev/i1_dev.py", "pyproject.toml",
+CODE_FILES = ("scripts/i1_preflight.py", "scripts/i1_run.py", "scripts/i1_approve.py", "scripts/dev/i1_dev.py",
+              "scripts/dev/i1_tamper_check.py", "pyproject.toml",
               "legacy/g0_dependency_closure.json", "legacy/historical_core_v0122.json", "legacy/g0_recipes.json")
 
 
@@ -244,18 +245,77 @@ def _dev_sids(reg: SeedRegistry, prereg: dict, family: str | None, start: int | 
                 if a <= ft + po and fs + po <= b:
                     raise I1Refused(f"ids {a}-{b} (offset {off}) overlap ids of the I1 preregistered family "
                                     f"{name} (offset {po})")
-        for r in reg.ranges:
+        for r in reg.ranges:              # conservative: every registered family at every offset pair
             f = r.family
-            if not (a <= f.stop and f.start <= b):
-                continue
-            if off == 0 and f.name == fam.name:
-                continue
             parent = (r.reserve and f.purpose == SeedPurpose.ENGINEERING and f.start <= fam.start
                       and fam.stop <= f.stop and not f.sealed)
-            if parent and off == 0:
-                continue
-            raise I1Refused(f"ids {a}-{b} (offset {off}) touch registered family {f.name} [{f.start}-{f.stop}]")
+            for fo in offsets:
+                if not (a <= f.stop + fo and f.start + fo <= b):
+                    continue
+                if fo == off and (f.name == fam.name or parent):
+                    continue
+                raise I1Refused(f"ids {a}-{b} (offset {off}) touch ids of registered family {f.name} "
+                                f"[{f.start}-{f.stop}] (offset {fo})")
     return fam, list(range(lo, hi + 1))
+
+
+def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2, root: Path = REPO) -> dict:
+    """David's approval, as one atomic act over both registry files.
+
+    Refuses unless: the operator typed the preregistration id; the preflight directory holds a spent
+    preflight of this preregistration's preflight family whose validity block is all true; the
+    manifest it recorded is self-consistent and equals the manifest this machine computes now (same
+    code, pins, historical core and environment). Then it writes, in registry/i1_integration_v1.json,
+    status APPROVED, approved_by, approved_utc, preflight_manifest_sha256 and approved_design_sha256
+    (the design digest of the file as it stands), and sets the I1 entry of registry/preregistrations.json
+    to APPROVED."""
+    if confirm != PREREG_ID:
+        raise I1Refused(f"approval requires --i-approve {PREREG_ID}")
+    if not approver.strip():
+        raise I1Refused("approval requires --approver")
+    d = Path(preflight_dir).resolve()
+    prereg_path, central_path = Path(root) / PREREG_FILE, Path(root) / "registry" / "preregistrations.json"
+    prereg = json.loads(prereg_path.read_text())
+    if prereg.get("status") != "PROPOSED":
+        raise I1Refused(f"{PREREG_FILE} is {prereg.get('status')}, not PROPOSED")
+    opened = json.loads((d / "seed_opened.json").read_text())
+    pf = prereg["families"]["engineering_preflight_proposed"]
+    fam = opened["family"]
+    if (opened.get("mode") != "preflight" or fam["name"] != pf["name"] or int(fam["start"]) != int(pf["start"])
+            or int(fam["stop"]) != int(pf["stop"]) or not fam.get("spent")):
+        raise I1Refused("the directory does not hold a spent preflight of this preregistration's preflight family")
+    validity = json.loads((d / "i1_validity.json").read_text())
+    if not (validity.get("valid") is True and validity.get("validity") and all(validity["validity"].values())):
+        raise I1Refused("the preflight is not valid: " + json.dumps(validity.get("validity"), sort_keys=True))
+    rec = json.loads((d / "manifest.json").read_text())
+    body = {k: v for k, v in rec.items() if k != "manifest_sha256"}
+    if hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest() != rec.get("manifest_sha256"):
+        raise I1Refused("the preflight manifest.json is not self-consistent")
+    now = manifest(threads)
+    if now["manifest_sha256"] != rec["manifest_sha256"]:
+        diff = sorted(k for k in set(now) | set(rec) if k != "manifest_sha256" and now.get(k) != rec.get(k))
+        raise I1Refused(f"this machine's manifest {now['manifest_sha256']} differs from the preflight's "
+                        f"{rec['manifest_sha256']} (differing: {diff})")
+    if validity.get("validity_diagnostics", {}).get("expected_manifest_sha256") not in (None, rec["manifest_sha256"]):
+        raise I1Refused("the preflight's arms ran under a different manifest")
+    central = json.loads(central_path.read_text())
+    entries = [e for e in central["preregistrations"] if e.get("id") == PREREG_ID]
+    if len(entries) != 1 or entries[0].get("status") != "PROPOSED":
+        raise I1Refused(f"registry/preregistrations.json has no single PROPOSED {PREREG_ID} entry")
+    utc = datetime.now(timezone.utc).isoformat()
+    design = design_digest(prereg)
+    prereg.update(status="APPROVED", approved_by=approver.strip(), approved_utc=utc,
+                  preflight_manifest_sha256=rec["manifest_sha256"], approved_design_sha256=design,
+                  preflight_run=d.name)
+    entries[0].update(status="APPROVED", approved_by=approver.strip(), approved_utc=utc)
+    entries[0]["notes"] = (entries[0].get("notes", "") + f" APPROVED by {approver.strip()} at {utc}; design "
+                           f"{design}; preflight manifest {rec['manifest_sha256']}.").strip()
+    for path, obj in ((prereg_path, prereg), (central_path, central)):
+        tmp = path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(obj, indent=2) + "\n")
+        os.replace(tmp, path)
+    return {"approved_by": approver.strip(), "approved_utc": utc, "approved_design_sha256": design,
+            "preflight_manifest_sha256": rec["manifest_sha256"]}
 
 
 def _blocked(run_dir: Path, mode: str, reason: str, man: dict) -> None:
