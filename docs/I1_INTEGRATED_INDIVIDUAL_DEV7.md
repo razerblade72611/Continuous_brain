@@ -164,7 +164,8 @@ the estimate that counts. `i1_dev7_64b` also passed all 12 validity checks under
   - approval checks that the validity block is all true, but not its exact keys; the manifest match makes
     this hard to abuse;
   - per-arm run times weakly track C2, so the WSL tar sends no stdout and normalises file times;
-  - after approval, 4 tests fail by design because they assert the PROPOSED state.
+  - after approval, 4 tests failed by design because they asserted the PROPOSED state. ChatGPT's review
+    asked for this to be fixed, and it is (§6, last row).
   `i1_dev7_64c` is the run of the fixed code.
 - **Cloud preflight incident.** `i1-v1-preflight-eng` (907000–907063) was consumed by mistake in the cloud
   on 2026-10-02. It is recorded as spent and has been replaced by `i1-v1-preflight-eng-b` (907100–907163).
@@ -198,8 +199,9 @@ fixed in dev7:
 | *(verification)* Preflight output revealed C2 | SHOULD-FIX | the sealed view carries only value-free diagnostics; tamper-checked |
 | *(verification)* Any crash passed as an authority abort | SHOULD-FIX | only the erased mechanism's own missing-state error counts |
 | *(verification)* Derived-id coincidence; one-sided dev check | NOTE | `i1-v1-dev` moved to 328000–328127; all-offset-pair checks in the runner and the tests |
+| *(ChatGPT review)* Tests failed after approval by design | SHOULD-FIX | No test asserts one lifecycle state any more. `i1_lifecycle_problems` checks the repository against invariants that hold in every legal state, and legal and illegal states are simulated on copies. `scripts/dev/i1_lifecycle_suite.py` runs the whole suite on copies put into PROPOSED, PREFLIGHT_SPENT, APPROVED (through the real `i1_approve.py`) and SCIENCE_SPENT: 223 pass in each (`evidence/i1/dev7/lifecycle_suite.json`). The run found a fifth state-dependent test, the family-collision test, which is also fixed |
 
-Tests: 221 pass. They now cover dev confinement (including derived-id collisions), design-digest binding,
+Tests: 223 pass, in every legal lifecycle state (see the last row of the table above). They now cover dev confinement (including derived-id collisions), design-digest binding,
 manifest coverage, authority plans, projection freshness after an erase, and blocking of driver-side calls.
 
 ## 7. Path to the scientific I1

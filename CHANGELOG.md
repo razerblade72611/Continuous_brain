@@ -9,7 +9,7 @@
 - **Independent review.** All 13 findings from a fresh reviewer agent (14 table rows, because verification-before-registration is listed separately) are fixed (see `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §6). An independent verification of the first dev7 package found four more issues (the approval procedure, a C2 leak in the preflight view, permissive authority aborts, a derived-id coincidence); all are fixed. `scripts/dev/i1_tamper_check.py` checks 18 properties; every one is detected.
 - **Dev result.** `i1_dev7_64c` (906808–906871, cloud CPU, the delivered code): all 12 validity checks hold and C1–C10 meet their frozen thresholds. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.224 vs 0.534, difference −0.310, 95% CI [−0.431, −0.190]. Estimation only; engineering data. Four disjoint slices all give a negative difference, ranging from −0.138 to −0.310.
 - **Disclosed.** `i1_dev7_64` (906680–906743) is BLOCKED by its own manifest check, because the version strings were bumped mid-run. It was repeated unchanged.
-- **Tests.** 221 pass.
+- **Tests.** 223 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
 - **Not claimed.** Consciousness, sentience, subjective experience, or anything beyond the frozen two-commitment world. No scientific family has been opened.
 
 ## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)

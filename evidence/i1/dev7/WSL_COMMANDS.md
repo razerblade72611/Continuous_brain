@@ -33,7 +33,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the dev7 commits above `3dda2fe` (the exact hashes are in chat).
-- **Tests:** they must report **221 passed**.
+- **Tests:** they must report **223 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -112,8 +112,8 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. After approval, 4 tests fail by design, because they assert the
-PROPOSED state; don't re-run the test suite as a check after approving. The scientific run is then:
+It runs nothing and touches no seed family. The test suite stays green after approval (223 pass in every lifecycle
+state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
 python scripts/i1_run.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --confirm-open I1-INTEGRATED-INDIVIDUAL-v1

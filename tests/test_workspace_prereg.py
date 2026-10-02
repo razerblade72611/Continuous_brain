@@ -1,5 +1,6 @@
 import inspect
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -34,7 +35,10 @@ class CandidateWorkspace(WorkspaceMechanism):
 def test_repository_only_g0_preregistration_unlocks():
     reg = PreregistrationRegistry.load()
     assert {"E2-PREREG-v1", "A1-PROPOSED", "H1H2-BATTERY-v0", "UI-GATE-v0"} <= set(reg.entries)
-    assert {p.id for p in reg.entries.values() if p.unlocks} == {"G0-LEGACY-REQUAL-v1"}
+    # G0 is approved; I1 unlocks only once David's approval has been recorded (lifecycle-dependent)
+    i1 = json.loads((Path(__file__).resolve().parents[1] / "registry/i1_integration_v1.json").read_text())
+    expected = {"G0-LEGACY-REQUAL-v1"} | ({"I1-INTEGRATED-INDIVIDUAL-v1"} if i1["status"] in ("APPROVED", "FROZEN") else set())
+    assert {p.id for p in reg.entries.values() if p.unlocks} == expected
     with pytest.raises(PreregistrationError, match="DRAFT"):
         reg.require("UI-GATE-v0")
     with pytest.raises(PreregistrationError):

@@ -1,15 +1,95 @@
-"""I1 runner guards (v0.38.1.dev7): science is locked until approval; plans target the right ticks."""
+"""I1 runner guards (v0.38.1.dev7): science is locked until approval; plans target the right ticks.
+
+Lifecycle: the repository's I1 preregistration moves PROPOSED -> (preflight spent) -> APPROVED ->
+(scientific family spent). Nothing in this file asserts one particular state. The repository's current
+state is checked against the lifecycle invariants (i1_lifecycle_problems), every legal state is
+simulated on copies and must pass them, and illegal states must fail them, so the suite is green in
+every legal state, before and after approval."""
 
 import json
+import re
 
 import pytest
 
 from continuous_brain_unified.integration import runner
-from continuous_brain_unified.prereg import PreregistrationError
+from continuous_brain_unified.prereg import PreregistrationError, PreregistrationRegistry
+
+APPROVAL_FIELDS = ("approved_utc", "preflight_manifest_sha256", "approved_design_sha256", "preflight_run")
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _exact(reg, f):
+    from continuous_brain_eval.seeds import _key
+    from continuous_brain_protocols import SeedFamily, SeedPurpose
+    fam = SeedFamily(f["name"], int(f["start"]), int(f["stop"]), SeedPurpose(f["purpose"]))
+    return fam, [r for r in reg.ranges if _key(r.family) == _key(fam)]
+
+
+def i1_lifecycle_problems(prereg: dict, central: dict, reg) -> list[str]:
+    """Every invariant the I1 preregistration must satisfy in whatever legal state it is in."""
+    out = []
+    st = prereg.get("status")
+    entries = [e for e in central["preregistrations"] if e.get("id") == runner.PREREG_ID]
+    if len(entries) != 1:
+        return [f"central registry has {len(entries)} {runner.PREREG_ID} entries"]
+    c = entries[0]
+    if st not in ("PROPOSED", "APPROVED", "FROZEN"):
+        out.append(f"illegal status {st!r}")
+    if c.get("status") != st:
+        out.append(f"central status {c.get('status')!r} != preregistration status {st!r}")
+    pf, pf_rows = _exact(reg, prereg["families"]["engineering_preflight_proposed"])
+    sci, sci_rows = _exact(reg, prereg["families"]["scientific_dev_proposed"])
+    for name, fam, rows in (("preflight", pf, pf_rows), ("scientific", sci, sci_rows)):
+        if not rows:                                    # unregistered: must still be fresh
+            try:
+                reg.check_fresh(fam)
+            except Exception as e:
+                out.append(f"{name} family is neither registered exactly nor fresh: {e}")
+        elif not all(r.family.spent for r in rows):      # the runner registers and spends in one step
+            out.append(f"{name} family is registered but not spent")
+    if st == "PROPOSED":
+        if prereg.get("approved_by") is not None or any(k in prereg for k in APPROVAL_FIELDS):
+            out.append("PROPOSED preregistration carries approval fields")
+        if c.get("approved_by"):
+            out.append("PROPOSED central entry carries approved_by")
+        if sci_rows:
+            out.append("the scientific family was opened before approval")
+    else:
+        if not (prereg.get("approved_by") or "").strip() or not prereg.get("approved_utc"):
+            out.append("approval without approver or time")
+        if prereg.get("approved_design_sha256") != runner.design_digest(prereg):
+            out.append("the approved design digest does not match the design as it stands")
+        if not HEX64.match(str(prereg.get("preflight_manifest_sha256", ""))):
+            out.append("approval without a preflight manifest SHA-256")
+        if not c.get("approved_by"):
+            out.append("APPROVED central entry without approved_by")
+        if not pf_rows:
+            out.append("approved without a spent preflight family in this registry")
+    return out
+
+
+def _load_central(root=runner.REPO):
+    return json.loads((root / "registry" / "preregistrations.json").read_text())
+
+
+def _as_proposed(prereg: dict, central: dict) -> tuple[dict, dict]:
+    """The PROPOSED form of the repository's preregistration (approval fields removed), for simulations."""
+    p = json.loads(json.dumps(prereg))
+    p["status"], p["approved_by"] = "PROPOSED", None
+    for k in APPROVAL_FIELDS:
+        p.pop(k, None)
+    c = json.loads(json.dumps(central))
+    for e in c["preregistrations"]:
+        if e["id"] == runner.PREREG_ID:
+            e["status"] = "PROPOSED"
+            e.pop("approved_by", None)
+            e.pop("approved_utc", None)
+    return p, c
 
 
 def test_science_is_locked_until_david_approves(tmp_path):
-    with pytest.raises((PreregistrationError, runner.I1Refused)):
+    proposed = json.loads((runner.REPO / runner.PREREG_FILE).read_text())["status"] == "PROPOSED"
+    with pytest.raises(PreregistrationError if proposed else runner.I1Refused):
         runner.run("science", legacy_root=str(tmp_path), historical_core_archive=str(tmp_path / "none.zip"),
                    label="never", confirm_open=runner.PREREG_ID)
     with pytest.raises(runner.I1Refused):
@@ -65,19 +145,61 @@ def test_design_digest_binds_the_approval():
     assert runner.design_digest(p2) != d
 
 
-def test_preregistration_is_proposed_and_cites_frozen_thresholds():
+def test_preregistration_cites_frozen_thresholds_and_fixed_families():
     p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
-    assert p["status"] == "PROPOSED" and p["approved_by"] is None and "preflight_manifest_sha256" not in p
-    assert "approved_design_sha256" not in p
     assert len(p["decision_rule"]["primary"]) == 11          # C1-C10 + gate
     assert "AUTHORITY_SKILLS / AUTHORITY_GOAL / AUTHORITY_CURRICULUM" in p["design"]["arms"]
-    assert p["families"]["engineering_preflight_proposed"]["start"] == 907100
+    fam = p["families"]
+    assert (fam["engineering_preflight_proposed"]["start"], fam["engineering_preflight_proposed"]["stop"]) == (907100, 907163)
+    assert (fam["scientific_dev_proposed"]["start"], fam["scientific_dev_proposed"]["stop"]) == (328000, 328127)
+    for name, rule in p["decision_rule"]["primary"].items():
+        if name != "gate":
+            assert "threshold" in rule and "denominator" in rule
+
+
+def test_repository_i1_state_satisfies_the_lifecycle_invariants():
+    """Holds in every legal state: PROPOSED, preflight spent, APPROVED, scientific family spent."""
     from continuous_brain_eval.seeds import SeedRegistry
+    p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
+    assert i1_lifecycle_problems(p, _load_central(), SeedRegistry.load()) == []
+
+
+def test_every_legal_lifecycle_state_passes_and_illegal_ones_fail(tmp_path):
+    from continuous_brain_eval.seeds import RegisteredRange, SeedRegistry
     from continuous_brain_protocols import SeedFamily, SeedPurpose
-    reg = SeedRegistry.load()
-    for key in ("scientific_dev_proposed", "engineering_preflight_proposed"):
-        f = p["families"][key]
-        reg.check_fresh(SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"])))
+    p0, c0 = _as_proposed(json.loads((runner.REPO / runner.PREREG_FILE).read_text()), _load_central())
+
+    def registry(*spent_keys):
+        reg = SeedRegistry.load()
+        keep = {(p0["families"][k]["name"]) for k in ("engineering_preflight_proposed", "scientific_dev_proposed")}
+        reg.ranges = [r for r in reg.ranges if r.family.name not in keep]      # start from "never opened"
+        for k in spent_keys:
+            f = p0["families"][k]
+            reg.ranges.append(RegisteredRange(SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"]),
+                                                         False, True), "test", "spent"))
+        return reg
+
+    # legal: PROPOSED, never opened / PROPOSED, preflight spent
+    assert i1_lifecycle_problems(p0, c0, registry()) == []
+    assert i1_lifecycle_problems(p0, c0, registry("engineering_preflight_proposed")) == []
+    # legal: APPROVED through the real approval function / APPROVED with the scientific family spent
+    root = tmp_path / "root"
+    (root / "registry").mkdir(parents=True)
+    (root / runner.PREREG_FILE).write_text(json.dumps(p0, indent=2))
+    (root / "registry" / "preregistrations.json").write_text(json.dumps(c0, indent=2))
+    runner.approve(preflight_dir=str(_fake_preflight(tmp_path, p0)), approver="David", confirm=runner.PREREG_ID, root=root)
+    pa, ca = json.loads((root / runner.PREREG_FILE).read_text()), _load_central(root)
+    PreregistrationRegistry.load(root / "registry").require(runner.PREREG_ID, item="I1")
+    assert i1_lifecycle_problems(pa, ca, registry("engineering_preflight_proposed")) == []
+    assert i1_lifecycle_problems(pa, ca, registry("engineering_preflight_proposed", "scientific_dev_proposed")) == []
+    # illegal states are caught
+    bad = json.loads(json.dumps(pa)); bad["decision_rule"]["primary"]["C2_first_goal_completes"]["threshold"] = "0.5"
+    assert any("design digest" in x for x in i1_lifecycle_problems(bad, ca, registry("engineering_preflight_proposed")))
+    assert any("central status" in x for x in i1_lifecycle_problems(pa, c0, registry("engineering_preflight_proposed")))
+    assert any("without a spent preflight" in x for x in i1_lifecycle_problems(pa, ca, registry()))
+    assert any("before approval" in x for x in i1_lifecycle_problems(p0, c0, registry("scientific_dev_proposed")))
+    leaky = json.loads(json.dumps(p0)); leaky["preflight_manifest_sha256"] = "0" * 64
+    assert any("approval fields" in x for x in i1_lifecycle_problems(leaky, c0, registry()))
 
 
 def test_manifest_is_deterministic_and_covers_all_code():
@@ -118,6 +240,8 @@ def test_i1_families_collide_with_nothing_at_any_offset_pair():
         f = p["families"][key]
         for r in reg.ranges:
             g = r.family
+            if (g.name, g.start, g.stop) == (f["name"], f["start"], f["stop"]):
+                continue                         # the family's own registration (once it is opened)
             container = r.reserve and g.start <= f["start"] and f["stop"] <= g.stop
             for oi in offs:
                 for og in offs:
@@ -131,20 +255,30 @@ def _fake_preflight(tmp_path, prereg, *, valid=True, mode="preflight"):
     d.mkdir()
     pf = prereg["families"]["engineering_preflight_proposed"]
     (d / "seed_opened.json").write_text(json.dumps({"mode": mode, "family": {**pf, "spent": True}}))
-    (d / "i1_validity.json").write_text(json.dumps({"valid": valid, "validity": {"x": valid}}))
+    (d / "i1_validity.json").write_text(json.dumps({"valid": valid, "validity": {k: valid for k in VALIDITY_KEYS}}))
     (d / "manifest.json").write_text(json.dumps(runner.manifest(2)))
     return d
 
 
+VALIDITY_KEYS = ("fidelity_to_frozen_v036_driver", "replay_bit_exact_before_every_intervention",
+                 "interventions_applied_exactly_as_planned", "manifest_consistent_across_arms",
+                 "store_authority_controls_change_the_individual", "host_state_read_from_store",
+                 "driver_record_matches_store_lifecycle", "no_driver_side_model_forwards",
+                 "no_driver_side_mechanism_calls", "no_errors", "legacy_tree_unchanged", "pins_verified")
+
+
 def _registry_copy(tmp_path):
+    """A PROPOSED copy of the repository's two registry files (whatever state the repository is in)."""
     root = tmp_path / "root"
     (root / "registry").mkdir(parents=True)
-    for f in ("i1_integration_v1.json", "preregistrations.json"):
-        (root / "registry" / f).write_text((runner.REPO / "registry" / f).read_text())
+    p, c = _as_proposed(json.loads((runner.REPO / runner.PREREG_FILE).read_text()), _load_central())
+    (root / runner.PREREG_FILE).write_text(json.dumps(p, indent=2))
+    (root / "registry" / "preregistrations.json").write_text(json.dumps(c, indent=2))
     return root
 
 
 def test_approval_is_one_checked_act_over_both_registry_files(tmp_path):
+    repo_bytes = [(runner.REPO / "registry" / f).read_bytes() for f in ("i1_integration_v1.json", "preregistrations.json")]
     root = _registry_copy(tmp_path)
     prereg = json.loads((root / runner.PREREG_FILE).read_text())
     d = _fake_preflight(tmp_path, prereg)
@@ -161,7 +295,8 @@ def test_approval_is_one_checked_act_over_both_registry_files(tmp_path):
     PreregistrationRegistry.load(root / "registry").require(runner.PREREG_ID, item="I1")      # the science gate opens
     with pytest.raises(runner.I1Refused, match="not PROPOSED"):          # approval happens once
         runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
-    assert json.loads((runner.REPO / runner.PREREG_FILE).read_text())["status"] == "PROPOSED"   # repo untouched
+    assert repo_bytes == [(runner.REPO / "registry" / f).read_bytes()                       # repo untouched
+                          for f in ("i1_integration_v1.json", "preregistrations.json")]
 
 
 def test_approval_refuses_an_invalid_or_foreign_preflight(tmp_path):
@@ -171,7 +306,7 @@ def test_approval_refuses_an_invalid_or_foreign_preflight(tmp_path):
     with pytest.raises(runner.I1Refused, match="not valid"):
         runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
     m = json.loads((bad / "manifest.json").read_text())
-    (bad / "i1_validity.json").write_text(json.dumps({"valid": True, "validity": {"x": True}}))
+    (bad / "i1_validity.json").write_text(json.dumps({"valid": True, "validity": {k: True for k in VALIDITY_KEYS}}))
     m["environment"]["cpu"] = "another machine"
     import hashlib
     m["manifest_sha256"] = hashlib.sha256(json.dumps({k: v for k, v in m.items() if k != "manifest_sha256"},
