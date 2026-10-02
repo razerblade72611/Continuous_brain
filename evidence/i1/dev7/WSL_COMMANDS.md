@@ -1,9 +1,10 @@
 # I1 on David's WSL (Ubuntu-24.04): engineering check, then the preflight
 
-There are two stages. **Stage A** is an ordinary engineering run on 8 individuals from `cloud-dev-claude-eng`.
-It shows that I1 is valid on your machine before anything single-use is spent. **Stage B** is the preflight.
-It registers and spends `i1-v1-preflight-eng-b` (907100–907163); that cannot be undone, and the family can
-never be used again. Run Stage B only if Stage A ends with every validity check `true` and `ALL DETECTED`.
+There are two stages. **Stage A** is an ordinary engineering run on 8 individuals from `cloud-dev-claude-eng`
+(906880–906887). It shows that I1 is valid on your machine before anything single-use is spent.
+**Stage B** is the preflight. It registers and spends `i1-v1-preflight-eng-b` (907100–907163); that cannot
+be undone, and the family can never be used again. Run Stage B only if every stop condition below is
+passed.
 
 Nothing here opens the scientific family `i1-v1-dev`, and nothing writes to the legacy tree. Every run
 compares the tree's metadata before and after, and you hash the protected checkpoint before and after.
@@ -21,40 +22,55 @@ cd continuous_brain_v0.38.1.dev7_i1
 sha256sum /mnt/c/Users/davei/cb_exchange/Continuous_brain_v0.38.1.dev7_i1.zip
 unzip -q /mnt/c/Users/davei/cb_exchange/Continuous_brain_v0.38.1.dev7_i1.zip
 cd Continuous_brain
-git log --oneline -3
+git log --oneline -4
 cp ~/projects/continuous_brain_v0.38.1.dev6_composition_route/Continuous_brain/registry/seed_ranges.local.jsonl registry/
 export PYTHONPATH=$PWD
 python -m pytest -q -p no:cacheprovider tests/
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
 
+**Stop conditions so far:**
+
+- **Zip hash:** it must equal the hash Claude gave you in chat.
+- **`git log`:** it shows the dev7 commits above `3dda2fe` (the exact hashes are in chat).
+- **Tests:** they must report **221 passed**.
+- **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
+
+If any of these differ, stop and send Claude the terminal output.
+
 ## Stage A — engineering check (about 1–2 minutes)
 
 ```bash
-python scripts/dev/i1_dev.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --start 906820 --n 8 --label wsl_i1_dev8
+python scripts/dev/i1_dev.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --start 906880 --n 8 --label wsl_i1_dev8
 python scripts/dev/i1_tamper_check.py runs/dev/wsl_i1_dev8 runs/dev/wsl_i1_dev8/tamper_check.json
+python scripts/i1_run.py --print-design-digest
 ```
 
-**Before going on, check the output of both commands:**
+**Stop conditions for Stage A:**
 
-- **The dev run prints a `"validity"` block.** All 12 entries must be `true`. The block ends with
-  `"proposed_verdict_if_this_were_a_scientific_family": "PASS"` (or `"FAIL"`, which is still valid
-  engineering data). If any validity entry is `false`, or it says `BLOCKED`, **stop**: don't run Stage B.
-  Send the Stage A results with the tar command at the end and I'll diagnose.
-- **The tamper check** prints 16 `ok` lines and ends with `ALL DETECTED`.
+- **The dev run** prints one line per arm (11 lines, each `"errors": 0`), then a `"validity"` block with 12
+  entries, all `true`. The block ends with `"proposed_verdict_if_this_were_a_scientific_family": "PASS"` (or
+  `"FAIL"`, which is still valid engineering data). Stop if:
+  - it crashes before printing that block;
+  - any validity entry is `false`;
+  - it says `BLOCKED`.
+- **The tamper check** prints one `BASE` line, then 18 `ok` lines, then `ALL DETECTED`.
+- **The design digest** is `ca3977a9f74d477b83aab4e7704c6625668befea535668f219faaf40ec50932f`. If it isn't,
+  the preregistration file differs from the one reviewed.
+
+If anything differs, don't run Stage B. Send the results with the tar command at the end.
 
 ## Stage B — preflight (spends 907100–907163; about 5–8 minutes)
 
 ```bash
 python scripts/i1_preflight.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --label wsl_i1_preflight
-python scripts/i1_run.py --print-design-digest
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
 
-The preflight shows **validity only**. The primary and secondary values are written to
-`runs/i1/wsl_i1_preflight/sealed/` and committed by SHA-256. That file is not encrypted, so please don't open
-it, and don't send it. The tar command below leaves it out, along with every `lives.jsonl`, since those
-contain the values too.
+The preflight prints the 12 validity entries, `"valid"`, and the SHA-256 of the sealed report. Nothing
+else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
+the arms' `lives.jsonl` files and plans also contain them. None of these files are encrypted, so please
+don't open them, and don't send them. The tar command below sends only the preflight's value-free files.
 
 ## Send the results
 
@@ -62,34 +78,42 @@ contain the values too.
 tar czf /mnt/c/Users/davei/cb_exchange/wsl_i1_dev7_results.tgz --exclude='historical_core' --exclude='persist' runs/dev/wsl_i1_dev8 runs/dev/seed_usage.jsonl registry/seed_ranges.local.jsonl runs/i1/wsl_i1_preflight/i1_validity.json runs/i1/wsl_i1_preflight/manifest.json runs/i1/wsl_i1_preflight/seed_opened.json runs/i1/wsl_i1_preflight/safety.json runs/i1/wsl_i1_preflight/*/header.json runs/i1/wsl_i1_preflight/*.stdout.txt runs/i1/wsl_i1_preflight/*.stderr.txt
 ```
 
-If you stopped after Stage A, run the same command; tar warns about the missing preflight files, and that
-is fine.
+The Stage A directory goes in whole, including its `lives.jsonl`; those are engineering values. From the
+preflight, only the files named above go in. If you stopped after Stage A, run the same command: tar
+reports the missing preflight files and exits with code 2, but it still writes the archive.
 
 ## What to expect
 
-- **Tests:** 218 pass.
-- **Protected checkpoint:** all hashes are `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
-- **Manifest:** it will differ from the cloud's `230aa4d0…`. That is expected, because the CPU, the torch
-  build and the machine are part of it. The manifest your preflight writes is the one the scientific run
-  must reproduce on this same machine.
-- **Design digest:** `--print-design-digest` prints `22950124bda6044079fcde32457aeb730e247cf6c14210ddaab6f3a3472dc455`.
-  If it prints anything else, the preregistration file differs from the one reviewed.
+- **Manifest:** it will differ from the cloud's, because the CPU, the torch build and the machine are part
+  of it. The manifest your preflight writes is the one the scientific run must reproduce on this same
+  machine.
+- **Run time:** Stage A takes about 1–2 minutes and Stage B about 5–8, depending on the CPU.
 
-## After the preflight (not yet: needs the review first)
+## After the preflight (only after the review, and only if you decide to approve)
 
-Approval is David's decision, made after ChatGPT has reviewed the proposal. It means editing
-`registry/i1_integration_v1.json` to set:
+Approval is David's decision. Claude and ChatGPT review first. When you decide to approve, run this one
+command on the same machine, in the same directory:
 
-- `status` to `"APPROVED"`;
-- `approved_by` to `"David"`;
-- `preflight_manifest_sha256` to the value in `runs/i1/wsl_i1_preflight/manifest.json`;
-- `approved_design_sha256` to the printed design digest.
+```bash
+python scripts/i1_approve.py --preflight-dir runs/i1/wsl_i1_preflight --approver David --i-approve I1-INTEGRATED-INDIVIDUAL-v1
+```
 
-Claude will prepare that edit as an exact command once the preflight result is in. The scientific run is then:
+It refuses unless:
+
+- the preflight is a valid, spent preflight of `i1-v1-preflight-eng-b`;
+- this machine reproduces the preflight's manifest exactly.
+
+It then writes the approval into both registry files at once:
+
+- **`registry/i1_integration_v1.json`:** status, approved_by, approved_utc, preflight_manifest_sha256 and
+  approved_design_sha256;
+- **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
+
+It runs nothing and touches no seed family. The scientific run is then:
 
 ```bash
 python scripts/i1_run.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --confirm-open I1-INTEGRATED-INDIVIDUAL-v1
 ```
 
-Don't run this before the approval. It refuses anyway: the status is PROPOSED, and no manifest or design
-digest has been recorded.
+That spends `i1-v1-dev` (328000–328127) before launch and ends PASS, FAIL or BLOCKED. Before approval it
+refuses, because the status is PROPOSED.

@@ -146,7 +146,7 @@
       "registered": false
     },
     "derived_id_check": "subject ids also seed sid+70000 (bootstrap records) and sid+90000 (episodes). The check is conservative: every I1 family's ids at offsets 0, +70000 and +90000 are compared with every registered family's ids at the same three offsets, whatever that family's own seeding. i1-v1-dev 328000-328127 (derived 398000-398127, 418000-418127) and i1-v1-preflight-eng-b 907100-907163 (derived 977100-977163, 997100-997163) collide with nothing except the containing engineering reserve v0.38-ENGINEERING at equal offsets; tests/test_i1_runner.py recomputes this against the live registry",
-    "engineering_dev_used": "cloud-dev-claude-eng, all ENGINEERING_ONLY with values visible to the author: 906600-906663 (i1_try1, i1_dev64), 906664-906671 (i1_runner_dev8), 906672-906675 (review_i1_a, independent reviewer), 906760-906767 (i1_dev7_smoke8), 906680-906743 (i1_dev7_64, BLOCKED: code changed mid-run), 906744-906807 (i1_dev7_64b; overlaps the smoke slice 906760-906767)",
+    "engineering_dev_used": "cloud-dev-claude-eng, all ENGINEERING_ONLY with values visible to the author: 906600-906663 (i1_try1, i1_dev64), 906664-906671 (i1_runner_dev8), 906672-906675 (review_i1_a, independent reviewer), 906760-906767 (i1_dev7_smoke8), 906680-906743 (i1_dev7_64, BLOCKED: code changed mid-run), 906744-906807 (i1_dev7_64b; overlaps the smoke slice), 906900-906903 (verify7, independent verifier), 906808-906871 (i1_dev7_64c, the code as delivered). Planned for David's WSL engineering check: 906880-906887",
     "consumed": {
       "i1-v1-preflight-eng 907000-907063": "consumed by mistake in the cloud workspace (see deviation log); spent in the static registry; never reused"
     }
