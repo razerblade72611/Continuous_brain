@@ -67,19 +67,22 @@ python scripts/i1_preflight.py --legacy-root ~/projects/continuous_brain_v0.12.2
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
 
-The preflight prints the 12 validity entries, `"valid"`, and the SHA-256 of the sealed report. Nothing
-else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
+The preflight prints one line per arm, then the 12 validity entries and the SHA-256 of the sealed report.
+Nothing else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
 the arms' `lives.jsonl` files and plans also contain them. None of these files are encrypted, so please
 don't open them, and don't send them. The tar command below sends only the preflight's value-free files.
 
 ## Send the results
 
 ```bash
-tar czf /mnt/c/Users/davei/cb_exchange/wsl_i1_dev7_results.tgz --exclude='historical_core' --exclude='persist' runs/dev/wsl_i1_dev8 runs/dev/seed_usage.jsonl registry/seed_ranges.local.jsonl runs/i1/wsl_i1_preflight/i1_validity.json runs/i1/wsl_i1_preflight/manifest.json runs/i1/wsl_i1_preflight/seed_opened.json runs/i1/wsl_i1_preflight/safety.json runs/i1/wsl_i1_preflight/*/header.json runs/i1/wsl_i1_preflight/*.stdout.txt runs/i1/wsl_i1_preflight/*.stderr.txt
+tar czf /mnt/c/Users/davei/cb_exchange/wsl_i1_dev7_results.tgz --mtime='2026-01-01 00:00:00' --exclude='historical_core' --exclude='persist' runs/dev/wsl_i1_dev8 runs/dev/seed_usage.jsonl registry/seed_ranges.local.jsonl runs/i1/wsl_i1_preflight/i1_validity.json runs/i1/wsl_i1_preflight/manifest.json runs/i1/wsl_i1_preflight/seed_opened.json runs/i1/wsl_i1_preflight/safety.json runs/i1/wsl_i1_preflight/*/header.json runs/i1/wsl_i1_preflight/*.stderr.txt
 ```
 
 The Stage A directory goes in whole, including its `lives.jsonl`; those are engineering values. From the
-preflight, only the files named above go in. If you stopped after Stage A, run the same command: tar
+preflight, only the files named above go in. Its per-arm stdout files are left out, and every file time is set
+to one fixed date, because each arm's run time grows slightly with the number of individuals that reach their
+second goal. That is a weak hint at C2, but it isn't sent. Please don't read the timings in your terminal
+either; Claude needs only the validity lines. If you stopped after Stage A, run the same command: tar
 reports the missing preflight files and exits with code 2, but it still writes the archive.
 
 ## What to expect
@@ -109,7 +112,8 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The scientific run is then:
+It runs nothing and touches no seed family. After approval, 4 tests fail by design, because they assert the
+PROPOSED state; don't re-run the test suite as a check after approving. The scientific run is then:
 
 ```bash
 python scripts/i1_run.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --confirm-open I1-INTEGRATED-INDIVIDUAL-v1

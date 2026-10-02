@@ -160,6 +160,11 @@ the estimate that counts. `i1_dev7_64b` also passed all 12 validity checks under
     +90000).
 
   All four are fixed, and `i1-v1-dev` moved to 328000–328127 before anything was registered.
+  A re-verification of the final package found no blocker. Its remaining notes:
+  - approval checks that the validity block is all true, but not its exact keys; the manifest match makes
+    this hard to abuse;
+  - per-arm run times weakly track C2, so the WSL tar sends no stdout and normalises file times;
+  - after approval, 4 tests fail by design because they assert the PROPOSED state.
   `i1_dev7_64c` is the run of the fixed code.
 - **Cloud preflight incident.** `i1-v1-preflight-eng` (907000–907063) was consumed by mistake in the cloud
   on 2026-10-02. It is recorded as spent and has been replaced by `i1-v1-preflight-eng-b` (907100–907163).
