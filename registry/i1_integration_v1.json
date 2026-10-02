@@ -1,0 +1,165 @@
+{
+  "format": "cb-i1-prereg/1",
+  "id": "I1-INTEGRATED-INDIVIDUAL-v1",
+  "title": "I1 \u2014 one persistent individual: five G0-requalified self-lineage mechanisms acting on one store-held autobiography, goal lifecycle and developmental state",
+  "status": "PROPOSED",
+  "approved_by": null,
+  "supersedes_in_purpose": "G1-COMPOSITION-RETENTION-v2 (retention under composition is predetermined by the dev6 E1 identity; see docs/COMPOSITION_ROUTE_DEV6.md \u00a75)",
+  "question": "When the frozen v0.31, v0.32.2, v0.34.1, v0.35.3 and v0.36.1 mechanisms act together on ONE individual whose autobiography, developmental phases, goal lifecycle and curriculum history are held by the runtime's canonical store (and the v0.34.1 developmental controller, not a hard-coded rule, chooses the strategy for goal pursuit), does the individual still author, pursue and complete its own goals and advance its own curriculum, and do store-level erase, donor and rollback interventions on that one autobiography have the causal effects the frozen evaluators established in isolation?",
+  "scope": {
+    "mechanisms": [
+      "recurrent_self_trajectory_v031",
+      "autobiographical_discrepancy_v0322",
+      "event_consistent_self_development_v0341",
+      "endogenous_goal_genesis_v0353",
+      "recursive_autobiographical_curriculum_v0361"
+    ],
+    "excluded": {
+      "consequence_replanning_v0252": "no shared interface with the self lineage (dev6: zero cross-lineage calls in all six routes); coupling it would be a new mechanism",
+      "episodic_two_item_v023": "blocked (condition-ID seed semantics)"
+    },
+    "not_claimed": [
+      "consciousness",
+      "sentience",
+      "subjective experience",
+      "superiority of a substrate",
+      "generalization beyond the frozen two-commitment developmental world"
+    ]
+  },
+  "design": {
+    "individual": "one fresh UnifiedRuntime per individual (subject id); hosts: v0.31 self-trajectory (dev6 MechanismHost, stateless API), autobiography (v0.32.2), developmental phases (v0.34.1), goal lifecycle (v0.35.3), curriculum (v0.36.1); each stateful host's state is the blob channel <slot>.state, read at the start of every tick; nothing is kept in Python between ticks; canonical projection channels are recomputed from the stored bytes whenever they change",
+    "environment": "the frozen v0.33 developmental world (build_bootstrap_memory, initial_capabilities, execute_development_episode); capability is environment-side and never shown to the hosts",
+    "life": [
+      "birth: frozen bootstrap history imprinted into the store-held autobiography",
+      "init: reliability -> developmental phases initialized by the controller; first self-authored goal; curriculum observes it",
+      "interrupt: one stable-commitment DIRECT episode (admitted v0.35 interruption)",
+      "pursue goal 1: up to H episodes; strategy chosen by the v0.34.1 controller from current reliability; completion when the goal's target reliability is met",
+      "second goal: the driver reads the store-held goal lifecycle (goal host 'status'); only if it records a completed goal and no active goal is a second goal authored from the updated autobiography; curriculum observes it",
+      "pursue goal 2: up to H episodes (cycle indices 100+k, as in v0.36; the completion cycle carries the same 100+k label)"
+    ],
+    "horizon": "H = evaluate_recursive_autobiographical_curriculum_v1.MAX_FIRST_GOAL_EPISODES (16)",
+    "arms": {
+      "NORMAL": "the integrated individual",
+      "FIXED_SCAFFOLD": "same life with the frozen v0.35/v0.36 SCAFFOLD rule for pursuit (comparison arm and fidelity reference)",
+      "ERASED": "store-level ERASE of autobiography.state immediately after the birth imprint",
+      "DONOR": "store-level REPLACE of autobiography.state immediately after imprint with the paired individual's (opposite-parity) birth autobiography",
+      "ROLLBACK": "store-level REPLACE of autobiography.state immediately before the second-goal decision with the individual's own birth autobiography (first-goal completers)",
+      "PERSIST_SAVE / PERSIST_RESUME": "runtime snapshot (SnapshotStore) plus environment state saved immediately before the second-goal decision; a new process restores and finishes the life",
+      "LEGACY_REF": "the frozen v0.36 complete_first_goal per individual, no runtime (fidelity reference)",
+      "AUTHORITY_SKILLS / AUTHORITY_GOAL / AUTHORITY_CURRICULUM": "validity controls: store-level ERASE of skills.state / goal_genesis.state / curriculum.state immediately before the second-goal decision, for the 4 lowest-id first-goal completers; the second half must change (second goal, curriculum observation, goal-2 strategies, goal-2 completion or the store-gated decision) or abort with the mechanism's own error"
+    },
+    "intervention_timing": "ticks taken from the NORMAL life of the same individual; every intervened arm must reproduce NORMAL's store digest bit-exactly at the tick before its intervention",
+    "redirects": "all five self-lineage specs are installed; only v0.31 is bound as a MechanismHost. Calls to the other four mechanisms' APIs from inside their own stateful host run the frozen code (counted as nested calls); the same calls from the driver reach a host without that API and are blocked, so the driver cannot run a private copy of a mechanism unrecorded. Evaluator-side comparisons (ROLLBACK's frozen same_goal_semantics) use the original function, outside the individual"
+  },
+  "decision_rule": {
+    "validity_blocking": {
+      "fidelity_to_frozen_v036_driver": "for every individual, FIXED_SCAFFOLD reproduces LEGACY_REF exactly: the store-held first goal with all its fields (id, primary, baseline, target, created and completed cycle), completion as recorded by the store-held lifecycle, the environment capabilities at the end of goal 1, and the byte-identical autobiography at the end of goal 1",
+      "replay_bit_exact_before_every_intervention": "for every ERASED, DONOR, ROLLBACK and AUTHORITY life, the store digest after T-1 and the tick T of the intervention mark equal NORMAL's",
+      "interventions_applied_exactly_as_planned": "in every planned arm the individuals run equal the planned individuals and each applied intervention list equals its plan (tick, target channel, kind); no intervention in NORMAL, FIXED_SCAFFOLD, PERSIST_SAVE, PERSIST_RESUME",
+      "manifest_consistent_across_arms": "every arm process computes the manifest itself; all equal the runner's manifest",
+      "store_authority_controls_change_the_individual": "every AUTHORITY life changes its second half or aborts with the mechanism's own error",
+      "host_state_read_from_store": "every stateful host made non-empty start-of-tick reads of its own state channel in every NORMAL life that authored a goal",
+      "driver_record_matches_store_lifecycle": "in NORMAL the driver's record of first-goal completion equals the store-held lifecycle's",
+      "no_driver_side_model_forwards": "zero forwards of any registered model while the driver (not a host) is executing; host-side forwards > 0",
+      "no_driver_side_mechanism_calls": "zero blocked host calls, zero unbound calls, zero nested calls from one slot's host into another slot's mechanism",
+      "no_errors": "no arm records an exception outside the AUTHORITY controls' expected aborts",
+      "manifest_and_environment_match_preflight": "composition/integration source hashes, spec digest, codec version, legacy pins, historical-core SHA-256 and environment fingerprint equal the frozen preflight manifest",
+      "legacy_tree_unchanged_and_pins_verified": true,
+      "on_failure": "BLOCKED (not a scientific FAIL); the family stays spent; any retry needs a new preregistration version"
+    },
+    "primary": {
+      "C1_first_goal_endogenous": {
+        "definition": "NORMAL first goal exists and targets the evaluator-side fragile commitment",
+        "denominator": "all individuals",
+        "threshold": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_GENESIS (0.95)"
+      },
+      "C2_first_goal_completes": {
+        "definition": "NORMAL first goal completed within H under controller-chosen strategy, as recorded by the store-held goal lifecycle",
+        "denominator": "all individuals",
+        "threshold": "MIN_FIRST_GOAL_COMPLETION (0.80)"
+      },
+      "C3_history_guides_initial_strategy": {
+        "definition": "controller initializes the fragile commitment SCAFFOLD and the stable one DIRECT, and the first pursuit episode is SCAFFOLD",
+        "denominator": "individuals with a first goal",
+        "threshold": "evaluate_self_development_hysteresis_v1.MIN_HISTORY_GUIDED_STRATEGY (0.95)"
+      },
+      "C4_second_goal_authored": {
+        "definition": "a second goal is authored from the updated autobiography",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_SECOND_GOAL_GENERATION (0.95)"
+      },
+      "C5_curriculum_advances": {
+        "definition": "frozen goal_is_advanced(first, second)",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_CURRICULUM_ADVANCE (0.95)"
+      },
+      "C6_erased_store_autobiography_no_goal": {
+        "definition": "ERASED arm authors no directional goal",
+        "denominator": "all individuals",
+        "threshold": "MIN_ERASED_NEUTRAL (1.0)"
+      },
+      "C7_donor_store_autobiography_flips_goal": {
+        "definition": "DONOR arm's first goal primary differs from NORMAL's",
+        "denominator": "all individuals",
+        "threshold": "MIN_DONOR_FIRST_GOAL_FLIP (0.95)"
+      },
+      "C8_rolled_back_autobiography_repeats_goal": {
+        "definition": "ROLLBACK arm's second goal has the first goal's semantics (frozen same_goal_semantics)",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_FROZEN_HISTORY_REPEATS (0.95)"
+      },
+      "C9_updated_vs_rolled_back_diverges": {
+        "definition": "NORMAL second goal and ROLLBACK second goal differ in semantics",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_UPDATED_VS_FROZEN_DIVERGENCE (0.95)"
+      },
+      "C10_persistence_bit_exact": {
+        "definition": "PERSIST_RESUME final store digest, final tick and life trace equal NORMAL's",
+        "denominator": "individuals with a first goal",
+        "threshold": "MIN_PERSISTENCE (1.0)"
+      },
+      "gate": "PASS only if every validity check holds and C1-C10 all meet their thresholds; FAIL if validity holds and any of C1-C10 does not"
+    },
+    "secondary_reported_not_gating": {
+      "S1_first_half_identical_controller_vs_fixed_scaffold": "prediction 1.0, derived from the code: the controller graduates a commitment at baseline+0.12 and the goal completes at baseline+0.12, so goal-1 pursuit is SCAFFOLD under both arms",
+      "S2_second_goal_pursued_DIRECT": "prediction: majority of goal-2 episodes DIRECT (the commitment's phase graduates on the same 0.12 gain or was DIRECT from birth)",
+      "S3_second_goal_completion_controller_vs_fixed": "estimation only (rates, paired difference, paired bootstrap 95% CI); no directional prediction. This is the new integration outcome: the frozen evaluators never let the developmental controller drive goal pursuit"
+    }
+  },
+  "families": {
+    "scientific_dev_proposed": {
+      "name": "i1-v1-dev",
+      "start": 320000,
+      "stop": 320127,
+      "purpose": "DEV",
+      "registered": false
+    },
+    "engineering_preflight_proposed": {
+      "name": "i1-v1-preflight-eng-b",
+      "start": 907100,
+      "stop": 907163,
+      "purpose": "ENGINEERING",
+      "registered": false
+    },
+    "derived_id_check": "subject ids also seed sid+70000 (bootstrap records) and sid+90000 (episodes); for 320000-320127 these are 390000-390127 and 410000-410127, disjoint from every spent self-lineage family and its derived ids (G0 302000-307127 -> 372000-377127, 392000-397127; historical TESTs 80000/100000/120000 -> 150000-210127); the preflight family 907100-907163 derives 977100-977163 and 997100-997163, disjoint from the consumed 907000-907063 (977000-977063, 997000-997063) and from the cloud-dev slices used",
+    "engineering_dev_used": "cloud-dev-claude-eng, all ENGINEERING_ONLY with values visible to the author: 906600-906663 (i1_try1, i1_dev64), 906664-906671 (i1_runner_dev8), 906672-906675 (review_i1_a, independent reviewer), 906760-906767 (i1_dev7_smoke8), 906680-906743 (i1_dev7_64, BLOCKED: code changed mid-run), 906744-906807 (i1_dev7_64b; overlaps the smoke slice 906760-906767)",
+    "consumed": {
+      "i1-v1-preflight-eng 907000-907063": "consumed by mistake in the cloud workspace (see deviation log); spent in the static registry; never reused"
+    }
+  },
+  "procedure": [
+    "1. ChatGPT review of this proposal and of docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md; amendments become v2",
+    "2. Engineering preflight on David's WSL on engineering_preflight_proposed (i1-v1-preflight-eng-b), validity-only output: primary and secondary values are withheld from display and committed by SHA-256 (not encrypted); it writes the manifest",
+    "3. Approval: David sets status APPROVED and approved_by, and writes preflight_manifest_sha256 (from the preflight's manifest.json) and approved_design_sha256 (printed by scripts/i1_run.py --print-design-digest, the SHA-256 of id, question, scope, design, decision_rule, families and procedure); any later change to those parts invalidates the approval",
+    "4. scripts/i1_run.py refuses unless the approval names this design and the manifest matches; it registers and spends i1-v1-dev before launch, runs every arm, and records PASS/FAIL/BLOCKED (a failure after the spend writes a BLOCKED report)"
+  ],
+  "deviation_log": [
+    "Engineering development runs whose outcome values were visible to the author before this draft: i1_try1 (906600-906603) and i1_dev64 (906600-906663), cloud CPU. They produced code fixes only: the legacy loader had been captured before the redirects were installed; and the fidelity comparison had compared the driver's copy of the goal received at genesis, which does not show the lifecycle's in-place completion, so it was changed to compare the authored fields, the completion outcome and cycle, and the autobiography digest (dev7 strengthens this to the store-held goal with all fields plus capabilities). No threshold, horizon, arm or check definition was changed in response to outcome values; thresholds are frozen legacy constants read at run time.",
+    "S3 is registered as estimation-only because dev values exist; a directional prediction would not be independent of them.",
+    "2026-10-02T00:56Z: while testing the preflight code path, a failed copy step in a chained shell command made the preflight run in the cloud working copy instead of a throwaway copy. It registered and spent i1-v1-preflight-eng (907000-907063) under the exact preflight construct on cloud CPU. Primary and secondary values were sealed by the runner (sealed report sha256 8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc) and have not been opened. The family is recorded spent in the static registry and replaced by i1-v1-preflight-eng-b (907100-907163). The sealed report ships in evidence/i1/cloud_preflight_incident/ and is to be opened only after the scientific I1 result is frozen.",
+    "2026-10-02: an independent reviewer (fresh agent, no access to the authoring context) audited the dev6/I1 code. It re-ran the evaluator on runs/dev/i1_dev64 (identical values; the report file was rewritten with the same content) and ran 4 individuals as review_i1_a (906672-906675, recorded in runs/dev/seed_usage.jsonl). Its findings were fixed in dev7: manifest coverage, dev seed confinement, sealing wording, redirected APIs, store authority controls, store-gated second goal, projection staleness, verification before registration, BLOCKED report after spend, design-bound approval, goal-2 cycle labels.",
+    "dev7 adds the AUTHORITY validity arms, the goal host's 'status' API (second-goal gate on the store), capability_after_first, and the 100+k completion label for goal 2. These change the life's tick sequence relative to dev6 runs; dev6-era run directories are not comparable tick-for-tick.",
+    "2026-10-02 dev7 run i1_dev7_64 (906680-906743) is BLOCKED by its own manifest_consistent_across_arms check: the author bumped the package version strings (continuous_brain_*/__init__.py, pyproject.toml) at 20:41:26, after the NORMAL arm and before FIXED_SCAFFOLD, so later arms ran different code. Its values are disclosed in evidence/i1/dev7/i1_dev7_64_blocked/ and are not used. The run was repeated with the tree unchanged as i1_dev7_64b (906744-906807), which passes every validity check. Operating rule added to the WSL procedure: no file in the repository is edited while a run is in progress."
+  ],
+  "sealing_note": "'sealed' means withheld from display and committed by SHA-256. The sealed file is plain JSON in the run directory and is not encrypted; the commitment makes later alteration detectable, it does not prevent reading."
+}

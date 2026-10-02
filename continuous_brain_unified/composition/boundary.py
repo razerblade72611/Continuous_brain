@@ -311,6 +311,7 @@ class Boundary:
         self.calls = 0
         self.first_responses: dict[str, tuple[int, bytes]] = {}
         self.forwards = collections.Counter()           # "instance_key|host" / "instance_key|driver"
+        self.after_tick: Callable[[int], None] | None = None   # driver hook, called after every tick
         self._hook_handles: list = []
         self._restore: list[Callable[[], None]] = []
 
@@ -354,6 +355,8 @@ class Boundary:
         drive[request_channel(slot)] = enc.data
         self.calls += 1
         self.runtime.tick_once(driver=drive)
+        if self.after_tick is not None:
+            self.after_tick(self.runtime.tick)
         raw = self.runtime.store.read(response_channel(slot), reader=DRIVER_OWNER).tobytes()
         self.first_responses.setdefault(slot, (self.runtime.tick, raw))
         try:

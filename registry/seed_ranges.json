@@ -235,6 +235,16 @@
       "spent": true,
       "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
       "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "name": "i1-v1-preflight-eng",
+      "start": 907000,
+      "stop": 907063,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev7 cloud workspace, 2026-10-02T00:56Z",
+      "note": "CONSUMED BY MISTAKE: an I1 preflight ran in the cloud workspace instead of a throwaway test copy. Values sealed (report sha256 8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc), never opened. Never reuse; the WSL preflight uses i1-v1-preflight-eng-b."
     }
   ]
 }

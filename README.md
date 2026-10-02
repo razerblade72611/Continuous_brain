@@ -77,3 +77,9 @@ Six historical mechanisms have completed isolated G0 requalification with PASS o
 The six G0-requalified mechanisms run through one `UnifiedRuntime`. Each frozen evaluator runs unmodified as the task driver, and every top-level call to a mechanism API is one runtime tick, carried through the canonical store by an exact codec. E1 (null-composition equivalence) passes for all six on 32 engineering seeds each, and E1b (store-authority control) passes. Neither is a scientific result, and no G1 family has been opened.
 
 See `docs/COMPOSITION_ROUTE_DEV6.md` for what is and is not mediated, and why a retention-style G1 is predetermined by E1. WSL reproduction steps are in `evidence/dev6/WSL_COMMANDS.md`.
+
+## v0.38.1.dev7 — I1: one persistent individual (ENGINEERING_ONLY)
+
+The five self-lineage mechanisms act on **one individual** whose state lives in the canonical store. Erasing, replacing, rolling back or restoring that state changes, or preserves, the individual itself. On 64 cloud engineering individuals, every validity check holds and C1–C10 meet their frozen thresholds. One new finding: the developmental controller's graduation to DIRECT lowers second-goal completion compared with fixed SCAFFOLD (−0.150, 95% CI [−0.283, −0.017]). `I1-INTEGRATED-INDIVIDUAL-v1` is PROPOSED; no scientific family is open.
+
+See `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md`. The WSL engineering check and preflight steps are in `evidence/i1/dev7/WSL_COMMANDS.md`.
