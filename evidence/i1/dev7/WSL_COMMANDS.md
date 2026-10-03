@@ -34,7 +34,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **242 passed**.
+- **Tests:** they must report **254 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -57,10 +57,10 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The approval-gate check** prints 20 `ok` lines and ends with `20/20 cases as expected: GATE OK`. It
+- **The approval-gate check** prints 34 `ok` lines and ends with `34/34 cases as expected: GATE OK`. It
   approves a temporary copy of the registry from this run's genuine sealed view, and refuses every faulty
   variant. It never touches the real registry, and it spends nothing.
-- **The design digest** is `f7ba012f7c0c4afc95ffecb31dfb59f2c4ab62f8dee4c9a0f0dd5f5584f42b8c`. If it isn't,
+- **The design digest** is `13fb2f817c59efd048d570b8a66b406d835066dd5ffe7bbc767da0ce59d50e4d`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -110,7 +110,7 @@ It refuses unless:
 
 - the preflight is a spent preflight of `i1-v1-preflight-eng-b`;
 - its validity block has exactly the 14 I1 checks (none missing, none extra), all `true`;
-- its diagnostics bind the run and every arm to its `manifest.json`;
+- its diagnostics bind the run and all 12 I1 arms (none missing, none extra) to its `manifest.json`;
 - this machine reproduces that manifest exactly.
 
 It then writes the approval into both registry files at once:
@@ -119,7 +119,7 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (242 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (254 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
