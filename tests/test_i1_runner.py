@@ -256,16 +256,16 @@ def _fake_preflight(tmp_path, prereg, *, valid=True, mode="preflight"):
     d.mkdir()
     pf = prereg["families"]["engineering_preflight_proposed"]
     (d / "seed_opened.json").write_text(json.dumps({"mode": mode, "family": {**pf, "spent": True}}))
-    (d / "i1_validity.json").write_text(json.dumps({"valid": valid, "validity": {k: valid for k in VALIDITY_KEYS}}))
-    (d / "manifest.json").write_text(json.dumps(runner.manifest(2)))
+    m = runner.manifest(2)
+    (d / "i1_validity.json").write_text(json.dumps({
+        "valid": valid, "validity": {k: valid for k in VALIDITY_KEYS},
+        "validity_diagnostics": {"expected_manifest_sha256": m["manifest_sha256"],
+                                 "arm_manifests": {"NORMAL": m["manifest_sha256"], "DONOR": m["manifest_sha256"]}}}))
+    (d / "manifest.json").write_text(json.dumps(m))
     return d
 
 
-VALIDITY_KEYS = ("fidelity_to_frozen_v036_driver", "replay_bit_exact_before_every_intervention",
-                 "interventions_applied_exactly_as_planned", "manifest_consistent_across_arms",
-                 "store_authority_controls_change_the_individual", "host_state_read_from_store",
-                 "driver_record_matches_store_lifecycle", "no_driver_side_model_forwards",
-                 "no_driver_side_mechanism_calls", "no_errors", "legacy_tree_unchanged", "pins_verified")
+from continuous_brain_unified.integration.evaluate import VALIDITY_KEYS  # the one authoritative schema
 
 
 def _registry_copy(tmp_path):
@@ -307,7 +307,10 @@ def test_approval_refuses_an_invalid_or_foreign_preflight(tmp_path):
     with pytest.raises(runner.I1Refused, match="not valid"):
         runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
     m = json.loads((bad / "manifest.json").read_text())
-    (bad / "i1_validity.json").write_text(json.dumps({"valid": True, "validity": {k: True for k in VALIDITY_KEYS}}))
+    v = json.loads((bad / "i1_validity.json").read_text())
+    v["valid"] = True
+    v["validity"] = {k: True for k in VALIDITY_KEYS}
+    (bad / "i1_validity.json").write_text(json.dumps(v))
     m["environment"]["cpu"] = "another machine"
     import hashlib
     m["manifest_sha256"] = hashlib.sha256(json.dumps({k: v for k, v in m.items() if k != "manifest_sha256"},
@@ -337,3 +340,56 @@ def test_registry_binding_covers_both_registry_files_and_the_design():
     assert b["prereg_file_sha256"] == sha256_file(runner.REPO / runner.PREREG_FILE)
     assert b["central_registry_sha256"] == sha256_file(runner.REPO / "registry" / "preregistrations.json")
     assert b["prereg_status"] == p["status"] and runner._registry_binding(p) == b      # deterministic
+
+
+def test_validity_schema_is_the_fourteen_preregistered_checks():
+    p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
+    registered = {k for k in p["decision_rule"]["validity_blocking"]
+                  if k not in ("on_failure", "legacy_tree_unchanged_and_pins_verified")}
+    registered |= {"legacy_tree_unchanged", "pins_verified"}
+    assert len(VALIDITY_KEYS) == 14 and len(set(VALIDITY_KEYS)) == 14
+    assert set(VALIDITY_KEYS) == registered            # code schema == preregistered checks
+    assert {"no_hidden_mutable_state", "donor_pairing_fixed_by_ids"} <= set(VALIDITY_KEYS)
+
+
+def _approve_with(tmp_path, mutate):
+    root = _registry_copy(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    d = _fake_preflight(tmp_path, prereg)
+    v = json.loads((d / "i1_validity.json").read_text())
+    mutate(v)
+    (d / "i1_validity.json").write_text(json.dumps(v))
+    try:
+        runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+    finally:
+        assert json.loads((root / runner.PREREG_FILE).read_text())["status"] in ("PROPOSED", "APPROVED")
+    return json.loads((root / runner.PREREG_FILE).read_text())["status"]
+
+
+@pytest.mark.parametrize("key", VALIDITY_KEYS)
+def test_approval_refuses_a_preflight_missing_any_one_check(tmp_path, key):
+    with pytest.raises(runner.I1Refused, match="exactly the I1 schema"):
+        _approve_with(tmp_path, lambda v: v["validity"].pop(key))
+
+
+def test_approval_refuses_the_old_twelve_check_schema(tmp_path):
+    old = {"no_hidden_mutable_state", "donor_pairing_fixed_by_ids"}
+    with pytest.raises(runner.I1Refused, match="missing"):
+        _approve_with(tmp_path, lambda v: [v["validity"].pop(k) for k in old])
+
+
+def test_approval_refuses_unknown_checks_false_values_and_unbound_manifests(tmp_path):
+    cases = {
+        "unexpected": lambda v: v["validity"].__setitem__("some_new_check", True),
+        "false": lambda v: v["validity"].__setitem__("no_hidden_mutable_state", False),
+        "valid flag": lambda v: v.__setitem__("valid", False),
+        "no diagnostics": lambda v: v.pop("validity_diagnostics"),
+        "no expected manifest": lambda v: v["validity_diagnostics"].pop("expected_manifest_sha256"),
+        "other manifest": lambda v: v["validity_diagnostics"].__setitem__("expected_manifest_sha256", "0" * 64),
+        "one arm elsewhere": lambda v: v["validity_diagnostics"]["arm_manifests"].__setitem__("DONOR", "0" * 64),
+        "no arms": lambda v: v["validity_diagnostics"].__setitem__("arm_manifests", {}),
+    }
+    for i, (name, mutate) in enumerate(cases.items()):
+        with pytest.raises(runner.I1Refused):
+            _approve_with(tmp_path / str(i), mutate)
+

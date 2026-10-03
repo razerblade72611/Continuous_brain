@@ -27,7 +27,15 @@ AUTHORITY_ARMS = ["AUTHORITY_SKILLS", "AUTHORITY_GOAL", "AUTHORITY_CURRICULUM"]
 PLANNED = ["ERASED", "DONOR", "ROLLBACK", *AUTHORITY_ARMS]
 ARMS = ["LEGACY_REF", "NORMAL", "FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME",
         "RNG_PERTURBED", *AUTHORITY_ARMS]
-S4_K = (1, 2, 4)            # preregistered matched goal-2 checkpoints for the S4 mechanism analysis
+S4_K = (1, 2, 4)
+# The authoritative I1 validity schema: every report carries exactly these checks, in this order, and the
+# approval gate (runner.approve), the lifecycle suite and the tests import this tuple rather than a copy.
+VALIDITY_KEYS = ("fidelity_to_frozen_v036_driver", "replay_bit_exact_before_every_intervention",
+                 "interventions_applied_exactly_as_planned", "manifest_consistent_across_arms",
+                 "store_authority_controls_change_the_individual", "host_state_read_from_store",
+                 "driver_record_matches_store_lifecycle", "no_driver_side_model_forwards",
+                 "no_driver_side_mechanism_calls", "no_hidden_mutable_state", "donor_pairing_fixed_by_ids",
+                 "no_errors", "legacy_tree_unchanged", "pins_verified")            # preregistered matched goal-2 checkpoints for the S4 mechanism analysis
 MARK_OF = {"ERASED": "imprint", "DONOR": "imprint", "ROLLBACK": "before_second",
            **{a: "before_second" for a in AUTHORITY_ARMS}}
 # an AUTHORITY abort counts only if it is the erased mechanism's own error for missing state
@@ -242,6 +250,8 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
                 "no_errors": not any(errors.values()),
                 "legacy_tree_unchanged": safety.get("legacy_tree_unchanged") is True,
                 "pins_verified": safety.get("pins_verified") is True}
+    if tuple(validity) != VALIDITY_KEYS:                  # the schema cannot drift silently
+        raise AssertionError(f"validity keys {tuple(validity)} differ from VALIDITY_KEYS")
     valid = all(validity.values())
 
     # ---------------------------------------------------------------- primary

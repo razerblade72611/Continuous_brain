@@ -121,7 +121,7 @@ def cpu_model() -> str:
 CODE_PACKAGES = ("continuous_brain_protocols", "continuous_brain_snn", "continuous_brain_substrates",
                  "continuous_brain_unified", "continuous_brain_eval")
 CODE_FILES = ("scripts/i1_preflight.py", "scripts/i1_run.py", "scripts/i1_approve.py", "scripts/dev/i1_dev.py",
-              "scripts/dev/i1_tamper_check.py", "pyproject.toml",
+              "scripts/dev/i1_tamper_check.py", "scripts/dev/i1_approval_gate_check.py", "pyproject.toml",
               "legacy/g0_dependency_closure.json", "legacy/historical_core_v0122.json", "legacy/g0_recipes.json")
 
 
@@ -288,8 +288,13 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
             or int(fam["stop"]) != int(pf["stop"]) or not fam.get("spent")):
         raise I1Refused("the directory does not hold a spent preflight of this preregistration's preflight family")
     validity = json.loads((d / "i1_validity.json").read_text())
-    if not (validity.get("valid") is True and validity.get("validity") and all(validity["validity"].values())):
-        raise I1Refused("the preflight is not valid: " + json.dumps(validity.get("validity"), sort_keys=True))
+    checks = validity.get("validity")
+    if not isinstance(checks, dict) or set(checks) != set(_e.VALIDITY_KEYS):
+        got = set(checks) if isinstance(checks, dict) else set()
+        raise I1Refused("the preflight's validity block does not have exactly the I1 schema "
+                        f"(missing {sorted(set(_e.VALIDITY_KEYS) - got)}, unexpected {sorted(got - set(_e.VALIDITY_KEYS))})")
+    if validity.get("valid") is not True or not all(checks[k] is True for k in _e.VALIDITY_KEYS):
+        raise I1Refused("the preflight is not valid: " + json.dumps(checks, sort_keys=True))
     rec = json.loads((d / "manifest.json").read_text())
     body = {k: v for k, v in rec.items() if k != "manifest_sha256"}
     if hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest() != rec.get("manifest_sha256"):
@@ -299,8 +304,11 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
         diff = sorted(k for k in set(now) | set(rec) if k != "manifest_sha256" and now.get(k) != rec.get(k))
         raise I1Refused(f"this machine's manifest {now['manifest_sha256']} differs from the preflight's "
                         f"{rec['manifest_sha256']} (differing: {diff})")
-    if validity.get("validity_diagnostics", {}).get("expected_manifest_sha256") not in (None, rec["manifest_sha256"]):
-        raise I1Refused("the preflight's arms ran under a different manifest")
+    diag = validity.get("validity_diagnostics") or {}
+    arms = diag.get("arm_manifests")
+    if diag.get("expected_manifest_sha256") != rec["manifest_sha256"] or not isinstance(arms, dict) or not arms \
+            or any(v != rec["manifest_sha256"] for v in arms.values()):
+        raise I1Refused("the preflight's validity diagnostics do not bind every arm to its manifest.json")
     central = json.loads(central_path.read_text())
     entries = [e for e in central["preregistrations"] if e.get("id") == PREREG_ID]
     if len(entries) != 1 or entries[0].get("status") != "PROPOSED":

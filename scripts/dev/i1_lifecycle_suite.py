@@ -25,11 +25,6 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 STATES = ("PROPOSED", "PREFLIGHT_SPENT", "APPROVED", "SCIENCE_SPENT")
-VALIDITY_KEYS = ("fidelity_to_frozen_v036_driver", "replay_bit_exact_before_every_intervention",
-                 "interventions_applied_exactly_as_planned", "manifest_consistent_across_arms",
-                 "store_authority_controls_change_the_individual", "host_state_read_from_store",
-                 "driver_record_matches_store_lifecycle", "no_driver_side_model_forwards",
-                 "no_driver_side_mechanism_calls", "no_errors", "legacy_tree_unchanged", "pins_verified")
 
 
 def _py(copy: Path, code: str) -> str:
@@ -63,11 +58,17 @@ def _approve(copy: Path, tmp: Path) -> None:
     d = tmp / "synthetic_preflight"
     d.mkdir()
     (d / "seed_opened.json").write_text(json.dumps({"mode": "preflight", "family": {**pf, "spent": True}}))
-    (d / "i1_validity.json").write_text(json.dumps({"valid": True, "validity": {k: True for k in VALIDITY_KEYS}}))
+    # the validity schema and the manifest come from the copy's own code (no hard-coded list here)
     _py(copy, f"""
 import json
+from continuous_brain_unified.integration.evaluate import VALIDITY_KEYS
 from continuous_brain_unified.integration.runner import manifest
-open({str(d / 'manifest.json')!r}, 'w').write(json.dumps(manifest(2)))
+m = manifest(2)
+open({str(d / 'manifest.json')!r}, 'w').write(json.dumps(m))
+open({str(d / 'i1_validity.json')!r}, 'w').write(json.dumps({{
+    "valid": True, "validity": {{k: True for k in VALIDITY_KEYS}},
+    "validity_diagnostics": {{"expected_manifest_sha256": m["manifest_sha256"],
+                              "arm_manifests": {{"NORMAL": m["manifest_sha256"], "DONOR": m["manifest_sha256"]}}}}}}))
 """)
     env = dict(os.environ, PYTHONPATH=str(copy))
     env.pop("CONTINUOUS_BRAIN_REGISTRY", None)
