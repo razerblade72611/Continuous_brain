@@ -34,7 +34,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **225 passed**.
+- **Tests:** they must report **242 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -44,6 +44,7 @@ If any of these differ, stop and send Claude the terminal output.
 ```bash
 python scripts/dev/i1_dev.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --start 906880 --n 8 --label wsl_i1_dev8
 python scripts/dev/i1_tamper_check.py runs/dev/wsl_i1_dev8 runs/dev/wsl_i1_dev8/tamper_check.json
+python scripts/dev/i1_approval_gate_check.py runs/dev/wsl_i1_dev8 runs/dev/wsl_i1_dev8/approval_gate_check.json
 python scripts/i1_run.py --print-design-digest
 ```
 
@@ -56,7 +57,10 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The design digest** is `1ca74d5b44d84cc1b00be3619956881f944a387b8551938f2913cc0d7b3f37a4`. If it isn't,
+- **The approval-gate check** prints 20 `ok` lines and ends with `20/20 cases as expected: GATE OK`. It
+  approves a temporary copy of the registry from this run's genuine sealed view, and refuses every faulty
+  variant. It never touches the real registry, and it spends nothing.
+- **The design digest** is `f7ba012f7c0c4afc95ffecb31dfb59f2c4ab62f8dee4c9a0f0dd5f5584f42b8c`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -104,8 +108,10 @@ python scripts/i1_approve.py --preflight-dir runs/i1/wsl_i1_preflight --approver
 
 It refuses unless:
 
-- the preflight is a valid, spent preflight of `i1-v1-preflight-eng-b`;
-- this machine reproduces the preflight's manifest exactly.
+- the preflight is a spent preflight of `i1-v1-preflight-eng-b`;
+- its validity block has exactly the 14 I1 checks (none missing, none extra), all `true`;
+- its diagnostics bind the run and every arm to its `manifest.json`;
+- this machine reproduces that manifest exactly.
 
 It then writes the approval into both registry files at once:
 
@@ -113,7 +119,7 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (225 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (242 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash

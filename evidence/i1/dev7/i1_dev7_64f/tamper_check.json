@@ -1,0 +1,159 @@
+{
+  "format": "cb-i1-tamper/1",
+  "run": "i1_dev7_64f",
+  "faults": 21,
+  "all_detected": true,
+  "results": [
+    {
+      "fault": null,
+      "all_valid": true
+    },
+    {
+      "fault": "store goal completed_cycle altered",
+      "arm": "FIXED_SCAFFOLD",
+      "check": "fidelity_to_frozen_v036_driver",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "capability after goal 1 altered",
+      "arm": "FIXED_SCAFFOLD",
+      "check": "fidelity_to_frozen_v036_driver",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "intervention mark tick differs from NORMAL",
+      "arm": "DONOR",
+      "check": "replay_bit_exact_before_every_intervention",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "pre-intervention digest differs from NORMAL",
+      "arm": "ERASED",
+      "check": "replay_bit_exact_before_every_intervention",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "intervention applied at the wrong tick",
+      "arm": "ROLLBACK",
+      "check": "interventions_applied_exactly_as_planned",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "intervention in an unplanned arm",
+      "arm": "NORMAL",
+      "check": "interventions_applied_exactly_as_planned",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "goal erase has no effect",
+      "arm": "AUTHORITY_GOAL",
+      "check": "store_authority_controls_change_the_individual",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "skills erase has no effect",
+      "arm": "AUTHORITY_SKILLS",
+      "check": "store_authority_controls_change_the_individual",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "curriculum erase has no effect",
+      "arm": "AUTHORITY_CURRICULUM",
+      "check": "store_authority_controls_change_the_individual",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "driver-side model forward",
+      "arm": "PERSIST_SAVE",
+      "check": "no_driver_side_model_forwards",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "cross-slot nested call",
+      "arm": "NORMAL",
+      "check": "no_driver_side_mechanism_calls",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "blocked driver-side call",
+      "arm": "ERASED",
+      "check": "no_driver_side_mechanism_calls",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "driver record disagrees with store lifecycle",
+      "arm": "NORMAL",
+      "check": "driver_record_matches_store_lifecycle",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "host never read its state",
+      "arm": "NORMAL",
+      "check": "host_state_read_from_store",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "arm error",
+      "arm": "PERSIST_RESUME",
+      "check": "no_errors",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "global randomness changed an individual",
+      "arm": "RNG_PERTURBED",
+      "check": "no_hidden_mutable_state",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "a frozen model changed during a life",
+      "arm": "DONOR",
+      "check": "no_hidden_mutable_state",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "authority abort by an unrelated exception",
+      "arm": "AUTHORITY_SKILLS",
+      "check": "store_authority_controls_change_the_individual",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "one arm ran different code (manifest)",
+      "arm": "DONOR",
+      "check": "manifest_consistent_across_arms",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "donor not the id-fixed partner",
+      "arm": "DONOR",
+      "check": "donor_pairing_fixed_by_ids",
+      "detected": true,
+      "all_valid": false
+    },
+    {
+      "fault": "sealed (preflight) view is value-free (no outcome-bearing counts)",
+      "arm": null,
+      "check": "sealed view is value-free",
+      "detected": true,
+      "all_valid": false
+    }
+  ]
+}

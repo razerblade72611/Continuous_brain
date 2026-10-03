@@ -92,8 +92,12 @@ that act *before* the family is spent, so nothing is opened if any of them fails
 
 `scripts/dev/i1_tamper_check.py RUN_DIR` copies a finished run and injects one fault per copy. It confirms
 that the check meant to catch each fault turns false, and that the sealed (preflight) view contains no
-outcome-bearing field. On `i1_dev7_64e` all **21 of 21** are detected, and the untampered copy is fully
-valid (`evidence/i1/dev7/i1_dev7_64e/tamper_check.json`).
+outcome-bearing field. On `i1_dev7_64f` all **21 of 21** are detected, and the untampered copy is fully
+valid (`evidence/i1/dev7/i1_dev7_64f/tamper_check.json`).
+
+The 14 checks are one schema, `evaluate.VALIDITY_KEYS`. Every report asserts it. The approval gate requires
+exactly those keys, all `true`, and the preflight's manifest binding. The lifecycle suite and the tests import
+the same tuple, so none of them can drift from it.
 
 | check | guards against | injected fault that it catches |
 |---|---|---|
@@ -112,56 +116,55 @@ valid (`evidence/i1/dev7/i1_dev7_64e/tamper_check.json`).
 | legacy_tree_unchanged, pins_verified | modification of, or drift in, the frozen legacy tree | — (checked by metadata hash and 28 pins) |
 | (sealed view) | the preflight revealing outcomes | counts that would reveal C2 appearing in `i1_validity.json` |
 
-## 4. Dev result: `i1_dev7_64e` (906232–906295, cloud CPU, ENGINEERING_ONLY, the code as delivered)
+## 4. Dev result: `i1_dev7_64f` (906332–906395, cloud CPU, ENGINEERING_ONLY, the code as delivered)
 
 All 14 validity checks hold. The runner reports **PASS** as the verdict this run *would* receive on a
-scientific family. Report SHA-256: `c827c209…0642`. Manifest: `875ccd54…b465` (84 code files, 28 legacy pins).
+scientific family. Report SHA-256: `92342365…1296`. Manifest: `39a65b40…cc21` (84 code files, 28 legacy pins).
+The approval gate, run on this run's genuine sealed view, behaves as specified in 20 of 20 cases
+(`scripts/dev/i1_approval_gate_check.py`; §6).
 
 | check | value | n | frozen threshold |
 |---|---|---|---|
 | C1 first goal endogenous (targets the fragile commitment) | 1.000 | 64 | 0.95 |
-| C2 first goal completes (store lifecycle) | 0.938 | 64 | 0.80 |
+| C2 first goal completes (store lifecycle) | 0.922 | 64 | 0.80 |
 | C3 history guides the initial strategy | 1.000 | 64 | 0.95 |
-| C4 second goal authored | 1.000 | 60 | 0.95 |
-| C5 curriculum advances | 1.000 | 60 | 0.95 |
+| C4 second goal authored | 1.000 | 59 | 0.95 |
+| C5 curriculum advances | 1.000 | 59 | 0.95 |
 | C6 erased autobiography → no goal | 1.000 | 64 | 1.0 |
 | C7 donor autobiography flips the goal | 1.000 | 64 | 0.95 |
-| C8 rolled-back autobiography repeats the goal | 1.000 | 60 | 0.95 |
-| C9 updated vs rolled-back second goals differ | 1.000 | 60 | 0.95 |
+| C8 rolled-back autobiography repeats the goal | 1.000 | 59 | 0.95 |
+| C9 updated vs rolled-back second goals differ | 1.000 | 59 | 0.95 |
 | C10 persistence bit-exact (digest, tick, life trace) | 1.000 | 64 | 1.0 |
 
 Other measurements from the same run:
 
-- **Accounting:** 802,462 model forwards, all host-side, none driver-side. Zero blocked, unbound or
-  cross-slot calls. 200 replay checks.
+- **Accounting:** 798,349 model forwards, all host-side, none driver-side. Zero blocked, unbound or
+  cross-slot calls. 199 replay checks.
 - **Hidden state:** all 64 RNG-perturbed twins match NORMAL in final store digest, final tick and life
   trace. The frozen-object digests form one set across every life of every runtime arm. All 64 donor
   entries follow `sid XOR 1`, and each DONOR store held exactly the partner's autobiography after the
   intervention.
-- **Authority controls:** in every one of the 12 lives, the second half changed or aborted.
-  - Erasing the skills state makes the controller raise "developmental phases are not initialized", the
-    only abort accepted.
-  - Erasing the goal lifecycle means no second goal is requested.
-  - Erasing the curriculum means the curriculum has no previous goal to compare against.
+- **Authority controls:** in every one of the 12 lives, the second half changed, or aborted with the
+  accepted error.
 
 **Secondary (reported, never gating):**
 
 - **S1, first half identical under the controller and under fixed SCAFFOLD: 1.0** (n = 64), as predicted.
-- **S2, goal-2 episodes pursued DIRECT: 1.0** (818 episodes), as predicted.
-- **S3, goal-2 completion: controller 0.350 vs fixed SCAFFOLD 0.517** (n = 60). Paired difference −0.167,
-  95% CI [−0.283, −0.033]. Registered as estimation-only.
+- **S2, goal-2 episodes pursued DIRECT: 1.0** (835 episodes), as predicted.
+- **S3, goal-2 completion: controller 0.322 vs fixed SCAFFOLD 0.508** (n = 59). Paired difference −0.186,
+  95% CI [−0.288, −0.102]. Registered as estimation-only.
 - **S4, the mechanism at matched goal-2 checks** (preregistered after ChatGPT's review, estimation-only).
   Population: first-goal completers of both arms. At check k, only individuals still pursuing in **both** arms
   are counted. Deltas are measured from check 0; the CI is a paired bootstrap.
 
   | k | n at risk | reliability gain: controller / fixed | paired difference [95% CI] | capability gain: controller / fixed | paired difference [95% CI] |
   |---|---|---|---|---|---|
-  | 1 | 60 | −0.056 / −0.021 | −0.035 [−0.050, −0.020] | 0.037 / 0.045 | −0.009 [−0.014, −0.004] |
-  | 2 | 60 | −0.066 / −0.013 | −0.053 [−0.072, −0.035] | 0.069 / 0.082 | −0.013 [−0.020, −0.007] |
-  | 4 | 55 | −0.079 / −0.006 | −0.073 [−0.098, −0.049] | 0.123 / 0.138 | −0.014 [−0.022, −0.008] |
+  | 1 | 59 | −0.043 / −0.019 | −0.025 [−0.038, −0.013] | 0.043 / 0.050 | −0.007 [−0.011, −0.003] |
+  | 2 | 58 | −0.068 / −0.023 | −0.045 [−0.064, −0.026] | 0.076 / 0.089 | −0.013 [−0.020, −0.008] |
+  | 4 | 56 | −0.067 / −0.015 | −0.052 [−0.073, −0.032] | 0.129 / 0.143 | −0.014 [−0.022, −0.008] |
 
-  Descriptively, goal-2 episodes under the controller average 2.84 successful and 0.16 failed work steps. Under
-  fixed SCAFFOLD they average 1.98 successful and 0.018 failed.
+  Descriptively, goal-2 episodes under the controller average 2.86 successful and 0.14 failed work steps. Under
+  fixed SCAFFOLD they average 1.98 successful and 0.019 failed.
 
 **What S3 and S4 mean.** The developmental controller and the goal system value different things. The
 mechanism is in the frozen v0.33 world (`self_development_loop_v1.py`, `evaluate_self_development_loop_v1.py`):
@@ -172,8 +175,8 @@ mechanism is in the frozen v0.33 world (`self_development_loop_v1.py`, `evaluate
 | surprise probability per work step | 0.15 (1−c) | 0.85 (1−c) |
 | capability gain per successful work step | 0.13 (1−c) | 0.085 (1−c) |
 
-DIRECT buys **throughput**: about 43% more successful work per episode in this run. It pays in learning, with
-smaller capability gains, and in surprises, about 9 times as many failed steps. The second goal is scored on
+DIRECT buys **throughput**: about 44% more successful work per episode in this run. It pays in learning, with
+smaller capability gains, and in surprises, about 7 times as many failed steps. The second goal is scored on
 the self-model's reliability, which surprises lower, and no I1 outcome measures throughput. The controller
 graduates to DIRECT on reliability alone, and the goal then asks for reliability that DIRECT practice erodes.
 So the frozen mechanisms are coherent and causally coupled, but they disagree about what progress is.
@@ -195,9 +198,10 @@ engineering-motivated.
 | i1_dev7_64b | 906744–906807 | 9f0949d | −0.150 | [−0.283, −0.017] | `i1_dev7_64b/` |
 | i1_dev7_64c | 906808–906871 | before ChatGPT amendments | −0.310 | [−0.431, −0.190] | `i1_dev7_64c/` |
 | i1_dev7_64d | 906032–906095 | amended, before the third verification | −0.203 | [−0.339, −0.068] | `i1_dev7_64d/` |
-| i1_dev7_64e | 906232–906295 | as delivered | −0.167 | [−0.283, −0.033] | `i1_dev7_64e/` |
+| i1_dev7_64e | 906232–906295 | before ChatGPT's binary verification | −0.167 | [−0.283, −0.033] | `i1_dev7_64e/` |
+| i1_dev7_64f | 906332–906395 | as delivered | −0.186 | [−0.288, −0.102] | `i1_dev7_64f/` |
 
-All six point the same way, including the five runs whose validity checks all held, but the size varies with the
+All seven point the same way, including the six runs whose validity checks all held, but the size varies with the
 individuals. The scientific family will give the
 estimate that counts.
 
@@ -245,7 +249,13 @@ It will get its own preregistration. I1 is not modified: it closes first, as the
   - RNG_PERTURBED was missing from the no-intervention list;
   - the science run did not re-check the registry at the end, and now blocks if it changed.
 
-  `i1_dev7_64e` is the run of the delivered code.
+- **ChatGPT's independent binary verification** of `95da5d5` reproduced every hash, the 530-file evidence
+  manifest, 14/14 validity, C1–C10, 21/21 tamper detection and all 225 tests. Re-evaluated in a different
+  environment, it differed only in 13 last-bit floating-point values of S4. It also found one real pre-approval
+  blocker: `approve()` accepted any all-true validity block, and the lifecycle suite and a test helper still
+  used the old 12-check list. ChatGPT demonstrated an approval with the two dev7 checks omitted. The previous
+  verifier had noted the key-set weakness, and I left it as a note instead of fixing it; that was my error.
+  It is fixed (§6), and `i1_dev7_64f` is the run of the fixed code.
 - **Cloud preflight incident.** `i1-v1-preflight-eng` (907000–907063) was consumed by mistake in the cloud on
   2026-10-02. It is recorded as spent and replaced by `i1-v1-preflight-eng-b` (907100–907163). The sealed
   report (`8c061c1e…`) has not been opened.
@@ -267,8 +277,9 @@ It will get its own preregistration. I1 is not modified: it closes first, as the
 | ChatGPT | science freeze | `decision_rule.science_freeze` lists everything frozen at approval, the manifest rules, and the binding of the mutable registry records (`registry_binding` in `seed_opened.json` and the science report) |
 | ChatGPT | register the S3 mechanism | S4: k ∈ {1, 2, 4}, the at-risk rule, paired bootstrap; estimation-only and labelled engineering-motivated |
 | ChatGPT | approval | David's alone; Claude, the author, and ChatGPT, the verifier, do not approve |
+| ChatGPT (binary verification) | `approve()` accepted any all-true validity block; the suite and tests used the old 12-check list | `evaluate.VALIDITY_KEYS` is the single schema; approval requires exactly those 14 keys, all true, and every arm bound to `manifest.json`; the suite and tests import it; parametrized negative tests for each omission, the old schema, unknown keys and binding faults; `scripts/dev/i1_approval_gate_check.py` checks the gate on a real run (20/20). The S3 archive was repackaged with a root-relative `SHA256SUMS` |
 
-Tests: 225 pass in every legal lifecycle state.
+Tests: 242 pass in every legal lifecycle state.
 
 ## 7. Path to the scientific I1
 
