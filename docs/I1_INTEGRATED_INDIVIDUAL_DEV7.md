@@ -126,11 +126,47 @@ Other measurements from the same run:
 - **S3, goal-2 completion: controller 0.224 vs fixed SCAFFOLD 0.534** (n = 58). Paired difference −0.310,
   bootstrap 95% CI [−0.431, −0.190]. Registered as estimation-only.
 
-  This is the new thing that integration reveals, and it is a cost. In isolation, the developmental
-  controller was right to graduate a mastered commitment to DIRECT. In the integrated individual, the
-  second self-authored goal needs further reliability gains on the same commitment, and DIRECT practice
-  produces them less often than SCAFFOLD does. Together, the frozen mechanisms are coherent and
-  causally coupled, but they are not jointly optimal. That is what to work on after I1.
+  This is the new thing that integration reveals: the developmental controller and the goal system
+  value different things. The mechanism is in the frozen v0.33 world (`self_development_loop_v1.py` and
+  `evaluate_self_development_loop_v1.py`):
+
+  | per episode at capability c | SCAFFOLD | DIRECT |
+  |---|---|---|
+  | work steps | 2 (of 4) | 3 (of 4) |
+  | surprise probability per work step | 0.15 (1−c) | 0.85 (1−c) |
+  | capability gain per successful work step | 0.13 (1−c) | 0.085 (1−c) |
+  | expected successful work steps, c = 0.8 | 1.94 | 2.49 |
+
+  DIRECT buys **throughput**, more successful work per episode, and pays in learning and surprises.
+  The second goal is scored on the self-model's reliability, which surprises lower, and no I1 outcome
+  measures throughput. The controller graduates to DIRECT on reliability alone, and the goal then asks
+  for reliability that DIRECT practice erodes.
+
+  **Engineering diagnostic** `i1_s3_trace60` (906940–906999; `scripts/dev/i1_s3_trace.py`;
+  `evidence/i1/dev7/s3_trace/`). The arms run unchanged under a read-only tracer. Each traced life
+  reproduces its untraced twin's final store digest, tick and life trace. For the 54 lives that complete
+  the first goal in both arms, at matched goal-2 episode counts:
+
+  | after k goal-2 episodes | k = 1 | k = 2 | k = 4 |
+  |---|---|---|---|
+  | reliability gain, controller (DIRECT) | −0.021 | −0.037 | −0.042 |
+  | reliability gain, fixed SCAFFOLD | +0.002 | +0.005 | +0.009 |
+  | capability gain, controller | 0.040 | 0.070 | 0.120 |
+  | capability gain, fixed SCAFFOLD | 0.046 | 0.080 | 0.134 |
+  | lives still pursuing (controller / fixed) | 54 / 54 | 54 / 54 | 53 / 51 |
+
+  Comparisons at larger k suffer from survivorship, because the fixed arm's remaining lives are its hard
+  cases, so they are not used.
+
+  An earlier reading in the dev7 discussion was wrong: it said the controller arm ended with *higher*
+  capability (0.993 vs 0.976). That gap is an episode-count confound. Unfinished goals run all 16
+  episodes, and the controller arm practised 15.1 episodes on average against 11.6.
+
+  So the frozen mechanisms are coherent and causally coupled, and they disagree about what progress is.
+  That is the problem for after I1: development and goals need a shared account of what the individual
+  is trying to become (for example, a controller that keeps scaffolding while a goal on that commitment
+  is open, or goals that value competence and throughput, not only self-predictability). Either would
+  be a new mechanism, with its own preregistration.
 
 **The same estimate on other disjoint cloud slices** (engineering; the author saw every one):
 
