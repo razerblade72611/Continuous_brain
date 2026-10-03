@@ -17,6 +17,7 @@ import hashlib
 import importlib
 import json
 import platform
+import random
 import sys
 import traceback
 from pathlib import Path
@@ -184,6 +185,35 @@ class Process:
         return rt, hosts
 
 
+def _tensor_digest(module: torch.nn.Module) -> str:
+    h = hashlib.sha256()
+    for k, v in module.state_dict().items():
+        t = v.detach().cpu().contiguous()
+        h.update(k.encode()); h.update(str(t.dtype).encode()); h.update(str(tuple(t.shape)).encode())
+        h.update(t.numpy().tobytes())
+    return h.hexdigest()
+
+
+def frozen_digests(P: "Process") -> dict:
+    """Digests of every process-level object the individual's mechanisms use but do not own in the store:
+    the shared frozen models and the fixed-parameter controller and generator. They must be identical
+    before and after every life, and identical across all lives and arms."""
+    def obj(o):
+        return hashlib.sha256(json.dumps({k: repr(v) for k, v in sorted(vars(o).items())}).encode()).hexdigest()
+    H = P.legacy_for_hosts
+    return {"trajectory_model": _tensor_digest(P.L["trajectory_model"]),
+            "neutral_model": _tensor_digest(H["neutral_model"]),
+            "controller": obj(H["controller"]), "generator": obj(H["generator"])}
+
+
+def perturb_global_rng(sid: int, tick: int) -> None:
+    """Re-seed torch, numpy and random with values unrelated to the life (RNG_PERTURBED control)."""
+    v = int.from_bytes(hashlib.sha256(f"i1-rng-perturb:{sid}:{tick}".encode()).digest()[:8], "big")
+    torch.manual_seed(v & 0x7FFFFFFFFFFFFFFF)
+    np.random.seed(v & 0xFFFFFFFF)
+    random.seed(v)
+
+
 def _summary(rt: UnifiedRuntime, hosts: dict, b: Boundary) -> dict:
     reads = {(r["reader"], r["channel"]): r for r in rt.store.read_report()}
     return {"ticks": rt.tick + 1, "store_calls": b.calls,
@@ -237,8 +267,16 @@ def run_arm(*, arm: str, sids: list[int], out_dir: str, legacy_root: str, plan_p
                     row["skipped"] = "no intervention planned for this individual"
                     f.write(json.dumps(row) + "\n"); continue
                 rt, hosts = P.runtime(ivs)
+                frozen_before = frozen_digests(P)
                 life = Life(P.L, Client(P.b), rt, sid, arm, horizon)
-                P.b.after_tick = life.on_tick
+                if arm == "RNG_PERTURBED":
+                    def hook(t, life=life, sid=sid):
+                        life.on_tick(t)
+                        perturb_global_rng(sid, t)
+                    perturb_global_rng(sid, -1)
+                    P.b.after_tick = hook
+                else:
+                    P.b.after_tick = life.on_tick
                 if arm == "PERSIST_RESUME":
                     d = out.parent / "PERSIST_SAVE" / "persist" / str(sid)
                     store = SnapshotStore(d / "snapshots")
@@ -272,6 +310,7 @@ def run_arm(*, arm: str, sids: list[int], out_dir: str, legacy_root: str, plan_p
                         P.evaluator_side["same_goal_semantics"](normal_goal, life.rec.second_goal))
                 row["record"] = _jsonable(life.rec.__dict__)
                 row["runtime"] = _summary(rt, hosts, P.b)
+                row["runtime"]["frozen_before"], row["runtime"]["frozen_after"] = frozen_before, frozen_digests(P)
             except Exception as e:
                 row["error"] = f"{type(e).__name__}: {e}"
                 row["traceback"] = traceback.format_exc()[-4000:]

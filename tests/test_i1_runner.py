@@ -223,6 +223,7 @@ def test_plans_target_the_recorded_ticks():
     assert plans["ERASED"]["10"][0] == {"kind": "erase", "target": "autobiography.state", "start_tick": 40,
                                         "end_tick": 41, "why": "erase autobiography after birth imprint"}
     assert plans["DONOR"]["10"][0]["payload_b64"] == "QkI=" and plans["DONOR"]["11"][0]["payload_b64"] == "QUE="
+    assert plans["DONOR"]["10"][0]["donor_sid"] == 11 and plans["DONOR"]["11"][0]["donor_sid"] == 10   # fixed by ids
     rb = plans["ROLLBACK"]["10"]
     assert rb["interventions"][0]["start_tick"] == 120 and rb["interventions"][0]["payload_b64"] == "QUE="
     assert rb["compare"]["normal_second_goal"] == {"primary": 2}
@@ -320,3 +321,9 @@ def test_approval_refuses_an_invalid_or_foreign_preflight(tmp_path):
     with pytest.raises(runner.I1Refused, match="spent preflight"):
         runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
     assert json.loads((root / runner.PREREG_FILE).read_text())["status"] == "PROPOSED"
+
+
+def test_later_arms_include_the_hidden_state_control():
+    from continuous_brain_unified.integration import evaluate, life
+    assert "RNG_PERTURBED" in runner.LATER_ARMS and "RNG_PERTURBED" in life.ARMS and "RNG_PERTURBED" in evaluate.ARMS
+    assert evaluate.S4_K == (1, 2, 4)

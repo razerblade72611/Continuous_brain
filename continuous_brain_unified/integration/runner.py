@@ -79,7 +79,7 @@ DERIVED_OFFSETS = (70000, 90000)        # bootstrap records and episodes are see
 AUTHORITY_TARGETS = {"AUTHORITY_SKILLS": "skills.state", "AUTHORITY_GOAL": "goal_genesis.state",
                      "AUTHORITY_CURRICULUM": "curriculum.state"}
 AUTHORITY_N = 4                          # first-goal completers per authority control (lowest ids)
-LATER_ARMS = ("FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME",
+LATER_ARMS = ("FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME", "RNG_PERTURBED",
               *AUTHORITY_TARGETS)
 
 
@@ -189,8 +189,11 @@ def _plans(normal: dict[int, dict]) -> dict[str, dict]:
                                       "end_tick": t_imp + 1, "why": "erase autobiography after birth imprint"}]
         partner = normal.get(sid ^ 1, {}).get("record")
         if partner is not None:
+            # the donor of individual sid is sid XOR 1 (the other member of its even/odd pair): fixed by the
+            # ids alone before any arm runs, so donor selection cannot depend on any outcome
             plans["DONOR"][str(sid)] = [{"kind": "replace", "target": "autobiography.state", "start_tick": t_imp,
                                          "end_tick": t_imp + 1, "payload_b64": partner["birth_state_b64"],
+                                         "donor_sid": sid ^ 1,
                                          "why": f"donor birth autobiography of individual {sid ^ 1}"}]
         if rec["first_completed"] and "before_second" in rec["marks"]:
             t_b = rec["marks"]["before_second"]
@@ -318,6 +321,15 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
             "preflight_manifest_sha256": rec["manifest_sha256"]}
 
 
+def _registry_binding(prereg: dict) -> dict:
+    """The mutable approval/spend records are outside the code manifest; bind them here instead."""
+    central = REPO / "registry" / "preregistrations.json"
+    return {"design_sha256": design_digest(prereg), "prereg_file_sha256": sha256_file(REPO / PREREG_FILE),
+            "central_registry_sha256": sha256_file(central), "prereg_status": prereg.get("status"),
+            "approved_design_sha256": prereg.get("approved_design_sha256"),
+            "preflight_manifest_sha256": prereg.get("preflight_manifest_sha256")}
+
+
 def _blocked(run_dir: Path, mode: str, reason: str, man: dict) -> None:
     rep = {"format": "cb-i1-report/1", "status": "SCIENTIFIC" if mode == "science" else "ENGINEERING_ONLY",
            "run": run_dir.name, "mode": mode, "verdict": "BLOCKED", "reason": reason,
@@ -372,7 +384,8 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         reg.spend(fam, source=f"{PREREG_ID}:{mode}:{label}:opened")
         (run_dir / "seed_opened.json").write_text(json.dumps({"family": {**fam.as_dict(), "spent": True},
                                                               "spent_before_launch": True, "mode": mode,
-                                                              "utc": datetime.now(timezone.utc).isoformat()},
+                                                              "utc": datetime.now(timezone.utc).isoformat(),
+                                                              **_registry_binding(prereg)},
                                                              indent=2) + "\n")
     else:
         usage = REPO / "runs/dev/seed_usage.jsonl"
@@ -400,6 +413,7 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         raise
     if mode == "science":
         rep["prereg_id"], rep["manifest_sha256"] = PREREG_ID, man["manifest_sha256"]
+        rep["registry_binding"] = _registry_binding(prereg)
         (run_dir / "i1_report.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
     _e.print_report(rep)
     return run_dir

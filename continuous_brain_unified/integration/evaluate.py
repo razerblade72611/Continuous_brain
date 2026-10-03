@@ -10,9 +10,12 @@ Verdict structure
                          exactly as planned (tick, target, kind) and nowhere else, one manifest
                          across all arms, store authority controls, host state read from the store,
                          no driver-side mechanism calls or model forwards, no errors, legacy tree
-                         unchanged, pins verified
+                         unchanged, pins verified, no hidden mutable state (an RNG-perturbed twin
+                         of every NORMAL life is bit-identical; frozen models and fixed-parameter
+                         objects are unchanged before/after every life), donor pairing fixed by ids
   primary   C1-C10       rates against frozen thresholds
-  secondary S1-S3        preregistered predictions and the new integration outcome (reported)
+  secondary S1-S4        preregistered predictions, the new integration outcome, and its mechanism at
+                         matched goal-2 episodes (reported, never gating)
 Status is ENGINEERING_ONLY unless the run was made on a family an APPROVED preregistration opened.
 """
 from __future__ import annotations
@@ -23,7 +26,8 @@ from pathlib import Path
 AUTHORITY_ARMS = ["AUTHORITY_SKILLS", "AUTHORITY_GOAL", "AUTHORITY_CURRICULUM"]
 PLANNED = ["ERASED", "DONOR", "ROLLBACK", *AUTHORITY_ARMS]
 ARMS = ["LEGACY_REF", "NORMAL", "FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME",
-        *AUTHORITY_ARMS]
+        "RNG_PERTURBED", *AUTHORITY_ARMS]
+S4_K = (1, 2, 4)            # preregistered matched goal-2 checkpoints for the S4 mechanism analysis
 MARK_OF = {"ERASED": "imprint", "DONOR": "imprint", "ROLLBACK": "before_second",
            **{a: "before_second" for a in AUTHORITY_ARMS}}
 # an AUTHORITY abort counts only if it is the erased mechanism's own error for missing state
@@ -47,7 +51,38 @@ def goal_fields(g):
     return None if g is None else {k: v for k, v in g.items() if k != "__type__"}
 
 
-def bootstrap_diff(a: list[bool], b: list[bool], n_boot: int = 5000, seed: int = 0):
+def s4_mechanism(N: dict, F: dict, both: list) -> dict:
+    """S4 (preregistered secondary, estimation only, non-gating): the S3 mechanism at matched goal-2
+    checkpoints k in S4_K. For each k, the at-risk individuals are the first-goal completers of both arms
+    whose goal-2 pursuit reached check k in BOTH arms (still pursuing after k episodes, by the store-held
+    lifecycle's own completion check). Deltas are from check 0 of the same pursuit:
+      reliability: the goal commitment's self-model reliability (what the goal is scored on)
+      capability:  the environment's true capability on that commitment
+    Reported: per-arm means, the paired difference controller - fixed with the paired bootstrap 95% CI
+    (5000 resamples, seed 0, as S3). Descriptive only: successful work steps (throughput) and failed work
+    steps (surprises) per goal-2 episode, from the frozen episode metrics."""
+    out = {"k": {}, "definition": "at-risk = reached goal-2 check k in both arms; deltas from check 0"}
+    for k in S4_K:
+        risk = [s for s in both if len(N[s]["second_series"]) > k and len(F[s]["second_series"]) > k]
+        row = {"n_at_risk": len(risk)}
+        for q in ("reliability", "capability"):
+            a = [N[s]["second_series"][k][q] - N[s]["second_series"][0][q] for s in risk]
+            b = [F[s]["second_series"][k][q] - F[s]["second_series"][0][q] for s in risk]
+            row[q] = {"controller_mean_gain": (sum(a) / len(a)) if a else None,
+                      "fixed_scaffold_mean_gain": (sum(b) / len(b)) if b else None,
+                      "paired_difference": ((sum(a) - sum(b)) / len(a)) if a else None,
+                      "paired_bootstrap_95ci": bootstrap_diff(a, b)}
+        out["k"][str(k)] = row
+    for name, R in (("controller", N), ("fixed_scaffold", F)):
+        eps = [e for s in both for e in R[s]["second_series"] if "work_successes" in e]
+        out[f"descriptive_{name}"] = {
+            "episodes": len(eps),
+            "successful_work_steps_per_episode": (sum(e["work_successes"] for e in eps) / len(eps)) if eps else None,
+            "failed_work_steps_per_episode": (sum(e["work_failures"] for e in eps) / len(eps)) if eps else None}
+    return out
+
+
+def bootstrap_diff(a: list, b: list, n_boot: int = 5000, seed: int = 0):
     """Paired bootstrap CI for mean(a) - mean(b) over individuals (same individuals in both)."""
     if not a:
         return None
@@ -172,6 +207,19 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
     unbound = sum(sum(r["runtime"].get("unbound_calls", {}).values()) for r in lives)
     driver_matches_store = all(r["first_completed"] == r["first_completed_store"]
                                for r in N.values() if r and r["first_goal"] is not None)
+    # no hidden mutable state: global randomness does not matter, and no process-level object changes
+    rng_twins = [s for s in sids if "record" in A["RNG_PERTURBED"].get(s, {})]
+    rng_ok = len(rng_twins) == len(sids) and all(
+        (A["RNG_PERTURBED"][s]["record"]["final_store_digest"], A["RNG_PERTURBED"][s]["record"]["final_tick"],
+         A["RNG_PERTURBED"][s]["record"]["life_trace_sha256"]) ==
+        (N[s]["final_store_digest"], N[s]["final_tick"], N[s]["life_trace_sha256"]) for s in rng_twins)
+    frozen = [json.dumps(r["runtime"].get(k), sort_keys=True) for r in lives for k in ("frozen_before", "frozen_after")]
+    frozen_ok = bool(frozen) and len(set(frozen)) == 1 and json.loads(frozen[0]) is not None
+    # donor pairing fixed by ids: the donor of sid is sid XOR 1, its birth autobiography exactly
+    dplan = json.loads((run / "plan_DONOR.json").read_text()) if (run / "plan_DONOR.json").is_file() else {}
+    donor_ok = set(dplan) == {str(s) for s in sids} and all(
+        len(e) == 1 and e[0].get("donor_sid") == int(sid) ^ 1 and
+        e[0].get("payload_b64") == N[int(sid) ^ 1]["birth_state_b64"] for sid, e in dplan.items())
     safety = json.loads((run / "safety.json").read_text()) if (run / "safety.json").is_file() else {}
     validity = {"fidelity_to_frozen_v036_driver": all(fid) and len(fid) == len(sids),
                 "replay_bit_exact_before_every_intervention": all(replay) and bool(replay),
@@ -182,6 +230,8 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
                 "driver_record_matches_store_lifecycle": driver_matches_store,
                 "no_driver_side_model_forwards": driver_forwards == 0 and host_forwards > 0,
                 "no_driver_side_mechanism_calls": blocked == 0 and unbound == 0 and cross_nested == 0,
+                "no_hidden_mutable_state": rng_ok and frozen_ok,
+                "donor_pairing_fixed_by_ids": donor_ok,
                 "no_errors": not any(errors.values()),
                 "legacy_tree_unchanged": safety.get("legacy_tree_unchanged") is True,
                 "pins_verified": safety.get("pins_verified") is True}
@@ -248,6 +298,9 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
                                       "difference_controller_minus_fixed": (rate(nc)[0] - rate(fc)[0]) if both else None,
                                       "paired_bootstrap_95ci": bootstrap_diff(nc, fc),
                                       "prediction": "estimation only: no directional prediction registered"},
+        "S4_mechanism_matched_episodes": {**s4_mechanism(N, F, both),
+                                          "status": "preregistered secondary; estimation only; engineering-motivated "
+                                                    "(defined after the dev7 diagnostic); not an admission criterion"},
     }
     verdict = ("BLOCKED" if not valid else
                "PASS" if all(p["meets"] for p in primary.values()) else "FAIL")
@@ -256,7 +309,11 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
                    "authority_controls": authority, "arm_manifests": arm_manifests,
                    "expected_manifest_sha256": want_manifest, "host_side_model_forwards": host_forwards,
                    "driver_side_model_forwards": driver_forwards, "cross_slot_nested_calls": cross_nested,
-                   "host_blocked_calls": blocked, "unbound_calls": unbound}
+                   "host_blocked_calls": blocked, "unbound_calls": unbound,
+                   "rng_perturbed_twins_identical": sum(1 for s in rng_twins if
+                                                        A["RNG_PERTURBED"][s]["record"]["final_store_digest"] ==
+                                                        N[s]["final_store_digest"]),
+                   "frozen_object_digest_sets": len(set(frozen)), "donor_plan_entries": len(dplan)}
     report = {"format": "cb-i1-report/2", "status": "SCIENTIFIC" if scientific else "ENGINEERING_ONLY",
               "run": run.name, "n": len(sids),
               "individuals": [sids[0], sids[-1]], "authored_first_goal": len(authored), "first_goal_completers": len(completers),

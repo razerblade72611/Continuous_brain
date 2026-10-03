@@ -32,6 +32,11 @@ replayed bit-exactly up to that tick):
             this individual's own birth autobiography
   PERSIST   save the runtime (SnapshotStore) and the driver's environment state just
             before the second-goal decision; a new process restores and finishes
+  RNG_PERTURBED
+            (validity control) the NORMAL life with the process's global random generators
+            (torch, numpy, random) re-seeded with unrelated values before birth and after every
+            tick. It must reproduce NORMAL bit-exactly: no behaviour may depend on global
+            randomness outside the store-held state and the per-episode seeded environment.
   AUTHORITY_SKILLS / AUTHORITY_GOAL / AUTHORITY_CURRICULUM
             (validity controls) ERASE skills.state / goal_genesis.state / curriculum.state just
             before the second-goal decision. If the store is authoritative the second half must
@@ -51,7 +56,7 @@ from ..composition.codec import encode
 from .hosts import state_channel
 
 AUTHORITY_ARMS = {"AUTHORITY_SKILLS": "skills", "AUTHORITY_GOAL": "goal_genesis", "AUTHORITY_CURRICULUM": "curriculum"}
-ARMS = ("NORMAL", "FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME",
+ARMS = ("NORMAL", "FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "PERSIST_RESUME", "RNG_PERTURBED",
         *AUTHORITY_ARMS)
 
 
@@ -84,6 +89,7 @@ class LifeRecord:
     first_completed: bool = False
     first_completion_cycle: Any = None
     first_episodes: int = 0
+    first_series: list = field(default_factory=list)   # per check k: goal-commitment reliability, capability, episode
     capability_after_first: Any = None                 # environment capabilities at the second-goal decision
     first_goal_store_status: Any = None                # the goal host's store-held lifecycle at that decision
     first_completed_store: bool | None = None
@@ -93,6 +99,7 @@ class LifeRecord:
     second_completed: bool = False
     second_completion_cycle: Any = None
     second_episodes: int = 0
+    second_series: list = field(default_factory=list)
     capability_start: Any = None
     capability_end: Any = None
     final_tick: int | None = None
@@ -133,11 +140,22 @@ class Life:
     def _rel(self):
         return self.c("autobiography", "reliability")
 
-    def _pursue(self, cycle_base: int, strategies: list) -> tuple[bool, Any, int]:
+    def _observe(self, series: list, k: int, rel, primary: int) -> dict:
+        """Driver-side observation at check k (no store call, no RNG use): the goal commitment's
+        self-model reliability (from the reliability the driver just received) and the environment's
+        true capability on that commitment."""
+        entry = {"k": k, "reliability": float(self.L["reliability_for_primary"](rel, primary)),
+                 "capability": float(self.env.capability_for(primary))}
+        series.append(entry)
+        return entry
+
+    def _pursue(self, cycle_base: int, strategies: list, series: list, authored_goal) -> tuple[bool, Any, int]:
         L = self.L
         episodes = 0
+        target_primary = int(authored_goal.primary)        # an authored field: fixed for the goal's lifetime
         for k in range(self.H):
             rel = self._rel()
+            entry = self._observe(series, k, rel, target_primary)
             if self.c("goal_genesis", "check_target", rel, cycle_base + k):
                 self._note("complete", cycle_base + k)
                 return True, cycle_base + k, episodes
@@ -148,13 +166,16 @@ class Life:
             else:
                 strategy = int(self.c("skills", "choose", primary, L["reliability_for_primary"](rel, primary)))
             strategies.append(strategy)
-            record, _ = L["execute_development_episode"](self.traj, self.sid, cycle_base + k, primary, strategy,
-                                                          self.env)
+            record, metrics = L["execute_development_episode"](self.traj, self.sid, cycle_base + k, primary, strategy,
+                                                                self.env)
+            entry.update(strategy=strategy, work_successes=int(metrics["work_successes"]),
+                         work_failures=int(metrics["work_failures"]))
             self.c("autobiography", "append", record)
             self.env.cycle += 1
             episodes += 1
             self._note("episode", k, primary, strategy)
         rel = self._rel()
+        self._observe(series, self.H, rel, target_primary)
         if self.c("goal_genesis", "check_target", rel, cycle_base + self.H):
             self._note("complete", cycle_base + self.H)
             return True, cycle_base + self.H, episodes
@@ -187,7 +208,7 @@ class Life:
                                                       int(L["STRATEGY_DIRECT"]), self.env)
         self.c("autobiography", "append", record)
         self._note("interrupt")
-        done, cyc, n = self._pursue(0, self.rec.first_strategies)
+        done, cyc, n = self._pursue(0, self.rec.first_strategies, self.rec.first_series, goal)
         self.rec.first_completed, self.rec.first_completion_cycle, self.rec.first_episodes = done, cyc, n
         self.rec.capability_after_first = [float(self.env.capability_a), float(self.env.capability_b)]
         self._mark("before_second")
@@ -207,7 +228,7 @@ class Life:
             self.rec.second_observation = self.c("curriculum", "observe", goal2)
             self._note("second_goal", goal2)
             if goal2 is not None and self.arm != "ROLLBACK":
-                done, cyc, n = self._pursue(100, self.rec.second_strategies)
+                done, cyc, n = self._pursue(100, self.rec.second_strategies, self.rec.second_series, goal2)
                 self.rec.second_completed, self.rec.second_completion_cycle, self.rec.second_episodes = done, cyc, n
         self.finish()
 

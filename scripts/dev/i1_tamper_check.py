@@ -77,6 +77,10 @@ def faults(src: Path) -> list[tuple]:
         ("host never read its state", "NORMAL",
          lambda R: _first(R)["runtime"]["state_reads_nonempty"].__setitem__("curriculum", 0), "host_state_read_from_store"),
         ("arm error", "PERSIST_RESUME", lambda R: _first(R).__setitem__("error", "injected"), "no_errors"),
+        ("global randomness changed an individual", "RNG_PERTURBED",
+         lambda R: _first(R)["record"].__setitem__("final_store_digest", "0" * 64), "no_hidden_mutable_state"),
+        ("a frozen model changed during a life", "DONOR",
+         lambda R: _first(R)["runtime"]["frozen_after"].__setitem__("neutral_model", "0" * 64), "no_hidden_mutable_state"),
         ("authority abort by an unrelated exception", "AUTHORITY_SKILLS",
          lambda R: [r.__setitem__("aborted", "ValueError: unrelated crash") for r in R if "aborted" in r],
          "store_authority_controls_change_the_individual"),
@@ -110,6 +114,15 @@ def main() -> int:
         out.append({"fault": "one arm ran different code (manifest)", "arm": "DONOR",
                     "check": "manifest_consistent_across_arms", "detected": v["manifest_consistent_across_arms"] is False,
                     "all_valid": all(v.values())})
+        d = Path(tmp) / "donor"
+        shutil.copytree(src, d, ignore=ignore)
+        plan = json.loads((d / "plan_DONOR.json").read_text())
+        k0 = sorted(plan)[0]
+        plan[k0][0]["donor_sid"] = int(k0) + 2                          # a donor chosen by something other than ids
+        (d / "plan_DONOR.json").write_text(json.dumps(plan))
+        v = evaluate(d)["validity"]
+        out.append({"fault": "donor not the id-fixed partner", "arm": "DONOR", "check": "donor_pairing_fixed_by_ids",
+                    "detected": v["donor_pairing_fixed_by_ids"] is False, "all_valid": all(v.values())})
         d = Path(tmp) / "sealed_view"
         shutil.copytree(src, d, ignore=ignore)
         visible = evaluate(d, sealed=True)

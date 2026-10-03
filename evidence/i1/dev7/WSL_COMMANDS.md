@@ -33,7 +33,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the dev7 commits above `3dda2fe` (the exact hashes are in chat).
-- **Tests:** they must report **223 passed**.
+- **Tests:** they must report **224 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -48,14 +48,14 @@ python scripts/i1_run.py --print-design-digest
 
 **Stop conditions for Stage A:**
 
-- **The dev run** prints one line per arm (11 lines, each `"errors": 0`), then a `"validity"` block with 12
+- **The dev run** prints one line per arm (12 lines, each `"errors": 0`), then a `"validity"` block with 14
   entries, all `true`. The block ends with `"proposed_verdict_if_this_were_a_scientific_family": "PASS"` (or
   `"FAIL"`, which is still valid engineering data). Stop if:
   - it crashes before printing that block;
   - any validity entry is `false`;
   - it says `BLOCKED`.
-- **The tamper check** prints one `BASE` line, then 18 `ok` lines, then `ALL DETECTED`.
-- **The design digest** is `ca3977a9f74d477b83aab4e7704c6625668befea535668f219faaf40ec50932f`. If it isn't,
+- **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
+- **The design digest** is `7a79aff80d2bc8438bf78f4dc0ec59c9ca5224c44d013caa6e1800576ac12e66`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -67,7 +67,7 @@ python scripts/i1_preflight.py --legacy-root ~/projects/continuous_brain_v0.12.2
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
 
-The preflight prints one line per arm, then the 12 validity entries and the SHA-256 of the sealed report.
+The preflight prints one line per arm, then the 14 validity entries and the SHA-256 of the sealed report.
 Nothing else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
 the arms' `lives.jsonl` files and plans also contain them. None of these files are encrypted, so please
 don't open them, and don't send them. The tar command below sends only the preflight's value-free files.
@@ -112,7 +112,7 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (223 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (224 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
