@@ -6,7 +6,17 @@
 - **Redirects.** All five specs are installed. Driver-side calls to a mechanism's API are blocked; host-side calls run the frozen code and are counted. Model forwards are accounted host-side vs driver-side.
 - **Runner.** Three modes: dev (confined to a slice of one registered engineering family, with derived ids checked), preflight (single-use family, values withheld from display and committed by SHA-256, not encrypted) and science (needs APPROVED, `approved_design_sha256 == design_digest`, a manifest equal to the preflight's, and `--confirm-open`). Pins and the historical core are verified before any family is registered. A failure after the spend writes a BLOCKED report. The manifest covers all 84 code files by repo path and is recomputed inside every arm. Approval is one checked act, `scripts/i1_approve.py`, which sets both registry files.
 - **Preregistration.** `registry/i1_integration_v1.json`, `I1-INTEGRATED-INDIVIDUAL-v1`, is PROPOSED. Scientific family `i1-v1-dev` 328000–328127 (moved from 320000–320127 before registration, after a conservative derived-id check) and preflight family `i1-v1-preflight-eng-b` 907100–907163; neither is registered. `i1-v1-preflight-eng` (907000–907063) was consumed by mistake in the cloud and is recorded as spent; its sealed report has not been opened.
-- **Independent review.** All 13 findings from a fresh reviewer agent (14 table rows, because verification-before-registration is listed separately) are fixed (see `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §6). An independent verification of the first dev7 package found four more issues (the approval procedure, a C2 leak in the preflight view, permissive authority aborts, a derived-id coincidence); all are fixed. `scripts/dev/i1_tamper_check.py` checks 18 properties; every one is detected.
+- **Independent review.** All findings from a fresh reviewer agent are fixed (see `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §6). Two independent verifications of the packages found eight more issues, all fixed:
+  - the approval procedure;
+  - a C2 leak in the preflight view;
+  - permissive authority aborts;
+  - a derived-id coincidence;
+  - a tamper-tool crash on small runs;
+  - a plan-only donor check;
+  - the RNG arm missing from the no-intervention list;
+  - no end-of-run registry re-check.
+
+  `scripts/dev/i1_tamper_check.py` checks 21 properties; every one is detected.
 - **ChatGPT's second-author review**, all addressed before any I1 family was registered:
   - **Scope:** stated as a five-mechanism milestone that does not close G1.
   - **Store authority:** an explicit invariant, checked mechanically by the RNG_PERTURBED arm and frozen-object digests (validity `no_hidden_mutable_state`).
@@ -14,9 +24,9 @@
   - **Science freeze:** written out, with the manifest rules and a registry binding at the spend.
   - **S4:** the S3 mechanism at matched goal-2 checks k ∈ {1, 2, 4}, preregistered as estimation-only.
   - **Approval:** David's alone.
-- **Dev result.** `i1_dev7_64d` (906032–906095, cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.356 vs 0.559, difference −0.203, 95% CI [−0.339, −0.068]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.035, −0.041 and −0.055 at k = 1, 2 and 4), and capability gains are slightly smaller. Engineering data, estimation only. Five disjoint slices all give a negative S3.
+- **Dev result.** `i1_dev7_64e` (906232–906295, cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.350 vs 0.517, difference −0.167, 95% CI [−0.283, −0.033]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.035, −0.053 and −0.073 at k = 1, 2 and 4), and capability gains are slightly smaller. Engineering data, estimation only. S3 is negative on all six disjoint slices, five of which passed validity.
 - **Disclosed.** `i1_dev7_64` (906680–906743) is BLOCKED by its own manifest check, because the version strings were bumped mid-run. It was repeated unchanged.
-- **Tests.** 224 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
+- **Tests.** 225 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
 - **Not claimed.** Consciousness, sentience, subjective experience, or anything beyond the frozen two-commitment world. No scientific family has been opened.
 
 ## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)

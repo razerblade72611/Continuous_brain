@@ -22,7 +22,8 @@ cd continuous_brain_v0.38.1.dev7_i1
 sha256sum /mnt/c/Users/davei/cb_exchange/Continuous_brain_v0.38.1.dev7_i1.zip
 unzip -q /mnt/c/Users/davei/cb_exchange/Continuous_brain_v0.38.1.dev7_i1.zip
 cd Continuous_brain
-git log --oneline -4
+git log --oneline -1
+git merge-base --is-ancestor 3dda2fe HEAD && echo BASE_OK
 cp ~/projects/continuous_brain_v0.38.1.dev6_composition_route/Continuous_brain/registry/seed_ranges.local.jsonl registry/
 export PYTHONPATH=$PWD
 python -m pytest -q -p no:cacheprovider tests/
@@ -32,8 +33,8 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 **Stop conditions so far:**
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
-- **`git log`:** it shows the dev7 commits above `3dda2fe` (the exact hashes are in chat).
-- **Tests:** they must report **224 passed**.
+- **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
+- **Tests:** they must report **225 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -55,7 +56,7 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The design digest** is `7a79aff80d2bc8438bf78f4dc0ec59c9ca5224c44d013caa6e1800576ac12e66`. If it isn't,
+- **The design digest** is `1ca74d5b44d84cc1b00be3619956881f944a387b8551938f2913cc0d7b3f37a4`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -112,7 +113,7 @@ It then writes the approval into both registry files at once:
   approved_design_sha256;
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (224 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (225 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash

@@ -7,3 +7,7 @@
 {"family": "cloud-dev-claude-eng", "start": 906940, "stop": 906999, "mechanism": "I1-S3-trace", "label": "i1_s3_trace60", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T00:54:19.731592+00:00"}
 {"family": "cloud-dev-claude-eng", "start": 906132, "stop": 906139, "mechanism": "I1-integration", "label": "i1_dev8_smoke_amend", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:21:59.838582+00:00"}
 {"family": "cloud-dev-claude-eng", "start": 906032, "stop": 906095, "mechanism": "I1-integration", "label": "i1_dev7_64d", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:23:35.267465+00:00"}
+{"family": "cloud-dev-claude-eng", "start": 906140, "stop": 906143, "mechanism": "I1-integration", "label": "verify7c", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:46:19.700884+00:00"}
+{"family": "cloud-dev-claude-eng", "start": 906140, "stop": 906143, "mechanism": "I1-integration", "label": "verify7c_old", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:46:19.700985+00:00"}
+{"family": "cloud-dev-claude-eng", "start": 906140, "stop": 906143, "mechanism": "I1-integration", "label": "verify7c_poscontrol", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:49:12.048782+00:00"}
+{"family": "cloud-dev-claude-eng", "start": 906232, "stop": 906295, "mechanism": "I1-integration", "label": "i1_dev7_64e", "purpose": "ENGINEERING_ONLY", "utc": "2026-10-03T02:54:08.360597+00:00"}
