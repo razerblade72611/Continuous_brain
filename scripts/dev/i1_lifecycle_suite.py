@@ -61,14 +61,14 @@ def _approve(copy: Path, tmp: Path) -> None:
     # the validity schema and the manifest come from the copy's own code (no hard-coded list here)
     _py(copy, f"""
 import json
-from continuous_brain_unified.integration.evaluate import VALIDITY_KEYS
+from continuous_brain_unified.integration.evaluate import ARMS, VALIDITY_KEYS
 from continuous_brain_unified.integration.runner import manifest
 m = manifest(2)
 open({str(d / 'manifest.json')!r}, 'w').write(json.dumps(m))
 open({str(d / 'i1_validity.json')!r}, 'w').write(json.dumps({{
     "valid": True, "validity": {{k: True for k in VALIDITY_KEYS}},
     "validity_diagnostics": {{"expected_manifest_sha256": m["manifest_sha256"],
-                              "arm_manifests": {{"NORMAL": m["manifest_sha256"], "DONOR": m["manifest_sha256"]}}}}}}))
+                              "arm_manifests": {{a: m["manifest_sha256"] for a in ARMS}}}}}}))
 """)
     env = dict(os.environ, PYTHONPATH=str(copy))
     env.pop("CONTINUOUS_BRAIN_REGISTRY", None)

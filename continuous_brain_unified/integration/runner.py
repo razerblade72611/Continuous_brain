@@ -306,8 +306,12 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
                         f"{rec['manifest_sha256']} (differing: {diff})")
     diag = validity.get("validity_diagnostics") or {}
     arms = diag.get("arm_manifests")
-    if diag.get("expected_manifest_sha256") != rec["manifest_sha256"] or not isinstance(arms, dict) or not arms \
-            or any(v != rec["manifest_sha256"] for v in arms.values()):
+    if not isinstance(arms, dict) or set(arms) != set(_e.ARMS):
+        got = set(arms) if isinstance(arms, dict) else set()
+        raise I1Refused("the preflight's arm manifests do not cover exactly the I1 arms "
+                        f"(missing {sorted(set(_e.ARMS) - got)}, unexpected {sorted(got - set(_e.ARMS))})")
+    if diag.get("expected_manifest_sha256") != rec["manifest_sha256"] or \
+            any(arms[a] != rec["manifest_sha256"] for a in _e.ARMS):
         raise I1Refused("the preflight's validity diagnostics do not bind every arm to its manifest.json")
     central = json.loads(central_path.read_text())
     entries = [e for e in central["preregistrations"] if e.get("id") == PREREG_ID]

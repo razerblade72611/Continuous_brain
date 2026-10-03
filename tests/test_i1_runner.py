@@ -260,12 +260,13 @@ def _fake_preflight(tmp_path, prereg, *, valid=True, mode="preflight"):
     (d / "i1_validity.json").write_text(json.dumps({
         "valid": valid, "validity": {k: valid for k in VALIDITY_KEYS},
         "validity_diagnostics": {"expected_manifest_sha256": m["manifest_sha256"],
-                                 "arm_manifests": {"NORMAL": m["manifest_sha256"], "DONOR": m["manifest_sha256"]}}}))
+                                 "arm_manifests": {a: m["manifest_sha256"] for a in I1_ARMS}}}))
     (d / "manifest.json").write_text(json.dumps(m))
     return d
 
 
 from continuous_brain_unified.integration.evaluate import VALIDITY_KEYS  # the one authoritative schema
+from continuous_brain_unified.integration.evaluate import ARMS as I1_ARMS  # every arm must be bound
 
 
 def _registry_copy(tmp_path):
@@ -388,8 +389,18 @@ def test_approval_refuses_unknown_checks_false_values_and_unbound_manifests(tmp_
         "other manifest": lambda v: v["validity_diagnostics"].__setitem__("expected_manifest_sha256", "0" * 64),
         "one arm elsewhere": lambda v: v["validity_diagnostics"]["arm_manifests"].__setitem__("DONOR", "0" * 64),
         "no arms": lambda v: v["validity_diagnostics"].__setitem__("arm_manifests", {}),
+        "only NORMAL bound": lambda v: v["validity_diagnostics"].__setitem__(
+            "arm_manifests", {"NORMAL": v["validity_diagnostics"]["expected_manifest_sha256"]}),
+        "unexpected arm": lambda v: v["validity_diagnostics"]["arm_manifests"].__setitem__(
+            "SOME_OTHER_ARM", v["validity_diagnostics"]["expected_manifest_sha256"]),
     }
     for i, (name, mutate) in enumerate(cases.items()):
         with pytest.raises(runner.I1Refused):
             _approve_with(tmp_path / str(i), mutate)
 
+
+
+@pytest.mark.parametrize("arm", I1_ARMS)
+def test_approval_refuses_a_preflight_with_any_one_arm_unbound(tmp_path, arm):
+    with pytest.raises(runner.I1Refused, match="exactly the I1 arms"):
+        _approve_with(tmp_path, lambda v: v["validity_diagnostics"]["arm_manifests"].pop(arm))
