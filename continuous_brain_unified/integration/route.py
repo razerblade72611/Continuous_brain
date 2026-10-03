@@ -195,9 +195,11 @@ def _tensor_digest(module: torch.nn.Module) -> str:
 
 
 def frozen_digests(P: "Process") -> dict:
-    """Digests of every process-level object the individual's mechanisms use but do not own in the store:
-    the shared frozen models and the fixed-parameter controller and generator. They must be identical
-    before and after every life, and identical across all lives and arms."""
+    """Digests of the four process-level objects the individual's mechanisms use but do not own in the
+    store: the shared trajectory model and the neutral autobiographical model (their state_dicts) and the
+    fixed-parameter controller and generator (their attributes). They must be identical before and after
+    every life, and identical across all lives of all runtime arms. Other process state (module globals,
+    the legacy dictionary) is covered by PERSIST_RESUME, which restores in a new process."""
     def obj(o):
         return hashlib.sha256(json.dumps({k: repr(v) for k, v in sorted(vars(o).items())}).encode()).hexdigest()
     H = P.legacy_for_hosts

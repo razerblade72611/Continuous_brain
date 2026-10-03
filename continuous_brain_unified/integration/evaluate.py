@@ -172,7 +172,7 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
             got = [(x["tick"], x["target"], x["kind"]) for x in r.get("runtime", {}).get("interventions", [])]
             if got != [(iv["start_tick"], iv["target"], iv["kind"]) for iv in ivs]:
                 planned_ok = False
-    for arm in ("NORMAL", "FIXED_SCAFFOLD", "PERSIST_SAVE", "PERSIST_RESUME"):
+    for arm in ("NORMAL", "FIXED_SCAFFOLD", "PERSIST_SAVE", "PERSIST_RESUME", "RNG_PERTURBED"):
         if any(r.get("runtime", {}).get("interventions") for r in A[arm].values() if "record" in r):
             planned_ok = False
     want_manifest = expected_manifest
@@ -217,9 +217,16 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
     frozen_ok = bool(frozen) and len(set(frozen)) == 1 and json.loads(frozen[0]) is not None
     # donor pairing fixed by ids: the donor of sid is sid XOR 1, its birth autobiography exactly
     dplan = json.loads((run / "plan_DONOR.json").read_text()) if (run / "plan_DONOR.json").is_file() else {}
-    donor_ok = set(dplan) == {str(s) for s in sids} and all(
-        len(e) == 1 and e[0].get("donor_sid") == int(sid) ^ 1 and
-        e[0].get("payload_b64") == N[int(sid) ^ 1]["birth_state_b64"] for sid, e in dplan.items())
+    import base64, hashlib
+    def _donor_entry_ok(sid: str, e: list) -> bool:
+        partner = N.get(int(sid) ^ 1)
+        got = A["DONOR"].get(int(sid), {}).get("record")
+        return (len(e) == 1 and e[0].get("donor_sid") == int(sid) ^ 1 and partner is not None and got is not None
+                and e[0].get("payload_b64") == partner["birth_state_b64"]
+                # what the store held right after the intervention is exactly the partner's autobiography
+                and got["digests"].get("imprint_autobiography") ==
+                    hashlib.sha256(base64.b64decode(partner["birth_state_b64"])).hexdigest())
+    donor_ok = set(dplan) == {str(s) for s in sids} and all(_donor_entry_ok(sid, e) for sid, e in dplan.items())
     safety = json.loads((run / "safety.json").read_text()) if (run / "safety.json").is_file() else {}
     validity = {"fidelity_to_frozen_v036_driver": all(fid) and len(fid) == len(sids),
                 "replay_bit_exact_before_every_intervention": all(replay) and bool(replay),

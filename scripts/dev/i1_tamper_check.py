@@ -27,6 +27,17 @@ def _first(rows: list[dict]) -> dict:
     return next(r for r in rows if "record" in r)
 
 
+def _authored(rows: list[dict]) -> dict:
+    """The first life that authored a first goal (checks that only look at such lives need one)."""
+    return next(r for r in rows if "record" in r and r["record"].get("first_goal") is not None)
+
+
+def _completer(rows: list[dict]) -> dict:
+    """The first life whose store-held lifecycle completed the first goal."""
+    return next(r for r in rows if "record" in r and
+                ((r["record"].get("first_goal_store_status") or {}).get("completed_goals")))
+
+
 def _with_normal_second_half(src: Path):
     normal = {r["sid"]: r for r in _rows(src, "NORMAL")}
 
@@ -42,11 +53,11 @@ def _with_normal_second_half(src: Path):
 
 def faults(src: Path) -> list[tuple]:
     def set_goal_cycle(R):
-        _first(R)["record"]["first_goal_store_status"]["completed_goals"][0]["completed_cycle"] = 99
+        _completer(R)["record"]["first_goal_store_status"]["completed_goals"][0]["completed_cycle"] = 99
     return [
         ("store goal completed_cycle altered", "FIXED_SCAFFOLD", set_goal_cycle, "fidelity_to_frozen_v036_driver"),
         ("capability after goal 1 altered", "FIXED_SCAFFOLD",
-         lambda R: _first(R)["record"].__setitem__("capability_after_first", [0.5, 0.5]), "fidelity_to_frozen_v036_driver"),
+         lambda R: _authored(R)["record"].__setitem__("capability_after_first", [0.5, 0.5]), "fidelity_to_frozen_v036_driver"),
         ("intervention mark tick differs from NORMAL", "DONOR",
          lambda R: _first(R)["record"]["marks"].__setitem__("imprint", -1), "replay_bit_exact_before_every_intervention"),
         ("pre-intervention digest differs from NORMAL", "ERASED",
@@ -72,10 +83,10 @@ def faults(src: Path) -> list[tuple]:
         ("blocked driver-side call", "ERASED",
          lambda R: _first(R)["runtime"]["host_blocked"].__setitem__("skills", 1), "no_driver_side_mechanism_calls"),
         ("driver record disagrees with store lifecycle", "NORMAL",
-         lambda R: _first(R)["record"].__setitem__("first_completed_store", not _first(R)["record"]["first_completed_store"]),
+         lambda R: _authored(R)["record"].__setitem__("first_completed_store", not _authored(R)["record"]["first_completed_store"]),
          "driver_record_matches_store_lifecycle"),
         ("host never read its state", "NORMAL",
-         lambda R: _first(R)["runtime"]["state_reads_nonempty"].__setitem__("curriculum", 0), "host_state_read_from_store"),
+         lambda R: _authored(R)["runtime"]["state_reads_nonempty"].__setitem__("curriculum", 0), "host_state_read_from_store"),
         ("arm error", "PERSIST_RESUME", lambda R: _first(R).__setitem__("error", "injected"), "no_errors"),
         ("global randomness changed an individual", "RNG_PERTURBED",
          lambda R: _first(R)["record"].__setitem__("final_store_digest", "0" * 64), "no_hidden_mutable_state"),

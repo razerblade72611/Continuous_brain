@@ -413,7 +413,13 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         raise
     if mode == "science":
         rep["prereg_id"], rep["manifest_sha256"] = PREREG_ID, man["manifest_sha256"]
-        rep["registry_binding"] = _registry_binding(prereg)
+        opened = json.loads((run_dir / "seed_opened.json").read_text())
+        at_end = _registry_binding(json.loads((REPO / PREREG_FILE).read_text()))
+        at_open = {k: opened.get(k) for k in at_end}
+        rep["registry_binding"] = {"at_open": at_open, "at_end": at_end, "unchanged": at_open == at_end}
+        if at_open != at_end:          # the approval records must not change while the science run is in flight
+            rep["verdict"] = "BLOCKED"
+            rep["blocked_reason"] = "registry records changed between opening and the end of the run"
         (run_dir / "i1_report.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
     _e.print_report(rep)
     return run_dir

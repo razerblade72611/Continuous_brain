@@ -327,3 +327,13 @@ def test_later_arms_include_the_hidden_state_control():
     from continuous_brain_unified.integration import evaluate, life
     assert "RNG_PERTURBED" in runner.LATER_ARMS and "RNG_PERTURBED" in life.ARMS and "RNG_PERTURBED" in evaluate.ARMS
     assert evaluate.S4_K == (1, 2, 4)
+
+
+def test_registry_binding_covers_both_registry_files_and_the_design():
+    p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
+    b = runner._registry_binding(p)
+    from continuous_brain_protocols import sha256_file
+    assert b["design_sha256"] == runner.design_digest(p)
+    assert b["prereg_file_sha256"] == sha256_file(runner.REPO / runner.PREREG_FILE)
+    assert b["central_registry_sha256"] == sha256_file(runner.REPO / "registry" / "preregistrations.json")
+    assert b["prereg_status"] == p["status"] and runner._registry_binding(p) == b      # deterministic
