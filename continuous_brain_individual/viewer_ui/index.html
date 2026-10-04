@@ -14,7 +14,7 @@
   --ok: #8CC57A; --bad: #E2735F; --warn: #E3C062;
   --f-driver: #8A97A8; --f-perception: #6FB3D9; --f-episodic_memory: #D8B25A; --f-goal_genesis: #E07BA5;
   --f-self_state: #93C47D; --f-metacognition: #B48CF0; --f-skills: #4FC1B5; --f-autobiography: #C9C2B0;
-  --f-world: #8A97A8;
+  --f-world: #8A97A8; --f-world_model: #F4A259;
   --r: 6px;
   font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
   font-size: 14px; line-height: 1.45; color: var(--paper); background: var(--ink);
@@ -58,8 +58,16 @@ main { padding: 14px 18px 40px; display: grid; gap: 14px; }
 .hero { grid-template-columns: minmax(300px, 1.15fr) minmax(280px, 1fr) minmax(280px, 1fr); }
 .inside { grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.6fr); }
 .life { grid-template-columns: minmax(250px, 0.8fr) minmax(300px, 1.1fr) minmax(320px, 1.2fr) minmax(260px, 0.9fr); }
-@media (max-width: 1250px) { .hero, .inside, .life { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 760px) { .hero, .inside, .life { grid-template-columns: 1fr; } header { position: static; } }
+.learn { grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1fr) minmax(380px, 1.5fr); }
+.bars { display: grid; grid-template-columns: 128px 1fr 56px; gap: 5px 8px; align-items: center; font-size: 13px; }
+.bars .track { height: 10px; background: var(--raised); border-radius: 5px; overflow: hidden; position: relative; }
+.bars .track i { position: absolute; top: 0; bottom: 0; background: var(--c); border-radius: 5px; }
+.bars .track b { position: absolute; top: -2px; bottom: -2px; width: 1px; left: 50%; background: var(--faint); }
+.bars span.on { color: var(--paper); font-weight: 700; }
+.bars span.off { color: var(--faint); }
+#lifechart { width: 100%; height: auto; display: block; }
+@media (max-width: 1250px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr; } header { position: static; } }
 
 .legend { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
 .stage { position: relative; width: 100%; aspect-ratio: 1 / 1; background: #0E151C; border-radius: 4px; overflow: hidden; }
@@ -175,13 +183,14 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
     </label>
     <label><input type="checkbox" id="autonext"> Next life when it dies</label>
     <span class="sep"></span>
-    <button id="newlife">New life…</button>
+    <button id="newlife">New individual…</button>
     <label>
       <select id="erase" title="Erase one faculty's state in the store">
         <option value="">Erase a faculty…</option>
         <option value="episodic_memory">Memory</option><option value="goal_genesis">Commitments</option>
         <option value="self_state">Self-model</option><option value="metacognition">Speech</option>
-        <option value="skills">Skills</option><option value="autobiography">Autobiography</option>
+        <option value="skills">Skills (and what it learned)</option><option value="world_model">Foresight (and what it learned)</option>
+        <option value="autobiography">Autobiography</option>
       </select>
     </label>
     <button id="mark" title="Keep this moment in memory to come back to">Bookmark</button>
@@ -235,6 +244,25 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
     </div>
   </section>
 
+  <section class="row learn" id="learnrow" hidden>
+    <div class="panel">
+      <h2>What it foresees <small>in the next 100 steps</small></h2>
+      <div class="bars" id="foresee"></div>
+      <div class="legend" id="foreseestats"></div>
+    </div>
+    <div class="panel">
+      <h2>How it values its choices now</h2>
+      <div class="bars" id="values"></div>
+      <div class="legend" id="valuestats"></div>
+    </div>
+    <div class="panel">
+      <h2>Across its lives <small id="livescount"></small></h2>
+      <canvas id="lifechart" width="640" height="190"></canvas>
+      <div class="legend">Each bar is one life: how long it lived (left scale) and, as dots, how many of the 22 things it did. The line is the average of the last ten lives.</div>
+      <div class="subtle" id="lastlives"></div>
+    </div>
+  </section>
+
   <section class="row life">
     <div class="panel">
       <h2>Body</h2>
@@ -262,18 +290,21 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
 </main>
 
 <dialog id="dlg">
-  <h2>Start a new life</h2>
+  <h2>Start a new individual</h2>
+  <p class="subtle" style="max-width:440px">A newborn: nothing learned yet. To keep the one you have, use "Next life when it dies" instead.</p>
   <div class="grid">
     <label for="seed">World seed</label><input type="number" id="seed" value="71001">
     <label for="perc">Perception</label>
     <select id="perc"><option value="organ">Its vision organ (from pixels)</option><option value="oracle">Perfect perception (true tiles)</option></select>
     <label for="memsel">Memory</label>
     <select id="memsel"><option value="full">Full memory</option><option value="none">No memory beyond the view</option></select>
+    <label for="skillsel">Skills</label>
+    <select id="skillsel"><option value="learned">Learns from its lives, one individual across lives</option><option value="routine">Fixed routine, one life</option></select>
     <label for="lang">Language</label>
     <select id="lang"><option value="organ">Listens to the caretaker</option><option value="none">Ignores the caretaker</option></select>
   </div>
   <div style="display:flex; gap:8px; justify-content:flex-end">
-    <button id="dlgcancel">Cancel</button><button class="primary" id="dlgok">Start life</button>
+    <button id="dlgcancel">Cancel</button><button class="primary" id="dlgok">Start a new individual</button>
   </div>
 </dialog>
 <div class="toast" id="toast"></div>
@@ -346,7 +377,8 @@ function render() {
   $("play").textContent = R.playing ? "Pause" : "Play";
   if (R.error) toast("Stopped: " + R.error, 6000);
   if (f.tick < 0) { $("lifeinfo").textContent = "No life yet. Start one with New life."; return; }
-  $("lifeinfo").textContent = `World seed ${f.seed}, ${f.arm}, tick ${f.tick}`;
+  $("lifeinfo").textContent = (f.lifelong ? `Life ${f.life + 1}, ` : "") + `world seed ${f.seed}, ${f.arm}, tick ${f.tick}`;
+  $("learnrow").hidden = !f.learning;
   $("clock").textContent = `Day ${f.day + 1}, ${f.phase}`;
   const dlen = META.day_length || 300;
   $("daypos").style.left = ((f.step % dlen) / dlen * 100) + "%";
@@ -354,9 +386,10 @@ function render() {
   const n = stepTimes.reduce((a, s) => a + s[1], 0);
   $("steprate").textContent = `step ${f.step}` + (n ? `, ${(n / 3).toFixed(0)} steps/s` : "");
   $("death").classList.toggle("show", !f.alive);
-  if (!f.alive && f.death) $("deathtext").textContent = "It " + f.death.text + ".";
+  if (!f.alive && f.death) $("deathtext").textContent = "It " + f.death.text + "." + (f.lifelong ? " It was saved; the next life continues the same individual." : "");
   renderView(f); renderMaps(f); renderNow(f); renderGraph(f); renderRaster(); renderStore(f);
   renderBody(f); renderLedger(f); renderLog(f); renderSelf(f);
+  if (f.learning) renderLearning(f);
 }
 
 function renderView(f) {
@@ -444,8 +477,10 @@ function renderNow(f) {
   const S = f.skills;
   $("nowact").textContent = (S.action || "–").replaceAll("_", " ");
   const bits = [];
-  const why = { routine: "following its routine", explore: "exploring", sleeping: "asleep", eat: "going for food it can see" }[S.option] || S.option;
-  bits.push(`<span>Now <em>${why || "–"}</em></span>`);
+  const why = { routine: "following its routine", explore: "exploring", sleeping: "asleep", eat: "going for food",
+    drink: "going for water", rest: "going to rest in a shelter", retreat: "getting away from danger",
+    requests: "working on its requests", build: "building and making things" }[S.option] || S.option;
+  bits.push(`<span>Now <em>${why || "–"}</em>${f.learning ? ", its own choice" : ""}</span>`);
   if (S.task) { const c = (f.ledger.commitments || []).find((x) => x.id === S.task); bits.push(`<span>Working on <em>${S.task}${c ? ": " + famText(c) : ""}</em></span>`); }
   if (S.explore_target && S.option === "explore") bits.push(`<span>Heading for <em>${S.explore_target.join(", ")}</em></span>`);
   const wants = []; if (S.drinking) wants.push("water"); if (S.eating) wants.push("food");
@@ -457,11 +492,13 @@ function renderNow(f) {
 }
 
 // -------------------------------------------------------------------------------------------- graph
-const LAYOUT = { driver: [8, 140], perception: [140, 40], episodic_memory: [282, 40], goal_genesis: [140, 236],
+const LAYOUT_BASE = { driver: [8, 140], perception: [140, 40], episodic_memory: [282, 40], goal_genesis: [140, 236],
   self_state: [282, 284], autobiography: [434, 284], skills: [434, 110], metacognition: [434, 200], world: [470, 4] };
+let LAYOUT = LAYOUT_BASE;
 const NW = 116, NH = 40;
 function buildGraph() {
   const svg = $("graph"); if (!META) return;
+  LAYOUT = META.learned ? { ...LAYOUT_BASE, world_model: [282, 150] } : LAYOUT_BASE;
   const ns = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
   const defs = document.createElementNS(ns, "defs");
   defs.innerHTML = `<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6D7A88"/></marker>`;
@@ -666,6 +703,43 @@ function renderSelf(f) {
     : `<p class="subtle">It writes about each day at the next dawn.</p>`;
 }
 
+// ------------------------------------------------------------------------------------------- learning
+const OPTION_WORDS = { routine: "Its routine", drink: "Drink", eat: "Eat", rest: "Rest in a shelter", retreat: "Get away",
+  explore: "Explore", requests: "Its requests", build: "Build and make" };
+function renderLearning(f) {
+  const L = f.learning;
+  $("foresee").innerHTML = L.risks.map((r, i) => { const p = L.prediction[i];
+    return `<span>${r[0].toUpperCase() + r.slice(1)}</span><span class="track" style="--c:${p > 0.5 ? "#E2735F" : fc("world_model")}"><i style="left:0;width:${(p * 100).toFixed(0)}%"></i></span><span>${(p * 100).toFixed(0)}%</span>`; }).join("");
+  const F = L.foresight, br = (F.brier || []).map((b) => b == null ? "–" : b.toFixed(3));
+  $("foreseestats").textContent = !F.updates ? `It has noted ${F.samples} moments of its life and what followed; it starts learning from them at 128, so these are still guesses.`
+    : `Learned from ${F.samples} moments of its own life (${F.memory} kept, ${F.updates} updates). How far its foresight was off lately, per risk (squared error, 0 is perfect): ${br.join(", ")}.`;
+  const vals = L.values, lo = Math.min(...vals, -0.5), hi = Math.max(...vals, 0.5), span = Math.max(1e-6, Math.max(Math.abs(lo), Math.abs(hi)));
+  $("values").innerHTML = L.options.map((o, i) => { const v = vals[i], w = Math.abs(v) / span * 50, on = i === L.selected;
+    const left = v >= 0 ? 50 : 50 - w;
+    return `<span class="${on ? "on" : ""}">${OPTION_WORDS[o] || o}${on ? " (now)" : ""}</span><span class="track" style="--c:${on ? fc("skills") : mix(fc("skills"), 0.45)}"><b></b><i style="left:${left}%;width:${w}%"></i></span><span>${v.toFixed(2)}</span>`; }).join("");
+  $("valuestats").textContent = (L.updates ? "" : "Not learning yet: it starts once it remembers 64 finished decisions. ") + `${L.decisions} decisions made, ${L.updates} learning updates${L.loss != null ? `, recent error ${L.loss.toFixed(3)}` : ""}. ` +
+    (L.learning_on ? `It tries something other than its best guess ${(L.exploration * 100).toFixed(0)}% of the time (temperature ${L.temperature.toFixed(2)}).` : "Learning is off (frozen).") +
+    ` ${L.replay} decisions remembered for learning.`;
+  renderLives(f);
+}
+function renderLives(f) {
+  const lives = f.lives || [], c = $("lifechart"), g = c.getContext("2d"), W = c.width, H = c.height;
+  g.clearRect(0, 0, W, H);
+  $("livescount").textContent = lives.length ? `${lives.length} li${lives.length > 1 ? "ves" : "fe"} lived` : "";
+  if (!lives.length) { g.fillStyle = "#9AA7B4"; g.font = "13px 'Atkinson Hyperlegible Next', system-ui"; g.fillText("Its first life is still going.", 8, 24); $("lastlives").textContent = ""; return; }
+  const pad = 30, n = lives.length, bw = Math.max(1, Math.min(14, (W - pad - 6) / n - 1)), maxS = Math.max(500, ...lives.map((l) => l.steps));
+  g.strokeStyle = "#33414F"; g.fillStyle = "#6D7A88"; g.font = "11px system-ui";
+  for (const t of [0.5, 1]) { const y = H - 14 - (H - 24) * t; g.beginPath(); g.moveTo(pad, y); g.lineTo(W, y); g.stroke(); g.fillText(String(Math.round(maxS * t)), 0, y + 4); }
+  const x = (i) => pad + 2 + i * (bw + 1);
+  lives.forEach((l, i) => { const h = (H - 24) * l.steps / maxS; g.fillStyle = mix(fc("skills"), 0.55); g.fillRect(x(i), H - 14 - h, bw, h);
+    g.fillStyle = "#E3C062"; g.beginPath(); g.arc(x(i) + bw / 2, H - 14 - (H - 24) * (l.done / 22), Math.min(3, bw / 2 + 0.5), 0, 7); g.fill(); });
+  g.strokeStyle = "#EAE5D9"; g.lineWidth = 1.6; g.beginPath();
+  lives.forEach((l, i) => { const w = lives.slice(Math.max(0, i - 9), i + 1); const m = w.reduce((a, q) => a + q.steps, 0) / w.length;
+    const y = H - 14 - (H - 24) * m / maxS; i ? g.lineTo(x(i) + bw / 2, y) : g.moveTo(x(i) + bw / 2, y); }); g.stroke();
+  const last = lives.slice(-3).reverse().map((l) => `Life ${l.life + 1}: ${l.steps} steps, ${l.done} things done, ${l.fulfilled} requests kept; it ${l.cause.replace(/^died at step \d+: ?/, "died: ")}`);
+  $("lastlives").innerHTML = last.map(esc).join("<br>");
+}
+
 // -------------------------------------------------------------------------------------------- controls
 $("play").onclick = () => cmd(frame && frame.runner && frame.runner.playing ? "pause" : "play");
 $("step").onclick = () => cmd("step");
@@ -673,8 +747,9 @@ $("speed").onchange = (e) => cmd("speed", { value: Number(e.target.value) });
 $("autonext").onchange = (e) => cmd("auto_next", { value: e.target.checked });
 $("newlife").onclick = () => { if (frame && frame.seed != null) $("seed").value = frame.seed + 1; $("dlg").showModal(); };
 $("dlgcancel").onclick = () => $("dlg").close();
-$("dlgok").onclick = () => { $("dlg").close(); cmd("new_life", { seed: Number($("seed").value), arm: { perception: $("perc").value, memory: $("memsel").value, language: $("lang").value } }); };
-$("nextlife").onclick = () => cmd("new_life", { seed: (frame ? frame.seed : 71000) + 1, arm: {} });
+$("dlgok").onclick = () => { $("dlg").close(); const learned = $("skillsel").value === "learned";
+  cmd("new_life", { seed: Number($("seed").value), arm: { perception: $("perc").value, memory: $("memsel").value, language: $("lang").value, skills: $("skillsel").value, lifelong: learned } }); };
+$("nextlife").onclick = () => cmd("next_life");
 $("erase").onchange = (e) => { const v = e.target.value; e.target.value = ""; if (v) cmd("erase", { slot: v }); };
 $("mark").onclick = () => cmd("bookmark");
 $("back").onclick = () => cmd("back");

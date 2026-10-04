@@ -5,11 +5,20 @@ usage:
   python scripts/explore/w1_viewer.py [--seed 71001] [--port 8765] [--play]
   python scripts/explore/w1_viewer.py --language hf --model Qwen/Qwen2.5-0.5B-Instruct \
       --local-dir ~/cb_models/Qwen--Qwen2.5-0.5B-Instruct
-  python scripts/explore/w1_viewer.py --resume runs/explore/viewer/lives/seed71001/checkpoints/<snapshot>
+  python scripts/explore/w1_viewer.py --resume latest        (the individual you watched last, where it was)
+  python scripts/explore/w1_viewer.py --skills routine       (the fixed routine library, no learning, one life)
+
+By default the individual learns from its lives and continues across them: when it dies, it is saved to disk
+automatically and (with "Next life when it dies" checked) wakes as the same individual in the next world.
 
 Then open http://localhost:8765 (from Windows too: WSL forwards localhost).  Ctrl+C stops the server.
 """
 from __future__ import annotations
+
+import os
+
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):   # small matrices: threads only cost
+    os.environ.setdefault(_v, "1")
 
 import argparse
 import sys
@@ -28,13 +37,15 @@ def main() -> int:
     ap.add_argument("--perception", choices=("organ", "oracle"), default="organ")
     ap.add_argument("--memory", choices=("full", "none"), default="full")
     ap.add_argument("--listen", choices=("organ", "none"), default="organ", help="none: it ignores the caretaker")
+    ap.add_argument("--skills", choices=("learned", "routine"), default="learned",
+                    help="learned: foresight and choice learned from its own lives (default); routine: fixed")
     ap.add_argument("--language", choices=("dev", "hf"), default="dev",
                     help="dev: the template stand-in (no weights); hf: an open-weight language model")
     ap.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     ap.add_argument("--local-dir", default=None, help="the model's directory (from scripts/explore/fetch_models.py)")
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--dtype", default=None)
-    ap.add_argument("--resume", default=None, help="a snapshot directory written by Save to disk")
+    ap.add_argument("--resume", default=None, help="'latest', or a snapshot directory written by Save to disk")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--play", action="store_true", help="start playing immediately")
@@ -43,7 +54,7 @@ def main() -> int:
     import torch
     torch.set_num_threads(1)
     from continuous_brain_organs.vision import VisionOrgan
-    from continuous_brain_individual.viewer import LiveSession, serve
+    from continuous_brain_individual.viewer import LiveSession, latest_snapshot, serve
 
     language = {"backend": "dev"}
     if a.language == "hf":
@@ -54,11 +65,18 @@ def main() -> int:
         print(f"The vision organ's weights are missing ({WEIGHTS}). Copy tile_decoder_v1.pt there, "
               "or run with --perception oracle.", file=sys.stderr)
         return 2
-    session = LiveSession(vision, language, REPO / "runs/explore/viewer/lives")
+    root = REPO / "runs/explore/viewer/lives"
+    session = LiveSession(vision, language, root)
     if a.resume:
-        session.resume(a.resume)
+        snap = latest_snapshot(root) if a.resume == "latest" else Path(a.resume)
+        if snap is None:
+            print(f"Nothing saved yet under {root}.", file=sys.stderr)
+            return 2
+        session.resume(snap)
+        print(f"Resumed {snap}", flush=True)
     else:
-        session.new_life(a.seed, {"perception": a.perception, "memory": a.memory, "language": a.listen})
+        session.new_life(a.seed, {"perception": a.perception, "memory": a.memory, "language": a.listen,
+                                  "skills": a.skills, "lifelong": a.skills == "learned"})
     httpd, runner = serve(session, a.host, a.port, play=a.play)
     print(f"Watching the individual at http://localhost:{a.port}  (Ctrl+C to stop)", flush=True)
     try:
@@ -68,6 +86,9 @@ def main() -> int:
     finally:
         runner.stop_flag = True
         httpd.server_close()
+        runner.join(timeout=5)
+        if session.lifelong and session.ind is not None:
+            print(f"Saved the individual to {session.save()}", flush=True)     # nothing it learned is lost
     return 0
 
 

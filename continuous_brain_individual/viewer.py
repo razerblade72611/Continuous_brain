@@ -17,6 +17,11 @@ Operator actions are explicit and logged in the session's operator log:
   * bookmark and return (in memory);
   * save to disk (the runtime through the never-overwrite ``SnapshotStore``, the world as W1's JSON snapshot)
     and resume from such a save.
+
+A lifelong individual (the default here: learned skills, one individual across lives) does not end at death:
+its last moment is one more tick in which it knows it is dying (its faculties close the life and consolidate
+what they learned), the whole individual is saved to disk automatically, and the next life continues it in a
+new world (``next_life``).  Each life's summary is appended to ``<root>/<individual>/lives.jsonl``.
 """
 from __future__ import annotations
 
@@ -42,15 +47,19 @@ from . import codec, ledger, memory as mem
 from .body import VITALS, body_sense
 from .hosts import OPTION_CODES, SelfModelHost
 from .individual import Individual, IndividualConfig, first_info
+from .skills import OPTIONS as LEARNED_OPTIONS
 
 UI = Path(__file__).resolve().parent / "viewer_ui" / "index.html"
 ACTIONS = action_names()
-OPTIONS = sorted(OPTION_CODES, key=OPTION_CODES.get)
+ROUTINE_OPTIONS = sorted(OPTION_CODES, key=OPTION_CODES.get)
+OPTIONS = ROUTINE_OPTIONS
 FACULTIES = ("perception", "episodic_memory", "goal_genesis", "self_state", "metacognition", "skills",
              "autobiography")
+LEARNED_FACULTIES = FACULTIES[:5] + ("world_model",) + FACULTIES[5:]
 FACULTY_NAMES = {"perception": "Perception", "episodic_memory": "Memory", "goal_genesis": "Commitments",
                  "self_state": "Self-model", "metacognition": "Speech", "skills": "Skills",
-                 "autobiography": "Autobiography", "driver": "Senses"}
+                 "autobiography": "Autobiography", "driver": "Senses", "world_model": "Foresight"}
+DEFAULT_ARM = {"skills": "learned", "lifelong": True}
 HISTORY = 4000                      # per-tick records kept for the UI's time lines
 LOG = 400                           # conversation and event log entries kept
 
@@ -66,6 +75,17 @@ UNITS = ([("perception", "material confidence"), ("perception", "creature confid
          + [("skills", f"option {o}") for o in OPTIONS]
          + [("autobiography", n) for n in ("days narrated", "events today", "commitments closed")]
          + [("autobiography", "expected vs actual")])
+
+
+def units_for(learned: bool) -> list[tuple[str, str]]:
+    if not learned:
+        return UNITS
+    from .learned import RISKS
+    base = [u for u in UNITS if u[0] != "skills"]
+    i = next(k for k, u in enumerate(base) if u[0] == "autobiography")
+    return (base[:i] + [("world_model", f"risk: {r}") for r in RISKS]
+            + [("skills", f"option {o}") for o in LEARNED_OPTIONS] + [("skills", f"value {o}") for o in LEARNED_OPTIONS]
+            + base[i:])
 
 
 def _png(img: np.ndarray) -> str:
@@ -106,7 +126,8 @@ class LiveSession:
     # ------------------------------------------------------------------------------------------- lives
     def _build(self, arm: dict) -> Individual:
         cfg = IndividualConfig(memory=arm.get("memory", "full"), language=arm.get("language", "organ"),
-                               perception=arm.get("perception", "organ"))
+                               perception=arm.get("perception", "organ"), skills=arm.get("skills", "routine"),
+                               lifelong=bool(arm.get("lifelong", False)))
         if cfg.perception == "organ" and self.vision is None:
             raise ValueError("the vision organ's weights are missing; use perception=oracle or install them")
         ind = Individual(cfg, self.vision, LanguageOrgan.from_config(dict(self.language_config)))
@@ -120,16 +141,53 @@ class LiveSession:
             comp.step = timed
         return ind
 
+    @property
+    def learned(self) -> bool:
+        return self.ind is not None and self.ind.config.skills == "learned"
+
+    @property
+    def lifelong(self) -> bool:
+        return self.ind is not None and self.ind.config.lifelong
+
+    @property
+    def faculties(self) -> tuple[str, ...]:
+        return LEARNED_FACULTIES if self.learned else FACULTIES
+
+    @property
+    def options(self) -> list[str]:
+        return list(LEARNED_OPTIONS) if self.learned else ROUTINE_OPTIONS
+
     def new_life(self, seed: int, arm: dict | None = None) -> None:
+        """A new individual (newborn: nothing learned) in world ``seed``."""
         with self.lock:
-            self.arm = dict(arm or {})
+            self.arm = dict(DEFAULT_ARM if arm is None else arm)
             self.ind = self._build(self.arm)
             self.env = W1Env(self.world_config)
             self.seed = int(seed)
             self.obs = self.env.reset(self.seed)
             self.info = first_info(self.env)
             self._reset_logs()
+            self.lives = []
+            self.individual_id = time.strftime("individual-%Y%m%dT%H%M%S")
             self.started = time.time()
+
+    def next_life(self) -> None:
+        """The same individual wakes in the next world (lifelong); otherwise a new individual there."""
+        with self.lock:
+            if not self.lifelong:
+                return self.new_life(self.seed + 1, self.arm)
+            if not self.done:
+                raise ValueError("it is still alive")
+            self.ind.next_life()
+            self.seed += 1
+            self.env = W1Env(self.world_config)
+            self.obs = self.env.reset(self.seed)
+            self.info = first_info(self.env)
+            self.done, self.death, self.prev_tiles = False, None, None
+            self.recent_hits = deque(maxlen=60)
+            self.bookmark = None
+            self.log.append({"step": 0, "who": "world", "kind": "life",
+                             "text": f"life {self.ind.life + 1} begins in world {self.seed}"})
 
     def _reset_logs(self) -> None:
         self.records = deque(maxlen=HISTORY)
@@ -158,7 +216,8 @@ class LiveSession:
             action, utter, result = self.ind.tick(self.obs, self.info)
             store = self.ind.rt.store
             events = json.loads(np.asarray(store.read("goal_genesis.events"), np.uint8).tobytes().decode() or "[]")
-            option = OPTIONS[int(np.asarray(store.read("skills.selected_option"))[0])]
+            o_index = int(np.asarray(store.read("skills.selected_option"))[0])
+            option = self.options[o_index]
             self.obs, reward, self.done, self.info = self.env.step(action, utter)
             changed = sorted({n.split(".")[0] for n, h in result.writes.items()
                               if not n.startswith("driver.") and self.prev_writes.get(n) != h})
@@ -168,7 +227,7 @@ class LiveSession:
             hits = {"zombie": int(ev.get("zombie_hits") or 0), "arrow": int(ev.get("arrow_hits") or 0)}
             self.recent_hits.append(hits)
             inv = self.info["privileged"]["inventory"]
-            rec = {"t": int(result.tick), "s": step_before, "a": action, "o": OPTION_CODES[option],
+            rec = {"t": int(result.tick), "s": step_before, "a": action, "o": o_index,
                    "v": [int(inv[k]) for k in VITALS], "ms": {k: round(v, 2) for k, v in self._ms.items()},
                    "ch": changed, "u": units, "r": round(float(reward["total"]), 3),
                    "hit": hits["zombie"] + hits["arrow"], "heard": len(heard), "said": bool(utter)}
@@ -182,7 +241,45 @@ class LiveSession:
             if self.done:
                 self.death = self._death(step_before)
                 self.log.append({"step": step_before, "who": "world", "kind": "death", "text": self.death["text"]})
+                if self.lifelong:
+                    self._last_moment()
             return rec
+
+    def _last_moment(self) -> None:
+        """Lifelong: its dying tick (it closes the life and consolidates), then the life's record and a save."""
+        result = self.ind.die(self.obs, self.info)
+        store = self.ind.rt.store
+        changed = sorted({n.split(".")[0] for n, h in result.writes.items()
+                          if not n.startswith("driver.") and self.prev_writes.get(n) != h})
+        self.prev_writes = dict(result.writes)
+        inv = self.info["privileged"]["inventory"]
+        self.records.append({"t": int(result.tick), "s": int(self.obs["step"]), "a": 0,
+                             "o": int(np.asarray(store.read("skills.selected_option"))[0]),
+                             "v": [int(inv[k]) for k in VITALS], "ms": {k: round(v, 2) for k, v in self._ms.items()},
+                             "ch": changed, "u": self._units(store), "r": 0.0, "hit": 0, "heard": 0, "said": False,
+                             "ach": [], "death": True})
+        summary = self.env.episode_summary()
+        rec = {"life": self.ind.life, "seed": self.seed, "steps": int(self.obs["step"]),
+               "done": summary["crafter"]["n_unlocked"], "fulfilled": summary["obligations"]["fulfilled"],
+               "failed": summary["obligations"]["failed"], "memory": [summary["memory"]["correct"],
+                                                                      summary["memory"]["asked"]],
+               "cause": self.death["text"]}
+        if self.learned:
+            ctl = self.ind.read_state("skills")["ctl"]
+            rec.update(options=list(ctl["life_options"]), life_return=ctl["returns"][-1] if ctl["returns"] else None,
+                       decisions=ctl["decisions"], updates=ctl["updates"])
+        self.lives.append(rec)
+        root = self.snapshot_root / self.individual_id
+        root.mkdir(parents=True, exist_ok=True)
+        with open(root / "lives.jsonl", "a") as f:
+            f.write(json.dumps(_jsonable(rec)) + "\n")
+        try:
+            snap = self.save()
+            self.log.append({"step": rec["steps"], "who": "operator", "kind": "save",
+                             "text": f"saved automatically after life {self.ind.life + 1}: {snap.name}"})
+        except Exception as e:                                          # never lose the life over a save error
+            self.log.append({"step": rec["steps"], "who": "operator", "kind": "save",
+                             "text": f"automatic save failed: {type(e).__name__}: {e}"})
 
     def _units(self, store) -> list[float]:
         tiles = codec.unblob(store.read("perception.tiles"))
@@ -193,7 +290,11 @@ class LiveSession:
         for ch in ("episodic_memory.slots", "goal_genesis.active_goal", "self_state.vector", "metacognition.confidence"):
             out += [float(x) for x in np.asarray(store.read(ch)).ravel()]
         opt = int(np.asarray(store.read("skills.selected_option"))[0])
-        out += [1.0 if i == opt else 0.0 for i in range(len(OPTIONS))]
+        if self.learned:
+            out += [float(x) for x in np.asarray(store.read("world_model.prediction")).ravel()]
+        out += [1.0 if i == opt else 0.0 for i in range(len(self.options))]
+        if self.learned:
+            out += [float(x) for x in np.asarray(store.read("skills.values")).ravel()]
         out += [float(x) for x in np.asarray(store.read("autobiography.record")).ravel()]
         out += [float(np.asarray(store.read("autobiography.discrepancy"))[0])]
         return [round(x, 4) for x in out]
@@ -241,7 +342,7 @@ class LiveSession:
     def meta(self) -> dict:
         with self.lock:
             graph = {"nodes": [{"id": "driver", "name": "Senses"}] +
-                              [{"id": s, "name": FACULTY_NAMES[s]} for s in FACULTIES] + [{"id": "world", "name": "World"}],
+                              [{"id": s, "name": FACULTY_NAMES[s]} for s in self.faculties] + [{"id": "world", "name": "World"}],
                      "edges": []}
             if self.ind is not None:
                 owners = self.ind.rt.store.owners()
@@ -263,10 +364,16 @@ class LiveSession:
                 lang = self.ind.language.provenance() if hasattr(self.ind.language, "provenance") else {}
             else:
                 decls, lang = {}, {}
-            return {"format": "cb-w1-viewer/1", "status": "ENGINEERING_ONLY", "actions": ACTIONS, "options": OPTIONS,
+            risks = []
+            if self.learned:
+                from .learned import RISKS
+                risks = list(RISKS)
+            return {"format": "cb-w1-viewer/1", "status": "ENGINEERING_ONLY", "actions": ACTIONS, "options": self.options,
+                    "learned": self.learned, "lifelong": self.lifelong, "risks": risks,
                     "materials": list(MATERIALS), "objects": list(OBJECTS), "vitals": list(VITALS),
-                    "faculties": list(FACULTIES), "faculty_names": FACULTY_NAMES,
-                    "units": [{"faculty": f, "label": l} for f, l in UNITS], "graph": graph, "channels": decls,
+                    "faculties": list(self.faculties), "faculty_names": FACULTY_NAMES,
+                    "units": [{"faculty": f, "label": l} for f, l in units_for(self.learned)], "graph": graph,
+                    "channels": decls,
                     "language": _jsonable(lang), "vision_weights": getattr(self.vision, "weights_sha256", None),
                     "families": list(SelfModelHost.FAMILIES), "day_length": dl.DAY_LENGTH,
                     "daylight_curve": [round(dl.daylight(t), 3) for t in range(0, dl.DAY_LENGTH, 5)],
@@ -349,10 +456,30 @@ class LiveSession:
                 "autobiography": {"days": auto.get("days", []), "today": len(auto.get("today", [])),
                                   "expected": auto.get("expected", 0.0), "actual": auto.get("actual", 0),
                                   "closed": auto.get("closed", 0)},
+                "learning": self._learning() if self.learned else None,
+                "life": self.ind.life, "lifelong": self.lifelong, "lives": self.lives[-300:],
+                "individual": getattr(self, "individual_id", None),
                 "store": store, "log": list(self.log)[-120:], "operator": self.operator[-20:],
                 "bookmark": None if self.bookmark is None else self.bookmark["tick"],
                 "state_hash": None,
             })
+
+    def _learning(self) -> dict:
+        from .learned import RISKS, LearnedSkillHost
+        store = self.ind.rt.store
+        ctl = (self.ind.read_state("skills") or {}).get("ctl") or {}
+        wm = self.ind.read_state("world_model") or {}
+        host = self.ind.rt.components["skills"]
+        return {"risks": list(RISKS), "prediction": np.round(np.asarray(store.read("world_model.prediction")), 4),
+                "options": list(LEARNED_OPTIONS), "values": np.round(np.asarray(store.read("skills.values")), 3),
+                "selected": int(np.asarray(store.read("skills.selected_option"))[0]),
+                "decisions": ctl.get("decisions", 0), "updates": ctl.get("updates", 0), "loss": ctl.get("loss"),
+                "temperature": LearnedSkillHost.temperature(host, ctl) if ctl else None,
+                "exploration": LearnedSkillHost.exploration(host, ctl) if ctl else None,
+                "learning_on": bool(host.learn), "lives_lived": ctl.get("lives", 0),
+                "replay": ctl.get("count", 0), "returns": ctl.get("returns", [])[-300:],
+                "foresight": {"samples": wm.get("samples", 0), "loss": wm.get("loss"), "brier": wm.get("brier"),
+                              "memory": wm.get("count", 0), "updates": wm.get("updates", 0)}}
 
     def view_jpeg(self, size: int = 384) -> bytes:
         with self.lock:
@@ -365,7 +492,7 @@ class LiveSession:
 
     # --------------------------------------------------------------------------------- operator actions
     def erase(self, slot: str) -> str:
-        if slot not in FACULTIES or slot == "perception":
+        if slot not in self.faculties or slot == "perception":
             raise ValueError(f"cannot erase {slot!r}")
         with self.lock:
             st = self.ind.rt.state_dict()
@@ -408,7 +535,7 @@ class LiveSession:
         """Save the life to disk: <root>/<name>/checkpoints/<snapshot>/ (never overwritten) plus world and
         viewer files beside the snapshot directory.  Returns the snapshot directory."""
         with self.lock:
-            name = name or f"seed{self.seed}"
+            name = name or getattr(self, "individual_id", None) or f"seed{self.seed}"
             store = SnapshotStore(self.snapshot_root / name)
             snap = self.ind.rt.save(store, label=f"tick{self.ind.rt.tick}")
             side = {"format": "cb-w1-viewer-life/1", "status": "ENGINEERING_ONLY", "seed": self.seed, "arm": self.arm,
@@ -417,7 +544,8 @@ class LiveSession:
                     "obs": {"image": base64.b64encode(np.asarray(self.obs["image"], np.uint8).tobytes()).decode(),
                             "shape": list(np.asarray(self.obs["image"]).shape),
                             **{k: self.obs[k] for k in ("messages", "step", "day", "phase")}},
-                    "done": self.done, "death": self.death, "log": list(self.log)}
+                    "done": self.done, "death": self.death, "log": list(self.log), "life": self.ind.life,
+                    "lives": self.lives, "individual_id": getattr(self, "individual_id", None)}
             world = Path(str(snap) + ".world.json")
             viewer = Path(str(snap) + ".viewer.json")
             for p, text in ((world, W1Env.snapshot_to_json(self.env.snapshot())), (viewer, json.dumps(_jsonable(side)))):
@@ -444,6 +572,9 @@ class LiveSession:
             self.info = self.env.privileged_now()
             self.seed = int(side["seed"])
             self._reset_logs()
+            self.ind.life = int(side.get("life", 0))
+            self.lives = list(side.get("lives", []))
+            self.individual_id = side.get("individual_id") or snapshot.parent.parent.name
             self.log.extend(side.get("log", []))
             self.done, self.death = bool(side["done"]), side["death"]
             self.operator.append(f"resumed from {snapshot} at tick {self.ind.rt.tick}")
@@ -467,7 +598,7 @@ class Runner(threading.Thread):
         while not self.stop_flag:
             if not self.playing or not self.session.alive:
                 if self.playing and self.auto_next and self.session.ind is not None and self.session.done:
-                    self.session.new_life(self.session.seed + 1, self.session.arm)
+                    self.session.next_life()
                     continue
                 if self.playing and not self.session.alive:
                     self.playing = False
@@ -537,7 +668,10 @@ def make_handler(session: LiveSession, runner: Runner):
                     runner.auto_next = bool(cmd["value"])
                 elif c == "new_life":
                     runner.playing = False
-                    session.new_life(int(cmd.get("seed", session.seed + 1)), cmd.get("arm") or {})
+                    session.new_life(int(cmd.get("seed", session.seed + 1)), cmd.get("arm"))
+                    out["meta"] = session.meta()
+                elif c == "next_life":
+                    session.next_life()
                     out["meta"] = session.meta()
                 elif c == "erase":
                     out["note"] = session.erase(cmd["slot"])
@@ -555,6 +689,12 @@ def make_handler(session: LiveSession, runner: Runner):
                 return self._json({"ok": False, "error": f"{type(e).__name__}: {e}"}, 400)
 
     return Handler
+
+
+def latest_snapshot(root: str | Path) -> Path | None:
+    """The most recently written snapshot (with its viewer file) under ``root``."""
+    snaps = [Path(str(p)[:-len(".viewer.json")]) for p in Path(root).glob("*/checkpoints/*.viewer.json")]
+    return max(snaps, key=lambda p: Path(str(p) + ".viewer.json").stat().st_mtime) if snaps else None
 
 
 def serve(session: LiveSession, host: str = "127.0.0.1", port: int = 8765, play: bool = False):

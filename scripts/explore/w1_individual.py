@@ -19,6 +19,11 @@ same arguments give the same report (wall times aside).
 """
 from __future__ import annotations
 
+import os
+
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):   # small matrices: threads only cost
+    os.environ.setdefault(_v, "1")
+
 import argparse
 import hashlib
 import json

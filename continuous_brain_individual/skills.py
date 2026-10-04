@@ -155,11 +155,14 @@ class SkillLibrary(ScriptedAgent):
         """Which of OPTIONS can start now (on its beliefs)."""
         inv = v.inv
         threats = self._threats(v, 6)
+        dark = dl.is_dark(v.step)
+        # innate sense: no wandering off to explore, build or run errands in the dark, and no shelter-building
+        # in daylight unless it is tired; within that, which option serves it best is learned
         return np.array([True, inv["drink"] < 9, inv["food"] < 9,
-                         bool(inv["wood_pickaxe"]) or self._inside(v),
-                         bool(threats), bool((memory["map"] < 0).any()),
-                         any(o["family"] in ("collect", "craft", "place", "visit") for o in v.priv["obligations"]),
-                         True], dtype=bool)
+                         (bool(inv["wood_pickaxe"]) or self._inside(v)) and (dark or inv["energy"] <= 5),
+                         bool(threats), bool((memory["map"] < 0).any()) and not dark,
+                         any(o["family"] in ("collect", "craft", "place", "visit") for o in v.priv["obligations"])
+                         and not dark, not dark], dtype=bool)
 
     def option_done(self, o: int, v: View, steps_in: int) -> bool:
         inv, dark = v.inv, dl.is_dark(v.step)

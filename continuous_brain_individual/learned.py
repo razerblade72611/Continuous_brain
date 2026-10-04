@@ -11,9 +11,9 @@ state.  Everything they learn lives in the canonical store:
     world_model.prediction float64: predicted risks for the next HORIZON steps (canonical channel)
 
     skills.state    bookkeeping (codec): the routine library's state, the current option, returns, counters
-    skills.weights  float32: the option-value network, its target copy, Adam's moments
-    skills.memory   float16: its replay memory of decisions (state, feasible options, option, return,
-                    duration, terminal), one row per decision; a row's next state is the following row
+    skills.weights  float32: the option-value network, Adam's moments
+    skills.memory   float16: its memory of decisions (state, feasible options, option, what it felt while the
+                    option ran, how long it ran, whether it died, the return that followed), one row each
     skills.selected_option, skills.action, skills.values (the option values it chose from)
 
 Foresight.  Every SAMPLE_EVERY steps it notes its belief features; HORIZON steps later (or when it dies) it
@@ -26,13 +26,19 @@ routine, drinking, eating, resting in a shelter, retreating from threats, explor
 At each decision point (the option ended, could not go on, or something salient happened: it was hurt, water
 or food fell to 3, night fell, the caretaker asked something new) it chooses among the feasible options by a
 Boltzmann distribution over learned option values plus a prior that favours its routine (so it starts where the
-routine is and learns when to depart from it).  The values are learned by semi-Markov double Q-learning over its
-replay memory: the return of an option is the discounted sum of what it felt while the option ran (health
-gained or lost, new things done, the caretaker's thanks or complaints) plus, at a decision, the discounted value
-of the next state; dying ends the return with DEATH.
+routine is and learns when to depart from it), mixed with a small, decaying chance of trying any feasible option
+(otherwise an option it never tried keeps its initial value and is never tried).
 
-When it learns: a few updates after each decision, more while it sleeps, and a longer consolidation in the
-moment of dying.  With ``learn=False`` (evaluation) it chooses with its lowest temperature and does not learn.
+The value of choosing an option in a state is learned from what actually followed, over its whole life: what
+it felt while each option ran (health gained or lost, new things done, the caretaker's thanks or complaints),
+discounted by GAMMA per step, to the end of the life, which in death ends with DEATH.  When a life ends, every
+decision of that life gets its return (Monte Carlo, no bootstrapping: an earlier version bootstrapped from its
+own estimates, semi-Markov double Q-learning, and its values ran away to many times any real return), and the
+network is fitted to the returns of the decisions in its memory, this life's and earlier lives'.  What it learns
+is the value of each option followed by the way it then went on, which improves its choices life after life.
+
+When it learns: a consolidation in the moment of dying (the life's returns are now known), a few updates after
+each decision and while it sleeps (from the lives already finished).  With ``learn=False`` (evaluation) it chooses with its lowest temperature and does not learn.
 """
 from __future__ import annotations
 
@@ -66,18 +72,18 @@ NOPT = len(OPTIONS)
 Q_IN = DIM + K
 Q_SIZES = [Q_IN, 96, 96, NOPT]
 Q_NET = mlp_shapes(Q_SIZES)
-Q_W = Layout([(f"p_{n}", s) for n, s in Q_NET] + [(f"t_{n}", s) for n, s in Q_NET]
-             + [(f"m_{n}", s) for n, s in Q_NET] + [(f"v_{n}", s) for n, s in Q_NET])
+Q_W = Layout([(f"p_{n}", s) for n, s in Q_NET] + [(f"m_{n}", s) for n, s in Q_NET]
+             + [(f"v_{n}", s) for n, s in Q_NET])
 Q_CAP = 2048
-# replay row: state, feasible mask, option, return, duration, terminal, complete
+# memory row: state, feasible mask, option, felt while it ran, duration, died, complete, return that followed
 R_STATE, R_MASK = slice(0, Q_IN), slice(Q_IN, Q_IN + NOPT)
-R_OPT, R_RET, R_DUR, R_DONE, R_OK = Q_IN + NOPT, Q_IN + NOPT + 1, Q_IN + NOPT + 2, Q_IN + NOPT + 3, Q_IN + NOPT + 4
-Q_ROW = Q_IN + NOPT + 5
+R_OPT, R_RET, R_DUR, R_DONE, R_OK, R_G = (Q_IN + NOPT + i for i in range(6))
+Q_ROW = Q_IN + NOPT + 6
 GAMMA, DEATH = 0.995, -5.0
-Q_LR, Q_BATCH, Q_PER_DECISION, Q_PER_SLEEP_TICK, Q_CONSOLIDATE, Q_MIN = 5e-4, 64, 4, 1, 600, 64
-TARGET_EVERY = 200
+Q_LR, Q_BATCH, Q_PER_DECISION, Q_SLEEP_EVERY, Q_CONSOLIDATE, Q_MIN = 3e-4, 64, 2, 4, 300, 64
 TAU0, TAU_MIN, TAU_HALF = 0.5, 0.05, 1500.0            # temperature halves every TAU_HALF decisions
-PRIOR = np.array([0.7] + [0.3 / (NOPT - 1)] * (NOPT - 1))
+EPS0, EPS_MIN = 0.1, 0.02     # chance of trying any feasible option, so options it has not valued get tried
+PRIOR = np.array([0.85] + [0.15 / (NOPT - 1)] * (NOPT - 1))
 FEEDBACK_REWARD = {"fulfilled": 1.0, "correct": 1.0, "late": -1.0, "violated": -1.0, "wrong": -1.0,
                    "no_answer": -1.0}
 
@@ -206,7 +212,7 @@ class LearnedSkillHost(_Host):
 
     def __init__(self, seed: int = 0, learn: bool = True):
         super().__init__({"library": "W1 reference routines over the individual's beliefs, as options",
-                          "options": list(OPTIONS), "selector": "semi-Markov double Q-learning", "learn": learn,
+                          "options": list(OPTIONS), "selector": "Monte Carlo option values over its lives", "learn": learn,
                           "sizes": Q_SIZES, "gamma": GAMMA, "death": DEATH})
         self.seed, self.learn = int(seed), bool(learn)
         self.reads = ("episodic_memory.state", "goal_genesis.state", "goal_genesis.events", "driver.body",
@@ -238,29 +244,33 @@ class LearnedSkillHost(_Host):
                 r += FEEDBACK_REWARD.get(e["outcome"], 0.0)
         return float(r)
 
+    @staticmethod
+    def _finish_life(ctl: dict, rows: np.ndarray) -> int:
+        """The life is over: every decision in it gets the discounted return that followed it."""
+        G, n = 0.0, 0
+        for i in reversed(list(ctl.get("life_rows", []))):
+            if rows[i, R_DUR] < 1:                              # an option still running when the world ended
+                continue
+            G = float(rows[i, R_RET]) + (0.0 if rows[i, R_DONE] > 0.5 else GAMMA ** float(rows[i, R_DUR]) * G)
+            rows[i, R_G], rows[i, R_OK] = G, 1.0
+            n += 1
+        ctl["life_rows"] = []
+        return n
+
     def _learn(self, ctl: dict, weights: np.ndarray, rows: np.ndarray, rng, n: int) -> np.ndarray:
-        head, count = ctl["head"], ctl["count"]
-        latest = (head - 1) % Q_CAP
+        count = ctl["count"]
         ok = rows[:count, R_OK].astype(bool) if count < Q_CAP else rows[:, R_OK].astype(bool)
         idx = np.nonzero(ok)[0]
-        idx = idx[(rows[idx, R_DONE] > 0.5) | (idx != latest)]       # its next state must exist
         if len(idx) < Q_MIN:
             return weights
         weights = np.array(weights, copy=True)
-        P, T, M, V = (_views(Q_W, weights, p) for p in ("p_", "t_", "m_", "v_"))
+        P, M, V = (_views(Q_W, weights, p) for p in ("p_", "m_", "v_"))
         opt = Adam(lr=Q_LR)
         loss = ctl["loss"]
         for _ in range(n):
             b = _sample(rng, idx, Q_BATCH)
             batch = rows[b].astype(np.float32)
-            nxt = rows[(b + 1) % Q_CAP].astype(np.float32)
-            s, o = batch[:, R_STATE], batch[:, R_OPT].astype(np.int64)
-            R, k, done = batch[:, R_RET], batch[:, R_DUR], batch[:, R_DONE]
-            s2, mask2 = nxt[:, R_STATE], nxt[:, R_MASK] > 0.5
-            q2_online = mlp_forward(P, s2, 3)[0]
-            q2_target = mlp_forward(T, s2, 3)[0]
-            a2 = np.argmax(np.where(mask2, q2_online, -1e9), axis=1)
-            y = R + (1.0 - done) * (GAMMA ** k) * q2_target[np.arange(len(b)), a2]
+            s, o, y = batch[:, R_STATE], batch[:, R_OPT].astype(np.int64), batch[:, R_G]
             q, cache = mlp_forward(P, s, 3)
             err = q[np.arange(len(b)), o] - y
             l, g = huber_grad(err)
@@ -269,11 +279,13 @@ class LearnedSkillHost(_Host):
             ctl["t"] += 1
             opt.step(P, mlp_backward(P, cache, d, 3), M, V, ctl["t"])
             loss = l if loss is None else 0.99 * loss + 0.01 * l
-            if ctl["t"] % TARGET_EVERY == 0:
-                for key in P:
-                    T[key][...] = P[key]
         ctl["loss"], ctl["updates"] = loss, ctl["updates"] + n
         return weights
+
+    def exploration(self, ctl: dict) -> float:
+        if not self.learn:
+            return 0.0
+        return max(EPS_MIN, EPS0 * 0.5 ** (ctl["decisions"] / TAU_HALF))
 
     def temperature(self, ctl: dict) -> float:
         if not self.learn:
@@ -289,18 +301,31 @@ class LearnedSkillHost(_Host):
         step, life, dying = int(body["step"]), int(body.get("life", 0)), bool(body.get("dying", False))
         if st is None or not weights.any():                     # first tick, or its learning was erased
             rng = np.random.default_rng(self.seed * 7919 + 202)
-            weights = _init_weights(Q_W, Q_SIZES, rng, with_target=True)
+            weights = _init_weights(Q_W, Q_SIZES, rng, with_target=False)
             buf = np.zeros(Q_CAP * Q_ROW, np.float16)
             st = {"lib": None, "ctl": {"life": life, "t": 0, "updates": 0, "decisions": 0, "head": 0, "count": 0,
                                        "opt": None, "row": None, "steps_in": 0, "R": 0.0, "disc": 1.0,
                                        "prev": None, "rng": rng.bit_generator.state, "loss": None, "lives": 0,
-                                       "life_return": 0.0, "life_options": [0] * NOPT, "returns": []}}
+                                       "life_return": 0.0, "life_options": [0] * NOPT, "returns": [],
+                                       "life_rows": []}}
         ctl = dict(st["ctl"])
         lib_state = st["lib"]
+        rows = buf.reshape(Q_CAP, Q_ROW)
+        writable = False
+
+        def rows_w():
+            nonlocal buf, rows, writable
+            if not writable:
+                buf = np.array(buf, copy=True)
+                rows, writable = buf.reshape(Q_CAP, Q_ROW), True
+            return rows
+
         if ctl["life"] != life:                                 # a new world: its plans there are gone
+            if self.learn and ctl.get("life_rows"):            # the last world ended without its death
+                self._finish_life(ctl, rows_w())
             lib_state, ctl["life"] = None, life
             ctl.update(opt=None, row=None, steps_in=0, R=0.0, disc=1.0, prev=None, life_return=0.0,
-                       life_options=[0] * NOPT)
+                       life_options=[0] * NOPT, life_rows=[])
         rng = np.random.default_rng()
         rng.bit_generator.state = ctl["rng"]
         lib = SkillLibrary.from_state(lib_state, seed=self.seed + life)
@@ -311,15 +336,6 @@ class LearnedSkillHost(_Host):
                             np.asarray(ctx.inputs["world_model.prediction"])]).astype(np.float32)
         P = _views(Q_W, weights, "p_")
         values = mlp_forward(P, s[None], 3)[0][0].astype(np.float64)
-        rows = buf.reshape(Q_CAP, Q_ROW)
-        writable = False
-
-        def rows_w():
-            nonlocal buf, rows, writable
-            if not writable:
-                buf = np.array(buf, copy=True)
-                rows, writable = buf.reshape(Q_CAP, Q_ROW), True
-            return rows
 
         # what it felt since its last action belongs to the option that chose that action
         r = self._feeling(ctl["prev"], body, events) + (DEATH if dying else 0.0)
@@ -339,12 +355,14 @@ class LearnedSkillHost(_Host):
             if self.learn and ctl["row"] is not None:
                 rw = rows_w()
                 rw[ctl["row"], R_RET], rw[ctl["row"], R_DUR] = ctl["R"], max(1, ctl["steps_in"])
-                rw[ctl["row"], R_DONE], rw[ctl["row"], R_OK] = float(done), 1.0
+                rw[ctl["row"], R_DONE] = float(done)            # complete once the life's return is known
             ctl.update(opt=None, row=None, steps_in=0, R=0.0, disc=1.0)
 
         n_updates = 0
         if dying:
             close(done=True)
+            if self.learn:
+                self._finish_life(ctl, rows_w())
             ctl["lives"] += 1
             ctl["returns"] = (list(ctl["returns"]) + [round(ctl["life_return"], 3)])[-200:]
             n_updates = Q_CONSOLIDATE
@@ -356,7 +374,7 @@ class LearnedSkillHost(_Host):
             option = ctl["opt"] if ctl["opt"] is not None else 0
             if v.sleeping:
                 name = "noop"
-                n_updates = Q_PER_SLEEP_TICK
+                n_updates = 1 if step % Q_SLEEP_EVERY == 0 else 0
             else:
                 lib._prepare(v)
                 salient = prev is not None and (
@@ -372,6 +390,9 @@ class LearnedSkillHost(_Host):
                     logits = np.where(mask, values / tau + np.log(PRIOR), -np.inf)
                     p = np.exp(logits - logits.max())
                     p /= p.sum()
+                    eps = self.exploration(ctl)
+                    if eps > 0:
+                        p = (1 - eps) * p + eps * mask / mask.sum()
                     o = int(rng.choice(NOPT, p=p))
                     name = lib.routine(v, memory, step)[0] if o == 0 else lib.option_act(o, v, memory, step)
                     if name is None:                            # it cannot start: its routine acts instead
@@ -386,6 +407,7 @@ class LearnedSkillHost(_Host):
                         row[R_STATE], row[R_MASK], row[R_OPT] = s, mask.astype(np.float32), o
                         rw[ctl["head"]] = row.astype(np.float16)
                         ctl["row"] = ctl["head"]
+                        ctl["life_rows"] = list(ctl.get("life_rows", [])) + [ctl["head"]]
                         ctl["head"], ctl["count"] = (ctl["head"] + 1) % Q_CAP, min(Q_CAP, ctl["count"] + 1)
                         n_updates = Q_PER_DECISION
                 option = ctl["opt"]

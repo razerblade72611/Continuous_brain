@@ -25,7 +25,7 @@ def _vision():
 
 
 VISION = _vision()
-ARM = {"perception": "organ" if VISION is not None else "oracle"}
+ARM = {"perception": "organ" if VISION is not None else "oracle", "skills": "routine", "lifelong": False}
 
 
 def _unwatched(n):
@@ -122,3 +122,49 @@ def test_the_http_api(tmp_path):
     finally:
         runner.stop_flag = True
         httpd.shutdown()
+
+
+def test_watching_a_learning_individual_does_not_change_it(tmp_path):
+    arm = {**ARM, "skills": "learned", "lifelong": True}
+    ind = Individual(IndividualConfig(perception=arm["perception"], skills="learned", lifelong=True), VISION,
+                     LanguageOrgan.from_config({"backend": "dev"}))
+    env = W1Env(W1Config())
+    obs = env.reset(SEED)
+    info = first_info(env)
+    actions = []
+    for _ in range(150):
+        a, u = ind.decide(obs, info)
+        actions.append(a)
+        obs, _, done, info = env.step(a, u)
+    s = LiveSession(VISION, {"backend": "dev"}, tmp_path / "lives")
+    s.new_life(SEED, arm)
+    for i in range(150):
+        s.step()
+        if i % 9 == 0:
+            s.frame()
+            s.meta()
+    assert [r["a"] for r in s.records] == actions and s.ind.state_hash() == ind.state_hash()
+    assert s.frame()["learning"]["decisions"] > 0
+
+
+def test_a_lifelong_death_saves_and_the_next_life_continues(tmp_path):
+    s = LiveSession(VISION, {"backend": "dev"}, tmp_path / "lives")
+    s.new_life(SEED, {**ARM, "skills": "learned", "lifelong": True})
+    for _ in range(3000):
+        if not s.alive:
+            break
+        s.step()
+    assert not s.alive and len(s.lives) == 1                       # it died; the life is recorded
+    from continuous_brain_individual.viewer import latest_snapshot
+    snap = latest_snapshot(tmp_path / "lives")
+    assert snap is not None and (snap.parent.parent / "lives.jsonl").read_text().count("\n") == 1
+    hash_after_death = s.ind.state_hash()
+    s.next_life()
+    assert s.alive and s.ind.life == 1 and s.seed == SEED + 1
+    s2 = LiveSession(VISION, {"backend": "dev"}, tmp_path / "lives")
+    s2.resume(snap)                                                # resume where it died, then continue
+    assert s2.ind.state_hash() == hash_after_death and s2.ind.life == 0 and len(s2.lives) == 1
+    s2.next_life()
+    s.step()
+    s2.step()
+    assert s.ind.state_hash() == s2.ind.state_hash()
