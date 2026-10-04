@@ -42,10 +42,16 @@
   - `runner.lifecycle_problems` is production code, and approval runs it before and after the write;
   - the preflight prints no per-arm timings or error counts.
 
-  The procedure text changed, so the design digest is now `bcf896bc…`.
-- **Dev result.** `i1_dev7_64h` (906532–906595, cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. The tamper check detects 21/21 faults; the gate check passes 56/56 through the full chain of custody. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.373 vs 0.542, difference −0.169, 95% CI [−0.288, −0.068]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.038, −0.046 and −0.065 at k = 1, 2 and 4), and capability gains are smaller. Engineering data, estimation only. S3 is negative on all nine disjoint slices, eight of which passed validity.
+  The procedure text changed, so the design digest became `bcf896bc…`.
+- **Approval authority, ledger freeze, derived ids (ChatGPT's fourth audit).**
+  - `approval_authority: "David"` is frozen in the preregistration and its design digest. `approve()` requires an exact match, and the science run and `lifecycle_problems` refuse any other approver (ChatGPT had approved with `approver="Claude"`).
+  - The approval requires the seed ledger to be byte-identical to its state at opening.
+  - `runner.offset_collisions` is the single conservative derived-id check. It confines dev slices and runs in `open_family()` immediately before every preflight and science spend (a family at `i1-v1-dev` + 70000 had not stopped the science family from opening).
+
+  The design digest is now `4655f339…`.
+- **Dev result.** `i1_dev7_56i` (906144–906199, 56 individuals: the last fresh slice of `cloud-dev-claude-eng`; cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. The tamper check detects 21/21 faults; the gate check passes 59/59 through the full chain of custody. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.327 vs 0.551, difference −0.224, 95% CI [−0.347, −0.122]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.035, −0.053 and −0.082 at k = 1, 2 and 4), and capability gains are smaller. Engineering data, estimation only. S3 is negative on all ten disjoint slices, nine of which passed validity.
 - **Disclosed.** `i1_dev7_64` (906680–906743) is BLOCKED by its own manifest check, because the version strings were bumped mid-run. It was repeated unchanged.
-- **Tests.** 283 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
+- **Tests.** 293 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
 - **Not claimed.** Consciousness, sentience, subjective experience, or anything beyond the frozen two-commitment world. No scientific family has been opened.
 
 ## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)

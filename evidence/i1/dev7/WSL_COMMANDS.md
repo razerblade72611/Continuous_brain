@@ -37,7 +37,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **283 passed**.
+- **Tests:** they must report **293 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -60,12 +60,12 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The approval-gate check** prints 56 `ok` lines and ends with `56/56 cases as expected: GATE OK`.
+- **The approval-gate check** prints 59 `ok` lines and ends with `59/59 cases as expected: GATE OK`.
   For each case it builds a temporary copy of the registry, opens the preflight family there through the
   real code path (a real spend in the temporary ledger), and approves from this run's genuine sealed view. The
   genuine chain must be accepted and every faulty variant refused. It never touches the real registry, and it
   spends nothing.
-- **The design digest** is `bcf896bc92cd5a4c9cc99da4000e7120fd986f16f79ed0a058448da7048016a8`. If it isn't,
+- **The design digest** is `4655f3396b388d389097c5c7b2c89cf3ddbde1366f7c396358ec359855f6223a`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -102,10 +102,12 @@ reports the missing preflight files and exits with code 2, but it still writes t
   machine.
 - **Run time:** Stage A takes about 1–2 minutes and Stage B about 5–8, depending on the CPU.
 
-**Between the preflight and the approval, change nothing in `registry/` and nothing in the preflight's
-directory, and keep the same checkout.** The approval checks that both registry files are byte-identical to
-their state when the preflight was opened. A change (even a harmless one, such as adding an unrelated
-preregistration) makes this preflight impossible to approve, and the preflight family cannot be reused.
+**Between the preflight and the approval, change nothing in `registry/` (including the seed ledger,
+`seed_ranges.json` and `seed_ranges.local.jsonl`) and nothing in the preflight's directory, and keep the same
+checkout.** The approval checks that both registry files and the seed ledger are byte-identical to their state
+when the preflight was opened. Any change, even a harmless one such as registering an unrelated family, makes
+this preflight impossible to approve, and the preflight family cannot be reused. Engineering dev runs don't
+touch the ledger, but don't run any other experiment from this checkout in between.
 
 ## After the preflight (only after the review, and only if you decide to approve)
 
@@ -116,13 +118,15 @@ command on the same machine, in the same directory:
 python scripts/i1_approve.py --preflight-dir runs/i1/wsl_i1_preflight --approver David --i-approve I1-INTEGRATED-INDIVIDUAL-v1
 ```
 
-It refuses unless every link of the chain holds (`docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §3):
+Type the approver exactly as `David`: the preregistration freezes `approval_authority: "David"`, and any
+other string (including `david`) is refused. It refuses unless every link of the chain holds
+(`docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §3):
 
 - this checkout's ledger records exactly one spend of `i1-v1-preflight-eng-b`, made by this preflight run;
 - the preflight's opening record binds that spend to this directory, its manifest and the registry state at
   opening;
 - the preflight was opened under the PROPOSED preregistration, the design is unchanged, and both registry
-  files are byte-identical to their state at opening;
+  files and the seed ledger are byte-identical to their state at opening;
 - this machine reproduces the preflight's manifest exactly;
 - the validity block has exactly the 14 I1 checks, all `true`, and all 12 I1 arms are bound to the manifest;
 - the sealed report exists, matches its SHA-256, and agrees with the visible view.
@@ -136,7 +140,7 @@ It then writes the approval into both registry files as one journaled act:
 If the approval is interrupted (for example by a power cut), everything refuses until you run
 `python scripts/i1_approve.py --recover`, which completes it.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (283 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (293 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
