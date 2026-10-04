@@ -97,10 +97,28 @@ that act *before* the family is spent, so nothing is opened if any of them fails
   no registered family and no I1 preregistered family at any offset pair (`runner.offset_collisions`, the same
   check that confines dev slices). The preflight runs the same check before its own spend.
 
+**Opening a family is one atomic transition.** `runner.open_family()` holds an exclusive cross-process lock
+(`runner.protocol_lock`, an `flock` on `registry/i1_protocol.lock`) for the whole transition, and the steps
+run in this order:
+
+1. reload the canonical ledger inside the lock;
+2. run the derived-id collision and usability checks;
+3. register the family if it is new, and spend it;
+4. verify the raw ledger lineage: at most one registration, exactly one spend, made by this run, and
+   nothing after it;
+5. write and fsync `seed_opened.json`;
+6. release the lock.
+
+A second process trying to open the same family waits for the lock, then finds the family spent and is
+refused. If the lineage check fails after the spend, the run is BLOCKED (`I1SpentButBlocked`). Approval and
+approval recovery hold the same lock. The science run checks the lineage of its own spend again before any
+verdict stands. A two-process test requires exactly one of two concurrent openers to succeed. A control
+with the lock disabled reproduces ChatGPT's double spend, so the test exercises the real race window.
+
 `scripts/dev/i1_tamper_check.py RUN_DIR` copies a finished run and injects one fault per copy. It confirms
 that the check meant to catch each fault turns false, and that the sealed (preflight) view contains no
-outcome-bearing field. On `i1_dev7_56i` all **21 of 21** are detected, and the untampered copy is fully
-valid (`evidence/i1/dev7/i1_dev7_56i/tamper_check.json`).
+outcome-bearing field. On `i1_dev7_64j` all **21 of 21** are detected, and the untampered copy is fully
+valid (`evidence/i1/dev7/i1_dev7_64j/tamper_check.json`).
 
 The 14 checks are one schema, `evaluate.VALIDITY_KEYS`. Every report asserts it. The lifecycle suite and the
 tests import the same tuple, so none of them can drift from it.
@@ -162,33 +180,44 @@ review: the ledger, the evidence hashes and the code are all inspected by someon
 | legacy_tree_unchanged, pins_verified | modification of, or drift in, the frozen legacy tree | — (checked by metadata hash and 28 pins) |
 | (sealed view) | the preflight revealing outcomes | counts that would reveal C2 appearing in `i1_validity.json` |
 
-## 4. Dev result: `i1_dev7_56i` (906144–906199, cloud CPU, ENGINEERING_ONLY, the code as delivered)
+## 4. Dev result: `i1_dev7_64j` (908000–908063, cloud CPU, ENGINEERING_ONLY, the code as delivered)
 
-The run has 56 individuals because 906144–906199 is the last slice of `cloud-dev-claude-eng` that no earlier I1
-run has used. All 14 validity checks hold. The runner reports **PASS** as the verdict this run *would* receive
-on a scientific family. Report SHA-256: `fbb38dbc…9314`. Manifest: `c68ccbc0…c86d` (85 code files, 28 legacy
-pins). The approval gate, run on this run's genuine sealed view through the full chain of custody, behaves as
-specified in 59 of 59 cases (`scripts/dev/i1_approval_gate_check.py`; §3, §6).
+The run uses `cloud-dev-claude-eng-2`, a second cloud engineering family (908000–908999), registered because no
+64-wide slice of `cloud-dev-claude-eng` was left that no earlier I1 run had used. All 14 validity checks hold.
+The runner reports **PASS** as the verdict this run *would* receive on a scientific family. Report SHA-256:
+`53c64467…fb99`. Manifest: `451dd6a1…fd65` (85 code files, 28 legacy pins). The approval gate, run on this run's
+genuine sealed view through the full chain of custody, behaves as specified in 59 of 59 cases
+(`scripts/dev/i1_approval_gate_check.py`; §3, §6).
 
 | check | value | n | frozen threshold |
 |---|---|---|---|
-| C1 first goal endogenous (targets the fragile commitment) | 1.000 | 56 | 0.95 |
-| C2 first goal completes (store lifecycle) | 0.875 | 56 | 0.80 |
-| C3 history guides the initial strategy | 1.000 | 56 | 0.95 |
-| C4 second goal authored | 1.000 | 49 | 0.95 |
-| C5 curriculum advances | 1.000 | 49 | 0.95 |
-| C6 erased autobiography → no goal | 1.000 | 56 | 1.0 |
-| C7 donor autobiography flips the goal | 1.000 | 56 | 0.95 |
-| C8 rolled-back autobiography repeats the goal | 1.000 | 49 | 0.95 |
-| C9 updated vs rolled-back second goals differ | 1.000 | 49 | 0.95 |
-| C10 persistence bit-exact (digest, tick, life trace) | 1.000 | 56 | 1.0 |
+| C1 first goal endogenous (targets the fragile commitment) | 0.984 | 64 | 0.95 |
+| C2 first goal completes (store lifecycle) | 0.953 | 64 | 0.80 |
+| C3 history guides the initial strategy | 0.984 | 64 | 0.95 |
+| C4 second goal authored | 1.000 | 61 | 0.95 |
+| C5 curriculum advances | 1.000 | 61 | 0.95 |
+| C6 erased autobiography → no goal | 1.000 | 64 | 1.0 |
+| C7 donor autobiography flips the goal | 0.969 | 64 | 0.95 |
+| C8 rolled-back autobiography repeats the goal | 1.000 | 61 | 0.95 |
+| C9 updated vs rolled-back second goals differ | 1.000 | 61 | 0.95 |
+| C10 persistence bit-exact (digest, tick, life trace) | 1.000 | 64 | 1.0 |
+
+**The first values below 1.0 for C1, C3 and C7** all trace back to one individual, 908055:
+- **C1 and C3:** its first goal targets commitment 1, not the evaluator's fragile commitment 2, and its initial
+  strategies are reversed. The frozen v0.36 driver (LEGACY_REF) makes the same choice on this seed, and the
+  fidelity check holds, so this is behaviour of the frozen mechanisms, not of the integration.
+- **C7:** because 908055 and its donor partner 908054 both target commitment 1, swapping their autobiographies
+  cannot flip either goal. That gives C7 its two misses.
+
+All three stay above their frozen thresholds. The scientific family may contain such individuals too; the
+thresholds were set with that room.
 
 Other measurements from the same run:
 
-- **Accounting:** 707,674 model forwards, all host-side, none driver-side. Zero blocked, unbound or
-  cross-slot calls. 173 replay checks.
-- **Hidden state:** all 56 RNG-perturbed twins match NORMAL in final store digest, final tick and life
-  trace. The frozen-object digests form one set across every life of every runtime arm. All 56 donor
+- **Accounting:** 827,482 model forwards, all host-side, none driver-side. Zero blocked, unbound or
+  cross-slot calls. 201 replay checks.
+- **Hidden state:** all 64 RNG-perturbed twins match NORMAL in final store digest, final tick and life
+  trace. The frozen-object digests form one set across every life of every runtime arm. All 64 donor
   entries follow `sid XOR 1`, and each DONOR store held exactly the partner's autobiography after the
   intervention.
 - **Authority controls:** in every one of the 12 lives, the second half changed, or aborted with the
@@ -196,21 +225,21 @@ Other measurements from the same run:
 
 **Secondary (reported, never gating):**
 
-- **S1, first half identical under the controller and under fixed SCAFFOLD: 1.0** (n = 56), as predicted.
-- **S2, goal-2 episodes pursued DIRECT: 1.0** (708 episodes), as predicted.
-- **S3, goal-2 completion: controller 0.327 vs fixed SCAFFOLD 0.551** (n = 49). Paired difference −0.224,
-  95% CI [−0.347, −0.122]. Registered as estimation-only.
+- **S1, first half identical under the controller and under fixed SCAFFOLD: 1.0** (n = 64), as predicted.
+- **S2, goal-2 episodes pursued DIRECT: 1.0** (903 episodes), as predicted.
+- **S3, goal-2 completion: controller 0.311 vs fixed SCAFFOLD 0.508** (n = 61). Paired difference −0.197,
+  95% CI [−0.295, −0.098]. Registered as estimation-only.
 - **S4, the mechanism at matched goal-2 checks** (preregistered after ChatGPT's review, estimation-only).
   Population: first-goal completers of both arms. At check k, only individuals still pursuing in **both** arms
   are counted. Deltas are measured from check 0; the CI is a paired bootstrap.
 
   | k | n at risk | reliability gain: controller / fixed | paired difference [95% CI] | capability gain: controller / fixed | paired difference [95% CI] |
   |---|---|---|---|---|---|
-  | 1 | 49 | −0.042 / −0.007 | −0.035 [−0.051, −0.020] | 0.039 / 0.047 | −0.008 [−0.013, −0.004] |
-  | 2 | 49 | −0.059 / −0.006 | −0.053 [−0.072, −0.034] | 0.073 / 0.083 | −0.010 [−0.015, −0.005] |
-  | 4 | 48 | −0.067 / +0.015 | −0.082 [−0.109, −0.055] | 0.122 / 0.133 | −0.012 [−0.018, −0.007] |
+  | 1 | 61 | −0.055 / −0.018 | −0.037 [−0.052, −0.022] | 0.038 / 0.050 | −0.013 [−0.019, −0.007] |
+  | 2 | 61 | −0.072 / −0.022 | −0.050 [−0.069, −0.032] | 0.070 / 0.087 | −0.017 [−0.026, −0.009] |
+  | 4 | 61 | −0.057 / −0.001 | −0.056 [−0.078, −0.034] | 0.123 / 0.140 | −0.017 [−0.026, −0.010] |
 
-  Descriptively, goal-2 episodes under the controller average 2.88 successful and 0.12 failed work steps. Under
+  Descriptively, goal-2 episodes under the controller average 2.84 successful and 0.16 failed work steps. Under
   fixed SCAFFOLD they average 1.99 successful and 0.011 failed.
 
 **What S3 and S4 mean.** The developmental controller and the goal system value different things. The
@@ -222,8 +251,9 @@ mechanism is in the frozen v0.33 world (`self_development_loop_v1.py`, `evaluate
 | surprise probability per work step | 0.15 (1−c) | 0.85 (1−c) |
 | capability gain per successful work step | 0.13 (1−c) | 0.085 (1−c) |
 
-DIRECT buys **throughput**: about 45% more successful work per episode in this run. It pays in learning, with
-smaller capability gains, and in surprises: about 11 times as many failed steps here (7 times in 64h, 10 in 64g). The second goal is scored on
+DIRECT buys **throughput**: about 43% more successful work per episode in this run. It pays in learning, with
+smaller capability gains, and in surprises: about 14 times as many failed steps here (11 in 56i, 7 in 64h,
+10 in 64g). The second goal is scored on
 the self-model's reliability, which surprises lower, and no I1 outcome measures throughput. The controller
 graduates to DIRECT on reliability alone, and the goal then asks for reliability that DIRECT practice erodes.
 So the frozen mechanisms are coherent and causally coupled, but they disagree about what progress is.
@@ -249,9 +279,10 @@ engineering-motivated.
 | i1_dev7_64f | 906332–906395 | before the arm-coverage fix | −0.186 | [−0.288, −0.102] | `i1_dev7_64f/` |
 | i1_dev7_64g | 906432–906495 | before the chain-of-custody fix | −0.267 | [−0.383, −0.167] | `i1_dev7_64g/` |
 | i1_dev7_64h | 906532–906595 | before the fourth gate audit | −0.169 | [−0.288, −0.068] | `i1_dev7_64h/` |
-| i1_dev7_56i | 906144–906199 | as delivered (56 individuals) | −0.224 | [−0.347, −0.122] | `i1_dev7_56i/` |
+| i1_dev7_56i | 906144–906199 | before the fifth audit (56 individuals) | −0.224 | [−0.347, −0.122] | `i1_dev7_56i/` |
+| i1_dev7_64j | 908000–908063 | as delivered (`cloud-dev-claude-eng-2`) | −0.197 | [−0.295, −0.098] | `i1_dev7_64j/` |
 
-All ten point the same way, including the nine runs whose validity checks all held, but the size varies with the
+All eleven point the same way, including the ten runs whose validity checks all held, but the size varies with the
 individuals. The scientific family will give the
 estimate that counts.
 
@@ -326,8 +357,14 @@ It will get its own preregistration. I1 is not modified: it closes first, as the
     70000) did not stop the scientific family from opening.
 
   All three are fixed (§3). The zip no longer carries a dangling `origin/HEAD`. The design digest is now
-  `4655f339…`. `i1_dev7_56i` is the run of the final code. It has 56 individuals, not 64, because 906144–906199
-  is the last slice of `cloud-dev-claude-eng` that no earlier I1 run used.
+  `4655f339…`. The run of that code, `i1_dev7_56i`, has 56 individuals, because 906144–906199 was the last
+  slice of `cloud-dev-claude-eng` that no earlier I1 run used.
+- **ChatGPT's fifth audit** (`c627c93`, run 56i) reproduced the package again: 305/305 tests, 475/475
+  evidence sums and 21/21 tamper detections. It found one more blocker: the single-use spend was not atomic
+  across processes. Two concurrent science openings both succeeded, and the ledger held two registrations and
+  two spends of `i1-v1-dev`. Fixed by the locked opening transition (§3). The design digest is now
+  `c7c238ea…`. A second cloud engineering family, `cloud-dev-claude-eng-2` (908000–908999), was registered in the
+  cloud ledger for dev runs. `i1_dev7_64j` (908000–908063) is the run of the final code.
 - **Cloud preflight incident.** `i1-v1-preflight-eng` (907000–907063) was consumed by mistake in the cloud on
   2026-10-02. It is recorded as spent and replaced by `i1-v1-preflight-eng-b` (907100–907163). The sealed
   report (`8c061c1e…`) has not been opened.
@@ -355,7 +392,9 @@ It will get its own preregistration. I1 is not modified: it closes first, as the
 
 | ChatGPT (fourth audit) | `approve()` accepted any approver; the seed ledger was not compared at approval; derived ids were checked for dev slices only | `approval_authority: "David"` frozen and digested, with an exact match in `approve()`, science and `lifecycle_problems`; the opening seed-ledger digest must equal the current one at approval; `runner.offset_collisions` is one function, used for dev slices and in `open_family()` before every preflight and science spend; negative tests cover every non-David approver (including empty and whitespace) and a collision at each of the six offset pairs, in both directions, for both the preflight and the science spend; the gate check adds the approver-is-Claude, wrong-case and unrelated-ledger-row cases (59 cases) |
 
-Tests: 305 pass in every legal lifecycle state.
+| ChatGPT (fifth audit) | two concurrent openings of one single-use family both succeeded | `runner.protocol_lock` (cross-process `flock`) around `open_family()`, `approve()` and `recover_approval()`; the ledger is reloaded inside the lock; the raw lineage is verified before `seed_opened.json` is written and fsynced; `I1SpentButBlocked` writes a BLOCKED report; science re-checks its own spend lineage before a verdict; two-process tests for science and preflight (exactly one opener succeeds), a lock-disabled control that reproduces the double spend, and lock-timeout tests |
+
+Tests: 311 pass in every legal lifecycle state.
 
 ## 7. Path to the scientific I1
 

@@ -9,7 +9,9 @@ passed.
 Nothing here opens the scientific family `i1-v1-dev`, and nothing writes to the legacy tree. Every run
 compares the tree's metadata before and after, and you hash the protected checkpoint before and after.
 
-**Rule: don't edit, copy into or pull into the `Continuous_brain` directory while a run is going.** Every
+**Rule: run one protocol command at a time, and don't edit, copy into or pull into the `Continuous_brain`
+directory while a run is going.** (A second preflight, science or approval started while one holds the
+registry lock waits up to 30 s and is then refused; that is the lock doing its job.) Every
 arm records a hash of all the code, and a change in the middle of a run blocks it. (This happened once in
 the cloud; see `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §5.)
 
@@ -37,7 +39,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **305 passed**.
+- **Tests:** they must report **311 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -65,7 +67,7 @@ python scripts/i1_run.py --print-design-digest
   real code path (a real spend in the temporary ledger), and approves from this run's genuine sealed view. The
   genuine chain must be accepted and every faulty variant refused. It never touches the real registry, and it
   spends nothing.
-- **The design digest** is `4655f3396b388d389097c5c7b2c89cf3ddbde1366f7c396358ec359855f6223a`. If it isn't,
+- **The design digest** is `c7c238eab5f97166edbcc45c796df247bb85834530fc81c2783cf04512ac2a39`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -140,7 +142,7 @@ It then writes the approval into both registry files as one journaled act:
 If the approval is interrupted (for example by a power cut), everything refuses until you run
 `python scripts/i1_approve.py --recover`, which completes it.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (305 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (311 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
