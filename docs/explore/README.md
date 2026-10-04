@@ -30,7 +30,7 @@ mkdir -p runs/explore/vision
 cp /mnt/c/Users/davei/cb_exchange/tile_decoder_v1.pt runs/explore/vision/
 sha256sum runs/explore/vision/tile_decoder_v1.pt
 export PYTHONPATH=$PWD
-python -m pytest -q -p no:cacheprovider tests/test_w1_world.py tests/test_vision_organ.py tests/test_language_organ.py tests/test_w1_individual.py tests/test_w1_viewer.py
+python -m pytest -q -p no:cacheprovider tests/test_w1_world.py tests/test_vision_organ.py tests/test_language_organ.py tests/test_w1_individual.py tests/test_w1_learned.py tests/test_w1_viewer.py
 ```
 
 - **The weights hash** must be `0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999`.
@@ -57,6 +57,18 @@ python scripts/explore/w1_viewer.py --seed 71001
 Then open http://localhost:8765 in a Windows browser (WSL forwards localhost). If the page doesn't load, stop the
 server with Ctrl+C and start it again with `--host 0.0.0.0` added.
 
+**One individual, many lives.** By default the individual learns from its own lives (`LIFELONG_W1.md`). When it
+dies it has a last moment in which it closes the life and learns from it. Then the whole individual is saved to disk
+automatically. With "Next life when it dies" checked, the same individual wakes in the next world. Its map,
+requests and plans belong to the old world and start over; what it learned, what it believes about itself and
+its diary carry on. Ctrl+C also saves it. To pick up where you left off, the next day or after a restart:
+
+```bash
+python scripts/explore/w1_viewer.py --resume latest
+```
+
+`--skills routine` gives the earlier individual with the fixed routine library and one life.
+
 What the page shows, top to bottom:
 
 - **What it sees, what it remembers, what is really there.** Its actual 64 by 64 input with what its vision organ
@@ -69,18 +81,25 @@ What the page shows, top to bottom:
 - **Its activity over time**: every number each faculty writes to the store, one row each, one column per tick,
   plus the time each faculty spends; hits (red), messages heard (pink) and first achievements (yellow) are
   marked underneath.
+- **What it foresees, how it values its choices, and its lives**: its learned predictions of dying, running
+  out of water or food, getting hurt or exhausted in the next 100 steps; the value it puts on each option now (the
+  one it is following is marked); and every life so far, how long it lived and how much it did, with the average
+  of the last ten lives, which is where learning shows.
 - **Body, commitments, conversation, self-model and diary**: vitals over time, every request with its deadline
   and both its own and the caretaker's verdict, the conversation with what it understood from each message, its
   believed success rates, and the days it has narrated.
 
-Controls: Play and Pause (Space), Step (the period key), speed, starting a new life (seed and ablations), erasing
-one faculty's state in the store (effective from the next tick), a bookmark to return to, and Save to disk.
+Controls: Play and Pause (Space), Step (the period key), speed, "Next life when it dies", starting a new
+individual (a newborn: seed, ablations, learned or fixed skills), erasing one faculty's state in the store
+(effective from the next tick; erasing Skills or Foresight also forgets what they learned), a bookmark to return
+to, and Save to disk.
 
-Saves go to `runs/explore/viewer/lives/<seed>/checkpoints/<snapshot>`. They are never overwritten, and the runtime
+Saves go to `runs/explore/viewer/lives/<individual>/checkpoints/<snapshot>`, with one line per life in
+`runs/explore/viewer/lives/<individual>/lives.jsonl`. They are never overwritten, and the runtime
 snapshot is checksummed. Resume one with:
 
 ```bash
-python scripts/explore/w1_viewer.py --resume runs/explore/viewer/lives/seed71001/checkpoints/<snapshot>
+python scripts/explore/w1_viewer.py --resume runs/explore/viewer/lives/<individual>/checkpoints/<snapshot>
 ```
 
 Watching does not change the life: `tests/test_w1_viewer.py` checks that a watched life is identical, action by

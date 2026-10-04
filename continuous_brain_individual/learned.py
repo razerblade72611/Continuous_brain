@@ -30,7 +30,8 @@ routine is and learns when to depart from it), mixed with a small, decaying chan
 (otherwise an option it never tried keeps its initial value and is never tried).
 
 The value of choosing an option in a state is learned from what actually followed, over its whole life: what
-it felt while each option ran (health gained or lost, new things done, the caretaker's thanks or complaints),
+it felt while each option ran (health gained or lost, new things done, the caretaker's thanks or complaints, and
+a small well-being for every step alive, larger when its food, water, rest and health are good),
 discounted by GAMMA per step, to the end of the life, which in death ends with DEATH.  When a life ends, every
 decision of that life gets its return (Monte Carlo, no bootstrapping: an earlier version bootstrapped from its
 own estimates, semi-Markov double Q-learning, and its values ran away to many times any real return), and the
@@ -86,6 +87,7 @@ EPS0, EPS_MIN = 0.1, 0.02     # chance of trying any feasible option, so options
 PRIOR = np.array([0.85] + [0.15 / (NOPT - 1)] * (NOPT - 1))
 FEEDBACK_REWARD = {"fulfilled": 1.0, "correct": 1.0, "late": -1.0, "violated": -1.0, "wrong": -1.0,
                    "no_answer": -1.0}
+ALIVE, COMFORT = 0.01, 0.01   # well-being each step it is alive, more the better its needs are met
 
 
 def _views(layout: Layout, flat: np.ndarray, prefix: str) -> dict:
@@ -233,12 +235,15 @@ class LearnedSkillHost(_Host):
     # ------------------------------------------------------------------------------------------ helpers
     @staticmethod
     def _feeling(prev: dict | None, body: dict, events: list[dict]) -> float:
-        """What it felt since the last tick: health gained or lost, new things done, the caretaker's verdicts."""
+        """What it felt since the last tick: health gained or lost, new things done, the caretaker's verdicts, and
+        well-being for being alive, the more so the better its needs are met."""
         if prev is None:
             return 0.0
         inv = body["inventory"]
         done = sum(1 for v in body["achievements"].values() if v)
         r = 0.1 * (inv["health"] - prev["health"]) + 1.0 * max(0, done - prev["done"])
+        comfort = (min(inv["food"], 6) + min(inv["drink"], 6) + min(inv["energy"], 6)) / 18 * inv["health"] / 9
+        r += ALIVE + COMFORT * comfort
         for e in events:
             if e["type"] == "feedback":
                 r += FEEDBACK_REWARD.get(e["outcome"], 0.0)
