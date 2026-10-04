@@ -37,7 +37,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **293 passed**.
+- **Tests:** they must report **305 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -140,7 +140,7 @@ It then writes the approval into both registry files as one journaled act:
 If the approval is interrupted (for example by a power cut), everything refuses until you run
 `python scripts/i1_approve.py --recover`, which completes it.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (293 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (305 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash

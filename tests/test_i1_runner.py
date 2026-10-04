@@ -628,6 +628,9 @@ def test_only_the_frozen_approval_authority_can_approve(tmp_path):
     for who in ("Claude", "ChatGPT", "david", " David", "David ", "DAVID"):
         with pytest.raises(runner.I1Refused, match="approval authority"):
             runner.approve(preflight_dir=str(d), approver=who, confirm=runner.PREREG_ID, root=root)
+    for who in ("", "   ", "\t"):
+        with pytest.raises(runner.I1Refused, match="requires --approver"):
+            runner.approve(preflight_dir=str(d), approver=who, confirm=runner.PREREG_ID, root=root)
     assert _status(root) == "PROPOSED"
     _approve(root, d)
     assert json.loads((root / runner.PREREG_FILE).read_text())["approved_by"] == "David"
@@ -727,4 +730,32 @@ def test_derived_id_check_is_one_function_for_dev_and_for_every_spend():
         f = p["families"][key]
         home = SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"]))
         assert runner.offset_collisions(reg, home.start, home.stop, p, home) == []     # the real families are clean
+
+
+# every offset pair, both directions: (our offset, their offset) in {0, 70000, 90000}^2, their ids placed so
+# that their ids + their offset land on our ids + our offset (delta = our_off - their_off)
+@pytest.mark.parametrize("ours,theirs", [(o, t) for o in (0, 70000, 90000) for t in (0, 70000, 90000) if o != t])
+def test_science_spend_refuses_a_derived_id_collision_at_every_offset_pair(tmp_path, ours, theirs):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    _approve(root, d)
+    sci = json.loads((root / runner.PREREG_FILE).read_text())["families"]["scientific_dev_proposed"]
+    start = sci["start"] + ours - theirs
+    _register(root, f"collide-{ours}-{theirs}", start, start + 3)
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    with pytest.raises(runner.I1Refused, match=rf"cannot be opened.*\(offset {ours}\).*\(offset {theirs}\)"):
+        runner.open_family("science", "sci", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
+                           man=runner.manifest(2), run_dir=run_dir, root=root)
+    assert _sci_rows(root) == []
+
+
+@pytest.mark.parametrize("ours,theirs", [(o, t) for o in (0, 70000, 90000) for t in (0, 70000, 90000) if o != t])
+def test_preflight_spend_refuses_a_derived_id_collision_at_every_offset_pair(tmp_path, ours, theirs):
+    root = proposed_root(tmp_path)
+    pf = json.loads((root / runner.PREREG_FILE).read_text())["families"]["engineering_preflight_proposed"]
+    start = pf["start"] + ours - theirs
+    _register(root, f"collide-{ours}-{theirs}", start, start + 3)
+    with pytest.raises(runner.I1Refused, match="cannot be opened"):
+        synthetic_preflight(root)
 

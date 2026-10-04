@@ -51,7 +51,7 @@
   The design digest is now `4655f339…`.
 - **Dev result.** `i1_dev7_56i` (906144–906199, 56 individuals: the last fresh slice of `cloud-dev-claude-eng`; cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. The tamper check detects 21/21 faults; the gate check passes 59/59 through the full chain of custody. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.327 vs 0.551, difference −0.224, 95% CI [−0.347, −0.122]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.035, −0.053 and −0.082 at k = 1, 2 and 4), and capability gains are smaller. Engineering data, estimation only. S3 is negative on all ten disjoint slices, nine of which passed validity.
 - **Disclosed.** `i1_dev7_64` (906680–906743) is BLOCKED by its own manifest check, because the version strings were bumped mid-run. It was repeated unchanged.
-- **Tests.** 293 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
+- **Tests.** 305 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
 - **Not claimed.** Consciousness, sentience, subjective experience, or anything beyond the frozen two-commitment world. No scientific family has been opened.
 
 ## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)
