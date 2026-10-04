@@ -9,7 +9,8 @@ touch the protected I1 lane (`LANES.md`; the lane guard test checks the frozen I
 | `continuous_brain_organs/vision.py` | the **vision organ**: a learned tile decoder from pixels (0.995 / 0.9985 on held-out worlds) | `VISION_ORGAN.md` |
 | `continuous_brain_organs/language.py` | the **language organ**: open-weight language models (Qwen2.5, SmolLM2, Llama-3.1 ladder) or the labelled development stand-in | `LANGUAGE_ORGAN.md` |
 | `continuous_brain_individual/` | **the individual**: perception, memory, commitments, self-model, speech, skills and autobiography as hosts over the canonical store | `INDIVIDUAL_W1.md` |
-| `continuous_brain_individual/viewer.py`, `scripts/explore/w1_viewer.py` | **the live viewer**: watch one life in the browser (below) | this file |
+| `continuous_brain_individual/learned.py`, `scripts/explore/w1_lifelong.py` | **one individual across lives**: learned foresight and choice, trained only on its own lives | `LIFELONG_W1.md` |
+| `continuous_brain_individual/viewer.py`, `scripts/explore/w1_viewer.py` | **the live viewer**: watch it live, learn and continue across lives in the browser (below) | this file |
 
 ## Setting up on David's WSL (Ubuntu-24.04)
 
@@ -123,3 +124,26 @@ cp ~/cb_models/models.lock.json /mnt/c/Users/davei/cb_exchange/models.lock.json
 - **The experiment** takes a few minutes per life on CPU: the model reads each caretaker message, about 30 per life.
 - **Afterwards**, send `w1_individual_qwen05.json` and `models.lock.json` back. The lock file pins the exact
   model revision and file hashes that were downloaded.
+
+## Training it for many lives, headless
+
+Your machine is much faster than the cloud workspace. This lets one individual live 2000 lives on training worlds,
+saving it every 25 lives. It can be stopped with Ctrl+C and continued with `--resume <snapshot>`.
+
+```bash
+cd ~/projects/continuous_brain_explore
+source ~/venvs/cb_explore/bin/activate
+export PYTHONPATH=$PWD
+python scripts/explore/w1_lifelong.py train --lives 2000 --out runs/explore/lifelong/home1
+```
+
+Then test it frozen on the 20 test worlds (it never trained on them), and watch it:
+
+```bash
+ls runs/explore/lifelong/home1/individual/checkpoints/
+python scripts/explore/w1_lifelong.py evaluate --snapshot runs/explore/lifelong/home1/individual/checkpoints/<snapshot>
+python scripts/explore/w1_viewer.py --adopt runs/explore/lifelong/home1/individual/checkpoints/<snapshot>
+```
+
+Each life is one line in `runs/explore/lifelong/home1/lives.jsonl`. Send that file and the `.eval.json` files
+back to compare with `LIFELONG_W1.md`.

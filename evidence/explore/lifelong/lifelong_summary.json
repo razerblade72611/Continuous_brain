@@ -1,0 +1,313 @@
+{
+ "format": "cb-w1-lifelong-summary/1",
+ "status": "ENGINEERING_ONLY",
+ "note": "run8 is the shipped design (bootstrap ensemble, confidence-gated); run4 an earlier one (one network, Boltzmann + prior, gamma 0.995, no well-being). Training worlds 73001+, test worlds 71001-71020 (never trained on), 3000-step cap, development language stand-in.",
+ "routine_train_worlds": {
+  "worlds": 200
+ },
+ "run8_blocks": [
+  {
+   "lives": [
+    0,
+    24
+   ],
+   "learner_steps": 448,
+   "routine_steps": 662,
+   "learner_done": 13.4,
+   "routine_done": 12.4,
+   "kept": [
+    18,
+    66
+   ],
+   "routine_kept": [
+    55,
+    102
+   ],
+   "routine_share": 0.59
+  },
+  {
+   "lives": [
+    25,
+    49
+   ],
+   "learner_steps": 521,
+   "routine_steps": 590,
+   "learner_done": 13.7,
+   "routine_done": 13.6,
+   "kept": [
+    36,
+    82
+   ],
+   "routine_kept": [
+    54,
+    103
+   ],
+   "routine_share": 0.71
+  },
+  {
+   "lives": [
+    50,
+    74
+   ],
+   "learner_steps": 420,
+   "routine_steps": 535,
+   "learner_done": 13.6,
+   "routine_done": 12.4,
+   "kept": [
+    31,
+    67
+   ],
+   "routine_kept": [
+    38,
+    84
+   ],
+   "routine_share": 0.68
+  },
+  {
+   "lives": [
+    75,
+    99
+   ],
+   "learner_steps": 660,
+   "routine_steps": 697,
+   "learner_done": 13.6,
+   "routine_done": 13.0,
+   "kept": [
+    67,
+    120
+   ],
+   "routine_kept": [
+    67,
+    132
+   ],
+   "routine_share": 0.7
+  },
+  {
+   "lives": [
+    100,
+    124
+   ],
+   "learner_steps": 489,
+   "routine_steps": 559,
+   "learner_done": 13.0,
+   "routine_done": 12.7,
+   "kept": [
+    40,
+    83
+   ],
+   "routine_kept": [
+    51,
+    95
+   ],
+   "routine_share": 0.77
+  },
+  {
+   "lives": [
+    125,
+    149
+   ],
+   "learner_steps": 479,
+   "routine_steps": 643,
+   "learner_done": 13.1,
+   "routine_done": 12.5,
+   "kept": [
+    37,
+    60
+   ],
+   "routine_kept": [
+    49,
+    99
+   ],
+   "routine_share": 0.78
+  }
+ ],
+ "run4_blocks": [
+  {
+   "lives": [
+    0,
+    24
+   ],
+   "learner_steps": 544,
+   "routine_steps": 662,
+   "learner_done": 12.8,
+   "routine_done": 12.4,
+   "kept": [
+    40,
+    79
+   ],
+   "routine_kept": [
+    55,
+    102
+   ],
+   "routine_share": 0.82
+  },
+  {
+   "lives": [
+    25,
+    49
+   ],
+   "learner_steps": 553,
+   "routine_steps": 590,
+   "learner_done": 14.3,
+   "routine_done": 13.6,
+   "kept": [
+    46,
+    84
+   ],
+   "routine_kept": [
+    54,
+    103
+   ],
+   "routine_share": 0.64
+  },
+  {
+   "lives": [
+    50,
+    74
+   ],
+   "learner_steps": 482,
+   "routine_steps": 535,
+   "learner_done": 13,
+   "routine_done": 12.4,
+   "kept": [
+    38,
+    87
+   ],
+   "routine_kept": [
+    38,
+    84
+   ],
+   "routine_share": 0.61
+  },
+  {
+   "lives": [
+    75,
+    99
+   ],
+   "learner_steps": 530,
+   "routine_steps": 697,
+   "learner_done": 13.3,
+   "routine_done": 13.0,
+   "kept": [
+    42,
+    102
+   ],
+   "routine_kept": [
+    67,
+    132
+   ],
+   "routine_share": 0.46
+  }
+ ],
+ "evaluations": {
+  "run8_untrained": {
+   "lives_lived": 0,
+   "git": "cf8dbd021b8ae716d10ee3b1e156e34834e85d4e",
+   "episodes": 20,
+   "crafter_score": 30.205824257118785,
+   "achievements_per_episode": 12.75,
+   "survival_steps": 687.55,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 56,
+    "failed": 42,
+    "rate": 0.5714285714285714
+   },
+   "memory": [
+    29,
+    29
+   ]
+  },
+  "run8_lives100": {
+   "lives_lived": 100,
+   "git": "cf8dbd021b8ae716d10ee3b1e156e34834e85d4e",
+   "episodes": 20,
+   "crafter_score": 30.073447369569536,
+   "achievements_per_episode": 12.85,
+   "survival_steps": 480.8,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 34,
+    "failed": 39,
+    "rate": 0.4657534246575342
+   },
+   "memory": [
+    17,
+    18
+   ]
+  },
+  "run8_lives150": {
+   "lives_lived": 150,
+   "git": "cf8dbd021b8ae716d10ee3b1e156e34834e85d4e",
+   "episodes": 20,
+   "crafter_score": 32.17819057230549,
+   "achievements_per_episode": 13.2,
+   "survival_steps": 605.15,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 42,
+    "failed": 44,
+    "rate": 0.4883720930232558
+   },
+   "memory": [
+    26,
+    26
+   ]
+  },
+  "untrained": {
+   "lives_lived": 0,
+   "git": "c31984d3549dfd1ea0d301a37c8bdcffc91e7547",
+   "episodes": 20,
+   "crafter_score": 35.26306388034422,
+   "achievements_per_episode": 13.25,
+   "survival_steps": 762.4,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 52,
+    "failed": 59,
+    "rate": 0.46846846846846846
+   },
+   "memory": [
+    39,
+    39
+   ]
+  },
+  "run4_lives50": {
+   "lives_lived": 50,
+   "git": "c31984d3549dfd1ea0d301a37c8bdcffc91e7547",
+   "episodes": 20,
+   "crafter_score": 35.68384553087663,
+   "achievements_per_episode": 14.0,
+   "survival_steps": 576.15,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 59,
+    "failed": 32,
+    "rate": 0.6483516483516484
+   },
+   "memory": [
+    26,
+    27
+   ]
+  },
+  "run4_lives100": {
+   "lives_lived": 100,
+   "git": "b8c6d2584084f00a3f008f94b0fc20ebc0770c1f",
+   "episodes": 20,
+   "crafter_score": 27.433358216286823,
+   "achievements_per_episode": 13.75,
+   "survival_steps": 467.75,
+   "deaths": 20,
+   "obligations_on_time": {
+    "fulfilled": 33,
+    "failed": 33,
+    "rate": 0.5
+   },
+   "memory": [
+    20,
+    21
+   ]
+  }
+ },
+ "code": "cf8dbd021b8ae716d10ee3b1e156e34834e85d4e"
+}

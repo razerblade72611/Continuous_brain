@@ -737,7 +737,7 @@ function renderLives(f) {
   g.strokeStyle = "#EAE5D9"; g.lineWidth = 1.6; g.beginPath();
   lives.forEach((l, i) => { const w = lives.slice(Math.max(0, i - 9), i + 1); const m = w.reduce((a, q) => a + q.steps, 0) / w.length;
     const y = H - 14 - (H - 24) * m / maxS; i ? g.lineTo(x(i) + bw / 2, y) : g.moveTo(x(i) + bw / 2, y); }); g.stroke();
-  const last = lives.slice(-3).reverse().map((l) => `Life ${l.life + 1}: ${l.steps} steps, ${l.done} things done, ${l.fulfilled} requests kept; it ${l.cause.replace(/^died at step \d+: ?/, "died: ")}`);
+  const last = lives.slice(-3).reverse().map((l) => `Life ${l.life + 1}: ${l.steps} steps, ${l.done} things done${l.fulfilled == null ? "" : `, ${l.fulfilled} requests kept`}; it ${l.cause.replace(/^died at step \d+: ?/, "died: ").replace(/^died: /, "died: ")}`);
   $("lastlives").innerHTML = last.map(esc).join("<br>");
 }
 

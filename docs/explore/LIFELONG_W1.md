@@ -23,7 +23,7 @@ world:
 | skills (routine plans) | its shelter and plans are gone |
 | skills (what it learned), foresight | carry on |
 | self-model | carries on: what it believes about itself |
-| autobiography | carries on: its diary, and a record of every life |
+| autobiography | carries on: its diary (the most recent 120 days) and a record of its last 300 lives |
 
 The driver tells it two things about its situation: which life this is, and in its last moment, that it is dying.
 These are labelled as the world's news, like its clock.
@@ -97,7 +97,59 @@ shelter in daylight unless it is tired. Within that, which option serves it best
 
 ## 4. Results
 
-RESULTS
+Two measurements, both with the development language stand-in. Evidence:
+`evidence/explore/lifelong/lifelong_summary.json`.
+
+- **While it learns.** Training lives on worlds 73001 onward, each compared with the routine individual (`INDIVIDUAL_W1.md`) living the same world.
+- **What it has learned.** Saved checkpoints tested frozen (no learning, no random tries) on the 20 test worlds of `INDIVIDUAL_W1.md` (71001–71020), which it never lived in.
+
+**The shipped design** (bootstrap ensemble, confidence-gated; run8, 162 lives, about 80,000 steps). Training lives in
+blocks of 25:
+
+| lives | steps lived (it / routine, same worlds) | things done (it / routine) | requests kept (it / routine) | routine chosen |
+|---|---|---|---|---|
+| 0–24 | 448 / 662 | 13.4 / 12.4 | 18/66 / 55/102 | 59% |
+| 25–49 | 521 / 590 | 13.7 / 13.6 | 36/82 / 54/103 | 71% |
+| 50–74 | 420 / 535 | 13.6 / 12.4 | 31/67 / 38/84 | 68% |
+| 75–99 | 660 / 697 | 13.6 / 13.0 | 67/120 / 67/132 | 70% |
+| 100–124 | 489 / 559 | 13.0 / 12.7 | 40/83 / 51/95 | 77% |
+| 125–149 | 479 / 643 | 13.1 / 12.5 | 37/60 / 49/99 | 78% |
+
+Tested frozen on the 20 test worlds:
+
+| | Crafter score | things done per life | requests on time | survival (steps) |
+|---|---|---|---|---|
+| routine individual | 30.2 | 12.8 | 0.57 | 688 |
+| newborn (0 lives) | 30.2 | 12.8 | 0.57 | 688 |
+| after 100 lives | 30.1 | 12.8 | 0.47 | 481 |
+| after 150 lives | 32.2 | 13.2 | 0.49 | 605 |
+
+**An earlier design** (one network, Boltzmann choice with a prior, a 200-step horizon, no well-being; run4), tested
+the same way:
+- newborn: 35.3 score / 762 steps;
+- after 50 lives: 35.7 / 576;
+- after 100 lives: 27.4 / 468.
+
+Its newborn differs from the routine because its random values already pull it off the routine now and then.
+That difference alone shows how much 20 worlds move with small changes of behaviour.
+
+Readings:
+
+- **The machinery learns, and what it learns is real.** Its foresight's error falls with experience. Its choice
+  fits the returns that follow its decisions. It departs from its routine in situations where its memory says
+  departing paid.
+- **It does more, but it does not yet live longer than its routine.** Every training block shows more things done
+  than its routine on the same worlds. Every block also shows shorter lives, and fewer of its requests kept. On the
+  test worlds, after 150 lives, its Crafter score is 2 points above the routine and its lives 83 steps shorter.
+  With 20 worlds, both differences are within what small changes of behaviour move.
+- **Why survival lags.** Its returns look about 50 steps ahead (a discount of 0.98 per step). A longer horizon
+  made the returns too noisy to learn from. At that horizon, a new thing done now outweighs a slightly higher
+  chance of dying 100 steps later. Its deaths are mostly need management: thirst and hunger together cause about
+  60% of them, the rest are monsters. The fix for those is partly below the options it chooses among. The routine
+  waits in a besieged shelter until thirst kills it, and does not know where to find water. Choosing between the
+  same routines more cleverly cannot fix that.
+- **The newborn is its routine.** With no evidence it never leaves its routine, so a new individual starts exactly
+  where the v1 individual was, and anything it learns is measured from there.
 
 ## 5. What did not work (kept, so nobody repeats it)
 
@@ -116,4 +168,14 @@ RESULTS
 
 ## 6. Next
 
-NEXT
+1. **Far more lives.** 160 lives here are about 80,000 steps. Deep reinforcement learning agents in Crafter are
+   usually trained for a million. On David's machine, `scripts/explore/w1_lifelong.py train --lives 2000` runs
+   overnight. Then `w1_lifelong.py evaluate --snapshot ...` measures it, and `w1_viewer.py --adopt ...` lets him
+   watch the trained individual.
+2. **A longer horizon that is still learnable.** Bootstrapped targets taken only from the ensemble's lower bound,
+   and per-state baselines (its routine's estimated value), so that the next 300 steps count without the variance
+   that sank the 0.995 horizon.
+3. **Learning below the options.** Learn the skills themselves: imitation of its routine from its own beliefs, then
+   reinforcement learning with a learned world model, on a GPU. This is what fixes the thirst deaths and the
+   besieged shelters.
+4. **A real language model in the loop** (`README.md`), now with an individual that keeps what it learns.

@@ -116,7 +116,8 @@ Readings:
 1. **A real language model.** Run the same experiment with `--language hf` on David's WSL (CPU is enough for
    Qwen2.5-0.5B: about 30 messages per life) or a rented GPU; then the larger models of the ladder. This
    replaces the stand-in and measures open-model understanding inside a living individual.
-2. **Learn the skills.** First imitation of the privileged reference from the individual's own beliefs (DAgger:
+2. **Learn the skills.** Done in part: one individual across lives, with learned foresight and a learned choice
+   among its routines (`LIFELONG_W1.md`). Still to do, the skills themselves: First imitation of the privileged reference from the individual's own beliefs (DAgger:
    the teacher labels the states the student visits), then reinforcement learning on the full W1 reward, with
    a learned world model for foresight (provisioning before the night is the biggest gap). This needs a GPU.
 3. **Perception beyond tiles.** An open-weight vision-language model (SmolVLM, Qwen2-VL) to describe what it sees

@@ -457,12 +457,19 @@ class LiveSession:
                                   "expected": auto.get("expected", 0.0), "actual": auto.get("actual", 0),
                                   "closed": auto.get("closed", 0)},
                 "learning": self._learning() if self.learned else None,
-                "life": self.ind.life, "lifelong": self.lifelong, "lives": self.lives[-300:],
+                "life": self.ind.life, "lifelong": self.lifelong, "lives": self._lives(auto)[-300:],
                 "individual": getattr(self, "individual_id", None),
                 "store": store, "log": list(self.log)[-120:], "operator": self.operator[-20:],
                 "bookmark": None if self.bookmark is None else self.bookmark["tick"],
                 "state_hash": None,
             })
+
+    def _lives(self, auto: dict) -> list[dict]:
+        """The lives lived in this viewer; for an adopted individual, its own record of the lives before."""
+        own = [{"life": l["life"], "steps": l["steps"], "done": l["done"], "fulfilled": None, "failed": None,
+                "cause": "died: " + (", ".join(l["felt"]) if l.get("felt") else "hurt")}
+               for l in auto.get("lives", []) if l["life"] < (self.lives[0]["life"] if self.lives else self.ind.life)]
+        return own + list(self.lives)
 
     def _learning(self) -> dict:
         from .learned import RISKS, LearnedSkillHost

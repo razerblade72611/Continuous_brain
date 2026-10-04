@@ -36,6 +36,7 @@ from .skills import ACTIONS, SkillLibrary
 
 ROWS, COLS = mem.ROWS, mem.COLS
 OPTION_CODES = {"routine": 0, "explore": 1, "sleeping": 2, "eat": 3}
+DIARY_DAYS, LIVES_KEPT = 120, 300     # its diary keeps the most recent days; its record, the most recent lives
 
 
 def state_channel(slot: str) -> str:
@@ -353,8 +354,8 @@ class AutobiographyHost(_Host):
             state["organ_calls"] = int(self.language._call)
             del self.language.records[:]
             today = []
-        new = {**state, "day": day, "today": today, "days": days, "last_ach": dict(ach),
-               **({"lives": lives, "life": life} if lifelong else {})}
+        new = {**state, "day": day, "today": today, "days": days[-DIARY_DAYS:], "last_ach": dict(ach),
+               **({"lives": lives[-LIVES_KEPT:], "life": life} if lifelong else {})}
         rec = np.array([len(days), len(today), new["closed"]], dtype=np.float64)
         disc = np.array([new["actual"] - new["expected"]], dtype=np.float64)
         return {state_channel(self.slot): codec.blob(new), "autobiography.record": rec,
