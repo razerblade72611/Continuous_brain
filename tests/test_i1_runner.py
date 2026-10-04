@@ -759,3 +759,118 @@ def test_preflight_spend_refuses_a_derived_id_collision_at_every_offset_pair(tmp
     with pytest.raises(runner.I1Refused, match="cannot be opened"):
         synthetic_preflight(root)
 
+
+
+# ---- ChatGPT's fifth audit (56i): the single-use spend must be atomic across processes ----------------------
+
+def _race_child(root, mode, label, delay, use_lock, barrier, q):
+    import contextlib
+    import time
+    from continuous_brain_unified.integration import runner as r
+    orig = r._family
+
+    def slow(reg, spec):                   # widen the window between loading the ledger and spending
+        time.sleep(delay)
+        return orig(reg, spec)
+    r._family = slow
+    if not use_lock:
+        r.protocol_lock = lambda *a, **k: contextlib.nullcontext()
+    prereg = json.loads((Path(root) / r.PREREG_FILE).read_text())
+    run_dir = Path(root) / "runs" / "i1" / label
+    run_dir.mkdir(parents=True, exist_ok=True)
+    barrier.wait()
+    try:
+        r.open_family(mode, label, prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir, root=root)
+        q.put((label, "OK"))
+    except Exception as e:                 # noqa: BLE001 - report every outcome to the parent
+        q.put((label, f"{type(e).__name__}: {e}"))
+
+
+def _race(root, mode, use_lock, labels=("a", "b"), delay=0.4):
+    import multiprocessing as mp
+    ctx = mp.get_context("fork")
+    barrier, q = ctx.Barrier(len(labels)), ctx.Queue()
+    procs = [ctx.Process(target=_race_child, args=(str(root), mode, lab, delay, use_lock, barrier, q))
+             for lab in labels]
+    for p in procs:
+        p.start()
+    for p in procs:
+        p.join(60)
+    return dict(q.get(timeout=5) for _ in labels)
+
+
+def _spend_rows(root, key):
+    name = json.loads((root / runner.PREREG_FILE).read_text())["families"][key]["name"]
+    rows = [json.loads(x) for x in _ledger(root).read_text().splitlines() if x.strip()]
+    return [r for r in rows if r["name"] == name and r.get("spent")], [r for r in rows if r["name"] == name
+                                                                         and not r.get("spent")]
+
+
+@pytest.mark.parametrize("mode,key", [("science", "scientific_dev_proposed"),
+                                      ("preflight", "engineering_preflight_proposed")])
+def test_chatgpt_repro_two_concurrent_openings_exactly_one_succeeds(tmp_path, mode, key):
+    root = proposed_root(tmp_path)
+    out = _race(root, mode, use_lock=True)
+    assert sorted(v == "OK" for v in out.values()) == [False, True], out
+    loser = next(k for k, v in out.items() if v != "OK")
+    winner = next(k for k, v in out.items() if v == "OK")
+    assert out[loser].startswith("I1Refused") and "cannot be opened" in out[loser] and "spent" in out[loser]
+    spends, regs = _spend_rows(root, key)
+    assert len(spends) == 1 and len(regs) == 1 and spends[0]["source"] == runner.spend_source(mode, winner)
+    assert (root / "runs" / "i1" / winner / "seed_opened.json").exists()
+    assert not (root / "runs" / "i1" / loser / "seed_opened.json").exists()
+
+
+def test_without_the_lock_the_race_is_real(tmp_path):
+    """Control: the same race with the lock disabled reaches the forbidden state (two spends), so the test above
+    exercises the window rather than passing by timing luck; the lineage check still blocks the late opener."""
+    root = proposed_root(tmp_path)
+    out = _race(root, "science", use_lock=False)
+    spends, regs = _spend_rows(root, "scientific_dev_proposed")
+    assert len(spends) == 2 and len(regs) == 2                       # the double opening ChatGPT reproduced
+    assert any(v.startswith("I1SpentButBlocked") for v in out.values()), out
+
+
+def test_a_held_lock_makes_other_transitions_wait_then_refuse(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    monkeypatch.setattr(runner, "LOCK_TIMEOUT_S", 0.3)
+    with runner.protocol_lock(root):
+        with pytest.raises(runner.I1Refused, match="another protocol operation"):
+            with runner.protocol_lock(root, timeout=0.2):
+                pass
+        with pytest.raises(runner.I1Refused, match="another protocol operation"):
+            runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+        with pytest.raises(runner.I1Refused, match="another protocol operation"):
+            runner.recover_approval(root)
+    _approve(root, d)                                                # free again
+    assert _status(root) == "APPROVED"
+
+
+def test_a_spend_with_a_wrong_lineage_is_reported_as_spent_but_blocked(tmp_path):
+    root = proposed_root(tmp_path)
+    sci = json.loads((root / runner.PREREG_FILE).read_text())["families"]["scientific_dev_proposed"]
+    _edit_json(root / "registry" / "seed_ranges.json", lambda j: j["ranges"].append(
+        {**sci, "sealed": False, "spent": False, "source": "shared", "note": ""}))       # registered in the shared file
+    with open(_ledger(root), "a") as f:                                                   # ... and again locally
+        f.write(json.dumps({**sci, "sealed": False, "spent": False, "source": "local", "note": ""}) + "\n")
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    with pytest.raises(runner.I1SpentButBlocked, match="registers"):
+        runner.open_family("science", "sci", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
+                           man={"manifest_sha256": "0" * 64}, run_dir=run_dir, root=root)
+    assert not (run_dir / "seed_opened.json").exists()
+    assert issubclass(runner.I1SpentButBlocked, runner.I1Refused)
+
+
+def test_every_transition_holds_the_lock_and_science_checks_its_own_lineage():
+    import inspect
+    src = inspect.getsource(runner.open_family)
+    i = src.index("with protocol_lock(root):")
+    assert i < src.index("SeedRegistry.load(regdir)") < src.index("offset_collisions(") < src.index("reg.spend(") \
+        < src.index("_check_ledger_spend(") < src.index("_atomic_write(")
+    assert "with protocol_lock(root):" in inspect.getsource(runner.approve)
+    assert "with protocol_lock(root):" in inspect.getsource(runner.recover_approval)
+    run_src = inspect.getsource(runner.run)
+    assert '_check_ledger_spend(regdir, prereg["families"]["scientific_dev_proposed"], "science", label)' in run_src
+    assert "except I1SpentButBlocked" in run_src

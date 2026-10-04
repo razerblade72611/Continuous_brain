@@ -30,6 +30,7 @@ PERSIST_SAVE, PERSIST_RESUME, AUTHORITY_SKILLS, AUTHORITY_GOAL, AUTHORITY_CURRIC
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import os
@@ -45,7 +46,7 @@ import numpy as np
 import torch
 
 from continuous_brain_protocols import SeedFamily, SeedPurpose, sha256_file
-from continuous_brain_eval.seeds import SeedRegistry
+from continuous_brain_eval.seeds import SeedOverlapError, SeedRegistry
 from continuous_brain_unified.prereg import ENV_REGISTRY, PreregistrationRegistry
 
 from ..composition import boundary as _b, codec as _c, route as _r, spec as _s
@@ -92,6 +93,10 @@ LATER_ARMS = ("FIXED_SCAFFOLD", "ERASED", "DONOR", "ROLLBACK", "PERSIST_SAVE", "
 
 class I1Refused(RuntimeError):
     pass
+
+
+class I1SpentButBlocked(I1Refused):
+    """The family was spent, then a check failed before the run could start: the run is BLOCKED."""
 
 
 def legacy_pins() -> dict[str, str]:
@@ -306,6 +311,8 @@ BINDING_KEYS = ("design_sha256", "prereg_file_sha256", "central_registry_sha256"
                 "prereg_status", "approved_design_sha256", "preflight_manifest_sha256")
 JOURNAL = "registry/i1_approval.journal.json"
 AUTHORITY_KEY = "approval_authority"      # frozen in the preregistration (and in its design digest)
+LOCK = "registry/i1_protocol.lock"        # cross-process lock around every protocol transition (not a record)
+LOCK_TIMEOUT_S = 30.0
 _HEX64 = frozenset("0123456789abcdef")
 
 
@@ -371,6 +378,34 @@ def _atomic_write(path: Path, data: str) -> None:
     _fsync_dir(path.parent)
 
 
+@contextlib.contextmanager
+def protocol_lock(root: Path = REPO, timeout: float | None = None):
+    """Exclusive cross-process lock (flock on registry/i1_protocol.lock) around every protocol transition:
+    opening a family (check, register, spend, write the opening record), approving, and recovering an
+    approval. Not re-entrant; nothing that holds it calls another holder. Refuses after `timeout` seconds."""
+    import fcntl
+    path = registry_root(root) / Path(LOCK).name
+    fd = os.open(str(path), os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        deadline = time.monotonic() + (LOCK_TIMEOUT_S if timeout is None else timeout)
+        while True:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                if time.monotonic() >= deadline:
+                    raise I1Refused("another protocol operation holds the registry lock "
+                                    f"({LOCK}); try again when it has finished") from None
+                time.sleep(0.05)
+        yield
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+        os.close(fd)
+
+
 def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path, root: Path = REPO) -> SeedFamily:
     """The one path by which a preflight or science run opens its family.
 
@@ -382,21 +417,30 @@ def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path
     root = Path(root).resolve()
     if Path(run_dir).resolve() != (root / "runs" / "i1" / label).resolve():
         raise I1Refused(f"a {mode} run lives in runs/i1/{label} of this checkout")
-    reg = SeedRegistry.load(registry_root(root))
+    regdir = registry_root(root)
     key = "engineering_preflight_proposed" if mode == "preflight" else "scientific_dev_proposed"
     spec = prereg["families"][key]
     want = SeedFamily(spec["name"], int(spec["start"]), int(spec["stop"]), SeedPurpose(spec["purpose"]))
-    hits = offset_collisions(reg, want.start, want.stop, prereg, want)   # base and derived ids, every offset pair
-    if hits:
-        raise I1Refused(f"{want.name} cannot be opened: " + "; ".join(hits[:3]))
-    fam = _family(reg, spec)
-    reg.check_usable(fam)
-    reg.spend(fam, source=spend_source(mode, label))
-    opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True}, "spent_before_launch": True,
-              "mode": mode, "run": label, "spend_source": spend_source(mode, label),
-              "manifest_sha256": man["manifest_sha256"], "utc": datetime.now(timezone.utc).isoformat(),
-              **_registry_binding(prereg, root)}
-    (Path(run_dir) / "seed_opened.json").write_text(json.dumps(opened, indent=2) + "\n")
+    with protocol_lock(root):
+        reg = SeedRegistry.load(regdir)            # the canonical ledger, reloaded inside the lock
+        hits = offset_collisions(reg, want.start, want.stop, prereg, want)   # base and derived ids, every pair
+        if hits:
+            raise I1Refused(f"{want.name} cannot be opened: " + "; ".join(hits[:3]))
+        try:
+            fam = _family(reg, spec)
+            reg.check_usable(fam)
+        except SeedOverlapError as e:
+            raise I1Refused(f"{want.name} cannot be opened: {e}") from None
+        reg.spend(fam, source=spend_source(mode, label))
+        try:                                       # the raw ledger lineage: one registration, one spend, ours
+            _check_ledger_spend(regdir, spec, mode, label)
+        except I1Refused as e:
+            raise I1SpentButBlocked(f"{want.name} was spent but its ledger lineage is wrong: {e}") from None
+        opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True}, "spent_before_launch": True,
+                  "mode": mode, "run": label, "spend_source": spend_source(mode, label),
+                  "manifest_sha256": man["manifest_sha256"], "utc": datetime.now(timezone.utc).isoformat(),
+                  **_registry_binding(prereg, root)}
+        _atomic_write(Path(run_dir) / "seed_opened.json", json.dumps(opened, indent=2) + "\n")
     return fam
 
 
@@ -446,6 +490,9 @@ def _check_ledger_spend(regdir: Path, fam_spec: dict, mode: str, label: str) -> 
     at = next(i for i, r in enumerate(local) if r is spends[0])
     if local[at + 1:]:
         raise I1Refused(f"a later ledger row supersedes the spend of {fam_spec['name']}")
+    registrations = len(shared) + sum(1 for r in local if not r.get("spent"))
+    if registrations > 1:
+        raise I1Refused(f"the ledger registers {fam_spec['name']} {registrations} times")
     final = [r for r in SeedRegistry.load(regdir).ranges if (r.family.name, r.family.start, r.family.stop,
                                                              r.family.purpose.value) == key]
     if len(final) != 1 or not final[0].family.spent or final[0].source != want:
@@ -684,6 +731,11 @@ def recover_approval(root: Path = REPO) -> str:
     old nor its new state. The journal is written only after every check passed and David confirmed."""
     root = Path(root).resolve()
     registry_root(root)
+    with protocol_lock(root):
+        return _recover_locked(root)
+
+
+def _recover_locked(root: Path) -> str:
     j = root / JOURNAL
     if not j.exists():
         return "no approval journal: nothing to recover"
@@ -721,6 +773,11 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
     if not approver.strip():
         raise I1Refused("approval requires --approver")
     root = Path(root).resolve()
+    with protocol_lock(root):
+        return _approve_locked(preflight_dir=preflight_dir, approver=approver, threads=threads, root=root)
+
+
+def _approve_locked(*, preflight_dir: str, approver: str, threads: int, root: Path) -> dict:
     regdir = registry_root(root)
     authority = _read_json(root / PREREG_FILE, "the preregistration").get(AUTHORITY_KEY)
     if not isinstance(authority, str) or not authority.strip():
@@ -810,7 +867,11 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     except Exception as e:
         raise I1Refused(f"historical core does not verify: {e}") from e
     if mode in ("preflight", "science"):
-        fam = open_family(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=REPO)
+        try:
+            fam = open_family(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=REPO)
+        except I1SpentButBlocked as e:
+            _blocked(run_dir, mode, str(e), man)
+            raise
         sids = list(fam.seeds())
     else:
         usage = REPO / "runs/dev/seed_usage.jsonl"
@@ -847,6 +908,12 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         if at_open != at_end:          # the approval records must not change while the science run is in flight
             rep["verdict"] = "BLOCKED"
             rep["blocked_reason"] = "registry records changed between opening and the end of the run"
+        try:                           # the raw lineage of this run's own spend, before any verdict stands
+            _check_ledger_spend(regdir, prereg["families"]["scientific_dev_proposed"], "science", label)
+            rep["science_spend_lineage"] = "one registration, one spend, by this run, nothing after"
+        except I1Refused as e:
+            rep["verdict"] = "BLOCKED"
+            rep["blocked_reason"] = f"the scientific family's ledger lineage is wrong: {e}"
         (run_dir / "i1_report.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
     _e.print_report(rep)
     return run_dir

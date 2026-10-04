@@ -22,3 +22,5 @@ dist/
 
 # Local append-only scientific seed opening/spend ledger.
 /registry/seed_ranges.local.jsonl
+# Cross-process lock file of the I1 protocol (no content).
+/registry/i1_protocol.lock
