@@ -53,7 +53,7 @@ PLAN = {
     "test": {"seed_base": 74000, "episodes": [("scripted", 8, 2000, 3), ("explorer", 10, 1200, 2),
                                               ("gardener", 4, 1500, 2), ("random", 8, 600, 1)]},
 }
-TRAIN = {"width": 64, "blocks": 3, "epochs": 12, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
+TRAIN = {"width": 64, "blocks": 3, "epochs": 9, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
          "warmup_steps": 200, "seed": 1, "threads": 2, "object_loss_weight": 1.0}
 RARE_MATERIALS = ("diamond", "lava", "iron")
 RARE_OBJECTS = ("skeleton", "arrow", "plant_ripe")
