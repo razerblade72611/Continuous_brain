@@ -616,3 +616,115 @@ def test_the_opening_record_binds_spend_run_manifest_and_registry_state(tmp_path
         runner.open_family("preflight", "x", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
                            man=runner.manifest(2), run_dir=root / "elsewhere", root=root)
 
+
+# ---- ChatGPT's fourth gate audit (64h): approval authority, ledger freeze, derived ids at every spend ----
+
+def test_only_the_frozen_approval_authority_can_approve(tmp_path):
+    root = proposed_root(tmp_path)
+    p = json.loads((root / runner.PREREG_FILE).read_text())
+    assert p["approval_authority"] == "David"
+    assert runner.design_digest({**p, "approval_authority": "Claude"}) != runner.design_digest(p)      # digested
+    d = synthetic_preflight(root)
+    for who in ("Claude", "ChatGPT", "david", " David", "David ", "DAVID"):
+        with pytest.raises(runner.I1Refused, match="approval authority"):
+            runner.approve(preflight_dir=str(d), approver=who, confirm=runner.PREREG_ID, root=root)
+    assert _status(root) == "PROPOSED"
+    _approve(root, d)
+    assert json.loads((root / runner.PREREG_FILE).read_text())["approved_by"] == "David"
+
+
+def test_chatgpt_repro_approval_by_claude_is_refused(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    with pytest.raises(runner.I1Refused, match="approval authority"):
+        runner.approve(preflight_dir=str(d), approver="Claude", confirm=runner.PREREG_ID, root=root)
+    assert _status(root) == "PROPOSED"
+
+
+def test_a_preregistration_without_an_approval_authority_cannot_be_approved(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    _edit_json(root / runner.PREREG_FILE, lambda p: p.pop("approval_authority"))
+    with pytest.raises(runner.I1Refused, match="names no approval_authority"):
+        _approve(root, d)
+
+
+def test_science_and_lifecycle_refuse_an_approval_by_anyone_else(tmp_path):
+    from continuous_brain_eval.seeds import SeedRegistry
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    _approve(root, d)
+    _edit_json(root / runner.PREREG_FILE, lambda p: p.__setitem__("approved_by", "Claude"))
+    _edit_json(root / "registry" / "preregistrations.json", lambda c: [
+        e.__setitem__("approved_by", "Claude") for e in c["preregistrations"] if e["id"] == runner.PREREG_ID])
+    with pytest.raises(runner.I1Refused, match="approval authority"):
+        runner.verify_preflight_chain(d, root=root, stage="science")
+    problems = runner.lifecycle_problems(json.loads((root / runner.PREREG_FILE).read_text()), _load_central(root),
+                                         SeedRegistry.load(root / "registry"), root)
+    assert any("approval authority" in x for x in problems)
+
+
+def test_chatgpt_repro_an_unrelated_ledger_row_after_opening_blocks_approval(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    with open(_ledger(root), "a") as f:
+        f.write(json.dumps({"name": "unrelated-later-family", "start": 990000, "stop": 990001,
+                            "purpose": "ENGINEERING", "source": "someone", "note": ""}) + "\n")
+    with pytest.raises(runner.I1Refused, match="seed ledger changed after the preflight was opened"):
+        _approve(root, d)
+    assert _status(root) == "PROPOSED"
+
+
+def _register(root, name, start, stop, purpose="ENGINEERING"):
+    from continuous_brain_eval.seeds import SeedRegistry
+    from continuous_brain_protocols import SeedFamily, SeedPurpose
+    SeedRegistry.load(root / "registry").register(SeedFamily(name, start, stop, SeedPurpose(purpose)), source="test")
+
+
+def _sci_rows(root):
+    from continuous_brain_eval.seeds import SeedRegistry
+    name = json.loads((root / runner.PREREG_FILE).read_text())["families"]["scientific_dev_proposed"]["name"]
+    return [r for r in SeedRegistry.load(root / "registry").ranges if r.family.name == name]
+
+
+def test_chatgpt_repro_derived_id_collision_blocks_the_science_spend(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    _approve(root, d)
+    sci = json.loads((root / runner.PREREG_FILE).read_text())["families"]["scientific_dev_proposed"]
+    _register(root, "later-family", sci["start"] + 70000, sci["stop"] + 70000)        # 398000-398127
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    with pytest.raises(runner.I1Refused, match=r"cannot be opened.*offset 70000"):
+        runner.open_family("science", "sci", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
+                           man=runner.manifest(2), run_dir=run_dir, root=root)
+    assert _sci_rows(root) == [] and not (run_dir / "seed_opened.json").exists()        # nothing registered or spent
+
+
+@pytest.mark.parametrize("offset", (0, 70000, 90000))
+def test_every_preflight_spend_is_preceded_by_the_derived_id_check(tmp_path, offset):
+    root = proposed_root(tmp_path)
+    pf = json.loads((root / runner.PREREG_FILE).read_text())["families"]["engineering_preflight_proposed"]
+    lo = pf["start"] + offset + (10 if offset == 0 else 0)
+    if offset == 0:                                    # inside the v0.38 reserve: a sibling, not a parent
+        lo = pf["stop"] + 1 - 4
+    _register(root, "colliding-family", lo, lo + 7)
+    with pytest.raises(runner.I1Refused, match="cannot be opened"):
+        synthetic_preflight(root)
+    from continuous_brain_eval.seeds import SeedRegistry
+    assert not [r for r in SeedRegistry.load(root / "registry").ranges if r.family.name == pf["name"]]
+
+
+def test_derived_id_check_is_one_function_for_dev_and_for_every_spend():
+    import inspect
+    assert "offset_collisions(" in inspect.getsource(runner._dev_sids)
+    src = inspect.getsource(runner.open_family)
+    assert src.index("offset_collisions(") < src.index("_family(reg") < src.index("reg.spend(")
+    reg = _registry_with_cloud_dev()
+    p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
+    from continuous_brain_protocols import SeedFamily, SeedPurpose
+    for key in ("scientific_dev_proposed", "engineering_preflight_proposed"):
+        f = p["families"][key]
+        home = SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"]))
+        assert runner.offset_collisions(reg, home.start, home.stop, p, home) == []     # the real families are clean
+

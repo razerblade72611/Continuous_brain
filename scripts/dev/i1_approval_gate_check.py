@@ -20,7 +20,8 @@ checkout's own registry:
     row superseding the spend, the family marked spent by hand, the sealed report missing, altered, or
     recommitted with other contents, the run opened under another status or with approval fields, the
     opening record without its binding or of another run or manifest, the directory renamed or outside
-    runs/i1, an interrupted approval journal, CONTINUOUS_BRAIN_REGISTRY pointing elsewhere.
+    runs/i1, an interrupted approval journal, CONTINUOUS_BRAIN_REGISTRY pointing elsewhere, an approver who is
+    not exactly the frozen approval_authority, and any seed-ledger change after opening (even an unrelated row).
 Exit 0 only if every case behaves as stated."""
 from __future__ import annotations
 
@@ -93,7 +94,7 @@ def main() -> int:
         shutil.copytree(src, run, ignore=shutil.ignore_patterns("historical_core", "persist"))
         evaluate(run, sealed=True)                      # the genuine sealed preflight view and sealed report
 
-        def attempt(name: str, *, view=None, chain=None, expect_ok: bool = False):
+        def attempt(name: str, *, view=None, chain=None, expect_ok: bool = False, approver: str = "David"):
             case = tmp / f"case{len(results)}"
             root = case / "root"
             prereg = _proposed_root(root)
@@ -114,7 +115,7 @@ def main() -> int:
                 moved = chain(root, d)
                 target = moved if isinstance(moved, Path) else d
             try:
-                runner.approve(preflight_dir=str(target), approver="David", confirm=runner.PREREG_ID, root=root)
+                runner.approve(preflight_dir=str(target), approver=approver, confirm=runner.PREREG_ID, root=root)
                 ok, why = True, "accepted"
             except runner.I1Refused as e:
                 ok, why = False, str(e)[:200]
@@ -185,6 +186,12 @@ def main() -> int:
         attempt("directory renamed", chain=lambda r, d: Path(shutil.copytree(d, d.parent / "renamed")))
         attempt("directory outside runs/i1", chain=lambda r, d: Path(shutil.copytree(d, r / "elsewhere" / d.name)))
         attempt("interrupted approval journal present", chain=lambda r, d: (r / runner.JOURNAL).write_text("{}"))
+        # ChatGPT's fourth audit: the approval authority and the frozen seed ledger
+        attempt("approved by Claude", approver="Claude")
+        attempt("approver not exactly the authority (case)", approver="david")
+        attempt("unrelated ledger row appended after opening", chain=lambda r, d: _ledger(
+            r, lambda rows: rows + [{"name": "unrelated-later-family", "start": 990000, "stop": 990001,
+                                     "purpose": "ENGINEERING", "source": "someone", "note": ""}]))
         attempt("CONTINUOUS_BRAIN_REGISTRY points elsewhere", chain=lambda r, d: os.environ.__setitem__(
             "CONTINUOUS_BRAIN_REGISTRY", str(r / "other_registry")))
     ok = all(r["pass"] for r in results)

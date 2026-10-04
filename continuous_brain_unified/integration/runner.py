@@ -146,7 +146,7 @@ def code_files() -> dict[str, str]:
 
 def design_digest(prereg: dict) -> str:
     """SHA-256 of the parts of the preregistration an approval commits to."""
-    keys = ("id", "question", "scope", "design", "decision_rule", "families", "procedure")
+    keys = ("id", "question", "scope", "design", "decision_rule", "families", "procedure", "approval_authority")
     return hashlib.sha256(json.dumps({k: prereg.get(k) for k in keys}, sort_keys=True).encode()).hexdigest()
 
 
@@ -236,6 +236,38 @@ def _family(reg: SeedRegistry, spec: dict) -> SeedFamily:
     return existing
 
 
+def offset_collisions(reg: SeedRegistry, lo: int, hi: int, prereg: dict, home: SeedFamily) -> list[str]:
+    """Every collision of ids lo..hi, and of their derived ids (sid+70000, sid+90000), with the base or derived
+    ids of any I1 preregistered family or any registered family, at every offset pair (conservative).
+
+    `home` is the family the ids belong to. Tolerated, at the same offset only: home itself (by name), and an
+    unsealed ENGINEERING reserve containing an ENGINEERING home. Used for dev slices and immediately before
+    every preflight or science spend (open_family)."""
+    offsets = (0, *DERIVED_OFFSETS)
+    out = []
+    reserved = [(f["name"], int(f["start"]), int(f["stop"])) for f in prereg["families"].values()
+                if isinstance(f, dict) and "start" in f]
+    for off in offsets:
+        a, b = lo + off, hi + off
+        for name, fs, ft in reserved:            # base and derived ids of the I1 families, all offset pairs
+            for po in offsets:
+                if a <= ft + po and fs + po <= b and not (name == home.name and po == off):
+                    out.append(f"ids {a}-{b} (offset {off}) overlap ids of the I1 preregistered family "
+                               f"{name} (offset {po})")
+        for r in reg.ranges:                     # every registered family at every offset pair
+            f = r.family
+            parent = (r.reserve and f.purpose == SeedPurpose.ENGINEERING and home.purpose == SeedPurpose.ENGINEERING
+                      and f.start <= home.start and home.stop <= f.stop and not f.sealed)
+            for fo in offsets:
+                if not (a <= f.stop + fo and f.start + fo <= b):
+                    continue
+                if fo == off and (f.name == home.name or parent):
+                    continue
+                out.append(f"ids {a}-{b} (offset {off}) touch ids of registered family {f.name} "
+                           f"[{f.start}-{f.stop}] (offset {fo})")
+    return out
+
+
 def _dev_sids(reg: SeedRegistry, prereg: dict, family: str | None, start: int | None, n: int | None) -> tuple:
     """Dev individuals: a slice of exactly one registered ENGINEERING family, touching nothing else."""
     if family is None:
@@ -248,27 +280,9 @@ def _dev_sids(reg: SeedRegistry, prereg: dict, family: str | None, start: int | 
     lo, hi = int(start), int(start) + int(n) - 1
     if lo < fam.start or hi > fam.stop:
         raise I1Refused(f"individuals {lo}-{hi} are not inside {family} [{fam.start}-{fam.stop}]")
-    reserved = [(f["name"], int(f["start"]), int(f["stop"])) for k, f in prereg["families"].items()
-                if isinstance(f, dict) and "start" in f]
-    offsets = (0, *DERIVED_OFFSETS)
-    for off in offsets:
-        a, b = lo + off, hi + off
-        for name, fs, ft in reserved:            # base and derived ids of the I1 families, all offset pairs
-            for po in offsets:
-                if a <= ft + po and fs + po <= b:
-                    raise I1Refused(f"ids {a}-{b} (offset {off}) overlap ids of the I1 preregistered family "
-                                    f"{name} (offset {po})")
-        for r in reg.ranges:              # conservative: every registered family at every offset pair
-            f = r.family
-            parent = (r.reserve and f.purpose == SeedPurpose.ENGINEERING and f.start <= fam.start
-                      and fam.stop <= f.stop and not f.sealed)
-            for fo in offsets:
-                if not (a <= f.stop + fo and f.start + fo <= b):
-                    continue
-                if fo == off and (f.name == fam.name or parent):
-                    continue
-                raise I1Refused(f"ids {a}-{b} (offset {off}) touch ids of registered family {f.name} "
-                                f"[{f.start}-{f.stop}] (offset {fo})")
+    hits = offset_collisions(reg, lo, hi, prereg, fam)
+    if hits:
+        raise I1Refused(hits[0])
     return fam, list(range(lo, hi + 1))
 
 
@@ -276,10 +290,12 @@ def _dev_sids(reg: SeedRegistry, prereg: dict, family: str | None, start: int | 
 # Chain of custody (dev7, ChatGPT's 64g findings). The scientific decision may rest only on this chain:
 #   the canonical preflight family was really spent in this checkout's ledger, once, by this run
 #   -> seed_opened.json ties that spend to this run directory, its manifest and the registry state at opening
-#   -> the preflight was opened under the PROPOSED preregistration, whose design equals the current design
+#   -> the preflight was opened under the PROPOSED preregistration, whose design equals the current design,
+#      and both registry files and the seed ledger are unchanged since opening
 #   -> the exact machine/code/environment manifest matches -> exactly the 14 validity checks, all true
 #   -> exactly the 12 arms bound -> the sealed report exists, matches its commitment and agrees with the view
-#   -> central and detailed registries agree -> David approves (approve) -> science re-verifies all of it.
+#   -> central and detailed registries agree -> the frozen approval_authority (David), and nobody else,
+#      approves (approve) -> science re-verifies all of it, and every spend is preceded by the derived-id check.
 # ---------------------------------------------------------------------------------------------------------
 APPROVAL_FIELDS = ("approved_utc", "preflight_manifest_sha256", "approved_design_sha256", "preflight_run",
                    "approval_basis")
@@ -289,6 +305,7 @@ APPROVAL_BASIS_KEYS = ("preflight_run", "spend_source", "seed_opened_sha256", "v
 BINDING_KEYS = ("design_sha256", "prereg_file_sha256", "central_registry_sha256", "seed_ledger_sha256",
                 "prereg_status", "approved_design_sha256", "preflight_manifest_sha256")
 JOURNAL = "registry/i1_approval.journal.json"
+AUTHORITY_KEY = "approval_authority"      # frozen in the preregistration (and in its design digest)
 _HEX64 = frozenset("0123456789abcdef")
 
 
@@ -367,7 +384,12 @@ def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path
         raise I1Refused(f"a {mode} run lives in runs/i1/{label} of this checkout")
     reg = SeedRegistry.load(registry_root(root))
     key = "engineering_preflight_proposed" if mode == "preflight" else "scientific_dev_proposed"
-    fam = _family(reg, prereg["families"][key])
+    spec = prereg["families"][key]
+    want = SeedFamily(spec["name"], int(spec["start"]), int(spec["stop"]), SeedPurpose(spec["purpose"]))
+    hits = offset_collisions(reg, want.start, want.stop, prereg, want)   # base and derived ids, every offset pair
+    if hits:
+        raise I1Refused(f"{want.name} cannot be opened: " + "; ".join(hits[:3]))
+    fam = _family(reg, spec)
     reg.check_usable(fam)
     reg.spend(fam, source=spend_source(mode, label))
     opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True}, "spent_before_launch": True,
@@ -485,11 +507,16 @@ def verify_preflight_chain(preflight_dir, *, root: Path = REPO, threads: int = 2
             raise I1Refused(f"{PREREG_FILE} changed after the preflight was opened")
         if opened["central_registry_sha256"] != sha256_file(regdir / "preregistrations.json"):
             raise I1Refused("registry/preregistrations.json changed after the preflight was opened")
+        if opened["seed_ledger_sha256"] != seed_ledger_digest(root):
+            raise I1Refused("the seed ledger changed after the preflight was opened")
         if len(entries) != 1 or entries[0].get("status") != "PROPOSED" or entries[0].get("approved_by"):
             raise I1Refused(f"registry/preregistrations.json has no single PROPOSED {PREREG_ID} entry")
     else:
         if prereg.get("status") not in ("APPROVED", "FROZEN") or not (prereg.get("approved_by") or "").strip():
             raise I1Refused(f"{PREREG_FILE} is not APPROVED")
+        if not prereg.get(AUTHORITY_KEY) or prereg.get("approved_by") != prereg.get(AUTHORITY_KEY):
+            raise I1Refused(f"approved by {prereg.get('approved_by')!r}, not by the preregistered approval "
+                            f"authority {prereg.get(AUTHORITY_KEY)!r}")
         if prereg.get("preflight_run") != label:
             raise I1Refused(f"the approval names preflight {prereg.get('preflight_run')!r}, not {label!r}")
         if prereg.get("approved_design_sha256") != design:
@@ -568,6 +595,8 @@ def lifecycle_problems(prereg: dict, central: dict, reg: SeedRegistry, root: Pat
     if root is not None and (Path(root) / JOURNAL).exists():
         out.append(f"an interrupted approval journal exists ({JOURNAL})")
     st = prereg.get("status")
+    if not isinstance(prereg.get(AUTHORITY_KEY), str) or not prereg[AUTHORITY_KEY].strip():
+        out.append(f"the preregistration names no {AUTHORITY_KEY}")
     entries = _i1_entries(central)
     if len(entries) != 1:
         return out + [f"central registry has {len(entries)} {PREREG_ID} entries"]
@@ -605,6 +634,8 @@ def lifecycle_problems(prereg: dict, central: dict, reg: SeedRegistry, root: Pat
     else:
         if not (prereg.get("approved_by") or "").strip() or not prereg.get("approved_utc"):
             out.append("approval without approver or time")
+        if not prereg.get(AUTHORITY_KEY) or prereg.get("approved_by") != prereg.get(AUTHORITY_KEY):
+            out.append("approved by someone other than the preregistered approval authority")
         if prereg.get("approved_design_sha256") != design_digest(prereg):
             out.append("the approved design digest does not match the design as it stands")
         if not _is_hex64(prereg.get("preflight_manifest_sha256")):
@@ -691,6 +722,11 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
         raise I1Refused("approval requires --approver")
     root = Path(root).resolve()
     regdir = registry_root(root)
+    authority = _read_json(root / PREREG_FILE, "the preregistration").get(AUTHORITY_KEY)
+    if not isinstance(authority, str) or not authority.strip():
+        raise I1Refused(f"the preregistration names no {AUTHORITY_KEY}; nobody can approve it")
+    if approver != authority:
+        raise I1Refused(f"only the preregistered approval authority {authority!r} can approve, not {approver!r}")
     basis = verify_preflight_chain(preflight_dir, root=root, threads=threads, stage="approve")
     prereg_path, central_path = root / PREREG_FILE, regdir / "preregistrations.json"
     prereg, central = json.loads(prereg_path.read_text()), json.loads(central_path.read_text())
@@ -700,7 +736,7 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
         raise I1Refused("the registry is not in a legal pre-approval state: " + "; ".join(problems))
     utc = datetime.now(timezone.utc).isoformat()
     design = design_digest(prereg)
-    who = approver.strip()
+    who = approver
     prereg.update(status="APPROVED", approved_by=who, approved_utc=utc,
                   preflight_manifest_sha256=basis["manifest_sha256"], approved_design_sha256=design,
                   preflight_run=basis["preflight_run"], approval_basis=basis)
