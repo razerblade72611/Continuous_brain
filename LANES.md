@@ -28,6 +28,9 @@ The project runs in two lanes at once, so that pushing forward never puts the ev
   (listed in `LANES.json`) differs from that lane's base commit. New work goes into new modules, not into the
   frozen I1 code. To build on a newer protected state, merge it from the protected branch; the guard then
   checks against the new base.
+  The guard catches accidental changes; it is not a security boundary, since an exploration branch can edit its own
+  `LANES.json` and guard. What protects the evidence is that scientific runs happen only in the protected
+  checkout, from the protected branch, and every change to that branch is reviewed.
 
 ## 3. Known-good points and how to fall back
 
