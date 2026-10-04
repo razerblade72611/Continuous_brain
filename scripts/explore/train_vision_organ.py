@@ -50,7 +50,7 @@ PLAN = {
     "test": {"seed_base": 74000, "episodes": [("scripted", 8, 2000, 3), ("explorer", 10, 1200, 2),
                                               ("gardener", 4, 1500, 2), ("random", 8, 600, 1)]},
 }
-TRAIN = {"width": 64, "blocks": 3, "epochs": 18, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
+TRAIN = {"width": 64, "blocks": 3, "epochs": 14, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
          "warmup_steps": 200, "seed": 1, "threads": 2, "object_loss_weight": 1.0}
 RARE_MATERIALS = ("diamond", "lava", "iron")
 RARE_OBJECTS = ("skeleton", "arrow", "plant_ripe")
@@ -191,8 +191,8 @@ def train(data: dict, val: dict, cfg: dict) -> tuple[V.TileDecoder, dict]:
             opt.step()
             sched.step()
             step += 1
-            run_m += float(lm)
-            run_o += float(lo)
+            run_m += lm.item()
+            run_o += lo.item()
         pm, po = predict(decoder, val["frames"])
         rec = {"epoch": epoch + 1, "step": step, "seconds": round(time.perf_counter() - t0, 1),
                "train_loss_material": round(run_m / steps_per_epoch, 5),
@@ -387,7 +387,9 @@ def main():
             "(object), unweighted", "optimizer": "AdamW, linear warm-up then cosine decay to 0",
             "deterministic": "torch.manual_seed + torch.use_deterministic_algorithms(True), fixed epoch count, "
                              "seeded permutation; data generation is seeded per episode",
-            "data_generation_seconds": data_seconds, "training_wall_seconds": train_info["wall_seconds"],
+            "data_generation_seconds": round(sum(data_info[s]["generation_seconds"] or 0 for s in data_info), 1),
+            "data_stage_seconds_this_run": data_seconds, "data_workers": args.workers,
+            "training_wall_seconds": train_info["wall_seconds"],
             "steps": train_info["steps"], "samples_seen": train_info["samples_seen"],
             "history": train_info["history"],
         },
