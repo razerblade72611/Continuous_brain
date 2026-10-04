@@ -37,6 +37,9 @@ field is replaced by garbage, and the life is identical.
 
 The skills are the obvious next thing to learn (§5).
 
+To watch one life as it happens (what it sees, remembers and intends, and each faculty's activity in the store),
+use the live viewer: `scripts/explore/w1_viewer.py` (`docs/explore/README.md`, "Watching it live").
+
 ## 2. Invariants (tests: `tests/test_w1_individual.py`)
 
 - **No hidden state.** Rebuild the whole individual (new hosts and organ objects) from its saved state every

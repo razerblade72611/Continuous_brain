@@ -94,10 +94,15 @@ class Individual:
                 "driver.oracle_tiles": oracle}
 
     def decide(self, obs: dict, info: dict) -> tuple[int, str | None]:
-        self.rt.tick_once(driver=self.sense(obs, info))
+        action, text, _ = self.tick(obs, info)
+        return action, text
+
+    def tick(self, obs: dict, info: dict):
+        """One runtime tick: (action, utterance or None, the runtime's TickResult with each channel's digest)."""
+        result = self.rt.tick_once(driver=self.sense(obs, info))
         action = int(np.asarray(self.rt.store.read("skills.action"))[0])
         text = np.asarray(self.rt.store.read("metacognition.utterance"), dtype=np.uint8).tobytes().decode()
-        return action, (text or None)
+        return action, (text or None), result
 
     def live(self, env, obs: dict, info: dict, steps: int, on_step=None) -> dict:
         done = False
