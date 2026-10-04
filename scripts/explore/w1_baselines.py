@@ -120,7 +120,7 @@ def main(argv=None):
                    "privileged_scripted": "PRIVILEGED heuristic reading info['privileged'] ground truth; an upper "
                                           "reference for what the world permits, not a learner; tuned on seeds 1-12"},
         "seed_family": SEED_FAMILY, "seeds": seeds, "episode_length": args.length, "config": cfg.to_dict(),
-        "git_commit": git("rev-parse", "HEAD"), "git_dirty": bool(git("status", "--porcelain")),
+        "git_commit": git("rev-parse", "HEAD"), "git_dirty": bool(git("status", "--porcelain", "--untracked-files=no")),
         "crafter": crafter_provenance(), "python": platform.python_version(), "numpy": np.__version__,
         "machine": platform.machine(), "language_inventory": language_inventory(),
         "wall_seconds": round(time.time() - started, 1),
