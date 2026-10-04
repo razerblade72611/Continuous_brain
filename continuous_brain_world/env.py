@@ -12,6 +12,13 @@
      "step": int, "day": int, "phase": "morning" | "afternoon" | "night",
      "obligations": [...]}                           # only in interface="structured" (baseline mode)
 
+``utterance`` (optional str) is how the agent speaks: ``answer <id>: <payload>`` answers a report question
+(graded once, against the state the agent was looking at), ``ack <id>`` acknowledges, anything else is logged.
+Payloads: ``never``/``nothing``, an integer (digits or zero..twenty), an offset such as ``5 east 2 north`` or
+``here``, a direction with optional distance band such as ``north-east far``, an obligation id such as ``o3``,
+or keywords such as ``stone pickaxe``.  The full grammar and grading rules: ``continuous_brain_world.utterance``.
+Fulfilment of every other request is detected from the world state; nothing needs to be claimed.
+
 ``reward`` is a dict ``{"crafter": r_c, "obligations": r_o, "total": r_c + r_o}``: Crafter's own reward
 (health change / 10 + 1 per first unlock of an achievement) and the layer's (+value when an obligation is
 fulfilled, -fail_penalty * value when one fails, 0 for a cancellation).

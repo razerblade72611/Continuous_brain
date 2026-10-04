@@ -49,7 +49,7 @@ FEATURE_NAMES = {"water": ["the lake", "the water", "the pond"], "sand": ["the b
                  "tree": ["the trees", "the woods", "the grove"], "stone": ["the rocks", "the mountain", "the cliffs"]}
 FEATURE_KEYWORDS = {"water": ["lake", "water", "pond"], "sand": ["beach", "sand"],
                     "tree": ["trees", "woods", "grove", "tree"], "stone": ["rocks", "mountain", "cliffs", "rock"]}
-STAT_NAMES = {"food": ["food", "hunger bar"], "drink": ["drink", "thirst bar", "water level"],
+STAT_NAMES = {"food": ["food", "food level"], "drink": ["drink", "drink level", "water level"],
               "energy": ["energy", "energy level"], "health": ["health"]}
 KIND_PHRASES = {"cow": "a cow", "zombie": "a zombie", "skeleton": "a skeleton", "sapling": "a sapling",
                 "water": "water", "tree": "a tree", "coal": "coal", "iron": "iron", "diamond": "a diamond",
@@ -91,7 +91,7 @@ T_AVOID = {
 }
 T_VISIT = ["Go look at {f} to the {d} and come back {dl}.",
            "Head {d} to {f}, take a look, and return here {dl}.",
-           "There is {f} off to the {d}, about {n} tiles away. Go and see it, then come back {dl}."]
+           "Off to the {d}, about {n} tiles away, you will find {f}. Go and see, then come back {dl}."]
 T_LAST_SEEN = ["Where did you last see {k}?", "Remind me: where did you last spot {k}?",
                "Which way, and how far, is the last {k2} you saw?"]
 T_FIRST = {"this_morning": ["What did I ask you for first this morning?",
