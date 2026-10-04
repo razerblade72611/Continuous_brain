@@ -147,7 +147,7 @@ class CrafterBridge:
         """Render at another resolution without touching world dynamics (RNG state saved and restored)."""
         state = self.world.random.get_state()
         try:
-            return self.env.render(np.array([size, size]))
+            return self.env.render((int(size), int(size)))
         finally:
             self.world.random.set_state(state)
 

@@ -53,7 +53,7 @@ class ObligationLayer:
                      "visibility": {"last_seen": {}, "first_seen": {}, "now": {}},
                      "day_achievements": {}, "messages": [], "utterances": [], "acks": {},
                      "stats": {"zombie_hits": 0, "arrow_hits": 0, "damage_steps": 0, "answers_ignored": 0},
-                     "death_step": None, "crafter_return": 0.0, "done": False}
+                     "death_step": None, "crafter_return": 0.0, "done": False, "outbox": []}
             self.rng = rng
         else:
             if state.get("format") != LAYER_FORMAT:
@@ -187,6 +187,8 @@ class ObligationLayer:
                 self._resolve(ob, "failed", s, "died")
                 reward += self._reward(ob)
                 events["failed"].append(ob["id"])
+        msgs = self.state["outbox"] + msgs
+        self.state["outbox"] = []
         u_change, u_arrive = float(self.rng.random()), float(self.rng.random())
         if alive:
             msgs += self._changes(u_change, ctx, events)
@@ -225,24 +227,37 @@ class ObligationLayer:
         if res is None:
             return []
         kind, body, changes = res
-        s = ctx.step
+        return [self.apply_change(ob, kind, body, changes, ctx.step, events)]
+
+    def apply_change(self, ob: dict, kind: str, body: str, changes: dict, step: int, events: dict | None = None) -> str:
+        """Cancel or amend an active obligation (used by the caretaker; public for scripted scenarios)."""
+        if not is_active(ob):
+            raise ValueError(f"{ob['id']} is not active")
+        s = int(step)
         if kind == "cancel":
             ob["status"] = "cancelled"
             ob["resolved_step"] = s
             ob["reason"] = "cancelled"
             ob["history"].append({"step": s, "event": "cancelled", "text": body})
-            events["cancelled"].append(ob["id"])
-        else:
+        elif kind == "amend":
             before = {"spec": copy.deepcopy(ob["spec"]), "deadline": ob["deadline"]}
             ob["spec"].update(changes.get("spec", {}))
             if "deadline" in changes:
+                if int(changes["deadline"]) <= s:
+                    raise ValueError("an amended deadline must lie in the future")
                 ob["deadline"] = int(changes["deadline"])
             if "keywords" in changes:
                 ob["keywords"] = list(dict.fromkeys(ob["keywords"] + changes["keywords"]))
             ob["status"] = "amended"
             ob["history"].append({"step": s, "event": "amended", "text": body, "before": before})
-            events["amended"].append(ob["id"])
-        return [f"[{ob['id']}] {body}"]
+        else:
+            raise ValueError(kind)
+        if events is not None:
+            events["cancelled" if kind == "cancel" else "amended"].append(ob["id"])
+        msg = f"[{ob['id']}] {body}"
+        if events is None:
+            self.state["outbox"].append(msg)   # delivered with the next observation
+        return msg
 
     def _arrivals(self, u: float, ctx, events) -> list[str]:
         s = ctx.step
@@ -253,26 +268,40 @@ class ObligationLayer:
         new = self.caretaker.propose(self.rng, self, ctx)
         if new is None:
             return []
-        prefix = "q" if new["family"] == "report" else "o"
+        mark = _pick(self.rng, VALUE_MARK[new["value"]]) if new["family"] != "report" else ""
+        ob = self.add_obligation(new["family"], new["spec"], new["deadline"], new["value"], new["text"],
+                                 new["keywords"], s, estimate=new["estimate"], progress=new.get("progress"),
+                                 mark=mark)
+        events["issued"].append(ob["id"])
+        return [ob["text"]]
+
+    def add_obligation(self, family: str, spec: dict, deadline: int, value: int, text: str, keywords: list,
+                       step: int, estimate: float = 0.0, progress: dict | None = None, mark: str = "") -> dict:
+        """Register a new obligation issued at ``step`` (the caretaker's path; public for scripted scenarios).
+        The message is ``[id] <mark><text>``; it is evaluated from ``step + 1`` on."""
+        from .obligations import FAMILIES
+        if family not in FAMILIES:
+            raise ValueError(family)
+        if int(deadline) <= int(step):
+            raise ValueError("deadline must lie after the issue step")
+        prefix = "q" if family == "report" else "o"
         oid = f"{prefix}{self.state['next_id']}"
         self.state["next_id"] += 1
-        mark = _pick(self.rng, VALUE_MARK[new["value"]]) if new["family"] != "report" else ""
-        body = new["text"]
+        body = text
         if mark:
             first = body.split(" ", 1)[0]
             body = mark + (body if first in ("I", "I'd") else body[0].lower() + body[1:])
-        text = f"[{oid}] {body}"
-        ob = {"id": oid, "family": new["family"], "text": text, "spec": new["spec"], "issue_step": s,
-              "deadline": int(new["deadline"]), "value": int(new["value"]), "status": "open",
-              "resolved_step": None, "reason": None, "keywords": new["keywords"],
-              "estimate": float(new["estimate"]), "day": dl.day_index(s), "phase": dl.phase(s),
-              "history": [{"step": s, "event": "issued", "text": text}]}
-        if "progress" in new:
-            ob["progress"] = new["progress"]
+        full = f"[{oid}] {body}"
+        s = int(step)
+        ob = {"id": oid, "family": family, "text": full, "spec": copy.deepcopy(spec), "issue_step": s,
+              "deadline": int(deadline), "value": int(value), "status": "open", "resolved_step": None,
+              "reason": None, "keywords": list(keywords), "estimate": float(estimate), "day": dl.day_index(s),
+              "phase": dl.phase(s), "history": [{"step": s, "event": "issued", "text": full}]}
+        if family == "visit":
+            ob["progress"] = copy.deepcopy(progress) if progress else {"reached_step": None}
         self.state["obligations"].append(ob)
         self._index[oid] = ob
-        events["issued"].append(oid)
-        return [text]
+        return ob
 
     def _emit(self, step: int, msgs: list[str]) -> list[str]:
         for m in msgs:

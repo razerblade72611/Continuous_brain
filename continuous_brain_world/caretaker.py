@@ -112,7 +112,7 @@ def language_inventory() -> dict:
         + sum(map(len, T_AVOID.values())) + len(T_VISIT),
         "question_templates": len(T_LAST_SEEN) + sum(map(len, COUNT_EVENTS.values())) + sum(map(len, T_FIRST.values()))
         + len(T_COUNT_REQ) + len(T_LAST_CANCEL),
-        "change_templates": len(T_CANCEL) + 6,
+        "change_templates": len(T_CANCEL) + 8,
         "deadline_phrasings": 7, "item_synonyms": sum(map(len, ITEM_NOUNS.values())),
         "feature_synonyms": sum(map(len, FEATURE_NAMES.values())), "value_markers": sum(map(len, VALUE_MARK.values())),
     }
@@ -142,8 +142,22 @@ def _round10(x: float) -> int:
     return max(10, int(round(x / 10.0)) * 10)
 
 
+def dark_steps(start: int, end: int) -> int:
+    """Number of dark steps in the half-open interval [start, end)."""
+    full, rest = divmod(max(0, end - start), dl.DAY_LENGTH)
+    n = full * (dl.DAWN_T - dl.NIGHTFALL_T)
+    return n + sum(dl.NIGHTFALL_T <= (start + full * dl.DAY_LENGTH + i) % dl.DAY_LENGTH < dl.DAWN_T
+                   for i in range(rest))
+
+
 def choose_deadline(rng, step: int, dur: float, until: bool = False) -> tuple[int, str]:
-    """Pick a deadline phrase whose implied deadline is close to ``step + dur``; return (deadline, phrase)."""
+    """Pick a deadline phrase whose implied deadline is close to ``step + dur``; return (deadline, phrase).
+
+    For tasks (``until=False``) ``dur`` is working time: the dark steps it would span are added on top, so a
+    request never silently expects work through the night (the caretaker knows nights are for sheltering).
+    For "keep/avoid ... until" windows ``dur`` is the window itself."""
+    if not until:
+        dur = dur + dark_steps(step, step + int(dur))
     n = _round10(dur)
     options = [(step + n, (f"until step {step + n}" if until else f"by step {step + n}")),
                (step + n, (f"for the next {n} steps" if until else f"within {n} steps"))]

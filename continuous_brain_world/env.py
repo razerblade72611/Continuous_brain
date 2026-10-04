@@ -181,6 +181,20 @@ class W1Env:
             priv["semantic"] = b.semantic()
         return {"privileged": priv, "events": events, "crafter_reward": float(r_crafter)}
 
+    # -- scripted scenarios (tests, curricula); the caretaker uses the same paths --------------------------
+    def issue(self, family: str, spec: dict, deadline: int, value: int = 1, text: str | None = None,
+              keywords: list | None = None, progress: dict | None = None) -> dict:
+        """Issue an obligation now, outside the caretaker's random process.  Its message arrives with the next
+        observation; it is evaluated from the next step on.  Returns the (live) obligation record."""
+        ob = self.layer.add_obligation(family, spec, deadline, value, text or f"Scripted {family} request.",
+                                       keywords or [family], self.bridge.step_count, progress=progress)
+        self.layer.state["outbox"].append(ob["text"])
+        return ob
+
+    def change(self, oid: str, kind: str, body: str, changes: dict | None = None) -> str:
+        """Amend (``kind='amend'``, ``changes={'spec': {...}, 'deadline': n}``) or cancel an active obligation."""
+        return self.layer.apply_change(self.layer._index[oid], kind, body, changes or {}, self.bridge.step_count)
+
     def privileged_now(self) -> dict:
         """The privileged info for the current state (e.g. right after reset)."""
         return self._info({}, 0.0)
