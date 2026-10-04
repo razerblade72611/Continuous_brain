@@ -30,6 +30,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
+# Sleep instead of spin-waiting in OpenMP barriers.  Measured on this 2-CPU machine while another process held one
+# CPU: 2 torch threads trained at 142 samples/s with the default (spinning) policy and 827 samples/s with PASSIVE.
+os.environ.setdefault("OMP_WAIT_POLICY", "PASSIVE")
 
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
@@ -50,7 +53,7 @@ PLAN = {
     "test": {"seed_base": 74000, "episodes": [("scripted", 8, 2000, 3), ("explorer", 10, 1200, 2),
                                               ("gardener", 4, 1500, 2), ("random", 8, 600, 1)]},
 }
-TRAIN = {"width": 64, "blocks": 3, "epochs": 8, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
+TRAIN = {"width": 64, "blocks": 3, "epochs": 12, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
          "warmup_steps": 200, "seed": 1, "threads": 2, "object_loss_weight": 1.0}
 RARE_MATERIALS = ("diamond", "lava", "iron")
 RARE_OBJECTS = ("skeleton", "arrow", "plant_ripe")
@@ -399,7 +402,7 @@ def main():
                        "git_dirty": bool(git("status", "--porcelain", "--untracked-files=no")),
                        "crafter": crafter_provenance(), "torch": torch.__version__, "numpy": np.__version__,
                        "python": platform.python_version(), "machine": platform.machine(),
-                       "cpus": os.cpu_count()},
+                       "cpus": os.cpu_count(), "omp_wait_policy": os.environ.get("OMP_WAIT_POLICY")},
     }
     Path(args.card).parent.mkdir(parents=True, exist_ok=True)
     Path(args.card).write_text(json.dumps(card, indent=1))
