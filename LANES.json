@@ -1,9 +1,9 @@
 {
   "format": "cb-lanes/1",
   "lane": "explore",
-  "branch": "explore/i2-goal-aware-controller",
+  "branch": "explore/w1-world-and-organs",
   "protected_branch": "v0.38.1-dev7-i1",
-  "base_commit": "e1d2878bb9ae76de55278a26fdaea97338408b30",
+  "base_commit": "c6520831429cbb5bc62605533d635518f2eaf94c",
   "protected_paths": [
     "registry/i1_integration_v1.json",
     "continuous_brain_unified/integration",
