@@ -12,7 +12,14 @@
              APPROVED, the approval names the SHA-256 of the design it approves (design_digest)
              and that design is unchanged, the operator types --confirm-open, and the manifest
              (code, legacy pins, historical core, environment) equals the one frozen in the
-             preregistration; the family is spent before launch; the verdict is PASS / FAIL / BLOCKED
+             preregistration, and verify_preflight_chain() re-verifies the whole frozen chain from the
+             preflight's ledger spend to the approval basis; the family is spent before launch; the
+             verdict is PASS / FAIL / BLOCKED
+
+Preflight, approval and science use only this checkout's registry/ (registry_root refuses if
+CONTINUOUS_BRAIN_REGISTRY points elsewhere). Preflight and science open their family through
+open_family(), which spends it with source spend_source(mode, label) and writes seed_opened.json binding
+the spend to the run, the manifest and the registry state (design, both registry files, the seed ledger).
 
 Before any family is registered or spent, every mode verifies the legacy pins and the
 historical-core archive. Once a family is spent, any failure still writes a BLOCKED report.
@@ -39,7 +46,7 @@ import torch
 
 from continuous_brain_protocols import SeedFamily, SeedPurpose, sha256_file
 from continuous_brain_eval.seeds import SeedRegistry
-from continuous_brain_unified.prereg import PreregistrationRegistry
+from continuous_brain_unified.prereg import ENV_REGISTRY, PreregistrationRegistry
 
 from ..composition import boundary as _b, codec as _c, route as _r, spec as _s
 from ..legacy.g0_runner import (_extract_historical_core, _historical_core_digest, _tree_metadata,
@@ -160,7 +167,7 @@ def manifest(threads: int) -> dict:
     return m
 
 
-def _run_arm(arm, sids, run_dir, legacy, core, threads, plan):
+def _run_arm(arm, sids, run_dir, legacy, core, threads, plan, quiet=False):
     out = run_dir / arm
     boot = run_dir / f"bootstrap_{arm}.py"
     boot.write_text(BOOT.format(threads=threads, overrides=core, root=str(legacy), repo=str(REPO), arm=arm,
@@ -173,8 +180,11 @@ def _run_arm(arm, sids, run_dir, legacy, core, threads, plan):
     if proc.returncode != 0:
         raise I1Refused(f"arm {arm} failed (rc {proc.returncode}): {proc.stderr[-2000:]}")
     lives = [json.loads(x) for x in (out / "lives.jsonl").read_text().splitlines() if x.strip()]
-    print(json.dumps({"arm": arm, "lives": len(lives), "errors": sum(1 for r in lives if "error" in r),
-                      "seconds": round(time.time() - t, 1)}), flush=True)
+    if quiet:      # preflight: no timings or error counts on screen (both carry weak hints about outcomes)
+        print(json.dumps({"arm": arm, "finished": True}), flush=True)
+    else:
+        print(json.dumps({"arm": arm, "lives": len(lives), "errors": sum(1 for r in lives if "error" in r),
+                          "seconds": round(time.time() - t, 1)}), flush=True)
     return lives
 
 
@@ -262,32 +272,247 @@ def _dev_sids(reg: SeedRegistry, prereg: dict, family: str | None, start: int | 
     return fam, list(range(lo, hi + 1))
 
 
-def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2, root: Path = REPO) -> dict:
-    """David's approval, as one atomic act over both registry files.
+# ---------------------------------------------------------------------------------------------------------
+# Chain of custody (dev7, ChatGPT's 64g findings). The scientific decision may rest only on this chain:
+#   the canonical preflight family was really spent in this checkout's ledger, once, by this run
+#   -> seed_opened.json ties that spend to this run directory, its manifest and the registry state at opening
+#   -> the preflight was opened under the PROPOSED preregistration, whose design equals the current design
+#   -> the exact machine/code/environment manifest matches -> exactly the 14 validity checks, all true
+#   -> exactly the 12 arms bound -> the sealed report exists, matches its commitment and agrees with the view
+#   -> central and detailed registries agree -> David approves (approve) -> science re-verifies all of it.
+# ---------------------------------------------------------------------------------------------------------
+APPROVAL_FIELDS = ("approved_utc", "preflight_manifest_sha256", "approved_design_sha256", "preflight_run",
+                   "approval_basis")
+APPROVAL_BASIS_KEYS = ("preflight_run", "spend_source", "seed_opened_sha256", "validity_sha256", "manifest_sha256",
+                       "sealed_report_sha256", "opened_design_sha256", "opened_prereg_file_sha256",
+                       "opened_central_registry_sha256", "opened_seed_ledger_sha256")
+BINDING_KEYS = ("design_sha256", "prereg_file_sha256", "central_registry_sha256", "seed_ledger_sha256",
+                "prereg_status", "approved_design_sha256", "preflight_manifest_sha256")
+JOURNAL = "registry/i1_approval.journal.json"
+_HEX64 = frozenset("0123456789abcdef")
 
-    Refuses unless: the operator typed the preregistration id; the preflight directory holds a spent
-    preflight of this preregistration's preflight family whose validity block is all true; the
-    manifest it recorded is self-consistent and equals the manifest this machine computes now (same
-    code, pins, historical core and environment). Then it writes, in registry/i1_integration_v1.json,
-    status APPROVED, approved_by, approved_utc, preflight_manifest_sha256 and approved_design_sha256
-    (the design digest of the file as it stands), and sets the I1 entry of registry/preregistrations.json
-    to APPROVED."""
-    if confirm != PREREG_ID:
-        raise I1Refused(f"approval requires --i-approve {PREREG_ID}")
-    if not approver.strip():
-        raise I1Refused("approval requires --approver")
+
+def _is_hex64(x) -> bool:
+    return isinstance(x, str) and len(x) == 64 and set(x) <= _HEX64
+
+
+def registry_root(root: Path = REPO) -> Path:
+    """This checkout's registry/, the only ledger preflight, approval and science may use.
+
+    CONTINUOUS_BRAIN_REGISTRY is not honored here: if it is set to any other directory (for example left
+    over from tests) the run refuses, rather than spend or validate against another ledger."""
+    reg = (Path(root) / "registry").resolve()
+    env = os.environ.get(ENV_REGISTRY)
+    if env and Path(env).resolve() != reg:
+        raise I1Refused(f"{ENV_REGISTRY} is set to {env}, not to this checkout's registry {reg}; unset it")
+    return reg
+
+
+def spend_source(mode: str, label: str) -> str:
+    """The ledger source string of the spend that opens a preflight or science run labelled `label`."""
+    return f"{PREREG_ID}:{mode}:{label}:opened"
+
+
+def seed_ledger_digest(root: Path = REPO) -> str:
+    """SHA-256 over both seed-ledger files (shared ranges and the local append-only ledger)."""
+    d = Path(root) / "registry"
+    files = {n: (sha256_file(d / n) if (d / n).exists() else None)
+             for n in ("seed_ranges.json", "seed_ranges.local.jsonl")}
+    return hashlib.sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()
+
+
+def _registry_binding(prereg: dict, root: Path = REPO) -> dict:
+    """The mutable approval/spend records are outside the code manifest; bind them here instead."""
+    r = Path(root)
+    return {"design_sha256": design_digest(prereg), "prereg_file_sha256": sha256_file(r / PREREG_FILE),
+            "central_registry_sha256": sha256_file(r / "registry" / "preregistrations.json"),
+            "seed_ledger_sha256": seed_ledger_digest(r), "prereg_status": prereg.get("status"),
+            "approved_design_sha256": prereg.get("approved_design_sha256"),
+            "preflight_manifest_sha256": prereg.get("preflight_manifest_sha256")}
+
+
+def _fsync_dir(d: Path) -> None:
+    try:
+        fd = os.open(str(d), os.O_RDONLY)
+    except OSError:
+        return
+    try:
+        os.fsync(fd)
+    except OSError:
+        pass
+    finally:
+        os.close(fd)
+
+
+def _atomic_write(path: Path, data: str) -> None:
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "w") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+    _fsync_dir(path.parent)
+
+
+def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path, root: Path = REPO) -> SeedFamily:
+    """The one path by which a preflight or science run opens its family.
+
+    Registers the family if it is new, checks it is usable, spends it in this checkout's ledger with source
+    spend_source(mode, label), and writes run_dir/seed_opened.json, which binds the spend to the run, the
+    manifest and the registry state (design, both registry files, the seed ledger after the spend)."""
+    if mode not in ("preflight", "science"):
+        raise I1Refused(f"only preflight and science open a preregistered family, not {mode}")
+    root = Path(root).resolve()
+    if Path(run_dir).resolve() != (root / "runs" / "i1" / label).resolve():
+        raise I1Refused(f"a {mode} run lives in runs/i1/{label} of this checkout")
+    reg = SeedRegistry.load(registry_root(root))
+    key = "engineering_preflight_proposed" if mode == "preflight" else "scientific_dev_proposed"
+    fam = _family(reg, prereg["families"][key])
+    reg.check_usable(fam)
+    reg.spend(fam, source=spend_source(mode, label))
+    opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True}, "spent_before_launch": True,
+              "mode": mode, "run": label, "spend_source": spend_source(mode, label),
+              "manifest_sha256": man["manifest_sha256"], "utc": datetime.now(timezone.utc).isoformat(),
+              **_registry_binding(prereg, root)}
+    (Path(run_dir) / "seed_opened.json").write_text(json.dumps(opened, indent=2) + "\n")
+    return fam
+
+
+def _read_json(path: Path, what: str):
+    try:
+        return json.loads(Path(path).read_text())
+    except FileNotFoundError:
+        raise I1Refused(f"{what} is missing ({path})") from None
+    except (OSError, ValueError) as e:
+        raise I1Refused(f"{what} is unreadable ({path}): {e}") from None
+
+
+def _fam_key(f: dict) -> tuple:
+    return (f.get("name"), int(f.get("start", -1)), int(f.get("stop", -1)), f.get("purpose"))
+
+
+def _ledger_rows(regdir: Path, name: str) -> tuple[list[dict], list[dict]]:
+    """Every row naming `name` in the shared ranges file and in the local ledger (in ledger order)."""
+    shared = [r for r in json.loads((regdir / "seed_ranges.json").read_text())["ranges"] if r.get("name") == name]
+    local = []
+    p = regdir / "seed_ranges.local.jsonl"
+    if p.exists():
+        for line in p.read_text().splitlines():
+            if line.strip():
+                r = json.loads(line)
+                if r.get("name") == name:
+                    local.append(r)
+    return shared, local
+
+
+def _check_ledger_spend(regdir: Path, fam_spec: dict, mode: str, label: str) -> None:
+    """The family was spent exactly once, in the local ledger, by the run `label`, and nothing superseded it."""
+    want, key = spend_source(mode, label), _fam_key(fam_spec)
+    shared, local = _ledger_rows(regdir, fam_spec["name"])
+    if any(_fam_key(r) != key for r in shared + local):
+        raise I1Refused(f"the ledger has a row named {fam_spec['name']} with another range or purpose")
+    if any(r.get("spent") for r in shared):
+        raise I1Refused(f"{fam_spec['name']} is marked spent in the shared ranges file, not by a run")
+    spends = [r for r in local if r.get("spent")]
+    if not spends:
+        raise I1Refused(f"the ledger has no spend of {fam_spec['name']}: no real {mode} was opened")
+    if len(spends) != 1:
+        raise I1Refused(f"the ledger records {len(spends)} spends of {fam_spec['name']}")
+    if spends[0].get("source") != want:
+        raise I1Refused(f"the ledger's spend of {fam_spec['name']} was made by {spends[0].get('source')!r}, "
+                        f"not by this run ({want!r})")
+    at = next(i for i, r in enumerate(local) if r is spends[0])
+    if local[at + 1:]:
+        raise I1Refused(f"a later ledger row supersedes the spend of {fam_spec['name']}")
+    final = [r for r in SeedRegistry.load(regdir).ranges if (r.family.name, r.family.start, r.family.stop,
+                                                             r.family.purpose.value) == key]
+    if len(final) != 1 or not final[0].family.spent or final[0].source != want:
+        raise I1Refused(f"the loaded ledger does not show {fam_spec['name']} spent by this run")
+
+
+def _i1_entries(central: dict) -> list[dict]:
+    return [e for e in central.get("preregistrations", []) if e.get("id") == PREREG_ID]
+
+
+def verify_preflight_chain(preflight_dir, *, root: Path = REPO, threads: int = 2, stage: str = "approve") -> dict:
+    """Verify every link from the preflight spend to the decision; return the approval basis.
+
+    stage "approve": the preregistration must still be PROPOSED and both registry files byte-identical to
+    their state when the preflight was opened. stage "science": the preregistration must be APPROVED on this
+    preflight, and the approval basis recorded at approval must be reproduced exactly from the files."""
+    if stage not in ("approve", "science"):
+        raise I1Refused(f"unknown stage {stage}")
+    root = Path(root).resolve()
+    regdir = registry_root(root)
+    if (root / JOURNAL).exists():
+        raise I1Refused(f"an interrupted approval journal exists ({JOURNAL}); run scripts/i1_approve.py --recover")
     d = Path(preflight_dir).resolve()
-    prereg_path, central_path = Path(root) / PREREG_FILE, Path(root) / "registry" / "preregistrations.json"
-    prereg = json.loads(prereg_path.read_text())
-    if prereg.get("status") != "PROPOSED":
-        raise I1Refused(f"{PREREG_FILE} is {prereg.get('status')}, not PROPOSED")
-    opened = json.loads((d / "seed_opened.json").read_text())
+    if d.parent != (root / "runs" / "i1").resolve():
+        raise I1Refused(f"the preflight directory must be runs/i1/<label> of this checkout, not {d}")
+    label = d.name
+    prereg = _read_json(root / PREREG_FILE, "the preregistration")
+    central = _read_json(regdir / "preregistrations.json", "the central registry")
     pf = prereg["families"]["engineering_preflight_proposed"]
-    fam = opened["family"]
-    if (opened.get("mode") != "preflight" or fam["name"] != pf["name"] or int(fam["start"]) != int(pf["start"])
-            or int(fam["stop"]) != int(pf["stop"]) or not fam.get("spent")):
-        raise I1Refused("the directory does not hold a spent preflight of this preregistration's preflight family")
-    validity = json.loads((d / "i1_validity.json").read_text())
+    # 1. the canonical preflight family was really spent, once, by this run
+    _check_ledger_spend(regdir, pf, "preflight", label)
+    # 2. the opening record ties that spend to this directory, its manifest and the registry state at opening
+    opened = _read_json(d / "seed_opened.json", "the preflight's opening record")
+    fam = opened.get("family") if isinstance(opened.get("family"), dict) else {}
+    try:
+        fam_ok = _fam_key(fam) == _fam_key(pf)
+    except (TypeError, ValueError):
+        fam_ok = False
+    if (opened.get("format") != "cb-i1-opened/2" or opened.get("mode") != "preflight" or opened.get("run") != label
+            or opened.get("spend_source") != spend_source("preflight", label) or not fam_ok
+            or fam.get("spent") is not True or opened.get("spent_before_launch") is not True):
+        raise I1Refused("seed_opened.json is not the opening record of a preflight of this preregistration's "
+                        "preflight family in this directory")
+    missing = [k for k in BINDING_KEYS if k not in opened]
+    if missing:
+        raise I1Refused(f"seed_opened.json lacks the registry binding {missing}")
+    if (opened["prereg_status"] != "PROPOSED" or opened["approved_design_sha256"] is not None
+            or opened["preflight_manifest_sha256"] is not None):
+        raise I1Refused("the preflight was not opened under the PROPOSED preregistration (approval fields at opening)")
+    design = design_digest(prereg)
+    if opened["design_sha256"] != design:
+        raise I1Refused(f"the design changed after the preflight was opened (opened under {opened['design_sha256']}, "
+                        f"now {design})")
+    entries = _i1_entries(central)
+    if stage == "approve":
+        if prereg.get("status") != "PROPOSED" or any(k in prereg for k in APPROVAL_FIELDS) or prereg.get("approved_by"):
+            raise I1Refused(f"{PREREG_FILE} is {prereg.get('status')}, not PROPOSED without approval fields")
+        if opened["prereg_file_sha256"] != sha256_file(root / PREREG_FILE):
+            raise I1Refused(f"{PREREG_FILE} changed after the preflight was opened")
+        if opened["central_registry_sha256"] != sha256_file(regdir / "preregistrations.json"):
+            raise I1Refused("registry/preregistrations.json changed after the preflight was opened")
+        if len(entries) != 1 or entries[0].get("status") != "PROPOSED" or entries[0].get("approved_by"):
+            raise I1Refused(f"registry/preregistrations.json has no single PROPOSED {PREREG_ID} entry")
+    else:
+        if prereg.get("status") not in ("APPROVED", "FROZEN") or not (prereg.get("approved_by") or "").strip():
+            raise I1Refused(f"{PREREG_FILE} is not APPROVED")
+        if prereg.get("preflight_run") != label:
+            raise I1Refused(f"the approval names preflight {prereg.get('preflight_run')!r}, not {label!r}")
+        if prereg.get("approved_design_sha256") != design:
+            raise I1Refused("the approval does not name this design (approved_design_sha256 != design_digest)")
+        if (len(entries) != 1 or entries[0].get("status") != prereg.get("status")
+                or entries[0].get("approved_by") != prereg.get("approved_by")):
+            raise I1Refused("the central registry's I1 entry does not agree with the approved preregistration")
+    # 3. the exact machine/code/environment manifest
+    rec = _read_json(d / "manifest.json", "the preflight manifest")
+    body = {k: v for k, v in rec.items() if k != "manifest_sha256"}
+    if hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest() != rec.get("manifest_sha256"):
+        raise I1Refused("the preflight manifest.json is not self-consistent")
+    if opened.get("manifest_sha256") != rec["manifest_sha256"]:
+        raise I1Refused("seed_opened.json was written under another manifest than the directory's manifest.json")
+    now = manifest(threads)
+    if now["manifest_sha256"] != rec["manifest_sha256"]:
+        diff = sorted(k for k in set(now) | set(rec) if k != "manifest_sha256" and now.get(k) != rec.get(k))
+        raise I1Refused(f"this machine's manifest {now['manifest_sha256']} differs from the preflight's "
+                        f"{rec['manifest_sha256']} (differing: {diff})")
+    if stage == "science" and prereg.get("preflight_manifest_sha256") != rec["manifest_sha256"]:
+        raise I1Refused("the approval froze another preflight manifest")
+    # 4. exactly the 14 validity checks, all true
+    validity = _read_json(d / "i1_validity.json", "the preflight's validity view")
     checks = validity.get("validity")
     if not isinstance(checks, dict) or set(checks) != set(_e.VALIDITY_KEYS):
         got = set(checks) if isinstance(checks, dict) else set()
@@ -295,16 +520,11 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
                         f"(missing {sorted(set(_e.VALIDITY_KEYS) - got)}, unexpected {sorted(got - set(_e.VALIDITY_KEYS))})")
     if validity.get("valid") is not True or not all(checks[k] is True for k in _e.VALIDITY_KEYS):
         raise I1Refused("the preflight is not valid: " + json.dumps(checks, sort_keys=True))
-    rec = json.loads((d / "manifest.json").read_text())
-    body = {k: v for k, v in rec.items() if k != "manifest_sha256"}
-    if hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest() != rec.get("manifest_sha256"):
-        raise I1Refused("the preflight manifest.json is not self-consistent")
-    now = manifest(threads)
-    if now["manifest_sha256"] != rec["manifest_sha256"]:
-        diff = sorted(k for k in set(now) | set(rec) if k != "manifest_sha256" and now.get(k) != rec.get(k))
-        raise I1Refused(f"this machine's manifest {now['manifest_sha256']} differs from the preflight's "
-                        f"{rec['manifest_sha256']} (differing: {diff})")
-    diag = validity.get("validity_diagnostics") or {}
+    if validity.get("run") != label or validity.get("format") != "cb-i1-validity/2" or \
+            validity.get("status") != "ENGINEERING_ONLY":
+        raise I1Refused("i1_validity.json is not the sealed validity view of this preflight directory")
+    # 5. exactly the 12 arms, each bound to the manifest
+    diag = validity.get("validity_diagnostics") if isinstance(validity.get("validity_diagnostics"), dict) else {}
     arms = diag.get("arm_manifests")
     if not isinstance(arms, dict) or set(arms) != set(_e.ARMS):
         got = set(arms) if isinstance(arms, dict) else set()
@@ -313,33 +533,192 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
     if diag.get("expected_manifest_sha256") != rec["manifest_sha256"] or \
             any(arms[a] != rec["manifest_sha256"] for a in _e.ARMS):
         raise I1Refused("the preflight's validity diagnostics do not bind every arm to its manifest.json")
-    central = json.loads(central_path.read_text())
-    entries = [e for e in central["preregistrations"] if e.get("id") == PREREG_ID]
-    if len(entries) != 1 or entries[0].get("status") != "PROPOSED":
-        raise I1Refused(f"registry/preregistrations.json has no single PROPOSED {PREREG_ID} entry")
+    # 6. the sealed report exists, matches its commitment and agrees with the visible view (values not shown)
+    sealed = d / "sealed" / "i1_report.json"
+    if not sealed.is_file():
+        raise I1Refused("the preflight's sealed report is missing (sealed/i1_report.json)")
+    if not _is_hex64(validity.get("sealed_report_sha256")) or sha256_file(sealed) != validity["sealed_report_sha256"]:
+        raise I1Refused("the sealed report does not match the SHA-256 committed in i1_validity.json")
+    rep = _read_json(sealed, "the sealed report")
+    rdiag = rep.get("validity_diagnostics") if isinstance(rep.get("validity_diagnostics"), dict) else {}
+    if (rep.get("run") != label or rep.get("status") != "ENGINEERING_ONLY" or rep.get("validity") != checks
+            or set(diag) != set(_e.SEALED_VISIBLE_DIAGNOSTICS)
+            or any(rdiag.get(k) != diag.get(k) for k in _e.SEALED_VISIBLE_DIAGNOSTICS)
+            or rep.get("n") != validity.get("n")):
+        raise I1Refused("the sealed report disagrees with the visible validity view (values not shown)")
+    basis = {"preflight_run": label, "spend_source": spend_source("preflight", label),
+             "seed_opened_sha256": sha256_file(d / "seed_opened.json"),
+             "validity_sha256": sha256_file(d / "i1_validity.json"), "manifest_sha256": rec["manifest_sha256"],
+             "sealed_report_sha256": validity["sealed_report_sha256"], "opened_design_sha256": opened["design_sha256"],
+             "opened_prereg_file_sha256": opened["prereg_file_sha256"],
+             "opened_central_registry_sha256": opened["central_registry_sha256"],
+             "opened_seed_ledger_sha256": opened["seed_ledger_sha256"]}
+    if stage == "science" and prereg.get("approval_basis") != basis:
+        raise I1Refused("the preflight directory no longer reproduces the basis recorded at approval")
+    return basis
+
+
+def lifecycle_problems(prereg: dict, central: dict, reg: SeedRegistry, root: Path | None = None) -> list[str]:
+    """Every invariant the I1 preregistration must satisfy in whatever legal state it is in.
+
+    Registry-level only (no run directory or machine needed): legal in PROPOSED (preflight unopened or
+    spent by a preflight run), APPROVED and FROZEN (scientific family unopened or spent by a science run).
+    approve() runs it before and after writing; the test suite runs it on the repository."""
+    out = []
+    if root is not None and (Path(root) / JOURNAL).exists():
+        out.append(f"an interrupted approval journal exists ({JOURNAL})")
+    st = prereg.get("status")
+    entries = _i1_entries(central)
+    if len(entries) != 1:
+        return out + [f"central registry has {len(entries)} {PREREG_ID} entries"]
+    c = entries[0]
+    if st not in ("PROPOSED", "APPROVED", "FROZEN"):
+        out.append(f"illegal status {st!r}")
+    if c.get("status") != st:
+        out.append(f"central status {c.get('status')!r} != preregistration status {st!r}")
+
+    def rows(key):
+        f = prereg["families"][key]
+        fam = SeedFamily(f["name"], int(f["start"]), int(f["stop"]), SeedPurpose(f["purpose"]))
+        return fam, [r for r in reg.ranges if (r.family.name, r.family.start, r.family.stop, r.family.purpose) ==
+                     (fam.name, fam.start, fam.stop, fam.purpose)]
+
+    pf, pf_rows = rows("engineering_preflight_proposed")
+    sci, sci_rows = rows("scientific_dev_proposed")
+    for name, mode, fam, rr in (("preflight", "preflight", pf, pf_rows), ("scientific", "science", sci, sci_rows)):
+        if not rr:                                       # unregistered: must still be fresh
+            try:
+                reg.check_fresh(fam)
+            except Exception as e:
+                out.append(f"{name} family is neither registered exactly nor fresh: {e}")
+        elif not all(r.family.spent for r in rr):         # the runner registers and spends in one step
+            out.append(f"{name} family is registered but not spent")
+        elif not all(r.source.startswith(f"{PREREG_ID}:{mode}:") and r.source.endswith(":opened") for r in rr):
+            out.append(f"{name} family was spent by {[r.source for r in rr]}, not by a {mode} run of {PREREG_ID}")
+    if st == "PROPOSED":
+        if prereg.get("approved_by") is not None or any(k in prereg for k in APPROVAL_FIELDS):
+            out.append("PROPOSED preregistration carries approval fields")
+        if c.get("approved_by"):
+            out.append("PROPOSED central entry carries approved_by")
+        if sci_rows:
+            out.append("the scientific family was opened before approval")
+    else:
+        if not (prereg.get("approved_by") or "").strip() or not prereg.get("approved_utc"):
+            out.append("approval without approver or time")
+        if prereg.get("approved_design_sha256") != design_digest(prereg):
+            out.append("the approved design digest does not match the design as it stands")
+        if not _is_hex64(prereg.get("preflight_manifest_sha256")):
+            out.append("approval without a preflight manifest SHA-256")
+        if c.get("approved_by") != prereg.get("approved_by") or not c.get("approved_by"):
+            out.append("APPROVED central entry without the same approved_by")
+        if not pf_rows:
+            out.append("approved without a spent preflight family in this registry")
+        basis = prereg.get("approval_basis")
+        if not isinstance(basis, dict) or set(basis) != set(APPROVAL_BASIS_KEYS):
+            out.append("approval without the approval basis")
+        else:
+            run_name = prereg.get("preflight_run")
+            if basis["preflight_run"] != run_name or basis["spend_source"] != spend_source("preflight", str(run_name)):
+                out.append("the approval basis names another preflight run")
+            if any(not _is_hex64(basis[k]) for k in APPROVAL_BASIS_KEYS if k.endswith("sha256")):
+                out.append("the approval basis has a malformed SHA-256")
+            if basis["manifest_sha256"] != prereg.get("preflight_manifest_sha256") or \
+                    basis["opened_design_sha256"] != prereg.get("approved_design_sha256"):
+                out.append("the approval basis disagrees with the approval fields")
+            if pf_rows and any(r.source != basis["spend_source"] for r in pf_rows):
+                out.append("the preflight family was spent by another run than the approved preflight")
+    return out
+
+
+def _journaled_write(root: Path, objs: dict[Path, dict]) -> None:
+    """Write several registry files as one act: journal first (old and new hashes, new bytes), then each file
+    atomically, then remove the journal. An interruption leaves the journal; recover_approval() completes it."""
+    j = root / JOURNAL
+    if j.exists():
+        raise I1Refused(f"an interrupted approval journal exists ({JOURNAL}); run scripts/i1_approve.py --recover")
+    files = []
+    for path, obj in objs.items():
+        data = json.dumps(obj, indent=2) + "\n"
+        files.append({"path": str(Path(path).resolve().relative_to(root)), "old_sha256": sha256_file(path),
+                      "new_sha256": hashlib.sha256(data.encode()).hexdigest(), "data": data})
+    _atomic_write(j, json.dumps({"format": "cb-i1-approval-journal/1", "files": files}, indent=2) + "\n")
+    for f in files:
+        _atomic_write(root / f["path"], f["data"])
+    os.remove(j)
+    _fsync_dir(j.parent)
+
+
+def recover_approval(root: Path = REPO) -> str:
+    """Complete an interrupted approval from its journal (roll forward). Refuses if a file is in neither its
+    old nor its new state. The journal is written only after every check passed and David confirmed."""
+    root = Path(root).resolve()
+    registry_root(root)
+    j = root / JOURNAL
+    if not j.exists():
+        return "no approval journal: nothing to recover"
+    journal = _read_json(j, "the approval journal")
+    for f in journal["files"]:
+        cur = sha256_file(root / f["path"])
+        if cur not in (f["old_sha256"], f["new_sha256"]):
+            raise I1Refused(f"{f['path']} is in neither its pre- nor its post-approval state; resolve it by hand")
+        if hashlib.sha256(f["data"].encode()).hexdigest() != f["new_sha256"]:
+            raise I1Refused("the approval journal is corrupt")
+    for f in journal["files"]:
+        if sha256_file(root / f["path"]) != f["new_sha256"]:
+            _atomic_write(root / f["path"], f["data"])
+    os.remove(j)
+    _fsync_dir(j.parent)
+    prereg = json.loads((root / PREREG_FILE).read_text())
+    central = json.loads((root / "registry" / "preregistrations.json").read_text())
+    problems = lifecycle_problems(prereg, central, SeedRegistry.load(root / "registry"), root)
+    if problems:
+        raise I1Refused("after recovery the registry violates the lifecycle invariants: " + "; ".join(problems))
+    return "approval completed from the journal"
+
+
+def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2, root: Path = REPO) -> dict:
+    """David's approval, as one journaled act over both registry files.
+
+    Refuses unless the operator typed the preregistration id and verify_preflight_chain() accepts the
+    preflight (see the chain above), and unless the registry satisfies lifecycle_problems() before the write
+    and the new state satisfies it too. Then writes, in registry/i1_integration_v1.json, status APPROVED,
+    approved_by, approved_utc, preflight_manifest_sha256, approved_design_sha256, preflight_run and
+    approval_basis (the hashes the science run will re-verify), and sets the I1 entry of
+    registry/preregistrations.json to APPROVED."""
+    if confirm != PREREG_ID:
+        raise I1Refused(f"approval requires --i-approve {PREREG_ID}")
+    if not approver.strip():
+        raise I1Refused("approval requires --approver")
+    root = Path(root).resolve()
+    regdir = registry_root(root)
+    basis = verify_preflight_chain(preflight_dir, root=root, threads=threads, stage="approve")
+    prereg_path, central_path = root / PREREG_FILE, regdir / "preregistrations.json"
+    prereg, central = json.loads(prereg_path.read_text()), json.loads(central_path.read_text())
+    reg = SeedRegistry.load(regdir)
+    problems = lifecycle_problems(prereg, central, reg, root)
+    if problems:
+        raise I1Refused("the registry is not in a legal pre-approval state: " + "; ".join(problems))
     utc = datetime.now(timezone.utc).isoformat()
     design = design_digest(prereg)
-    prereg.update(status="APPROVED", approved_by=approver.strip(), approved_utc=utc,
-                  preflight_manifest_sha256=rec["manifest_sha256"], approved_design_sha256=design,
-                  preflight_run=d.name)
-    entries[0].update(status="APPROVED", approved_by=approver.strip(), approved_utc=utc)
-    entries[0]["notes"] = (entries[0].get("notes", "") + f" APPROVED by {approver.strip()} at {utc}; design "
-                           f"{design}; preflight manifest {rec['manifest_sha256']}.").strip()
-    for path, obj in ((prereg_path, prereg), (central_path, central)):
-        tmp = path.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(obj, indent=2) + "\n")
-        os.replace(tmp, path)
-    return {"approved_by": approver.strip(), "approved_utc": utc, "approved_design_sha256": design,
-            "preflight_manifest_sha256": rec["manifest_sha256"]}
-
-
-def _registry_binding(prereg: dict) -> dict:
-    """The mutable approval/spend records are outside the code manifest; bind them here instead."""
-    central = REPO / "registry" / "preregistrations.json"
-    return {"design_sha256": design_digest(prereg), "prereg_file_sha256": sha256_file(REPO / PREREG_FILE),
-            "central_registry_sha256": sha256_file(central), "prereg_status": prereg.get("status"),
-            "approved_design_sha256": prereg.get("approved_design_sha256"),
-            "preflight_manifest_sha256": prereg.get("preflight_manifest_sha256")}
+    who = approver.strip()
+    prereg.update(status="APPROVED", approved_by=who, approved_utc=utc,
+                  preflight_manifest_sha256=basis["manifest_sha256"], approved_design_sha256=design,
+                  preflight_run=basis["preflight_run"], approval_basis=basis)
+    entry = _i1_entries(central)[0]
+    entry.update(status="APPROVED", approved_by=who, approved_utc=utc)
+    entry["notes"] = (entry.get("notes", "") + f" APPROVED by {who} at {utc}; design {design}; preflight "
+                      f"{basis['preflight_run']} manifest {basis['manifest_sha256']}.").strip()
+    problems = lifecycle_problems(prereg, central, reg, root)
+    if problems:
+        raise I1Refused("the approved state would violate the lifecycle invariants: " + "; ".join(problems))
+    _journaled_write(root, {prereg_path: prereg, central_path: central})
+    after = lifecycle_problems(json.loads(prereg_path.read_text()), json.loads(central_path.read_text()),
+                               SeedRegistry.load(regdir), root)
+    if after:
+        raise I1Refused("after writing, the registry violates the lifecycle invariants: " + "; ".join(after))
+    return {"approved_by": who, "approved_utc": utc, "approved_design_sha256": design,
+            "preflight_manifest_sha256": basis["manifest_sha256"], "preflight_run": basis["preflight_run"],
+            "approval_basis": basis}
 
 
 def _blocked(run_dir: Path, mode: str, reason: str, man: dict) -> None:
@@ -354,8 +733,11 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         family: str | None = None, start: int | None = None, n: int | None = None,
         confirm_open: str | None = None) -> Path:
     legacy = Path(legacy_root).resolve()
-    reg = SeedRegistry.load()
+    regdir = registry_root(REPO)                # this checkout's ledger only, in every mode
+    reg = SeedRegistry.load(regdir)
     prereg = json.loads((REPO / PREREG_FILE).read_text())
+    if mode in ("preflight", "science") and (not label or label in (".", "..") or Path(label).name != label):
+        raise I1Refused(f"the {mode} label must be a plain directory name, not {label!r}")
     man = manifest(threads)
     if mode == "dev":
         fam, sids = _dev_sids(reg, prereg, family, start, n)
@@ -364,7 +746,7 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     elif mode == "science":
         if confirm_open != PREREG_ID:
             raise I1Refused(f"scientific I1 requires --confirm-open {PREREG_ID}")
-        PreregistrationRegistry.load().require(PREREG_ID, item="I1")
+        PreregistrationRegistry.load(regdir).require(PREREG_ID, item="I1")
         if prereg.get("status") not in ("APPROVED", "FROZEN") or not prereg.get("approved_by"):
             raise I1Refused(f"{PREREG_FILE} is not APPROVED")
         if prereg.get("approved_design_sha256") != design_digest(prereg):
@@ -372,6 +754,9 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         frozen = prereg.get("preflight_manifest_sha256")
         if frozen != man["manifest_sha256"]:
             raise I1Refused(f"manifest {man['manifest_sha256']} differs from the frozen preflight manifest {frozen}")
+        # the whole frozen chain again, from the preflight's ledger spend to the recorded approval basis
+        verify_preflight_chain(REPO / "runs" / "i1" / str(prereg.get("preflight_run")), root=REPO, threads=threads,
+                               stage="science")
         fam = None
     else:
         raise I1Refused(f"unknown mode {mode}")
@@ -389,16 +774,8 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     except Exception as e:
         raise I1Refused(f"historical core does not verify: {e}") from e
     if mode in ("preflight", "science"):
-        key = "engineering_preflight_proposed" if mode == "preflight" else "scientific_dev_proposed"
-        fam = _family(reg, prereg["families"][key])
-        reg.check_usable(fam)
+        fam = open_family(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=REPO)
         sids = list(fam.seeds())
-        reg.spend(fam, source=f"{PREREG_ID}:{mode}:{label}:opened")
-        (run_dir / "seed_opened.json").write_text(json.dumps({"family": {**fam.as_dict(), "spent": True},
-                                                              "spent_before_launch": True, "mode": mode,
-                                                              "utc": datetime.now(timezone.utc).isoformat(),
-                                                              **_registry_binding(prereg)},
-                                                             indent=2) + "\n")
     else:
         usage = REPO / "runs/dev/seed_usage.jsonl"
         usage.parent.mkdir(parents=True, exist_ok=True)
@@ -406,15 +783,17 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
             f.write(json.dumps({"family": fam.name, "start": sids[0], "stop": sids[-1], "mechanism": "I1-integration",
                                 "label": label, "purpose": "ENGINEERING_ONLY",
                                 "utc": datetime.now(timezone.utc).isoformat()}) + "\n")
+    quiet = mode == "preflight"
     try:
         before = _tree_metadata(legacy)
-        _run_arm("LEGACY_REF", sids, run_dir, legacy, core, threads, None)
-        normal = {r["sid"]: r for r in _run_arm("NORMAL", sids, run_dir, legacy, core, threads, None)}
+        _run_arm("LEGACY_REF", sids, run_dir, legacy, core, threads, None, quiet)
+        normal = {r["sid"]: r for r in _run_arm("NORMAL", sids, run_dir, legacy, core, threads, None, quiet)}
         plans = _plans(normal)
         for arm, p in plans.items():
             (run_dir / f"plan_{arm}.json").write_text(json.dumps(p, sort_keys=True))
         for arm in LATER_ARMS:
-            _run_arm(arm, sids, run_dir, legacy, core, threads, run_dir / f"plan_{arm}.json" if arm in plans else None)
+            _run_arm(arm, sids, run_dir, legacy, core, threads, run_dir / f"plan_{arm}.json" if arm in plans else None,
+                     quiet)
         after = _tree_metadata(legacy)
         (run_dir / "safety.json").write_text(json.dumps({"legacy_tree_unchanged": before == after, "pins_verified": True,
                                                          "manifest_sha256": man["manifest_sha256"]}) + "\n")
@@ -426,7 +805,7 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     if mode == "science":
         rep["prereg_id"], rep["manifest_sha256"] = PREREG_ID, man["manifest_sha256"]
         opened = json.loads((run_dir / "seed_opened.json").read_text())
-        at_end = _registry_binding(json.loads((REPO / PREREG_FILE).read_text()))
+        at_end = _registry_binding(json.loads((REPO / PREREG_FILE).read_text()), REPO)   # incl. the seed ledger
         at_open = {k: opened.get(k) for k in at_end}
         rep["registry_binding"] = {"at_open": at_open, "at_end": at_end, "unchanged": at_open == at_end}
         if at_open != at_end:          # the approval records must not change while the science run is in flight

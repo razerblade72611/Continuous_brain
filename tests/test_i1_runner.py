@@ -2,89 +2,27 @@
 
 Lifecycle: the repository's I1 preregistration moves PROPOSED -> (preflight spent) -> APPROVED ->
 (scientific family spent). Nothing in this file asserts one particular state. The repository's current
-state is checked against the lifecycle invariants (i1_lifecycle_problems), every legal state is
+state is checked against the lifecycle invariants (runner.lifecycle_problems), every legal state is
 simulated on copies and must pass them, and illegal states must fail them, so the suite is green in
 every legal state, before and after approval."""
 
 import json
 import re
+from pathlib import Path
 
 import pytest
 
 from continuous_brain_unified.integration import runner
 from continuous_brain_unified.prereg import PreregistrationError, PreregistrationRegistry
 
-APPROVAL_FIELDS = ("approved_utc", "preflight_manifest_sha256", "approved_design_sha256", "preflight_run")
-HEX64 = re.compile(r"^[0-9a-f]{64}$")
+from i1_fixtures import as_proposed as _as_proposed, proposed_root, synthetic_preflight
 
-
-def _exact(reg, f):
-    from continuous_brain_eval.seeds import _key
-    from continuous_brain_protocols import SeedFamily, SeedPurpose
-    fam = SeedFamily(f["name"], int(f["start"]), int(f["stop"]), SeedPurpose(f["purpose"]))
-    return fam, [r for r in reg.ranges if _key(r.family) == _key(fam)]
-
-
-def i1_lifecycle_problems(prereg: dict, central: dict, reg) -> list[str]:
-    """Every invariant the I1 preregistration must satisfy in whatever legal state it is in."""
-    out = []
-    st = prereg.get("status")
-    entries = [e for e in central["preregistrations"] if e.get("id") == runner.PREREG_ID]
-    if len(entries) != 1:
-        return [f"central registry has {len(entries)} {runner.PREREG_ID} entries"]
-    c = entries[0]
-    if st not in ("PROPOSED", "APPROVED", "FROZEN"):
-        out.append(f"illegal status {st!r}")
-    if c.get("status") != st:
-        out.append(f"central status {c.get('status')!r} != preregistration status {st!r}")
-    pf, pf_rows = _exact(reg, prereg["families"]["engineering_preflight_proposed"])
-    sci, sci_rows = _exact(reg, prereg["families"]["scientific_dev_proposed"])
-    for name, fam, rows in (("preflight", pf, pf_rows), ("scientific", sci, sci_rows)):
-        if not rows:                                    # unregistered: must still be fresh
-            try:
-                reg.check_fresh(fam)
-            except Exception as e:
-                out.append(f"{name} family is neither registered exactly nor fresh: {e}")
-        elif not all(r.family.spent for r in rows):      # the runner registers and spends in one step
-            out.append(f"{name} family is registered but not spent")
-    if st == "PROPOSED":
-        if prereg.get("approved_by") is not None or any(k in prereg for k in APPROVAL_FIELDS):
-            out.append("PROPOSED preregistration carries approval fields")
-        if c.get("approved_by"):
-            out.append("PROPOSED central entry carries approved_by")
-        if sci_rows:
-            out.append("the scientific family was opened before approval")
-    else:
-        if not (prereg.get("approved_by") or "").strip() or not prereg.get("approved_utc"):
-            out.append("approval without approver or time")
-        if prereg.get("approved_design_sha256") != runner.design_digest(prereg):
-            out.append("the approved design digest does not match the design as it stands")
-        if not HEX64.match(str(prereg.get("preflight_manifest_sha256", ""))):
-            out.append("approval without a preflight manifest SHA-256")
-        if not c.get("approved_by"):
-            out.append("APPROVED central entry without approved_by")
-        if not pf_rows:
-            out.append("approved without a spent preflight family in this registry")
-    return out
+APPROVAL_FIELDS = runner.APPROVAL_FIELDS
+i1_lifecycle_problems = runner.lifecycle_problems          # the production validator (approve runs it too)
 
 
 def _load_central(root=runner.REPO):
     return json.loads((root / "registry" / "preregistrations.json").read_text())
-
-
-def _as_proposed(prereg: dict, central: dict) -> tuple[dict, dict]:
-    """The PROPOSED form of the repository's preregistration (approval fields removed), for simulations."""
-    p = json.loads(json.dumps(prereg))
-    p["status"], p["approved_by"] = "PROPOSED", None
-    for k in APPROVAL_FIELDS:
-        p.pop(k, None)
-    c = json.loads(json.dumps(central))
-    for e in c["preregistrations"]:
-        if e["id"] == runner.PREREG_ID:
-            e["status"] = "PROPOSED"
-            e.pop("approved_by", None)
-            e.pop("approved_utc", None)
-    return p, c
 
 
 def test_science_is_locked_until_david_approves(tmp_path):
@@ -161,45 +99,54 @@ def test_repository_i1_state_satisfies_the_lifecycle_invariants():
     """Holds in every legal state: PROPOSED, preflight spent, APPROVED, scientific family spent."""
     from continuous_brain_eval.seeds import SeedRegistry
     p = json.loads((runner.REPO / runner.PREREG_FILE).read_text())
-    assert i1_lifecycle_problems(p, _load_central(), SeedRegistry.load()) == []
+    assert i1_lifecycle_problems(p, _load_central(), SeedRegistry.load(runner.REPO / "registry"), runner.REPO) == []
 
 
 def test_every_legal_lifecycle_state_passes_and_illegal_ones_fail(tmp_path):
     from continuous_brain_eval.seeds import RegisteredRange, SeedRegistry
     from continuous_brain_protocols import SeedFamily, SeedPurpose
-    p0, c0 = _as_proposed(json.loads((runner.REPO / runner.PREREG_FILE).read_text()), _load_central())
+    root = proposed_root(tmp_path)
+    p0, c0 = json.loads((root / runner.PREREG_FILE).read_text()), _load_central(root)
+    fresh = SeedRegistry.load(root / "registry")            # neither I1 family opened
 
-    def registry(*spent_keys):
-        reg = SeedRegistry.load()
-        keep = {(p0["families"][k]["name"]) for k in ("engineering_preflight_proposed", "scientific_dev_proposed")}
-        reg.ranges = [r for r in reg.ranges if r.family.name not in keep]      # start from "never opened"
-        for k in spent_keys:
-            f = p0["families"][k]
+    def with_rows(reg, *rows):
+        reg = SeedRegistry(list(reg.ranges), None)
+        for key, source in rows:
+            f = p0["families"][key]
             reg.ranges.append(RegisteredRange(SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"]),
-                                                         False, True), "test", "spent"))
+                                                         False, True), source, "spent"))
         return reg
 
-    # legal: PROPOSED, never opened / PROPOSED, preflight spent
-    assert i1_lifecycle_problems(p0, c0, registry()) == []
-    assert i1_lifecycle_problems(p0, c0, registry("engineering_preflight_proposed")) == []
+    sci = ("scientific_dev_proposed", runner.spend_source("science", "sci"))
+    # legal: PROPOSED, never opened / PROPOSED, preflight spent by a real opening
+    assert i1_lifecycle_problems(p0, c0, fresh, root) == []
+    d = synthetic_preflight(root)
+    spent = SeedRegistry.load(root / "registry")
+    assert i1_lifecycle_problems(p0, c0, spent, root) == []
     # legal: APPROVED through the real approval function / APPROVED with the scientific family spent
-    root = tmp_path / "root"
-    (root / "registry").mkdir(parents=True)
-    (root / runner.PREREG_FILE).write_text(json.dumps(p0, indent=2))
-    (root / "registry" / "preregistrations.json").write_text(json.dumps(c0, indent=2))
-    runner.approve(preflight_dir=str(_fake_preflight(tmp_path, p0)), approver="David", confirm=runner.PREREG_ID, root=root)
+    runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
     pa, ca = json.loads((root / runner.PREREG_FILE).read_text()), _load_central(root)
     PreregistrationRegistry.load(root / "registry").require(runner.PREREG_ID, item="I1")
-    assert i1_lifecycle_problems(pa, ca, registry("engineering_preflight_proposed")) == []
-    assert i1_lifecycle_problems(pa, ca, registry("engineering_preflight_proposed", "scientific_dev_proposed")) == []
+    assert i1_lifecycle_problems(pa, ca, spent, root) == []
+    assert i1_lifecycle_problems(pa, ca, with_rows(spent, sci), root) == []
     # illegal states are caught
     bad = json.loads(json.dumps(pa)); bad["decision_rule"]["primary"]["C2_first_goal_completes"]["threshold"] = "0.5"
-    assert any("design digest" in x for x in i1_lifecycle_problems(bad, ca, registry("engineering_preflight_proposed")))
-    assert any("central status" in x for x in i1_lifecycle_problems(pa, c0, registry("engineering_preflight_proposed")))
-    assert any("without a spent preflight" in x for x in i1_lifecycle_problems(pa, ca, registry()))
-    assert any("before approval" in x for x in i1_lifecycle_problems(p0, c0, registry("scientific_dev_proposed")))
+    assert any("design digest" in x for x in i1_lifecycle_problems(bad, ca, spent))
+    assert any("central status" in x for x in i1_lifecycle_problems(pa, c0, spent))
+    assert any("without a spent preflight" in x for x in i1_lifecycle_problems(pa, ca, fresh))
+    assert any("before approval" in x for x in i1_lifecycle_problems(p0, c0, with_rows(fresh, sci)))
     leaky = json.loads(json.dumps(p0)); leaky["preflight_manifest_sha256"] = "0" * 64
-    assert any("approval fields" in x for x in i1_lifecycle_problems(leaky, c0, registry()))
+    assert any("approval fields" in x for x in i1_lifecycle_problems(leaky, c0, fresh))
+    simulated = with_rows(fresh, ("engineering_preflight_proposed", "lifecycle-suite:simulated"))
+    assert any("not by a preflight run" in x for x in i1_lifecycle_problems(p0, c0, simulated))
+    other = with_rows(fresh, ("engineering_preflight_proposed", runner.spend_source("preflight", "another_run")))
+    assert any("another run" in x for x in i1_lifecycle_problems(pa, ca, other))
+    nobasis = json.loads(json.dumps(pa)); nobasis.pop("approval_basis")
+    assert any("approval basis" in x for x in i1_lifecycle_problems(nobasis, ca, spent))
+    wrongbasis = json.loads(json.dumps(pa)); wrongbasis["approval_basis"]["manifest_sha256"] = "1" * 64
+    assert any("disagrees" in x for x in i1_lifecycle_problems(wrongbasis, ca, spent))
+    (root / runner.JOURNAL).write_text("{}")
+    assert any("journal" in x for x in i1_lifecycle_problems(pa, ca, spent, root))
 
 
 def test_manifest_is_deterministic_and_covers_all_code():
@@ -251,80 +198,68 @@ def test_i1_families_collide_with_nothing_at_any_offset_pair():
                     assert not (f["start"] + oi <= g.stop + og and g.start + og <= f["stop"] + oi), (key, oi, g.name, og)
 
 
-def _fake_preflight(tmp_path, prereg, *, valid=True, mode="preflight"):
-    d = tmp_path / "pf"
-    d.mkdir()
-    pf = prereg["families"]["engineering_preflight_proposed"]
-    (d / "seed_opened.json").write_text(json.dumps({"mode": mode, "family": {**pf, "spent": True}}))
-    m = runner.manifest(2)
-    (d / "i1_validity.json").write_text(json.dumps({
-        "valid": valid, "validity": {k: valid for k in VALIDITY_KEYS},
-        "validity_diagnostics": {"expected_manifest_sha256": m["manifest_sha256"],
-                                 "arm_manifests": {a: m["manifest_sha256"] for a in I1_ARMS}}}))
-    (d / "manifest.json").write_text(json.dumps(m))
-    return d
-
-
 from continuous_brain_unified.integration.evaluate import VALIDITY_KEYS  # the one authoritative schema
 from continuous_brain_unified.integration.evaluate import ARMS as I1_ARMS  # every arm must be bound
 
 
-def _registry_copy(tmp_path):
-    """A PROPOSED copy of the repository's two registry files (whatever state the repository is in)."""
-    root = tmp_path / "root"
-    (root / "registry").mkdir(parents=True)
-    p, c = _as_proposed(json.loads((runner.REPO / runner.PREREG_FILE).read_text()), _load_central())
-    (root / runner.PREREG_FILE).write_text(json.dumps(p, indent=2))
-    (root / "registry" / "preregistrations.json").write_text(json.dumps(c, indent=2))
-    return root
+def _approve(root, d):
+    return runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+
+
+def _status(root):
+    return json.loads((root / runner.PREREG_FILE).read_text())["status"]
 
 
 def test_approval_is_one_checked_act_over_both_registry_files(tmp_path):
     repo_bytes = [(runner.REPO / "registry" / f).read_bytes() for f in ("i1_integration_v1.json", "preregistrations.json")]
-    root = _registry_copy(tmp_path)
+    root = proposed_root(tmp_path)
     prereg = json.loads((root / runner.PREREG_FILE).read_text())
-    d = _fake_preflight(tmp_path, prereg)
+    d = synthetic_preflight(root)
     with pytest.raises(runner.I1Refused, match="--i-approve"):
         runner.approve(preflight_dir=str(d), approver="David", confirm="yes", root=root)
-    out = runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+    out = _approve(root, d)
     p = json.loads((root / runner.PREREG_FILE).read_text())
-    assert p["status"] == "APPROVED" and p["approved_by"] == "David"
+    assert p["status"] == "APPROVED" and p["approved_by"] == "David" and p["preflight_run"] == d.name
     assert p["preflight_manifest_sha256"] == runner.manifest(2)["manifest_sha256"] == out["preflight_manifest_sha256"]
     assert p["approved_design_sha256"] == runner.design_digest(p) == runner.design_digest(prereg)
+    assert set(p["approval_basis"]) == set(runner.APPROVAL_BASIS_KEYS) and p["approval_basis"] == out["approval_basis"]
     central = json.loads((root / "registry" / "preregistrations.json").read_text())
     assert [e["status"] for e in central["preregistrations"] if e["id"] == runner.PREREG_ID] == ["APPROVED"]
-    from continuous_brain_unified.prereg import PreregistrationRegistry
     PreregistrationRegistry.load(root / "registry").require(runner.PREREG_ID, item="I1")      # the science gate opens
+    assert not (root / runner.JOURNAL).exists()
+    # science re-verifies the same chain and reproduces the recorded basis
+    assert runner.verify_preflight_chain(d, root=root, stage="science") == p["approval_basis"]
     with pytest.raises(runner.I1Refused, match="not PROPOSED"):          # approval happens once
-        runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+        _approve(root, d)
     assert repo_bytes == [(runner.REPO / "registry" / f).read_bytes()                       # repo untouched
                           for f in ("i1_integration_v1.json", "preregistrations.json")]
 
 
 def test_approval_refuses_an_invalid_or_foreign_preflight(tmp_path):
-    root = _registry_copy(tmp_path)
-    prereg = json.loads((root / runner.PREREG_FILE).read_text())
-    bad = _fake_preflight(tmp_path, prereg, valid=False)
-    with pytest.raises(runner.I1Refused, match="not valid"):
-        runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
-    m = json.loads((bad / "manifest.json").read_text())
-    v = json.loads((bad / "i1_validity.json").read_text())
-    v["valid"] = True
-    v["validity"] = {k: True for k in VALIDITY_KEYS}
-    (bad / "i1_validity.json").write_text(json.dumps(v))
-    m["environment"]["cpu"] = "another machine"
     import hashlib
+    root = proposed_root(tmp_path / "a")
+    bad = synthetic_preflight(root, valid=False)
+    with pytest.raises(runner.I1Refused, match="not valid"):
+        _approve(root, bad)
+    root = proposed_root(tmp_path / "b")
+    d = synthetic_preflight(root)
+    m = json.loads((d / "manifest.json").read_text())
+    m["environment"]["cpu"] = "another machine"
     m["manifest_sha256"] = hashlib.sha256(json.dumps({k: v for k, v in m.items() if k != "manifest_sha256"},
                                                      sort_keys=True).encode()).hexdigest()
-    (bad / "manifest.json").write_text(json.dumps(m))
-    with pytest.raises(runner.I1Refused, match="differs from the preflight"):
-        runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
-    o = json.loads((bad / "seed_opened.json").read_text())
+    (d / "manifest.json").write_text(json.dumps(m))
+    with pytest.raises(runner.I1Refused, match="another manifest"):    # not the manifest it was opened under
+        _approve(root, d)
+    o = json.loads((d / "seed_opened.json").read_text())
+    o["manifest_sha256"] = m["manifest_sha256"]
+    (d / "seed_opened.json").write_text(json.dumps(o))
+    with pytest.raises(runner.I1Refused, match="differs from the preflight"):    # not this machine's manifest
+        _approve(root, d)
     o["mode"] = "dev"
-    (bad / "seed_opened.json").write_text(json.dumps(o))
-    with pytest.raises(runner.I1Refused, match="spent preflight"):
-        runner.approve(preflight_dir=str(bad), approver="David", confirm=runner.PREREG_ID, root=root)
-    assert json.loads((root / runner.PREREG_FILE).read_text())["status"] == "PROPOSED"
+    (d / "seed_opened.json").write_text(json.dumps(o))
+    with pytest.raises(runner.I1Refused, match="opening record"):
+        _approve(root, d)
+    assert _status(root) == "PROPOSED"
 
 
 def test_later_arms_include_the_hidden_state_control():
@@ -340,6 +275,8 @@ def test_registry_binding_covers_both_registry_files_and_the_design():
     assert b["design_sha256"] == runner.design_digest(p)
     assert b["prereg_file_sha256"] == sha256_file(runner.REPO / runner.PREREG_FILE)
     assert b["central_registry_sha256"] == sha256_file(runner.REPO / "registry" / "preregistrations.json")
+    assert b["seed_ledger_sha256"] == runner.seed_ledger_digest(runner.REPO)           # the spend ledger too
+    assert set(b) == set(runner.BINDING_KEYS)
     assert b["prereg_status"] == p["status"] and runner._registry_binding(p) == b      # deterministic
 
 
@@ -354,17 +291,16 @@ def test_validity_schema_is_the_fourteen_preregistered_checks():
 
 
 def _approve_with(tmp_path, mutate):
-    root = _registry_copy(tmp_path)
-    prereg = json.loads((root / runner.PREREG_FILE).read_text())
-    d = _fake_preflight(tmp_path, prereg)
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
     v = json.loads((d / "i1_validity.json").read_text())
     mutate(v)
     (d / "i1_validity.json").write_text(json.dumps(v))
     try:
-        runner.approve(preflight_dir=str(d), approver="David", confirm=runner.PREREG_ID, root=root)
+        _approve(root, d)
     finally:
-        assert json.loads((root / runner.PREREG_FILE).read_text())["status"] in ("PROPOSED", "APPROVED")
-    return json.loads((root / runner.PREREG_FILE).read_text())["status"]
+        assert _status(root) in ("PROPOSED", "APPROVED")
+    return _status(root)
 
 
 @pytest.mark.parametrize("key", VALIDITY_KEYS)
@@ -404,3 +340,279 @@ def test_approval_refuses_unknown_checks_false_values_and_unbound_manifests(tmp_
 def test_approval_refuses_a_preflight_with_any_one_arm_unbound(tmp_path, arm):
     with pytest.raises(runner.I1Refused, match="exactly the I1 arms"):
         _approve_with(tmp_path, lambda v: v["validity_diagnostics"]["arm_manifests"].pop(arm))
+
+
+# ---- chain of custody (ChatGPT's 64g reproductions and the hardening around them) --------------------------
+
+def _ledger(root):
+    return root / "registry" / "seed_ranges.local.jsonl"
+
+
+def _is_pf_spend(root, row):
+    return bool(row.get("spent")) and row.get("name") == _pf_name(root)
+
+
+def _rewrite_ledger(root, fn):
+    rows = [json.loads(x) for x in _ledger(root).read_text().splitlines() if x.strip()]
+    _ledger(root).write_text("".join(json.dumps(r) + "\n" for r in fn(rows)))
+
+
+def _pf_name(root):
+    return json.loads((root / runner.PREREG_FILE).read_text())["families"]["engineering_preflight_proposed"]["name"]
+
+
+def test_chatgpt_repro_design_changed_after_the_preflight_was_opened(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    p = json.loads((root / runner.PREREG_FILE).read_text())
+    p["decision_rule"]["primary"]["C2_first_goal_completes"]["threshold"] = "0.5"      # a frozen threshold
+    (root / runner.PREREG_FILE).write_text(json.dumps(p, indent=2) + "\n")
+    with pytest.raises(runner.I1Refused, match="design changed after the preflight was opened"):
+        _approve(root, d)
+    assert _status(root) == "PROPOSED"
+
+
+def test_chatgpt_repro_fabricated_preflight_without_a_ledger_spend_or_sealed_report(tmp_path):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    d = root / "runs" / "i1" / "fabricated"
+    d.mkdir(parents=True)
+    m = runner.manifest(2)
+    (d / "manifest.json").write_text(json.dumps(m))
+    (d / "seed_opened.json").write_text(json.dumps({"mode": "preflight", "family": {
+        **prereg["families"]["engineering_preflight_proposed"], "spent": True}}))
+    (d / "i1_validity.json").write_text(json.dumps({
+        "valid": True, "validity": {k: True for k in VALIDITY_KEYS},
+        "validity_diagnostics": {"expected_manifest_sha256": m["manifest_sha256"],
+                                 "arm_manifests": {a: m["manifest_sha256"] for a in I1_ARMS}}}))
+    with pytest.raises(runner.I1Refused, match="no spend"):
+        _approve(root, d)
+    assert _status(root) == "PROPOSED"
+
+
+def _chain_case(tmp_path, attack):
+    """A genuine synthetic preflight, attacked by `attack(root, d)` (which may return another directory)."""
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    moved = attack(root, d)
+    d = moved if isinstance(moved, Path) else d
+    try:
+        _approve(root, d)
+    finally:
+        assert _status(root) in ("PROPOSED", "APPROVED")
+
+
+def _edit_json(path, fn):
+    obj = json.loads(path.read_text())
+    fn(obj)
+    path.write_text(json.dumps(obj, indent=2) + "\n")
+
+
+def _reseal(d, fn):
+    """Alter the sealed report and recommit its SHA-256 in the visible view (a consistent forgery)."""
+    import hashlib
+    rep = json.loads((d / "sealed" / "i1_report.json").read_text())
+    fn(rep)
+    data = json.dumps(rep, indent=2, sort_keys=True) + "\n"
+    (d / "sealed" / "i1_report.json").write_text(data)
+    _edit_json(d / "i1_validity.json", lambda v: v.__setitem__("sealed_report_sha256",
+                                                                hashlib.sha256(data.encode()).hexdigest()))
+
+
+def _copy_dir(src, dst):
+    import shutil
+    shutil.copytree(src, dst)
+    return dst
+
+
+CHAIN_ATTACKS = {
+    "prereg file edited after opening (design unchanged)": (
+        lambda r, d: _edit_json(r / runner.PREREG_FILE, lambda p: p.setdefault("deviation_log", []).append("late")),
+        "changed after the preflight was opened"),
+    "central registry edited after opening": (
+        lambda r, d: _edit_json(r / "registry" / "preregistrations.json", lambda c: c.__setitem__("touched", 1)),
+        "changed after the preflight was opened"),
+    "ledger spend removed": (
+        lambda r, d: _rewrite_ledger(r, lambda rows: [x for x in rows if not _is_pf_spend(r, x)]), "no spend"),
+    "ledger spend by another source": (
+        lambda r, d: _rewrite_ledger(r, lambda rows: [{**x, "source": "lifecycle-suite:simulated"} if _is_pf_spend(r, x)
+                                                      else x for x in rows]), "was made by"),
+    "ledger spend recorded twice": (
+        lambda r, d: _rewrite_ledger(r, lambda rows: rows + [x for x in rows if _is_pf_spend(r, x)]), "2 spends"),
+    "ledger row after the spend": (
+        lambda r, d: _rewrite_ledger(r, lambda rows: rows + [{**[x for x in rows if _is_pf_spend(r, x)][0],
+                                                               "spent": False, "note": "unspent again"}]),
+        "supersedes"),
+    "family marked spent in the shared ranges file": (
+        lambda r, d: _edit_json(r / "registry" / "seed_ranges.json", lambda j: j["ranges"].append(
+            {**json.loads((d / "seed_opened.json").read_text())["family"], "source": "hand", "note": ""})),
+        "shared ranges file"),
+    "sealed report missing": (lambda r, d: (d / "sealed" / "i1_report.json").unlink(), "sealed report is missing"),
+    "sealed report altered": (
+        lambda r, d: (d / "sealed" / "i1_report.json").write_text(
+            (d / "sealed" / "i1_report.json").read_text().replace('"n": 64', '"n": 63')), "does not match the SHA-256"),
+    "sealed report recommitted with other validity": (
+        lambda r, d: _reseal(d, lambda rep: rep["validity"].__setitem__("no_errors", False)), "disagrees"),
+    "sealed report recommitted with other arm bindings": (
+        lambda r, d: _reseal(d, lambda rep: rep["validity_diagnostics"]["arm_manifests"].__setitem__("DONOR", "0" * 64)),
+        "disagrees"),
+    "sealed report of another run": (lambda r, d: _reseal(d, lambda rep: rep.__setitem__("run", "other")), "disagrees"),
+    "opened under an APPROVED status": (
+        lambda r, d: _edit_json(d / "seed_opened.json", lambda o: o.__setitem__("prereg_status", "APPROVED")),
+        "not opened under the PROPOSED"),
+    "approval fields at opening": (
+        lambda r, d: _edit_json(d / "seed_opened.json", lambda o: o.__setitem__("approved_design_sha256", "0" * 64)),
+        "not opened under the PROPOSED"),
+    "opening record without the binding": (
+        lambda r, d: _edit_json(d / "seed_opened.json", lambda o: o.pop("seed_ledger_sha256")), "lacks the registry"),
+    "opening record of another run": (
+        lambda r, d: _edit_json(d / "seed_opened.json", lambda o: o.__setitem__("run", "other")), "opening record"),
+    "directory renamed": (lambda r, d: _copy_dir(d, d.parent / "renamed"), "was made by"),
+    "directory outside runs/i1": (lambda r, d: _copy_dir(d, r / "elsewhere" / d.name), "runs/i1/<label>"),
+    "interrupted approval journal present": (
+        lambda r, d: (r / runner.JOURNAL).write_text("{}"), "journal"),
+    "validity view of another run": (
+        lambda r, d: _edit_json(d / "i1_validity.json", lambda v: v.__setitem__("run", "other")), "validity view"),
+}
+
+
+@pytest.mark.parametrize("name", sorted(CHAIN_ATTACKS))
+def test_approval_refuses_every_break_in_the_chain_of_custody(tmp_path, name):
+    attack, msg = CHAIN_ATTACKS[name]
+    with pytest.raises(runner.I1Refused, match=re.escape(msg)):
+        _chain_case(tmp_path, attack)
+
+
+def test_preflight_approval_and_science_refuse_a_foreign_registry(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    monkeypatch.setenv("CONTINUOUS_BRAIN_REGISTRY", str(tmp_path / "elsewhere"))
+    with pytest.raises(runner.I1Refused, match="CONTINUOUS_BRAIN_REGISTRY"):
+        _approve(root, d)
+    with pytest.raises(runner.I1Refused, match="CONTINUOUS_BRAIN_REGISTRY"):
+        runner.run("preflight", legacy_root=str(tmp_path), historical_core_archive="none", label="never")
+    with pytest.raises(runner.I1Refused, match="CONTINUOUS_BRAIN_REGISTRY"):
+        runner.run("science", legacy_root=str(tmp_path), historical_core_archive="none", label="never",
+                   confirm_open=runner.PREREG_ID)
+    monkeypatch.setenv("CONTINUOUS_BRAIN_REGISTRY", str(root / "registry"))       # the same directory is fine
+    _approve(root, d)
+    assert _status(root) == "APPROVED"
+    assert not (runner.REPO / "runs" / "i1" / "never").exists()
+
+
+def test_science_reverification_catches_changes_after_approval(tmp_path):
+    def approved():
+        root = proposed_root(tmp_path / str(len(list(tmp_path.iterdir()))))
+        d = synthetic_preflight(root)
+        _approve(root, d)
+        return root, d
+    root, d = approved()
+    basis = runner.verify_preflight_chain(d, root=root, stage="science")
+    from continuous_brain_eval.seeds import SeedRegistry
+    from continuous_brain_protocols import SeedFamily, SeedPurpose
+    f = json.loads((root / runner.PREREG_FILE).read_text())["families"]["scientific_dev_proposed"]
+    reg = SeedRegistry.load(root / "registry")      # opening the scientific family does not disturb the chain
+    reg.register(SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"])), source="t")
+    reg.spend(SeedFamily(f["name"], f["start"], f["stop"], SeedPurpose(f["purpose"])),
+              source=runner.spend_source("science", "sci"))
+    assert runner.verify_preflight_chain(d, root=root, stage="science") == basis
+    attacks = {
+        "validity view edited": (lambda r, d: _edit_json(d / "i1_validity.json", lambda v: v.__setitem__("note", "x")),
+                                 "no longer reproduces"),
+        "opening record edited": (lambda r, d: _edit_json(d / "seed_opened.json", lambda o: o.__setitem__("utc", "x")),
+                                  "no longer reproduces"),
+        "design edited": (lambda r, d: _edit_json(r / runner.PREREG_FILE, lambda p: p["decision_rule"]["primary"][
+            "C2_first_goal_completes"].__setitem__("threshold", "0.5")), "design changed"),
+        "basis edited": (lambda r, d: _edit_json(r / runner.PREREG_FILE, lambda p: p["approval_basis"].__setitem__(
+            "sealed_report_sha256", "0" * 64)), "no longer reproduces"),
+        "central disagrees": (lambda r, d: _edit_json(r / "registry" / "preregistrations.json", lambda c: [
+            e.__setitem__("approved_by", "Someone") for e in c["preregistrations"] if e["id"] == runner.PREREG_ID]),
+            "does not agree"),
+        "preflight spend removed": (lambda r, d: _rewrite_ledger(r, lambda rows: [
+            x for x in rows if not (x.get("spent") and x["name"] == _pf_name(r))]), "no spend"),
+        "sealed report removed": (lambda r, d: (d / "sealed" / "i1_report.json").unlink(), "sealed report is missing"),
+    }
+    for name, (attack, msg) in attacks.items():
+        root, d = approved()
+        attack(root, d)
+        with pytest.raises(runner.I1Refused, match=re.escape(msg)):
+            runner.verify_preflight_chain(d, root=root, stage="science")
+
+
+def test_science_run_reverifies_the_chain_before_opening(monkeypatch):
+    import inspect
+    src = inspect.getsource(runner.run)
+    assert src.index('stage="science"') < src.index("open_family(")             # verified before the family opens
+    assert "_registry_binding(json.loads((REPO / PREREG_FILE).read_text()), REPO)" in src   # incl. the ledger at end
+
+
+def test_an_interrupted_approval_is_refused_until_recovered(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    real, calls = runner._atomic_write, []
+
+    def crash_after_first_registry_file(path, data):
+        real(path, data)
+        calls.append(path.name)
+        if path.name == "i1_integration_v1.json":
+            raise OSError("power cut")
+    monkeypatch.setattr(runner, "_atomic_write", crash_after_first_registry_file)
+    with pytest.raises(OSError, match="power cut"):
+        _approve(root, d)
+    monkeypatch.setattr(runner, "_atomic_write", real)
+    assert (root / runner.JOURNAL).exists() and calls[0] == (root / runner.JOURNAL).name
+    assert _status(root) == "APPROVED" and [e["status"] for e in _load_central(root)["preregistrations"]
+                                            if e["id"] == runner.PREREG_ID] == ["PROPOSED"]      # half-written
+    from continuous_brain_eval.seeds import SeedRegistry
+    assert any("journal" in x for x in runner.lifecycle_problems(
+        json.loads((root / runner.PREREG_FILE).read_text()), _load_central(root), SeedRegistry.load(root / "registry"),
+        root))
+    with pytest.raises(runner.I1Refused, match="journal"):
+        runner.verify_preflight_chain(d, root=root, stage="science")
+    assert runner.recover_approval(root) == "approval completed from the journal"
+    assert not (root / runner.JOURNAL).exists()
+    assert [e["status"] for e in _load_central(root)["preregistrations"] if e["id"] == runner.PREREG_ID] == ["APPROVED"]
+    assert runner.verify_preflight_chain(d, root=root, stage="science") == \
+        json.loads((root / runner.PREREG_FILE).read_text())["approval_basis"]
+    assert runner.recover_approval(root).startswith("no approval journal")
+
+
+def test_recovery_refuses_a_file_in_neither_state(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    real = runner._atomic_write
+
+    def crash(path, data):
+        real(path, data)
+        if path.name == "i1_integration_v1.json":
+            raise OSError("power cut")
+    monkeypatch.setattr(runner, "_atomic_write", crash)
+    with pytest.raises(OSError):
+        _approve(root, d)
+    monkeypatch.setattr(runner, "_atomic_write", real)
+    _edit_json(root / "registry" / "preregistrations.json", lambda c: c.__setitem__("hand_edit", 1))
+    with pytest.raises(runner.I1Refused, match="neither"):
+        runner.recover_approval(root)
+    assert (root / runner.JOURNAL).exists()
+
+
+def test_preflight_output_shows_no_timings_or_error_counts():
+    import inspect
+    src = inspect.getsource(runner._run_arm)
+    assert '{"arm": arm, "finished": True}' in src
+    assert 'quiet = mode == "preflight"' in inspect.getsource(runner.run)
+
+
+def test_the_opening_record_binds_spend_run_manifest_and_registry_state(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root, label="lbl")
+    o = json.loads((d / "seed_opened.json").read_text())
+    assert o["run"] == "lbl" and o["spend_source"] == runner.spend_source("preflight", "lbl") == \
+        "I1-INTEGRATED-INDIVIDUAL-v1:preflight:lbl:opened"
+    assert o["manifest_sha256"] == json.loads((d / "manifest.json").read_text())["manifest_sha256"]
+    assert o["seed_ledger_sha256"] == runner.seed_ledger_digest(root)          # the ledger after the spend
+    assert o["prereg_status"] == "PROPOSED" and o["approved_design_sha256"] is None
+    with pytest.raises(runner.I1Refused, match="runs/i1"):
+        runner.open_family("preflight", "x", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
+                           man=runner.manifest(2), run_dir=root / "elsewhere", root=root)
+

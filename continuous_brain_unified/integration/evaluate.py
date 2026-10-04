@@ -338,24 +338,31 @@ def evaluate(run: Path, *, sealed: bool = False, scientific: bool = False,
               "verdict": verdict if scientific else None,
               "proposed_verdict_if_this_were_a_scientific_family": None if scientific else verdict,
               "errors": {k: v for k, v in errors.items() if v}}
-    data = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if sealed:
-        (run / "sealed").mkdir(exist_ok=True)
-        (run / "sealed" / "i1_report.json").write_text(data)
-        import hashlib
-        visible = {"format": "cb-i1-validity/2", "status": "ENGINEERING_ONLY", "run": run.name, "n": len(sids),
-                   "validity": validity, "valid": valid,
-                   # only value-free diagnostics: counts of planned individuals or replay checks would
-                   # reveal the number of first-goal completers (C2), so they stay in the sealed file
-                   "validity_diagnostics": {k: diagnostics[k] for k in ("arm_manifests", "expected_manifest_sha256",
-                                                                       "driver_side_model_forwards",
-                                                                       "cross_slot_nested_calls", "host_blocked_calls",
-                                                                       "unbound_calls")},
-                   "sealed_report_sha256": hashlib.sha256(data.encode()).hexdigest(), "note": SEAL_NOTE}
-        (run / "i1_validity.json").write_text(json.dumps(visible, indent=2, sort_keys=True) + "\n")
-        return visible
-    (run / "i1_report.json").write_text(data)
+        return seal_report(run, report, valid)
+    (run / "i1_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     return report
+
+
+# only value-free diagnostics leave the sealed file: counts of planned individuals or replay checks would
+# reveal the number of first-goal completers (C2), so they stay sealed
+SEALED_VISIBLE_DIAGNOSTICS = ("arm_manifests", "expected_manifest_sha256", "driver_side_model_forwards",
+                              "cross_slot_nested_calls", "host_blocked_calls", "unbound_calls")
+
+
+def seal_report(run: Path, report: dict, valid: bool) -> dict:
+    """Write the full report to run/sealed/i1_report.json and the value-free view (validity block,
+    value-free diagnostics, SHA-256 of the sealed bytes) to run/i1_validity.json; return the view."""
+    import hashlib
+    data = json.dumps(report, indent=2, sort_keys=True) + "\n"
+    (run / "sealed").mkdir(exist_ok=True)
+    (run / "sealed" / "i1_report.json").write_text(data)
+    visible = {"format": "cb-i1-validity/2", "status": "ENGINEERING_ONLY", "run": run.name, "n": report["n"],
+               "validity": report["validity"], "valid": valid,
+               "validity_diagnostics": {k: report["validity_diagnostics"][k] for k in SEALED_VISIBLE_DIAGNOSTICS},
+               "sealed_report_sha256": hashlib.sha256(data.encode()).hexdigest(), "note": SEAL_NOTE}
+    (run / "i1_validity.json").write_text(json.dumps(visible, indent=2, sort_keys=True) + "\n")
+    return visible
 
 
 def print_report(rep: dict) -> None:
