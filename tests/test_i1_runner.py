@@ -943,6 +943,13 @@ def test_any_failure_after_the_spend_leaves_a_blocked_report(tmp_path, monkeypat
     assert [r["source"] for r in spends] == [runner.spend_source(mode, "r")]        # the family is spent ...
     rep = json.loads((run_dir / "i1_report.json").read_text())                       # ... and the loss is recorded
     assert rep["verdict"] == "BLOCKED" and "spent by this run" in rep["reason"] and rep["mode"] == mode
+    monkeypatch.undo()                                                               # the fault is gone ...
+    retry = root / "runs" / "i1" / "retry"
+    retry.mkdir()
+    with pytest.raises(runner.I1Refused, match="cannot be opened.*spent"):            # ... and still no retry
+        runner.open_for_run(mode, "retry", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=retry, root=root)
+    assert [r["source"] for r in _spend_rows(root, key)[0]] == [runner.spend_source(mode, "r")]
+    assert not (retry / "i1_report.json").exists()
 
 
 def test_chatgpt_repro_disk_failure_writing_the_opening_record(tmp_path, monkeypatch):
