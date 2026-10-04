@@ -53,7 +53,7 @@ PLAN = {
     "test": {"seed_base": 74000, "episodes": [("scripted", 8, 2000, 3), ("explorer", 10, 1200, 2),
                                               ("gardener", 4, 1500, 2), ("random", 8, 600, 1)]},
 }
-TRAIN = {"width": 64, "blocks": 3, "epochs": 9, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
+TRAIN = {"width": 64, "blocks": 3, "epochs": 12, "batch": 256, "lr": 2e-3, "weight_decay": 1e-4,
          "warmup_steps": 200, "seed": 1, "threads": 2, "object_loss_weight": 1.0}
 RARE_MATERIALS = ("diamond", "lava", "iron")
 RARE_OBJECTS = ("skeleton", "arrow", "plant_ripe")
@@ -160,6 +160,9 @@ def train(data: dict, val: dict, cfg: dict) -> tuple[V.TileDecoder, dict]:
     torch.manual_seed(cfg["seed"])
     torch.set_num_threads(cfg["threads"])
     torch.use_deterministic_algorithms(True)
+    # Flush subnormal floats to zero.  Without it the epochs slowed down progressively on this CPU (85 s, 185 s,
+    # > 300 s for the first three) as weights, gradients and Adam moments decayed into the subnormal range.
+    torch.set_flush_denormal(True)
     decoder = V.TileDecoder(width=cfg["width"], blocks=cfg["blocks"])
     crops = torch.from_numpy(np.ascontiguousarray(V.world_view_crop(data["frames"])))   # [N, 49, 63, 3] uint8
     ym = torch.from_numpy(data["material"].astype(np.int64))
@@ -402,7 +405,8 @@ def main():
                        "git_dirty": bool(git("status", "--porcelain", "--untracked-files=no")),
                        "crafter": crafter_provenance(), "torch": torch.__version__, "numpy": np.__version__,
                        "python": platform.python_version(), "machine": platform.machine(),
-                       "cpus": os.cpu_count(), "omp_wait_policy": os.environ.get("OMP_WAIT_POLICY")},
+                       "cpus": os.cpu_count(), "omp_wait_policy": os.environ.get("OMP_WAIT_POLICY"),
+                       "flush_denormal": True},
     }
     Path(args.card).parent.mkdir(parents=True, exist_ok=True)
     Path(args.card).write_text(json.dumps(card, indent=1))
