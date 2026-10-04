@@ -130,6 +130,12 @@ class SeedRegistry:
             f.write(json.dumps(entry) + "\n")
             f.flush()
             os.fsync(f.fileno())
+        # the directory entry too (strict), so a ledger created by this append survives a crash
+        dfd = os.open(str(Path(self.local_path).parent), os.O_RDONLY)
+        try:
+            os.fsync(dfd)
+        finally:
+            os.close(dfd)
 
     def register(self, family: SeedFamily, source: str, note: str = "") -> None:
         """Append a new family to the local ledger after checking it is fresh."""

@@ -39,7 +39,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **330 passed**.
+- **Tests:** they must report **339 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -62,12 +62,12 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The approval-gate check** prints 59 `ok` lines and ends with `59/59 cases as expected: GATE OK`.
+- **The approval-gate check** prints 60 `ok` lines and ends with `60/60 cases as expected: GATE OK`.
   For each case it builds a temporary copy of the registry, opens the preflight family there through the
   real code path (a real spend in the temporary ledger), and approves from this run's genuine sealed view. The
   genuine chain must be accepted and every faulty variant refused. It never touches the real registry, and it
   spends nothing.
-- **The design digest** is `f3a68bc4326b5b582a8ce6290a1fcffeb55af7e392f3f49003a55c63fab6128a`. If it isn't,
+- **The design digest** is `29809bd514b53e67513272165f616dafbb185d3db54d007cad4b1ea54d4373f6`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -140,9 +140,12 @@ It then writes the approval into both registry files as one journaled act:
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
 If the approval is interrupted (for example by a power cut), everything refuses until you run
-`python scripts/i1_approve.py --recover`, which completes it.
+`python scripts/i1_approve.py --recover`, which completes it. The same command (and every preflight, science
+run and approval) also gives any run that died after spending its family a BLOCKED report, so a lost family is
+always recorded. If a preflight ever shows up as BLOCKED, stop and send Claude the terminal output and the
+run's `i1_report.json`.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (330 pass in every lifecycle
+It runs nothing and touches no seed family. The test suite stays green after approval (339 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash

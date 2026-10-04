@@ -1,0 +1,260 @@
+{
+  "authored_first_goal": 64,
+  "errors": {},
+  "first_goal_completers": 59,
+  "format": "cb-i1-report/2",
+  "individuals": [
+    908128,
+    908191
+  ],
+  "n": 64,
+  "primary": {
+    "curriculum_advances": {
+      "meets": true,
+      "n": 59,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_CURRICULUM_ADVANCE",
+      "value": 1.0
+    },
+    "donor_store_autobiography_flips_goal": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_DONOR_FIRST_GOAL_FLIP",
+      "value": 1.0
+    },
+    "erased_store_autobiography_no_goal": {
+      "meets": true,
+      "n": 64,
+      "threshold": 1.0,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_ERASED_NEUTRAL",
+      "value": 1.0
+    },
+    "first_goal_completes": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.8,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_COMPLETION",
+      "value": 0.921875
+    },
+    "first_goal_endogenous": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_GENESIS",
+      "value": 1.0
+    },
+    "history_guides_initial_strategy": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_self_development_hysteresis_v1.MIN_HISTORY_GUIDED_STRATEGY",
+      "value": 1.0
+    },
+    "persistence_bit_exact": {
+      "meets": true,
+      "n": 64,
+      "threshold": 1.0,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_PERSISTENCE",
+      "value": 1.0
+    },
+    "rolled_back_autobiography_repeats_goal": {
+      "meets": true,
+      "n": 59,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FROZEN_HISTORY_REPEATS",
+      "value": 1.0
+    },
+    "second_goal_authored": {
+      "meets": true,
+      "n": 59,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_SECOND_GOAL_GENERATION",
+      "value": 1.0
+    },
+    "updated_vs_rolled_back_diverges": {
+      "meets": true,
+      "n": 59,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_UPDATED_VS_FROZEN_DIVERGENCE",
+      "value": 1.0
+    }
+  },
+  "proposed_verdict_if_this_were_a_scientific_family": "PASS",
+  "run": "i1_dev7_64l",
+  "secondary": {
+    "S1_first_half_identical_controller_vs_fixed_scaffold": {
+      "n": 64,
+      "prediction": "1.0 (controller and goal share the 0.12 criterion)",
+      "value": 1.0
+    },
+    "S2_second_goal_episodes_pursued_DIRECT": {
+      "episodes": 790,
+      "prediction": "majority DIRECT (the controller graduates on the 0.12 gain)",
+      "value": 1.0
+    },
+    "S3_second_goal_completion": {
+      "controller": 0.423728813559322,
+      "difference_controller_minus_fixed": -0.11864406779661019,
+      "fixed_scaffold": 0.5423728813559322,
+      "n": 59,
+      "paired_bootstrap_95ci": [
+        -0.23728813559322037,
+        0.0
+      ],
+      "prediction": "estimation only: no directional prediction registered"
+    },
+    "S4_mechanism_matched_episodes": {
+      "definition": "at-risk = reached goal-2 check k in both arms; deltas from check 0",
+      "descriptive_controller": {
+        "episodes": 790,
+        "failed_work_steps_per_episode": 0.13037974683544304,
+        "successful_work_steps_per_episode": 2.869620253164557
+      },
+      "descriptive_fixed_scaffold": {
+        "episodes": 664,
+        "failed_work_steps_per_episode": 0.01355421686746988,
+        "successful_work_steps_per_episode": 1.9864457831325302
+      },
+      "k": {
+        "1": {
+          "capability": {
+            "controller_mean_gain": 0.04055033939327136,
+            "fixed_scaffold_mean_gain": 0.047636039675527195,
+            "paired_bootstrap_95ci": [
+              -0.011582366389895814,
+              -0.003417439099403681
+            ],
+            "paired_difference": -0.007085700282255837
+          },
+          "n_at_risk": 59,
+          "reliability": {
+            "controller_mean_gain": -0.03883273369174892,
+            "fixed_scaffold_mean_gain": -0.017145490242263018,
+            "paired_bootstrap_95ci": [
+              -0.03456277210833662,
+              -0.010245229733192314
+            ],
+            "paired_difference": -0.02168724344948591
+          }
+        },
+        "2": {
+          "capability": {
+            "controller_mean_gain": 0.0741301594151486,
+            "fixed_scaffold_mean_gain": 0.08468010849711205,
+            "paired_bootstrap_95ci": [
+              -0.01714149849981035,
+              -0.005206971789212762
+            ],
+            "paired_difference": -0.010549949081963444
+          },
+          "n_at_risk": 59,
+          "reliability": {
+            "controller_mean_gain": -0.04940834287869728,
+            "fixed_scaffold_mean_gain": -0.01901461259793427,
+            "paired_bootstrap_95ci": [
+              -0.045341136596970644,
+              -0.015959366398342584
+            ],
+            "paired_difference": -0.03039373028076301
+          }
+        },
+        "4": {
+          "capability": {
+            "controller_mean_gain": 0.12309515027100444,
+            "fixed_scaffold_mean_gain": 0.13586976424161004,
+            "paired_bootstrap_95ci": [
+              -0.020004594342715426,
+              -0.0066082114051166235
+            ],
+            "paired_difference": -0.012774613970605595
+          },
+          "n_at_risk": 56,
+          "reliability": {
+            "controller_mean_gain": -0.06938495593411582,
+            "fixed_scaffold_mean_gain": -0.016764929784195765,
+            "paired_bootstrap_95ci": [
+              -0.07491713336535863,
+              -0.03128970467618533
+            ],
+            "paired_difference": -0.052620026149920056
+          }
+        }
+      },
+      "status": "preregistered secondary; estimation only; engineering-motivated (defined after the dev7 diagnostic); not an admission criterion"
+    }
+  },
+  "status": "ENGINEERING_ONLY",
+  "validity": {
+    "donor_pairing_fixed_by_ids": true,
+    "driver_record_matches_store_lifecycle": true,
+    "fidelity_to_frozen_v036_driver": true,
+    "host_state_read_from_store": true,
+    "interventions_applied_exactly_as_planned": true,
+    "legacy_tree_unchanged": true,
+    "manifest_consistent_across_arms": true,
+    "no_driver_side_mechanism_calls": true,
+    "no_driver_side_model_forwards": true,
+    "no_errors": true,
+    "no_hidden_mutable_state": true,
+    "pins_verified": true,
+    "replay_bit_exact_before_every_intervention": true,
+    "store_authority_controls_change_the_individual": true
+  },
+  "validity_diagnostics": {
+    "arm_manifests": {
+      "AUTHORITY_CURRICULUM": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "AUTHORITY_GOAL": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "AUTHORITY_SKILLS": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "DONOR": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "ERASED": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "FIXED_SCAFFOLD": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "LEGACY_REF": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "NORMAL": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "PERSIST_RESUME": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "PERSIST_SAVE": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "RNG_PERTURBED": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+      "ROLLBACK": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79"
+    },
+    "authority_controls": {
+      "AUTHORITY_CURRICULUM": {
+        "aborted": 0,
+        "changed_or_aborted": 4,
+        "n": 4,
+        "unexpected_aborts": []
+      },
+      "AUTHORITY_GOAL": {
+        "aborted": 0,
+        "changed_or_aborted": 4,
+        "n": 4,
+        "unexpected_aborts": []
+      },
+      "AUTHORITY_SKILLS": {
+        "aborted": 4,
+        "changed_or_aborted": 4,
+        "n": 4,
+        "unexpected_aborts": []
+      }
+    },
+    "cross_slot_nested_calls": 0,
+    "donor_plan_entries": 64,
+    "driver_side_model_forwards": 0,
+    "expected_manifest_sha256": "3ffdd951cf98f97867339afa07de6d526c6097eb917cb139181216bcea822b79",
+    "fidelity_failures": [],
+    "frozen_object_digest_sets": 1,
+    "host_blocked_calls": 0,
+    "host_side_model_forwards": 803057,
+    "planned_individuals": {
+      "AUTHORITY_CURRICULUM": 4,
+      "AUTHORITY_GOAL": 4,
+      "AUTHORITY_SKILLS": 4,
+      "DONOR": 64,
+      "ERASED": 64,
+      "ROLLBACK": 59
+    },
+    "replay_checks": 199,
+    "rng_perturbed_twins_identical": 64,
+    "unbound_calls": 0
+  },
+  "verdict": null
+}
