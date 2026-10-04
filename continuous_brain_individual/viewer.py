@@ -474,7 +474,7 @@ class LiveSession:
                 "options": list(LEARNED_OPTIONS), "values": np.round(np.asarray(store.read("skills.values")), 3),
                 "selected": int(np.asarray(store.read("skills.selected_option"))[0]),
                 "decisions": ctl.get("decisions", 0), "updates": ctl.get("updates", 0), "loss": ctl.get("loss"),
-                "temperature": LearnedSkillHost.temperature(host, ctl) if ctl else None,
+                "advantage": np.round(np.asarray(store.read("skills.advantage")), 3),
                 "exploration": LearnedSkillHost.exploration(host, ctl) if ctl else None,
                 "learning_on": bool(host.learn), "lives_lived": ctl.get("lives", 0),
                 "replay": ctl.get("count", 0), "returns": ctl.get("returns", [])[-300:],
@@ -578,6 +578,29 @@ class LiveSession:
             self.log.extend(side.get("log", []))
             self.done, self.death = bool(side["done"]), side["death"]
             self.operator.append(f"resumed from {snapshot} at tick {self.ind.rt.tick}")
+            self.started = time.time()
+
+    def adopt(self, snapshot: str | Path, seed: int) -> None:
+        """Watch an individual trained by scripts/explore/w1_lifelong.py: its saved runtime (everything it has
+        learned and believes) wakes in world ``seed`` as its next life."""
+        snapshot = Path(snapshot)
+        meta = json.loads(Path(str(snapshot) + ".meta.json").read_text())
+        with self.lock:
+            self.arm = dict(DEFAULT_ARM)
+            self.ind = self._build(self.arm)
+            self.ind.rt.restore(SnapshotStore(snapshot.parent.parent), snapshot)
+            if self.ind.state_hash() != meta["state_hash"]:
+                raise ValueError("restored state hash differs from the saved one")
+            self.ind.life = int(meta["life"])
+            self.env = W1Env(self.world_config)
+            self.seed = int(seed)
+            self.obs = self.env.reset(self.seed)
+            self.info = first_info(self.env)
+            self._reset_logs()
+            self.lives = []
+            self.individual_id = f"adopted-{snapshot.name}"
+            self.log.append({"step": 0, "who": "operator", "kind": "adopt",
+                             "text": f"adopted after {meta['lives_lived']} lives of training ({snapshot.name})"})
             self.started = time.time()
 
 

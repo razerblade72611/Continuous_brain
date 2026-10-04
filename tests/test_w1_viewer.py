@@ -168,3 +168,21 @@ def test_a_lifelong_death_saves_and_the_next_life_continues(tmp_path):
     s.step()
     s2.step()
     assert s.ind.state_hash() == s2.ind.state_hash()
+
+
+def test_adopting_an_individual_trained_headless(tmp_path):
+    import subprocess
+    import sys
+    out = tmp_path / "train"
+    r = subprocess.run([sys.executable, str(REPO / "scripts/explore/w1_lifelong.py"), "train", "--lives", "2",
+                        "--steps", "60", "--save-every", "2", "--out", str(out)], capture_output=True, text=True,
+                       env={**__import__("os").environ, "PYTHONPATH": str(REPO)})
+    assert r.returncode == 0, r.stderr[-2000:]
+    snaps = [p for p in (out / "individual/checkpoints").iterdir() if p.is_dir()]
+    assert len(snaps) == 1 and len((out / "lives.jsonl").read_text().splitlines()) == 2
+    s = LiveSession(VISION, {"backend": "dev"}, tmp_path / "lives")
+    s.adopt(snaps[0], SEED)
+    assert s.ind.life == 2 and s.learned and s.lifelong            # its third life, in a new world
+    for _ in range(5):
+        s.step()
+    assert s.frame()["learning"]["decisions"] > 0

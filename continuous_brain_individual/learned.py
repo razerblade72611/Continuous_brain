@@ -24,22 +24,27 @@ has learned about where that leads.
 Choice.  An option is a temporally extended course of action from the skill library (skills.OPTIONS): its
 routine, drinking, eating, resting in a shelter, retreating from threats, exploring, its requests, or building.
 At each decision point (the option ended, could not go on, or something salient happened: it was hurt, water
-or food fell to 3, night fell, the caretaker asked something new) it chooses among the feasible options by a
-Boltzmann distribution over learned option values plus a prior that favours its routine (so it starts where the
-routine is and learns when to depart from it), mixed with a small, decaying chance of trying any feasible option
-(otherwise an option it never tried keeps its initial value and is never tried).
+or food fell to 3, night fell, the caretaker asked something new) it chooses.  Its routine is the default; it
+departs from it only when it is confident that another option is better: each of ENSEMBLE value estimates
+(small networks, each fitted to its own bootstrap resample of its memory, with weight decay) gives the option's
+advantage over the routine in this state, and the option is taken only if the estimates' mean advantage exceeds
+KAPPA times their disagreement.  With little evidence it stays with its routine; as evidence accumulates it
+departs where the evidence supports it.  A small, decaying chance of trying any feasible option keeps evidence
+coming about options it would not otherwise try.
 
-The value of choosing an option in a state is learned from what actually followed, over its whole life: what
-it felt while each option ran (health gained or lost, new things done, the caretaker's thanks or complaints, and
-a small well-being for every step alive, larger when its food, water, rest and health are good),
-discounted by GAMMA per step, to the end of the life, which in death ends with DEATH.  When a life ends, every
-decision of that life gets its return (Monte Carlo, no bootstrapping: an earlier version bootstrapped from its
-own estimates, semi-Markov double Q-learning, and its values ran away to many times any real return), and the
-network is fitted to the returns of the decisions in its memory, this life's and earlier lives'.  What it learns
-is the value of each option followed by the way it then went on, which improves its choices life after life.
+The value of choosing an option in a state is learned from what actually followed: what it felt while each
+option ran (health gained or lost, new things done, the caretaker's thanks or complaints, and a small well-being
+for every step alive, larger when its food, water, rest and health are good), discounted by GAMMA per step, to
+the end of the life, which in death ends with DEATH.  When a life ends, every decision of that life gets its
+return (Monte Carlo, no bootstrapping) and the estimates are fitted to the returns in its memory.
 
-When it learns: a consolidation in the moment of dying (the life's returns are now known), a few updates after
-each decision and while it sleeps (from the lives already finished).  With ``learn=False`` (evaluation) it chooses with its lowest temperature and does not learn.
+What did not work first (docs/explore/LIFELONG_W1.md section 5): bootstrapped double Q-learning (its values ran
+away), a single network choosing by a Boltzmann distribution over its values (it memorised its noisy returns and
+extrapolated its routine's value too low wherever it had departed, so it departed more and lived shorter lives).
+
+When it learns: a consolidation in the moment of dying (the life's returns are now known) and an update after
+each decision (from the lives already finished).  With ``learn=False`` (evaluation) it does not learn and does
+not try options at random.
 """
 from __future__ import annotations
 
@@ -71,23 +76,27 @@ WM_LR, WM_BATCH, WM_CONSOLIDATE, WM_MIN = 1e-3, 64, 300, 128
 # ---------------------------------------------------------------------------------------------------- choice
 NOPT = len(OPTIONS)
 Q_IN = DIM + K
-Q_SIZES = [Q_IN, 96, 96, NOPT]
+ENSEMBLE = 5                  # value estimates, each fitted to its own bootstrap resample of its memory
+Q_SIZES = [Q_IN, 64, NOPT]
+Q_LAYERS = len(Q_SIZES) - 1
 Q_NET = mlp_shapes(Q_SIZES)
-Q_W = Layout([(f"p_{n}", s) for n, s in Q_NET] + [(f"m_{n}", s) for n, s in Q_NET]
-             + [(f"v_{n}", s) for n, s in Q_NET])
+Q_W = Layout([(f"{w}{e}_{n}", s) for e in range(ENSEMBLE) for w in ("p", "m", "v") for n, s in Q_NET])
 Q_CAP = 2048
-# memory row: state, feasible mask, option, felt while it ran, duration, died, complete, return that followed
+# memory row: state, feasible mask, option, felt while it ran, duration, died, complete, return that followed,
+# and each estimate's bootstrap weight for this row
 R_STATE, R_MASK = slice(0, Q_IN), slice(Q_IN, Q_IN + NOPT)
 R_OPT, R_RET, R_DUR, R_DONE, R_OK, R_G = (Q_IN + NOPT + i for i in range(6))
-Q_ROW = Q_IN + NOPT + 6
-GAMMA, DEATH = 0.995, -5.0
-Q_LR, Q_BATCH, Q_PER_DECISION, Q_SLEEP_EVERY, Q_CONSOLIDATE, Q_MIN = 3e-4, 64, 2, 4, 300, 64
-TAU0, TAU_MIN, TAU_HALF = 0.5, 0.05, 1500.0            # temperature halves every TAU_HALF decisions
-EPS0, EPS_MIN = 0.1, 0.02     # chance of trying any feasible option, so options it has not valued get tried
-PRIOR = np.array([0.85] + [0.15 / (NOPT - 1)] * (NOPT - 1))
+R_BOOT = slice(Q_IN + NOPT + 6, Q_IN + NOPT + 6 + ENSEMBLE)
+Q_ROW = Q_IN + NOPT + 6 + ENSEMBLE
+KAPPA = 1.0                   # it leaves its routine only if an option's advantage beats KAPPA x their disagreement
+WEIGHT_DECAY = 0.01
+GAMMA, DEATH = 0.98, -20.0
+Q_LR, Q_BATCH, Q_PER_DECISION, Q_SLEEP_EVERY, Q_CONSOLIDATE, Q_MIN = 3e-4, 64, 1, 0, 150, 64
+EPS0, EPS_MIN, EPS_HALF = 0.1, 0.02, 1500.0   # chance of trying any feasible option (halves every EPS_HALF
+                                               # decisions), so options it has no evidence about get tried
 FEEDBACK_REWARD = {"fulfilled": 1.0, "correct": 1.0, "late": -1.0, "violated": -1.0, "wrong": -1.0,
                    "no_answer": -1.0}
-ALIVE, COMFORT = 0.01, 0.01   # well-being each step it is alive, more the better its needs are met
+ALIVE, COMFORT = 0.01, 0.05   # well-being each step it is alive, more the better its needs are met
 
 
 def _views(layout: Layout, flat: np.ndarray, prefix: str) -> dict:
@@ -95,14 +104,25 @@ def _views(layout: Layout, flat: np.ndarray, prefix: str) -> dict:
     return {k[n:]: v for k, v in layout.views(flat).items() if k.startswith(prefix)}
 
 
-def _init_weights(layout: Layout, sizes: list[int], rng, with_target: bool) -> np.ndarray:
+def _init_weights(layout: Layout, sizes: list[int], rng, with_target: bool = False, heads: int | None = None) -> np.ndarray:
     flat = layout.zeros()
-    p = mlp_init(rng, sizes)
-    for k, v in p.items():
-        layout.view(flat, f"p_{k}")[...] = v
-        if with_target:
-            layout.view(flat, f"t_{k}")[...] = v
+    for e in ([None] if heads is None else range(heads)):
+        p = mlp_init(rng, sizes)
+        pre = "p_" if e is None else f"p{e}_"
+        for k, v in p.items():
+            layout.view(flat, f"{pre}{k}")[...] = v
     return flat
+
+
+def ensemble_values(weights: np.ndarray, s: np.ndarray) -> np.ndarray:
+    """Every estimate's value of every option in state(s) s: (ENSEMBLE, n, NOPT)."""
+    return np.stack([mlp_forward(_views(Q_W, weights, f"p{e}_"), s, Q_LAYERS)[0] for e in range(ENSEMBLE)])
+
+
+def confident_advantage(q: np.ndarray) -> np.ndarray:
+    """Per option, its advantage over the routine minus KAPPA x the estimates' disagreement about it (q: E, NOPT)."""
+    adv = q - q[:, :1]
+    return adv.mean(0) - KAPPA * adv.std(0)
 
 
 def _sample(rng, n_valid: np.ndarray, size: int) -> np.ndarray:
@@ -230,7 +250,9 @@ class LearnedSkillHost(_Host):
                        ChannelDecl("skills.action", self.slot, (1,), "int64", neutral=0,
                                    description="the Crafter action index chosen this tick"),
                        ChannelDecl("skills.values", self.slot, (NOPT,), "float64",
-                                   description="its learned value of each option now"))
+                                   description="its learned value of each option now (mean of its estimates)"),
+                       ChannelDecl("skills.advantage", self.slot, (NOPT,), "float64",
+                                   description="each option's advantage over its routine, less its uncertainty"))
 
     # ------------------------------------------------------------------------------------------ helpers
     @staticmethod
@@ -269,33 +291,35 @@ class LearnedSkillHost(_Host):
         if len(idx) < Q_MIN:
             return weights
         weights = np.array(weights, copy=True)
-        P, M, V = (_views(Q_W, weights, p) for p in ("p_", "m_", "v_"))
+        heads = [tuple(_views(Q_W, weights, f"{w}{e}_") for w in ("p", "m", "v")) for e in range(ENSEMBLE)]
         opt = Adam(lr=Q_LR)
         loss = ctl["loss"]
         for _ in range(n):
             b = _sample(rng, idx, Q_BATCH)
             batch = rows[b].astype(np.float32)
             s, o, y = batch[:, R_STATE], batch[:, R_OPT].astype(np.int64), batch[:, R_G]
-            q, cache = mlp_forward(P, s, 3)
-            err = q[np.arange(len(b)), o] - y
-            l, g = huber_grad(err)
-            d = np.zeros_like(q)
-            d[np.arange(len(b)), o] = g
             ctl["t"] += 1
-            opt.step(P, mlp_backward(P, cache, d, 3), M, V, ctl["t"])
-            loss = l if loss is None else 0.99 * loss + 0.01 * l
+            for e, (P, M, V) in enumerate(heads):
+                w = batch[:, R_BOOT][:, e]
+                q, cache = mlp_forward(P, s, Q_LAYERS)
+                err = q[np.arange(len(b)), o] - y
+                l, g = huber_grad(err)
+                g = g * w * len(b) / max(1.0, float(w.sum()))   # its own bootstrap resample of the memory
+                d = np.zeros_like(q)
+                d[np.arange(len(b)), o] = g
+                opt.step(P, mlp_backward(P, cache, d, Q_LAYERS), M, V, ctl["t"])
+                for k in P:                                   # decoupled weight decay on the weights
+                    if k.startswith("W"):
+                        P[k][...] = P[k] * (1.0 - Q_LR * WEIGHT_DECAY)
+                if e == 0:
+                    loss = l if loss is None else 0.99 * loss + 0.01 * l
         ctl["loss"], ctl["updates"] = loss, ctl["updates"] + n
         return weights
 
     def exploration(self, ctl: dict) -> float:
         if not self.learn:
             return 0.0
-        return max(EPS_MIN, EPS0 * 0.5 ** (ctl["decisions"] / TAU_HALF))
-
-    def temperature(self, ctl: dict) -> float:
-        if not self.learn:
-            return TAU_MIN
-        return max(TAU_MIN, TAU0 * 0.5 ** (ctl["decisions"] / TAU_HALF))
+        return max(EPS_MIN, EPS0 * 0.5 ** (ctl["decisions"] / EPS_HALF))
 
     # ---------------------------------------------------------------------------------------------- step
     def step(self, ctx):
@@ -306,7 +330,7 @@ class LearnedSkillHost(_Host):
         step, life, dying = int(body["step"]), int(body.get("life", 0)), bool(body.get("dying", False))
         if st is None or not weights.any():                     # first tick, or its learning was erased
             rng = np.random.default_rng(self.seed * 7919 + 202)
-            weights = _init_weights(Q_W, Q_SIZES, rng, with_target=False)
+            weights = _init_weights(Q_W, Q_SIZES, rng, heads=ENSEMBLE)
             buf = np.zeros(Q_CAP * Q_ROW, np.float16)
             st = {"lib": None, "ctl": {"life": life, "t": 0, "updates": 0, "decisions": 0, "head": 0, "count": 0,
                                        "opt": None, "row": None, "steps_in": 0, "R": 0.0, "disc": 1.0,
@@ -339,8 +363,9 @@ class LearnedSkillHost(_Host):
         events = _json(ctx.inputs["goal_genesis.events"]) or []
         s = np.concatenate([np.asarray(ctx.inputs["world_model.features"]),
                             np.asarray(ctx.inputs["world_model.prediction"])]).astype(np.float32)
-        P = _views(Q_W, weights, "p_")
-        values = mlp_forward(P, s[None], 3)[0][0].astype(np.float64)
+        q_all = ensemble_values(weights, s[None])[:, 0, :]            # (ENSEMBLE, NOPT)
+        values = q_all.mean(0).astype(np.float64)
+        advantage = confident_advantage(q_all)
 
         # what it felt since its last action belongs to the option that chose that action
         r = self._feeling(ctl["prev"], body, events) + (DEATH if dying else 0.0)
@@ -379,7 +404,7 @@ class LearnedSkillHost(_Host):
             option = ctl["opt"] if ctl["opt"] is not None else 0
             if v.sleeping:
                 name = "noop"
-                n_updates = 1 if step % Q_SLEEP_EVERY == 0 else 0
+                n_updates = 1 if Q_SLEEP_EVERY and step % Q_SLEEP_EVERY == 0 else 0
             else:
                 lib._prepare(v)
                 salient = prev is not None and (
@@ -391,14 +416,12 @@ class LearnedSkillHost(_Host):
                 if name is None:                                # a decision
                     close(done=False)
                     mask = lib.option_feasible(v, memory)
-                    tau = self.temperature(ctl)
-                    logits = np.where(mask, values / tau + np.log(PRIOR), -np.inf)
-                    p = np.exp(logits - logits.max())
-                    p /= p.sum()
+                    adv = np.where(mask, advantage, -np.inf)
+                    adv[0] = 0.0
+                    o = int(np.argmax(adv)) if adv.max() > 0 else 0     # its routine, unless confidently better
                     eps = self.exploration(ctl)
-                    if eps > 0:
-                        p = (1 - eps) * p + eps * mask / mask.sum()
-                    o = int(rng.choice(NOPT, p=p))
+                    if eps > 0 and rng.random() < eps:                 # sometimes it tries something else
+                        o = int(rng.choice(np.nonzero(mask)[0]))
                     name = lib.routine(v, memory, step)[0] if o == 0 else lib.option_act(o, v, memory, step)
                     if name is None:                            # it cannot start: its routine acts instead
                         o = 0
@@ -410,6 +433,7 @@ class LearnedSkillHost(_Host):
                         rw = rows_w()
                         row = np.zeros(Q_ROW, np.float32)
                         row[R_STATE], row[R_MASK], row[R_OPT] = s, mask.astype(np.float32), o
+                        row[R_BOOT] = np.minimum(rng.poisson(1.0, ENSEMBLE), 3)
                         rw[ctl["head"]] = row.astype(np.float16)
                         ctl["row"] = ctl["head"]
                         ctl["life_rows"] = list(ctl.get("life_rows", [])) + [ctl["head"]]
@@ -422,4 +446,5 @@ class LearnedSkillHost(_Host):
         new = {"lib": lib.to_state(), "ctl": ctl}
         return {state_channel(self.slot): codec.blob(new), "skills.weights": weights, "skills.memory": buf,
                 "skills.selected_option": np.array([float(option)]),
-                "skills.action": np.array([ACTIONS[name]], dtype=np.int64), "skills.values": values}
+                "skills.action": np.array([ACTIONS[name]], dtype=np.int64), "skills.values": values,
+                "skills.advantage": advantage.astype(np.float64)}

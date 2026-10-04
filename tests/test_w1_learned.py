@@ -196,7 +196,7 @@ def test_erasing_skills_state_forgets_what_it_learned(monkeypatch):
 
 
 def test_always_choosing_its_routine_is_the_routine_individual(monkeypatch):
-    monkeypatch.setattr(L, "PRIOR", np.array([1.0] + [1e-12] * (L.NOPT - 1)))
+    monkeypatch.setattr(L, "KAPPA", 1e9)                     # never confident enough to leave its routine
     monkeypatch.setattr(L, "EPS0", 0.0)
     monkeypatch.setattr(L, "EPS_MIN", 0.0)
     a, _, _ = _live(*_new(IndividualConfig(perception=PERCEPTION)), 300)

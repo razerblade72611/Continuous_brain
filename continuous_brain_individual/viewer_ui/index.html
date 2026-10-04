@@ -251,7 +251,7 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
       <div class="legend" id="foreseestats"></div>
     </div>
     <div class="panel">
-      <h2>How it values its choices now</h2>
+      <h2>How sure it is that another choice is better</h2>
       <div class="bars" id="values"></div>
       <div class="legend" id="valuestats"></div>
     </div>
@@ -713,13 +713,14 @@ function renderLearning(f) {
   const F = L.foresight, br = (F.brier || []).map((b) => b == null ? "–" : b.toFixed(3));
   $("foreseestats").textContent = !F.updates ? `It has noted ${F.samples} moments of its life and what followed; it starts learning from them at 128, so these are still guesses.`
     : `Learned from ${F.samples} moments of its own life (${F.memory} kept, ${F.updates} updates). How far its foresight was off lately, per risk (squared error, 0 is perfect): ${br.join(", ")}.`;
-  const vals = L.values, lo = Math.min(...vals, -0.5), hi = Math.max(...vals, 0.5), span = Math.max(1e-6, Math.max(Math.abs(lo), Math.abs(hi)));
-  $("values").innerHTML = L.options.map((o, i) => { const v = vals[i], w = Math.abs(v) / span * 50, on = i === L.selected;
+  const adv = L.advantage.map((a, i) => i === 0 ? 0 : a), span = Math.max(0.5, ...adv.map(Math.abs));
+  $("values").innerHTML = L.options.map((o, i) => { const v = adv[i], w = Math.abs(v) / span * 50, on = i === L.selected;
     const left = v >= 0 ? 50 : 50 - w;
-    return `<span class="${on ? "on" : ""}">${OPTION_WORDS[o] || o}${on ? " (now)" : ""}</span><span class="track" style="--c:${on ? fc("skills") : mix(fc("skills"), 0.45)}"><b></b><i style="left:${left}%;width:${w}%"></i></span><span>${v.toFixed(2)}</span>`; }).join("");
-  $("valuestats").textContent = (L.updates ? "" : "Not learning yet: it starts once it remembers 64 finished decisions. ") + `${L.decisions} decisions made, ${L.updates} learning updates${L.loss != null ? `, recent error ${L.loss.toFixed(3)}` : ""}. ` +
-    (L.learning_on ? `It tries something other than its best guess ${(L.exploration * 100).toFixed(0)}% of the time (temperature ${L.temperature.toFixed(2)}).` : "Learning is off (frozen).") +
-    ` ${L.replay} decisions remembered for learning.`;
+    return `<span class="${on ? "on" : ""}">${OPTION_WORDS[o] || o}${on ? " (now)" : ""}</span><span class="track" style="--c:${v > 0 ? fc("skills") : mix(fc("skills"), 0.4)}"><b></b><i style="left:${left}%;width:${w}%"></i></span><span>${i === 0 ? "base" : (v >= 0 ? "+" : "") + v.toFixed(2)}</span>`; }).join("");
+  $("valuestats").textContent = "How much better than its routine it is sure each option would be here (its estimates' average advantage, less their disagreement). It leaves its routine only for a bar right of the middle. " +
+    (L.updates ? "" : "Not learning yet: it starts once it remembers 64 finished decisions. ") + `${L.decisions} decisions made, ${L.updates} learning updates. ` +
+    (L.learning_on ? `It also tries a random option ${(L.exploration * 100).toFixed(0)}% of the time, to keep learning.` : "Learning is off (frozen).") +
+    ` ${L.replay} decisions remembered.`;
   renderLives(f);
 }
 function renderLives(f) {

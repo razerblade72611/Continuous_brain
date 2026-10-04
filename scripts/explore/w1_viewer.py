@@ -7,6 +7,8 @@ usage:
       --local-dir ~/cb_models/Qwen--Qwen2.5-0.5B-Instruct
   python scripts/explore/w1_viewer.py --resume latest        (the individual you watched last, where it was)
   python scripts/explore/w1_viewer.py --skills routine       (the fixed routine library, no learning, one life)
+  python scripts/explore/w1_viewer.py --adopt runs/explore/lifelong/run1/individual/checkpoints/<snapshot>
+                                                             (watch an individual trained headless, in a new world)
 
 By default the individual learns from its lives and continues across them: when it dies, it is saved to disk
 automatically and (with "Next life when it dies" checked) wakes as the same individual in the next world.
@@ -46,6 +48,8 @@ def main() -> int:
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--dtype", default=None)
     ap.add_argument("--resume", default=None, help="'latest', or a snapshot directory written by Save to disk")
+    ap.add_argument("--adopt", default=None,
+                    help="a snapshot written by scripts/explore/w1_lifelong.py train: watch that trained individual")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--play", action="store_true", help="start playing immediately")
@@ -67,7 +71,10 @@ def main() -> int:
         return 2
     root = REPO / "runs/explore/viewer/lives"
     session = LiveSession(vision, language, root)
-    if a.resume:
+    if a.adopt:
+        session.adopt(a.adopt, a.seed)
+        print(f"Adopted {a.adopt}", flush=True)
+    elif a.resume:
         snap = latest_snapshot(root) if a.resume == "latest" else Path(a.resume)
         if snap is None:
             print(f"Nothing saved yet under {root}.", file=sys.stderr)
