@@ -26,9 +26,26 @@
   - **Approval:** David's alone.
 - **Approval gate (ChatGPT's binary verification).** `approve()` had accepted any all-true validity block. It now requires exactly the 14 checks of `evaluate.VALIDITY_KEYS`, all true, with every arm bound to the preflight's `manifest.json`. The lifecycle suite and tests import that schema; negative tests cover every omission, the old 12-check schema, unknown keys and binding faults; and `scripts/dev/i1_approval_gate_check.py` checks the gate on a real run.
 - **Arm coverage.** Approval also requires every one of the 12 I1 arms to be bound to the preflight's manifest (ChatGPT's follow-up check).
-- **Dev result.** `i1_dev7_64g` (906432–906495, cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. The gate check passes 34/34. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.217 vs 0.483, difference −0.267, 95% CI [−0.383, −0.167]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.039, −0.062 and −0.074 at k = 1, 2 and 4), and capability gains are smaller. Engineering data, estimation only. S3 is negative on all eight disjoint slices, seven of which passed validity.
+- **Chain of custody (ChatGPT's attack on 64g).** `approve()` had accepted a preflight whose design changed after it was opened, and a fabricated directory with a `"spent": true` flag but no ledger spend and no sealed report. `runner.verify_preflight_chain` now checks every link, in `approve()` and again in the science run before it opens `i1-v1-dev`:
+  - one canonical ledger spend, made by that run;
+  - the opening record (`runner.open_family()`) binding the spend, the run, the manifest and the registry state;
+  - opened under the PROPOSED design, which is unchanged, with both registry files byte-identical;
+  - the manifest;
+  - exactly the 14 checks, all true;
+  - exactly the 12 arms bound;
+  - the sealed report matching its commitment and agreeing with the visible view.
+
+  Also new:
+  - only this checkout's registry is used (`CONTINUOUS_BRAIN_REGISTRY` pointing elsewhere is refused);
+  - the seed ledger is part of the run binding, and is checked at the end of science;
+  - the approval is journaled and recoverable (`--recover`) and records an `approval_basis`;
+  - `runner.lifecycle_problems` is production code, and approval runs it before and after the write;
+  - the preflight prints no per-arm timings or error counts.
+
+  The procedure text changed, so the design digest is now `bcf896bc…`.
+- **Dev result.** `i1_dev7_64h` (906532–906595, cloud CPU, the delivered code): all 14 validity checks hold and C1–C10 meet their frozen thresholds. The tamper check detects 21/21 faults; the gate check passes 56/56 through the full chain of custody. S3, goal-2 completion with the controller vs fixed SCAFFOLD: 0.373 vs 0.542, difference −0.169, 95% CI [−0.288, −0.068]. S4: under the controller, the goal commitment's reliability falls relative to fixed SCAFFOLD at every checkpoint (−0.038, −0.046 and −0.065 at k = 1, 2 and 4), and capability gains are smaller. Engineering data, estimation only. S3 is negative on all nine disjoint slices, eight of which passed validity.
 - **Disclosed.** `i1_dev7_64` (906680–906743) is BLOCKED by its own manifest check, because the version strings were bumped mid-run. It was repeated unchanged.
-- **Tests.** 254 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
+- **Tests.** 283 pass in every legal lifecycle state: PROPOSED, preflight spent, APPROVED, and scientific family spent (`scripts/dev/i1_lifecycle_suite.py`). After ChatGPT's review, no test asserts a particular lifecycle state any more.
 - **Not claimed.** Consciousness, sentience, subjective experience, or anything beyond the frozen two-commitment world. No scientific family has been opened.
 
 ## 0.38.1.dev6 — store-mediated composition route (ENGINEERING_ONLY)

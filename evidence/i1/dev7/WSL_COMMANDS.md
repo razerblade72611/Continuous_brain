@@ -13,7 +13,9 @@ compares the tree's metadata before and after, and you hash the protected checkp
 arm records a hash of all the code, and a change in the middle of a run blocks it. (This happened once in
 the cloud; see `docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §5.)
 
-Open WSL from PowerShell with `wsl -d Ubuntu-24.04`, activate `(cb_v0381_g0)`, then:
+Open WSL from PowerShell with `wsl -d Ubuntu-24.04`, activate `(cb_v0381_g0)`, then run the block below.
+`CONTINUOUS_BRAIN_REGISTRY` must not be set: the preflight, the approval and the science run refuse if it
+points anywhere but this checkout's `registry/` (the `unset` line takes care of it).
 
 ```bash
 cd ~/projects
@@ -26,6 +28,7 @@ git log --oneline -1
 git merge-base --is-ancestor 3dda2fe HEAD && echo BASE_OK
 cp ~/projects/continuous_brain_v0.38.1.dev6_composition_route/Continuous_brain/registry/seed_ranges.local.jsonl registry/
 export PYTHONPATH=$PWD
+unset CONTINUOUS_BRAIN_REGISTRY
 python -m pytest -q -p no:cacheprovider tests/
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
@@ -34,7 +37,7 @@ sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_
 
 - **Zip hash:** it must equal the hash Claude gave you in chat.
 - **`git log`:** it shows the head commit Claude gave you in chat, and the next line prints `BASE_OK` (the dev7 commits sit on top of `3dda2fe`).
-- **Tests:** they must report **254 passed**.
+- **Tests:** they must report **283 passed**.
 - **Checkpoint:** the hash must be `086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f`.
 
 If any of these differ, stop and send Claude the terminal output.
@@ -57,10 +60,12 @@ python scripts/i1_run.py --print-design-digest
   - any validity entry is `false`;
   - it says `BLOCKED`.
 - **The tamper check** prints one `BASE` line, then 21 `ok` lines, then `ALL DETECTED`.
-- **The approval-gate check** prints 34 `ok` lines and ends with `34/34 cases as expected: GATE OK`. It
-  approves a temporary copy of the registry from this run's genuine sealed view, and refuses every faulty
-  variant. It never touches the real registry, and it spends nothing.
-- **The design digest** is `13fb2f817c59efd048d570b8a66b406d835066dd5ffe7bbc767da0ce59d50e4d`. If it isn't,
+- **The approval-gate check** prints 56 `ok` lines and ends with `56/56 cases as expected: GATE OK`.
+  For each case it builds a temporary copy of the registry, opens the preflight family there through the
+  real code path (a real spend in the temporary ledger), and approves from this run's genuine sealed view. The
+  genuine chain must be accepted and every faulty variant refused. It never touches the real registry, and it
+  spends nothing.
+- **The design digest** is `bcf896bc92cd5a4c9cc99da4000e7120fd986f16f79ed0a058448da7048016a8`. If it isn't,
   the preregistration file differs from the one reviewed.
 
 If anything differs, don't run Stage B. Send the results with the tar command at the end.
@@ -72,8 +77,8 @@ python scripts/i1_preflight.py --legacy-root ~/projects/continuous_brain_v0.12.2
 sha256sum ~/projects/continuous_brain_v0.12.2/state/child_v113_dml_smoke/infant_training.pt
 ```
 
-The preflight prints one line per arm, then the 14 validity entries and the SHA-256 of the sealed report.
-Nothing else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
+The preflight prints one line per arm (`{"arm": ..., "finished": true}`, with no timings or error counts),
+then the 14 validity entries and the SHA-256 of the sealed report. Nothing else is shown. The primary and secondary values are written to `runs/i1/wsl_i1_preflight/sealed/`, and
 the arms' `lives.jsonl` files and plans also contain them. None of these files are encrypted, so please
 don't open them, and don't send them. The tar command below sends only the preflight's value-free files.
 
@@ -97,6 +102,11 @@ reports the missing preflight files and exits with code 2, but it still writes t
   machine.
 - **Run time:** Stage A takes about 1–2 minutes and Stage B about 5–8, depending on the CPU.
 
+**Between the preflight and the approval, change nothing in `registry/` and nothing in the preflight's
+directory, and keep the same checkout.** The approval checks that both registry files are byte-identical to
+their state when the preflight was opened. A change (even a harmless one, such as adding an unrelated
+preregistration) makes this preflight impossible to approve, and the preflight family cannot be reused.
+
 ## After the preflight (only after the review, and only if you decide to approve)
 
 Approval is David's decision. Claude and ChatGPT review first. When you decide to approve, run this one
@@ -106,25 +116,33 @@ command on the same machine, in the same directory:
 python scripts/i1_approve.py --preflight-dir runs/i1/wsl_i1_preflight --approver David --i-approve I1-INTEGRATED-INDIVIDUAL-v1
 ```
 
-It refuses unless:
+It refuses unless every link of the chain holds (`docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md` §3):
 
-- the preflight is a spent preflight of `i1-v1-preflight-eng-b`;
-- its validity block has exactly the 14 I1 checks (none missing, none extra), all `true`;
-- its diagnostics bind the run and all 12 I1 arms (none missing, none extra) to its `manifest.json`;
-- this machine reproduces that manifest exactly.
+- this checkout's ledger records exactly one spend of `i1-v1-preflight-eng-b`, made by this preflight run;
+- the preflight's opening record binds that spend to this directory, its manifest and the registry state at
+  opening;
+- the preflight was opened under the PROPOSED preregistration, the design is unchanged, and both registry
+  files are byte-identical to their state at opening;
+- this machine reproduces the preflight's manifest exactly;
+- the validity block has exactly the 14 I1 checks, all `true`, and all 12 I1 arms are bound to the manifest;
+- the sealed report exists, matches its SHA-256, and agrees with the visible view.
 
-It then writes the approval into both registry files at once:
+It then writes the approval into both registry files as one journaled act:
 
-- **`registry/i1_integration_v1.json`:** status, approved_by, approved_utc, preflight_manifest_sha256 and
-  approved_design_sha256;
+- **`registry/i1_integration_v1.json`:** status, approved_by, approved_utc, preflight_manifest_sha256,
+  approved_design_sha256, preflight_run, and approval_basis (the hashes the science run re-verifies);
 - **`registry/preregistrations.json`:** the I1 entry is set to APPROVED.
 
-It runs nothing and touches no seed family. The test suite stays green after approval (254 pass in every lifecycle
+If the approval is interrupted (for example by a power cut), everything refuses until you run
+`python scripts/i1_approve.py --recover`, which completes it.
+
+It runs nothing and touches no seed family. The test suite stays green after approval (283 pass in every lifecycle
 state), so you can re-run it as a check at any point. The scientific run is then:
 
 ```bash
 python scripts/i1_run.py --legacy-root ~/projects/continuous_brain_v0.12.2 --historical-core-archive /mnt/c/Users/davei/Downloads/continuous_brain_v0.12.2_unified_workspace.zip --confirm-open I1-INTEGRATED-INDIVIDUAL-v1
 ```
 
-That spends `i1-v1-dev` (328000–328127) before launch and ends PASS, FAIL or BLOCKED. Before approval it
-refuses, because the status is PROPOSED.
+It first verifies the whole chain again, including the approval basis. It then spends `i1-v1-dev`
+(328000–328127) before launch and ends PASS, FAIL or BLOCKED. Before approval it refuses, because the status is
+PROPOSED.
