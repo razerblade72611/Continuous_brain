@@ -1,0 +1,1278 @@
+{
+ "format": "cb-language-eval/1",
+ "label": "DevelopmentParser: a development stand-in that knows W1's caretaker templates, NOT a language model. These numbers measure the stand-in (an upper reference on W1's closed template language), not any language model and not the individual.",
+ "measures": "interpret() on W1 caretaker messages vs. ground truth from W1's obligations layer; answer() composed from an oracle memory and graded by W1's parser/grader; latency on this machine",
+ "does_not_measure": "open-ended language (W1's caretaker is template-based), the individual's own memory, or narrative quality (one sample is included, unscored)",
+ "provenance": {
+  "schema": "cb-language-events/1",
+  "backend": "development_parser",
+  "label": "development stand-in that knows W1's caretaker templates, not a language model",
+  "model_id": null,
+  "revision": null,
+  "weights": null,
+  "weights_digest": null,
+  "code_sha256": "ab50b987c37efbf1a8c50fda208c486453e2e14442f66208f857f9106cdf20bd"
+ },
+ "machine": {
+  "python": "3.11.15",
+  "platform": "Linux-6.18.44-fc-v64-x86_64-with-glibc2.39",
+  "processor": "x86_64"
+ },
+ "git": {
+  "commit": "f65696fe88d5680b7fc0aff988915327317d9f18",
+  "branch": "explore/w1-language",
+  "dirty": false
+ },
+ "command": "scripts/explore/eval_language_organ.py --backend dev --corpus-out evidence/explore/language/w1_language_corpus.json.gz --out evidence/explore/language/dev_parser_eval.json",
+ "corpus": {
+  "source": "built by this run",
+  "items_sha256": "5e2d128c9b68d6974a0deddbb3646ce62b56886544364bc76654c1c7fdc7e984"
+ },
+ "results": {
+  "main": {
+   "corpus": {
+    "items": 959,
+    "distinct_messages": 801,
+    "by_type_and_family": {
+     "amendment/avoid": 8,
+     "amendment/collect": 6,
+     "amendment/craft": 7,
+     "amendment/maintain": 3,
+     "amendment/place": 6,
+     "amendment/visit": 5,
+     "cancellation/avoid": 3,
+     "cancellation/collect": 6,
+     "cancellation/craft": 8,
+     "cancellation/maintain": 3,
+     "cancellation/place": 2,
+     "cancellation/visit": 1,
+     "feedback/avoid": 39,
+     "feedback/collect": 64,
+     "feedback/craft": 48,
+     "feedback/maintain": 43,
+     "feedback/place": 45,
+     "feedback/report": 150,
+     "feedback/visit": 18,
+     "info/info": 20,
+     "new_commitment/avoid": 44,
+     "new_commitment/collect": 84,
+     "new_commitment/craft": 65,
+     "new_commitment/maintain": 52,
+     "new_commitment/place": 59,
+     "new_commitment/visit": 20,
+     "question/count_requests": 23,
+     "question/count_today": 37,
+     "question/first_request": 25,
+     "question/last_cancelled": 6,
+     "question/last_seen": 59
+    },
+    "seeds": [
+     72001,
+     72002,
+     72003,
+     72004,
+     72005,
+     72006,
+     72007,
+     72008,
+     72009,
+     72010,
+     72011,
+     72012,
+     72013,
+     72014,
+     72015,
+     72016,
+     72017,
+     72018,
+     72019,
+     72020
+    ],
+    "seed_family": "w1-language-eng",
+    "episode_length": 3000,
+    "actor": "noisy_scripted",
+    "config_overrides": {},
+    "build_seconds": 125.15096645599988
+   },
+   "items_identical_to_a_few_shot_example": 21,
+   "messages": 959,
+   "exact_match": {
+    "correct": 959,
+    "total": 959,
+    "accuracy": 1.0
+   },
+   "exact_match_by_event_type": {
+    "amendment": {
+     "correct": 35,
+     "total": 35,
+     "accuracy": 1.0
+    },
+    "cancellation": {
+     "correct": 23,
+     "total": 23,
+     "accuracy": 1.0
+    },
+    "feedback": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "info": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "question": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    }
+   },
+   "exact_match_by_type_and_family": {
+    "amendment/avoid": {
+     "correct": 8,
+     "total": 8,
+     "accuracy": 1.0
+    },
+    "amendment/collect": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "amendment/craft": {
+     "correct": 7,
+     "total": 7,
+     "accuracy": 1.0
+    },
+    "amendment/maintain": {
+     "correct": 3,
+     "total": 3,
+     "accuracy": 1.0
+    },
+    "amendment/place": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "amendment/visit": {
+     "correct": 5,
+     "total": 5,
+     "accuracy": 1.0
+    },
+    "cancellation/avoid": {
+     "correct": 3,
+     "total": 3,
+     "accuracy": 1.0
+    },
+    "cancellation/collect": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "cancellation/craft": {
+     "correct": 8,
+     "total": 8,
+     "accuracy": 1.0
+    },
+    "cancellation/maintain": {
+     "correct": 3,
+     "total": 3,
+     "accuracy": 1.0
+    },
+    "cancellation/place": {
+     "correct": 2,
+     "total": 2,
+     "accuracy": 1.0
+    },
+    "cancellation/visit": {
+     "correct": 1,
+     "total": 1,
+     "accuracy": 1.0
+    },
+    "feedback/avoid": {
+     "correct": 39,
+     "total": 39,
+     "accuracy": 1.0
+    },
+    "feedback/collect": {
+     "correct": 64,
+     "total": 64,
+     "accuracy": 1.0
+    },
+    "feedback/craft": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "feedback/maintain": {
+     "correct": 43,
+     "total": 43,
+     "accuracy": 1.0
+    },
+    "feedback/place": {
+     "correct": 45,
+     "total": 45,
+     "accuracy": 1.0
+    },
+    "feedback/report": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "feedback/visit": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "info/info": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment/avoid": {
+     "correct": 44,
+     "total": 44,
+     "accuracy": 1.0
+    },
+    "new_commitment/collect": {
+     "correct": 84,
+     "total": 84,
+     "accuracy": 1.0
+    },
+    "new_commitment/craft": {
+     "correct": 65,
+     "total": 65,
+     "accuracy": 1.0
+    },
+    "new_commitment/maintain": {
+     "correct": 52,
+     "total": 52,
+     "accuracy": 1.0
+    },
+    "new_commitment/place": {
+     "correct": 59,
+     "total": 59,
+     "accuracy": 1.0
+    },
+    "new_commitment/visit": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "question/count_requests": {
+     "correct": 23,
+     "total": 23,
+     "accuracy": 1.0
+    },
+    "question/count_today": {
+     "correct": 37,
+     "total": 37,
+     "accuracy": 1.0
+    },
+    "question/first_request": {
+     "correct": 25,
+     "total": 25,
+     "accuracy": 1.0
+    },
+    "question/last_cancelled": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "question/last_seen": {
+     "correct": 59,
+     "total": 59,
+     "accuracy": 1.0
+    }
+   },
+   "per_field_accuracy": {
+    "amendment.changes.base": {
+     "correct": 3,
+     "total": 3,
+     "accuracy": 1.0
+    },
+    "amendment.changes.deadline_step": {
+     "correct": 34,
+     "total": 34,
+     "accuracy": 1.0
+    },
+    "amendment.changes.quantity": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "amendment.changes.target": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "amendment.changes.threshold": {
+     "correct": 1,
+     "total": 1,
+     "accuracy": 1.0
+    },
+    "amendment.changes.tool": {
+     "correct": 3,
+     "total": 3,
+     "accuracy": 1.0
+    },
+    "amendment.id": {
+     "correct": 35,
+     "total": 35,
+     "accuracy": 1.0
+    },
+    "amendment.type": {
+     "correct": 35,
+     "total": 35,
+     "accuracy": 1.0
+    },
+    "cancellation.id": {
+     "correct": 23,
+     "total": 23,
+     "accuracy": 1.0
+    },
+    "cancellation.type": {
+     "correct": 23,
+     "total": 23,
+     "accuracy": 1.0
+    },
+    "feedback.id": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "feedback.outcome": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "feedback.revealed_answer": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "feedback.step_mentioned": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "feedback.type": {
+     "correct": 407,
+     "total": 407,
+     "accuracy": 1.0
+    },
+    "info.type": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment.deadline_phrase_verbatim": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.deadline_step": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.family": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.id": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.base": {
+     "correct": 208,
+     "total": 208,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.direction": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.feature": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.item": {
+     "correct": 84,
+     "total": 84,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.near": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.no_extra_keys": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.onto": {
+     "correct": 11,
+     "total": 11,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.quantity": {
+     "correct": 84,
+     "total": 84,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.radius": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.source": {
+     "correct": 44,
+     "total": 44,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.start": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.stat": {
+     "correct": 52,
+     "total": 52,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.stated_distance": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.target": {
+     "correct": 84,
+     "total": 84,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.threshold": {
+     "correct": 52,
+     "total": 52,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.tool": {
+     "correct": 65,
+     "total": 65,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.what": {
+     "correct": 59,
+     "total": 59,
+     "accuracy": 1.0
+    },
+    "new_commitment.type": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "new_commitment.value": {
+     "correct": 324,
+     "total": 324,
+     "accuracy": 1.0
+    },
+    "question.answer_type": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "question.deadline_step": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "question.id": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "question.spec": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "question.spec.day": {
+     "correct": 37,
+     "total": 37,
+     "accuracy": 1.0
+    },
+    "question.spec.event": {
+     "correct": 37,
+     "total": 37,
+     "accuracy": 1.0
+    },
+    "question.spec.kind": {
+     "correct": 59,
+     "total": 59,
+     "accuracy": 1.0
+    },
+    "question.spec.question": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    },
+    "question.spec.which": {
+     "correct": 25,
+     "total": 25,
+     "accuracy": 1.0
+    },
+    "question.spec.window": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "question.type": {
+     "correct": 150,
+     "total": 150,
+     "accuracy": 1.0
+    }
+   },
+   "deadline_step_accuracy": {
+    "correct": 508,
+    "total": 508,
+    "accuracy": 1.0,
+    "by_event_type": {
+     "amendment": {
+      "correct": 34,
+      "total": 34,
+      "accuracy": 1.0
+     },
+     "new_commitment": {
+      "correct": 324,
+      "total": 324,
+      "accuracy": 1.0
+     },
+     "question": {
+      "correct": 150,
+      "total": 150,
+      "accuracy": 1.0
+     }
+    }
+   },
+   "answers": {
+    "grammar_valid": {
+     "correct": 209,
+     "total": 209,
+     "by_question_and_form": {
+      "count_requests/default": {
+       "correct": 23,
+       "total": 23,
+       "accuracy": 1.0
+      },
+      "count_today/default": {
+       "correct": 37,
+       "total": 37,
+       "accuracy": 1.0
+      },
+      "first_request/default": {
+       "correct": 25,
+       "total": 25,
+       "accuracy": 1.0
+      },
+      "last_cancelled/default": {
+       "correct": 6,
+       "total": 6,
+       "accuracy": 1.0
+      },
+      "last_seen/bucket": {
+       "correct": 59,
+       "total": 59,
+       "accuracy": 1.0
+      },
+      "last_seen/offset": {
+       "correct": 59,
+       "total": 59,
+       "accuracy": 1.0
+      }
+     }
+    },
+    "correct_with_oracle_memory": {
+     "correct": 209,
+     "total": 209,
+     "by_question_and_form": {
+      "count_requests/default": {
+       "correct": 23,
+       "total": 23,
+       "accuracy": 1.0
+      },
+      "count_today/default": {
+       "correct": 37,
+       "total": 37,
+       "accuracy": 1.0
+      },
+      "first_request/default": {
+       "correct": 25,
+       "total": 25,
+       "accuracy": 1.0
+      },
+      "last_cancelled/default": {
+       "correct": 6,
+       "total": 6,
+       "accuracy": 1.0
+      },
+      "last_seen/bucket": {
+       "correct": 59,
+       "total": 59,
+       "accuracy": 1.0
+      },
+      "last_seen/offset": {
+       "correct": 59,
+       "total": 59,
+       "accuracy": 1.0
+      }
+     }
+    }
+   },
+   "attempts_per_event": {
+    "1": 959
+   },
+   "interpret_latency": {
+    "n": 959,
+    "mean_s": 0.00045961039000612267,
+    "p50_s": 0.00041590200089558493,
+    "p95_s": 0.0006955010012461571,
+    "max_s": 0.028293912000663113,
+    "total_s": 0.44076636401587166
+   },
+   "failures_shown": []
+  },
+  "stress": {
+   "corpus": {
+    "items": 1180,
+    "distinct_messages": 1106,
+    "by_type_and_family": {
+     "amendment/avoid": 48,
+     "amendment/collect": 143,
+     "amendment/craft": 64,
+     "amendment/maintain": 39,
+     "amendment/place": 51,
+     "amendment/visit": 17,
+     "cancellation/avoid": 26,
+     "cancellation/collect": 57,
+     "cancellation/craft": 27,
+     "cancellation/maintain": 37,
+     "cancellation/place": 32,
+     "cancellation/visit": 12,
+     "feedback/avoid": 12,
+     "feedback/collect": 22,
+     "feedback/craft": 12,
+     "feedback/maintain": 9,
+     "feedback/place": 20,
+     "feedback/report": 114,
+     "feedback/visit": 6,
+     "info/info": 10,
+     "new_commitment/avoid": 40,
+     "new_commitment/collect": 96,
+     "new_commitment/craft": 49,
+     "new_commitment/maintain": 48,
+     "new_commitment/place": 55,
+     "new_commitment/visit": 18,
+     "question/count_requests": 8,
+     "question/count_today": 25,
+     "question/first_request": 16,
+     "question/last_cancelled": 22,
+     "question/last_seen": 45
+    },
+    "seeds": [
+     72101,
+     72102,
+     72103,
+     72104,
+     72105,
+     72106,
+     72107,
+     72108,
+     72109,
+     72110
+    ],
+    "seed_family": "w1-language-eng",
+    "episode_length": 900,
+    "actor": "noisy_scripted",
+    "config_overrides": {
+     "arrival_rate0": 0.06666666666666667,
+     "arrival_rate_max": 0.1,
+     "change_rate": 0.025,
+     "difficulty0": 1.0
+    },
+    "build_seconds": 31.17720893600017
+   },
+   "items_identical_to_a_few_shot_example": 10,
+   "messages": 1180,
+   "exact_match": {
+    "correct": 1180,
+    "total": 1180,
+    "accuracy": 1.0
+   },
+   "exact_match_by_event_type": {
+    "amendment": {
+     "correct": 362,
+     "total": 362,
+     "accuracy": 1.0
+    },
+    "cancellation": {
+     "correct": 191,
+     "total": 191,
+     "accuracy": 1.0
+    },
+    "feedback": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "info": {
+     "correct": 10,
+     "total": 10,
+     "accuracy": 1.0
+    },
+    "new_commitment": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "question": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    }
+   },
+   "exact_match_by_type_and_family": {
+    "amendment/avoid": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "amendment/collect": {
+     "correct": 143,
+     "total": 143,
+     "accuracy": 1.0
+    },
+    "amendment/craft": {
+     "correct": 64,
+     "total": 64,
+     "accuracy": 1.0
+    },
+    "amendment/maintain": {
+     "correct": 39,
+     "total": 39,
+     "accuracy": 1.0
+    },
+    "amendment/place": {
+     "correct": 51,
+     "total": 51,
+     "accuracy": 1.0
+    },
+    "amendment/visit": {
+     "correct": 17,
+     "total": 17,
+     "accuracy": 1.0
+    },
+    "cancellation/avoid": {
+     "correct": 26,
+     "total": 26,
+     "accuracy": 1.0
+    },
+    "cancellation/collect": {
+     "correct": 57,
+     "total": 57,
+     "accuracy": 1.0
+    },
+    "cancellation/craft": {
+     "correct": 27,
+     "total": 27,
+     "accuracy": 1.0
+    },
+    "cancellation/maintain": {
+     "correct": 37,
+     "total": 37,
+     "accuracy": 1.0
+    },
+    "cancellation/place": {
+     "correct": 32,
+     "total": 32,
+     "accuracy": 1.0
+    },
+    "cancellation/visit": {
+     "correct": 12,
+     "total": 12,
+     "accuracy": 1.0
+    },
+    "feedback/avoid": {
+     "correct": 12,
+     "total": 12,
+     "accuracy": 1.0
+    },
+    "feedback/collect": {
+     "correct": 22,
+     "total": 22,
+     "accuracy": 1.0
+    },
+    "feedback/craft": {
+     "correct": 12,
+     "total": 12,
+     "accuracy": 1.0
+    },
+    "feedback/maintain": {
+     "correct": 9,
+     "total": 9,
+     "accuracy": 1.0
+    },
+    "feedback/place": {
+     "correct": 20,
+     "total": 20,
+     "accuracy": 1.0
+    },
+    "feedback/report": {
+     "correct": 114,
+     "total": 114,
+     "accuracy": 1.0
+    },
+    "feedback/visit": {
+     "correct": 6,
+     "total": 6,
+     "accuracy": 1.0
+    },
+    "info/info": {
+     "correct": 10,
+     "total": 10,
+     "accuracy": 1.0
+    },
+    "new_commitment/avoid": {
+     "correct": 40,
+     "total": 40,
+     "accuracy": 1.0
+    },
+    "new_commitment/collect": {
+     "correct": 96,
+     "total": 96,
+     "accuracy": 1.0
+    },
+    "new_commitment/craft": {
+     "correct": 49,
+     "total": 49,
+     "accuracy": 1.0
+    },
+    "new_commitment/maintain": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "new_commitment/place": {
+     "correct": 55,
+     "total": 55,
+     "accuracy": 1.0
+    },
+    "new_commitment/visit": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "question/count_requests": {
+     "correct": 8,
+     "total": 8,
+     "accuracy": 1.0
+    },
+    "question/count_today": {
+     "correct": 25,
+     "total": 25,
+     "accuracy": 1.0
+    },
+    "question/first_request": {
+     "correct": 16,
+     "total": 16,
+     "accuracy": 1.0
+    },
+    "question/last_cancelled": {
+     "correct": 22,
+     "total": 22,
+     "accuracy": 1.0
+    },
+    "question/last_seen": {
+     "correct": 45,
+     "total": 45,
+     "accuracy": 1.0
+    }
+   },
+   "per_field_accuracy": {
+    "amendment.changes.base": {
+     "correct": 35,
+     "total": 35,
+     "accuracy": 1.0
+    },
+    "amendment.changes.deadline_step": {
+     "correct": 350,
+     "total": 350,
+     "accuracy": 1.0
+    },
+    "amendment.changes.quantity": {
+     "correct": 143,
+     "total": 143,
+     "accuracy": 1.0
+    },
+    "amendment.changes.target": {
+     "correct": 143,
+     "total": 143,
+     "accuracy": 1.0
+    },
+    "amendment.changes.threshold": {
+     "correct": 12,
+     "total": 12,
+     "accuracy": 1.0
+    },
+    "amendment.changes.tool": {
+     "correct": 35,
+     "total": 35,
+     "accuracy": 1.0
+    },
+    "amendment.id": {
+     "correct": 362,
+     "total": 362,
+     "accuracy": 1.0
+    },
+    "amendment.type": {
+     "correct": 362,
+     "total": 362,
+     "accuracy": 1.0
+    },
+    "cancellation.id": {
+     "correct": 191,
+     "total": 191,
+     "accuracy": 1.0
+    },
+    "cancellation.type": {
+     "correct": 191,
+     "total": 191,
+     "accuracy": 1.0
+    },
+    "feedback.id": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "feedback.outcome": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "feedback.revealed_answer": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "feedback.step_mentioned": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "feedback.type": {
+     "correct": 195,
+     "total": 195,
+     "accuracy": 1.0
+    },
+    "info.type": {
+     "correct": 10,
+     "total": 10,
+     "accuracy": 1.0
+    },
+    "new_commitment.deadline_phrase_verbatim": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.deadline_step": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.family": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.id": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.base": {
+     "correct": 200,
+     "total": 200,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.direction": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.feature": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.item": {
+     "correct": 96,
+     "total": 96,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.near": {
+     "correct": 46,
+     "total": 46,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.no_extra_keys": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.onto": {
+     "correct": 9,
+     "total": 9,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.quantity": {
+     "correct": 96,
+     "total": 96,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.radius": {
+     "correct": 46,
+     "total": 46,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.source": {
+     "correct": 40,
+     "total": 40,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.start": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.stat": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.stated_distance": {
+     "correct": 18,
+     "total": 18,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.target": {
+     "correct": 96,
+     "total": 96,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.threshold": {
+     "correct": 48,
+     "total": 48,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.tool": {
+     "correct": 49,
+     "total": 49,
+     "accuracy": 1.0
+    },
+    "new_commitment.spec.what": {
+     "correct": 55,
+     "total": 55,
+     "accuracy": 1.0
+    },
+    "new_commitment.type": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "new_commitment.value": {
+     "correct": 306,
+     "total": 306,
+     "accuracy": 1.0
+    },
+    "question.answer_type": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    },
+    "question.deadline_step": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    },
+    "question.id": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    },
+    "question.spec": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    },
+    "question.spec.day": {
+     "correct": 25,
+     "total": 25,
+     "accuracy": 1.0
+    },
+    "question.spec.event": {
+     "correct": 25,
+     "total": 25,
+     "accuracy": 1.0
+    },
+    "question.spec.kind": {
+     "correct": 45,
+     "total": 45,
+     "accuracy": 1.0
+    },
+    "question.spec.question": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    },
+    "question.spec.which": {
+     "correct": 16,
+     "total": 16,
+     "accuracy": 1.0
+    },
+    "question.spec.window": {
+     "correct": 24,
+     "total": 24,
+     "accuracy": 1.0
+    },
+    "question.type": {
+     "correct": 116,
+     "total": 116,
+     "accuracy": 1.0
+    }
+   },
+   "deadline_step_accuracy": {
+    "correct": 772,
+    "total": 772,
+    "accuracy": 1.0,
+    "by_event_type": {
+     "amendment": {
+      "correct": 350,
+      "total": 350,
+      "accuracy": 1.0
+     },
+     "new_commitment": {
+      "correct": 306,
+      "total": 306,
+      "accuracy": 1.0
+     },
+     "question": {
+      "correct": 116,
+      "total": 116,
+      "accuracy": 1.0
+     }
+    }
+   },
+   "answers": {
+    "grammar_valid": {
+     "correct": 159,
+     "total": 159,
+     "by_question_and_form": {
+      "count_requests/default": {
+       "correct": 8,
+       "total": 8,
+       "accuracy": 1.0
+      },
+      "count_today/default": {
+       "correct": 25,
+       "total": 25,
+       "accuracy": 1.0
+      },
+      "first_request/default": {
+       "correct": 16,
+       "total": 16,
+       "accuracy": 1.0
+      },
+      "last_cancelled/default": {
+       "correct": 22,
+       "total": 22,
+       "accuracy": 1.0
+      },
+      "last_seen/bucket": {
+       "correct": 44,
+       "total": 44,
+       "accuracy": 1.0
+      },
+      "last_seen/offset": {
+       "correct": 44,
+       "total": 44,
+       "accuracy": 1.0
+      }
+     }
+    },
+    "correct_with_oracle_memory": {
+     "correct": 159,
+     "total": 159,
+     "by_question_and_form": {
+      "count_requests/default": {
+       "correct": 8,
+       "total": 8,
+       "accuracy": 1.0
+      },
+      "count_today/default": {
+       "correct": 25,
+       "total": 25,
+       "accuracy": 1.0
+      },
+      "first_request/default": {
+       "correct": 16,
+       "total": 16,
+       "accuracy": 1.0
+      },
+      "last_cancelled/default": {
+       "correct": 22,
+       "total": 22,
+       "accuracy": 1.0
+      },
+      "last_seen/bucket": {
+       "correct": 44,
+       "total": 44,
+       "accuracy": 1.0
+      },
+      "last_seen/offset": {
+       "correct": 44,
+       "total": 44,
+       "accuracy": 1.0
+      }
+     }
+    }
+   },
+   "attempts_per_event": {
+    "1": 1180
+   },
+   "interpret_latency": {
+    "n": 1180,
+    "mean_s": 0.0005229601169264504,
+    "p50_s": 0.00043689099948096555,
+    "p95_s": 0.0008484549998684088,
+    "max_s": 0.0049222180005017435,
+    "total_s": 0.6170929379732115
+   },
+   "failures_shown": []
+  }
+ },
+ "narrate_sample": {
+  "events": 15,
+  "text": "At step 0 (morning of day 0) the caretaker greeted me. At step 35 (morning of day 0) I was asked to keep my food at 3 or above through the night until morning [o1]. At step 75 (afternoon of day 0) I was asked to gather 1 wood within 200 steps [o2]. At step 80 (afternoon of day 0) I was told that [o2] was done. At step 194 (night of day 0) I was told that I had broken [o1]. At step 392 (afternoon of day 1) I was asked to make a wood pickaxe by step 752 [o3]. At step 393 (afternoon of day 1) I was told that [o3] was done. At step 396 (afternoon of day 1) I was asked where I had last seen lava [q4]. At step 516 (night of day 1) I had not answered [q4] in time. At step 607 (morning of day 2) I was asked to gather 1 sapling by step 877 [o5]. At step 633 (morning of day 2) I was asked to make a wood sword by tomorrow morning [o6]. At step 659 (morning of day 2) I was told that [o6] was done. At step 665 (afternoon of day 2) I was told that [o5] was done. At step 777 (night of day 2) I was asked not to get hurt at all until step 1017 [o7]. At step 806 (night of day 2) I was asked to keep my energy at 3 or above until step 1076 [o8].",
+  "latency_s": 0.0004310549993533641
+ },
+ "wall_seconds": 158.30458589199952
+}

@@ -1,10 +1,9 @@
-"""Organs of the Continuous Brain individual: hosts that turn raw sensor data into perceived state.
+"""Organs of the persistent individual (exploration lane, ENGINEERING_ONLY).
 
-Each organ is a fixed function (weights pinned by SHA-256 against a model card) whose output the individual
-writes to its canonical store every tick.  See docs/explore/VISION_ORGAN.md.
+vision    -- the vision organ: a learned tile decoder from W1's pixels to a perceived local tile map
+language  -- the language organ: open-weight language models (or the labelled development stand-in) that turn
+             caretaker messages into structured events, compose answers and narrate the individual's life
+
+Organs are used by the individual as hosts over the canonical store; their weights are pinned by model cards
+(vision) and a trust-on-first-use lock file (language).
 """
-from .vision import (MATERIALS, OBJECTS, GRID_COLS, GRID_ROWS, PLAYER_COL, PLAYER_ROW, TileDecoder, VisionOrgan,
-                     WeightsMismatch)
-
-__all__ = ["MATERIALS", "OBJECTS", "GRID_ROWS", "GRID_COLS", "PLAYER_ROW", "PLAYER_COL", "TileDecoder",
-           "VisionOrgan", "WeightsMismatch"]
