@@ -1,0 +1,1059 @@
+{
+ "format": "cb-organ-eval/1",
+ "name": "tile_decoder_v1",
+ "weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999",
+ "test_split": {
+  "frames": 14481,
+  "tiles": 912303,
+  "episodes": 30,
+  "seeds": [
+   74001,
+   74030
+  ],
+  "episodes_by_behaviour": {
+   "scripted": 8,
+   "explorer": 10,
+   "random": 8,
+   "gardener": 4
+  },
+  "frames_by_behaviour": {
+   "scripted": 4053,
+   "explorer": 6010,
+   "random": 1414,
+   "gardener": 3004
+  },
+  "night_frames": 5626,
+  "sleeping_frames": 1263,
+  "sha256": "2922b88c3ee7ce4c5d2070c7e9b2aab9dc2bf1e21c6492d6f461c8a453695faf",
+  "generation_seconds": 51.3,
+  "material_tile_counts": {
+   "outside": 8135,
+   "water": 94722,
+   "grass": 517653,
+   "stone": 99926,
+   "path": 85249,
+   "sand": 39540,
+   "tree": 41963,
+   "lava": 5890,
+   "coal": 8826,
+   "iron": 3214,
+   "diamond": 685,
+   "table": 3388,
+   "furnace": 3112
+  },
+  "object_tile_counts": {
+   "none": 873502,
+   "player": 14481,
+   "cow": 4074,
+   "zombie": 9091,
+   "skeleton": 4391,
+   "arrow": 2682,
+   "sapling": 3932,
+   "plant_ripe": 150
+  }
+ },
+ "test_seeds": [
+  74001,
+  74002,
+  74003,
+  74004,
+  74005,
+  74006,
+  74007,
+  74008,
+  74009,
+  74010,
+  74011,
+  74012,
+  74013,
+  74014,
+  74015,
+  74016,
+  74017,
+  74018,
+  74019,
+  74020,
+  74021,
+  74022,
+  74023,
+  74024,
+  74025,
+  74026,
+  74027,
+  74028,
+  74029,
+  74030
+ ],
+ "definitions": {
+  "night": "daylight < 0.5 (Crafter's noise rule; W1 'dark')",
+  "night_perceivable / night_drowned": "night tiles W1's perception.perceivable_grid counts as perceivable (noise weight < 0.5 at the tile centre) / not",
+  "player_tile": "cell [3, 4]",
+  "edge_tiles": "rows 0 and 6, cols 0 and 8",
+  "both": "material and object both correct on the tile",
+  "f1": "null when the class has no support and no predictions"
+ },
+ "eval_seconds": 6.1,
+ "frames": 14481,
+ "tiles": 912303,
+ "overall": {
+  "material": {
+   "accuracy": 0.99496,
+   "tiles": 912303
+  },
+  "object": {
+   "accuracy": 0.99853,
+   "tiles": 912303
+  },
+  "both": {
+   "accuracy": 0.99363,
+   "tiles": 912303
+  }
+ },
+ "frame_exact": {
+  "material_all_63_correct": 0.88986,
+  "object_all_63_correct": 0.92942
+ },
+ "day": {
+  "material": {
+   "accuracy": 0.99882,
+   "tiles": 557865
+  },
+  "object": {
+   "accuracy": 0.99979,
+   "tiles": 557865
+  },
+  "both": {
+   "accuracy": 0.99862,
+   "tiles": 557865
+  }
+ },
+ "night": {
+  "material": {
+   "accuracy": 0.98889,
+   "tiles": 354438
+  },
+  "object": {
+   "accuracy": 0.99653,
+   "tiles": 354438
+  },
+  "both": {
+   "accuracy": 0.98579,
+   "tiles": 354438
+  }
+ },
+ "night_perceivable": {
+  "material": {
+   "accuracy": 0.99816,
+   "tiles": 217140
+  },
+  "object": {
+   "accuracy": 0.99926,
+   "tiles": 217140
+  },
+  "both": {
+   "accuracy": 0.99743,
+   "tiles": 217140
+  }
+ },
+ "night_drowned": {
+  "material": {
+   "accuracy": 0.97422,
+   "tiles": 137298
+  },
+  "object": {
+   "accuracy": 0.99222,
+   "tiles": 137298
+  },
+  "both": {
+   "accuracy": 0.96737,
+   "tiles": 137298
+  }
+ },
+ "sleeping": {
+  "material": {
+   "accuracy": 0.9657,
+   "tiles": 79569
+  },
+  "object": {
+   "accuracy": 0.99729,
+   "tiles": 79569
+  },
+  "both": {
+   "accuracy": 0.96344,
+   "tiles": 79569
+  }
+ },
+ "awake": {
+  "material": {
+   "accuracy": 0.99776,
+   "tiles": 832734
+  },
+  "object": {
+   "accuracy": 0.99865,
+   "tiles": 832734
+  },
+  "both": {
+   "accuracy": 0.99652,
+   "tiles": 832734
+  }
+ },
+ "player_tile": {
+  "material": {
+   "accuracy": 0.99952,
+   "tiles": 14481
+  },
+  "object": {
+   "accuracy": 1.0,
+   "tiles": 14481
+  },
+  "both": {
+   "accuracy": 0.99952,
+   "tiles": 14481
+  }
+ },
+ "other_tiles": {
+  "material": {
+   "accuracy": 0.99489,
+   "tiles": 897822
+  },
+  "object": {
+   "accuracy": 0.9985,
+   "tiles": 897822
+  },
+  "both": {
+   "accuracy": 0.99354,
+   "tiles": 897822
+  }
+ },
+ "edge_tiles": {
+  "material": {
+   "accuracy": 0.99087,
+   "tiles": 405468
+  },
+  "object": {
+   "accuracy": 0.9977,
+   "tiles": 405468
+  },
+  "both": {
+   "accuracy": 0.98885,
+   "tiles": 405468
+  }
+ },
+ "interior_tiles": {
+  "material": {
+   "accuracy": 0.99824,
+   "tiles": 506835
+  },
+  "object": {
+   "accuracy": 0.99919,
+   "tiles": 506835
+  },
+  "both": {
+   "accuracy": 0.99746,
+   "tiles": 506835
+  }
+ },
+ "by_behaviour": {
+  "scripted": {
+   "material": {
+    "accuracy": 0.9881,
+    "tiles": 255339
+   },
+   "object": {
+    "accuracy": 0.99856,
+    "tiles": 255339
+   },
+   "both": {
+    "accuracy": 0.98685,
+    "tiles": 255339
+   }
+  },
+  "explorer": {
+   "material": {
+    "accuracy": 0.99724,
+    "tiles": 378630
+   },
+   "object": {
+    "accuracy": 0.99837,
+    "tiles": 378630
+   },
+   "both": {
+    "accuracy": 0.99576,
+    "tiles": 378630
+   }
+  },
+  "random": {
+   "material": {
+    "accuracy": 0.99857,
+    "tiles": 89082
+   },
+   "object": {
+    "accuracy": 0.99975,
+    "tiles": 89082
+   },
+   "both": {
+    "accuracy": 0.99833,
+    "tiles": 89082
+   }
+  },
+  "gardener": {
+   "material": {
+    "accuracy": 0.99797,
+    "tiles": 189252
+   },
+   "object": {
+    "accuracy": 0.99822,
+    "tiles": 189252
+   },
+   "both": {
+    "accuracy": 0.99633,
+    "tiles": 189252
+   }
+  }
+ },
+ "per_class": {
+  "material": {
+   "outside": {
+    "support": 8135,
+    "predicted": 7389,
+    "correct": 7302,
+    "precision": 0.98823,
+    "recall": 0.8976,
+    "f1": 0.94074
+   },
+   "water": {
+    "support": 94722,
+    "predicted": 94755,
+    "correct": 94513,
+    "precision": 0.99745,
+    "recall": 0.99779,
+    "f1": 0.99762
+   },
+   "grass": {
+    "support": 517653,
+    "predicted": 518015,
+    "correct": 517004,
+    "precision": 0.99805,
+    "recall": 0.99875,
+    "f1": 0.9984
+   },
+   "stone": {
+    "support": 99926,
+    "predicted": 100485,
+    "correct": 99382,
+    "precision": 0.98902,
+    "recall": 0.99456,
+    "f1": 0.99178
+   },
+   "path": {
+    "support": 85249,
+    "predicted": 85325,
+    "correct": 84262,
+    "precision": 0.98754,
+    "recall": 0.98842,
+    "f1": 0.98798
+   },
+   "sand": {
+    "support": 39540,
+    "predicted": 39870,
+    "correct": 39374,
+    "precision": 0.98756,
+    "recall": 0.9958,
+    "f1": 0.99166
+   },
+   "tree": {
+    "support": 41963,
+    "predicted": 41926,
+    "correct": 41654,
+    "precision": 0.99351,
+    "recall": 0.99264,
+    "f1": 0.99307
+   },
+   "lava": {
+    "support": 5890,
+    "predicted": 5913,
+    "correct": 5861,
+    "precision": 0.99121,
+    "recall": 0.99508,
+    "f1": 0.99314
+   },
+   "coal": {
+    "support": 8826,
+    "predicted": 8682,
+    "correct": 8610,
+    "precision": 0.99171,
+    "recall": 0.97553,
+    "f1": 0.98355
+   },
+   "iron": {
+    "support": 3214,
+    "predicted": 3089,
+    "correct": 3018,
+    "precision": 0.97702,
+    "recall": 0.93902,
+    "f1": 0.95764
+   },
+   "diamond": {
+    "support": 685,
+    "predicted": 669,
+    "correct": 652,
+    "precision": 0.97459,
+    "recall": 0.95182,
+    "f1": 0.96307
+   },
+   "table": {
+    "support": 3388,
+    "predicted": 3209,
+    "correct": 3136,
+    "precision": 0.97725,
+    "recall": 0.92562,
+    "f1": 0.95074
+   },
+   "furnace": {
+    "support": 3112,
+    "predicted": 2976,
+    "correct": 2939,
+    "precision": 0.98757,
+    "recall": 0.94441,
+    "f1": 0.96551
+   }
+  },
+  "object": {
+   "none": {
+    "support": 873502,
+    "predicted": 874409,
+    "correct": 873360,
+    "precision": 0.9988,
+    "recall": 0.99984,
+    "f1": 0.99932
+   },
+   "player": {
+    "support": 14481,
+    "predicted": 14490,
+    "correct": 14481,
+    "precision": 0.99938,
+    "recall": 1.0,
+    "f1": 0.99969
+   },
+   "cow": {
+    "support": 4074,
+    "predicted": 3986,
+    "correct": 3896,
+    "precision": 0.97742,
+    "recall": 0.95631,
+    "f1": 0.96675
+   },
+   "zombie": {
+    "support": 9091,
+    "predicted": 8879,
+    "correct": 8794,
+    "precision": 0.99043,
+    "recall": 0.96733,
+    "f1": 0.97874
+   },
+   "skeleton": {
+    "support": 4391,
+    "predicted": 4197,
+    "correct": 4153,
+    "precision": 0.98952,
+    "recall": 0.9458,
+    "f1": 0.96716
+   },
+   "arrow": {
+    "support": 2682,
+    "predicted": 2406,
+    "correct": 2366,
+    "precision": 0.98337,
+    "recall": 0.88218,
+    "f1": 0.93003
+   },
+   "sapling": {
+    "support": 3932,
+    "predicted": 3863,
+    "correct": 3839,
+    "precision": 0.99379,
+    "recall": 0.97635,
+    "f1": 0.98499
+   },
+   "plant_ripe": {
+    "support": 150,
+    "predicted": 73,
+    "correct": 70,
+    "precision": 0.9589,
+    "recall": 0.46667,
+    "f1": 0.6278
+   }
+  }
+ },
+ "per_class_night_recall": {
+  "material": {
+   "outside": {
+    "accuracy": 0.78478,
+    "tiles": 1603
+   },
+   "water": {
+    "accuracy": 0.99573,
+    "tiles": 48051
+   },
+   "grass": {
+    "accuracy": 0.99683,
+    "tiles": 182986
+   },
+   "stone": {
+    "accuracy": 0.98764,
+    "tiles": 43691
+   },
+   "path": {
+    "accuracy": 0.97235,
+    "tiles": 34038
+   },
+   "sand": {
+    "accuracy": 0.98965,
+    "tiles": 16039
+   },
+   "tree": {
+    "accuracy": 0.9814,
+    "tiles": 16612
+   },
+   "lava": {
+    "accuracy": 0.99055,
+    "tiles": 2856
+   },
+   "coal": {
+    "accuracy": 0.94543,
+    "tiles": 3958
+   },
+   "iron": {
+    "accuracy": 0.86483,
+    "tiles": 1450
+   },
+   "diamond": {
+    "accuracy": 0.93311,
+    "tiles": 299
+   },
+   "table": {
+    "accuracy": 0.83403,
+    "tiles": 1428
+   },
+   "furnace": {
+    "accuracy": 0.88998,
+    "tiles": 1427
+   }
+  },
+  "object": {
+   "none": {
+    "accuracy": 0.99958,
+    "tiles": 337028
+   },
+   "player": {
+    "accuracy": 1.0,
+    "tiles": 5626
+   },
+   "cow": {
+    "accuracy": 0.86817,
+    "tiles": 1282
+   },
+   "zombie": {
+    "accuracy": 0.95398,
+    "tiles": 6367
+   },
+   "skeleton": {
+    "accuracy": 0.86179,
+    "tiles": 1722
+   },
+   "arrow": {
+    "accuracy": 0.742,
+    "tiles": 1031
+   },
+   "sapling": {
+    "accuracy": 0.93364,
+    "tiles": 1311
+   },
+   "plant_ripe": {
+    "accuracy": 0.49296,
+    "tiles": 71
+   }
+  }
+ },
+ "macro_f1": {
+  "material": 0.97807,
+  "object": 0.93181
+ },
+ "rare_classes": {
+  "material": {
+   "diamond": {
+    "support": 685,
+    "precision": 0.97459,
+    "recall": 0.95182,
+    "f1": 0.96307,
+    "recall_day": {
+     "accuracy": 0.96632,
+     "tiles": 386
+    },
+    "recall_night": {
+     "accuracy": 0.93311,
+     "tiles": 299
+    }
+   },
+   "lava": {
+    "support": 5890,
+    "precision": 0.99121,
+    "recall": 0.99508,
+    "f1": 0.99314,
+    "recall_day": {
+     "accuracy": 0.99934,
+     "tiles": 3034
+    },
+    "recall_night": {
+     "accuracy": 0.99055,
+     "tiles": 2856
+    }
+   },
+   "iron": {
+    "support": 3214,
+    "precision": 0.97702,
+    "recall": 0.93902,
+    "f1": 0.95764,
+    "recall_day": {
+     "accuracy": 1.0,
+     "tiles": 1764
+    },
+    "recall_night": {
+     "accuracy": 0.86483,
+     "tiles": 1450
+    }
+   }
+  },
+  "object": {
+   "skeleton": {
+    "support": 4391,
+    "precision": 0.98952,
+    "recall": 0.9458,
+    "f1": 0.96716,
+    "recall_day": {
+     "accuracy": 1.0,
+     "tiles": 2669
+    },
+    "recall_night": {
+     "accuracy": 0.86179,
+     "tiles": 1722
+    }
+   },
+   "arrow": {
+    "support": 2682,
+    "precision": 0.98337,
+    "recall": 0.88218,
+    "f1": 0.93003,
+    "recall_day": {
+     "accuracy": 0.96972,
+     "tiles": 1651
+    },
+    "recall_night": {
+     "accuracy": 0.742,
+     "tiles": 1031
+    }
+   },
+   "plant_ripe": {
+    "support": 150,
+    "precision": 0.9589,
+    "recall": 0.46667,
+    "f1": 0.6278,
+    "recall_day": {
+     "accuracy": 0.44304,
+     "tiles": 79
+    },
+    "recall_night": {
+     "accuracy": 0.49296,
+     "tiles": 71
+    }
+   }
+  }
+ },
+ "confidence_bands": {
+  "material": [
+   {
+    "conf_range": [
+     0.0,
+     0.5
+    ],
+    "tiles": 1216,
+    "accuracy": 0.41776
+   },
+   {
+    "conf_range": [
+     0.5,
+     0.9
+    ],
+    "tiles": 8510,
+    "accuracy": 0.70188
+   },
+   {
+    "conf_range": [
+     0.9,
+     0.99
+    ],
+    "tiles": 12699,
+    "accuracy": 0.92535
+   },
+   {
+    "conf_range": [
+     0.99,
+     1.0
+    ],
+    "tiles": 889878,
+    "accuracy": 0.99955
+   }
+  ],
+  "object": [
+   {
+    "conf_range": [
+     0.0,
+     0.5
+    ],
+    "tiles": 131,
+    "accuracy": 0.44275
+   },
+   {
+    "conf_range": [
+     0.5,
+     0.9
+    ],
+    "tiles": 2410,
+    "accuracy": 0.75311
+   },
+   {
+    "conf_range": [
+     0.9,
+     0.99
+    ],
+    "tiles": 12386,
+    "accuracy": 0.96674
+   },
+   {
+    "conf_range": [
+     0.99,
+     1.0
+    ],
+    "tiles": 897376,
+    "accuracy": 0.99971
+   }
+  ]
+ },
+ "confusion": {
+  "material": {
+   "labels": [
+    "outside",
+    "water",
+    "grass",
+    "stone",
+    "path",
+    "sand",
+    "tree",
+    "lava",
+    "coal",
+    "iron",
+    "diamond",
+    "table",
+    "furnace"
+   ],
+   "rows_true_cols_pred": [
+    [
+     7302,
+     1,
+     15,
+     261,
+     226,
+     309,
+     1,
+     3,
+     1,
+     0,
+     16,
+     0,
+     0
+    ],
+    [
+     7,
+     94513,
+     106,
+     15,
+     48,
+     9,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     21
+    ],
+    [
+     19,
+     148,
+     517004,
+     125,
+     166,
+     52,
+     131,
+     0,
+     7,
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     49,
+     8,
+     143,
+     99382,
+     209,
+     47,
+     4,
+     14,
+     47,
+     19,
+     0,
+     0,
+     4
+    ],
+    [
+     10,
+     57,
+     340,
+     356,
+     84262,
+     46,
+     50,
+     15,
+     13,
+     39,
+     1,
+     58,
+     2
+    ],
+    [
+     1,
+     18,
+     32,
+     39,
+     46,
+     39374,
+     7,
+     10,
+     1,
+     8,
+     0,
+     4,
+     0
+    ],
+    [
+     0,
+     6,
+     257,
+     7,
+     30,
+     2,
+     41654,
+     0,
+     1,
+     0,
+     0,
+     1,
+     5
+    ],
+    [
+     0,
+     0,
+     1,
+     10,
+     15,
+     0,
+     0,
+     5861,
+     0,
+     0,
+     0,
+     3,
+     0
+    ],
+    [
+     1,
+     0,
+     31,
+     155,
+     25,
+     0,
+     0,
+     0,
+     8610,
+     0,
+     0,
+     0,
+     4
+    ],
+    [
+     0,
+     1,
+     2,
+     89,
+     81,
+     6,
+     0,
+     10,
+     1,
+     3018,
+     0,
+     6,
+     0
+    ],
+    [
+     0,
+     3,
+     1,
+     26,
+     2,
+     0,
+     0,
+     0,
+     1,
+     0,
+     652,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     64,
+     13,
+     139,
+     24,
+     7,
+     0,
+     0,
+     5,
+     0,
+     3136,
+     0
+    ],
+    [
+     0,
+     0,
+     19,
+     7,
+     76,
+     1,
+     69,
+     0,
+     0,
+     0,
+     0,
+     1,
+     2939
+    ]
+   ]
+  },
+  "object": {
+   "labels": [
+    "none",
+    "player",
+    "cow",
+    "zombie",
+    "skeleton",
+    "arrow",
+    "sapling",
+    "plant_ripe"
+   ],
+   "rows_true_cols_pred": [
+    [
+     873360,
+     0,
+     26,
+     56,
+     35,
+     24,
+     1,
+     0
+    ],
+    [
+     0,
+     14481,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     146,
+     9,
+     3896,
+     8,
+     7,
+     8,
+     0,
+     0
+    ],
+    [
+     279,
+     0,
+     6,
+     8794,
+     0,
+     8,
+     3,
+     1
+    ],
+    [
+     225,
+     0,
+     12,
+     1,
+     4153,
+     0,
+     0,
+     0
+    ],
+    [
+     279,
+     0,
+     16,
+     20,
+     0,
+     2366,
+     0,
+     1
+    ],
+    [
+     92,
+     0,
+     0,
+     0,
+     0,
+     0,
+     3839,
+     1
+    ],
+    [
+     28,
+     0,
+     30,
+     0,
+     2,
+     0,
+     20,
+     70
+    ]
+   ]
+  }
+ },
+ "inference_speed": {
+  "threads": 1,
+  "frames": 2000,
+  "single_frame_fps": 780.8,
+  "batch256_fps": 2935.4,
+  "note": "VisionOrgan.perceive end to end (crop, tensor, decoder, softmax, numpy) on this 2-CPU machine with one torch thread; other processes may share the CPU"
+ }
+}

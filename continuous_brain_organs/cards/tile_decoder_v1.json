@@ -1,0 +1,601 @@
+{
+ "format": "cb-organ-card/1",
+ "name": "tile_decoder_v1",
+ "organ": "vision",
+ "summary": "Pixels -> perceived local tile map of W1/Crafter's 9 x 7 world view (material and object per tile). Trained in a supervised developmental phase on W1's privileged teacher labels.",
+ "status": "engineering result on the exploration lane; not preregistered",
+ "architecture": {
+  "class": "continuous_brain_organs.vision.TileDecoder",
+  "config": {
+   "width": 64,
+   "blocks": 3,
+   "mlp_width": 128
+  },
+  "n_parameters": 253013,
+  "description": "7x7 stride-7 tile-aligned patch embedding + learned per-cell position embedding, per-tile 2-layer MLP (1x1 convs), 3 residual blocks of two 3x3 convs over the 7x9 tile grid, 1x1 material and object heads; GELU; input frame[0:49, 0:63] scaled to [-1, 1]"
+ },
+ "geometry": {
+  "frame_size": 64,
+  "unit": 7,
+  "cols": 9,
+  "rows": 7,
+  "item_rows": 2,
+  "border_col": 0,
+  "border_row": 0,
+  "view_px_rows": 49,
+  "view_px_cols": 63,
+  "player_row": 3,
+  "player_col": 4
+ },
+ "conventions": {
+  "array_shape": [
+   7,
+   9
+  ],
+  "index": "[row, col]",
+  "row_0": "north (smallest world y; Crafter move_up = (0, -1))",
+  "col_0": "west (smallest world x; Crafter move_left = (-1, 0))",
+  "player_cell": [
+   3,
+   4
+  ],
+  "world_of_cell": "(x, y) = (player_x + col - 4, player_y + row - 3)"
+ },
+ "label_space": {
+  "material": [
+   "outside",
+   "water",
+   "grass",
+   "stone",
+   "path",
+   "sand",
+   "tree",
+   "lava",
+   "coal",
+   "iron",
+   "diamond",
+   "table",
+   "furnace"
+  ],
+  "object": [
+   "none",
+   "player",
+   "cow",
+   "zombie",
+   "skeleton",
+   "arrow",
+   "sapling",
+   "plant_ripe"
+  ]
+ },
+ "training": {
+  "phase": "supervised developmental phase with a teacher: labels are W1's privileged ground truth (the material map and object list inside the visible window, labels_from_privileged); the organ never reads them at run time",
+  "seed_family": "w1-vision-eng",
+  "splits": {
+   "train": {
+    "frames": 67726,
+    "tiles": 4266738,
+    "episodes": 142,
+    "seeds": [
+     72001,
+     72142
+    ],
+    "episodes_by_behaviour": {
+     "scripted": 36,
+     "explorer": 50,
+     "random": 40,
+     "gardener": 16
+    },
+    "frames_by_behaviour": {
+     "scripted": 19064,
+     "explorer": 30050,
+     "random": 6596,
+     "gardener": 12016
+    },
+    "night_frames": 26270,
+    "sleeping_frames": 5813,
+    "sha256": "def3a209766042a4a5624cad3aba3d5e0a55357ef5e75b2b4a1f0228d56b2356",
+    "generation_seconds": 259.8,
+    "material_tile_counts": {
+     "outside": 39556,
+     "water": 472001,
+     "grass": 2291119,
+     "stone": 530196,
+     "path": 393163,
+     "sand": 208589,
+     "tree": 201803,
+     "lava": 34302,
+     "coal": 46481,
+     "iron": 18034,
+     "diamond": 4027,
+     "table": 14452,
+     "furnace": 13015
+    },
+    "object_tile_counts": {
+     "none": 4092908,
+     "player": 67726,
+     "cow": 18017,
+     "zombie": 41222,
+     "skeleton": 19182,
+     "arrow": 10715,
+     "sapling": 15714,
+     "plant_ripe": 1254
+    }
+   },
+   "val": {
+    "frames": 7708,
+    "tiles": 485604,
+    "episodes": 15,
+    "seeds": [
+     73001,
+     73015
+    ],
+    "episodes_by_behaviour": {
+     "scripted": 4,
+     "explorer": 5,
+     "random": 4,
+     "gardener": 2
+    },
+    "frames_by_behaviour": {
+     "scripted": 2668,
+     "explorer": 3005,
+     "random": 533,
+     "gardener": 1502
+    },
+    "night_frames": 2981,
+    "sleeping_frames": 751,
+    "sha256": "3aaf502fb5a67fb35028e8ee315fd8e3916b5b3dc687355469e188483b896f10",
+    "generation_seconds": 29.5,
+    "material_tile_counts": {
+     "outside": 2408,
+     "water": 63085,
+     "grass": 260558,
+     "stone": 52690,
+     "path": 40649,
+     "sand": 32378,
+     "tree": 18044,
+     "lava": 4211,
+     "coal": 5162,
+     "iron": 2359,
+     "diamond": 318,
+     "table": 1902,
+     "furnace": 1840
+    },
+    "object_tile_counts": {
+     "none": 466100,
+     "player": 7708,
+     "cow": 1695,
+     "zombie": 5421,
+     "skeleton": 1618,
+     "arrow": 1023,
+     "sapling": 1930,
+     "plant_ripe": 109
+    }
+   },
+   "test": {
+    "frames": 14481,
+    "tiles": 912303,
+    "episodes": 30,
+    "seeds": [
+     74001,
+     74030
+    ],
+    "episodes_by_behaviour": {
+     "scripted": 8,
+     "explorer": 10,
+     "random": 8,
+     "gardener": 4
+    },
+    "frames_by_behaviour": {
+     "scripted": 4053,
+     "explorer": 6010,
+     "random": 1414,
+     "gardener": 3004
+    },
+    "night_frames": 5626,
+    "sleeping_frames": 1263,
+    "sha256": "2922b88c3ee7ce4c5d2070c7e9b2aab9dc2bf1e21c6492d6f461c8a453695faf",
+    "generation_seconds": 51.3,
+    "material_tile_counts": {
+     "outside": 8135,
+     "water": 94722,
+     "grass": 517653,
+     "stone": 99926,
+     "path": 85249,
+     "sand": 39540,
+     "tree": 41963,
+     "lava": 5890,
+     "coal": 8826,
+     "iron": 3214,
+     "diamond": 685,
+     "table": 3388,
+     "furnace": 3112
+    },
+    "object_tile_counts": {
+     "none": 873502,
+     "player": 14481,
+     "cow": 4074,
+     "zombie": 9091,
+     "skeleton": 4391,
+     "arrow": 2682,
+     "sapling": 3932,
+     "plant_ripe": 150
+    }
+   }
+  },
+  "plan": {
+   "train": {
+    "seed_base": 72000,
+    "episodes": [
+     [
+      "scripted",
+      36,
+      2000,
+      3
+     ],
+     [
+      "explorer",
+      50,
+      1200,
+      2
+     ],
+     [
+      "gardener",
+      16,
+      1500,
+      2
+     ],
+     [
+      "random",
+      40,
+      600,
+      1
+     ]
+    ]
+   },
+   "val": {
+    "seed_base": 73000,
+    "episodes": [
+     [
+      "scripted",
+      4,
+      2000,
+      3
+     ],
+     [
+      "explorer",
+      5,
+      1200,
+      2
+     ],
+     [
+      "gardener",
+      2,
+      1500,
+      2
+     ],
+     [
+      "random",
+      4,
+      600,
+      1
+     ]
+    ]
+   },
+   "test": {
+    "seed_base": 74000,
+    "episodes": [
+     [
+      "scripted",
+      8,
+      2000,
+      3
+     ],
+     [
+      "explorer",
+      10,
+      1200,
+      2
+     ],
+     [
+      "gardener",
+      4,
+      1500,
+      2
+     ],
+     [
+      "random",
+      8,
+      600,
+      1
+     ]
+    ]
+   }
+  },
+  "scale": 1.0,
+  "config": {
+   "width": 64,
+   "blocks": 3,
+   "epochs": 12,
+   "batch": 256,
+   "lr": 0.002,
+   "weight_decay": 0.0001,
+   "warmup_steps": 200,
+   "seed": 1,
+   "threads": 2,
+   "object_loss_weight": 1.0
+  },
+  "loss": "cross-entropy (material) + cross-entropy (object), unweighted",
+  "optimizer": "AdamW, linear warm-up then cosine decay to 0",
+  "deterministic": "torch.manual_seed + torch.use_deterministic_algorithms(True), fixed epoch count, seeded permutation; data generation is seeded per episode",
+  "data_generation_seconds": 340.6,
+  "data_stage_seconds_this_run": 0.5,
+  "data_workers": 2,
+  "training_wall_seconds": 560.4,
+  "steps": 3168,
+  "samples_seen": 811008,
+  "history": [
+   {
+    "epoch": 1,
+    "step": 264,
+    "seconds": 45.7,
+    "train_loss_material": 0.66959,
+    "train_loss_object": 0.32008,
+    "val": {
+     "material_acc": 0.96138,
+     "object_acc": 0.98758,
+     "material_acc_night": 0.91359,
+     "object_acc_night": 0.98094
+    }
+   },
+   {
+    "epoch": 2,
+    "step": 528,
+    "seconds": 91.3,
+    "train_loss_material": 0.08127,
+    "train_loss_object": 0.02434,
+    "val": {
+     "material_acc": 0.9516,
+     "object_acc": 0.99341,
+     "material_acc_night": 0.89631,
+     "object_acc_night": 0.98889
+    }
+   },
+   {
+    "epoch": 3,
+    "step": 792,
+    "seconds": 138.2,
+    "train_loss_material": 0.05575,
+    "train_loss_object": 0.01503,
+    "val": {
+     "material_acc": 0.98761,
+     "object_acc": 0.99673,
+     "material_acc_night": 0.97074,
+     "object_acc_night": 0.99301
+    }
+   },
+   {
+    "epoch": 4,
+    "step": 1056,
+    "seconds": 185.0,
+    "train_loss_material": 0.03832,
+    "train_loss_object": 0.01063,
+    "val": {
+     "material_acc": 0.98582,
+     "object_acc": 0.99763,
+     "material_acc_night": 0.96488,
+     "object_acc_night": 0.99429
+    }
+   },
+   {
+    "epoch": 5,
+    "step": 1320,
+    "seconds": 232.3,
+    "train_loss_material": 0.02855,
+    "train_loss_object": 0.00854,
+    "val": {
+     "material_acc": 0.99213,
+     "object_acc": 0.99816,
+     "material_acc_night": 0.98066,
+     "object_acc_night": 0.99548
+    }
+   },
+   {
+    "epoch": 6,
+    "step": 1584,
+    "seconds": 278.8,
+    "train_loss_material": 0.02069,
+    "train_loss_object": 0.0071,
+    "val": {
+     "material_acc": 0.99348,
+     "object_acc": 0.99824,
+     "material_acc_night": 0.98429,
+     "object_acc_night": 0.99592
+    }
+   },
+   {
+    "epoch": 7,
+    "step": 1848,
+    "seconds": 325.7,
+    "train_loss_material": 0.01658,
+    "train_loss_object": 0.00608,
+    "val": {
+     "material_acc": 0.99276,
+     "object_acc": 0.99835,
+     "material_acc_night": 0.98279,
+     "object_acc_night": 0.99599
+    }
+   },
+   {
+    "epoch": 8,
+    "step": 2112,
+    "seconds": 372.4,
+    "train_loss_material": 0.014,
+    "train_loss_object": 0.00538,
+    "val": {
+     "material_acc": 0.99404,
+     "object_acc": 0.99856,
+     "material_acc_night": 0.98573,
+     "object_acc_night": 0.99644
+    }
+   },
+   {
+    "epoch": 9,
+    "step": 2376,
+    "seconds": 419.4,
+    "train_loss_material": 0.01084,
+    "train_loss_object": 0.00475,
+    "val": {
+     "material_acc": 0.99511,
+     "object_acc": 0.99859,
+     "material_acc_night": 0.98846,
+     "object_acc_night": 0.99652
+    }
+   },
+   {
+    "epoch": 10,
+    "step": 2640,
+    "seconds": 466.4,
+    "train_loss_material": 0.00909,
+    "train_loss_object": 0.00439,
+    "val": {
+     "material_acc": 0.99516,
+     "object_acc": 0.99871,
+     "material_acc_night": 0.98855,
+     "object_acc_night": 0.99682
+    }
+   },
+   {
+    "epoch": 11,
+    "step": 2904,
+    "seconds": 513.0,
+    "train_loss_material": 0.00818,
+    "train_loss_object": 0.00414,
+    "val": {
+     "material_acc": 0.99558,
+     "object_acc": 0.9987,
+     "material_acc_night": 0.98957,
+     "object_acc_night": 0.9968
+    }
+   },
+   {
+    "epoch": 12,
+    "step": 3168,
+    "seconds": 560.3,
+    "train_loss_material": 0.00776,
+    "train_loss_object": 0.00403,
+    "val": {
+     "material_acc": 0.99542,
+     "object_acc": 0.99871,
+     "material_acc_night": 0.98925,
+     "object_acc_night": 0.99682
+    }
+   }
+  ]
+ },
+ "weights": {
+  "file": "runs/explore/vision/tile_decoder_v1.pt",
+  "sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999",
+  "bytes": 1018910,
+  "format": "torch.save(state_dict)"
+ },
+ "provenance": {
+  "git_commit": "23e02d58b0f2786e9e7d906824ecbbb2b3d1001a",
+  "git_dirty": false,
+  "crafter": {
+   "crafter_version": "1.8.3",
+   "data_yaml_sha256": "41ec28a266e74d7f98e0b7381ff5f11ed491c2a6cf39a460eda8bbd751b8630f",
+   "objects_py_sha256": "415aa49964639f3ae6b03372d588476fcfc4cafd6fd8b04a2d19b0fd6752b161",
+   "env_py_sha256": "a728d30479c4c0b2a3fe39505169af4a861e114132bde76d6c05d235da0171b6"
+  },
+  "torch": "2.14.0+cu130",
+  "numpy": "2.4.4",
+  "python": "3.11.15",
+  "machine": "x86_64",
+  "cpus": 2,
+  "omp_wait_policy": "PASSIVE",
+  "flush_denormal": true
+ },
+ "evaluation": {
+  "report": "evidence/explore/vision/tile_decoder_v1_eval.json",
+  "test_frames": 14481,
+  "test_tiles": 912303,
+  "material_accuracy": 0.99496,
+  "object_accuracy": 0.99853,
+  "both_accuracy": 0.99363,
+  "day": {
+   "material": 0.99882,
+   "object": 0.99979
+  },
+  "night": {
+   "material": 0.98889,
+   "object": 0.99653
+  },
+  "night_perceivable": {
+   "material": 0.99816,
+   "object": 0.99926
+  },
+  "night_drowned": {
+   "material": 0.97422,
+   "object": 0.99222
+  },
+  "player_tile": {
+   "material": 0.99952,
+   "object": 1.0
+  },
+  "macro_f1": {
+   "material": 0.97807,
+   "object": 0.93181
+  },
+  "rare_classes": {
+   "material": {
+    "diamond": {
+     "support": 685,
+     "recall": 0.95182,
+     "precision": 0.97459,
+     "f1": 0.96307
+    },
+    "lava": {
+     "support": 5890,
+     "recall": 0.99508,
+     "precision": 0.99121,
+     "f1": 0.99314
+    },
+    "iron": {
+     "support": 3214,
+     "recall": 0.93902,
+     "precision": 0.97702,
+     "f1": 0.95764
+    }
+   },
+   "object": {
+    "skeleton": {
+     "support": 4391,
+     "recall": 0.9458,
+     "precision": 0.98952,
+     "f1": 0.96716
+    },
+    "arrow": {
+     "support": 2682,
+     "recall": 0.88218,
+     "precision": 0.98337,
+     "f1": 0.93003
+    },
+    "plant_ripe": {
+     "support": 150,
+     "recall": 0.46667,
+     "precision": 0.9589,
+     "f1": 0.6278
+    }
+   }
+  },
+  "inference_speed": {
+   "threads": 1,
+   "frames": 2000,
+   "single_frame_fps": 780.8,
+   "batch256_fps": 2935.4,
+   "note": "VisionOrgan.perceive end to end (crop, tensor, decoder, softmax, numpy) on this 2-CPU machine with one torch thread; other processes may share the CPU"
+  }
+ },
+ "wall_seconds_total": 568.2
+}
