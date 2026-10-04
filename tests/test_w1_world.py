@@ -625,3 +625,21 @@ def test_baselines_run_and_the_privileged_agent_answers():
     s = env.episode_summary()
     assert s["crafter"]["n_unlocked"] >= 5
     assert s["memory"]["asked"] == 0 or s["memory"]["accuracy"] == 1.0
+
+
+def test_text_and_structured_interfaces():
+    text_env = make_env(seed=3)
+    struct_env = make_env(seed=3, interface="structured")
+    for env in (text_env, struct_env):
+        env.issue("craft", {"tool": "wood_sword", "base": 0}, deadline=90, text="Make me a wood sword by step 90.")
+    o_text, *_ = step(text_env)
+    o_struct, *_ = step(struct_env)
+    assert "obligations" not in o_text and o_text["messages"] == o_struct["messages"] == \
+        ["[o1] Make me a wood sword by step 90."]
+    assert np.array_equal(o_text["image"], o_struct["image"])
+    (pub,) = o_struct["obligations"]
+    assert pub["spec"] == {"tool": "wood_sword", "base": 0} and pub["deadline"] == 90 and pub["status"] == "open"
+    pub["spec"]["tool"] = "tampered"   # the agent's copy is detached from the layer's record
+    assert struct_env.layer._index["o1"]["spec"]["tool"] == "wood_sword"
+    with pytest.raises(ValueError):
+        W1Env(W1Config(interface="voice"))
