@@ -21,7 +21,8 @@ checkout's own registry:
     recommitted with other contents, the run opened under another status or with approval fields, the
     opening record without its binding or of another run or manifest, the directory renamed or outside
     runs/i1, an interrupted approval journal, CONTINUOUS_BRAIN_REGISTRY pointing elsewhere, an approver who is
-    not exactly the frozen approval_authority, and any seed-ledger change after opening (even an unrelated row).
+    not exactly the frozen approval_authority, any seed-ledger change after opening (even an unrelated row), and
+    a preflight that carries a BLOCKED report.
 Exit 0 only if every case behaves as stated."""
 from __future__ import annotations
 
@@ -192,6 +193,7 @@ def main() -> int:
         attempt("unrelated ledger row appended after opening", chain=lambda r, d: _ledger(
             r, lambda rows: rows + [{"name": "unrelated-later-family", "start": 990000, "stop": 990001,
                                      "purpose": "ENGINEERING", "source": "someone", "note": ""}]))
+        attempt("preflight has a BLOCKED report", chain=lambda r, d: runner._blocked(d, "preflight", "injected", None))
         attempt("CONTINUOUS_BRAIN_REGISTRY points elsewhere", chain=lambda r, d: os.environ.__setitem__(
             "CONTINUOUS_BRAIN_REGISTRY", str(r / "other_registry")))
     ok = all(r["pass"] for r in results)

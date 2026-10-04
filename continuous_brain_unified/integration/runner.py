@@ -356,16 +356,40 @@ def _registry_binding(prereg: dict, root: Path = REPO) -> dict:
 
 
 def _fsync_dir(d: Path) -> None:
-    try:
-        fd = os.open(str(d), os.O_RDONLY)
-    except OSError:
-        return
+    """fsync a directory, strictly: a failure means a rename or a new file in it may not survive a crash."""
+    fd = os.open(str(d), os.O_RDONLY)
     try:
         os.fsync(fd)
-    except OSError:
-        pass
     finally:
         os.close(fd)
+
+
+def _fsync_paths(paths) -> None:
+    """fsync each file, then each distinct parent directory (strict)."""
+    parents = []
+    for f in paths:
+        fd = os.open(str(f), os.O_RDONLY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        if Path(f).parent not in parents:
+            parents.append(Path(f).parent)
+    for d in parents:
+        _fsync_dir(d)
+
+
+def _durability_probe(dirs) -> None:
+    """Before anything irreversible: prove that files in these directories can be written, renamed and made
+    durable (file and directory fsync). A filesystem that cannot do this is refused before the spend."""
+    for d in dirs:
+        probe = Path(d) / f".durability_probe.{os.getpid()}.{time.monotonic_ns()}"
+        try:
+            _atomic_write(probe, "probe\n")
+            os.remove(probe)
+            _fsync_dir(Path(d))
+        except OSError as e:
+            raise I1Refused(f"{d} cannot make writes durable ({type(e).__name__}: {e}); nothing was spent") from None
 
 
 def _atomic_write(path: Path, data: str) -> None:
@@ -406,6 +430,88 @@ def protocol_lock(root: Path = REPO, timeout: float | None = None):
         os.close(fd)
 
 
+RUN_LOCK = ".run.lock"
+
+
+@contextlib.contextmanager
+def run_lock(run_dir: Path):
+    """Exclusive flock on <run_dir>/.run.lock, held by a preflight or science run for its whole life. The kernel
+    releases it when the process dies, so a free lock on a run without a final record means the run is dead."""
+    import fcntl
+    fd = os.open(str(Path(run_dir) / RUN_LOCK), os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise I1Refused(f"run {Path(run_dir).name} is in progress (its run lock is held)") from None
+        yield
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+        os.close(fd)
+
+
+def _run_finished(run_dir: Path, mode: str) -> bool:
+    """A run's final record: i1_report.json (science, or BLOCKED), or the sealed validity view (preflight)."""
+    return (run_dir / "i1_report.json").exists() or (mode == "preflight" and (run_dir / "i1_validity.json").exists())
+
+
+def _i1_spends(root: Path) -> list[tuple[str, str]]:
+    """(mode, label) of every I1 spend row in the raw local ledger."""
+    out = []
+    local = registry_root(root) / "seed_ranges.local.jsonl"
+    if not local.exists():
+        return out
+    head = f"{PREREG_ID}:"
+    for line in local.read_text().splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        src = r.get("source", "")
+        if r.get("spent") and src.startswith(head) and src.endswith(":opened"):
+            parts = src[len(head):-len(":opened")].split(":", 1)
+            if len(parts) == 2 and parts[0] in ("preflight", "science") and parts[1] and \
+                    Path(parts[1]).name == parts[1] and parts[1] not in (".", ".."):
+                out.append((parts[0], parts[1]))
+    return out
+
+
+def _recover_orphans_locked(root: Path) -> list[str]:
+    """Caller holds the protocol lock. For every I1 spend whose run has no final record and whose run lock is
+    free (the run died: killed, machine lost, or its opening was not durable), write a durable BLOCKED report.
+    Runs whose lock is held are in progress and are left alone. Returns the labels recovered."""
+    recovered = []
+    for mode, label in _i1_spends(root):
+        run_dir = Path(root) / "runs" / "i1" / label
+        if _run_finished(run_dir, mode):           # confirm the final record's durability (cheap, idempotent)
+            _fsync_paths([f for f in (run_dir / "i1_report.json", run_dir / "i1_validity.json",
+                                      run_dir / "sealed" / "i1_report.json") if f.exists()])
+            continue
+        run_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            with run_lock(run_dir):
+                if _run_finished(run_dir, mode):
+                    continue
+                opened = (run_dir / "seed_opened.json").exists()
+                _blocked(run_dir, mode, f"recovered: the {mode} family was spent by run {label}, and the run ended "
+                                        "without a final record (the process was killed, the machine stopped, or "
+                                        f"its records could not be made durable); seed_opened.json present: {opened}",
+                         None)
+                recovered.append(label)
+        except I1Refused:
+            continue                               # in progress
+    return recovered
+
+
+def recover_orphaned_runs(root: Path = REPO) -> list[str]:
+    """Give every dead I1 run with a spent family a durable BLOCKED report (see _recover_orphans_locked)."""
+    root = Path(root).resolve()
+    with protocol_lock(root):
+        return _recover_orphans_locked(root)
+
+
 def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path, root: Path = REPO) -> SeedFamily:
     """The one path by which a preflight or science run opens its family.
 
@@ -422,18 +528,24 @@ def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path
     spec = prereg["families"][key]
     want = SeedFamily(spec["name"], int(spec["start"]), int(spec["stop"]), SeedPurpose(spec["purpose"]))
     with protocol_lock(root):
+        try:                                       # earlier runs that died after their spend get their record
+            _recover_orphans_locked(root)
+        except Exception as e:                     # noqa: BLE001 - cannot record an earlier loss: stop here
+            raise I1Refused(f"an earlier run's BLOCKED record could not be written ({type(e).__name__}: {e}); "
+                            "nothing was spent") from None
         reg = SeedRegistry.load(regdir)            # the canonical ledger, reloaded inside the lock
         hits = offset_collisions(reg, want.start, want.stop, prereg, want)   # base and derived ids, every pair
         if hits:
             raise I1Refused(f"{want.name} cannot be opened: " + "; ".join(hits[:3]))
+        _durability_probe([Path(run_dir), regdir])   # before any ledger write: refuse a filesystem that cannot persist
         try:
             fam = _family(reg, spec)
             reg.check_usable(fam)
         except SeedOverlapError as e:
             raise I1Refused(f"{want.name} cannot be opened: {e}") from None
-        reg.spend(fam, source=spend_source(mode, label))
-        # from here on the family is spent: every failure until the opening record is durable is BLOCKED
+        # from the spend on, every failure until the opening record is durable is BLOCKED
         try:
+            reg.spend(fam, source=spend_source(mode, label))
             try:                                   # the raw ledger lineage: one registration, one spend, ours
                 _check_ledger_spend(regdir, spec, mode, label)
             except I1Refused as e:
@@ -445,7 +557,9 @@ def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path
             _atomic_write(Path(run_dir) / "seed_opened.json", json.dumps(opened, indent=2) + "\n")
         except I1SpentButBlocked:
             raise
-        except Exception as e:                     # noqa: BLE001 - any failure after the spend
+        except Exception as e:                     # noqa: BLE001 - any failure during or after the spend
+            if not _spent_by_run(root, prereg, mode, label):
+                raise
             raise I1SpentButBlocked(f"{want.name} was spent, but its opening record was not written durably: "
                                     f"{type(e).__name__}: {e}") from e
     return fam
@@ -554,6 +668,8 @@ def verify_preflight_chain(preflight_dir, *, root: Path = REPO, threads: int = 2
     if d.parent != (root / "runs" / "i1").resolve():
         raise I1Refused(f"the preflight directory must be runs/i1/<label> of this checkout, not {d}")
     label = d.name
+    if (d / "i1_report.json").exists():
+        raise I1Refused(f"the preflight {label} is BLOCKED (it has an i1_report.json); it cannot be approved")
     prereg = _read_json(root / PREREG_FILE, "the preregistration")
     central = _read_json(regdir / "preregistrations.json", "the central registry")
     pf = prereg["families"]["engineering_preflight_proposed"]
@@ -767,6 +883,7 @@ def recover_approval(root: Path = REPO) -> str:
     root = Path(root).resolve()
     registry_root(root)
     with protocol_lock(root):
+        _recover_orphans_locked(root)
         return _recover_locked(root)
 
 
@@ -809,6 +926,7 @@ def approve(*, preflight_dir: str, approver: str, confirm: str, threads: int = 2
         raise I1Refused("approval requires --approver")
     root = Path(root).resolve()
     with protocol_lock(root):
+        _recover_orphans_locked(root)
         return _approve_locked(preflight_dir=preflight_dir, approver=approver, threads=threads, root=root)
 
 
@@ -849,12 +967,13 @@ def _approve_locked(*, preflight_dir: str, approver: str, threads: int, root: Pa
             "approval_basis": basis}
 
 
-def _blocked(run_dir: Path, mode: str, reason: str, man: dict) -> None:
+def _blocked(run_dir: Path, mode: str, reason: str, man: dict | None) -> None:
+    """A durable BLOCKED report (atomic write, file and directory fsync)."""
     rep = {"format": "cb-i1-report/1", "status": "SCIENTIFIC" if mode == "science" else "ENGINEERING_ONLY",
            "run": run_dir.name, "mode": mode, "verdict": "BLOCKED", "reason": reason,
-           "manifest_sha256": man["manifest_sha256"],
+           "manifest_sha256": None if man is None else man["manifest_sha256"],
            "note": "the family stays spent; a retry needs a new preregistration version"}
-    (run_dir / "i1_report.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
+    _atomic_write(run_dir / "i1_report.json", json.dumps(rep, indent=2, sort_keys=True) + "\n")
 
 
 def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str, threads: int = 2,
@@ -896,6 +1015,15 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     if run_dir.exists():
         raise I1Refused(f"output exists: {run_dir}")
     run_dir.mkdir(parents=True)
+    if mode == "dev":
+        return _run_in_dir(mode, label, run_dir, man, prereg, regdir, legacy, historical_core_archive, threads,
+                           fam, sids)
+    with run_lock(run_dir):                         # held until the run's final record is durable
+        return _run_in_dir(mode, label, run_dir, man, prereg, regdir, legacy, historical_core_archive, threads,
+                           None, None)
+
+
+def _run_in_dir(mode, label, run_dir, man, prereg, regdir, legacy, historical_core_archive, threads, fam, sids):
     (run_dir / "manifest.json").write_text(json.dumps(man, indent=2, sort_keys=True) + "\n")
     try:
         core = _extract_historical_core(historical_core_archive, run_dir / "historical_core", str(CORE_MANIFEST))
@@ -927,6 +1055,8 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
                                                          "manifest_sha256": man["manifest_sha256"]}) + "\n")
         rep = _e.evaluate(run_dir, sealed=(mode == "preflight"), scientific=(mode == "science"),
                           expected_manifest=man["manifest_sha256"])
+        if mode == "preflight":                     # the preflight's final record, made durable
+            _fsync_paths([run_dir / "sealed" / "i1_report.json", run_dir / "i1_validity.json"])
     except Exception as e:
         _blocked(run_dir, mode, f"{type(e).__name__}: {e}\n{traceback.format_exc()[-3000:]}", man)
         raise
@@ -945,6 +1075,6 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
         except I1Refused as e:
             rep["verdict"] = "BLOCKED"
             rep["blocked_reason"] = f"the scientific family's ledger lineage is wrong: {e}"
-        (run_dir / "i1_report.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
+        _atomic_write(run_dir / "i1_report.json", json.dumps(rep, indent=2, sort_keys=True) + "\n")
     _e.print_report(rep)
     return run_dir

@@ -42,7 +42,10 @@ def proposed_root(tmp: Path, src: Path = runner.REPO) -> Path:
     names = {p["families"][k]["name"] for k in ("engineering_preflight_proposed", "scientific_dev_proposed")}
     local = src / "registry" / "seed_ranges.local.jsonl"
     lines = local.read_text().splitlines() if local.exists() else []
-    keep = [x for x in lines if x.strip() and json.loads(x).get("name") not in names]
+    i1_run = f"{runner.PREREG_ID}:"               # and every earlier I1 run's rows (e.g. the cloud incident's)
+    run_names = {json.loads(x).get("name") for x in lines if x.strip()
+                 and str(json.loads(x).get("source", "")).startswith(i1_run) and json.loads(x).get("spent")}
+    keep = [x for x in lines if x.strip() and json.loads(x).get("name") not in names | run_names]
     (root / "registry" / "seed_ranges.local.jsonl").write_text("".join(x + "\n" for x in keep))
     return root
 

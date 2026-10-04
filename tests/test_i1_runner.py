@@ -541,7 +541,7 @@ def test_science_reverification_catches_changes_after_approval(tmp_path):
 
 def test_science_run_reverifies_the_chain_before_opening(monkeypatch):
     import inspect
-    src = inspect.getsource(runner.run)
+    src = (inspect.getsource(runner.run) + inspect.getsource(runner._run_in_dir))
     assert src.index('stage="science"') < src.index("open_for_run(")            # verified before the family opens
     assert "_registry_binding(json.loads((REPO / PREREG_FILE).read_text()), REPO)" in src   # incl. the ledger at end
 
@@ -600,7 +600,7 @@ def test_preflight_output_shows_no_timings_or_error_counts():
     import inspect
     src = inspect.getsource(runner._run_arm)
     assert '{"arm": arm, "finished": True}' in src
-    assert 'quiet = mode == "preflight"' in inspect.getsource(runner.run)
+    assert 'quiet = mode == "preflight"' in (inspect.getsource(runner.run) + inspect.getsource(runner._run_in_dir))
 
 
 def test_the_opening_record_binds_spend_run_manifest_and_registry_state(tmp_path):
@@ -871,7 +871,7 @@ def test_every_transition_holds_the_lock_and_science_checks_its_own_lineage():
         < src.index("_check_ledger_spend(") < src.index("_atomic_write(")
     assert "with protocol_lock(root):" in inspect.getsource(runner.approve)
     assert "with protocol_lock(root):" in inspect.getsource(runner.recover_approval)
-    run_src = inspect.getsource(runner.run)
+    run_src = (inspect.getsource(runner.run) + inspect.getsource(runner._run_in_dir))
     assert '_check_ledger_spend(regdir, prereg["families"]["scientific_dev_proposed"], "science", label)' in run_src
     assert "open_for_run(mode, label" in run_src and "open_family(" not in run_src
 
@@ -879,8 +879,18 @@ def test_every_transition_holds_the_lock_and_science_checks_its_own_lineage():
 # ---- ChatGPT's sixth audit (64j): any failure after the irreversible spend leaves a BLOCKED record ----------
 
 def _post_spend_faults(monkeypatch):
-    """name -> (installer, expected exception type). Each installer injects one failure after reg.spend()."""
+    """name -> (installer, expected exception type). Each installer injects one failure after reg.spend(); the
+    file faults target only the opening record and the directory fault fires once, so the pre-spend durability
+    probe passes and the BLOCKED report can still be written (persistent faults: see the recovery tests)."""
     import os as _os
+    real_write, real_fsync_dir, real_fsync = runner._atomic_write, runner._fsync_dir, _os.fsync
+
+    def on_opening_record(exc):
+        def w(path, data):
+            if Path(path).name == "seed_opened.json":
+                raise exc
+            return real_write(path, data)
+        return w
 
     def lineage_refusal():
         monkeypatch.setattr(runner, "_check_ledger_spend", lambda *a, **k: (_ for _ in ()).throw(
@@ -898,23 +908,32 @@ def _post_spend_faults(monkeypatch):
         monkeypatch.setattr(runner, "_registry_binding", lambda *a, **k: {"unserializable": object()})
 
     def file_write():
-        monkeypatch.setattr(runner, "_atomic_write", lambda *a, **k: (_ for _ in ()).throw(
-            OSError("simulated disk failure after spend")))
+        monkeypatch.setattr(runner, "_atomic_write", on_opening_record(OSError("simulated disk failure after spend")))
 
     def file_fsync():
-        real = _os.fsync
-
         def fsync(fd):
             if _os.readlink(f"/proc/self/fd/{fd}").endswith("seed_opened.json.tmp"):
                 raise OSError("injected fsync failure on seed_opened.json")
-            return real(fd)
+            return real_fsync(fd)
         monkeypatch.setattr(runner.os, "fsync", fsync)
 
     def dir_fsync():
-        monkeypatch.setattr(runner, "_fsync_dir", lambda d: (_ for _ in ()).throw(OSError("injected directory fsync failure")))
+        state = {"armed": False, "fired": False}
+
+        def w(path, data):                       # arm the fault for the opening record's directory fsync
+            state["armed"] = Path(path).name == "seed_opened.json"
+            return real_write(path, data)
+
+        def f(d):
+            if state["armed"] and not state["fired"]:
+                state["fired"] = True
+                raise OSError("injected directory fsync failure")
+            return real_fsync_dir(d)
+        monkeypatch.setattr(runner, "_atomic_write", w)
+        monkeypatch.setattr(runner, "_fsync_dir", f)
 
     def interrupt():
-        monkeypatch.setattr(runner, "_atomic_write", lambda *a, **k: (_ for _ in ()).throw(KeyboardInterrupt()))
+        monkeypatch.setattr(runner, "_atomic_write", on_opening_record(KeyboardInterrupt()))
 
     return {"lineage refusal": (lineage_refusal, runner.I1SpentButBlocked),
             "lineage crash": (lineage_crash, runner.I1SpentButBlocked),
@@ -992,3 +1011,152 @@ def test_if_even_the_blocked_report_cannot_be_written_stderr_says_so(tmp_path, m
                             root=root)
     assert "I1 BLOCKED" in capsys.readouterr().err
 
+
+
+# ---- ChatGPT's seventh audit (64k): durability is strict, and a dead run's spend is always recorded ------------
+
+def _dir_fsync_fails(monkeypatch, when=lambda: True):
+    import os as _os
+    real = _os.fsync
+
+    def fsync(fd):
+        if _os.path.isdir(_os.readlink(f"/proc/self/fd/{fd}")) and when():
+            raise OSError("injected directory fsync failure (real os.fsync on a directory fd)")
+        return real(fd)
+    monkeypatch.setattr(_os, "fsync", fsync)
+
+
+def _new_run_dir(root, label):
+    d = root / "runs" / "i1" / label
+    d.mkdir(parents=True)
+    return d
+
+
+def test_chatgpt_repro_a_real_directory_fsync_failure_is_refused_before_the_spend(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    run_dir = _new_run_dir(root, "pf")
+    _dir_fsync_fails(monkeypatch)
+    with pytest.raises(runner.I1Refused, match="cannot make writes durable.*nothing was spent"):
+        runner.open_for_run("preflight", "pf", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir,
+                            root=root)
+    assert _spend_rows(root, "engineering_preflight_proposed") == ([], [])
+    assert not (run_dir / "seed_opened.json").exists() and not (run_dir / "i1_report.json").exists()
+
+
+def test_fsync_dir_is_strict(tmp_path, monkeypatch):
+    _dir_fsync_fails(monkeypatch)
+    with pytest.raises(OSError, match="injected"):
+        runner._fsync_dir(tmp_path)
+
+
+def test_the_ledger_append_fsyncs_its_directory(tmp_path, monkeypatch):
+    import os as _os
+    root = proposed_root(tmp_path)
+    seen, real = [], _os.fsync
+
+    def fsync(fd):
+        seen.append(_os.readlink(f"/proc/self/fd/{fd}"))
+        return real(fd)
+    monkeypatch.setattr(_os, "fsync", fsync)
+    (root / "registry" / "seed_ranges.local.jsonl").unlink()            # a ledger created by this very append
+    _register(root, "fresh-family", 990100, 990103)
+    assert str((root / "registry" / "seed_ranges.local.jsonl").resolve()) in seen
+    assert str((root / "registry").resolve()) in seen
+
+
+def test_a_persistent_failure_after_the_spend_is_recovered_once_the_disk_works(tmp_path, monkeypatch, capsys):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    run_dir = _new_run_dir(root, "pf")
+    ledger = _ledger(root)
+    _dir_fsync_fails(monkeypatch, when=lambda: runner.spend_source("preflight", "pf") in ledger.read_text())
+    with pytest.raises(runner.I1SpentButBlocked):
+        runner.open_for_run("preflight", "pf", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir,
+                            root=root)
+    assert "I1 BLOCKED" in capsys.readouterr().err                     # the report could not be made durable
+    assert _spend_rows(root, "engineering_preflight_proposed")[0]      # the family is spent
+    monkeypatch.undo()                                                  # the disk works again
+    seen = []
+    import os as _os
+    real = _os.fsync
+    monkeypatch.setattr(_os, "fsync", lambda fd: (seen.append(_os.readlink(f"/proc/self/fd/{fd}")), real(fd))[1])
+    runner.recover_orphaned_runs(root)                                  # records it, or confirms it durable
+    rep = json.loads((run_dir / "i1_report.json").read_text())
+    assert rep["verdict"] == "BLOCKED"
+    assert str(run_dir.resolve()) in seen                               # the directory entry is now durable
+    assert runner.recover_orphaned_runs(root) == []                     # idempotent
+    (run_dir / "i1_report.json").unlink()                               # a crash that lost the unsynced report
+    assert runner.recover_orphaned_runs(root) == ["pf"]                 # is recreated
+    assert json.loads((run_dir / "i1_report.json").read_text())["reason"].startswith("recovered:")
+
+
+def _kill_after_spend_child(root, mode, label):
+    import os as _os
+    import signal
+    from continuous_brain_unified.integration import runner as r
+    r._check_ledger_spend = lambda *a, **k: _os.kill(_os.getpid(), signal.SIGKILL)   # dies right after the spend
+    prereg = json.loads((Path(root) / r.PREREG_FILE).read_text())
+    run_dir = Path(root) / "runs" / "i1" / label
+    run_dir.mkdir(parents=True, exist_ok=True)
+    r.open_for_run(mode, label, prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir, root=root)
+
+
+@pytest.mark.parametrize("mode,key", [("preflight", "engineering_preflight_proposed"),
+                                      ("science", "scientific_dev_proposed")])
+def test_sigkill_after_the_spend_is_recovered_by_the_next_protocol_operation(tmp_path, mode, key):
+    import multiprocessing as mp
+    import signal
+    root = proposed_root(tmp_path)
+    p = mp.get_context("fork").Process(target=_kill_after_spend_child, args=(str(root), mode, "dead"))
+    p.start()
+    p.join(60)
+    assert p.exitcode == -signal.SIGKILL
+    run_dir = root / "runs" / "i1" / "dead"
+    spends, _ = _spend_rows(root, key)
+    assert [r["source"] for r in spends] == [runner.spend_source(mode, "dead")]
+    assert not (run_dir / "seed_opened.json").exists() and not (run_dir / "i1_report.json").exists()   # orphaned
+    other = "science" if mode == "preflight" else "preflight"              # any later opening recovers it first
+    runner.open_for_run(other, "next", prereg=json.loads((root / runner.PREREG_FILE).read_text()),
+                        man={"manifest_sha256": "0" * 64}, run_dir=_new_run_dir(root, "next"), root=root)
+    rep = json.loads((run_dir / "i1_report.json").read_text())
+    assert rep["verdict"] == "BLOCKED" and "seed_opened.json present: False" in rep["reason"]
+
+
+def test_a_run_in_progress_is_never_marked_dead(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)                                       # opened, no final record yet ...
+    (d / "i1_validity.json").unlink()
+    (d / "sealed" / "i1_report.json").unlink()
+    with runner.run_lock(d):                                            # ... and its run is alive
+        assert runner.recover_orphaned_runs(root) == []
+        with pytest.raises(runner.I1Refused, match="in progress"):
+            with runner.run_lock(d):
+                pass
+    assert runner.recover_orphaned_runs(root) == [d.name]               # the run died without a record
+    assert json.loads((d / "i1_report.json").read_text())["verdict"] == "BLOCKED"
+
+
+def test_a_finished_preflight_is_left_alone_and_a_blocked_one_cannot_be_approved(tmp_path):
+    root = proposed_root(tmp_path)
+    d = synthetic_preflight(root)
+    assert runner.recover_orphaned_runs(root) == []                     # finished: its sealed view exists
+    runner._blocked(d, "preflight", "test: blocked", None)
+    with pytest.raises(runner.I1Refused, match="is BLOCKED"):
+        _approve(root, d)
+    assert _status(root) == "PROPOSED"
+
+
+def test_blocked_reports_and_final_records_are_written_durably(tmp_path, monkeypatch):
+    import inspect
+    written = []
+    real = runner._atomic_write
+    monkeypatch.setattr(runner, "_atomic_write", lambda path, data: (written.append(Path(path).name), real(path, data)))
+    runner._blocked(tmp_path, "science", "test", None)
+    assert written == ["i1_report.json"]
+    src = inspect.getsource(runner._run_in_dir)
+    assert '_fsync_paths([run_dir / "sealed" / "i1_report.json", run_dir / "i1_validity.json"])' in src
+    assert '_atomic_write(run_dir / "i1_report.json"' in src
+    assert "with run_lock(run_dir):" in inspect.getsource(runner.run)
+    src = inspect.getsource(runner.open_family)
+    assert src.index("_recover_orphans_locked(root)") < src.index("_durability_probe(") < src.index("reg.spend(")
