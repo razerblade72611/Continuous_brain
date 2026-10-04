@@ -42,9 +42,11 @@ def body_sense(info: dict) -> dict:
             "achievements": {k: int(v) for k, v in priv["achievements"].items()}}
 
 
-def body_message(body: dict, step: int) -> bytes:
-    """The driver.body blob: the body sense plus the step (the individual's clock)."""
-    return json.dumps({"step": int(step), **body, "time": dl.describe(int(step))}, sort_keys=True,
+def body_message(body: dict, step: int, life: int | None = None, dying: bool = False) -> bytes:
+    """The driver.body blob: the body sense plus the step (the individual's clock).  A continuing individual
+    (lifelong) also knows which life this is and, in its last moment, that it is dying."""
+    extra = {} if life is None else {"life": int(life), "dying": bool(dying)}
+    return json.dumps({"step": int(step), **body, "time": dl.describe(int(step)), **extra}, sort_keys=True,
                       separators=(",", ":")).encode()
 
 

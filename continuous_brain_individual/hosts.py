@@ -111,10 +111,14 @@ class MemoryHost(_Host):
     def step(self, ctx):
         state = codec.unblob(ctx.delayed[state_channel(self.slot)])
         body = read_body(ctx.inputs["driver.body"])
+        if state is not None and state.get("life", 0) != body.get("life", 0):
+            state = None                                        # a new world: nothing it saw holds here
         tiles = codec.unblob(ctx.inputs["perception.tiles"])
         prev = np.asarray(ctx.delayed["skills.action"])
         last_action = int(prev[0]) if state is not None else None
         new = mem.integrate(state, tiles, body, int(body["step"]), self.mode, last_action)
+        if "life" in body:
+            new["life"] = int(body["life"])
         return {state_channel(self.slot): codec.blob(new), "episodic_memory.slots": mem.summary_vector(new)}
 
 
@@ -135,6 +139,8 @@ class LedgerHost(_Host):
     def step(self, ctx):
         state = codec.unblob(ctx.delayed[state_channel(self.slot)]) or ledger.empty()
         body = read_body(ctx.inputs["driver.body"])
+        if state.get("life", 0) != body.get("life", 0):        # a new world: a new caretaker's requests
+            state = {**ledger.empty(), "organ_calls": state["organ_calls"]}
         step = int(body["step"])
         messages = _json(ctx.inputs["driver.messages"]) or []
         events = []
@@ -153,6 +159,8 @@ class LedgerHost(_Host):
             del self.language.records[:]                            # audit is per call; not individual state
         new = ledger.apply_events(state, events, step)
         new["heard"] = state.get("heard", {})
+        if "life" in body:
+            new["life"] = int(body["life"])
         return {state_channel(self.slot): codec.blob(new),
                 "goal_genesis.events": _bytes(json.dumps(events, sort_keys=True, separators=(",", ":"))),
                 "goal_genesis.active_goal": np.array(ledger.summary_vector(new), dtype=np.float64)}
@@ -209,8 +217,11 @@ class SpeechHost(_Host):
     def step(self, ctx):
         state = codec.unblob(ctx.delayed[state_channel(self.slot)]) or {"answered": set(), "acked": set(),
                                                                          "unanswerable": []}
+        life = read_body(ctx.inputs["driver.body"]).get("life", 0)
+        if state.get("life", 0) != life:                        # a new world: ids start over
+            state = {"answered": set(), "acked": set(), "unanswerable": []}
         state = {"answered": set(state["answered"]), "acked": set(state["acked"]),
-                 "unanswerable": list(state["unanswerable"])}
+                 "unanswerable": list(state["unanswerable"]), **({"life": life} if life else {})}
         clauses, asked, ok = [], 0, 0
         if self.mode == "organ":
             led = codec.unblob(ctx.inputs["goal_genesis.state"]) or ledger.empty()
@@ -259,14 +270,20 @@ class SkillHost(_Host):
                                    description="the Crafter action index chosen this tick"))
 
     def step(self, ctx):
-        lib = SkillLibrary.from_state(codec.unblob(ctx.delayed[state_channel(self.slot)]), seed=self.seed)
+        state = codec.unblob(ctx.delayed[state_channel(self.slot)])
+        body = read_body(ctx.inputs["driver.body"])
+        if state is not None and state.get("life", 0) != body.get("life", 0):
+            state = None                                        # a new world: its plans there are gone
+        lib = SkillLibrary.from_state(state, seed=self.seed)
         memory = codec.unblob(ctx.inputs["episodic_memory.state"]) or mem.empty()
         led = codec.unblob(ctx.inputs["goal_genesis.state"]) or ledger.empty()
-        body = read_body(ctx.inputs["driver.body"])
         step = int(body["step"])
         name, option = lib.decide(memory, body, step, ledger.active(led, step))
         code = OPTION_CODES.get(option.split(":")[0], 0)
-        return {state_channel(self.slot): codec.blob(lib.to_state()), "skills.selected_option": np.array([code], float),
+        new = lib.to_state()
+        if "life" in body:
+            new["life"] = int(body["life"])
+        return {state_channel(self.slot): codec.blob(new), "skills.selected_option": np.array([code], float),
                 "skills.action": np.array([ACTIONS[name]], dtype=np.int64)}
 
 
@@ -296,6 +313,12 @@ class AutobiographyHost(_Host):
         led = codec.unblob(ctx.inputs["goal_genesis.state"]) or ledger.empty()
         selfv = np.asarray(ctx.inputs["self_state.vector"])
         fams = list(SelfModelHost.FAMILIES)
+        lifelong = "life" in body
+        life = int(body.get("life", 0))
+        if lifelong and state.get("life", 0) != life:          # it wakes in a new world, the same individual
+            state = {**state, "life": life, "day": dl.day_index(step), "last_ach": None,
+                     "today": [{"type": "birth", "step": step,
+                                "text": f"I woke up in a new world; this is my life number {life + 1}"}]}
         today = list(state["today"])
         for e in events:
             if e["type"] in ("new_commitment", "amendment", "cancellation", "question", "feedback", "unparsed"):
@@ -313,13 +336,25 @@ class AutobiographyHost(_Host):
                                   "text": f"I managed to {k.replace('_', ' ')} for the first time"})
         day = dl.day_index(step)
         days = list(state["days"])
-        if day != state["day"] and today:
+        lives = list(state.get("lives", []))
+        dying = bool(body.get("dying", False))
+        if dying:
+            inv = body["inventory"]
+            felt = [w for k, w in (("drink", "no water left"), ("food", "no food left"), ("energy", "no strength left"))
+                    if inv[k] == 0]
+            today.append({"type": "death", "step": step,
+                          "text": "my life ended" + (" with " + " and ".join(felt) if felt else " after I was hurt")})
+            lives.append({"life": life, "steps": step, "days": day + 1,
+                          "done": sum(1 for v in ach.values() if v), "felt": felt})
+        if (day != state["day"] or dying) and today:
             self.language._call = int(state["organ_calls"])
-            days.append({"day": int(state["day"]), "text": self.language.narrate(today), "events": len(today)})
+            days.append({"day": int(state["day"]), "text": self.language.narrate(today), "events": len(today),
+                         **({"life": life} if lifelong else {})})
             state["organ_calls"] = int(self.language._call)
             del self.language.records[:]
             today = []
-        new = {**state, "day": day, "today": today, "days": days, "last_ach": dict(ach)}
+        new = {**state, "day": day, "today": today, "days": days, "last_ach": dict(ach),
+               **({"lives": lives, "life": life} if lifelong else {})}
         rec = np.array([len(days), len(today), new["closed"]], dtype=np.float64)
         disc = np.array([new["actual"] - new["expected"]], dtype=np.float64)
         return {state_channel(self.slot): codec.blob(new), "autobiography.record": rec,

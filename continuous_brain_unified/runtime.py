@@ -312,7 +312,7 @@ class UnifiedRuntime:
                 name = f"{ENVIRONMENT_OWNER}.{c.name}"
                 self.store.write(name, observation[c.name], ENVIRONMENT_OWNER)
                 self.interventions.apply(name, tick)
-                result.writes[name] = value_sha256(self.store.read(name))
+                result.writes[name] = self.store.value_digest(name)
         elif observation:
             raise ValueError("this runtime has no observation channels")
         if self._driver_channels:
@@ -324,7 +324,7 @@ class UnifiedRuntime:
             for name in self._driver_channels:
                 self.store.write(name, driver[name], DRIVER_OWNER)
                 self.interventions.apply(name, tick)
-                result.writes[name] = value_sha256(self.store.read(name))
+                result.writes[name] = self.store.value_digest(name)
         elif driver:
             raise ValueError("this runtime has no driver channels")
         for comp in self._order:
@@ -339,7 +339,7 @@ class UnifiedRuntime:
             for d in comp.writes:
                 self.store.write(d.name, outputs[d.name], comp.slot)
                 self.interventions.apply(d.name, tick)
-                result.writes[d.name] = value_sha256(self.store.read(d.name))
+                result.writes[d.name] = self.store.value_digest(d.name)
         result.interventions = len(self.interventions.records) - n_before
         return result
 

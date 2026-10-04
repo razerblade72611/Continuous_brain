@@ -32,7 +32,7 @@ import numpy as np
 
 from continuous_brain_organs.vision import MATERIALS
 from continuous_brain_world import daylight as dl
-from continuous_brain_world.baselines.scripted import ACTIONS, INF, ScriptedAgent, View
+from continuous_brain_world.baselines.scripted import ACTIONS, INF, MOVE, ScriptedAgent, View
 
 from . import memory as mem
 
@@ -50,6 +50,9 @@ PAIN_WINDOW, PAIN_HITS = 20, 2   # hurt this often inside a shelter, with no hun
 BAD_SPOT_MEMORY, CAUTION = 1500, 600
 OPPORTUNISTIC_FOOD = 7    # eats a cow in sight below this (it cannot see food beyond its view)
 PARAMS = {"food_evening": 8}   # evening food target one above the reference's: it cannot rely on knowing every cow
+OPTIONS = ("routine", "drink", "eat", "rest", "retreat", "explore", "requests", "build")
+OPTION_MAX = {"routine": 25, "drink": 80, "eat": 80, "rest": 300, "retreat": 15, "explore": 30, "requests": 40,
+              "build": 40}
 
 
 def belief_priv(memory: dict, body: dict, step: int, commitments: list[dict]) -> dict:
@@ -102,8 +105,8 @@ class SkillLibrary(ScriptedAgent):
             lib.visit_reached = {}
         return lib
 
-    def decide(self, memory: dict, body: dict, step: int, commitments: list[dict]) -> tuple[str, str]:
-        """(action name, option) for this step.  option names what the step serves (for the store)."""
+    def belief_view(self, memory: dict, body: dict, step: int, commitments: list[dict]) -> View:
+        """The routines' belief view for this step (records visit progress and pain on the way)."""
         commitments = self._visit_progress(memory, body, commitments)
         priv = belief_priv(memory, body, step, commitments)
         self._pain(body, step)
@@ -114,10 +117,18 @@ class SkillLibrary(ScriptedAgent):
         path = memory["map"] == MATERIAL_IDS["path"]
         near = path[max(0, px - TUNNEL_RADIUS):px + TUNNEL_RADIUS + 1, max(0, py - TUNNEL_RADIUS):py + TUNNEL_RADIUS + 1]
         self.p["water_walls"] = not (near.any() or step < getattr(self, "caution_until", -1))
-        v = View({"step": step}, priv)
+        return View({"step": step}, priv)
+
+    def decide(self, memory: dict, body: dict, step: int, commitments: list[dict]) -> tuple[str, str]:
+        """(action name, option) for this step.  option names what the step serves (for the store)."""
+        v = self.belief_view(memory, body, step, commitments)
         if v.sleeping:
             return "noop", "sleeping"
         self._prepare(v)
+        return self.routine(v, memory, step)
+
+    def routine(self, v: View, memory: dict, step: int) -> tuple[str, str]:
+        """The whole routine library's choice on a prepared view (v1 behaviour)."""
         name = self._decide(v) or "noop"
         option = "routine"
         visible_cow = any(o["kind"] == "cow" for o in memory["objects"])
@@ -138,6 +149,82 @@ class SkillLibrary(ScriptedAgent):
         if option == "routine" and self.last_task is not None and name != "noop":
             option = f"routine:{self.last_task}"
         return name, option
+
+    # -- options: temporally extended courses of action for the learned selector ------------------------------
+    def option_feasible(self, v: View, memory: dict) -> np.ndarray:
+        """Which of OPTIONS can start now (on its beliefs)."""
+        inv = v.inv
+        threats = self._threats(v, 6)
+        return np.array([True, inv["drink"] < 9, inv["food"] < 9,
+                         bool(inv["wood_pickaxe"]) or self._inside(v),
+                         bool(threats), bool((memory["map"] < 0).any()),
+                         any(o["family"] in ("collect", "craft", "place", "visit") for o in v.priv["obligations"]),
+                         True], dtype=bool)
+
+    def option_done(self, o: int, v: View, steps_in: int) -> bool:
+        inv, dark = v.inv, dl.is_dark(v.step)
+        name = OPTIONS[o]
+        if steps_in >= OPTION_MAX[name]:
+            return True
+        if name == "drink":
+            return inv["drink"] >= 9
+        if name == "eat":
+            return inv["food"] >= 8
+        if name == "rest":
+            return not dark and inv["energy"] >= 7 and not v.sleeping
+        if name == "retreat":
+            return not self._threats(v, 6)
+        return False
+
+    def option_act(self, o: int, v: View, memory: dict, step: int) -> str | None:
+        """The option's action now, or None when it cannot go on (the selector then chooses again)."""
+        name = OPTIONS[o]
+        self.view = v                                              # the movement primitives plan on this view
+        for z in v.zombies:                                        # reflex: an adjacent zombie is fought
+            if abs(z[0] - v.pos[0]) + abs(z[1] - v.pos[1]) == 1:
+                u = (z[0] - v.pos[0], z[1] - v.pos[1])
+                return "do" if v.facing == u else MOVE[u]
+        act = None
+        if name == "drink":
+            act = self._drink(v) or self._explore(v, memory)
+        elif name == "eat":
+            act = self._eat(v) or self._explore(v, memory)
+        elif name == "rest":
+            dark = dl.is_dark(step)
+            if self._inside(v) and (dark or v.inv["energy"] < 9):
+                act = self._shelter_step(v, needed=True)
+            else:
+                act = self._enter_shelter(v, {"night"} if dark else {"sleep"})
+            if act is None and v.inv["energy"] <= 3:
+                act = "sleep"                                      # exhausted: sleep where it stands
+        elif name == "retreat":
+            act = self._retreat(v)
+        elif name == "explore":
+            act = self._explore(v, memory)
+        elif name == "requests":
+            act = self._obligations(v)
+        elif name == "build":
+            act = self._tech_tree(v)
+            if act is None and v.inv["wood_pickaxe"] and v.inv["stone"] < 6:
+                act = self._acquire(v, "stone", 6)
+        return None if act is None else self._safety(v, act)
+
+    def _threats(self, v: View, r: int) -> list:
+        return [z for z in v.zombies + v.skeletons if abs(z[0] - v.pos[0]) + abs(z[1] - v.pos[1]) <= r]
+
+    def _retreat(self, v: View) -> str | None:
+        threats = self._threats(v, 8)
+        if not threats:
+            return None
+
+        def score(p):
+            return min(abs(z[0] - p[0]) + abs(z[1] - p[1]) for z in threats)
+        best, act = score(v.pos), None
+        for u in sorted(MOVE):
+            n = (v.pos[0] + u[0], v.pos[1] + u[1])
+            if 0 <= n[0] < mem.W and 0 <= n[1] < mem.H and self.walkfree[n] and score(n) > best:
+                best, act = score(n), MOVE[u]
+        return act
 
     def _pain(self, body, step):
         inv = body["inventory"]

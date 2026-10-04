@@ -47,6 +47,9 @@ class IndividualConfig:
     memory: str = "full"
     language: str = "organ"
     perception: str = "organ"
+    skills: str = "routine"           # "routine": the borrowed routine library; "learned": foresight + learned choice
+    learn: bool = True                # learned skills only: False freezes what it has learned (evaluation)
+    lifelong: bool = False            # one individual across lives: it knows its life number and its dying moment
     seed: int = 0
     interventions: list = field(default_factory=list)      # [{"kind", "target", "start_tick", "end_tick", ...}]
 
@@ -58,6 +61,8 @@ class IndividualConfig:
             parts.append(f"memory={self.memory}")
         if self.language != "organ":
             parts.append(f"language={self.language}")
+        if self.skills != "routine":
+            parts.append(f"skills={self.skills}" + ("" if self.learn else ",frozen"))
         return "individual" + ("[" + ",".join(parts) + "]" if parts else "")
 
 
@@ -66,9 +71,17 @@ class Individual:
         self.config, self.vision, self.language = config, vision, language
         rt = UnifiedRuntime(RuntimeConfig(seed=config.seed, binding_policy=BindingPolicy.TEST_FIXTURES,
                                           driver=DRIVER), log_dir=log_dir)
-        rt.bind_many([PerceptionHost(vision, oracle=config.perception == "oracle"), MemoryHost(config.memory),
-                      LedgerHost(language, config.language), SelfModelHost(), SpeechHost(language, config.language),
-                      SkillHost(config.seed), AutobiographyHost(language)])
+        hosts = [PerceptionHost(vision, oracle=config.perception == "oracle"), MemoryHost(config.memory),
+                 LedgerHost(language, config.language), SelfModelHost(), SpeechHost(language, config.language),
+                 AutobiographyHost(language)]
+        if config.skills == "learned":
+            from .learned import LearnedSkillHost, WorldModelHost
+            hosts += [WorldModelHost(config.seed, config.learn), LearnedSkillHost(config.seed, config.learn)]
+        elif config.skills == "routine":
+            hosts.append(SkillHost(config.seed))
+        else:
+            raise ValueError(f"unknown skills {config.skills!r}")
+        rt.bind_many(hosts)
         for iv in config.interventions:
             rt.interventions.register(InterventionSpec(InterventionKind(iv["kind"]), iv["target"],
                                                        int(iv["start_tick"]), iv.get("end_tick"),
@@ -76,9 +89,10 @@ class Individual:
             if iv.get("payload") is not None:
                 rt.interventions.add_payload(iv["payload_ref"], iv["payload"])
         self.rt = rt
+        self.life = 0                 # which life (lifelong): the world's news, given to it by the driver
 
     # ------------------------------------------------------------------------------------------------- life
-    def sense(self, obs: dict, info: dict | None) -> dict:
+    def sense(self, obs: dict, info: dict | None, dying: bool = False) -> dict:
         if info is None:                       # before the first world step: the reset observation
             raise ValueError("the individual needs W1's info (for its body sense) at every step")
         body = GuardedInfo(info).body()
@@ -89,7 +103,8 @@ class Individual:
                                    "material_conf": np.ones(mat.shape, np.float32),
                                    "object_conf": np.ones(objs.shape, np.float32)})
         return {"driver.frame": np.asarray(obs["image"], dtype=np.uint8),
-                "driver.body": body_message(body, int(obs["step"])),
+                "driver.body": body_message(body, int(obs["step"]), self.life if self.config.lifelong else None,
+                                            dying),
                 "driver.messages": json.dumps(list(obs["messages"])).encode(),
                 "driver.oracle_tiles": oracle}
 
@@ -97,12 +112,25 @@ class Individual:
         action, text, _ = self.tick(obs, info)
         return action, text
 
-    def tick(self, obs: dict, info: dict):
+    def tick(self, obs: dict, info: dict, dying: bool = False):
         """One runtime tick: (action, utterance or None, the runtime's TickResult with each channel's digest)."""
-        result = self.rt.tick_once(driver=self.sense(obs, info))
+        result = self.rt.tick_once(driver=self.sense(obs, info, dying))
         action = int(np.asarray(self.rt.store.read("skills.action"))[0])
         text = np.asarray(self.rt.store.read("metacognition.utterance"), dtype=np.uint8).tobytes().decode()
         return action, (text or None), result
+
+    def die(self, obs: dict, info: dict):
+        """Its last moment (lifelong): one more tick in which it knows it is dying; nothing it does reaches the
+        world.  Its faculties close the life: the last decision's return ends in death, it consolidates what it
+        learned, its autobiography records the life."""
+        if not self.config.lifelong:
+            raise ValueError("only a lifelong individual has a last moment")
+        return self.tick(obs, info, dying=True)[2]
+
+    def next_life(self) -> None:
+        if not self.config.lifelong:
+            raise ValueError("only a lifelong individual continues into another life")
+        self.life += 1
 
     def live(self, env, obs: dict, info: dict, steps: int, on_step=None) -> dict:
         done = False
@@ -117,10 +145,11 @@ class Individual:
 
     # ------------------------------------------------------------------------------------------ persistence
     def save(self) -> dict:
-        return {"runtime": self.rt.state_dict()}
+        return {"runtime": self.rt.state_dict(), "life": self.life}
 
     def restore(self, saved: dict) -> None:
         self.rt.load_state_dict(saved["runtime"])
+        self.life = int(saved.get("life", 0))
 
     def state_hash(self) -> str:
         return self.rt.state_hash()

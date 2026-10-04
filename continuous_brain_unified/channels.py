@@ -83,6 +83,11 @@ class ChannelStore:
         self.log_path = Path(log_path) if log_path else None
         self._override_token: object | None = None
         self.read_stats: dict[tuple[str, str], dict] = {}
+        # Digest cache: a stored array is read-only from the moment it is stored, so its SHA-256 never changes;
+        # it is computed once and reused by the write log, the read log and tick results.  Keyed by the stored
+        # array object itself (identity is checked), pruned to the arrays still held.
+        self._digests: dict[int, tuple[np.ndarray, str]] = {}
+        self._neutral_digests: dict[str, str] = {}
 
     # ------------------------------------------------------------------ declaration
     def declare(self, decl: ChannelDecl) -> None:
@@ -120,6 +125,27 @@ class ChannelStore:
         self.tick = tick
         self._previous = {k: v for k, v in self._current.items()}   # arrays are never mutated in place
         self._written_this_tick.clear()
+        held = {id(v) for v in self._current.values()}
+        self._digests = {k: e for k, e in self._digests.items() if k in held}
+
+    def _stored_digest(self, arr: np.ndarray) -> str:
+        """SHA-256 of a stored (read-only) array, computed once."""
+        hit = self._digests.get(id(arr))
+        if hit is not None and hit[0] is arr:
+            return hit[1]
+        d = value_sha256(arr)
+        self._digests[id(arr)] = (arr, d)
+        return d
+
+    def value_digest(self, name: str, delayed: bool = False) -> str:
+        """The SHA-256 of what a read of ``name`` returns now (the same as ``value_sha256(read(name))``)."""
+        decl = self.decl(name)
+        src = self._previous if delayed else self._current
+        if name in src:
+            return self._stored_digest(src[name])
+        if name not in self._neutral_digests:
+            self._neutral_digests[name] = value_sha256(decl.neutral_value())
+        return self._neutral_digests[name]
 
     # ------------------------------------------------------------------ access
     def _coerce(self, decl: ChannelDecl, value: Any) -> np.ndarray:
@@ -148,10 +174,26 @@ class ChannelStore:
             raise ChannelWriteError(f"{writer!r} may not write {name!r} (owner {decl.owner!r})")
         if name in self._written_this_tick:
             raise ChannelWriteError(f"{name!r} written twice in tick {self.tick}")
-        arr = self._coerce(decl, value)
+        arr = self._unchanged(name, value)
+        if arr is None:
+            arr = self._coerce(decl, value)
         self._current[name] = arr
         self._written_this_tick.add(name)
         return self._log(name, writer, arr, "write")
+
+    def _unchanged(self, name: str, value: Any) -> np.ndarray | None:
+        """If ``value`` is exactly a read of this channel's stored array (a whole, untouched view of it), the
+        stored array itself: it is read-only, so keeping it is the same as storing a copy, without the copy and
+        without hashing it again."""
+        if not isinstance(value, np.ndarray) or value.base is None:
+            return None
+        for src in (self._previous, self._current):
+            base = src.get(name)
+            if base is not None and value.base is base and value.shape == base.shape and value.dtype == base.dtype \
+                    and value.strides == base.strides and value.ctypes.data == base.ctypes.data \
+                    and not base.flags.writeable:
+                return base
+        return None
 
     def override(self, name: str, value: Any, token: object, cause: str) -> str:
         if token is None or token is not self._override_token:
@@ -176,17 +218,19 @@ class ChannelStore:
         value = src[name].view() if written else read_only(decl.neutral_value())
         # a view of a read-only base cannot be made writable again
         if reader is not None:
-            self._count_read(reader, name, value, written, delayed)
+            self._count_read(reader, name, value, written, delayed, self.value_digest(name, delayed))
         return value
 
-    def _count_read(self, reader: str, name: str, value: np.ndarray, written: bool, delayed: bool) -> None:
+    def _count_read(self, reader: str, name: str, value: np.ndarray, written: bool, delayed: bool,
+                    digest: str | None = None) -> None:
         st = self.read_stats.setdefault((reader, name), {"reads": 0, "written_reads": 0, "nonempty_reads": 0,
                                                          "delayed_reads": 0, "chain": hashlib.sha256().hexdigest()})
         st["reads"] += 1
         st["delayed_reads"] += int(delayed)
         st["written_reads"] += int(written)
         st["nonempty_reads"] += int(written and value.size > 0)
-        st["chain"] = hashlib.sha256(f"{st['chain']}|{self.tick}|{value_sha256(value)}".encode()).hexdigest()
+        digest = value_sha256(value) if digest is None else digest
+        st["chain"] = hashlib.sha256(f"{st['chain']}|{self.tick}|{digest}".encode()).hexdigest()
 
     def read_report(self) -> list[dict]:
         """Per (reader, channel): counts and the read chain, with the channel's writer."""
@@ -197,7 +241,7 @@ class ChannelStore:
         return name in self._current
 
     def _log(self, name: str, writer: str, arr: np.ndarray, op: str) -> str:
-        digest = value_sha256(arr)
+        digest = self._stored_digest(arr)
         entry = {"tick": self.tick, "channel": name, "writer": writer, "op": op, "sha256": digest}
         self.log.append(entry)
         self.log_total += 1
@@ -226,5 +270,5 @@ class ChannelStore:
     def digest(self) -> str:
         h = hashlib.sha256()
         for k in sorted(self._current):
-            h.update(k.encode() + value_sha256(self._current[k]).encode())
+            h.update(k.encode() + self._stored_digest(self._current[k]).encode())
         return h.hexdigest()
