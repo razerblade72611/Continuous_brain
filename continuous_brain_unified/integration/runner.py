@@ -432,16 +432,51 @@ def open_family(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path
         except SeedOverlapError as e:
             raise I1Refused(f"{want.name} cannot be opened: {e}") from None
         reg.spend(fam, source=spend_source(mode, label))
-        try:                                       # the raw ledger lineage: one registration, one spend, ours
-            _check_ledger_spend(regdir, spec, mode, label)
-        except I1Refused as e:
-            raise I1SpentButBlocked(f"{want.name} was spent but its ledger lineage is wrong: {e}") from None
-        opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True}, "spent_before_launch": True,
-                  "mode": mode, "run": label, "spend_source": spend_source(mode, label),
-                  "manifest_sha256": man["manifest_sha256"], "utc": datetime.now(timezone.utc).isoformat(),
-                  **_registry_binding(prereg, root)}
-        _atomic_write(Path(run_dir) / "seed_opened.json", json.dumps(opened, indent=2) + "\n")
+        # from here on the family is spent: every failure until the opening record is durable is BLOCKED
+        try:
+            try:                                   # the raw ledger lineage: one registration, one spend, ours
+                _check_ledger_spend(regdir, spec, mode, label)
+            except I1Refused as e:
+                raise I1SpentButBlocked(f"{want.name} was spent but its ledger lineage is wrong: {e}") from None
+            opened = {"format": "cb-i1-opened/2", "family": {**fam.as_dict(), "spent": True},
+                      "spent_before_launch": True, "mode": mode, "run": label, "spend_source": spend_source(mode, label),
+                      "manifest_sha256": man["manifest_sha256"], "utc": datetime.now(timezone.utc).isoformat(),
+                      **_registry_binding(prereg, root)}
+            _atomic_write(Path(run_dir) / "seed_opened.json", json.dumps(opened, indent=2) + "\n")
+        except I1SpentButBlocked:
+            raise
+        except Exception as e:                     # noqa: BLE001 - any failure after the spend
+            raise I1SpentButBlocked(f"{want.name} was spent, but its opening record was not written durably: "
+                                    f"{type(e).__name__}: {e}") from e
     return fam
+
+
+def _spent_by_run(root: Path, prereg: dict, mode: str, label: str) -> bool:
+    """Whether the raw local ledger holds a spend of this mode's family made by this run."""
+    key = "engineering_preflight_proposed" if mode == "preflight" else "scientific_dev_proposed"
+    try:
+        _, local = _ledger_rows(registry_root(root), prereg["families"][key]["name"])
+    except Exception:                              # noqa: BLE001 - an unreadable ledger: assume the worst
+        return True
+    return any(r.get("spent") and r.get("source") == spend_source(mode, label) for r in local)
+
+
+def open_for_run(mode: str, label: str, *, prereg: dict, man: dict, run_dir: Path, root: Path = REPO) -> SeedFamily:
+    """open_family() for a run: if it fails in any way (an exception or an interrupt) after the family was spent,
+    the run directory gets a BLOCKED report before the failure propagates, so a spent family is never left
+    without a record of why it was lost."""
+    try:
+        return open_family(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=root)
+    except BaseException as e:
+        if _spent_by_run(root, prereg, mode, label):
+            written = (Path(run_dir) / "seed_opened.json").exists()
+            reason = (f"the family was spent by this run, then opening failed: {type(e).__name__}: {e} "
+                      f"(seed_opened.json written: {written})")
+            try:
+                _blocked(Path(run_dir), mode, reason, man)
+            except Exception as w:                 # noqa: BLE001 - last resort: say so on stderr
+                print(f"I1 BLOCKED: {reason}; the BLOCKED report could not be written either: {w}", file=sys.stderr)
+        raise
 
 
 def _read_json(path: Path, what: str):
@@ -867,11 +902,7 @@ def run(mode: str, *, legacy_root: str, historical_core_archive: str, label: str
     except Exception as e:
         raise I1Refused(f"historical core does not verify: {e}") from e
     if mode in ("preflight", "science"):
-        try:
-            fam = open_family(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=REPO)
-        except I1SpentButBlocked as e:
-            _blocked(run_dir, mode, str(e), man)
-            raise
+        fam = open_for_run(mode, label, prereg=prereg, man=man, run_dir=run_dir, root=REPO)
         sids = list(fam.seeds())
     else:
         usage = REPO / "runs/dev/seed_usage.jsonl"

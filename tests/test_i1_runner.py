@@ -542,7 +542,7 @@ def test_science_reverification_catches_changes_after_approval(tmp_path):
 def test_science_run_reverifies_the_chain_before_opening(monkeypatch):
     import inspect
     src = inspect.getsource(runner.run)
-    assert src.index('stage="science"') < src.index("open_family(")             # verified before the family opens
+    assert src.index('stage="science"') < src.index("open_for_run(")            # verified before the family opens
     assert "_registry_binding(json.loads((REPO / PREREG_FILE).read_text()), REPO)" in src   # incl. the ledger at end
 
 
@@ -873,4 +873,115 @@ def test_every_transition_holds_the_lock_and_science_checks_its_own_lineage():
     assert "with protocol_lock(root):" in inspect.getsource(runner.recover_approval)
     run_src = inspect.getsource(runner.run)
     assert '_check_ledger_spend(regdir, prereg["families"]["scientific_dev_proposed"], "science", label)' in run_src
-    assert "except I1SpentButBlocked" in run_src
+    assert "open_for_run(mode, label" in run_src and "open_family(" not in run_src
+
+
+# ---- ChatGPT's sixth audit (64j): any failure after the irreversible spend leaves a BLOCKED record ----------
+
+def _post_spend_faults(monkeypatch):
+    """name -> (installer, expected exception type). Each installer injects one failure after reg.spend()."""
+    import os as _os
+
+    def lineage_refusal():
+        monkeypatch.setattr(runner, "_check_ledger_spend", lambda *a, **k: (_ for _ in ()).throw(
+            runner.I1Refused("injected lineage refusal")))
+
+    def lineage_crash():
+        monkeypatch.setattr(runner, "_check_ledger_spend", lambda *a, **k: (_ for _ in ()).throw(
+            RuntimeError("injected lineage crash")))
+
+    def binding():
+        monkeypatch.setattr(runner, "_registry_binding", lambda *a, **k: (_ for _ in ()).throw(
+            OSError("injected registry-binding failure")))
+
+    def json_build():
+        monkeypatch.setattr(runner, "_registry_binding", lambda *a, **k: {"unserializable": object()})
+
+    def file_write():
+        monkeypatch.setattr(runner, "_atomic_write", lambda *a, **k: (_ for _ in ()).throw(
+            OSError("simulated disk failure after spend")))
+
+    def file_fsync():
+        real = _os.fsync
+
+        def fsync(fd):
+            if _os.readlink(f"/proc/self/fd/{fd}").endswith("seed_opened.json.tmp"):
+                raise OSError("injected fsync failure on seed_opened.json")
+            return real(fd)
+        monkeypatch.setattr(runner.os, "fsync", fsync)
+
+    def dir_fsync():
+        monkeypatch.setattr(runner, "_fsync_dir", lambda d: (_ for _ in ()).throw(OSError("injected directory fsync failure")))
+
+    def interrupt():
+        monkeypatch.setattr(runner, "_atomic_write", lambda *a, **k: (_ for _ in ()).throw(KeyboardInterrupt()))
+
+    return {"lineage refusal": (lineage_refusal, runner.I1SpentButBlocked),
+            "lineage crash": (lineage_crash, runner.I1SpentButBlocked),
+            "registry binding": (binding, runner.I1SpentButBlocked),
+            "json construction": (json_build, runner.I1SpentButBlocked),
+            "file write": (file_write, runner.I1SpentButBlocked),
+            "file fsync": (file_fsync, runner.I1SpentButBlocked),
+            "directory fsync": (dir_fsync, runner.I1SpentButBlocked),
+            "interrupt": (interrupt, KeyboardInterrupt)}
+
+
+@pytest.mark.parametrize("mode,key", [("preflight", "engineering_preflight_proposed"),
+                                      ("science", "scientific_dev_proposed")])
+@pytest.mark.parametrize("fault", ["lineage refusal", "lineage crash", "registry binding", "json construction",
+                                   "file write", "file fsync", "directory fsync", "interrupt"])
+def test_any_failure_after_the_spend_leaves_a_blocked_report(tmp_path, monkeypatch, mode, key, fault):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    run_dir = root / "runs" / "i1" / "r"
+    run_dir.mkdir(parents=True)
+    install, exc = _post_spend_faults(monkeypatch)[fault]
+    install()
+    with pytest.raises(exc):
+        runner.open_for_run(mode, "r", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir, root=root)
+    spends, _ = _spend_rows(root, key)
+    assert [r["source"] for r in spends] == [runner.spend_source(mode, "r")]        # the family is spent ...
+    rep = json.loads((run_dir / "i1_report.json").read_text())                       # ... and the loss is recorded
+    assert rep["verdict"] == "BLOCKED" and "spent by this run" in rep["reason"] and rep["mode"] == mode
+
+
+def test_chatgpt_repro_disk_failure_writing_the_opening_record(tmp_path, monkeypatch):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    _post_spend_faults(monkeypatch)["file write"][0]()
+    with pytest.raises(runner.I1SpentButBlocked, match="simulated disk failure after spend"):
+        runner.open_for_run("science", "sci", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir,
+                            root=root)
+    assert not (run_dir / "seed_opened.json").exists()
+    rep = json.loads((run_dir / "i1_report.json").read_text())
+    assert rep["verdict"] == "BLOCKED" and "seed_opened.json written: False" in rep["reason"]
+
+
+def test_a_failure_before_the_spend_spends_nothing_and_writes_no_blocked_report(tmp_path):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    sci = prereg["families"]["scientific_dev_proposed"]
+    _register(root, "collider", sci["start"] + 70000, sci["start"] + 70003)
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    with pytest.raises(runner.I1Refused, match="cannot be opened"):
+        runner.open_for_run("science", "sci", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir,
+                            root=root)
+    assert _spend_rows(root, "scientific_dev_proposed") == ([], [])
+    assert not (run_dir / "i1_report.json").exists()
+
+
+def test_if_even_the_blocked_report_cannot_be_written_stderr_says_so(tmp_path, monkeypatch, capsys):
+    root = proposed_root(tmp_path)
+    prereg = json.loads((root / runner.PREREG_FILE).read_text())
+    run_dir = root / "runs" / "i1" / "sci"
+    run_dir.mkdir(parents=True)
+    _post_spend_faults(monkeypatch)["file write"][0]()
+    monkeypatch.setattr(runner, "_blocked", lambda *a, **k: (_ for _ in ()).throw(OSError("disk gone")))
+    with pytest.raises(runner.I1SpentButBlocked):
+        runner.open_for_run("science", "sci", prereg=prereg, man={"manifest_sha256": "0" * 64}, run_dir=run_dir,
+                            root=root)
+    assert "I1 BLOCKED" in capsys.readouterr().err
+
