@@ -178,7 +178,7 @@ On the same 40 worlds, paired: survival +27 steps (standard error 51); things do
 How it got there:
 - It left its routine at about 7.5% of its decisions, mostly to build, to explore, to drink or to rest.
 - In 15 of the 40 worlds it never left its routine, so those lives were identical to the routine's.
-- Its deaths over the run: thirst 39%, monsters 38%, hunger 20%. Neither thirst nor hunger fell.
+- Its deaths over the run: thirst 42%, monsters 38%, hunger 20%. Neither thirst nor hunger fell.
 
 Readings:
 - **It learned something real and modest.** It does about one more new thing per life than its routine, in
