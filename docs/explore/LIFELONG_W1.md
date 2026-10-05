@@ -151,6 +151,44 @@ Readings:
 - **The newborn is its routine.** With no evidence it never leaves its routine, so a new individual starts exactly
   where the v1 individual was, and anything it learns is measured from there.
 
+### 4b. David's overnight run: 1104 lives on his machine (2026-10-04/05)
+
+One individual, the shipped design, in the viewer with "Next life when it dies". It lived 1104 lives (652,089
+ticks) in worlds 71001–72104. Its first 20 lives were in the 20 test worlds above, so for this individual those
+worlds are no longer held out. The fresh test below uses worlds 74001–74040, which no individual has lived in.
+Evidence: `evidence/explore/lifelong/home_overnight/`.
+
+While it learned, against the routine individual in the same worlds:
+
+| lives | steps lived (it / routine) | difference (standard error) | things done (it / routine) | difference (s.e.) | requests kept (it / routine) |
+|---|---|---|---|---|---|
+| 0–99 | 485 / 617 | −132 (38) | 13.6 / 12.9 | +0.66 (0.25) | 55% / 50% |
+| 1000–1099 | 608 / 662 | −54 (47) | 13.2 / 12.1 | +1.05 (0.28) | 50% / 46% |
+
+Tested frozen on 40 fresh worlds (74001–74040):
+
+| | Crafter score | things done per life | requests on time | survival (steps) |
+|---|---|---|---|---|
+| routine individual | 23.1 | 11.6 | 0.44 | 581 |
+| after 1104 lives | 29.1 | 12.7 | 0.38 | 608 |
+
+On the same 40 worlds, paired: survival +27 steps (standard error 51); things done +1.05 per life (standard error
+0.29).
+
+How it got there:
+- It left its routine at about 7.5% of its decisions, mostly to build, to explore, to drink or to rest.
+- In 15 of the 40 worlds it never left its routine, so those lives were identical to the routine's.
+- Its deaths over the run: thirst 39%, monsters 38%, hunger 20%. Neither thirst nor hunger fell.
+
+Readings:
+- **It learned something real and modest.** It does about one more new thing per life than its routine, in
+  worlds it has never seen; that difference is about 3.6 standard errors.
+- **What its early exploring cost in survival, it learned back.** The gap was 132 steps in its first 100 lives and
+  54 in lives 1000–1099. Frozen, on fresh worlds, it lives as long as its routine; it does not live longer.
+- **It keeps somewhat fewer requests on time** (0.38 against 0.44).
+- **Its need deaths did not fall.** As section 4 expected, choosing among the same routines does not fix thirst
+  and hunger. The learned skills and the world model (section 6) are what should.
+
 ## 5. What did not work (kept, so nobody repeats it)
 
 - **Bootstrapped option values.** Semi-Markov double Q-learning (a target network, bootstrapping at each decision,

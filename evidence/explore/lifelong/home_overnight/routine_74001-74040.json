@@ -1,0 +1,320 @@
+{
+ "format": "cb-w1-individual-means/1",
+ "seeds": [
+  74001,
+  74040
+ ],
+ "means": {
+  "achievement_success": {
+   "collect_coal": 0.325,
+   "collect_drink": 0.9,
+   "collect_iron": 0.075,
+   "collect_sapling": 0.5,
+   "collect_stone": 0.95,
+   "collect_wood": 1.0,
+   "defeat_zombie": 0.725,
+   "eat_cow": 0.9,
+   "eat_plant": 0.025,
+   "make_stone_pickaxe": 0.55,
+   "make_stone_sword": 0.3,
+   "make_wood_pickaxe": 0.975,
+   "make_wood_sword": 0.975,
+   "place_furnace": 0.125,
+   "place_plant": 0.4,
+   "place_stone": 0.95,
+   "place_table": 0.975,
+   "wake_up": 0.95
+  },
+  "achievements_per_episode": 11.6,
+  "crafter_score": 23.10052529263507,
+  "deaths": 40,
+  "episodes": 40,
+  "memory": {
+   "accuracy": 0.9827586206896551,
+   "asked": 58,
+   "correct": 57
+  },
+  "obligations_on_time": {
+   "failed": 84,
+   "fulfilled": 65,
+   "rate": 0.436241610738255
+  },
+  "per_family": {
+   "avoid": {
+    "failed": 9,
+    "fulfilled": 8,
+    "rate": 0.47058823529411764
+   },
+   "collect": {
+    "failed": 23,
+    "fulfilled": 18,
+    "rate": 0.43902439024390244
+   },
+   "craft": {
+    "failed": 18,
+    "fulfilled": 13,
+    "rate": 0.41935483870967744
+   },
+   "maintain": {
+    "failed": 13,
+    "fulfilled": 7,
+    "rate": 0.35
+   },
+   "place": {
+    "failed": 11,
+    "fulfilled": 13,
+    "rate": 0.5416666666666666
+   },
+   "visit": {
+    "failed": 10,
+    "fulfilled": 6,
+    "rate": 0.375
+   }
+  },
+  "seconds": 277.8299999999999,
+  "survival_steps": 581.425
+ },
+ "episodes": [
+  {
+   "seed": 74001,
+   "steps": 685,
+   "state_hash": "0097c073be327e2f084b2cb494db919eda8db3e0f63b650420854bce2892ef51",
+   "unlocked": 13
+  },
+  {
+   "seed": 74002,
+   "steps": 442,
+   "state_hash": "6eb8c7792ec77feeb50fd1ac7825e3c971d1a5f590885a34284dc5de3aa8bf5b",
+   "unlocked": 10
+  },
+  {
+   "seed": 74003,
+   "steps": 498,
+   "state_hash": "1c429ce70d327ca800b63c274c3598322939c1cdb4c6845a68797ab37c79ba9a",
+   "unlocked": 11
+  },
+  {
+   "seed": 74004,
+   "steps": 583,
+   "state_hash": "fe3f1ca534112c6713bbd14837a456cdba341feb3c804e20e749b4818a94ada0",
+   "unlocked": 10
+  },
+  {
+   "seed": 74005,
+   "steps": 199,
+   "state_hash": "085377c376a970237acd256cf382a25525dacb88aa2ac764fa4054b1760ffa79",
+   "unlocked": 8
+  },
+  {
+   "seed": 74006,
+   "steps": 646,
+   "state_hash": "119cc8d6f51e79a37d8535144a8bcd484fc791cc0a268592f04c54f04c97ba28",
+   "unlocked": 10
+  },
+  {
+   "seed": 74007,
+   "steps": 280,
+   "state_hash": "a4e3999c690d7d6293670ba564159079ac1611ebc81545a47d6ac52528c9fb9b",
+   "unlocked": 12
+  },
+  {
+   "seed": 74008,
+   "steps": 301,
+   "state_hash": "e44337da3da4b6b0703f15bae0cc8ba21c75d365d0134ee4d8a4d646c22c6cfc",
+   "unlocked": 4
+  },
+  {
+   "seed": 74009,
+   "steps": 748,
+   "state_hash": "5062dab6a3f2e882227ac416c33fd12266c7dad48ba84d7f5fd61a38d3b568e3",
+   "unlocked": 10
+  },
+  {
+   "seed": 74010,
+   "steps": 479,
+   "state_hash": "60912235d7362fa9ebc59894da88ea5ec4d83196ea5cdfff9773ddf2c3833c57",
+   "unlocked": 12
+  },
+  {
+   "seed": 74011,
+   "steps": 991,
+   "state_hash": "caad7ce198436cbab77d36425c4c2a4eb35d1213313d61f402ca53c64df7ae30",
+   "unlocked": 16
+  },
+  {
+   "seed": 74012,
+   "steps": 285,
+   "state_hash": "604d6970b2b01f7fc5f1e21867f0913810d6184b8de0a84cf39404d1be40c986",
+   "unlocked": 11
+  },
+  {
+   "seed": 74013,
+   "steps": 382,
+   "state_hash": "37d6e534cfa567226cdd87933b48b85e20fbf9ca209d7b5e01800e9d667d9c78",
+   "unlocked": 15
+  },
+  {
+   "seed": 74014,
+   "steps": 765,
+   "state_hash": "5cbc2640f221a47672ade8d13327ae6ac38d8c9b749d2841ac4f605af5b6599e",
+   "unlocked": 9
+  },
+  {
+   "seed": 74015,
+   "steps": 298,
+   "state_hash": "f5cb87fc2ae4d058463496fc1d7fb4645da36485e95fabeca2ffd8e2f8d29fdf",
+   "unlocked": 10
+  },
+  {
+   "seed": 74016,
+   "steps": 370,
+   "state_hash": "5753d7345515aae42da4e41387fb3471f9c7664c6d96ce01225f8f5fb14c5d27",
+   "unlocked": 12
+  },
+  {
+   "seed": 74017,
+   "steps": 287,
+   "state_hash": "eed00083779fb59597dd1d0fdc747c2fb839d9aedebbf162aff3d0933ebdf34f",
+   "unlocked": 8
+  },
+  {
+   "seed": 74018,
+   "steps": 707,
+   "state_hash": "6ffba651c62de7fe3d9e41a1fbe5c9df7ba81a8c529c3761b8761ec4b27342f4",
+   "unlocked": 15
+  },
+  {
+   "seed": 74019,
+   "steps": 400,
+   "state_hash": "1905d1010c9c8033c1e393721d29b38d5642a079016d1cd8292848a378026fcb",
+   "unlocked": 13
+  },
+  {
+   "seed": 74020,
+   "steps": 482,
+   "state_hash": "d97742e77c2daf5de9a3d12d5a94029a23d1a29f1c9c02e3850a1b49e00de0d9",
+   "unlocked": 15
+  },
+  {
+   "seed": 74021,
+   "steps": 409,
+   "state_hash": "f292ab81e79e1e7ace1c80723eab789f669fdda0ca73dea076cb859216971062",
+   "unlocked": 10
+  },
+  {
+   "seed": 74022,
+   "steps": 613,
+   "state_hash": "d08e7dbb20090eaa442ce72595f8d3b110105ef67b0e37f8886d1e661f77fccf",
+   "unlocked": 11
+  },
+  {
+   "seed": 74023,
+   "steps": 756,
+   "state_hash": "6139fccfa6ea5451cb71b335fc7731c990987d07e1233167584a50b8cc56b5e4",
+   "unlocked": 14
+  },
+  {
+   "seed": 74024,
+   "steps": 291,
+   "state_hash": "15010bceda008e3737b59ec81ffd67cb374d5052492914a3c902f56d6255d310",
+   "unlocked": 10
+  },
+  {
+   "seed": 74025,
+   "steps": 304,
+   "state_hash": "50b5b9e3f6c62d20799e60427183f983592551b0ab338c7e8c8658677e2be804",
+   "unlocked": 14
+  },
+  {
+   "seed": 74026,
+   "steps": 940,
+   "state_hash": "f48db506ce9e62daa65c74cedfe6d0a9ecfa05f8ba3cb11b1899bbef32c0d71c",
+   "unlocked": 13
+  },
+  {
+   "seed": 74027,
+   "steps": 1005,
+   "state_hash": "ae8e2d245d00253cd0f39cda7986085419368ff8ecf790254e31a498ec4b289f",
+   "unlocked": 13
+  },
+  {
+   "seed": 74028,
+   "steps": 1267,
+   "state_hash": "56f764dc3c953c419f3bcc33ab180a5ccad3db9855ebb6942309180010bae8c1",
+   "unlocked": 17
+  },
+  {
+   "seed": 74029,
+   "steps": 379,
+   "state_hash": "20c7c7aec8f3ba295a53cc6f29bd57a1a0cec952f526a5634dd3328003647511",
+   "unlocked": 12
+  },
+  {
+   "seed": 74030,
+   "steps": 647,
+   "state_hash": "e6dd1f329a481f93f74b43a160aab996b871b5102cc8a99a2159fe793f51e72a",
+   "unlocked": 12
+  },
+  {
+   "seed": 74031,
+   "steps": 428,
+   "state_hash": "6502951e226382bd21a034dfd31389bce2721f56d96ba39d63d72f7c4a307892",
+   "unlocked": 9
+  },
+  {
+   "seed": 74032,
+   "steps": 383,
+   "state_hash": "e1ba20f156275a5dba2ed5d9f068428bb2fcc0fd8352c1415b3f88772d01c1e7",
+   "unlocked": 12
+  },
+  {
+   "seed": 74033,
+   "steps": 977,
+   "state_hash": "39c8b4fc00445d1b1fa495baead391afd366e12617508f5a4092d35dbca4fffd",
+   "unlocked": 11
+  },
+  {
+   "seed": 74034,
+   "steps": 284,
+   "state_hash": "34cc0b6005b463a358e2988e9bd00e1de9f96a3bd5e43c84c2622f6cb60d1648",
+   "unlocked": 12
+  },
+  {
+   "seed": 74035,
+   "steps": 711,
+   "state_hash": "f6385abeb5686d21acff6c231d740b1483449ac89de6dbc38485443b71817f1d",
+   "unlocked": 10
+  },
+  {
+   "seed": 74036,
+   "steps": 751,
+   "state_hash": "92c2594887017f122c5659b7425f497eeeb11d24b1d784239818b1747d40bdfc",
+   "unlocked": 13
+  },
+  {
+   "seed": 74037,
+   "steps": 305,
+   "state_hash": "a61c6c985e2a768b7ceab987e5941113f4a0cb71e1af4907b0a2e23cd69a76a5",
+   "unlocked": 8
+  },
+  {
+   "seed": 74038,
+   "steps": 1416,
+   "state_hash": "e330cdadd36d38e85db6a6cadbf37fd7fc99b62fd753911ebddf04fbf06ee8e0",
+   "unlocked": 15
+  },
+  {
+   "seed": 74039,
+   "steps": 1154,
+   "state_hash": "eb70b3364f89806135b67c4edab4d1585b66e9c0bbd21b9055a9b11cce28b0a5",
+   "unlocked": 13
+  },
+  {
+   "seed": 74040,
+   "steps": 409,
+   "state_hash": "e7c3a1d838fcbbeb8aef6929964210e556c561f9273a19f8f2fa1833d45d6d6d",
+   "unlocked": 11
+  }
+ ],
+ "git": "bdf43345a9219669977103f16e8c240c8f89639d"
+}
