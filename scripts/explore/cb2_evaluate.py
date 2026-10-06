@@ -33,7 +33,7 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts/explore"))
 
-from cb2_collect import ARCHIVE, INDIVIDUALS, git_rev, provenance, vision  # noqa: E402
+from cb2_collect import ARCHIVE, INDIVIDUALS, git_rev, provenance, snapshot_path, vision  # noqa: E402
 
 
 def _sha(p: Path) -> str:
@@ -47,7 +47,7 @@ def load_individual(home: Path, v):
     meta = json.loads((home / "individual.json").read_text())
     ind = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), v,
                      LanguageOrgan.from_config({"backend": "dev"}))
-    ind.rt.restore(SnapshotStore(home), Path(meta["snapshot"]))
+    ind.rt.restore(SnapshotStore(home), snapshot_path(home, meta))
     ind.life = int(meta["life"])
     if ind.state_hash() != meta["state_hash"]:
         raise SystemExit("the saved individual does not restore to its recorded state")
@@ -82,8 +82,8 @@ def install_cmd(a) -> int:
     event = install(src, dst, pack_weights(core, pol), lineage)
     rec = ConsolidationLog(home / "consolidations.jsonl").append(event)
     snap = dst.rt.save(SnapshotStore(home), label=f"consolidation{rec['seq']}")
-    new = {**meta, "snapshot": str(snap), "skills": "cb2", "state_hash": dst.state_hash(), "life": dst.life,
-           "consolidations": rec["seq"] + 1, "parent_snapshot": meta["snapshot"], **git_rev()}
+    new = {**meta, "snapshot": snap.name, "skills": "cb2", "state_hash": dst.state_hash(), "life": dst.life,
+           "consolidations": rec["seq"] + 1, "parent_snapshot": Path(meta["snapshot"]).name, **git_rev()}
     Path(str(snap) + ".meta.json").write_text(json.dumps(new) + "\n")
     (home / "individual.json").write_text(json.dumps(new, indent=1) + "\n")
     print(json.dumps({"event": event["kind"], "event_sha": event["event_sha"], "parent": event["parent_state_hash"],

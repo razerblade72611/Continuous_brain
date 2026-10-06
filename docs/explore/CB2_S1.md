@@ -117,4 +117,7 @@ the data for the next imitation round (DAgger).
 - **Built and tested:** archive, wake and practice collection, core, policies, probes, skill host, consolidation,
   evaluation.
 - **Collected here:** 20 lived lives (12,401 transitions) and practice run 0 (200,000 transitions, 2 workers).
+- **Provenance note:** the lived lives and practice run 0 were collected with the CB2 code before it was first
+  committed (3838fef), so their manifests name the parent commit fac701e. The recording code that produced them
+  is what 3838fef contains; a later change (the shadow routine) applies only when the skill is not the routine.
 - **Waiting for a GPU:** training at real scale.

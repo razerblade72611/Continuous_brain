@@ -55,6 +55,12 @@ def vision():
     return VisionOrgan(WEIGHTS, CARD)
 
 
+def snapshot_path(home: Path, meta: dict) -> Path:
+    """Saves are named relative to the individual's home, so a copied or moved home still finds its own."""
+    p = Path(meta["snapshot"])
+    return p if p.is_absolute() and p.exists() else home / "checkpoints" / p.name
+
+
 def provenance(v, role: str) -> dict:
     return {"role": role, **git_rev(), "vision_weights_sha256": v.weights_sha256, "language": "development_parser",
             "skills": "routine"}
@@ -78,7 +84,7 @@ def wake(a) -> int:
     ind = Individual(IndividualConfig(lifelong=True, skills=skills), v, LanguageOrgan.from_config({"backend": "dev"}))
     if prior:
         meta = prior
-        ind.rt.restore(store, Path(meta["snapshot"]))
+        ind.rt.restore(store, snapshot_path(home, meta))
         ind.life, start = int(meta["life"]), int(meta["lives_lived"])
         if ind.state_hash() != meta["state_hash"]:
             raise SystemExit("the saved individual does not restore to its recorded state")
@@ -92,7 +98,7 @@ def wake(a) -> int:
         w.close()                                   # each life ends a shard: a crash never loses a sealed life
         ind.next_life()
         snap = ind.rt.save(store, label=f"lives{k + 1}")
-        meta = {**prior, "individual": a.individual, "snapshot": str(snap), "life": ind.life, "lives_lived": k + 1,
+        meta = {**prior, "individual": a.individual, "snapshot": snap.name, "life": ind.life, "lives_lived": k + 1,
                 "skills": skills, "state_hash": ind.state_hash(), **git_rev()}
         Path(str(snap) + ".meta.json").write_text(json.dumps(meta) + "\n")
         meta_path.write_text(json.dumps(meta, indent=1) + "\n")
