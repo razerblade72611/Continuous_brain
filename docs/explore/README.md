@@ -11,6 +11,7 @@ touch the protected I1 lane (`LANES.md`; the lane guard test checks the frozen I
 | `continuous_brain_individual/` | **the individual**: perception, memory, commitments, self-model, speech, skills and autobiography as hosts over the canonical store | `INDIVIDUAL_W1.md` |
 | `continuous_brain_individual/learned.py`, `scripts/explore/w1_lifelong.py` | **one individual across lives**: learned foresight and choice, trained only on its own lives | `LIFELONG_W1.md` |
 | `continuous_brain_individual/viewer.py`, `scripts/explore/w1_viewer.py` | **the live viewer**: watch it live, learn and continue across lives in the browser (below) | this file |
+| `continuous_brain_cb2/`, `scripts/explore/cb2_*.py` | **CB2-S1**: the scale-first kernel: experience archive, DreamerV3 predictive core, imitation skill, consolidation | `CB2_S1.md` |
 
 ## Setting up on David's WSL (Ubuntu-24.04)
 

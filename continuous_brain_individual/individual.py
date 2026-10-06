@@ -47,7 +47,8 @@ class IndividualConfig:
     memory: str = "full"
     language: str = "organ"
     perception: str = "organ"
-    skills: str = "routine"           # "routine": the borrowed routine library; "learned": foresight + learned choice
+    skills: str = "routine"           # "routine": the borrowed routine library; "learned": foresight + learned choice;
+                                      # "cb2": the CB2-S1 predictive core and skill policy (installed by consolidation)
     learn: bool = True                # learned skills only: False freezes what it has learned (evaluation)
     lifelong: bool = False            # one individual across lives: it knows its life number and its dying moment
     seed: int = 0
@@ -79,6 +80,9 @@ class Individual:
             hosts += [WorldModelHost(config.seed, config.learn), LearnedSkillHost(config.seed, config.learn)]
         elif config.skills == "routine":
             hosts.append(SkillHost(config.seed))
+        elif config.skills == "cb2":                      # the CB2-S1 learned skill: predictive core + policy
+            from continuous_brain_cb2.skill_host import CoreSkillHost
+            hosts.append(CoreSkillHost())
         else:
             raise ValueError(f"unknown skills {config.skills!r}")
         rt.bind_many(hosts)
