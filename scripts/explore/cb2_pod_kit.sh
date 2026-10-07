@@ -11,7 +11,7 @@ REPO=$(cd "$(dirname "$0")/../.." && pwd)
 OUT=/mnt/c/Users/davei/cb_exchange/cb2_kit_$ROUND.tgz
 STAGE=$(mktemp -d)
 cd "$REPO"
-git bundle create "$STAGE/code.bundle" HEAD 2>/dev/null
+git bundle create "$STAGE/code.bundle" HEAD "$(git rev-parse --abbrev-ref HEAD)" 2>/dev/null
 git rev-parse HEAD > "$STAGE/code.rev"
 git rev-parse --abbrev-ref HEAD > "$STAGE/code.branch"
 cp runs/explore/vision/tile_decoder_v1.pt "$STAGE/"

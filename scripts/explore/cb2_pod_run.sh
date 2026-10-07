@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # On the GPU pod, in /workspace, after receiving the kit:
-#   mkdir -p /workspace/kit && tar -C /workspace/kit -xzf cb2_kit_r1.tgz && bash /workspace/kit/cb2_pod_run.sh r1
+#   mkdir -p /workspace/kit && tar --no-same-owner -C /workspace/kit -xzf cb2_kit_r1.tgz && bash /workspace/kit/cb2_pod_run.sh r1
 # Sets up the code and a pinned environment, runs the whole round (scripts/explore/cb2_s1.sh), and packs what it
 # learned and measured into /workspace/cb2_results_<round>.tgz.  Safe to re-run after an interruption: finished
 # steps are skipped.  The canonical individual is never changed here: the round installs into a candidate copy.
@@ -8,8 +8,9 @@ set -euo pipefail
 ROUND=${1:?round label, e.g. r1}
 KIT=/workspace/kit
 CODE=/workspace/Continuous_brain
-if [ ! -d "$CODE/.git" ]; then
-  git clone -q "$KIT/code.bundle" "$CODE" -b "$(cat "$KIT/code.branch")"
+if [ ! -d "$CODE/.git" ]; then                      # fetch the kit's exact commit (no branch name needed)
+  mkdir -p "$CODE" && git -C "$CODE" init -q && git -C "$CODE" fetch -q "$KIT/code.bundle" HEAD
+  git -C "$CODE" checkout -q --detach FETCH_HEAD
 fi
 cd "$CODE"
 [ "$(git rev-parse HEAD)" = "$(cat "$KIT/code.rev")" ] || { echo "code revision differs from the kit's"; exit 1; }
