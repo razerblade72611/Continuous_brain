@@ -18,12 +18,16 @@ mkdir -p runs/explore/vision runs/explore/cb2/archive
 [ -d runs/explore/cb2/individuals ] || cp -r "$KIT/cb2/individuals" runs/explore/cb2/
 for d in "$KIT"/cb2/archive/lived-*; do [ -d "runs/explore/cb2/archive/$(basename "$d")" ] || cp -r "$d" runs/explore/cb2/archive/; done
 echo "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999  runs/explore/vision/tile_decoder_v1.pt" | sha256sum -c
-if [ ! -d /workspace/venv ]; then
-  python3 -m venv --system-site-packages /workspace/venv           # the pod's CUDA PyTorch, pinned others
-  /workspace/venv/bin/pip install -q numpy==2.4.4 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 \
-      pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest
+PINS="numpy==2.4.4 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest"
+if [ ! -x /workspace/venv/bin/python ]; then
+  if python3 -m venv --system-site-packages /workspace/venv 2>/dev/null; then   # keeps the pod's CUDA PyTorch
+    /workspace/venv/bin/pip install -q $PINS
+  else                                               # no venv module: the pod is disposable, use its Python
+    mkdir -p /workspace/venv/bin && ln -sf "$(command -v python3)" /workspace/venv/bin/python
+    python3 -m pip install -q $PINS || python3 -m pip install -q --break-system-packages $PINS
+  fi
 fi
-source /workspace/venv/bin/activate
+export PATH=/workspace/venv/bin:$PATH
 export PYTHONPATH=$CODE OPENBLAS_NUM_THREADS=1
 python -c "import torch; assert torch.cuda.is_available(), 'no GPU visible'; print(torch.__version__, torch.cuda.get_device_name(0))"
 python -m pytest -q -p no:cacheprovider tests/test_cb2_archive.py tests/test_cb2_core.py tests/test_cb2_consolidation.py
