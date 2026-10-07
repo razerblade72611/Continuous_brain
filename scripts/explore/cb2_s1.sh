@@ -18,7 +18,12 @@ STEPS=${2:-1000000}
 SIZE=${3:-S}
 CORE_UPDATES=${4:-30000}
 POLICY_UPDATES=${5:-15000}
-WORKERS=$(( $(nproc) > 2 ? $(nproc) - 1 : 2 ))
+CPUS=$(nproc)
+if [ -r /sys/fs/cgroup/cpu.max ]; then           # a container's real share of the CPU, not the host's count
+  read -r Q P < /sys/fs/cgroup/cpu.max
+  [ "$Q" != "max" ] && CPUS=$(( Q / P ))
+fi
+WORKERS=${WORKERS:-$(( CPUS > 2 ? CPUS - 1 : 2 ))}
 SLEEP=runs/explore/cb2/sleep/$ROUND
 CAND=runs/explore/cb2/candidates/$ROUND
 LOGS=runs/explore/cb2/logs/$ROUND
@@ -36,19 +41,19 @@ if [ ! -f "$LOGS/practice.done" ]; then
   python scripts/explore/cb2_collect.py practice --workers "$WORKERS" --steps "$STEPS" --run "$RUN_NO" | tee "$LOGS/practice.log"
   touch "$LOGS/practice.done"
 fi
-[ -f "$SLEEP/core/core.pt" ] || python scripts/explore/cb2_sleep.py core --size "$SIZE" --updates "$CORE_UPDATES" --out "$SLEEP/core" | tee "$LOGS/core.log"
+[ -f "$SLEEP/core/core.pt" ] || python scripts/explore/cb2_sleep.py core --preload --size "$SIZE" --updates "$CORE_UPDATES" --out "$SLEEP/core" | tee "$LOGS/core.log"
 [ -f "evidence/explore/cb2/gate-foresight-$ROUND.json" ] || python scripts/explore/cb2_sleep.py gate-foresight --core "$SLEEP/core/core.pt" --label "$ROUND" | tee "$LOGS/gate-foresight.log"
 for ARM in P-A P-B; do
-  [ -f "$SLEEP/policy-$ARM/policy.pt" ] || python scripts/explore/cb2_sleep.py policy --core "$SLEEP/core/core.pt" --arm "$ARM" --updates "$POLICY_UPDATES" --out "$SLEEP/policy-$ARM" | tee "$LOGS/policy-$ARM.log"
+  [ -f "$SLEEP/policy-$ARM/policy.pt" ] || python scripts/explore/cb2_sleep.py policy --preload --core "$SLEEP/core/core.pt" --arm "$ARM" --updates "$POLICY_UPDATES" --out "$SLEEP/policy-$ARM" | tee "$LOGS/policy-$ARM.log"
 done
 [ -f "$LOGS/dream.done" ] || { python scripts/explore/cb2_sleep.py dream --core "$SLEEP/core/core.pt" --policy "$SLEEP/policy-P-B/policy.pt" --stream "dream-$ROUND" --n 64 | tee "$LOGS/dream.log"; touch "$LOGS/dream.done"; }
 [ -f "evidence/explore/cb2/probe-$ROUND.json" ] || python scripts/explore/cb2_sleep.py probe --core "$SLEEP/core/core.pt" --out "evidence/explore/cb2/probe-$ROUND.json" | tee "$LOGS/probe.log"
 if [ ! -d "$CAND" ]; then
   mkdir -p "$CAND"
   cp -r runs/explore/cb2/individuals/cb2-ind-0001 "$CAND/"
-  python scripts/explore/cb2_evaluate.py install --individuals "$CAND" --core "$SLEEP/core/core.pt" --policy "$SLEEP/policy-P-A/policy.pt" --note "candidate $ROUND" | tee "$LOGS/install.log"
+  python scripts/explore/cb2_evaluate.py install --candidate --individuals "$CAND" --core "$SLEEP/core/core.pt" --policy "$SLEEP/policy-P-A/policy.pt" --note "candidate $ROUND" | tee "$LOGS/install.log"
 fi
-[ -f "evidence/explore/cb2/eval-$ROUND-PA.json" ] || python scripts/explore/cb2_evaluate.py evaluate --individuals "$CAND" --label "$ROUND-PA" | tee "$LOGS/eval.log"
+[ -f "evidence/explore/cb2/eval-$ROUND-PA.json" ] || python scripts/explore/cb2_evaluate.py evaluate --individuals "$CAND" --label "$ROUND-PA" --seeds "${EVAL_SEEDS:-75001-75040}" | tee "$LOGS/eval.log"
 python - "$ROUND" <<'EOF'
 import json, sys
 r = sys.argv[1]

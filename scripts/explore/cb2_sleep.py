@@ -87,8 +87,8 @@ def train_core(a) -> int:
         torch.set_num_threads(a.threads)
     out = new_out(a.out)
     arch, train, test, held = split(a.archive, a.heldout_lives)
-    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed)
-    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1)
+    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed, preload=a.preload)
+    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1, preload=a.preload)
     core = PredictiveCore(CoreConfig.sized(a.size), dev)
     run = {"format": "cb2-sleep-core/1", "status": "ENGINEERING_ONLY", **git_rev(), "device": dev, **core.describe(),
            "train_rows": tr.rows(), "heldout_rows": te.rows(), "heldout_lives": held, "args": vars(a),
@@ -133,8 +133,8 @@ def train_policy(a) -> int:
     arch, train, test, held = split(a.archive, a.heldout_lives)
     ns = ("student", "teacher", "organ")
     pa = a.arm == "P-A"
-    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed, namespaces=ns, map_crop=pa)
-    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1, namespaces=ns, map_crop=pa)
+    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed, namespaces=ns, map_crop=pa, preload=a.preload)
+    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1, namespaces=ns, map_crop=pa, preload=a.preload)
     pol = SkillPolicy(PolicyConfig(arm=a.arm), core.feat_size, dev)
     run = {"format": "cb2-sleep-policy/1", "status": "ENGINEERING_ONLY", **git_rev(), "device": dev, "arm": a.arm,
            "core": str(a.core), "core_sha256": file_sha(Path(a.core)),
@@ -357,6 +357,7 @@ def main() -> int:
         p.add_argument("--T", type=int, default=64)
         p.add_argument("--seed", type=int, default=0)
         p.add_argument("--out", default=None, required=name in ("core", "policy"))
+        p.add_argument("--preload", action="store_true", help="hold all frames in memory (for a GPU)")
         if name in ("core", "policy"):
             p.add_argument("--updates", type=int, default=20000)
             p.add_argument("--log-every", type=int, default=250)

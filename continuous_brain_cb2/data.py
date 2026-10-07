@@ -143,7 +143,8 @@ class SequenceSampler:
     """Random windows of T steps.  ``batch()`` returns numpy arrays shaped [B, T, ...]."""
 
     def __init__(self, archive: Archive, refs: list[ShardRef], T: int = 64, seed: int = 0,
-                 namespaces=("student",), row_group: int = 4096, cache_groups: int = 24, map_crop: bool = False):
+                 namespaces=("student",), row_group: int = 4096, cache_groups: int = 24, map_crop: bool = False,
+                 preload: bool = False):
         self.archive, self.T = archive, T
         by_stream: dict[str, list[ShardRef]] = {}
         for r in refs:
@@ -159,11 +160,33 @@ class SequenceSampler:
         self.row_group = row_group
         self.cache = FrameCache(archive, cache_groups)
         self.map_crop = map_crop
+        self.mem: dict = {}
+        for s in self.streams:
+            c = s.cols
+            c["rew_total"] = (c["reward"] + c["reward_caretaker"]).astype(np.float32)
+        if preload:                      # a GPU trains far faster than row groups decode: hold it all in memory
+            for s in self.streams:
+                self.mem[(s.stream, "student", "frame")] = self._load_all(s, "student", "frame")
+                if map_crop:
+                    self.mem[(s.stream, "organ", "map_crop")] = self._load_all(s, "organ", "map_crop")
+
+    def _load_all(self, s: StreamIndex, ns: str, column: str) -> np.ndarray:
+        parts = []
+        for ref in s.shards:
+            for g in range(self.archive.row_groups(ref, ns)):
+                t = self.archive.read_group(ref, ns, g, columns=[column])
+                parts.append(frames(t) if column == "frame" else fixed(t, column, np.int8))
+        out = np.concatenate(parts)
+        assert len(out) == len(s), (s.stream, ns, column, len(out), len(s))
+        return out
 
     def rows(self) -> int:
         return sum(len(s) for s in self.streams)
 
     def _column(self, s: StreamIndex, start: int, T: int, ns: str, column: str) -> np.ndarray:
+        held = self.mem.get((s.stream, ns, column))
+        if held is not None:
+            return held[start:start + T]
         out = []
         i, end = start, start + T
         while i < end:
@@ -182,7 +205,7 @@ class SequenceSampler:
         sl = slice(start, start + T)
         act = c["action"][sl].astype(np.int64)
         prev = np.r_[0, act[:-1]]
-        rew = (c["reward"] + c["reward_caretaker"]).astype(np.float32)
+        rew = c["rew_total"]
         prev_rew = np.r_[0.0, rew[start:start + T - 1]] if start == 0 else rew[start - 1:start + T - 1]
         is_first = c["is_first"][sl].copy()
         is_first[0] = True                                  # every window starts its own recurrent state

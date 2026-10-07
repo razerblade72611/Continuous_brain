@@ -80,16 +80,16 @@ def install_cmd(a) -> int:
     for part in ("core", "policy"):
         lineage[part]["run"].pop("train_shards", None)          # kept in the run.json the path names
         lineage[part]["run"].pop("heldout_shards", None)
-    return _consolidate(home, src, meta, v, pack_weights(core, pol), lineage)
+    return _consolidate(home, src, meta, v, pack_weights(core, pol), lineage, candidate=a.candidate)
 
 
-def _consolidate(home: Path, src, meta: dict, v, weights: bytes, lineage: dict) -> int:
+def _consolidate(home: Path, src, meta: dict, v, weights: bytes, lineage: dict, candidate: bool = False) -> int:
     """One consolidation event: install, log it, keep the weights (write-once, by hash), save the individual."""
     from continuous_brain_cb2.consolidation import ConsolidationLog, install
     from continuous_brain_individual.individual import Individual, IndividualConfig
     from continuous_brain_organs.language import LanguageOrgan
     from continuous_brain_snn.snapshot import SnapshotStore
-    if meta.get("in_life"):
+    if meta.get("in_life") and not candidate:
         raise SystemExit("it is in the middle of a life (stopped in the viewer): finish that life first")
     dst = Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
     event = install(src, dst, weights, lineage)
@@ -193,7 +193,7 @@ def evaluate_cmd(a) -> int:
         test = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), v,
                           LanguageOrgan.from_config({"backend": "dev"}))
         test.restore(copy.deepcopy(saved))
-        test.life = int(meta["life"]) + i                 # a fresh world for this copy
+        test.life = int(meta["life"]) + 1 + i             # a fresh world, and a new life number, for this copy
         e = one(test, seed, w_ind, "SELF")
         w_ind.close()
         r = one(Individual(IndividualConfig(), v, LanguageOrgan.from_config({"backend": "dev"})), seed, w_rt, "TEACHER")
@@ -223,6 +223,8 @@ def main() -> int:
     i.add_argument("--core", required=True)
     i.add_argument("--policy", required=True)
     i.add_argument("--note", default="")
+    i.add_argument("--candidate", action="store_true",
+                   help="a candidate copy (evaluation only): it may have been saved mid-life")
     e = sub.add_parser("evaluate")
     e.add_argument("--label", required=True)
     e.add_argument("--seeds", default="75001-75040")
