@@ -82,6 +82,9 @@ def wake(a) -> int:
     prior = json.loads(meta_path.read_text()) if meta_path.exists() else {}
     skills = prior.get("skills", "routine")          # "cb2" once a consolidation gave it its learned skill
     ind = Individual(IndividualConfig(lifelong=True, skills=skills), v, LanguageOrgan.from_config({"backend": "dev"}))
+    if prior.get("in_life"):
+        raise SystemExit("it was stopped in the middle of a life in the viewer: finish that life there first "
+                         "(python scripts/explore/w1_viewer.py --individual %s)" % a.individual)
     if prior:
         meta = prior
         ind.rt.restore(store, snapshot_path(home, meta))

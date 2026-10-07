@@ -56,6 +56,9 @@ export PYTHONPATH=$PWD
 python scripts/explore/w1_viewer.py --seed 71001
 ```
 
+The CB2 individual (`CB2_S1.md`) lives its own next lives in the same viewer, every tick archived:
+`python scripts/explore/w1_viewer.py --individual cb2-ind-0001`.
+
 Then open http://localhost:8765 in a Windows browser (WSL forwards localhost). If the page doesn't load, stop the
 server with Ctrl+C and start it again with `--host 0.0.0.0` added.
 

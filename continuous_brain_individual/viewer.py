@@ -22,6 +22,12 @@ A lifelong individual (the default here: learned skills, one individual across l
 its last moment is one more tick in which it knows it is dying (its faculties close the life and consolidate
 what they learned), the whole individual is saved to disk automatically, and the next life continues it in a
 new world (``next_life``).  Each life's summary is appended to ``<root>/<individual>/lives.jsonl``.
+
+The canonical CB2 individual (``live_as``): the viewer lives the individual's own next lives, exactly as
+``scripts/explore/cb2_collect.py wake`` does.  Every tick is archived to its LIVED stream; each life ends a shard
+and saves it to its home; stopping mid-life seals the shard and saves it with its world, so the next start
+continues the same life.  Its life is its chronology, so nothing rewinds or edits it here: erase, bookmark/back
+and a new individual are refused.
 """
 from __future__ import annotations
 
@@ -88,6 +94,13 @@ def units_for(learned: bool) -> list[tuple[str, str]]:
             + base[i:])
 
 
+def _git_rev() -> dict:
+    import subprocess
+    repo = Path(__file__).resolve().parents[1]
+    rev = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, text=True, capture_output=True).stdout.strip()
+    return {"git": rev}
+
+
 def _png(img: np.ndarray) -> str:
     buf = io.BytesIO()
     Image.fromarray(np.asarray(img, dtype=np.uint8)).save(buf, format="PNG")
@@ -122,6 +135,7 @@ class LiveSession:
         self.lock = threading.RLock()
         self.ind = self.env = self.obs = self.info = None
         self.bookmark = None
+        self.home = self.writer = None            # set by live_as: the canonical CB2 individual
 
     # ------------------------------------------------------------------------------------------- lives
     def _build(self, arm: dict) -> Individual:
@@ -157,8 +171,93 @@ class LiveSession:
     def options(self) -> list[str]:
         return list(LEARNED_OPTIONS) if self.learned else ROUTINE_OPTIONS
 
+    def _not_canonical(self, what: str) -> None:
+        if self.home is not None:
+            raise ValueError(f"{what}: this is the canonical individual, whose life is its recorded chronology; "
+                             "it cannot be rewound, edited or replaced here")
+
+    # ------------------------------------------------------------------- the canonical CB2 individual
+    def live_as(self, home: str | Path, archive: str | Path, seed0: int = 75101) -> None:
+        """Live the canonical CB2 individual's next life (or continue the life it was stopped in), archiving
+        every tick to its LIVED stream."""
+        from continuous_brain_cb2.archive import StreamWriter
+        from continuous_brain_cb2.record import OrganReadout, ShadowRoutine
+        home = Path(home)
+        meta = json.loads((home / "individual.json").read_text())
+        snap = home / "checkpoints" / Path(meta["snapshot"]).name
+        with self.lock:
+            self.arm = {"skills": meta.get("skills", "routine"), "lifelong": True}
+            self.ind = self._build(self.arm)
+            self.ind.rt.restore(SnapshotStore(home), snap)
+            if self.ind.state_hash() != meta["state_hash"]:
+                raise ValueError("the saved individual does not restore to its recorded state")
+            self.ind.life = int(meta["life"])
+            self.home, self.home_meta, self.seed0 = home, meta, int(seed0)
+            self.individual_id = meta["individual"]
+            prov = {"role": "viewer", "vision_weights_sha256": getattr(self.vision, "weights_sha256", None),
+                    "language": self.language_config.get("backend"), "skills": self.arm["skills"], **_git_rev()}
+            self.writer = StreamWriter(archive, f"lived-{self.individual_id}", "LIVED", self.individual_id, prov)
+            self.readout = OrganReadout()
+            self.shadow = ShadowRoutine(0) if self.arm["skills"] != "routine" else None
+            self.env = W1Env(self.world_config)
+            self._reset_logs()
+            if meta.get("in_life"):
+                side = json.loads(Path(str(snap) + ".viewer.json").read_text())
+                self.env.restore(W1Env.snapshot_from_json(Path(str(snap) + ".world.json").read_text()))
+                o = side["obs"]
+                self.obs = {"image": np.frombuffer(base64.b64decode(o["image"]), np.uint8).reshape(o["shape"]).copy(),
+                            **{k: o[k] for k in ("messages", "step", "day", "phase")}}
+                self.info = self.env.privileged_now()
+                self.seed = int(side["seed"])
+                self.readout.hist = [list(h) for h in side.get("readout_hist", [])]
+                if self.shadow is not None and side.get("shadow"):
+                    from continuous_brain_individual.skills import SkillLibrary
+                    self.shadow.lib = SkillLibrary.from_state(side["shadow"])
+                self.log.append({"step": int(self.obs["step"]), "who": "operator", "kind": "resume",
+                                 "text": f"continuing life {self.ind.life + 1} in world {self.seed}"})
+            else:
+                self._open_world(self.seed0 + int(meta["lives_lived"]))
+                self.log.append({"step": 0, "who": "world", "kind": "life",
+                                 "text": f"life {self.ind.life + 1} begins in world {self.seed}"})
+            lp = home / "lives.jsonl"
+            self.lives = [json.loads(l) for l in lp.read_text().splitlines()] if lp.exists() else []
+            self.started = time.time()
+
+    def _open_world(self, seed: int) -> None:
+        if 75001 <= seed <= 75040 or 90001 <= seed <= 90200:
+            raise ValueError(f"world {seed} is reserved for evaluation")
+        self.seed = int(seed)
+        self.obs = self.env.reset(self.seed)
+        self.info = first_info(self.env)
+        self.readout.reset()
+        if self.shadow is not None:
+            from continuous_brain_cb2.record import ShadowRoutine
+            self.shadow = ShadowRoutine(self.seed)
+
+    def _home_save(self, in_life: bool) -> Path:
+        """Seal the archive's shard, then save the individual to its home (with its world, when mid-life)."""
+        self.writer.close()
+        lived = int(self.home_meta["lives_lived"]) + (0 if in_life else 1)
+        snap = self.ind.rt.save(SnapshotStore(self.home), label=("tick%d" % self.ind.rt.tick) if in_life
+                                else f"lives{lived}")
+        if in_life:
+            side = {"seed": self.seed, "readout_hist": self.readout.hist,
+                    "shadow": self.shadow.lib.to_state() if self.shadow is not None else None,
+                    "obs": {"image": base64.b64encode(np.asarray(self.obs["image"], np.uint8).tobytes()).decode(),
+                            "shape": list(np.asarray(self.obs["image"]).shape),
+                            **{k: self.obs[k] for k in ("messages", "step", "day", "phase")}}}
+            Path(str(snap) + ".world.json").write_text(W1Env.snapshot_to_json(self.env.snapshot()))
+            Path(str(snap) + ".viewer.json").write_text(json.dumps(_jsonable(side)))
+        meta = {**self.home_meta, "snapshot": snap.name, "state_hash": self.ind.state_hash(), "lives_lived": lived,
+                "life": self.ind.life + (0 if in_life else 1), "in_life": in_life, **_git_rev()}
+        Path(str(snap) + ".meta.json").write_text(json.dumps(meta) + "\n")
+        (self.home / "individual.json").write_text(json.dumps(meta, indent=1) + "\n")
+        self.home_meta = meta
+        return snap
+
     def new_life(self, seed: int, arm: dict | None = None) -> None:
         """A new individual (newborn: nothing learned) in world ``seed``."""
+        self._not_canonical("a new individual")
         with self.lock:
             self.arm = dict(DEFAULT_ARM if arm is None else arm)
             self.ind = self._build(self.arm)
@@ -179,10 +278,13 @@ class LiveSession:
             if not self.done:
                 raise ValueError("it is still alive")
             self.ind.next_life()
-            self.seed += 1
             self.env = W1Env(self.world_config)
-            self.obs = self.env.reset(self.seed)
-            self.info = first_info(self.env)
+            if self.home is not None:
+                self._open_world(self.seed0 + int(self.home_meta["lives_lived"]))
+            else:
+                self.seed += 1
+                self.obs = self.env.reset(self.seed)
+                self.info = first_info(self.env)
             self.done, self.death, self.prev_tiles = False, None, None
             self.recent_hits = deque(maxlen=60)
             self.bookmark = None
@@ -215,10 +317,19 @@ class LiveSession:
             ach_before = dict(self.info["privileged"]["achievements"])
             action, utter, result = self.ind.tick(self.obs, self.info)
             store = self.ind.rt.store
+            if self.home is not None:                     # the canonical individual: every tick is archived
+                from continuous_brain_cb2.record import routine_choice, student_row, teacher_row
+                obs0, info0 = self.obs, self.info
+                orow = self.readout(self.ind)
+                trow = teacher_row(info0, *(self.shadow(self.ind) if self.shadow is not None
+                                            else routine_choice(self.ind)))
             events = json.loads(np.asarray(store.read("goal_genesis.events"), np.uint8).tobytes().decode() or "[]")
             o_index = int(np.asarray(store.read("skills.selected_option"))[0])
             option = self.options[o_index]
             self.obs, reward, self.done, self.info = self.env.step(action, utter)
+            if self.home is not None:
+                self.writer.append(student_row(obs0, info0, action, utter, "SELF", reward, self.done, self.ind.life,
+                                               self.seed, self.ind.state_hash()), trow, orow)
             changed = sorted({n.split(".")[0] for n, h in result.writes.items()
                               if not n.startswith("driver.") and self.prev_writes.get(n) != h})
             self.prev_writes = dict(result.writes)
@@ -269,12 +380,12 @@ class LiveSession:
             rec.update(options=list(ctl["life_options"]), life_return=ctl["returns"][-1] if ctl["returns"] else None,
                        decisions=ctl["decisions"], updates=ctl["updates"])
         self.lives.append(rec)
-        root = self.snapshot_root / self.individual_id
+        root = self.home if self.home is not None else self.snapshot_root / self.individual_id
         root.mkdir(parents=True, exist_ok=True)
         with open(root / "lives.jsonl", "a") as f:
             f.write(json.dumps(_jsonable(rec)) + "\n")
         try:
-            snap = self.save()
+            snap = self._home_save(in_life=False) if self.home is not None else self.save()
             self.log.append({"step": rec["steps"], "who": "operator", "kind": "save",
                              "text": f"saved automatically after life {self.ind.life + 1}: {snap.name}"})
         except Exception as e:                                          # never lose the life over a save error
@@ -499,6 +610,7 @@ class LiveSession:
 
     # --------------------------------------------------------------------------------- operator actions
     def erase(self, slot: str) -> str:
+        self._not_canonical("erasing a faculty")
         if slot not in self.faculties or slot == "perception":
             raise ValueError(f"cannot erase {slot!r}")
         with self.lock:
@@ -511,6 +623,7 @@ class LiveSession:
             return note
 
     def mark(self) -> str:
+        self._not_canonical("a bookmark")
         with self.lock:
             self.bookmark = {"tick": self.ind.rt.tick, "runtime": self.ind.save(), "world": self.env.snapshot(),
                              "obs": dict(self.obs), "info": self.info, "done": self.done, "death": self.death,
@@ -522,6 +635,7 @@ class LiveSession:
             return note
 
     def back(self) -> str:
+        self._not_canonical("returning to a bookmark")
         with self.lock:
             b = self.bookmark
             if b is None:
@@ -540,7 +654,15 @@ class LiveSession:
 
     def save(self, name: str | None = None) -> Path:
         """Save the life to disk: <root>/<name>/checkpoints/<snapshot>/ (never overwritten) plus world and
-        viewer files beside the snapshot directory.  Returns the snapshot directory."""
+        viewer files beside the snapshot directory.  Returns the snapshot directory.  For the canonical
+        individual, the save goes to its home (and seals its archive shard)."""
+        if self.home is not None:
+            with self.lock:
+                if self.done:
+                    return self.home / "checkpoints" / self.home_meta["snapshot"]
+                snap = self._home_save(in_life=True)
+                self.operator.append(f"tick {self.ind.rt.tick}: saved to its home ({snap.name})")
+                return snap
         with self.lock:
             name = name or getattr(self, "individual_id", None) or f"seed{self.seed}"
             store = SnapshotStore(self.snapshot_root / name)

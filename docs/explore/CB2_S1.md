@@ -93,6 +93,17 @@ python scripts/explore/cb2_evaluate.py install --individuals <candidate copy> --
 python scripts/explore/cb2_evaluate.py evaluate --individuals <candidate copy> --label r1-PA
 ```
 
+To watch the individual live its own next lives in the browser:
+
+```bash
+python scripts/explore/w1_viewer.py --individual cb2-ind-0001
+```
+
+Every tick it lives there is archived to its LIVED stream, exactly as `wake` does, and each life saves it to its
+home. Ctrl+C mid-life seals the shard and saves it with its world, and the next start continues that same life
+(`tests/test_cb2_viewer.py`: a life lived in the viewer, stopped and continued, is identical to one lived
+headless). Erase, bookmark/back and "new individual" are refused for it: its life is its chronology.
+
 `scripts/explore/cb2_s1.sh r1` runs all of it on a GPU machine. It installs into a *candidate copy* of the
 individual and reads the gates. The canonical install is a separate, deliberate step.
 

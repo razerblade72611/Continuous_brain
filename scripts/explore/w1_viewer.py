@@ -9,6 +9,9 @@ usage:
   python scripts/explore/w1_viewer.py --skills routine       (the fixed routine library, no learning, one life)
   python scripts/explore/w1_viewer.py --adopt runs/explore/lifelong/run1/individual/checkpoints/<snapshot>
                                                              (watch an individual trained headless, in a new world)
+  python scripts/explore/w1_viewer.py --individual cb2-ind-0001
+                                                             (the canonical CB2 individual lives its next lives here,
+                                                              every tick archived, exactly as cb2_collect.py wake)
 
 By default the individual learns from its lives and continues across them: when it dies, it is saved to disk
 automatically and (with "Next life when it dies" checked) wakes as the same individual in the next world.
@@ -50,6 +53,8 @@ def main() -> int:
     ap.add_argument("--resume", default=None, help="'latest', or a snapshot directory written by Save to disk")
     ap.add_argument("--adopt", default=None,
                     help="a snapshot written by scripts/explore/w1_lifelong.py train: watch that trained individual")
+    ap.add_argument("--individual", default=None,
+                    help="a CB2 individual under runs/explore/cb2/individuals: it lives its own next lives here")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--play", action="store_true", help="start playing immediately")
@@ -71,7 +76,11 @@ def main() -> int:
         return 2
     root = REPO / "runs/explore/viewer/lives"
     session = LiveSession(vision, language, root)
-    if a.adopt:
+    if a.individual:
+        session.live_as(REPO / "runs/explore/cb2/individuals" / a.individual, REPO / "runs/explore/cb2/archive")
+        print(f"Living {a.individual}: life {session.ind.life + 1}, world {session.seed}, every tick archived",
+              flush=True)
+    elif a.adopt:
         session.adopt(a.adopt, a.seed)
         print(f"Adopted {a.adopt}", flush=True)
     elif a.resume:
