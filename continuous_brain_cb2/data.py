@@ -22,7 +22,7 @@ from .archive import FEATURES, INVENTORY, Archive, ShardRef, fixed, frames
 
 N_ACTIONS = 17
 RISK_H = (25, 100, 300)
-RISKS = ("die", "no_water", "no_food", "hurt3")
+RISKS = ("die", "no_water", "no_food", "hurt3", "no_energy")   # the old foresight's five, at three horizons
 N_RISK = len(RISKS) * len(RISK_H)
 BODY_DIM = len(INVENTORY) + 1 + 2 + 2 + 2          # inventory, asleep, facing, daylight (sin, cos), position/64
 MAX_STEPS = 10000
@@ -51,10 +51,11 @@ def _next_true(flag: np.ndarray) -> np.ndarray:
 
 
 def risk_targets(life: np.ndarray, step: np.ndarray, done: np.ndarray, inv: np.ndarray) -> np.ndarray:
-    """float32[N, 12]: for each row, what followed within each horizon, inside its own life."""
+    """float32[N, 15]: for each row, what followed within each horizon, inside its own life (``RISKS`` x ``RISK_H``,
+    risk-major)."""
     n = len(life)
     out = np.zeros((n, N_RISK), np.float32)
-    h, food, drink = inv[:, 0].astype(np.int64), inv[:, 1], inv[:, 2]
+    h, food, drink, energy = inv[:, 0].astype(np.int64), inv[:, 1], inv[:, 2], inv[:, 3]
     starts = np.flatnonzero(np.r_[True, (life[1:] != life[:-1]) | (step[1:] <= step[:-1])])
     ends = np.r_[starts[1:], n]
     for s, e in zip(starts, ends):
@@ -63,6 +64,7 @@ def risk_targets(life: np.ndarray, step: np.ndarray, done: np.ndarray, inv: np.n
         died = bool(done[e - 1]) and int(step[e - 1]) + 1 < MAX_STEPS
         until_end = (L - 1) - idx + 1               # steps from row i until the life ends
         nw, nf = _next_true(drink[s:e] == 0) - idx, _next_true(food[s:e] == 0) - idx
+        ne = _next_true(energy[s:e] == 0) - idx
         pad = np.r_[h[s:e], np.full(max(RISK_H), 10 ** 6)]
         for j, H in enumerate(RISK_H):
             win = np.lib.stride_tricks.sliding_window_view(pad[1:], H)[:L]       # rows i+1 .. i+H
@@ -70,6 +72,7 @@ def risk_targets(life: np.ndarray, step: np.ndarray, done: np.ndarray, inv: np.n
             out[s:e, 1 * 3 + j] = nw <= H
             out[s:e, 2 * 3 + j] = nf <= H
             out[s:e, 3 * 3 + j] = win.min(1) <= h[s:e] - 3
+            out[s:e, 4 * 3 + j] = ne <= H
     return out
 
 

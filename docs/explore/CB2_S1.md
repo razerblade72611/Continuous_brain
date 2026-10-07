@@ -110,6 +110,39 @@ individual and reads the gates. The canonical install is a separate, deliberate 
 Each evaluation life is archived as PRACTICE x SELF with the routine's COUNTERFACTUAL action at every step. That is
 the data for the next imitation round (DAgger).
 
+## 6b. Seeing what it is doing, and the capability ledger
+
+Nothing the old individual could do disappears silently. `continuous_brain_cb2/capabilities.json` maps every W1
+capability to one of: kept; a successor that must be measured against it before it is retired; temporarily
+absent, with its successor and gate named; or removed on purpose, with the reason. The viewer shows the ledger,
+with each gate's status read from its evidence file.
+
+The viewer never hides a faculty the individual lacks. It shows its state instead:
+- **"What it foresees":** `PREDICTIVE FORESIGHT: UNTRAINED / NOT INSTALLED` until a core is installed. Then: the
+  core's 5 risks (die, out of water, food or energy, lose 3+ health) at 25, 100 and 300 steps.
+- **"Whether another choice would be better":** `ROUTINE POLICY: NO LEARNED ALTERNATIVE VALUE` until then. Then:
+  for its choice and its next three likeliest actions, what its world model imagines over 50 steps (4 samples
+  each), namely the imagined reward and its spread, the change to its vitals against its choice, and its death
+  risk afterwards. Its imitation skill does not act on these yet; Gate 2 is about the machinery that will.
+- **"What it sees and imagines":** its decoded picture of now beside the real frame, and 15 imagined steps ahead.
+- **"What it would do":** its policy's probabilities, its guessed intent, and how often it agrees with the routine.
+- **"Who it is":** its lived, practice and dreamed moments, the lived chain's integrity, its consolidations, its
+  stable point.
+- **"Sleep" and "Tests":** training curves (imagining against "nothing changes", risk calibration against the
+  average, imitation agreement against the most common action), probes, evaluations.
+
+Reading its mind changes nothing (`tests/test_cb2_viewer.py`).
+
+**Gate 1, foresight:** `cb2_sleep.py gate-foresight --core ... --label r1` trains the old foresight network (62
+belief features, 48-48 hidden units, 5 risks) on the same training rows and compares 100-step Brier scores on the
+held-out lived lives. The core passes only if it is at least as good for every risk.
+
+**Gate 2, choice:** defined, to be run when a value over imagined alternatives drives its actions.
+
+**Stable point and rollback.** `cb2_evaluate.py mark-stable --note ...` marks the skill it has now. `rollback`
+returns it to that skill as a new recorded consolidation: its memories, diary and lives are kept, and only the
+learned faculty goes back. Every installed skill's weights are kept by hash in its home.
+
 ## 7. Gates (non-regression, not claims)
 
 | gate | threshold |

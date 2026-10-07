@@ -259,10 +259,95 @@ def dream_cmd(a) -> int:
     return 0
 
 
+# ------------------------------------------------------------------------------------------- gate 1
+def gate_foresight(a) -> int:
+    """Gate 1 (capability ledger): the predictive core's 100-step risk predictions against the old foresight
+    network (62 belief features -> 48 -> 48 -> 5, logistic loss), trained here on the same training rows (every
+    5th, as it sampled), both scored by Brier on the held-out lived lives.  The core passes only if it is at least
+    as good for every risk."""
+    import torch
+    from continuous_brain_cb2.data import RISK_H, RISKS, StreamIndex
+    from continuous_brain_cb2.world_model import PredictiveCore
+    torch.manual_seed(a.seed)
+    dev = device(a.device)
+    arch, train, test, held = split(a.archive, a.heldout_lives)
+    j100 = RISK_H.index(100)
+    cols = [r * len(RISK_H) + j100 for r in range(len(RISKS))]
+    by = lambda refs: {s: sorted([r for r in refs if r.stream == s], key=lambda r: r.manifest["shard"])
+                       for s in sorted({r.stream for r in refs})}
+    Xtr, Ytr = [], []
+    for refs in by(train).values():
+        si = StreamIndex.load(arch, refs, ("student", "organ"))
+        Xtr.append(si.cols["features"][::5])
+        Ytr.append(si.cols["risk"][::5][:, cols])
+    Xtr, Ytr = np.concatenate(Xtr).astype(np.float32), np.concatenate(Ytr).astype(np.float32)
+    old = torch.nn.Sequential(torch.nn.Linear(Xtr.shape[1], 48), torch.nn.ReLU(), torch.nn.Linear(48, 48),
+                              torch.nn.ReLU(), torch.nn.Linear(48, len(RISKS)))
+    opt = torch.optim.Adam(old.parameters(), lr=1e-3)
+    Xt, Yt = torch.from_numpy(Xtr), torch.from_numpy(Ytr)
+    for ep in range(a.epochs):
+        perm = torch.randperm(len(Xt))
+        for i in range(0, len(Xt), 256):
+            idx = perm[i:i + 256]
+            loss = torch.nn.functional.binary_cross_entropy_with_logits(old(Xt[idx]), Yt[idx])
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+    core = PredictiveCore.from_state(torch.load(a.core, map_location=dev, weights_only=False), dev)
+    core.eval()
+    P_core, P_old, Y = [], [], []
+    for refs in by(test).values():
+        si = StreamIndex.load(arch, refs, ("student", "organ"))
+        from continuous_brain_cb2.data import FrameCache
+        cache = FrameCache(arch, 4)
+        n = len(si)
+        frames_all = []
+        for ref in si.shards:
+            for g in range(arch.row_groups(ref, "student")):
+                frames_all.append(cache.group(ref, g))
+        img = np.concatenate(frames_all)
+        c = si.cols
+        prev = np.r_[0, c["action"][:-1]].astype(np.int64)
+        prev[c["is_first"]] = 0
+        state, out = None, []
+        for i in range(0, n, a.T):                         # the whole held-out stream, its state carried along
+            sl = slice(i, min(n, i + a.T))
+            post, _ = core.scan(img[sl][None], c["body"][sl][None], prev[sl][None], c["is_first"][sl][None].astype(np.float32),
+                                state=state)
+            state = {k: v[:, -1] for k, v in post.items()}
+            with torch.no_grad():
+                out.append(core.heads["risk"](core.feat(post)).mean[0].cpu().numpy())
+        P_core.append(np.concatenate(out)[:, cols])
+        with torch.no_grad():
+            P_old.append(torch.sigmoid(old(torch.from_numpy(c["features"].astype(np.float32)))).numpy())
+        Y.append(c["risk"][:, cols])
+    P_core, P_old, Y = np.concatenate(P_core), np.concatenate(P_old), np.concatenate(Y)
+    base = Ytr.mean(0)
+    rows = []
+    for r, name in enumerate(RISKS):
+        b = lambda p: float(((p - Y[:, r]) ** 2).mean())
+        rows.append({"risk": name, "rate_heldout": round(float(Y[:, r].mean()), 4), "core": round(b(P_core[:, r]), 5),
+                     "old_foresight": round(b(P_old[:, r]), 5), "base_rate": round(b(np.full(len(Y), base[r])), 5)})
+    passed = all(x["core"] <= x["old_foresight"] for x in rows)
+    out = {"format": "cb2-gate/1", "gate": "foresight", "status": "ENGINEERING_ONLY", **git_rev(),
+           "core": str(a.core), "core_sha256": file_sha(Path(a.core)), "heldout_lives": held,
+           "heldout_rows": int(len(Y)), "train_rows_old": int(len(Xtr)), "horizon": 100, "risks": rows,
+           "passed": passed,
+           "verdict": ("core at least as good for every risk" if passed else "core worse for: " +
+                       ", ".join(x["risk"] for x in rows if x["core"] > x["old_foresight"])),
+           "note": "The old network's two routine-state features (hurt-place near, in shelter) are 0 here: the "
+                   "archive keeps no routine plan state in the organ namespace."}
+    print(json.dumps(out, indent=1))
+    dest = Path(a.out) if a.out else REPO / f"evidence/explore/cb2/gate-foresight-{a.label}.json"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps(out, indent=1) + "\n")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("core", "policy", "probe", "dream"):
+    for name in ("core", "policy", "probe", "dream", "gate-foresight"):
         p = sub.add_parser(name)
         p.add_argument("--archive", default=str(ARCHIVE))
         p.add_argument("--heldout-lives", type=int, default=3)
@@ -289,11 +374,15 @@ def main() -> int:
             p.add_argument("--horizon", type=int, default=32)
             p.add_argument("--stream", required=True)
             p.add_argument("--individual", default="cb2-ind-0001")
+        if name == "gate-foresight":
+            p.add_argument("--epochs", type=int, default=20)
+            p.add_argument("--label", required=True)
         if name == "probe":
             p.add_argument("--fit-batches", type=int, default=24)
             p.add_argument("--test-batches", type=int, default=12)
     a = ap.parse_args()
-    return {"core": train_core, "policy": train_policy, "probe": probe, "dream": dream_cmd}[a.cmd](a)
+    return {"core": train_core, "policy": train_policy, "probe": probe, "dream": dream_cmd,
+            "gate-foresight": gate_foresight}[a.cmd](a)
 
 
 if __name__ == "__main__":

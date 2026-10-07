@@ -37,6 +37,7 @@ if [ ! -f "$LOGS/practice.done" ]; then
   touch "$LOGS/practice.done"
 fi
 [ -f "$SLEEP/core/core.pt" ] || python scripts/explore/cb2_sleep.py core --size "$SIZE" --updates "$CORE_UPDATES" --out "$SLEEP/core" | tee "$LOGS/core.log"
+[ -f "evidence/explore/cb2/gate-foresight-$ROUND.json" ] || python scripts/explore/cb2_sleep.py gate-foresight --core "$SLEEP/core/core.pt" --label "$ROUND" | tee "$LOGS/gate-foresight.log"
 for ARM in P-A P-B; do
   [ -f "$SLEEP/policy-$ARM/policy.pt" ] || python scripts/explore/cb2_sleep.py policy --core "$SLEEP/core/core.pt" --arm "$ARM" --updates "$POLICY_UPDATES" --out "$SLEEP/policy-$ARM" | tee "$LOGS/policy-$ARM.log"
 done

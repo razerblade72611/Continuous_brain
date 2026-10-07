@@ -43,6 +43,8 @@ def install(src, dst, weights: bytes, lineage: dict) -> dict:
     if new["store"]["current"]:
         raise ValueError("install into a freshly built individual")
     kind = "install" if old["identity"]["binding"] == new["identity"]["binding"] else "transplant"
+    if lineage.get("rollback"):
+        kind = "rollback"
     dst_channels = set(new["store"]["current"]) | set(dst.rt.store.names())
     own = {n for n in dst.rt.store.names() if n.startswith(SLOT + ".")}
     merged_store = {"tick": old["store"]["tick"], "written_this_tick": [], "current": {}, "previous": {}}
@@ -51,7 +53,7 @@ def install(src, dst, weights: bytes, lineage: dict) -> dict:
             if k in dst_channels and k not in own:
                 merged_store[part][k] = v
     prior = codec.unblob(old["store"]["current"].get("skills.state", np.zeros(0, np.uint8))) or {}
-    history = list(prior.get("lineage", [])) if kind == "install" else []
+    history = list(prior.get("lineage", [])) if kind != "transplant" else []
     event = {"format": "cb2-consolidation/1", "kind": kind, "time": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
              "tick": int(old["tick"]), "life": int(src.life), "parent_state_hash": src.state_hash(),
              "weights_sha256": weights_sha(np.frombuffer(weights, np.uint8)), "weights_bytes": len(weights),
@@ -60,7 +62,7 @@ def install(src, dst, weights: bytes, lineage: dict) -> dict:
              "lineage": lineage, "prev_event_sha": history[-1]["event_sha"] if history else None}
     event["event_sha"] = hashlib.sha256(_canon(event)).hexdigest()
     st = {"lineage": history + [event]}
-    if kind == "install":
+    if kind != "transplant":
         st.update({k: v for k, v in prior.items() if k not in ("lineage", "t", "prev_action", "hist")})
     w = np.frombuffer(weights, np.uint8).copy()
     for part in ("current", "previous"):
@@ -70,7 +72,7 @@ def install(src, dst, weights: bytes, lineage: dict) -> dict:
     state = copy.copy(new)
     state["store"] = merged_store
     state["tick"] = old["tick"]
-    state["interventions"] = old["interventions"] if kind == "install" else new["interventions"]
+    state["interventions"] = old["interventions"] if kind != "transplant" else new["interventions"]
     state["coprocessor"] = old["coprocessor"]
     state["components"] = {s: old["components"].get(s, c) if s != SLOT else c for s, c in new["components"].items()}
     dst.rt.load_state_dict(state)

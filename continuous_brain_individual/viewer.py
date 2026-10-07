@@ -136,6 +136,9 @@ class LiveSession:
         self.ind = self.env = self.obs = self.info = None
         self.bookmark = None
         self.home = self.writer = None            # set by live_as: the canonical CB2 individual
+        self._mind_cache = (None, None)
+        self._record_cache = (0.0, None)
+        self.teacher = {"action": None, "agree": 0, "n": 0}
 
     # ------------------------------------------------------------------------------------------- lives
     def _build(self, arm: dict) -> Individual:
@@ -196,6 +199,7 @@ class LiveSession:
             self.individual_id = meta["individual"]
             prov = {"role": "viewer", "vision_weights_sha256": getattr(self.vision, "weights_sha256", None),
                     "language": self.language_config.get("backend"), "skills": self.arm["skills"], **_git_rev()}
+            self.archive_root = Path(archive)
             self.writer = StreamWriter(archive, f"lived-{self.individual_id}", "LIVED", self.individual_id, prov)
             self.readout = OrganReadout()
             self.shadow = ShadowRoutine(0) if self.arm["skills"] != "routine" else None
@@ -230,6 +234,7 @@ class LiveSession:
         self.obs = self.env.reset(self.seed)
         self.info = first_info(self.env)
         self.readout.reset()
+        self.teacher = {"action": None, "agree": 0, "n": 0}
         if self.shadow is not None:
             from continuous_brain_cb2.record import ShadowRoutine
             self.shadow = ShadowRoutine(self.seed)
@@ -328,6 +333,9 @@ class LiveSession:
             option = self.options[o_index]
             self.obs, reward, self.done, self.info = self.env.step(action, utter)
             if self.home is not None:
+                ta = int(trow["teacher_action"])
+                self.teacher = {"action": ACTIONS[ta], "agree": self.teacher["agree"] + int(ta == action),
+                                "n": self.teacher["n"] + 1}
                 self.writer.append(student_row(obs0, info0, action, utter, "SELF", reward, self.done, self.ind.life,
                                                self.seed, self.ind.state_hash()), trow, orow)
             changed = sorted({n.split(".")[0] for n, h in result.writes.items()
@@ -490,6 +498,38 @@ class LiveSession:
                     "daylight_curve": [round(dl.daylight(t), 3) for t in range(0, dl.DAY_LENGTH, 5)],
                     "view": {"rows": mem.ROWS, "cols": mem.COLS, "player": [mem.PR, mem.PC]},
                     "world_size": [mem.W, mem.H]}
+
+    def mind(self) -> dict:
+        """The learned skill's mind after the latest tick (cb2 skill only), what it is made of, and its record.
+        Cached per tick: a read, never a write."""
+        with self.lock:
+            if self.ind is None:
+                return {"tick": -1}
+            tick = self.ind.rt.tick
+            if self._mind_cache[0] == tick:
+                return self._mind_cache[1]
+            out = {"tick": tick, "skills": self.ind.config.skills, "canonical": self.home is not None,
+                   "mind": None, "routine": dict(self.teacher)}
+            if self.ind.config.skills == "cb2":
+                from continuous_brain_cb2.mind import read_mind
+                out["mind"] = read_mind(self.ind)
+            if self.home is not None:
+                t, rec = self._record_cache
+                if rec is None or time.time() - t > 10:
+                    from continuous_brain_cb2.archive import Archive
+                    from continuous_brain_cb2.consolidation import ConsolidationLog
+                    log = ConsolidationLog(self.home / "consolidations.jsonl")
+                    try:
+                        n_events, log_ok = log.verify(), True
+                    except ValueError:
+                        n_events, log_ok = len(log.events()), False
+                    rec = {"archive": Archive(self.archive_root).summary(), "consolidations": n_events,
+                           "consolidation_log_ok": log_ok, "stable": self.home_meta.get("stable"),
+                           "lives_lived": self.home_meta.get("lives_lived")}
+                    self._record_cache = (time.time(), rec)
+                out["record"] = rec
+            self._mind_cache = (tick, _jsonable(out))
+            return self._mind_cache[1]
 
     def records_since(self, tick: int) -> list[dict]:
         with self.lock:
@@ -796,6 +836,12 @@ def make_handler(session: LiveSession, runner: Runner):
                 f["runner"] = {"playing": runner.playing, "speed": runner.speed, "auto_next": runner.auto_next,
                                "error": runner.error}
                 return self._json(f)
+            if path == "/api/mind":
+                return self._json(session.mind())
+            if path == "/api/sleep":
+                return self._json(sleep_report(REPO))
+            if path == "/api/capabilities":
+                return self._json(capabilities(REPO))
             if path == "/api/view.jpg":
                 return self._send(200, session.view_jpeg(int(q.get("size", 384))), "image/jpeg")
             return self._send(404, b"not found", "text/plain")
@@ -841,6 +887,81 @@ def make_handler(session: LiveSession, runner: Runner):
                 return self._json({"ok": False, "error": f"{type(e).__name__}: {e}"}, 400)
 
     return Handler
+
+
+REPO = Path(__file__).resolve().parents[1]
+
+
+def sleep_report(repo: Path) -> dict:
+    """What sleep learned and how well: every training run's curves, the probes, the evaluations."""
+    runs = []
+    for mp in sorted((repo / "runs/explore/cb2/sleep").glob("**/metrics.jsonl")):
+        d = mp.parent
+        try:
+            run = json.loads((d / "run.json").read_text())
+            rows = [json.loads(l) for l in mp.read_text().splitlines() if l.strip()]
+        except (OSError, ValueError):
+            continue
+        kind = "policy" if "arm" in run else "core"
+        if kind == "core":
+            pts = [{"u": r["update"], "loss": r["train"].get("loss"), "image": r["heldout"].get("image_loss"),
+                    "openloop": r["heldout"].get("openloop_mse"), "copy_last": r["heldout"].get("copy_last_mse"),
+                    "risk": r["heldout"].get("risk_brier"), "risk_base": r["heldout"].get("risk_brier_base"),
+                    "kl": r["heldout"].get("kl")} for r in rows]
+        else:
+            pts = [{"u": r["update"], "agreement": r.get("heldout_agreement"),
+                    "majority": r.get("majority_action_baseline"), "train": r["train"].get("agreement")} for r in rows]
+        runs.append({"name": str(d.relative_to(repo / "runs/explore/cb2/sleep")), "kind": kind,
+                     "arm": run.get("arm"), "params": run.get("params"), "device": run.get("device"),
+                     "train_rows": run.get("train_rows"), "done": (d / ("core.pt" if kind == "core" else "policy.pt")).exists(),
+                     "points": pts})
+    ev = {}
+    for k in ("probe", "eval", "bench"):
+        for p in sorted((repo / "evidence/explore/cb2").glob(f"{k}-*.json")):
+            try:
+                j = json.loads(p.read_text())
+            except (OSError, ValueError):
+                continue
+            j.pop("episodes", None)
+            ev.setdefault(k, []).append({"name": p.stem, **j})
+    return _jsonable({"runs": runs, **ev})
+
+
+def _gate(entry: dict, repo: Path) -> dict:
+    """A capability's gate status from its latest evidence file: not run, passed or failed, and why."""
+    if not entry.get("evidence"):
+        return {"status": "none" if not entry.get("gate") else "not defined yet"}
+    files = sorted((repo / "evidence/explore/cb2").glob(entry["evidence"]), key=lambda p: p.stat().st_mtime)
+    if not files:
+        return {"status": "not run"}
+    p = files[-1]
+    try:
+        j = json.loads(p.read_text())
+    except (OSError, ValueError):
+        return {"status": "unreadable", "file": p.name}
+    if "passed" in j:
+        return {"status": "passed" if j["passed"] else "failed", "file": p.name, "summary": j.get("verdict")}
+    if p.name.startswith("eval-"):
+        a, b = j["summary"]["individual"], j["summary"]["routine"]
+        ok = a["crafter_score"] >= 0.8 * b["crafter_score"] and a["survival_steps"] >= 0.8 * b["survival_steps"]
+        return {"status": "passed" if ok else "failed", "file": p.name,
+                "summary": f"score {a['crafter_score']:.1f} vs {b['crafter_score']:.1f}, "
+                           f"survival {a['survival_steps']:.0f} vs {b['survival_steps']:.0f} steps"}
+    if p.name.startswith("probe-"):
+        r = {k: v["r2"] for k, v in j["r2"].items()}
+        ok = r["trained/core->known"] > max(r["untrained/core->known"], r["trained/frame->known"])
+        return {"status": "passed" if ok else "failed", "file": p.name,
+                "summary": f"remembered places R² {r['trained/core->known']:.2f} (untrained "
+                           f"{r['untrained/core->known']:.2f}, this frame only {r['trained/frame->known']:.2f})"}
+    return {"status": "unknown", "file": p.name}
+
+
+def capabilities(repo: Path) -> dict:
+    """The capability-continuity ledger, with each gate's status read from the evidence."""
+    led = json.loads((repo / "continuous_brain_cb2/capabilities.json").read_text())
+    for e in led["entries"]:
+        e["gate_status"] = _gate(e, repo)
+    return led
 
 
 def latest_snapshot(root: str | Path) -> Path | None:

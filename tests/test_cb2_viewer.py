@@ -66,3 +66,65 @@ def test_a_life_in_the_viewer_is_the_life_lived_headless(tmp_path):
     for k in ("tick", "action", "store_hash"):
         assert np.array_equal(col(ta, k), col(tb, k)), k
     Archive(b / "archive").verify()
+
+
+def test_reading_its_mind_does_not_change_it(tmp_path):
+    """Its mind panel (decoded state, imagination, imagined alternatives) and the ledger are reads: a watched life
+    with a learned skill is the same life as an unwatched one."""
+    import copy
+    import torch
+    from continuous_brain_cb2.consolidation import install
+    from continuous_brain_cb2.policy import PolicyConfig, SkillPolicy
+    from continuous_brain_cb2.skill_host import pack_weights
+    from continuous_brain_cb2.world_model import CoreConfig, PredictiveCore
+    from continuous_brain_individual.individual import Individual, IndividualConfig, first_info
+    from continuous_brain_individual.viewer import capabilities
+    from continuous_brain_organs.language import LanguageOrgan
+    from continuous_brain_world.env import W1Config, W1Env
+    if not WEIGHTS.exists():
+        import pytest
+        pytest.skip("vision weights missing")
+    torch.manual_seed(0)
+    core = PredictiveCore(CoreConfig(deter=64, hidden=64, stoch=8, discrete=8, cnn_depth=8, units=64))
+    w = pack_weights(core, SkillPolicy(PolicyConfig(arm="P-A", units=64, layers=1), core.feat_size))
+    v = _vision()
+
+    def fresh():
+        src = Individual(IndividualConfig(lifelong=True), v, LanguageOrgan.from_config({"backend": "dev"}))
+        env = W1Env(W1Config())
+        obs, info = env.reset(75111), None
+        info = first_info(env)
+        a, u = src.decide(obs, info)
+        obs, _, _, info = env.step(a, u)
+        dst = Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
+        install(src, dst, w, {})
+        return dst, env, obs, info
+
+    def live(ind, env, obs, info, watch):
+        s = LiveSession(v, {"backend": "dev"}, tmp_path / "v")
+        s.ind, s.env, s.obs, s.info, s.arm = ind, env, obs, info, {"skills": "cb2", "lifelong": True}
+        s._reset_logs()
+        s.lives, s.seed, s.individual_id, s._ms = [], 75111, "t", {}
+        for i in range(25):
+            s.step()
+            if watch:
+                m = s.mind()
+                assert m["mind"] is None or len(m["mind"]["alternatives"]) == 4
+        return [r["a"] for r in s.records], ind.state_hash()
+
+    ind, env, obs, info = fresh()                  # one installed individual (its event carries a timestamp) ...
+    saved, world = copy.deepcopy(ind.save()), copy.deepcopy(env.snapshot())
+
+    def twin():                                    # ... and exact twins of it
+        t = Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
+        t.restore(copy.deepcopy(saved))
+        e = W1Env(W1Config())
+        e.restore(copy.deepcopy(world))
+        return t, e, dict(obs), info
+
+    a1, h1 = live(*twin(), watch=False)
+    a2, h2 = live(*twin(), watch=True)
+    assert a1 == a2 and h1 == h2
+    led = capabilities(REPO)
+    assert {e["disposition"] for e in led["entries"]} <= {"kept", "successor", "absent", "removed"}
+    assert all("gate_status" in e for e in led["entries"])

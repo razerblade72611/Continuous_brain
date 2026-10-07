@@ -73,6 +73,7 @@ def test_risk_targets_look_forward_inside_the_life():
     assert water[:6].all() and water[6:9].all() and not water[9]       # next zero strictly after i
     assert hurt[:8].all() and not hurt[8:].any()
     assert r[9, 0 * 3 + j25] == 1 and r[10:].sum() == 0
+    assert r.shape[1] == 15 and r[:, 4 * 3:].sum() == 0                  # energy never ran out here
 
 
 def test_dreams_are_archived_as_dreamed_and_never_as_lived(tmp_path):

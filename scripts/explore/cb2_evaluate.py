@@ -4,6 +4,8 @@ ENGINEERING_ONLY).
 
   install    the one recorded event that gives the individual its learned skill (core + policy):
              python scripts/explore/cb2_evaluate.py install --core <core.pt> --policy <policy.pt>
+  mark-stable  mark the skill it has now as its last stable one
+  rollback     return its skill to the last stable one (a new recorded consolidation; its memories and lives kept)
   evaluate   copies of the individual as it is now, each living one fresh world (75001-75040 by default) from the
              same saved state; the routine individual lives the same worlds:
              python scripts/explore/cb2_evaluate.py evaluate --label pa-round1
@@ -78,18 +80,64 @@ def install_cmd(a) -> int:
     for part in ("core", "policy"):
         lineage[part]["run"].pop("train_shards", None)          # kept in the run.json the path names
         lineage[part]["run"].pop("heldout_shards", None)
+    return _consolidate(home, src, meta, v, pack_weights(core, pol), lineage)
+
+
+def _consolidate(home: Path, src, meta: dict, v, weights: bytes, lineage: dict) -> int:
+    """One consolidation event: install, log it, keep the weights (write-once, by hash), save the individual."""
+    from continuous_brain_cb2.consolidation import ConsolidationLog, install
+    from continuous_brain_individual.individual import Individual, IndividualConfig
+    from continuous_brain_organs.language import LanguageOrgan
+    from continuous_brain_snn.snapshot import SnapshotStore
+    if meta.get("in_life"):
+        raise SystemExit("it is in the middle of a life (stopped in the viewer): finish that life first")
     dst = Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
-    event = install(src, dst, pack_weights(core, pol), lineage)
+    event = install(src, dst, weights, lineage)
+    wdir = home / "weights"
+    wdir.mkdir(exist_ok=True)
+    wfile = wdir / f"{event['weights_sha256']}.pt"
+    if not wfile.exists():
+        wfile.write_bytes(weights)
     rec = ConsolidationLog(home / "consolidations.jsonl").append(event)
     snap = dst.rt.save(SnapshotStore(home), label=f"consolidation{rec['seq']}")
     new = {**meta, "snapshot": snap.name, "skills": "cb2", "state_hash": dst.state_hash(), "life": dst.life,
-           "consolidations": rec["seq"] + 1, "parent_snapshot": Path(meta["snapshot"]).name, **git_rev()}
+           "consolidations": rec["seq"] + 1, "parent_snapshot": Path(meta["snapshot"]).name,
+           "weights_sha256": event["weights_sha256"], "event_sha": event["event_sha"], **git_rev()}
     Path(str(snap) + ".meta.json").write_text(json.dumps(new) + "\n")
     (home / "individual.json").write_text(json.dumps(new, indent=1) + "\n")
     print(json.dumps({"event": event["kind"], "event_sha": event["event_sha"], "parent": event["parent_state_hash"],
                       "state_hash": event["state_hash"], "weights_sha256": event["weights_sha256"],
                       "snapshot": str(snap)}, indent=1))
     return 0
+
+
+def mark_stable_cmd(a) -> int:
+    """Mark the skill it has now as its last stable one: what a rollback returns it to."""
+    home = Path(a.individuals) / a.individual
+    meta = json.loads((home / "individual.json").read_text())
+    if not meta.get("weights_sha256"):
+        raise SystemExit("it has no learned skill installed yet")
+    meta["stable"] = {"weights_sha256": meta["weights_sha256"], "event_sha": meta.get("event_sha"),
+                      "snapshot": meta["snapshot"], "note": a.note,
+                      "time": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    (home / "individual.json").write_text(json.dumps(meta, indent=1) + "\n")
+    print(json.dumps(meta["stable"], indent=1))
+    return 0
+
+
+def rollback_cmd(a) -> int:
+    """Return its skill to the last stable one, as a new recorded consolidation.  Its memories, diary and lives
+    are kept: only the learned faculty goes back."""
+    v = vision()
+    home = Path(a.individuals) / a.individual
+    src, meta = load_individual(home, v)
+    st = meta.get("stable")
+    if not st:
+        raise SystemExit("no stable skill marked (cb2_evaluate.py mark-stable)")
+    weights = (home / "weights" / f"{st['weights_sha256']}.pt").read_bytes()
+    lineage = {"rollback": True, "to_event_sha": st["event_sha"], "to_weights_sha256": st["weights_sha256"],
+               "from_weights_sha256": meta.get("weights_sha256"), "code": git_rev(), "note": a.note}
+    return _consolidate(home, src, meta, v, weights, lineage)
 
 
 def parse_seeds(text: str) -> list[int]:
@@ -184,8 +232,16 @@ def main() -> int:
         p.add_argument("--individual", default="cb2-ind-0001")
         p.add_argument("--individuals", default=str(INDIVIDUALS))
         p.add_argument("--archive", default=str(ARCHIVE))
+    m = sub.add_parser("mark-stable")
+    m.add_argument("--note", required=True)
+    r = sub.add_parser("rollback")
+    r.add_argument("--note", default="")
+    for p in (m, r):
+        p.add_argument("--individual", default="cb2-ind-0001")
+        p.add_argument("--individuals", default=str(INDIVIDUALS))
     a = ap.parse_args()
-    return {"install": install_cmd, "evaluate": evaluate_cmd}[a.cmd](a)
+    return {"install": install_cmd, "evaluate": evaluate_cmd, "mark-stable": mark_stable_cmd,
+            "rollback": rollback_cmd}[a.cmd](a)
 
 
 if __name__ == "__main__":

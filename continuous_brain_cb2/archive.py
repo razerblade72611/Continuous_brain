@@ -320,6 +320,25 @@ class Archive:
                 n += 1
         return {"shards": n, "rows": self.rows()}
 
+    def summary(self, chain: bool = True) -> dict:
+        """Rows by provenance and stream, from the manifests alone (fast); with ``chain``, the lived streams'
+        manifest hashes and links are checked too (file hashes are left to ``verify``)."""
+        out = {"rows": {w: 0 for w in WHERE}, "streams": [], "lived_chain_ok": True}
+        for s in self.streams():
+            ms = self.manifests(s["stream"])
+            rows = sum(m["rows"] for m in ms)
+            out["rows"][s["where"]] += rows
+            out["streams"].append({"stream": s["stream"], "where": s["where"], "individual": s["individual"],
+                                   "shards": len(ms), "rows": rows})
+            if chain and s["where"] == "LIVED":
+                prev = None
+                for m in ms:
+                    body = {k: v for k, v in m.items() if k != "manifest_sha"}
+                    if hashlib.sha256(_canon(body)).hexdigest() != m["manifest_sha"] or m["prev_manifest_sha"] != prev:
+                        out["lived_chain_ok"] = False
+                    prev = m["manifest_sha"]
+        return out
+
     def seeds_used(self) -> set[int]:
         """Every world seed any stream has touched: a seed is held out only if it is not here."""
         out = set()

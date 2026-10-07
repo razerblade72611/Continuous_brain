@@ -59,6 +59,34 @@ main { padding: 14px 18px 40px; display: grid; gap: 14px; }
 .inside { grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.6fr); }
 .life { grid-template-columns: minmax(250px, 0.8fr) minmax(300px, 1.1fr) minmax(320px, 1.2fr) minmax(260px, 0.9fr); }
 .learn { grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1fr) minmax(380px, 1.5fr); }
+.mindrow { grid-template-columns: minmax(380px, 1.4fr) minmax(300px, 1fr) minmax(300px, 1fr); }
+.sleeprow { grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr) minmax(320px, 1fr); }
+.pix { image-rendering: pixelated; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+.seeing { display: flex; gap: 12px; align-items: flex-start; }
+.seeing figure { margin: 0; text-align: center; font-size: 12px; color: var(--muted); }
+.dream { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
+.dream figure { margin: 0; font-size: 11px; color: var(--muted); text-align: center; }
+.dream img { width: 100%; }
+.riskgrid { display: grid; grid-template-columns: 96px repeat(3, 1fr); gap: 4px; font-size: 12.5px; align-items: center; }
+.riskgrid .c { padding: 3px 6px; border-radius: 4px; text-align: right; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 13px; }
+.kv span:nth-child(odd) { color: var(--muted); }
+.events { font-size: 12.5px; max-height: 190px; overflow: auto; }
+.events p { margin: 0 0 6px; }
+.chart { width: 100%; height: 150px; display: block; }
+.ok { color: var(--ok); } .bad { color: var(--bad); }
+.state { font-weight: 700; letter-spacing: 0.04em; font-size: 12.5px; padding: 6px 8px; border: 1px dashed var(--line); border-radius: 6px; margin-bottom: 8px; color: #F4A259; }
+.captable { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.captable th { text-align: left; color: var(--muted); font-weight: 600; padding: 4px 6px; border-bottom: 1px solid var(--line); }
+.captable td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.chip { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.chip.kept { background: #24453F; color: #8FE0C9; } .chip.successor { background: #4A3A1E; color: #F4C77A; }
+.chip.absent { background: #4A2622; color: #F2A093; } .chip.removed { background: #33414F; color: #C9D2DC; }
+.chip.passed { background: #24453F; color: #8FE0C9; } .chip.failed { background: #4A2622; color: #F2A093; }
+.chip.wait { background: #2B3642; color: #9AA7B4; }
+.alt { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.alt td, .alt th { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; }
+.alt td:first-child, .alt th:first-child { text-align: left; }
 .bars { display: grid; grid-template-columns: 128px 1fr 56px; gap: 5px 8px; align-items: center; font-size: 13px; }
 .bars .track { height: 10px; background: var(--raised); border-radius: 5px; overflow: hidden; position: relative; }
 .bars .track i { position: absolute; top: 0; bottom: 0; background: var(--c); border-radius: 5px; }
@@ -66,6 +94,8 @@ main { padding: 14px 18px 40px; display: grid; gap: 14px; }
 .bars span.on { color: var(--paper); font-weight: 700; }
 .bars span.off { color: var(--faint); }
 #lifechart { width: 100%; height: auto; display: block; }
+@media (max-width: 1250px) { .mindrow, .sleeprow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .mindrow, .sleeprow { grid-template-columns: 1fr; } }
 @media (max-width: 1250px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 760px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr; } header { position: static; } }
 
@@ -244,14 +274,56 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
     </div>
   </section>
 
+  <section class="row mindrow" id="mindrow" hidden>
+    <div class="panel">
+      <h2>What it sees and imagines <small id="mindsub"></small></h2>
+      <div id="seeing"></div>
+    </div>
+    <div class="panel">
+      <h2>What it would do</h2>
+      <div id="foresight2"></div>
+      <div id="choice" style="margin-top:12px"></div>
+    </div>
+    <div class="panel">
+      <h2>Who it is: its record</h2>
+      <div id="record"></div>
+    </div>
+  </section>
+
+  <section class="row sleeprow" id="sleeprow" hidden>
+    <div class="panel">
+      <h2>Sleep: its world model <small id="corerun"></small></h2>
+      <canvas class="chart" id="chartsee" width="600" height="150"></canvas>
+      <div class="legend">Predicting what it will see, from what it saw: its error when it only imagines (open loop) against simply assuming nothing changes. Below the grey line, its imagination beats "nothing changes".</div>
+      <canvas class="chart" id="chartrisk" width="600" height="150"></canvas>
+      <div class="legend">Foreseeing danger (12 risks, squared error): its world model against always guessing the average. Lower is better.</div>
+    </div>
+    <div class="panel">
+      <h2>Sleep: its skill <small id="polrun"></small></h2>
+      <canvas class="chart" id="chartpol" width="600" height="150"></canvas>
+      <div class="legend">How often its learned skill chooses what the routine would, on lives it has not trained on. P-A also reads its remembered map; P-B only its world model. The grey line is always choosing the most common action.</div>
+    </div>
+    <div class="panel">
+      <h2>Tests</h2>
+      <div id="tests"></div>
+    </div>
+  </section>
+
+  <section class="row" id="caprow">
+    <div class="panel">
+      <h2>What it can do, and what replaced what <small id="capsub"></small></h2>
+      <div id="caps"></div>
+    </div>
+  </section>
+
   <section class="row learn" id="learnrow" hidden>
     <div class="panel" id="foreseepanel">
-      <h2>What it foresees <small>in the next 100 steps</small></h2>
+      <h2>What it foresees <small id="foreseesub">in the next 100 steps</small></h2>
       <div class="bars" id="foresee"></div>
       <div class="legend" id="foreseestats"></div>
     </div>
     <div class="panel" id="valuespanel">
-      <h2>How sure it is that another choice is better</h2>
+      <h2 id="valueshead">How sure it is that another choice is better</h2>
       <div class="bars" id="values"></div>
       <div class="legend" id="valuestats"></div>
     </div>
@@ -378,8 +450,7 @@ function render() {
   if (R.error) toast("Stopped: " + R.error, 6000);
   if (f.tick < 0) { $("lifeinfo").textContent = "No life yet. Start one with New life."; return; }
   $("lifeinfo").textContent = (f.lifelong ? `Life ${f.life + 1}, ` : "") + `world seed ${f.seed}, ${f.arm}, tick ${f.tick}`;
-  $("learnrow").hidden = !(f.learning || f.lifelong);
-  $("foreseepanel").hidden = $("valuespanel").hidden = !f.learning;
+  $("learnrow").hidden = false;
   $("clock").textContent = `Day ${f.day + 1}, ${f.phase}`;
   const dlen = META.day_length || 300;
   $("daypos").style.left = ((f.step % dlen) / dlen * 100) + "%";
@@ -390,7 +461,8 @@ function render() {
   if (!f.alive && f.death) $("deathtext").textContent = "It " + f.death.text + "." + (f.lifelong ? " It was saved; the next life continues the same individual." : "");
   renderView(f); renderMaps(f); renderNow(f); renderGraph(f); renderRaster(); renderStore(f);
   renderBody(f); renderLedger(f); renderLog(f); renderSelf(f);
-  if (f.learning) renderLearning(f); else if (f.lifelong) renderLives(f);
+  if (f.learning) { $("foreseesub").textContent = "in the next 100 steps"; $("valueshead").textContent = "How sure it is that another choice is better"; renderLearning(f); }
+  else renderLives(f);
 }
 
 function renderView(f) {
@@ -709,6 +781,7 @@ const OPTION_WORDS = { routine: "Its routine", drink: "Drink", eat: "Eat", rest:
   explore: "Explore", requests: "Its requests", build: "Build and make" };
 function renderLearning(f) {
   const L = f.learning;
+  $("foresee").className = "bars"; $("values").className = "bars";
   $("foresee").innerHTML = L.risks.map((r, i) => { const p = L.prediction[i];
     return `<span>${r[0].toUpperCase() + r.slice(1)}</span><span class="track" style="--c:${p > 0.5 ? "#E2735F" : fc("world_model")}"><i style="left:0;width:${(p * 100).toFixed(0)}%"></i></span><span>${(p * 100).toFixed(0)}%</span>`; }).join("");
   const F = L.foresight, br = (F.brier || []).map((b) => b == null ? "–" : b.toFixed(3));
@@ -740,6 +813,154 @@ function renderLives(f) {
     const y = H - 14 - (H - 24) * m / maxS; i ? g.lineTo(x(i) + bw / 2, y) : g.moveTo(x(i) + bw / 2, y); }); g.stroke();
   const last = lives.slice(-3).reverse().map((l) => `Life ${l.life + 1}: ${l.steps} steps, ${l.done} things done${l.fulfilled == null ? "" : `, ${l.fulfilled} requests kept`}; it ${l.cause.replace(/^died at step \d+: ?/, "died: ").replace(/^died: /, "died: ")}`);
   $("lastlives").innerHTML = last.map(esc).join("<br>");
+}
+
+// ------------------------------------------------------------------------------------------- the mind
+let mindTick = -2, sleepAt = 0, SLEEP = null;
+const RISK_WORDS = { die: "Die", no_water: "Out of water", no_food: "Out of food", hurt3: "Lose 3+ health" };
+async function pollMind() {
+  if (!frame || frame.tick === mindTick) return;
+  try { const m = await api("/api/mind"); mindTick = m.tick; renderMind(m); } catch (e) { /* the server may be busy */ }
+}
+async function pollSleep() {
+  try { SLEEP = await api("/api/sleep"); renderSleep(SLEEP); } catch (e) { }
+}
+setInterval(pollMind, 700);
+let CAPS = null;
+async function pollCaps() { try { CAPS = await api("/api/capabilities"); renderCaps(CAPS); } catch (e) { } }
+setInterval(pollCaps, 15000); setTimeout(pollCaps, 500);
+function renderCaps(C) {
+  const word = { kept: "kept", successor: "successor", absent: "absent", removed: "removed" };
+  const counts = {}; C.entries.forEach((e) => counts[e.disposition] = (counts[e.disposition] || 0) + 1);
+  $("capsub").textContent = Object.entries(counts).map(([k, v]) => `${v} ${word[k] || k}`).join(", ");
+  $("caps").innerHTML = `<p class="subtle" style="margin-top:0">${esc(C.rule)}</p><table class="captable"><tr><th>Capability before</th><th></th><th>Now, and its successor</th><th>Gate</th><th>Status</th></tr>` +
+    C.entries.map((e) => { const g = e.gate_status || {};
+      const st = g.status === "passed" ? "passed" : g.status === "failed" ? "failed" : "wait";
+      return `<tr><td>${esc(e.w1)}</td><td><span class="chip ${e.disposition}">${word[e.disposition] || e.disposition}</span></td><td>${esc(e.cb2)}${e.reason ? "<br><span class='subtle'>Why: " + esc(e.reason) + "</span>" : ""}</td><td>${esc(e.gate || "–")}</td><td>${e.gate ? `<span class="chip ${st}">${esc(g.status)}</span>${g.summary ? "<br><span class='subtle'>" + esc(g.summary) + "</span>" : ""}` : ""}</td></tr>`; }).join("") + `</table>`;
+}
+setInterval(pollSleep, 15000);
+setTimeout(pollSleep, 800);
+
+function cell(p) { const a = Math.min(1, p); return `<span class="c" style="background:${mix(p > 0.5 ? "#E2735F" : "#F4A259", 0.15 + 0.7 * a)}">${(p * 100).toFixed(0)}%</span>`; }
+const RISK_LABEL = { die: "Die", no_water: "Out of water", no_food: "Out of food", hurt3: "Lose 3+ health", no_energy: "Out of energy" };
+function capLine(id) {
+  const e = CAPS && CAPS.entries.find((x) => x.id === id); if (!e) return "";
+  const g = e.gate_status || {};
+  return `<div class="legend">Successor: ${esc(e.cb2)}.<br>${esc(e.gate || "")} <span class="chip ${g.status === "passed" ? "passed" : g.status === "failed" ? "failed" : "wait"}">${esc(g.status || "")}</span>${g.summary ? " " + esc(g.summary) : ""}</div>`;
+}
+function renderPredictive(m) {
+  if (frame && frame.learning) return;                     // the overnight design draws its own
+  $("foresee").className = ""; $("values").className = "";
+  const M = m.mind;
+  if (!M) {
+    $("foreseesub").textContent = "";
+    $("foresee").innerHTML = `<div class="state">PREDICTIVE FORESIGHT: UNTRAINED / NOT INSTALLED</div><p class="subtle">It has no foresight faculty yet: it acts with the hand-written routine, which foresees nothing.</p>` + capLine("foresight");
+    $("foreseestats").innerHTML = "";
+    $("valueshead").textContent = "Whether another choice would be better";
+    $("values").innerHTML = `<div class="state">ROUTINE POLICY: NO LEARNED ALTERNATIVE VALUE</div><p class="subtle">The routine follows fixed rules; nothing in it weighs one action against another.</p>` + capLine("choice");
+    $("valuestats").innerHTML = "";
+    return;
+  }
+  $("foreseesub").textContent = "its world model, from where it stands now";
+  const names = [...new Set(M.risks.map((r) => r.split(" within ")[0]))], H = [...new Set(M.risks.map((r) => r.split(" within ")[1]))];
+  let g = `<div class="riskgrid"><span></span>` + H.map((h) => `<span class="subtle">${h} steps</span>`).join("");
+  names.forEach((k, r) => { g += `<span>${RISK_LABEL[k] || k}</span>` + H.map((_, j) => cell(M.risk[r * H.length + j])).join(""); });
+  $("foresee").innerHTML = g + "</div>";
+  $("foreseestats").innerHTML = capLine("foresight");
+  $("valueshead").textContent = "What else it could do, as it imagines it";
+  const A = M.alternatives || [], vit = ["health", "food", "water", "energy"];
+  const dv = (a) => a.vs_choice.vitals.map((d, i) => Math.abs(d) >= 0.5 ? `${vit[i]} ${d > 0 ? "+" : ""}${d.toFixed(1)}` : "").filter(Boolean).join(", ") || "no change";
+  const dieIdx = names.indexOf("die") * H.length + H.length - 1;
+  $("values").innerHTML = `<table class="alt"><tr><th>First action</th><th>imagined reward</th><th>± spread</th><th>vs its choice</th><th>death risk after</th></tr>` +
+    A.map((a, i) => `<tr><td>${i === 0 ? "<b>" + esc(a.action) + " (its choice)</b>" : esc(a.action)}</td><td>${a.reward.toFixed(2)}</td><td>${a.reward_spread.toFixed(2)}</td><td>${i === 0 ? "–" : (a.vs_choice.reward >= 0 ? "+" : "") + a.vs_choice.reward.toFixed(2) + "<br><span class='subtle'>" + esc(dv(a)) + "</span>"}</td><td>${((a.risk[dieIdx] || 0) * 100).toFixed(0)}% ± ${((a.risk_spread[dieIdx] || 0) * 100).toFixed(0)}</td></tr>`).join("") + `</table>`;
+  $("valuestats").innerHTML = `<div class="legend">Each row: that action first, then its own skill for ${M.alt_horizon} steps, imagined ${M.alt_samples} times by its world model. Its skill does not act on these yet: it imitates, with no learned value.</div>` + capLine("choice");
+}
+function renderMind(m) {
+  renderPredictive(m);
+  const show = m.canonical || m.skills === "cb2";
+  $("mindrow").hidden = !show; if (!show) return;
+  const M = m.mind, R = m.routine || {};
+  if (!M) {
+    $("mindsub").textContent = "";
+    $("seeing").innerHTML = `<p class="subtle">It acts with the hand-written routine for now. Its learned mind (a predictive world model and a skill) arrives with its first consolidation, after the first training round; then this panel shows what its world model sees and imagines.</p>`;
+    $("foresight2").innerHTML = "";
+  } else {
+    $("mindsub").textContent = `world model ${(M.params / 1e6).toFixed(1)}M weights, skill ${M.arm}`;
+    const real = frame && frame.image ? `<figure><img class="pix" width="128" height="128" src="data:image/png;base64,${frame.image}"><br>the world</figure>` : "";
+    $("seeing").innerHTML = `<div class="seeing">${real}<figure><img class="pix" width="128" height="128" src="data:image/png;base64,${M.sees}"><br>its picture of now</figure>
+      <p class="subtle" style="max-width:260px">Its picture of now is decoded from its world model's state: what it holds of this moment. Below, the next ${M.imagined.length} steps as it imagines them, acting on its own skill, with nothing seen.</p></div>
+      <div class="dream">${M.imagined.map((im, i) => `<figure><img class="pix" src="data:image/png;base64,${im}"><br>+${i + 1} ${esc(M.imagined_actions[i])}</figure>`).join("")}</div>`;
+    $("foresight2").innerHTML = "";
+  }
+  let c = "";
+  if (!M) c += `<div class="state">ROUTINE POLICY</div><p>It acts by the hand-written rules: now <b>${esc((frame && frame.skills && frame.skills.action) || "–")}</b>, serving its "${esc((frame && frame.skills && frame.skills.option) || "–")}". No learned skill is installed, so there is no learned choice to show.</p>` + capLine("skills");
+  if (M) c += `<div class="bars">` + M.policy.map((a, i) => `<span class="${i === 0 ? "on" : ""}">${esc(a.action)}</span><span class="track" style="--c:${fc("skills")}"><i style="left:0;width:${(a.p * 100).toFixed(0)}%"></i></span><span>${(a.p * 100).toFixed(0)}%</span>`).join("") + `</div><div class="legend">Its skill's choice now${M.intent ? `, serving what it takes to be its "${esc(M.intent)}"` : ""}.</div>`;
+  if (R.n && m.skills !== "routine") c += `<p>The routine would: <b>${esc(R.action || "–")}</b>. It chose as the routine would ${R.agree} of ${R.n} steps this life (${(100 * R.agree / R.n).toFixed(0)}%).</p>`;
+  $("choice").innerHTML = c;
+  const rec = m.record;
+  if (!rec) { $("record").innerHTML = `<p class="subtle">Not the canonical individual: nothing it does here is recorded.</p>`; return; }
+  const A = rec.archive.rows;
+  let h = `<div class="kv"><span>Lives lived</span><span>${rec.lives_lived}</span>
+    <span>Lived (its own)</span><span>${A.LIVED.toLocaleString()} moments, chain ${rec.archive.lived_chain_ok ? '<b class="ok">intact</b>' : '<b class="bad">BROKEN</b>'}</span>
+    <span>Practice (not lived)</span><span>${A.PRACTICE.toLocaleString()} moments</span>
+    <span>Dreamed</span><span>${A.DREAMED.toLocaleString()} moments</span>
+    <span>Consolidations</span><span>${rec.consolidations}, record ${rec.consolidation_log_ok ? '<b class="ok">intact</b>' : '<b class="bad">BROKEN</b>'}</span>
+    <span>Stable point</span><span>${rec.stable ? esc(rec.stable.snapshot) + " (" + esc(rec.stable.note || "") + ")" : "none marked yet"}</span>`;
+  if (M) h += `<span>Skill weights</span><span>${M.weights_sha256.slice(0, 12)}</span>`;
+  h += `</div>`;
+  const ev = M ? M.lineage.slice().reverse() : [];
+  h += `<div class="events" style="margin-top:8px">${ev.length ? ev.map((e) => `<p><b>${esc(e.kind)}</b> ${esc(e.time || "")}, life ${e.life + 1}: weights ${String(e.weights_sha256).slice(0, 10)}${e.note ? " (" + esc(e.note) + ")" : ""}</p>`).join("") : '<p class="subtle">No consolidation yet: everything it is came from living.</p>'}</div>`;
+  $("record").innerHTML = h;
+}
+
+function lineChart(id, series, opts = {}) {
+  const c = $(id), g = c.getContext("2d"), W = c.width, H = c.height; g.clearRect(0, 0, W, H);
+  const pts = series.flatMap((s) => s.points.filter((p) => p[1] != null));
+  if (!pts.length) { g.fillStyle = "#9AA7B4"; g.font = "13px system-ui"; g.fillText(opts.empty || "No training yet.", 8, 22); return; }
+  const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs, x0 + 1), y0 = opts.y0 != null ? opts.y0 : Math.min(...ys), y1 = Math.max(...ys, y0 + 1e-9);
+  const L = 44, B = 18, X = (x) => L + (W - L - 8) * (x - x0) / (x1 - x0), Y = (y) => H - B - (H - B - 8) * (y - y0) / (y1 - y0);
+  g.strokeStyle = "#33414F"; g.fillStyle = "#6D7A88"; g.font = "11px system-ui";
+  for (const t of [0, 0.5, 1]) { const y = y0 + (y1 - y0) * t; g.beginPath(); g.moveTo(L, Y(y)); g.lineTo(W, Y(y)); g.stroke(); g.fillText(y < 1 ? y.toFixed(3) : y.toFixed(1), 2, Y(y) + 4); }
+  g.fillText(String(x1), W - 40, H - 4); g.fillText(String(x0), L, H - 4);
+  let lx = L + 4;
+  series.forEach((s) => { const p = s.points.filter((q) => q[1] != null); if (!p.length) return;
+    g.strokeStyle = s.color; g.lineWidth = s.width || 1.6; g.setLineDash(s.dash || []); g.beginPath();
+    p.forEach((q, i) => i ? g.lineTo(X(q[0]), Y(q[1])) : g.moveTo(X(q[0]), Y(q[1]))); g.stroke(); g.setLineDash([]);
+    g.fillStyle = s.color; g.fillText(s.name, lx, 12); lx += g.measureText(s.name).width + 14; });
+}
+function renderSleep(S) {
+  const runs = S.runs || [], any = runs.length || S.probe || S.eval || S.bench;
+  $("sleeprow").hidden = !any; if (!any) return;
+  const cores = runs.filter((r) => r.kind === "core"), pols = runs.filter((r) => r.kind === "policy");
+  const core = cores[cores.length - 1];
+  $("corerun").textContent = core ? `${core.name}, ${(core.params / 1e6).toFixed(1)}M weights on ${core.device}, ${core.done ? "finished" : "training"}` : "";
+  const P = (r, k) => (r ? r.points.map((p) => [p.u, p[k]]) : []);
+  lineChart("chartsee", [{ name: "imagining", color: "#F4A259", points: P(core, "openloop") },
+                         { name: "nothing changes", color: "#6D7A88", dash: [4, 3], points: P(core, "copy_last") }], { y0: 0 });
+  lineChart("chartrisk", [{ name: "its world model", color: "#F4A259", points: P(core, "risk") },
+                          { name: "average guess", color: "#6D7A88", dash: [4, 3], points: P(core, "risk_base") }], { y0: 0 });
+  const colors = { "P-A": "#4FC1B5", "P-B": "#B48CF0" };
+  const latest = {}; pols.forEach((r) => latest[r.arm] = r);
+  const ser = Object.values(latest).map((r) => ({ name: r.arm, color: colors[r.arm] || "#EAE5D9", points: P(r, "agreement") }));
+  const any0 = Object.values(latest)[0];
+  if (any0) ser.push({ name: "most common action", color: "#6D7A88", dash: [4, 3], points: P(any0, "majority") });
+  $("polrun").textContent = Object.values(latest).map((r) => `${r.arm}: ${r.name}`).join(", ");
+  lineChart("chartpol", ser, { y0: 0 });
+  let t = "";
+  const ev = (S.eval || []).slice(-3);
+  if (ev.length) t += `<h3 style="font-size:13px">On ${ev[0].seeds ? ev[0].seeds[2] : 40} fresh worlds, against the routine</h3><div class="kv">` + ev.map((e) => {
+    const a = e.summary.individual, b = e.summary.routine;
+    return `<span>${esc(e.label)}</span><span>score ${a.crafter_score.toFixed(1)} vs ${b.crafter_score.toFixed(1)}, lives ${a.survival_steps.toFixed(0)} vs ${b.survival_steps.toFixed(0)} steps, ${a.achievements_per_episode.toFixed(1)} vs ${b.achievements_per_episode.toFixed(1)} things done</span>`; }).join("") + `</div>`;
+  const pr = (S.probe || []).slice(-1)[0];
+  if (pr) { const r = pr.r2, v = (k) => r[k] ? r[k].r2.toFixed(2) : "–";
+    t += `<h3 style="font-size:13px;margin-top:10px">What its world model knows (${esc(pr.name)})</h3><div class="kv">
+      <span>The 62 belief features</span><span>${v("trained/core->features")} (untrained ${v("untrained/core->features")}, this frame only ${v("trained/frame->features")})</span>
+      <span>Remembered places out of view</span><span>${v("trained/core->known")} (untrained ${v("untrained/core->known")}, this frame only ${v("trained/frame->known")})</span></div>
+      <div class="legend">How much of what the hand-built faculties knew can be read back from its world model's state (R², 1 is all of it).</div>`; }
+  const bn = (S.bench || []).slice(-1)[0];
+  if (bn) t += `<p class="subtle">Practice worlds in parallel: ${bn.rows.map((r) => `${r.workers} worker${r.workers > 1 ? "s" : ""} ${r.steps_per_s.toFixed(0)} steps/s`).join(", ")} (${esc(bn.name)}).</p>`;
+  $("tests").innerHTML = t || `<p class="subtle">No tests yet.</p>`;
 }
 
 // -------------------------------------------------------------------------------------------- controls
