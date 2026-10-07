@@ -19,7 +19,7 @@ mkdir -p runs/explore/vision runs/explore/cb2/archive
 [ -d runs/explore/cb2/individuals ] || cp -r "$KIT/cb2/individuals" runs/explore/cb2/
 for d in "$KIT"/cb2/archive/lived-*; do [ -d "runs/explore/cb2/archive/$(basename "$d")" ] || cp -r "$d" runs/explore/cb2/archive/; done
 echo "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999  runs/explore/vision/tile_decoder_v1.pt" | sha256sum -c
-PINS="numpy==2.4.4 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest"
+PINS="numpy==2.4.4 scipy==1.17.1 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest"
 if [ ! -x /workspace/venv/bin/python ]; then
   if python3 -m venv --system-site-packages /workspace/venv 2>/dev/null; then   # keeps the pod's CUDA PyTorch
     /workspace/venv/bin/pip install -q $PINS
