@@ -245,12 +245,12 @@ dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; a
   </section>
 
   <section class="row learn" id="learnrow" hidden>
-    <div class="panel">
+    <div class="panel" id="foreseepanel">
       <h2>What it foresees <small>in the next 100 steps</small></h2>
       <div class="bars" id="foresee"></div>
       <div class="legend" id="foreseestats"></div>
     </div>
-    <div class="panel">
+    <div class="panel" id="valuespanel">
       <h2>How sure it is that another choice is better</h2>
       <div class="bars" id="values"></div>
       <div class="legend" id="valuestats"></div>
@@ -378,7 +378,8 @@ function render() {
   if (R.error) toast("Stopped: " + R.error, 6000);
   if (f.tick < 0) { $("lifeinfo").textContent = "No life yet. Start one with New life."; return; }
   $("lifeinfo").textContent = (f.lifelong ? `Life ${f.life + 1}, ` : "") + `world seed ${f.seed}, ${f.arm}, tick ${f.tick}`;
-  $("learnrow").hidden = !f.learning;
+  $("learnrow").hidden = !(f.learning || f.lifelong);
+  $("foreseepanel").hidden = $("valuespanel").hidden = !f.learning;
   $("clock").textContent = `Day ${f.day + 1}, ${f.phase}`;
   const dlen = META.day_length || 300;
   $("daypos").style.left = ((f.step % dlen) / dlen * 100) + "%";
@@ -389,7 +390,7 @@ function render() {
   if (!f.alive && f.death) $("deathtext").textContent = "It " + f.death.text + "." + (f.lifelong ? " It was saved; the next life continues the same individual." : "");
   renderView(f); renderMaps(f); renderNow(f); renderGraph(f); renderRaster(); renderStore(f);
   renderBody(f); renderLedger(f); renderLog(f); renderSelf(f);
-  if (f.learning) renderLearning(f);
+  if (f.learning) renderLearning(f); else if (f.lifelong) renderLives(f);
 }
 
 function renderView(f) {
