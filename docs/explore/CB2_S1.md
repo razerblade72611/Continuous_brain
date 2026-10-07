@@ -116,7 +116,11 @@ the data for the next imitation round (DAgger).
 
 - **Built and tested:** archive, wake and practice collection, core, policies, probes, skill host, consolidation,
   evaluation.
-- **Collected here:** 20 lived lives (12,401 transitions) and practice run 0 (200,000 transitions, 2 workers).
+- **Collected here:** 20 lived lives (13,978 transitions) and practice run 0: two sealed shards, 131,072 transitions. The
+  container was reclaimed while idle and the workers stopped partway through their second shards. Those unsealed
+  shards were lost, and nothing else was: crash safety worked as designed.
+- **On David's machine (RX 6600, 12 threads):** living, practice and evaluation run there. ROCm does not support the RX 6600
+  under WSL, so training runs on a rented GPU.
 - **Provenance note:** the lived lives and practice run 0 were collected with the CB2 code before it was first
   committed (3838fef), so their manifests name the parent commit fac701e. The recording code that produced them
   is what 3838fef contains; a later change (the shadow routine) applies only when the skill is not the routine.
