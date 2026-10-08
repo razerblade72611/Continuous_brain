@@ -74,6 +74,8 @@ class SkillPolicy(nn.Module):
         self.opt = torch.optim.Adam(self.parameters(), lr=cfg.lr)
 
     def _t(self, x, dtype=torch.float32):
+        if isinstance(x, torch.Tensor):
+            return x.to(device=self.device, dtype=dtype)
         return torch.as_tensor(np.asarray(x), dtype=dtype, device=self.device)
 
     def forward(self, feat: torch.Tensor, body, features=None, map_crop=None):

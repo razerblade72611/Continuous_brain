@@ -92,6 +92,8 @@ class PredictiveCore(nn.Module):
 
     # ------------------------------------------------------------------------------------------ interface
     def _t(self, x, dtype=torch.float32):
+        if isinstance(x, torch.Tensor):
+            return x.to(device=self.device, dtype=dtype)
         x = np.asarray(x)
         if not x.flags.writeable:
             x = x.copy()
