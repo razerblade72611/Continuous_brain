@@ -100,14 +100,24 @@ class CoreSkillHost(_Host):
         feat = core.feat(post)
         hist = ([] if first else list(st.get("hist", []))) + [[int(inv[k]) for k in VITALS]]
         hist = hist[-11:]
-        feats = crop = None
-        if pol.cfg.arm == "P-A":
+        feats = crop = intent = None
+        memory = led = None
+        if pol.cfg.arm == "P-A" or pol.cfg.intent_dim:
             memory = codec.unblob(ctx.inputs["episodic_memory.state"]) or mem.empty()
             led = codec.unblob(ctx.inputs["goal_genesis.state"]) or ledger.empty()
+        if pol.cfg.arm == "P-A":
             feats = belief_features(memory, body, step, led, None, hist)[None].astype(np.float16).astype(np.float32)
             crop = map_crop(memory, body["player_pos"]).reshape(1, -1)
+        if pol.cfg.intent_dim:
+            # r3-T DIAGNOSTIC ONLY: the routine's private intent on this individual's own beliefs, with the
+            # routine's plan state kept in skills.state (as the routine host keeps it), fresh each life
+            from .intent import IntentLibrary
+            lib = IntentLibrary.from_state(None if first else st.get("shadow"), seed=0)
+            _, _, vec = lib.decide_with_intent(memory, body, step, ledger.active(led, step))
+            st["shadow"] = lib.to_state()
+            intent = vec[None]
         with torch.no_grad():
-            logits, opt_logits = pol(feat, bv, feats, crop)
+            logits, opt_logits = pol(feat, bv, feats, crop, intent)
         action = int(logits.argmax(-1)[0])
         option = int(opt_logits.argmax(-1)[0])
         state_bytes = np.concatenate([post["deter"][0].numpy().ravel(), post["stoch"][0].numpy().ravel()]).astype(

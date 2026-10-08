@@ -33,6 +33,8 @@ class PolicyConfig:
     map_channels: int = 32
     lr: float = 3e-4
     aux_scale: float = 0.2
+    intent_dim: int = 0         # r3-T diagnostic only: the routine's private intent, appended last (intent.py)
+    intent_mask: str = "none"   # which part of it this policy is given: none / branch / full
 
 
 class MapEncoder(nn.Module):
@@ -63,6 +65,12 @@ class SkillPolicy(nn.Module):
             inp += FEATURES + self.map.out
         elif cfg.arm != "P-B":
             raise ValueError(cfg.arm)
+        if cfg.intent_dim:
+            from .intent import INTENT_DIM, mask_vector
+            if cfg.intent_dim != INTENT_DIM:
+                raise ValueError(f"intent_dim {cfg.intent_dim} != {INTENT_DIM}")
+            self.register_buffer("intent_mask", torch.from_numpy(mask_vector(cfg.intent_mask)))
+            inp += cfg.intent_dim
         layers, d = [], inp
         for _ in range(cfg.layers):
             layers += [nn.Linear(d, cfg.units), nn.LayerNorm(cfg.units), nn.SiLU()]
@@ -78,15 +86,20 @@ class SkillPolicy(nn.Module):
             return x.to(device=self.device, dtype=dtype)
         return torch.as_tensor(np.asarray(x), dtype=dtype, device=self.device)
 
-    def forward(self, feat: torch.Tensor, body, features=None, map_crop=None):
+    def forward(self, feat: torch.Tensor, body, features=None, map_crop=None, intent=None):
         x = [feat, torch.as_tensor(body, dtype=torch.float32, device=self.device)]
         if self.map is not None:
             x += [self._t(features), self.map(self._t(map_crop, torch.int64))]
+        if self.cfg.intent_dim:
+            if intent is None:
+                raise ValueError("this policy was trained with the routine's intent as input (r3-T diagnostic)")
+            x.append(self._t(intent) * self.intent_mask)
         h = self.trunk(torch.cat(x, -1))
         return self.action(h), self.option(h)
 
     def losses(self, feat, batch: dict, mask=None):
-        logits, opt_logits = self(feat, batch["body"], batch.get("features"), batch.get("map_crop"))
+        logits, opt_logits = self(feat, batch["body"], batch.get("features"), batch.get("map_crop"),
+                                  batch.get("intent"))
         target = self._t(batch["teacher_action"], torch.int64)
         ce = F.cross_entropy(logits.reshape(-1, N_ACTIONS), target.reshape(-1), reduction="none")
         aux = F.cross_entropy(opt_logits.reshape(-1, N_OPTIONS),
@@ -107,9 +120,10 @@ class SkillPolicy(nn.Module):
         return m
 
     @torch.no_grad()
-    def act(self, feat, body, features=None, map_crop=None, greedy: bool = True, rng=None) -> np.ndarray:
+    def act(self, feat, body, features=None, map_crop=None, greedy: bool = True, rng=None,
+            intent=None) -> np.ndarray:
         self.eval()
-        logits, _ = self(feat, body, features, map_crop)
+        logits, _ = self(feat, body, features, map_crop, intent)
         if greedy:
             return logits.argmax(-1).cpu().numpy()
         p = torch.softmax(logits, -1).cpu().numpy()
@@ -118,6 +132,20 @@ class SkillPolicy(nn.Module):
 
     def state_dict_full(self) -> dict:
         return {"config": asdict(self.cfg), "feat_size": self.feat_size, "model": self.state_dict()}
+
+    @classmethod
+    def with_intent(cls, base: "SkillPolicy", mask: str, device: str | None = None) -> "SkillPolicy":
+        """A copy of ``base`` that also reads the routine's intent (r3-T): every weight copied, the first layer's
+        new input columns zero, so before training it acts exactly as ``base`` does."""
+        from .intent import INTENT_DIM
+        cfg = PolicyConfig(**{**asdict(base.cfg), "intent_dim": INTENT_DIM, "intent_mask": mask})
+        p = cls(cfg, base.feat_size, device or base.device)
+        sd = {k: v.clone() for k, v in base.state_dict().items()}
+        w = sd["trunk.0.weight"]
+        sd["trunk.0.weight"] = torch.cat([w, torch.zeros(w.shape[0], INTENT_DIM, dtype=w.dtype, device=w.device)], 1)
+        sd["intent_mask"] = p.intent_mask.clone()
+        p.load_state_dict(sd)
+        return p
 
     @classmethod
     def from_state(cls, saved: dict, device: str = "cpu") -> "SkillPolicy":

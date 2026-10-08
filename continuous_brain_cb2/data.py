@@ -218,6 +218,8 @@ class SequenceSampler:
             out["teacher_option"] = c["teacher_option"][sl].astype(np.int64)
         if "features" in c:
             out["features"] = c["features"][sl]
+        if "intent" in c:                                   # r3-T diagnostic sidecar (intent.py), when attached
+            out["intent"] = c["intent"][sl].astype(np.float32)
         if self.map_crop:
             out["map_crop"] = self._column(s, start, T, "organ", "map_crop")
         return out
