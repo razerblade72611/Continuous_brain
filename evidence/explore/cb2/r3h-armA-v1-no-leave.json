@@ -1,0 +1,1448 @@
+{
+ "format": "cb2-r3h-armA/1",
+ "status": "ENGINEERING_ONLY",
+ "git": "272fbb9c42d79819910d91d2d1dc26f94aa0dcc6",
+ "git_dirty": false,
+ "seeds": [
+  75001,
+  75040,
+  40
+ ],
+ "organ": {
+  "crafter_score": 23.318116410247747,
+  "survival_steps": 390.85,
+  "achievements_per_episode": 11.625,
+  "obligations": 0.25,
+  "deaths": 40
+ },
+ "agreement_with_routine": 0.7426492313260711,
+ "status_counts": {
+  "ok": 8533,
+  "asleep": 3270,
+  "ok+done": 3831
+ },
+ "command_counts": {
+  "build": 3067,
+  "explore": 973,
+  "eat": 733,
+  "drink": 570,
+  "rest": 10075,
+  "requests": 216
+ },
+ "episodes": [
+  {
+   "seed": 75001,
+   "steps": 92,
+   "died": true,
+   "unlocked": [
+    "collect_wood",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_table"
+   ],
+   "n_unlocked": 4,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 1.0,
+   "status": {
+    "ok": 92
+   },
+   "commands": {
+    "build": 92
+   },
+   "seconds": 1.2
+  },
+  {
+   "seed": 75002,
+   "steps": 476,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_iron",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.6428571428571429,
+   "status": {
+    "ok": 223,
+    "asleep": 120,
+    "ok+done": 133
+   },
+   "commands": {
+    "explore": 11,
+    "build": 109,
+    "eat": 6,
+    "drink": 8,
+    "rest": 342
+   },
+   "seconds": 5.6
+  },
+  {
+   "seed": 75003,
+   "steps": 427,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "make_stone_pickaxe",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 11,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.7236533957845434,
+   "status": {
+    "ok": 210,
+    "ok+done": 118,
+    "asleep": 99
+   },
+   "commands": {
+    "build": 60,
+    "explore": 79,
+    "rest": 280,
+    "drink": 8
+   },
+   "seconds": 5.2
+  },
+  {
+   "seed": 75004,
+   "steps": 389,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_iron",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 16,
+   "fulfilled": 1,
+   "failed": 0,
+   "agreement_with_routine": 0.6658097686375322,
+   "status": {
+    "ok": 206,
+    "asleep": 99,
+    "ok+done": 84
+   },
+   "commands": {
+    "build": 114,
+    "requests": 7,
+    "eat": 14,
+    "drink": 13,
+    "rest": 241
+   },
+   "seconds": 4.9
+  },
+  {
+   "seed": 75005,
+   "steps": 502,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 10,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.6792828685258964,
+   "status": {
+    "ok": 250,
+    "asleep": 121,
+    "ok+done": 131
+   },
+   "commands": {
+    "build": 58,
+    "explore": 50,
+    "drink": 10,
+    "eat": 16,
+    "rest": 368
+   },
+   "seconds": 5.8
+  },
+  {
+   "seed": 75006,
+   "steps": 542,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 2,
+   "failed": 1,
+   "agreement_with_routine": 0.6808118081180812,
+   "status": {
+    "ok": 278,
+    "asleep": 134,
+    "ok+done": 130
+   },
+   "commands": {
+    "explore": 30,
+    "build": 109,
+    "eat": 8,
+    "drink": 10,
+    "rest": 385
+   },
+   "seconds": 6.5
+  },
+  {
+   "seed": 75007,
+   "steps": 464,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 0,
+   "failed": 3,
+   "agreement_with_routine": 0.6530172413793104,
+   "status": {
+    "ok": 230,
+    "asleep": 109,
+    "ok+done": 125
+   },
+   "commands": {
+    "build": 109,
+    "explore": 1,
+    "drink": 10,
+    "eat": 11,
+    "rest": 333
+   },
+   "seconds": 5.5
+  },
+  {
+   "seed": 75008,
+   "steps": 466,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 16,
+   "fulfilled": 2,
+   "failed": 2,
+   "agreement_with_routine": 0.6545064377682404,
+   "status": {
+    "ok": 231,
+    "asleep": 110,
+    "ok+done": 125
+   },
+   "commands": {
+    "build": 106,
+    "requests": 14,
+    "eat": 6,
+    "drink": 7,
+    "rest": 333
+   },
+   "seconds": 6.0
+  },
+  {
+   "seed": 75009,
+   "steps": 203,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_table"
+   ],
+   "n_unlocked": 9,
+   "fulfilled": 2,
+   "failed": 0,
+   "agreement_with_routine": 0.9901477832512315,
+   "status": {
+    "ok": 166,
+    "ok+done": 37
+   },
+   "commands": {
+    "build": 15,
+    "explore": 60,
+    "requests": 50,
+    "drink": 35,
+    "eat": 43
+   },
+   "seconds": 2.8
+  },
+  {
+   "seed": 75010,
+   "steps": 237,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_table"
+   ],
+   "n_unlocked": 12,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.8734177215189873,
+   "status": {
+    "ok": 211,
+    "ok+done": 26
+   },
+   "commands": {
+    "explore": 27,
+    "build": 119,
+    "drink": 16,
+    "rest": 34,
+    "eat": 41
+   },
+   "seconds": 3.2
+  },
+  {
+   "seed": 75011,
+   "steps": 373,
+   "died": true,
+   "unlocked": [
+    "collect_stone",
+    "collect_wood",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 7,
+   "fulfilled": 1,
+   "failed": 3,
+   "agreement_with_routine": 0.7882037533512064,
+   "status": {
+    "ok": 153,
+    "ok+done": 132,
+    "asleep": 88
+   },
+   "commands": {
+    "build": 60,
+    "explore": 1,
+    "rest": 312
+   },
+   "seconds": 4.7
+  },
+  {
+   "seed": 75012,
+   "steps": 550,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 9,
+   "fulfilled": 1,
+   "failed": 0,
+   "agreement_with_routine": 0.6381818181818182,
+   "status": {
+    "ok": 264,
+    "ok+done": 155,
+    "asleep": 131
+   },
+   "commands": {
+    "explore": 73,
+    "build": 18,
+    "drink": 48,
+    "eat": 30,
+    "rest": 381
+   },
+   "seconds": 6.2
+  },
+  {
+   "seed": 75013,
+   "steps": 480,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 11,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.7125,
+   "status": {
+    "ok": 227,
+    "asleep": 121,
+    "ok+done": 132
+   },
+   "commands": {
+    "build": 42,
+    "explore": 50,
+    "drink": 12,
+    "eat": 22,
+    "rest": 354
+   },
+   "seconds": 5.4
+  },
+  {
+   "seed": 75014,
+   "steps": 514,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 0,
+   "failed": 4,
+   "agreement_with_routine": 0.6770428015564203,
+   "status": {
+    "ok": 255,
+    "ok+done": 138,
+    "asleep": 121
+   },
+   "commands": {
+    "explore": 23,
+    "build": 85,
+    "eat": 10,
+    "drink": 8,
+    "rest": 388
+   },
+   "seconds": 6.3
+  },
+  {
+   "seed": 75015,
+   "steps": 463,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 0,
+   "failed": 4,
+   "agreement_with_routine": 0.6954643628509719,
+   "status": {
+    "ok": 226,
+    "asleep": 110,
+    "ok+done": 127
+   },
+   "commands": {
+    "build": 66,
+    "explore": 56,
+    "eat": 4,
+    "drink": 4,
+    "rest": 333
+   },
+   "seconds": 5.4
+  },
+  {
+   "seed": 75016,
+   "steps": 508,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 11,
+   "fulfilled": 0,
+   "failed": 3,
+   "agreement_with_routine": 0.6732283464566929,
+   "status": {
+    "ok": 263,
+    "asleep": 120,
+    "ok+done": 125
+   },
+   "commands": {
+    "explore": 21,
+    "build": 60,
+    "drink": 16,
+    "eat": 29,
+    "rest": 382
+   },
+   "seconds": 5.9
+  },
+  {
+   "seed": 75017,
+   "steps": 477,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 1,
+   "failed": 3,
+   "agreement_with_routine": 0.689727463312369,
+   "status": {
+    "ok": 208,
+    "ok+done": 148,
+    "asleep": 121
+   },
+   "commands": {
+    "explore": 15,
+    "build": 71,
+    "requests": 5,
+    "eat": 38,
+    "drink": 4,
+    "rest": 344
+   },
+   "seconds": 5.6
+  },
+  {
+   "seed": 75018,
+   "steps": 511,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 2,
+   "failed": 2,
+   "agreement_with_routine": 0.6771037181996086,
+   "status": {
+    "ok": 270,
+    "asleep": 129,
+    "ok+done": 112
+   },
+   "commands": {
+    "build": 78,
+    "requests": 33,
+    "explore": 10,
+    "eat": 16,
+    "drink": 17,
+    "rest": 357
+   },
+   "seconds": 6.3
+  },
+  {
+   "seed": 75019,
+   "steps": 137,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_table"
+   ],
+   "n_unlocked": 7,
+   "fulfilled": 1,
+   "failed": 2,
+   "agreement_with_routine": 0.9927007299270073,
+   "status": {
+    "ok": 137
+   },
+   "commands": {
+    "explore": 47,
+    "build": 49,
+    "drink": 12,
+    "requests": 25,
+    "eat": 4
+   },
+   "seconds": 1.8
+  },
+  {
+   "seed": 75020,
+   "steps": 462,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 1,
+   "agreement_with_routine": 0.6147186147186147,
+   "status": {
+    "ok": 220,
+    "asleep": 110,
+    "ok+done": 132
+   },
+   "commands": {
+    "build": 104,
+    "eat": 5,
+    "explore": 16,
+    "drink": 5,
+    "rest": 332
+   },
+   "seconds": 5.4
+  },
+  {
+   "seed": 75021,
+   "steps": 464,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_iron",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 17,
+   "fulfilled": 0,
+   "failed": 1,
+   "agreement_with_routine": 0.6357758620689655,
+   "status": {
+    "ok": 210,
+    "ok+done": 145,
+    "asleep": 109
+   },
+   "commands": {
+    "explore": 18,
+    "build": 85,
+    "eat": 23,
+    "drink": 5,
+    "rest": 333
+   },
+   "seconds": 5.2
+  },
+  {
+   "seed": 75022,
+   "steps": 447,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 9,
+   "fulfilled": 1,
+   "failed": 1,
+   "agreement_with_routine": 0.7046979865771812,
+   "status": {
+    "ok": 205,
+    "asleep": 110,
+    "ok+done": 132
+   },
+   "commands": {
+    "build": 75,
+    "explore": 1,
+    "drink": 15,
+    "eat": 12,
+    "rest": 344
+   },
+   "seconds": 4.9
+  },
+  {
+   "seed": 75023,
+   "steps": 438,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 3,
+   "agreement_with_routine": 0.6689497716894978,
+   "status": {
+    "ok": 210,
+    "asleep": 103,
+    "ok+done": 125
+   },
+   "commands": {
+    "explore": 12,
+    "build": 92,
+    "drink": 28,
+    "eat": 15,
+    "rest": 291
+   },
+   "seconds": 5.0
+  },
+  {
+   "seed": 75024,
+   "steps": 492,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 13,
+   "fulfilled": 1,
+   "failed": 3,
+   "agreement_with_routine": 0.6544715447154471,
+   "status": {
+    "ok": 243,
+    "asleep": 120,
+    "ok+done": 129
+   },
+   "commands": {
+    "build": 71,
+    "explore": 11,
+    "drink": 26,
+    "eat": 14,
+    "rest": 370
+   },
+   "seconds": 6.0
+  },
+  {
+   "seed": 75025,
+   "steps": 481,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 13,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.659043659043659,
+   "status": {
+    "ok": 228,
+    "asleep": 121,
+    "ok+done": 132
+   },
+   "commands": {
+    "explore": 45,
+    "build": 61,
+    "drink": 13,
+    "eat": 16,
+    "rest": 346
+   },
+   "seconds": 5.7
+  },
+  {
+   "seed": 75026,
+   "steps": 297,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_stone",
+    "place_table"
+   ],
+   "n_unlocked": 13,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.9124579124579124,
+   "status": {
+    "ok": 295,
+    "asleep": 2
+   },
+   "commands": {
+    "build": 60,
+    "explore": 21,
+    "eat": 48,
+    "drink": 35,
+    "rest": 133
+   },
+   "seconds": 3.9
+  },
+  {
+   "seed": 75027,
+   "steps": 479,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 14,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.6701461377870563,
+   "status": {
+    "ok": 244,
+    "asleep": 110,
+    "ok+done": 125
+   },
+   "commands": {
+    "build": 105,
+    "eat": 12,
+    "explore": 12,
+    "drink": 9,
+    "rest": 341
+   },
+   "seconds": 5.5
+  },
+  {
+   "seed": 75028,
+   "steps": 475,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 16,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.6210526315789474,
+   "status": {
+    "ok": 240,
+    "asleep": 110,
+    "ok+done": 125
+   },
+   "commands": {
+    "build": 114,
+    "eat": 11,
+    "explore": 1,
+    "drink": 10,
+    "rest": 339
+   },
+   "seconds": 5.7
+  },
+  {
+   "seed": 75029,
+   "steps": 264,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_table"
+   ],
+   "n_unlocked": 9,
+   "fulfilled": 1,
+   "failed": 1,
+   "agreement_with_routine": 0.9621212121212122,
+   "status": {
+    "ok": 260,
+    "ok+done": 4
+   },
+   "commands": {
+    "build": 37,
+    "explore": 29,
+    "drink": 26,
+    "eat": 45,
+    "requests": 17,
+    "rest": 110
+   },
+   "seconds": 3.4
+  },
+  {
+   "seed": 75030,
+   "steps": 219,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_table"
+   ],
+   "n_unlocked": 7,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.7808219178082192,
+   "status": {
+    "ok": 219
+   },
+   "commands": {
+    "build": 99,
+    "explore": 14,
+    "drink": 25,
+    "eat": 9,
+    "rest": 72
+   },
+   "seconds": 3.0
+  },
+  {
+   "seed": 75031,
+   "steps": 472,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 1,
+   "agreement_with_routine": 0.652542372881356,
+   "status": {
+    "ok": 219,
+    "asleep": 121,
+    "ok+done": 132
+   },
+   "commands": {
+    "build": 113,
+    "explore": 1,
+    "drink": 18,
+    "eat": 8,
+    "rest": 332
+   },
+   "seconds": 5.1
+  },
+  {
+   "seed": 75032,
+   "steps": 465,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.621505376344086,
+   "status": {
+    "ok": 224,
+    "asleep": 110,
+    "ok+done": 131
+   },
+   "commands": {
+    "build": 124,
+    "eat": 2,
+    "drink": 5,
+    "rest": 334
+   },
+   "seconds": 5.5
+  },
+  {
+   "seed": 75033,
+   "steps": 159,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_table"
+   ],
+   "n_unlocked": 12,
+   "fulfilled": 1,
+   "failed": 0,
+   "agreement_with_routine": 0.9622641509433962,
+   "status": {
+    "ok": 159
+   },
+   "commands": {
+    "build": 78,
+    "eat": 49,
+    "explore": 5,
+    "requests": 17,
+    "drink": 10
+   },
+   "seconds": 2.0
+  },
+  {
+   "seed": 75034,
+   "steps": 90,
+   "died": true,
+   "unlocked": [
+    "collect_stone",
+    "collect_wood",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_table"
+   ],
+   "n_unlocked": 5,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.9333333333333333,
+   "status": {
+    "ok": 74,
+    "ok+done": 16
+   },
+   "commands": {
+    "explore": 9,
+    "build": 65,
+    "rest": 16
+   },
+   "seconds": 1.2
+  },
+  {
+   "seed": 75035,
+   "steps": 211,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow"
+   ],
+   "n_unlocked": 4,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.7251184834123223,
+   "status": {
+    "ok": 191,
+    "ok+done": 20
+   },
+   "commands": {
+    "explore": 106,
+    "build": 7,
+    "drink": 47,
+    "eat": 51
+   },
+   "seconds": 2.7
+  },
+  {
+   "seed": 75036,
+   "steps": 427,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_drink",
+    "collect_iron",
+    "collect_sapling",
+    "collect_stone",
+    "collect_wood",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_furnace",
+    "place_plant",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 15,
+   "fulfilled": 0,
+   "failed": 0,
+   "agreement_with_routine": 0.6229508196721312,
+   "status": {
+    "ok": 211,
+    "asleep": 99,
+    "ok+done": 117
+   },
+   "commands": {
+    "explore": 11,
+    "build": 115,
+    "drink": 14,
+    "rest": 287
+   },
+   "seconds": 4.7
+  },
+  {
+   "seed": 75037,
+   "steps": 385,
+   "died": true,
+   "unlocked": [
+    "collect_stone",
+    "collect_wood",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 7,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.7922077922077922,
+   "status": {
+    "ok": 131,
+    "ok+done": 155,
+    "asleep": 99
+   },
+   "commands": {
+    "build": 39,
+    "rest": 346
+   },
+   "seconds": 4.3
+  },
+  {
+   "seed": 75038,
+   "steps": 230,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_sapling",
+    "collect_wood",
+    "defeat_zombie",
+    "eat_cow",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_plant",
+    "place_table"
+   ],
+   "n_unlocked": 9,
+   "fulfilled": 3,
+   "failed": 1,
+   "agreement_with_routine": 1.0,
+   "status": {
+    "ok": 212,
+    "ok+done": 18
+   },
+   "commands": {
+    "build": 64,
+    "explore": 10,
+    "drink": 12,
+    "requests": 38,
+    "eat": 106
+   },
+   "seconds": 3.1
+  },
+  {
+   "seed": 75039,
+   "steps": 389,
+   "died": true,
+   "unlocked": [
+    "collect_coal",
+    "collect_stone",
+    "collect_wood",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 8,
+   "fulfilled": 0,
+   "failed": 2,
+   "agreement_with_routine": 0.781491002570694,
+   "status": {
+    "ok": 206,
+    "asleep": 99,
+    "ok+done": 84
+   },
+   "commands": {
+    "explore": 91,
+    "build": 38,
+    "drink": 19,
+    "rest": 241
+   },
+   "seconds": 4.3
+  },
+  {
+   "seed": 75040,
+   "steps": 477,
+   "died": true,
+   "unlocked": [
+    "collect_drink",
+    "collect_iron",
+    "collect_stone",
+    "collect_wood",
+    "eat_cow",
+    "make_stone_pickaxe",
+    "make_stone_sword",
+    "make_wood_pickaxe",
+    "make_wood_sword",
+    "place_stone",
+    "place_table",
+    "wake_up"
+   ],
+   "n_unlocked": 12,
+   "fulfilled": 0,
+   "failed": 3,
+   "agreement_with_routine": 0.6226415094339622,
+   "status": {
+    "ok": 232,
+    "asleep": 114,
+    "ok+done": 131
+   },
+   "commands": {
+    "build": 101,
+    "explore": 6,
+    "eat": 9,
+    "requests": 10,
+    "drink": 10,
+    "rest": 341
+   },
+   "seconds": 5.9
+  }
+ ],
+ "routine": {
+  "crafter_score": 24.756095181493034,
+  "survival_steps": 500.675,
+  "achievements_per_episode": 11.7,
+  "obligations": 0.4818181818181818,
+  "deaths": 40
+ },
+ "ratio_to_routine": {
+  "crafter_score": 0.942,
+  "survival_steps": 0.781,
+  "achievements_per_episode": 0.994
+ },
+ "paired_steps": {
+  "mean": -109.825,
+  "se": 54.10126885449791
+ }
+}

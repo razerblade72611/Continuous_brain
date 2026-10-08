@@ -65,6 +65,14 @@ class IntentLibrary(SkillLibrary):
     _i_branch = None
     _i_goal = None
 
+    _i_leave = False
+
+    def _leave(self, v):
+        r = super()._leave(v)
+        if r:
+            self._i_leave = True          # inside shelter_step: leaving the shelter, not resting in it (organ.py)
+        return r
+
     def _step_toward(self, v, goal):
         r = super()._step_toward(v, goal)
         if r and self._i_depth:
@@ -73,7 +81,7 @@ class IntentLibrary(SkillLibrary):
 
     def decide_with_intent(self, memory: dict, body: dict, step: int, commitments: list[dict]):
         """(action name, option, intent vector float32[INTENT_DIM])."""
-        self._i_depth, self._i_branch, self._i_goal, self._i_cur_goal = 0, None, None, None
+        self._i_depth, self._i_branch, self._i_goal, self._i_cur_goal, self._i_leave = 0, None, None, None, False
         name, option = self.decide(memory, body, step, commitments)
         vec = np.zeros(INTENT_DIM, np.float32)
         branch = "sleeping" if option == "sleeping" else (self._i_branch or "inline")
@@ -106,6 +114,7 @@ class IntentShadow:
     def __call__(self, memory: dict, body: dict, step: int, commitments: list[dict]):
         lib = IntentLibrary.from_state(self.state, seed=self.seed)
         out = lib.decide_with_intent(memory, body, step, commitments)
+        self.leaving = bool(lib._i_leave)           # the routine is leaving its shelter (organ command "leave")
         self.state = lib.to_state()
         return out
 
