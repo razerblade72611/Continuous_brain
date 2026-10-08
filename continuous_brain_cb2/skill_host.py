@@ -102,7 +102,8 @@ class CoreSkillHost(_Host):
         hist = hist[-11:]
         feats = crop = intent = None
         memory = led = None
-        if pol.cfg.arm == "P-A" or pol.cfg.intent_dim:
+        selector = getattr(pol.cfg, "head", "action") == "command"
+        if pol.cfg.arm == "P-A" or pol.cfg.intent_dim or selector:
             memory = codec.unblob(ctx.inputs["episodic_memory.state"]) or mem.empty()
             led = codec.unblob(ctx.inputs["goal_genesis.state"]) or ledger.empty()
         if pol.cfg.arm == "P-A":
@@ -118,8 +119,24 @@ class CoreSkillHost(_Host):
             intent = vec[None]
         with torch.no_grad():
             logits, opt_logits = pol(feat, bv, feats, crop, intent)
-        action = int(logits.argmax(-1)[0])
         option = int(opt_logits.argmax(-1)[0])
+        if selector:
+            # r3-H: the learned level chooses the command; the scripted executor organ carries it out on this
+            # individual's own beliefs, with its plan state in skills.state.  Every delegated action is logged:
+            # the command, the primitive action, the organ's status, and running counts per command.
+            from continuous_brain_individual.skills import ACTIONS
+            from .organ import COMMANDS, ExecutorOrgan
+            option = int(logits.argmax(-1)[0])
+            organ = ExecutorOrgan(0)
+            organ.state = None if first else st.get("organ")
+            name, tel = organ(COMMANDS[option], memory, body, step, ledger.active(led, step))
+            st["organ"] = organ.state
+            counts = {} if first else dict(st.get("delegated", {}))
+            counts[COMMANDS[option]] = counts.get(COMMANDS[option], 0) + 1
+            st["delegated"], st["delegation"] = counts, {**tel, "step": step, "provenance": "scripted-executor-organ"}
+            action = ACTIONS[name]
+        else:
+            action = int(logits.argmax(-1)[0])
         state_bytes = np.concatenate([post["deter"][0].numpy().ravel(), post["stoch"][0].numpy().ravel()]).astype(
             np.float32).tobytes()
         st.update(life=life, t=int(st.get("t", 0)) + 1, prev_action=action, hist=hist)

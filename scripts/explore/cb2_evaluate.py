@@ -177,7 +177,19 @@ def evaluate_cmd(a) -> int:
     def one(actor, seed, writer, who):
         env = W1Env(W1Config())
         t = time.time()
-        rec = record_life(actor, env, seed, writer, steps=a.steps, who=who, lived=False)
+        on_step, tlog = None, None
+        if getattr(a, "telemetry", None) and who == "SELF":   # r3-H: every delegated action, with provenance
+            from continuous_brain_individual import codec
+            Path(a.telemetry).mkdir(parents=True, exist_ok=True)
+            tlog = open(Path(a.telemetry) / f"delegation-{seed}.jsonl", "w")
+
+            def on_step(n, action, _u, _o, _r, _i):
+                st = codec.unblob(actor.rt.store.read("skills.state")) or {}
+                if "delegation" in st:
+                    tlog.write(json.dumps({"n": n, "taken": int(action), **st["delegation"]}) + "\n")
+        rec = record_life(actor, env, seed, writer, steps=a.steps, who=who, lived=False, on_step=on_step)
+        if tlog:
+            tlog.close()
         s = env.episode_summary()
         return {"seed": seed, "steps": rec["steps"], "died": rec["done"] and rec["steps"] < a.steps,
                 "unlocked": sorted(s["crafter"]["unlocked"]), "n_unlocked": s["crafter"]["n_unlocked"],
@@ -230,6 +242,7 @@ def main() -> int:
     e.add_argument("--seeds", default="75001-75040")
     e.add_argument("--steps", type=int, default=10000)
     e.add_argument("--out", default=None)
+    e.add_argument("--telemetry", default=None, help="directory for per-life delegation logs (r3-H organ)")
     for p in (i, e):
         p.add_argument("--individual", default="cb2-ind-0001")
         p.add_argument("--individuals", default=str(INDIVIDUALS))

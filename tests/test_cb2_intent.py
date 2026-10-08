@@ -104,3 +104,42 @@ def test_a_candidate_reading_intent_acts_and_replays():
         assert st["shadow"] is not None                         # the routine's plan state lives in the store
         runs.append(acts)
     assert runs[0] == runs[1] and all(0 <= x < 17 for x in runs[0])
+
+
+def test_the_organ_takes_commands_not_goals():
+    import pytest
+    from continuous_brain_cb2.organ import COMMANDS, ExecutorOrgan
+    assert "routine" not in COMMANDS
+    ind, env = _ind(), W1Env(W1Config())
+    obs = env.reset(75114)
+    info = first_info(env)
+    a, u = ind.decide(obs, info)
+    organ = ExecutorOrgan(0)
+    with pytest.raises(ValueError):
+        organ("routine", *IntentShadow.read(ind))
+    name, tel = organ("explore", *IntentShadow.read(ind))
+    assert name in ACTIONS and tel["command"] == "explore" and tel["status"].split("+")[0] in ("ok", "cannot")
+
+
+def test_a_selector_candidate_delegates_every_action():
+    from continuous_brain_cb2.organ import COMMANDS
+    from continuous_brain_individual import codec
+    torch.manual_seed(2)
+    core = PredictiveCore(TINY)
+    base = SkillPolicy(PolicyConfig(arm="P-A", units=64, layers=1), core.feat_size)
+    sel = SkillPolicy.selector_from(base)
+    assert sel.n_out == len(COMMANDS) and torch.equal(sel.trunk[0].weight, base.trunk[0].weight)
+    src, dst = _ind(), _ind("cb2")
+    install(src, dst, pack_weights(core, sel), {})
+    env = W1Env(W1Config())
+    obs = env.reset(75115)
+    info = first_info(env)
+    for i in range(25):
+        a, u = dst.decide(obs, info)
+        st = codec.unblob(dst.rt.store.read("skills.state"))
+        assert st["delegation"]["provenance"] == "scripted-executor-organ"
+        assert ACTIONS[st["delegation"]["action"]] == a and st["delegation"]["command"] in COMMANDS
+        obs, _, done, info = env.step(a, u)
+        if done:
+            break
+    assert sum(st["delegated"].values()) == i + 1

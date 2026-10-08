@@ -54,7 +54,8 @@ def _worker(args) -> dict:
     import torch
     torch.set_num_threads(1)
     from continuous_brain_cb2.archive import StreamWriter
-    from continuous_brain_cb2.intent import IntentShadow
+    from continuous_brain_cb2.intent import BRANCHES, IntentShadow
+    from continuous_brain_cb2.organ import COMMANDS, command_for
     from continuous_brain_cb2.record import record_life
     from continuous_brain_individual.individual import Individual, IndividualConfig
     from continuous_brain_individual.skills import ACTIONS
@@ -65,17 +66,20 @@ def _worker(args) -> dict:
     w = StreamWriter(a.archive, stream, "PRACTICE", "teacher-routine", {**provenance(v, "practice-intent")})
     steps_each = a.steps // a.workers
     t0, n, i = time.time(), 0, 0
-    rows, mismatch, lives = [], 0, 0
+    rows, cmds, mismatch, lives = [], [], 0, 0
     while n < steps_each:
         seed = PRACTICE_BASE + a.run * 1_000_000 + k * 100_000 + i
         teacher = Individual(IndividualConfig(), v, LanguageOrgan.from_config({"backend": "dev"}))
         shadow = IntentShadow(0)
+        prev = ["explore"]
 
-        def on_step(_n, action, _u, _o, _r, _i, teacher=teacher, shadow=shadow):
+        def on_step(_n, action, _u, _o, _r, _i, teacher=teacher, shadow=shadow, prev=prev):
             nonlocal mismatch
             name, _opt, vec = shadow(*IntentShadow.read(teacher))
             mismatch += int(ACTIONS[name] != int(action))
             rows.append(vec.astype(np.float16))
+            prev[0] = command_for(BRANCHES[int(np.argmax(vec[:len(BRANCHES)]))], shadow.leaving, prev[0])
+            cmds.append(COMMANDS.index(prev[0]))
 
         rec = record_life(teacher, W1Env(W1Config()), seed, w, steps=min(10000, steps_each - n), who="TEACHER",
                           lived=False, on_step=on_step)
@@ -86,6 +90,7 @@ def _worker(args) -> dict:
     arr = np.stack(rows)
     Path(a.sidecar).mkdir(parents=True, exist_ok=True)
     np.save(Path(a.sidecar) / f"{stream}.npy", arr)
+    np.save(Path(a.sidecar) / f"{stream}.cmd.npy", np.asarray(cmds, np.int8))   # r3-H organ-command labels
     return {"worker": k, "stream": stream, "steps": n, "rows": len(arr), "lives": lives,
             "intent_action_mismatch": mismatch, "seconds": round(time.time() - t0, 1)}
 
@@ -116,6 +121,9 @@ def _attach(sampler, sidecar: Path) -> None:
         if len(arr) != len(s):
             raise SystemExit(f"intent sidecar {s.stream}: {len(arr)} rows, stream has {len(s)}")
         s.cols["intent"] = arr
+        cmd = sidecar / f"{s.stream}.cmd.npy"
+        if cmd.exists():
+            s.cols["command"] = np.load(cmd)
 
 
 def train(a) -> int:
@@ -179,6 +187,66 @@ def train(a) -> int:
     for m, p in pols.items():
         torch.save(p.state_dict_full(), out / m / "policy.pt")
         (out / m / "policy.pt.sha256").write_text(sl.file_sha(out / m / "policy.pt") + "\n")
+    return 0
+
+
+# ------------------------------------------------------------------------------------------- r3-H selector
+def selector(a) -> int:
+    """r3-H arm B: a learned organ-command selector on legal inputs only (core state, body sense, its memory
+    organ's readout), imitating the command that serves the routine's intent (organ.command_for), r2 core frozen,
+    warm-started from r2 P-A's trunk.  The routine's intent itself is never an input."""
+    import torch
+    from continuous_brain_cb2.archive import Archive
+    from continuous_brain_cb2.data import SequenceSampler
+    from continuous_brain_cb2.organ import COMMANDS
+    from continuous_brain_cb2.policy import SkillPolicy
+    from continuous_brain_cb2.world_model import PredictiveCore
+    torch.manual_seed(a.seed)
+    dev = sl.device(a.device)
+    if dev == "cpu":
+        torch.set_num_threads(a.threads)
+    out = sl.new_out(a.out)
+    core = PredictiveCore.from_state(torch.load(a.core, map_location=dev, weights_only=False), dev)
+    core.eval()
+    base = SkillPolicy.from_state(torch.load(a.init_policy, map_location=dev, weights_only=False), dev)
+    pol = SkillPolicy.selector_from(base, dev)
+    arch = Archive(a.archive)
+    refs = [r for r in arch.shards(("PRACTICE",)) if r.stream.startswith(a.prefix)]
+    streams = sorted({r.stream for r in refs})
+    held = streams[-a.heldout_streams:]
+    ns = ("student", "teacher", "organ")
+    tr = SequenceSampler(arch, [r for r in refs if r.stream not in held], T=a.T, seed=a.seed, namespaces=ns,
+                         map_crop=True, preload=a.preload)
+    te = SequenceSampler(arch, [r for r in refs if r.stream in held], T=a.T, seed=a.seed + 1, namespaces=ns,
+                         map_crop=True, preload=a.preload)
+    _attach(tr, Path(a.sidecar))
+    _attach(te, Path(a.sidecar))
+    if any("command" not in s.cols for s in tr.streams + te.streams):
+        raise SystemExit("no organ-command labels (<stream>.cmd.npy) in the sidecar: re-run practice with this code")
+    counts = np.bincount(np.concatenate([s.cols["command"] for s in tr.streams]), minlength=len(COMMANDS))
+    run = {"format": "cb2-r3h-selector/1", "status": "ENGINEERING_ONLY", **git_rev(), "device": dev,
+           "core": str(a.core), "core_sha256": sl.file_sha(Path(a.core)), "init_policy": str(a.init_policy),
+           "init_policy_sha256": sl.file_sha(Path(a.init_policy)), "archive": str(a.archive),
+           "train_rows": tr.rows(), "heldout_streams": held, "heldout_rows": te.rows(),
+           "commands": list(COMMANDS), "label_share": {c: round(float(n / counts.sum()), 4) for c, n in zip(COMMANDS, counts)},
+           "inputs": "core state + body sense + memory organ readout (legal; no routine intent)",
+           "args": {k: str(v) for k, v in vars(a).items() if k != "func"}}
+    (out / "run.json").write_text(json.dumps(run, indent=1) + "\n")
+    print(json.dumps({k: run[k] for k in ("train_rows", "heldout_rows", "label_share")}), flush=True)
+
+    def heldout():
+        bs = [te.batch(a.batch) for _ in range(a.eval_batches)]
+        with torch.no_grad():
+            return round(float(np.mean([pol.losses(sl._feats(core, b), b)[1]["agreement"] for b in bs])), 4)
+
+    t0 = time.time()
+    for u in range(1, a.updates + 1):
+        b = tr.batch(a.batch)
+        m = pol.train_step(sl._feats(core, b), b)
+        if u % a.log_every == 0 or u == a.updates:
+            sl.log(out, {"update": u, "s": round(time.time() - t0, 1), "train": m, "heldout_command_agreement": heldout()})
+    torch.save(pol.state_dict_full(), out / "policy.pt")
+    (out / "policy.pt.sha256").write_text(sl.file_sha(out / "policy.pt") + "\n")
     return 0
 
 
@@ -256,6 +324,24 @@ def main() -> int:
     t.add_argument("--log-every", type=int, default=250)
     t.add_argument("--eval-batches", type=int, default=4)
     t.set_defaults(func=train)
+    h = sub.add_parser("selector")
+    h.add_argument("--core", required=True)
+    h.add_argument("--init-policy", required=True)
+    h.add_argument("--out", required=True)
+    h.add_argument("--archive", default=str(INTENT_ARCHIVE))
+    h.add_argument("--sidecar", default=str(SIDECAR))
+    h.add_argument("--prefix", default="practice-r004-")
+    h.add_argument("--heldout-streams", type=int, default=1)
+    h.add_argument("--updates", type=int, default=8000)
+    h.add_argument("--batch", type=int, default=16)
+    h.add_argument("--T", type=int, default=64)
+    h.add_argument("--seed", type=int, default=0)
+    h.add_argument("--device", default="auto")
+    h.add_argument("--threads", type=int, default=8)
+    h.add_argument("--preload", action="store_true")
+    h.add_argument("--log-every", type=int, default=250)
+    h.add_argument("--eval-batches", type=int, default=4)
+    h.set_defaults(func=selector)
     s = sub.add_parser("summary")
     s.add_argument("--label", default="r3t")
     s.add_argument("--arms", default="none,branch,full")

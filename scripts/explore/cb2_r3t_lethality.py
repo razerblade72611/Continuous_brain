@@ -5,19 +5,20 @@ disagreements are lethal -- conditioned on death within N steps, on damage taken
 and on darkness.  Ranks (routine action) classes by excess disagreement before damage deaths, not by frequency."""
 import json
 import sys
+from pathlib import Path
 from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, "/home/claude/work/cb")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from continuous_brain_cb2.archive import Archive, fixed  # noqa: E402
 from continuous_brain_world import daylight as dl  # noqa: E402
 import crafter.constants as cc  # noqa: E402
 
 ACT = list(cc.actions)
 ZOMBIE, SKELETON, ARROW = 3, 4, 5
-ROOT = Path(sys.argv[1])
+ROOT = Path(sys.argv[1])          # an archive root holding eval-r3t-full, eval-r3t-none, eval-r3t-full-routine
 
 
 def load(stream):
@@ -116,4 +117,4 @@ out = {}
 for stream, name in (("eval-r3t-full", "full"), ("eval-r3t-none", "none"), ("eval-r3t-full-routine", "routine")):
     out[name] = analyse(load(stream), name)
 print(json.dumps(out, indent=1))
-Path("/home/claude/an/r3t_lethality.json").write_text(json.dumps(out, indent=1) + "\n")
+Path(sys.argv[2] if len(sys.argv) > 2 else "r3t-lethality.json").write_text(json.dumps(out, indent=1) + "\n")
