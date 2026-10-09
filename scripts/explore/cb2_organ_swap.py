@@ -61,6 +61,8 @@ def _do(home: Path, new_weights: Path, new_card: Path, lineage: dict) -> int:
     _keep(home, new_weights, new_card, new.weights_sha256)
     log = OrganSwapLog(home / "organ_swaps.jsonl")
     prev = log.events()[-1]["event"]["event_sha"] if log.events() else None
+    if prev != meta.get("organ_event_sha"):
+        raise SystemExit("organ_swaps.jsonl and individual.json disagree (an interrupted swap?): resolve it first")
     before_digest = identity_digest(src)
     dst = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), new,
                      LanguageOrgan.from_config({"backend": "dev"}))
@@ -97,11 +99,14 @@ def rollback_cmd(a) -> int:
 def verify_cmd(a) -> int:
     from continuous_brain_cb2.organ_swap import OrganSwapLog
     home = Path(a.individuals) / a.individual
-    n = OrganSwapLog(home / "organ_swaps.jsonl").verify()
+    log = OrganSwapLog(home / "organ_swaps.jsonl")
+    n = log.verify()
     ind, meta = load_individual(home, vision())
-    print(json.dumps({"organ_swaps": n, "state_hash": ind.state_hash(), "organs": meta.get("organs"),
-                      "vision_weights_sha256": ind.vision.weights_sha256}, indent=1))
-    return 0
+    last = log.events()[-1]["event"]["event_sha"] if n else None
+    ok = last == meta.get("organ_event_sha") and (not n or log.events()[-1]["event"]["to"]["weights_sha256"] == ind.vision.weights_sha256)
+    print(json.dumps({"organ_swaps": n, "log_matches_individual": ok, "state_hash": ind.state_hash(),
+                      "organs": meta.get("organs"), "vision_weights_sha256": ind.vision.weights_sha256}, indent=1))
+    return 0 if ok else 1
 
 
 def main() -> int:
