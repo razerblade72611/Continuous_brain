@@ -71,7 +71,8 @@ def continuity(pre: dict, home: Path, v, eval_rep: dict, telemetry: Path) -> dic
     c = pre["candidate"]
     out = {}
     ind, meta = load_individual(home, v)
-    new = lambda: Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
+    new = lambda: Individual(IndividualConfig(lifelong=True, skills="cb2"), ind.vision,   # its own organ
+                             LanguageOrgan.from_config({"backend": "dev"}))
     # (a) save -> restore keeps the declared state hash
     saved = copy.deepcopy(ind.save())
     back = new()
