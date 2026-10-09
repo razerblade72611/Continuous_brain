@@ -36,6 +36,7 @@ def main() -> int:
     ap.add_argument("--work", required=True)
     ap.add_argument("--out", default=str(REPO / "evidence/explore/cb2/s2-sealed-report.json"))
     ap.add_argument("--rehearsal-seeds", default=None)
+    ap.add_argument("--comparator-name", default="r3h-B", help="the frozen comparator (r3h-B for S2/S2b, S2b for S2c)")
     a = ap.parse_args()
     pre = json.loads(Path(a.prereg).read_text())
     W = Path(a.work)
@@ -97,7 +98,8 @@ def main() -> int:
     common_ok = g.get("requests", False) and g.get("continuity", False) and not cand.get("deviations")
     complete = rep["paired"]["vs_routine"]["survival_lower95"] > 0 and g.get("score", False) and common_ok
     progress = rep["paired"]["vs_r3hB"]["survival_lower95"] > 0 and s_c >= s_b and common_ok
-    rep["verdict"] = ("S2 COMPLETE (beyond the routine)" if complete else "S2-PROGRESS (beyond r3h-B, not the routine)"
+    rep["comparator_name"] = a.comparator_name                # keys stay "vs_r3hB" for compatibility: the comparator
+    rep["verdict"] = ("S2 COMPLETE (beyond the routine)" if complete else f"S2-PROGRESS (beyond {a.comparator_name}, not the routine)"
                       if progress else "NO IMPROVEMENT") + (" [REHEARSAL]" if a.rehearsal_seeds else "")
     rep["finished"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     Path(a.out).write_text(json.dumps(rep, indent=1, default=str) + "\n")

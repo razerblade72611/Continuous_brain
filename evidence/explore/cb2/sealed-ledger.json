@@ -34,6 +34,13 @@
  "block2": {
   "range": "91001-91400",
   "status": "RESERVED 2026-10-09 after block 1 was spent; untouched",
-  "uses": []
+  "uses": [
+   {
+    "seeds": "91001-91080",
+    "test": "S2c (r6)",
+    "prereg": "s2c-prereg.json",
+    "verdict": "PENDING (declared before opening)"
+   }
+  ]
  }
 }
