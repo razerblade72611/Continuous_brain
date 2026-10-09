@@ -127,6 +127,12 @@ class CoreSkillHost(_Host):
             from continuous_brain_individual.skills import ACTIONS
             from .organ import COMMANDS, ExecutorOrgan
             option = int(logits.argmax(-1)[0])
+            if getattr(pol.cfg, "temperature", 0.0) > 0:        # S2 practice only: a reproducible sample
+                p = torch.softmax(logits[0] / pol.cfg.temperature, -1).double().numpy()
+                rng = np.random.default_rng([int(pol.cfg.sample_salt), life, step])
+                option = int(rng.choice(len(p), p=p / p.sum()))
+            self.last = {"feat": feat[0].detach().numpy(), "body": np.asarray(bv[0], np.float32), "features": feats[0],
+                         "map_crop": crop[0], "logits": logits[0].detach().numpy(), "command": option}
             organ = ExecutorOrgan(0)
             organ.state = None if first else st.get("organ")
             name, tel = organ(COMMANDS[option], memory, body, step, ledger.active(led, step))
