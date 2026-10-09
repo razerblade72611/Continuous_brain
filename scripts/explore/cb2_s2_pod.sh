@@ -2,16 +2,16 @@
 # CB2-S2 (r4), pod side: PPO + KL to frozen r3h-B, development selection, one sealed test (s2-prereg.json).
 # Run ON THE POD from /workspace:
 #   setsid nohup bash /workspace/cb2_s2_pod.sh > /workspace/s2.log 2>&1 < /dev/null &
-# Needs in /workspace: cb2_kit_r2.tgz (vision v1), cb2_r2_model.tar (frozen r2 core), cb2_r3h_results.tgz (the frozen
+# Needs in /workspace: tile_decoder_v1.pt (vision v1), cb2_r2_model.tar (frozen r2 core), cb2_r3h_results.tgz (the frozen
 # r3h-B candidate), cb2_s2_code.bundle + cb2_s2_code.rev + cb2_s2_SHA256SUMS.  Every input is hash-checked.
 # Safe to re-run: training resumes only if selection.json is absent (it then restarts training from r3h-B);
 # the sealed step refuses to run twice into the same directory (sealed seeds are used once).
 set -euo pipefail
-W=/workspace; KIT=$W/kit; CODE=$W/Continuous_brain
+W=/workspace; CODE=$W/Continuous_brain
 cd $W
 echo "== $(date -u) s2: verifying inputs"
 sha256sum -c <<SUMS
-2d3ec50ce05e635a46fc2d658a2395aa65de929088c17879090e751f15a1a1ec  cb2_kit_r2.tgz
+0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999  tile_decoder_v1.pt
 50ec80de0988aeebd2a9797483181e0a5d9890f8a820336621b0a4920c2a2cb6  cb2_r2_model.tar
 71f215f61b04af7ec66a97615364f30481f42803f3f9812c5e0c5537bf8438ef  cb2_r3h_results.tgz
 SUMS
@@ -21,7 +21,6 @@ echo "cpus: $(nproc)  mem: $(free -g | awk '/Mem:/{print $2" GB"}')"
 
 if [ ! -f $W/.s2_restored ]; then
   echo "== restoring code, vision v1, r2 core, frozen r3h-B"
-  mkdir -p $KIT && tar --no-same-owner -C $KIT -xzf cb2_kit_r2.tgz ./tile_decoder_v1.pt
   if [ ! -d "$CODE/.git" ]; then
     mkdir -p "$CODE" && git -C "$CODE" init -q && git -C "$CODE" fetch -q "$W/cb2_s2_code.bundle" explore/cb2-r3
     git -C "$CODE" checkout -q --detach FETCH_HEAD
@@ -29,8 +28,7 @@ if [ ! -f $W/.s2_restored ]; then
   [ "$(git -C "$CODE" rev-parse HEAD)" = "$(cat $W/cb2_s2_code.rev)" ] || { echo "STOP: code revision differs from cb2_s2_code.rev"; exit 1; }
   cd "$CODE"
   mkdir -p runs/explore/vision runs/explore/cb2/archive
-  cp "$KIT/tile_decoder_v1.pt" runs/explore/vision/
-  echo "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999  runs/explore/vision/tile_decoder_v1.pt" | sha256sum -c
+  cp "$W/tile_decoder_v1.pt" runs/explore/vision/
   tar --no-same-owner -C "$CODE" -xf $W/cb2_r2_model.tar
   tar --no-same-owner -C "$CODE" -xzf $W/cb2_r3h_results.tgz runs/explore/cb2/candidates/r3h-B
   touch $W/.s2_restored
