@@ -42,11 +42,23 @@ def _sha(p: Path) -> str:
     return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
+def organ_vision(home: Path, meta: dict, v):
+    """The vision organ this individual lives with: the default one, unless an organ swap (Gate 7,
+    cb2_organ_swap.py) gave it another, kept by hash in its home (organs/<sha256>.pt and .card.json)."""
+    o = (meta.get("organs") or {}).get("vision")
+    if not o or (v is not None and o["weights_sha256"] == getattr(v, "weights_sha256", None)):
+        return v
+    from continuous_brain_organs.vision import VisionOrgan
+    d = home / "organs"
+    return VisionOrgan(d / f"{o['weights_sha256']}.pt", d / f"{o['weights_sha256']}.card.json")
+
+
 def load_individual(home: Path, v):
     from continuous_brain_individual.individual import Individual, IndividualConfig
     from continuous_brain_organs.language import LanguageOrgan
     from continuous_brain_snn.snapshot import SnapshotStore
     meta = json.loads((home / "individual.json").read_text())
+    v = organ_vision(home, meta, v)
     ind = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), v,
                      LanguageOrgan.from_config({"backend": "dev"}))
     ind.rt.restore(SnapshotStore(home), snapshot_path(home, meta))
@@ -91,7 +103,8 @@ def _consolidate(home: Path, src, meta: dict, v, weights: bytes, lineage: dict, 
     from continuous_brain_snn.snapshot import SnapshotStore
     if meta.get("in_life") and not candidate:
         raise SystemExit("it is in the middle of a life (stopped in the viewer): finish that life first")
-    dst = Individual(IndividualConfig(lifelong=True, skills="cb2"), v, LanguageOrgan.from_config({"backend": "dev"}))
+    dst = Individual(IndividualConfig(lifelong=True, skills="cb2"), src.vision,   # its own organ (Gate 7)
+                     LanguageOrgan.from_config({"backend": "dev"}))
     event = install(src, dst, weights, lineage)
     wdir = home / "weights"
     wdir.mkdir(exist_ok=True)
@@ -163,6 +176,7 @@ def evaluate_cmd(a) -> int:
     home = Path(a.individuals) / a.individual
     ind, meta = load_individual(home, v)
     saved = copy.deepcopy(ind.save())
+    v_ind = ind.vision                                  # its own organ (it may have been swapped, Gate 7)
 
     def summarize(eps):
         unl = [set(e["unlocked"]) for e in eps]
@@ -202,7 +216,7 @@ def evaluate_cmd(a) -> int:
                           "skills": meta.get("skills", "routine")})
     w_rt = StreamWriter(a.archive, f"eval-{a.label}-routine", "PRACTICE", "teacher-routine", provenance(v, "evaluate"))
     for i, seed in enumerate(seeds):
-        test = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), v,
+        test = Individual(IndividualConfig(lifelong=True, skills=meta.get("skills", "routine")), v_ind,
                           LanguageOrgan.from_config({"backend": "dev"}))
         test.restore(copy.deepcopy(saved))
         test.life = int(meta["life"]) + 1 + i             # a fresh world, and a new life number, for this copy

@@ -339,17 +339,24 @@ def speed(organ: V.VisionOrgan, frames: np.ndarray) -> dict:
 
 # ------------------------------------------------------------------------------------------------------------ main
 def main():
+    global NAME
     ap = argparse.ArgumentParser()
+    ap.add_argument("--name", default=NAME, help="organ name: weights <out>/<name>.pt, its card and its report "
+                                                 "(same data and splits as v1, so rungs compare on one test set)")
     ap.add_argument("--out", default=str(REPO / "runs" / "explore" / "vision"))
-    ap.add_argument("--card", default=str(REPO / "continuous_brain_organs" / "cards" / f"{NAME}.json"))
-    ap.add_argument("--report", default=str(REPO / "evidence" / "explore" / "vision" / f"{NAME}_eval.json"))
+    ap.add_argument("--card", default=None)
+    ap.add_argument("--report", default=None)
     ap.add_argument("--scale", type=float, default=1.0)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--reuse-data", action="store_true")
     ap.add_argument("--epochs", type=int, default=TRAIN["epochs"])
     ap.add_argument("--width", type=int, default=TRAIN["width"])
+    ap.add_argument("--blocks", type=int, default=TRAIN["blocks"])
     args = ap.parse_args()
-    cfg = dict(TRAIN, epochs=args.epochs, width=args.width)
+    NAME = args.name
+    args.card = args.card or str(REPO / "continuous_brain_organs" / "cards" / f"{NAME}.json")
+    args.report = args.report or str(REPO / "evidence" / "explore" / "vision" / f"{NAME}_eval.json")
+    cfg = dict(TRAIN, epochs=args.epochs, width=args.width, blocks=args.blocks)
     started = time.time()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
