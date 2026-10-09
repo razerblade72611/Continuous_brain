@@ -53,7 +53,8 @@ def _death_cause(inv: dict, died: bool) -> str:
 
 
 def _rollout(args):
-    k, items, weights, home, max_steps = args
+    k, items, weights, home, max_steps = args[:5]
+    record = args[5] if len(args) > 5 else True
     import torch
     torch.set_num_threads(1)
     from continuous_brain_cb2.consolidation import install
@@ -84,6 +85,10 @@ def _rollout(args):
             st = ind.read_state("skills") or {}
             cannot += int(str(st.get("delegation", {}).get("status", "")).startswith("cannot"))
             obs, rew, done, info = env.step(a, u)
+            if not record:
+                cmds[COMMANDS[last["command"]]] += 1
+                n += 1
+                continue
             for key in ("feat", "body", "features", "map_crop", "logits", "command"):
                 rec[key].append(last[key])
             rec["reward"].append(float(rew["total"]))
@@ -93,14 +98,17 @@ def _rollout(args):
             rec["life"].append(gidx)
             cmds[COMMANDS[last["command"]]] += 1
             n += 1
-        if not done:
+        if not done and record and rec["done"]:
             rec["done"][-1] = False                                  # truncated, not terminal
         died = bool(done) and n < max_steps
         s = env.episode_summary()
         lives.append({"seed": seed, "steps": n, "died": died, "cause": _death_cause(info["privileged"]["inventory"], died),
                       "n_unlocked": s["crafter"]["n_unlocked"], "fulfilled": s["obligations"]["fulfilled"],
                       "failed": s["obligations"]["failed"], "commands": dict(cmds), "cannot": cannot,
-                      "return": float(np.sum(rec["reward"][-n:]))})
+                      "unlocked": sorted(s["crafter"]["unlocked"]),
+                      "return": float(np.sum(rec["reward"][-n:])) if record else None})
+    if not record:
+        return None, lives
     arr = {"feat": np.asarray(rec["feat"], np.float32), "body": np.asarray(rec["body"], np.float32),
            "features": np.asarray(rec["features"], np.float32), "map_crop": np.asarray(rec["map_crop"], np.int8),
            "logits": np.asarray(rec["logits"], np.float32), "command": np.asarray(rec["command"], np.int64),
@@ -108,6 +116,58 @@ def _rollout(args):
            "r_care": np.asarray(rec["r_care"], np.float32), "done": np.asarray(rec["done"], bool),
            "life": np.asarray(rec["life"], np.int64)}
     return arr, lives
+
+
+def _routine(args):
+    k, seeds, max_steps = args
+    import torch
+    torch.set_num_threads(1)
+    from continuous_brain_cb2.archive import StreamWriter  # noqa: F401  (import check only)
+    from continuous_brain_individual.individual import Individual, IndividualConfig, first_info
+    from continuous_brain_organs.language import LanguageOrgan
+    from continuous_brain_world.env import W1Config, W1Env
+    v = vision()
+    out = []
+    for seed in seeds:
+        ind = Individual(IndividualConfig(), v, LanguageOrgan.from_config({"backend": "dev"}))
+        env = W1Env(W1Config())
+        obs, n, done = env.reset(seed), 0, False
+        info = first_info(env)
+        while n < max_steps and not done:
+            a, u = ind.decide(obs, info)
+            obs, _, done, info = env.step(a, u)
+            n += 1
+        s = env.episode_summary()
+        out.append({"seed": seed, "steps": n, "unlocked": sorted(s["crafter"]["unlocked"]),
+                    "n_unlocked": s["crafter"]["n_unlocked"], "fulfilled": s["obligations"]["fulfilled"],
+                    "failed": s["obligations"]["failed"]})
+    return out
+
+
+def summarize(lives: list[dict]) -> dict:
+    from continuous_brain_world.scoring import crafter_score, success_rates
+    ful, fail = sum(l["fulfilled"] for l in lives), sum(l["failed"] for l in lives)
+    return {"lives": len(lives), "crafter_score": crafter_score(list(success_rates([l["unlocked"] for l in lives]).values())),
+            "survival_steps": float(np.mean([l["steps"] for l in lives])),
+            "achievements_per_episode": float(np.mean([l["n_unlocked"] for l in lives])),
+            "requests": {"fulfilled": ful, "failed": fail, "rate": ful / (ful + fail) if ful + fail else None}}
+
+
+def dev_eval(weights: bytes, home: Path, seeds: list[int], workers: int, max_steps: int, base_life: int) -> dict:
+    items = [(base_life + i, s) for i, s in enumerate(seeds)]
+    chunks = [(k, items[k::workers], weights, str(home), max_steps, False) for k in range(workers) if items[k::workers]]
+    with mp.get_context("fork").Pool(len(chunks)) as pool:
+        res = pool.map(_rollout, chunks)
+    lives = sorted((l for r in res for l in r[1]), key=lambda l: l["seed"])
+    return {"summary": summarize(lives), "lives": lives}
+
+
+def routine_eval(seeds: list[int], workers: int, max_steps: int) -> dict:
+    chunks = [(k, seeds[k::workers], max_steps) for k in range(workers) if seeds[k::workers]]
+    with mp.get_context("fork").Pool(len(chunks)) as pool:
+        res = pool.map(_routine, chunks)
+    lives = sorted((l for r in res for l in r), key=lambda l: l["seed"])
+    return {"summary": summarize(lives), "lives": lives}
 
 
 def _gae(rew, val, done, life, gamma, lam):
@@ -155,6 +215,16 @@ def train(a) -> int:
            "args": {k: str(v) for k, v in vars(a).items() if k != "func"}}
     (out / "run.json").write_text(json.dumps(run, indent=1) + "\n")
     ctx = mp.get_context("fork")
+    dev_seeds = list(range(a.dev_seeds[0], a.dev_seeds[1] + 1)) if a.dev_seeds[0] > 0 else []
+    dev = {}
+    if dev_seeds:
+        rt = routine_eval(dev_seeds, a.workers, a.max_steps)
+        (out / "dev-routine.json").write_text(json.dumps(rt, indent=1) + "\n")
+        pol.cfg.temperature, pol.cfg.sample_salt = 0.0, 0
+        dev[0] = dev_eval(pack_weights(core, pol), home, dev_seeds, a.workers, a.max_steps, 10_000_000)["summary"]
+        dev[0]["ratio_to_routine"] = {m: dev[0][m] / rt["summary"][m] for m in ("crafter_score", "survival_steps")}
+        print(json.dumps({"dev": 0, "r3h-B": dev[0], "routine": rt["summary"]}), flush=True)
+        (out / "dev.json").write_text(json.dumps(dev, indent=1) + "\n")
     for it in range(1, a.iterations + 1):
         t0 = time.time()
         pol.cfg.temperature, pol.cfg.sample_salt = 1.0, it
@@ -243,6 +313,21 @@ def train(a) -> int:
         torch.save(pol.state_dict_full(), ck / "policy.pt")
         torch.save(value.state_dict(), ck / "value.pt")
         (ck / "run.json").write_text(json.dumps({**run, "iteration": it, "metrics": rec}, indent=1) + "\n")
+        if dev_seeds and (it % a.dev_every == 0 or it == a.iterations):
+            dev[it] = dev_eval(pack_weights(core, pol), home, dev_seeds, a.workers, a.max_steps, 10_000_000)["summary"]
+            dev[it]["ratio_to_routine"] = {m: dev[it][m] / rt["summary"][m] for m in ("crafter_score", "survival_steps")}
+            print(json.dumps({"dev": it, **dev[it]}), flush=True)
+            (out / "dev.json").write_text(json.dumps(dev, indent=1) + "\n")
+    # preregistered selection: best development survival among checkpoints whose development score >= r3h-B's
+    if dev_seeds:
+        ok = [i for i in dev if i > 0 and dev[i]["crafter_score"] >= dev[0]["crafter_score"]]
+        best = max(ok, key=lambda i: dev[i]["survival_steps"]) if ok else None
+        sel = {"rule": "best development survival among checkpoints with development score >= r3h-B's (iteration 0)",
+               "eligible": ok, "selected": best,
+               "selected_dev": dev.get(best), "r3h-B_dev": dev[0],
+               "beats_r3hB_on_dev_survival": bool(best is not None and dev[best]["survival_steps"] > dev[0]["survival_steps"])}
+        (out / "selection.json").write_text(json.dumps(sel, indent=1) + "\n")
+        print(json.dumps({"selection": sel}), flush=True)
     return 0
 
 
@@ -269,6 +354,8 @@ def main() -> int:
     t.add_argument("--entropy", type=float, default=0.001)
     t.add_argument("--threads", type=int, default=8)
     t.add_argument("--seed", type=int, default=0)
+    t.add_argument("--dev-seeds", type=int, nargs=2, default=[76001, 76040], help="first last (0 0: none)")
+    t.add_argument("--dev-every", type=int, default=5)
     t.set_defaults(func=train)
     a = ap.parse_args()
     return a.func(a)

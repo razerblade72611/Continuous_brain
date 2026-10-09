@@ -1,0 +1,32 @@
+{
+ "format": "cb2-s2-prereg/1",
+ "title": "CB2-S2 (r4): outcome-based improvement of the accepted high-level controller r3h-B, executor fixed",
+ "authority": "DAV-91: protocol drafted by Claude, approved in principle by Sol with guardrails (PPO + KL anchored to frozen r3h-B; 'outlive the routine' as completion; S2-progress label; one-sided 95% lower bound), David approved proceeding (2026-10-09)",
+ "reference": {"what": "frozen candidates/r3h-B: initial policy, KL anchor, rollback point (also installed and marked stable in cb2-ind-0001)",
+               "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+               "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+               "selector_policy_sha256": "75aed1529ae0e4cddbabdf7a49bad13be8cee0b1798e3d774307ddd10d9d61f1"},
+ "fixed": "the scripted executor organ, the r2 core (frozen), the vision organ v1, the language stand-in; only the selector (and a value head) learns",
+ "learner": {"algorithm": "PPO over the 8 organ commands, one command per step, + beta*KL(pi||pi_r3hB) per step + entropy bonus",
+             "value_head": "MLP on the detached selector trunk", "gamma": 0.99, "lambda": 0.95, "clip": 0.2, "lr": 1e-4,
+             "epochs": 4, "minibatch": 2048, "entropy": 0.001, "beta_initial": 0.1,
+             "beta_rule": "x2 if the iteration's mean KL to r3h-B > 1.5 * 0.02; /2 if < 0.02 / 1.5",
+             "early_stop": "an update stops when the approximate KL to the rollout policy exceeds 0.05",
+             "iterations": 50, "lives_per_iteration": 64,
+             "practice_seeds": "85,000,000 + iteration * 10,000 + n (practice run 5, never used)",
+             "sampling": "temperature 1, a pure function of (iteration, life, step)"},
+ "reward": "the environment's own reward['total'] = Crafter (+1 per new unlock, +-0.1 per health point) + caretaker (+1 fulfilled, -1 failed/late); no shaping, no survival bonus; not tuned after seeing results",
+ "anti_hacking": {"logged_every_iteration": ["reward components", "command shares", "organ 'cannot' rate", "requests fulfilled/failed", "death causes", "KL to r3h-B", "entropy"],
+                  "red_flags_reported": ["any command share > 0.9", "training reward rising while development survival or requests fall"]},
+ "development": {"seeds": "76001-76040 (new)", "when": "r3h-B before training (iteration 0) and every 5 iterations, greedy (temperature 0)",
+                 "selection": "the checkpoint with the best mean development survival among those whose development Crafter score >= r3h-B's; if none is eligible: no candidate, the sealed set is not opened"},
+ "sealed": {"seeds": "90041-90080", "use": "once", "arms": ["S2 candidate (paired with the routine on the same worlds, unchanged cb2_evaluate protocol)", "frozen r3h-B (same worlds, same protocol)"],
+            "bootstrap": "paired per-world differences; one-sided 95% lower bound = 5th percentile of 10,000 bootstrap means, numpy default_rng(20261009)"},
+ "verdicts": {
+  "S2_complete_beyond_routine": "all of: (1) lower bound of paired survival (S2 - routine) > 0; (2) Crafter score >= 1.0x routine; (3) requests on time >= 0.85x the routine's rate (aggregate counts); (4) continuity as in r3-H (integrity, save/restore, consolidation round-trip, replay of 90041, 100% delegation provenance); no protocol deviation",
+  "S2_progress": "if not complete: lower bound of paired survival (S2 - r3h-B) > 0 AND score >= r3h-B's score on the same worlds AND (3) AND (4)",
+  "no_improvement": "otherwise (reported as such; no post-hoc retuning on the sealed set)"
+ },
+ "integrity": "any crash, missing world, corrupted artifact or protocol deviation is reported as such, never silently rerun",
+ "gate4": "OPEN: S2 does not address prediction / persistent memory"
+}
