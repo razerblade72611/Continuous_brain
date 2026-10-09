@@ -314,7 +314,12 @@ def train(a) -> int:
         torch.save(value.state_dict(), ck / "value.pt")
         (ck / "run.json").write_text(json.dumps({**run, "iteration": it, "metrics": rec}, indent=1) + "\n")
         if dev_seeds and (it % a.dev_every == 0 or it == a.iterations):
-            dev[it] = dev_eval(pack_weights(core, pol), home, dev_seeds, a.workers, a.max_steps, 10_000_000)["summary"]
+            de = dev_eval(pack_weights(core, pol), home, dev_seeds, a.workers, a.max_steps, 10_000_000)
+            dev[it] = de["summary"]
+            with open(out / "dev_lives.jsonl", "a") as f:       # per world, for the post-install equivalence check
+                for l in de["lives"]:
+                    f.write(json.dumps({"iteration": it, "seed": l["seed"], "steps": l["steps"],
+                                        "n_unlocked": l["n_unlocked"]}) + "\n")
             dev[it]["ratio_to_routine"] = {m: dev[it][m] / rt["summary"][m] for m in ("crafter_score", "survival_steps")}
             print(json.dumps({"dev": it, **dev[it]}), flush=True)
             (out / "dev.json").write_text(json.dumps(dev, indent=1) + "\n")
