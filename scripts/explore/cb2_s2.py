@@ -229,7 +229,7 @@ def train(a) -> int:
         t0 = time.time()
         pol.cfg.temperature, pol.cfg.sample_salt = 1.0, it
         weights = pack_weights(core, pol)
-        seeds = [PRACTICE_BASE + RUN * 1_000_000 + it * 10_000 + n for n in range(a.lives)]
+        seeds = [PRACTICE_BASE + a.run * 1_000_000 + it * 10_000 + n for n in range(a.lives)]
         items = [(i + (it - 1) * a.lives, s) for i, s in enumerate(seeds)]
         chunks = [(k, items[k::a.workers], weights, str(home), a.max_steps) for k in range(a.workers) if items[k::a.workers]]
         with ctx.Pool(len(chunks)) as pool:
@@ -247,7 +247,9 @@ def train(a) -> int:
             vals = torch.cat([value(pol.hidden(*[x[i:i + 4096] for x in inp])).squeeze(-1) for i in range(0, len(cmd), 4096)])
             now = torch.cat([F.log_softmax(pol(*[x[i:i + 4096] for x in inp])[0], -1) for i in range(0, len(cmd), 4096)])
             replay_gap = float((now.gather(1, cmd[:, None])[:, 0] - logp_old).abs().max())   # must be ~0
-        adv, ret = _gae(batch["reward"], vals.numpy(), batch["done"], batch["life"], a.gamma, a.lam)
+        # S2b: a terminal death penalty (truncated lives are not terminal); the logged rewards stay the env's own
+        train_rew = batch["reward"] - np.float32(a.death_penalty) * batch["done"].astype(np.float32)
+        adv, ret = _gae(train_rew, vals.numpy(), batch["done"], batch["life"], a.gamma, a.lam)
         adv_t, ret_t = T(adv), T(ret)
         adv_t = (adv_t - adv_t.mean()) / (adv_t.std() + 1e-8)
         n = len(cmd)
@@ -298,6 +300,7 @@ def train(a) -> int:
                "lives": len(lives), "steps": int(n), "mean_steps": float(np.mean([l["steps"] for l in lives])),
                "mean_unlocked": float(np.mean([l["n_unlocked"] for l in lives])),
                "mean_return": float(np.mean([l["return"] for l in lives])),
+               "death_penalty_total": float(a.death_penalty * batch["done"].sum() / len(lives)),
                "reward_crafter": float(batch["r_crafter"].sum() / len(lives)), "reward_caretaker": float(batch["r_care"].sum() / len(lives)),
                "requests": {"fulfilled": ful, "failed": fail}, "deaths": dict(Counter(l["cause"] for l in lives)),
                "command_share": {c: round(cmds.get(c, 0) / tot, 4) for c in COMMANDS},
@@ -361,6 +364,8 @@ def main() -> int:
     t.add_argument("--seed", type=int, default=0)
     t.add_argument("--dev-seeds", type=int, nargs=2, default=[76001, 76040], help="first last (0 0: none)")
     t.add_argument("--dev-every", type=int, default=5)
+    t.add_argument("--run", type=int, default=RUN, help="practice run (seeds 80M + run*1M + it*10k + n); S2 = 5, S2b = 6")
+    t.add_argument("--death-penalty", type=float, default=0.0, help="S2b: subtracted at each terminal (death) step")
     t.set_defaults(func=train)
     a = ap.parse_args()
     return a.func(a)
