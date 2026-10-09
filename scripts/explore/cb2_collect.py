@@ -9,7 +9,8 @@
             python scripts/explore/cb2_collect.py bench --workers 1,2 --seconds 60
 
 Seeds: wake from --seed0 (default 75101); practice worker k of run r uses 80,000,000 + r*1,000,000 + k*100,000 + i.
-75001-75040 are CB2 engineering evaluation and 90001-90200 are untouched; neither is ever collected here.
+75001-75040 are CB2 engineering evaluation; 90001-90200 (spent) and 91001-91400 (sealed block 2) are sealed worlds;
+none is ever collected here.  The sealed ledger is evidence/explore/cb2/sealed-ledger.json.
 """
 from __future__ import annotations
 
@@ -33,7 +34,7 @@ WEIGHTS = REPO / "runs/explore/vision/tile_decoder_v1.pt"
 CARD = REPO / "continuous_brain_organs/cards/tile_decoder_v1.json"
 ARCHIVE = REPO / "runs/explore/cb2/archive"
 INDIVIDUALS = REPO / "runs/explore/cb2/individuals"
-RESERVED = [(75001, 75040), (90001, 90200)]
+RESERVED = [(75001, 75040), (90001, 90200), (91001, 91400)]
 PRACTICE_BASE = 80_000_000
 
 
