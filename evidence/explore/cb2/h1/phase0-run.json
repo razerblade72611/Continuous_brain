@@ -1,0 +1,28 @@
+{
+ "format": "cb2-h1-phase0/1",
+ "git": "a8507f319e06bac71703fe12225cdb2d57135832",
+ "git_dirty": false,
+ "seeds": "77001-77120",
+ "individual": {
+  "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b"
+ },
+ "scripts": [
+  "control",
+  "flee4",
+  "flee8",
+  "flee16",
+  "water",
+  "fight",
+  "hold"
+ ],
+ "radii": {
+  "zombie": 3,
+  "skeleton": 4
+ },
+ "clear": 5,
+ "timeout": 40,
+ "merge": 5,
+ "post": 50,
+ "branch_cap": 1000
+}
