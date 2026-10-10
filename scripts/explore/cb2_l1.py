@@ -55,6 +55,7 @@ TRANSFER = {"arrival_rate0": 2 / 110, "arrival_growth": 0.3, "arrival_rate_max":
             "family_weights": {"collect": 0.10, "craft": 0.06, "place": 0.07, "maintain": 0.25, "avoid": 0.30,
                                "visit": 0.08, "report": 0.14}}
 SITU_STEPS = 300
+_BOOT: dict = {}
 
 
 def _sealed(seed):
@@ -220,8 +221,11 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     T = a.T
     ns = ("student", "organ")
     s_own = SequenceSampler(Archive(own_archive), own, T=T, seed=cycle, namespaces=ns, map_crop=True, preload=dev == "cuda")
-    s_boot = SequenceSampler(Archive(bootstrap), boot, T=T, seed=cycle + 77, namespaces=ns, map_crop=True,
-                             preload=dev == "cuda")
+    key = (str(bootstrap), T)
+    if key not in _BOOT:                                    # its past before the split does not change: load it once
+        _BOOT[key] = SequenceSampler(Archive(bootstrap), boot, T=T, seed=77, namespaces=ns, map_crop=True,
+                                     preload=dev == "cuda")
+    s_boot = _BOOT[key]
     for s in s_own.streams:                                 # the command it chose at every row (wake sidecar)
         s.cols["command"] = np.load(Path(own_archive) / f"{s.stream}.cmd.npy").astype(np.int64)
         assert len(s.cols["command"]) == len(s), s.stream
@@ -308,7 +312,7 @@ def run(a) -> int:
     meta0 = json.loads((homes["frozen"] / "individual.json").read_text())
     (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", **git_rev(), "twin_source": str(a.twin),
                                               "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap),
-                                              "args": vars(a)}, indent=1) + "\n")
+                                              "args": {k: v for k, v in vars(a).items() if k != "func"}}, indent=1) + "\n")
     ctx = mp.get_context("fork")
     bank_f = out / "situations.pkl"
     with ctx.Pool(a.workers) as pool:

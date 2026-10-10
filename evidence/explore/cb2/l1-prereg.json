@@ -1,0 +1,63 @@
+{
+ "format": "cb2-l1-prereg/1",
+ "title": "CB2-L1: does the individual learn from its own lived experience, and can we tell? (learning twin vs frozen twin)",
+ "authority": "DAV-98, approved by David ('Please proceed', 2026-10-10 03:29 CT); defaults for the open questions recorded on DAV-98 (L-C first; amnesic twin deferred; DreamerV3 baseline reported, not gating; drives = env reward + death signal)",
+ "principle": "competence from learning, not rules we write; scaffolding listed and measured",
+ "twins": {
+  "source": "S2b (state cc8948e7..., weights 8cffde79...), the canonical's current skill; copies, never the canonical itself",
+  "learning": "sleeps after every wake (L-A core, selector re-anchoring by self-distillation, L-C chooser); each sleep is one consolidation event in its own home",
+  "frozen": "never sleeps"
+ },
+ "experience": {
+  "wake": "20 lives per cycle on practice run 9 (89,000,000 + cycle*10,000 + n), identical worlds for both twins",
+  "sleep_data": "its own wake lives (all cycles so far), alternated 1:1 with the canonical's 592 lived lives before the split (lived-cb2-ind-0001); no teacher labels, no routine, no privileged inputs",
+  "drives": "environment reward (health change/10, first unlocks, caretaker requests) and death (-10); nothing else"
+ },
+ "sleep": {
+  "core_updates": 1500,
+  "T": 256,
+  "map_radius": 8,
+  "anchor_updates": 1000,
+  "chooser_updates": 1500,
+  "batch": 16,
+  "chooser": {
+   "horizon": 15,
+   "gamma": 0.99,
+   "lambda": 0.95,
+   "tau": 1.0
+  }
+ },
+ "cycles": 10,
+ "probes": {
+  "never_learned_from": true,
+  "fresh": "40 new worlds per cycle (78100 + 100*cycle + i), full lives, paired learning vs frozen",
+  "transfer": "40 new worlds per cycle (78600 + 100*cycle + i) under a different caretaker: arrival rate x2 (growth x2, max 1/20), family weights avoid 0.30, maintain 0.25 (practice never sees this)",
+  "situations": "a fixed bank built once from the frozen twin's lives on worlds 79100-79123: first dusk outside, first food<=3, first zombie within 3; each twin wakes there with a fresh mind for 300 steps; same bank every cycle (also retention)",
+  "gate2_ablation": "at cycle 10 the learning twin also runs every probe with its chooser off"
+ },
+ "primary": {
+  "growth": "pooled over cycles 6-10 (200 fresh worlds, each used once): one-sided 95% bootstrap lower bound of paired survival (learning - frozen) > 0",
+  "transfer": "same on the 200 transfer worlds of cycles 6-10",
+  "situations": "per-situation mean over cycles 6-10, paired with the frozen twin: lower95 of survival-within-300 difference > 0",
+  "bootstrap": "numpy default_rng(20261009), 10,000 resamples, 5th percentile"
+ },
+ "secondary": {
+  "retention": "situation survival of the learning twin at cycle 10 minus cycle 5 (paired by situation): lower95 > -25 steps",
+  "gate2": "cycle 10, chooser on - off, pooled over fresh+transfer: mean > 0 (reported; the chooser is credited only if > 0)",
+  "gate4": "probe-life on the learning twin's core after cycle 10 vs the frozen r2 core (known-out-of-view R^2 and map-head balanced accuracy)",
+  "learned_authored_share": "primitive actions authored by learning (expected 0% in L1: the executor is still scripted) and the share of command decisions changed by the learned chooser, per cycle",
+  "growth_curve": "paired survival difference per cycle (fresh, transfer, situations), with the trend over cycles"
+ },
+ "reading": {
+  "learning_shown": "growth AND transfer primary bounds > 0 (fresh-only gains = possible memorisation, reported as such)",
+  "not_shown": "otherwise"
+ },
+ "change_of_direction": [
+  "no learning-vs-frozen advantage on fresh probes (pooled lower95 <= 0) -> the learner design is wrong; stop and redesign before scaling",
+  "advantage on fresh but not transfer -> memorisation; change objectives",
+  "chooser credited 0 and changed-decision share ~0 -> learned choice is not doing the work",
+  "learned-authored primitive share stays 0% -> L2 (learned hands, shelter/night first) is required next, not more selector work"
+ ],
+ "not_claimed": "technical continuity is not selfhood; this is development-level evidence (no sealed worlds are used in L1); a positive result would get its own sealed confirmation",
+ "integrity": "crashes and deviations are reported, never silently rerun; cycle 0 (before any sleep) must show zero paired difference (identical twins): the instrument check"
+}
