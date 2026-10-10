@@ -51,9 +51,13 @@ def split(archive, heldout_lives: int):
     from continuous_brain_cb2.archive import Archive
     arch = Archive(archive)
     lived = arch.shards(("LIVED",))
+    if not lived:                       # no lived stream (an engineering archive): hold out the last practice lives
+        lived = [r for r in arch.shards(("PRACTICE",)) if not r.stream.endswith("-routine")]
     lives = sorted({l for r in lived for l in r.manifest["lives"]})
     held = set(lives[-heldout_lives:]) if heldout_lives else set()
-    train = [r for r in arch.shards(("LIVED", "PRACTICE")) if not set(r.manifest["lives"]) & held or r.where != "LIVED"]
+    test_streams = {r.stream for r in lived}
+    train = [r for r in arch.shards(("LIVED", "PRACTICE"))
+             if not (set(r.manifest["lives"]) & held and r.stream in test_streams)]
     test = [r for r in lived if set(r.manifest["lives"]) & held]
     return arch, train, test, sorted(held)
 
@@ -87,10 +91,18 @@ def train_core(a) -> int:
         torch.set_num_threads(a.threads)
     out = new_out(a.out)
     arch, train, test, held = split(a.archive, a.heldout_lives)
-    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed, preload=a.preload)
-    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1, preload=a.preload)
-    core = PredictiveCore(CoreConfig.sized(a.size), dev)
+    mc = bool(a.map_radius)
+    tr = SequenceSampler(arch, train, T=a.T, seed=a.seed, preload=a.preload, map_crop=mc)
+    te = SequenceSampler(arch, test, T=a.T, seed=a.seed + 1, preload=a.preload, map_crop=mc)
+    if a.init:                          # sleep continues the individual's own core (L-A), never a fresh one
+        saved = torch.load(a.init, map_location=dev, weights_only=False)
+        add = {"map_radius": a.map_radius} if a.map_radius and not saved["config"].get("map_radius") else {}
+        core = PredictiveCore.from_state(saved, dev, **add)
+    else:
+        from dataclasses import replace
+        core = PredictiveCore(replace(CoreConfig.sized(a.size), map_radius=a.map_radius), dev)
     run = {"format": "cb2-sleep-core/1", "status": "ENGINEERING_ONLY", **git_rev(), "device": dev, **core.describe(),
+           "init": a.init, "init_sha256": file_sha(Path(a.init)) if a.init else None,
            "train_rows": tr.rows(), "heldout_rows": te.rows(), "heldout_lives": held, "args": vars(a),
            "train_shards": [[r.stream, r.manifest["shard"], r.manifest["manifest_sha"]] for r in train],
            "heldout_shards": [[r.stream, r.manifest["shard"], r.manifest["manifest_sha"]] for r in test]}
@@ -235,6 +247,113 @@ def probe(a) -> int:
     return 0
 
 
+# ------------------------------------------------------------------------------------------ L-A: probe a life
+def life_arrays(sampler, s, start: int, end: int) -> dict:
+    """One life's rows [start, end) of a stream as arrays [1, L, ...], with the core's inputs as in training."""
+    c = s.cols
+    act = c["action"][start:end].astype(np.int64)
+    rew = c["rew_total"][start:end]
+    out = {"image": sampler._column(s, start, end - start, "student", "frame")[None], "body": c["body"][start:end][None],
+           "prev_action": np.r_[0, act[:-1]][None], "is_first": np.r_[1.0, np.zeros(end - start - 1)][None].astype(np.float32),
+           "reward": np.r_[0.0, rew[:-1]][None]}
+    if sampler.map_crop:
+        out["map_crop"] = sampler._column(s, start, end - start, "organ", "map_crop")[None]
+    return out
+
+
+def scan_life(core, b, chunk: int = 256):
+    """The core lives the whole life from its first step, carrying its state across chunks (no gradient)."""
+    import torch
+    feats, st, L = [], None, b["image"].shape[1]
+    for i in range(0, L, chunk):
+        sl = slice(i, min(L, i + chunk))
+        post, _ = core.scan(b["image"][:, sl], b["body"][:, sl], b["prev_action"][:, sl], b["is_first"][:, sl], state=st)
+        feats.append(core.feat(post))
+        st = {k: v[:, -1] for k, v in post.items()}
+    return torch.cat(feats, 1)
+
+
+def probe_life(a) -> int:
+    """Gate 4 with long context: on held-out lives, the core lives each life from its first step; from step
+    ``--skip`` on, (i) its remembered-map head's out-of-view accuracy, (ii) ridge probes from its state to which
+    out-of-view tiles it remembers, against the same probe on the frame encoder alone and on an untrained core."""
+    import torch
+    from continuous_brain_cb2.data import SequenceSampler
+    from continuous_brain_cb2.world_model import PredictiveCore
+    dev = device(a.device)
+    trained = PredictiveCore.from_state(torch.load(a.core, map_location=dev, weights_only=False), dev)
+    trained.eval()
+    torch.manual_seed(12345)
+    untrained = PredictiveCore(trained.cfg, dev)
+    arch, train, test, held = split(a.archive, a.heldout_lives)
+    out_of_view = np.ones((33, 33), bool)
+    out_of_view[16 - 3:16 + 4, 16 - 4:16 + 5] = False
+
+    def lives_of(refs, limit):
+        smp = SequenceSampler(arch, refs, T=1, seed=0, map_crop=True)
+        for s in smp.streams:
+            starts = np.flatnonzero(s.cols["is_first"]).tolist() + [len(s)]
+            for i0, i1 in zip(starts[:-1], starts[1:]):
+                if i1 - i0 > a.skip + 8:
+                    yield smp, s, i0, i1
+                    limit -= 1
+                    if limit <= 0:
+                        return
+
+    def collect(refs, limit):
+        X = {"trained": [], "untrained": [], "frame": []}
+        Y, M = [], {"acc": [], "const": [], "bal": [], "balc": [], "n": 0}
+        for smp, s, i0, i1 in lives_of(refs, limit):
+            b = life_arrays(smp, s, i0, i1)
+            with torch.no_grad():
+                ft = scan_life(trained, b)
+                fu = scan_life(untrained, b)
+                fe = trained.embed(b["image"], b["body"])
+                if "map" in trained.heads:
+                    m = trained.map_metrics(ft, b["map_crop"], skip=a.skip)
+                    if m:
+                        M["acc"].append(m["map_oov_seen_acc"]); M["const"].append(m["map_oov_seen_const"])
+                        M["bal"].append(m["map_oov_seen_balanced"]); M["balc"].append(m["map_oov_seen_balanced_const"])
+                        M["n"] += 1
+            idx = np.arange(a.skip, i1 - i0, a.every)
+            X["trained"].append(ft[0, idx].cpu().numpy()); X["untrained"].append(fu[0, idx].cpu().numpy())
+            X["frame"].append(fe[0, idx].cpu().numpy())
+            Y.append((b["map_crop"][0, idx].reshape(-1, 33, 33)[:, out_of_view] >= 0).astype(np.float32))
+        return {k: np.concatenate(v) for k, v in X.items()}, np.concatenate(Y), M
+
+    def ridge(X, Y, Xt, Yt):
+        mu, sd = X.mean(0), X.std(0) + 1e-6
+        X, Xt = (X - mu) / sd, (Xt - mu) / sd
+        def fit(X, Y, lam):
+            Xs = np.c_[X, np.ones(len(X))]
+            reg = lam * len(X) * np.eye(Xs.shape[1]); reg[-1, -1] = 0
+            return np.linalg.solve(Xs.T @ Xs + reg, Xs.T @ Y)
+        def r2(W, X, Y):
+            P = np.c_[X, np.ones(len(X))] @ W
+            keep = Y.std(0) > 1e-6
+            return float(np.mean(1 - ((Y - P) ** 2).sum(0)[keep] / ((Y - Y.mean(0)) ** 2).sum(0)[keep]))
+        k = int(len(X) * 0.8)
+        lam = max((1e-2, 1e-1, 1.0, 10.0, 100.0), key=lambda l: r2(fit(X[:k], Y[:k], l), X[k:], Y[k:]))
+        return round(r2(fit(X, Y, lam), Xt, Yt), 4), lam
+
+    Xf, Yf, _ = collect(train, a.fit_lives)
+    Xt, Yt, M = collect(test, a.test_lives)
+    res = {k: dict(zip(("r2", "penalty"), ridge(Xf[k], Yf, Xt[k], Yt))) for k in Xf}
+    out = {"format": "cb2-probe-life/1", "status": "ENGINEERING_ONLY", **git_rev(), "core": str(a.core),
+           "core_sha256": file_sha(Path(a.core)), "heldout_lives": held, "skip": a.skip, "every": a.every,
+           "known_out_of_view_r2": res,
+           "map_head_oov": ({"seen_acc": float(np.mean(M["acc"])), "const_baseline": float(np.mean(M["const"])),
+                             "balanced_acc": float(np.mean(M["bal"])), "balanced_chance": float(np.mean(M["balc"])),
+                             "lives": M["n"]} if M["n"] else None),
+           "gate4_reading": "persistent state shown if trained > frame and trained > untrained on known-out-of-view R^2, "
+                            "and the map head beats the constant guess out of view"}
+    print(json.dumps(out, indent=1))
+    if a.out:
+        Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
+    return 0
+
+
 # --------------------------------------------------------------------------------------------------- dreams
 def dream_cmd(a) -> int:
     """Imagined continuations from moments it lived, archived as DREAMED (they can never be read as lived)."""
@@ -347,7 +466,7 @@ def gate_foresight(a) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("core", "policy", "probe", "dream", "gate-foresight"):
+    for name in ("core", "policy", "probe", "probe-life", "dream", "gate-foresight"):
         p = sub.add_parser(name)
         p.add_argument("--archive", default=str(ARCHIVE))
         p.add_argument("--heldout-lives", type=int, default=3)
@@ -364,6 +483,8 @@ def main() -> int:
         if name == "core":
             p.add_argument("--size", default="S", choices=("XS", "S", "M", "L"))
             p.add_argument("--save-every", type=int, default=5000)
+            p.add_argument("--init", default=None, help="continue this core (L-A sleep), never overwritten")
+            p.add_argument("--map-radius", type=int, default=0, help="L-A remembered-map head radius (0 = none)")
         else:
             p.add_argument("--core", required=True)
         if name == "policy":
@@ -378,11 +499,16 @@ def main() -> int:
         if name == "gate-foresight":
             p.add_argument("--epochs", type=int, default=20)
             p.add_argument("--label", required=True)
+        if name == "probe-life":
+            p.add_argument("--fit-lives", type=int, default=24)
+            p.add_argument("--test-lives", type=int, default=12)
+            p.add_argument("--skip", type=int, default=64, help="probe from this step of each life on")
+            p.add_argument("--every", type=int, default=4)
         if name == "probe":
             p.add_argument("--fit-batches", type=int, default=24)
             p.add_argument("--test-batches", type=int, default=12)
     a = ap.parse_args()
-    return {"core": train_core, "policy": train_policy, "probe": probe, "dream": dream_cmd,
+    return {"core": train_core, "policy": train_policy, "probe": probe, "probe-life": probe_life, "dream": dream_cmd,
             "gate-foresight": gate_foresight}[a.cmd](a)
 
 
