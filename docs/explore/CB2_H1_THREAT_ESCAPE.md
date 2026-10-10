@@ -1,5 +1,7 @@
 # CB2-H1: learned threat-escape hands — protocol (revision 2)
 
+> **PAUSED (David, 2026-10-10 03:26 CT)** after Phase 0. The broader learning track (`CB2_L_LEARNING_TRACK.md`) comes first; escape behaviour becomes one routine to retire inside it (L-D), measured by need. Phase 0's results: `evidence/explore/cb2/h1-phase0-report.json` and `h1/phase0-notes.md`.
+
 ## Status
 
 - **Phase 0 (measurement only, local CPU) is AUTHORISED** by David, 2026-10-10, with the revisions below.
