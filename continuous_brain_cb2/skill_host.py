@@ -137,9 +137,16 @@ class CoreSkillHost(_Host):
             organ.state = None if first else st.get("organ")
             name, tel = organ(COMMANDS[option], memory, body, step, ledger.active(led, step))
             st["organ"] = organ.state
+            provenance = "scripted-executor-organ"
+            hook = getattr(self, "override", None)        # CB2-H1 Phase 0 tester only (never set in deployment)
+            if hook is not None:
+                alt = hook(memory, body, step, name)
+                if alt is not None and alt != name:
+                    tel = {**tel, "overridden": name, "action": alt}
+                    name, provenance = alt, "phase0-tester-override"
             counts = {} if first else dict(st.get("delegated", {}))
             counts[COMMANDS[option]] = counts.get(COMMANDS[option], 0) + 1
-            st["delegated"], st["delegation"] = counts, {**tel, "step": step, "provenance": "scripted-executor-organ"}
+            st["delegated"], st["delegation"] = counts, {**tel, "step": step, "provenance": provenance}
             action = ACTIONS[name]
         else:
             action = int(logits.argmax(-1)[0])
