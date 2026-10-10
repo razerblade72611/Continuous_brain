@@ -34,13 +34,28 @@ from .record import VITALS, map_crop
 from .world_model import PredictiveCore
 
 
-def pack_weights(core: PredictiveCore, policy: SkillPolicy) -> bytes:
-    """The bytes a consolidation installs: the core (without its optimiser) and the policy."""
+def pack_weights(core: PredictiveCore, policy: SkillPolicy, chooser=None) -> bytes:
+    """The bytes a consolidation installs: the core (without its optimiser), the policy, and (CB2-L, L-C) the
+    learned chooser if it has one."""
     buf = io.BytesIO()
     c = core.state_dict_full()
     c.pop("opt", None)
-    torch.save({"format": "cb2-skill-weights/1", "core": c, "policy": policy.state_dict_full()}, buf)
+    pack = {"format": "cb2-skill-weights/1", "core": c, "policy": policy.state_dict_full()}
+    if chooser is not None:
+        pack["chooser"] = chooser.state_dict_full()
+    torch.save(pack, buf)
     return buf.getvalue()
+
+
+def unpack_chooser(blob):
+    """The learned chooser in a weights pack, or None (every pack before CB2-L)."""
+    saved = torch.load(io.BytesIO(np.asarray(blob, np.uint8).tobytes()), map_location="cpu", weights_only=False)
+    if "chooser" not in saved:
+        return None
+    from .chooser import Chooser
+    ch = Chooser.from_state(saved["chooser"])
+    ch.eval()
+    return ch
 
 
 def unpack_weights(blob) -> tuple[PredictiveCore, SkillPolicy]:
@@ -67,11 +82,13 @@ class CoreSkillHost(_Host):
                        ChannelDecl("skills.action", self.slot, (1,), "int64", neutral=0,
                                    description="the Crafter action index chosen this tick"))
         self._cache = (None, None)
+        self._chooser = None
 
     def _models(self, w: np.ndarray):
         key = w.base if w.base is not None else w            # the stored array behind this tick's read view
         if self._cache[0] is not key:
             self._cache = (key, unpack_weights(w))
+            self._chooser = unpack_chooser(w)
         return self._cache[1]
 
     def step(self, ctx):
@@ -131,8 +148,15 @@ class CoreSkillHost(_Host):
                 p = torch.softmax(logits[0] / pol.cfg.temperature, -1).double().numpy()
                 rng = np.random.default_rng([int(pol.cfg.sample_salt), life, step])
                 option = int(rng.choice(len(p), p=p / p.sum()))
+            chosen = None
+            ch = getattr(self, "_chooser", None)
+            if ch is not None and ch.cfg.enabled and not getattr(self, "chooser_off", False) \
+                    and not getattr(pol.cfg, "temperature", 0.0):
+                # CB2-L (L-C): the command its imagination scores best, with the selector's preference as a prior
+                option, chosen = ch.choose(core, post, logits[0])
             self.last = {"feat": feat[0].detach().numpy(), "body": np.asarray(bv[0], np.float32), "features": feats[0],
-                         "map_crop": crop[0], "logits": logits[0].detach().numpy(), "command": option}
+                         "map_crop": crop[0], "logits": logits[0].detach().numpy(), "command": option,
+                         "chooser": chosen}
             organ = ExecutorOrgan(0)
             organ.state = None if first else st.get("organ")
             name, tel = organ(COMMANDS[option], memory, body, step, ledger.active(led, step))
@@ -146,7 +170,8 @@ class CoreSkillHost(_Host):
                     name, provenance = alt, "phase0-tester-override"
             counts = {} if first else dict(st.get("delegated", {}))
             counts[COMMANDS[option]] = counts.get(COMMANDS[option], 0) + 1
-            st["delegated"], st["delegation"] = counts, {**tel, "step": step, "provenance": provenance}
+            choice = {} if chosen is None else {"command_by": "learned-value-choice", "changed": chosen["changed"]}
+            st["delegated"], st["delegation"] = counts, {**tel, **choice, "step": step, "provenance": provenance}
             action = ACTIONS[name]
         else:
             action = int(logits.argmax(-1)[0])
