@@ -251,8 +251,16 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     blob = (twin_home / "weights" / f"{meta['weights_sha256']}.pt").read_bytes()
     core0, pol0 = unpack_weights(np.frombuffer(blob, np.uint8))
     ch0 = unpack_chooser(np.frombuffer(blob, np.uint8))
-    core0.to(dev); pol0.to(dev)
-    core0.device = pol0.device = dev
+    # rebuild the core on its device: .to() leaves the RSSM's own _device (used for its initial state) on the CPU
+    core0 = PredictiveCore.from_state(core0.state_dict_full(), dev)
+    core0.eval()
+    pol0.to(dev)
+    pol0.device = dev
+    if os.environ.get("L1_TF32") == "1":                   # engineering switches, measured by bench-sleep
+        torch.backends.cuda.matmul.allow_tf32 = torch.backends.cudnn.allow_tf32 = True
+    import contextlib
+    amp = (lambda: torch.autocast("cuda", dtype=torch.bfloat16)) if os.environ.get("L1_AMP") == "1" and dev == "cuda" \
+        else contextlib.nullcontext
     saved = core0.state_dict_full()
     core = PredictiveCore.from_state(saved, dev, **({} if core0.cfg.map_radius else {"map_radius": a.map_radius}))
     own = Archive(own_archive).shards(("PRACTICE",))
@@ -273,7 +281,8 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     t0 = time.time()
     # L-A: the core continues, alternating its recent lives with its whole past
     for u in range(1, a.core_updates + 1):
-        m = core.train_step((s_own if u % 2 else s_boot).batch(a.batch))
+        with amp():
+            m = core.train_step((s_own if u % 2 else s_boot).batch(a.batch))
         if u % 250 == 0 or u == a.core_updates:
             ev = core.evaluate(s_own.batch(a.batch))
             log.append({"twin": twin, "cycle": cycle, "core_update": u, "s": round(time.time() - t0), "train": m,
@@ -297,14 +306,16 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     opt = torch.optim.Adam(pol.parameters(), lr=1e-4)
     for u in range(1, a.anchor_updates + 1):
         b = (s_own if u % 2 else s_boot).batch(a.batch)
-        with torch.no_grad():
-            target = F.softmax(pol0(*pol_in(b, feats(core0, b)))[0], -1)
-        logits = pol(*pol_in(b, feats(core, b)))[0]
-        loss = F.kl_div(F.log_softmax(logits, -1), target, reduction="batchmean")
+        with amp():
+            with torch.no_grad():
+                target = F.softmax(pol0(*pol_in(b, feats(core0, b)))[0].float(), -1)
+            logits = pol(*pol_in(b, feats(core, b)))[0].float()
+            loss = F.kl_div(F.log_softmax(logits, -1), target, reduction="batchmean")
         opt.zero_grad(); loss.backward(); opt.step()
         if u % 250 == 0 or u == a.anchor_updates:
             agree = float((logits.argmax(-1) == target.argmax(-1)).float().mean())
-            log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "kl": float(loss), "agreement": agree})
+            log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "s": round(time.time() - t0), "kl": float(loss),
+                        "agreement": agree})
     pol.eval()
     # L-C: its hands and the value of its states, from its own lives only
     ch = ch0 if ch0 is not None else Chooser(ChooserConfig(tau=a.tau, horizon=a.horizon), core.feat_size, dev)
@@ -319,7 +330,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(r_next, torch.float32),
                           (1 - tt(b["cont"][:, burn:], torch.float32)).bool(), tt(b["is_first"][:, burn:], torch.float32))
         if u % 250 == 0 or u == a.chooser_updates:
-            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, **m})
+            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, "s": round(time.time() - t0), **m})
     ch.eval()
     for x in (core, pol, ch):
         x.to("cpu")
@@ -335,6 +346,31 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     finally:
         os.close(fd)
     return {"cycle": cycle, "seconds": round(time.time() - t0), "last": log[-6:]}
+
+
+# ================================================================================================ bench
+def bench_sleep(a) -> int:
+    """One sleep at full batch/T on a scratch copy of a twin, with few updates per phase, timed per phase.  For
+    sizing a pod (and checking the GPU path) before renting the long run.  L1_TF32 / L1_AMP select precision."""
+    out = Path(a.out)
+    home = out / "twin" / "cb2-ind-0001"
+    if home.parent.exists():
+        shutil.rmtree(home.parent)
+    shutil.copytree(Path(a.twin), home)
+    ns = argparse.Namespace(**{**vars(a), "core_updates": a.updates, "anchor_updates": a.updates,
+                                "chooser_updates": a.updates})
+    t = time.time()
+    r = sleep(home, Path(a.own), Path(a.bootstrap), 1, out, ns, "bench")
+    log = [json.loads(l) for l in open(out / "sleep.jsonl")]
+    ends = {k: max(x["s"] for x in log if k in x) for k in ("core_update", "anchor_update", "chooser_update")}
+    per = {"core": ends["core_update"] / a.updates, "anchor": (ends["anchor_update"] - ends["core_update"]) / a.updates,
+           "chooser": (ends["chooser_update"] - ends["anchor_update"]) / a.updates}
+    full = 1500 * per["core"] + 1000 * per["anchor"] + 1500 * per["chooser"]
+    print(json.dumps({"tf32": os.environ.get("L1_TF32") == "1", "amp": os.environ.get("L1_AMP") == "1",
+                      "updates_per_phase": a.updates, "sec_per_update": {k: round(v, 3) for k, v in per.items()},
+                      "wall_s": round(time.time() - t), "projected_full_sleep_min": round(full / 60, 1),
+                      "last_core": [x for x in log if "core_update" in x][-1]["train"]}, default=str))
+    return 0
 
 
 # ================================================================================================ run
@@ -519,6 +555,16 @@ def main() -> int:
     r.add_argument("--resume", action="store_true")
     r.add_argument("--max-steps", type=int, default=10000)
     r.set_defaults(func=run)
+    bq = sub.add_parser("bench-sleep")
+    bq.add_argument("--twin", required=True, help="a cb2-ind-0001 directory (copied, never changed)")
+    bq.add_argument("--own", required=True, help="an archive of its own lives (with .cmd.npy sidecars)")
+    bq.add_argument("--bootstrap", required=True)
+    bq.add_argument("--out", required=True)
+    bq.add_argument("--updates", type=int, default=100)
+    for k, v in (("--batch", 16), ("--T", 256), ("--map-radius", 8), ("--horizon", 15)):
+        bq.add_argument(k, type=int, default=v)
+    bq.add_argument("--tau", type=float, default=1.0)
+    bq.set_defaults(func=bench_sleep)
     q = sub.add_parser("report")
     q.add_argument("--out", required=True)
     q.add_argument("--report", default=str(REPO / "evidence/explore/cb2/l1-report.json"))
