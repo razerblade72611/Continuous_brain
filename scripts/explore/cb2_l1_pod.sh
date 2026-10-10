@@ -48,12 +48,18 @@ print("S2b twin source:", "OK" if ok else "MISMATCH"); raise SystemExit(0 if ok 
 PY
 # workers from the pod's real limits (nproc shows the host's cores): cgroup CPU quota - 1, and ~1.6 GB per worker
 # (one life peaks at 1.15 GB RSS); 32 workers on a 12-vCPU / 31 GB pod hung the first L1 launch
-N=$(nproc); Q=$(awk '$1!="max"{print int($1/$2)}' /sys/fs/cgroup/cpu.max 2>/dev/null)
-[ -z "$Q" ] && Q=$(awk 'NR==FNR{q=$1;next} q>0{print int(q/$1)}' /sys/fs/cgroup/cpu/cpu.cfs_quota_us /sys/fs/cgroup/cpu/cpu.cfs_period_us 2>/dev/null)
+set +e +o pipefail                                   # probing optional cgroup files must not kill the run (set -e)
+CG=${CG:-/sys/fs/cgroup}; N=$(nproc); Q=""
+[ -r $CG/cpu.max ] && Q=$(awk '$1!="max"{print int($1/$2)}' $CG/cpu.max)
+[ -z "$Q" ] && [ -r $CG/cpu/cpu.cfs_quota_us ] && Q=$(awk 'NR==FNR{q=$1;next} q>0{print int(q/$1)}' $CG/cpu/cpu.cfs_quota_us $CG/cpu/cpu.cfs_period_us)
 if [ -n "$Q" ] && [ "$Q" -gt 0 ]; then [ "$Q" -lt "$N" ] && N=$Q; else N=$(( N < 12 ? N : 12 )); fi   # unknown quota: assume 12
-M=$(cat /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null | awk '$1!="max" && $1<1e15{print int($1/1717986918); exit}')
-M=${M:-$(( $(free -g | awk '/Mem:/{print $2}') < 31 ? $(free -g | awk '/Mem:/{print int($2/1.6)}') : 19 ))}
+M=""
+for f in $CG/memory.max $CG/memory/memory.limit_in_bytes; do
+  [ -z "$M" ] && [ -r $f ] && M=$(awk '$1!="max" && $1<1e15{print int($1/1717986918)}' $f)
+done
+[ -z "$M" ] && M=$(free -g | awk '/Mem:/{m=int($2/1.6); print (m < 19 ? m : 19)}')
 WK=$(( N - 1 < M ? N - 1 : M )); WK=$(( WK < 1 ? 1 : WK )); WK=${WORKERS:-$WK}
+set -euo pipefail
 echo "cpu quota: $N  memory slots: $M"
 echo "== $(date -u) running l1 with $WK workers"
 python scripts/explore/cb2_l1.py run --twin runs/explore/cb2/candidates/s2b-final --bootstrap runs/explore/cb2/bootstrap \
