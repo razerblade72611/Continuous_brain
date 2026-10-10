@@ -197,7 +197,7 @@ def build_bank(home, seeds, out: Path) -> list[dict]:
 
 
 # ================================================================================================ sleep
-def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: Path, a) -> dict:
+def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: Path, a, twin: str = "learning") -> dict:
     """One sleep of the learning twin: L-A core, selector re-anchoring, L-C chooser, one consolidation."""
     import torch
     import torch.nn.functional as F
@@ -226,6 +226,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         _BOOT[key] = SequenceSampler(Archive(bootstrap), boot, T=T, seed=77, namespaces=ns, map_crop=True,
                                      preload=dev == "cuda")
     s_boot = _BOOT[key]
+    s_boot.rng = np.random.default_rng(77 + cycle)          # the same past batches for every twin's sleep this cycle
     for s in s_own.streams:                                 # the command it chose at every row (wake sidecar)
         s.cols["command"] = np.load(Path(own_archive) / f"{s.stream}.cmd.npy").astype(np.int64)
         assert len(s.cols["command"]) == len(s), s.stream
@@ -236,7 +237,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         m = core.train_step((s_own if u % 2 else s_boot).batch(a.batch))
         if u % 250 == 0 or u == a.core_updates:
             ev = core.evaluate(s_own.batch(a.batch))
-            log.append({"cycle": cycle, "core_update": u, "s": round(time.time() - t0), "train": m,
+            log.append({"twin": twin, "cycle": cycle, "core_update": u, "s": round(time.time() - t0), "train": m,
                         "own_heldout_like": {k: ev[k] for k in ev if k.startswith(("map_", "risk_brier", "openloop", "copy_last", "image"))}})
     core.eval()
     burn = T // 4
@@ -264,7 +265,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         opt.zero_grad(); loss.backward(); opt.step()
         if u % 250 == 0 or u == a.anchor_updates:
             agree = float((logits.argmax(-1) == target.argmax(-1)).float().mean())
-            log.append({"cycle": cycle, "anchor_update": u, "kl": float(loss), "agreement": agree})
+            log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "kl": float(loss), "agreement": agree})
     pol.eval()
     # L-C: its hands and the value of its states, from its own lives only
     ch = ch0 if ch0 is not None else Chooser(ChooserConfig(tau=a.tau, horizon=a.horizon), core.feat_size, dev)
@@ -279,13 +280,13 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(r_next, torch.float32),
                           (1 - tt(b["cont"][:, burn:], torch.float32)).bool(), tt(b["is_first"][:, burn:], torch.float32))
         if u % 250 == 0 or u == a.chooser_updates:
-            log.append({"cycle": cycle, "chooser_update": u, **m})
+            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, **m})
     ch.eval()
     for x in (core, pol, ch):
         x.to("cpu")
     core.device = pol.device = ch.device = "cpu"
     weights = pack_weights(core, pol, ch)
-    lineage = {"kind": "cb2-l1-sleep", "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
+    lineage = {"kind": "cb2-l1-sleep", "twin": twin, "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
                                                                         "own_streams": sorted(s.stream for s in s_own.streams)},
                "updates": {"core": a.core_updates, "anchor": a.anchor_updates, "chooser": a.chooser_updates}, "code": git_rev()}
     _consolidate(twin_home, ind, meta, vision(), weights, lineage, candidate=True)
@@ -302,13 +303,16 @@ def run(a) -> int:
     if (out / "run.json").exists() and not a.resume:
         raise SystemExit(f"{out} exists (use --resume to continue it)")
     out.mkdir(parents=True, exist_ok=True)
-    twins = {"learning": out / "twins/learning", "frozen": out / "twins/frozen"}
+    # learning: sleeps on its own accumulating lives; reference (Sol, DAV-98): the same sleeps, update counts and
+    # budget, but on a FIXED buffer (the cycle-0 lives, never its later experience); frozen: never sleeps
+    twins = {"learning": out / "twins/learning", "reference": out / "twins/reference", "frozen": out / "twins/frozen"}
     for t in twins.values():
         if not t.exists():
             shutil.copytree(Path(a.twin) / "cb2-ind-0001", t / "cb2-ind-0001")
     homes = {k: v / "cb2-ind-0001" for k, v in twins.items()}
     own = out / "archive-learning"
     own.mkdir(exist_ok=True)
+    fixed_buf = out / "archive-reference"
     meta0 = json.loads((homes["frozen"] / "individual.json").read_text())
     (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", **git_rev(), "twin_source": str(a.twin),
                                               "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap),
@@ -332,7 +336,8 @@ def run(a) -> int:
             # probes (cycle 0 = before any sleep: both twins are the same individual, a sanity check of the instrument)
             fresh = list(range(FRESH0 + 100 * c, FRESH0 + 100 * c + a.probe_worlds))
             trans = list(range(TRANSFER0 + 100 * c, TRANSFER0 + 100 * c + a.probe_worlds))
-            arms = {"learning": dict(home=homes["learning"]), "frozen": dict(home=homes["frozen"])}
+            arms = {"learning": dict(home=homes["learning"]), "reference": dict(home=homes["reference"]),
+                    "frozen": dict(home=homes["frozen"])}
             if c == a.cycles:
                 arms["learning_chooser_off"] = dict(home=homes["learning"], chooser_on=False)
             rec["probes"] = {}
@@ -346,15 +351,16 @@ def run(a) -> int:
                                             chooser_on=kw.get("chooser_on", True), bank=bank)}
             rec["probe_seconds"] = round(time.time() - t0)
             if c < a.cycles:
-                # wake: the same practice worlds for both twins; the learning twin's lives become its experience
+                # wake: the learning twin lives new practice worlds; its lives become its experience
                 seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
                 st = json.loads((homes["learning"] / "individual.json").read_text())["state_hash"]
                 rec["wake"] = {"learning": run_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
                                                      archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
-                                                     state_hash=st, steps=a.max_steps),
-                               "frozen": run_lives(pool, homes["frozen"], seeds, "life", 30_000_000 + c * 1000, a.workers,
-                                                   steps=a.max_steps)}
-                rec["sleep"] = sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a)
+                                                     state_hash=st, steps=a.max_steps)}
+                if c == 0 and not fixed_buf.exists():       # the reference twin's fixed buffer: the cycle-0 lives only
+                    shutil.copytree(own, fixed_buf)
+                rec["sleep"] = {"learning": sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning"),
+                                "reference": sleep(homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")}
             rec["seconds"] = round(time.time() - t0)
             with open(out / "cycles.jsonl", "a") as fh:
                 fh.write(json.dumps(rec, default=str) + "\n")
@@ -379,10 +385,14 @@ def paired(L, F, key):
 def summary_line(rec) -> dict:
     p = rec["probes"]
     out = {}
-    for fam in ("fresh", "transfer"):
-        out[fam] = {"survival": paired(p["learning"][fam], p["frozen"][fam], "steps"),
-                    "unlocks": paired(p["learning"][fam], p["frozen"][fam], "n_unlocked")}
-    out["situations"] = {"survival": paired(p["learning"]["situations"], p["frozen"]["situations"], "steps")}
+    for other in ("frozen", "reference"):
+        if other not in p:
+            continue
+        o = out[f"vs_{other}"] = {}
+        for fam in ("fresh", "transfer"):
+            o[fam] = {"survival": paired(p["learning"][fam], p[other][fam], "steps"),
+                      "unlocks": paired(p["learning"][fam], p[other][fam], "n_unlocked")}
+        o["situations"] = {"survival": paired(p["learning"]["situations"], p[other]["situations"], "steps")}
     lt = p["learning"]["fresh"]
     out["chooser_changed_share"] = (sum(r["chooser_changed"] for r in lt) / max(1, sum(r["steps"] for r in lt)))
     return out
@@ -393,6 +403,27 @@ def report(a) -> int:
     C = [json.loads(l) for l in open(out / "cycles.jsonl")]
     rep = {"format": "cb2-l1-report/1", "run": json.loads((out / "run.json").read_text()),
            "cycles": [{"cycle": r["cycle"], **summary_line(r)} for r in C]}
+    # primary (l1-prereg.json): pooled over cycles 6-10, learning minus frozen and learning minus reference
+    late = [r for r in C if 6 <= r["cycle"] <= 10]
+    rep["primary_pooled_cycles_6_10"] = {
+        f"vs_{o}": {fam: paired([x for r in late for x in r["probes"]["learning"][fam]],
+                                [x for r in late for x in r["probes"][o][fam]], "steps")
+                    for fam in ("fresh", "transfer")} for o in ("frozen", "reference")}
+    for o in ("frozen", "reference"):                       # situations: per situation, mean over cycles 6-10
+        sid = sorted({(x["seed"], x["situation"]) for r in late for x in r["probes"]["learning"]["situations"]})
+        mean = lambda arm, k: np.mean([x["steps"] for r in late for x in r["probes"][arm]["situations"]
+                                       if (x["seed"], x["situation"]) == k])
+        d = [mean("learning", k) - mean(o, k) for k in sid]
+        rep["primary_pooled_cycles_6_10"][f"vs_{o}"]["situations"] = {"n": len(d), "mean": float(np.mean(d)) if d else None,
+                                                                     "lower95": _lb(d)}
+    by = {r["cycle"]: r for r in C}
+    if 5 in by and 10 in by:
+        rep["retention_situations_c10_minus_c5"] = paired(by[10]["probes"]["learning"]["situations"],
+                                                          by[5]["probes"]["learning"]["situations"], "steps")
+    sl = [json.loads(l) for l in open(out / "sleep.jsonl")] if (out / "sleep.jsonl").exists() else []
+    rep["hands_model_training_accuracy"] = {f"{r['twin']}-c{r['cycle']}": r["hands_acc"] for r in sl if "hands_acc" in r
+                                            and r["chooser_update"] == max(x.get("chooser_update", 0) for x in sl)}
+    rep["learned_authored_primitive_share"] = 0.0           # the executor is still scripted in L1 (reported plainly)
     last = C[-1]
     if "learning_chooser_off" in last["probes"]:
         p = last["probes"]
