@@ -62,7 +62,7 @@ scp -i $KEY -P $PORT -o StrictHostKeyChecking=accept-new "$EX/tile_decoder_v1.pt
 cp "$S2/cb2_sync_l1.sh" ~/cb2_sync_l1.sh && chmod +x ~/cb2_sync_l1.sh
 setsid nohup ~/cb2_sync_l1.sh "$POD" "$IP" "$PORT" > ~/cb2_sync_l1.out 2>&1 < /dev/null &
 echo "SYNC STARTED: pod $POD ($IP:$PORT); status in $EX/l1_status.txt and $EX/l1_pod.log every 5 min"
-timeout 60 $SSH -n 'cd /workspace && (setsid nohup bash /workspace/cb2_l1_pod.sh > /workspace/l1.log 2>&1 < /dev/null &) ; sleep 1' || true
+timeout 60 $SSH -n "cd /workspace && (WORKERS=${WORKERS:-} setsid nohup bash /workspace/cb2_l1_pod.sh > /workspace/l1.log 2>&1 < /dev/null &) ; sleep 1" || true
 sleep 20
 timeout 30 $SSH -n 'tail -5 /workspace/l1.log' || true
 echo "RUN STARTED on $POD"

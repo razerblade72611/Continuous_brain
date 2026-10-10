@@ -46,10 +46,18 @@ m = json.load(open("runs/explore/cb2/candidates/s2b-final/cb2-ind-0001/individua
 ok = m["state_hash"].startswith("cc8948e7") and m["weights_sha256"].startswith("8cffde79")
 print("S2b twin source:", "OK" if ok else "MISMATCH"); raise SystemExit(0 if ok else 1)
 PY
-N=$(nproc); WK=${WORKERS:-$(( N > 40 ? 32 : N - 2 ))}
+# workers from the pod's real limits (nproc shows the host's cores): cgroup CPU quota - 1, and ~1.6 GB per worker
+# (one life peaks at 1.15 GB RSS); 32 workers on a 12-vCPU / 31 GB pod hung the first L1 launch
+N=$(nproc); Q=$(awk '$1!="max"{print int($1/$2)}' /sys/fs/cgroup/cpu.max 2>/dev/null)
+[ -z "$Q" ] && Q=$(awk 'NR==FNR{q=$1;next} q>0{print int(q/$1)}' /sys/fs/cgroup/cpu/cpu.cfs_quota_us /sys/fs/cgroup/cpu/cpu.cfs_period_us 2>/dev/null)
+if [ -n "$Q" ] && [ "$Q" -gt 0 ]; then [ "$Q" -lt "$N" ] && N=$Q; else N=$(( N < 12 ? N : 12 )); fi   # unknown quota: assume 12
+M=$(cat /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null | awk '$1!="max" && $1<1e15{print int($1/1717986918); exit}')
+M=${M:-$(( $(free -g | awk '/Mem:/{print $2}') < 31 ? $(free -g | awk '/Mem:/{print int($2/1.6)}') : 19 ))}
+WK=$(( N - 1 < M ? N - 1 : M )); WK=$(( WK < 1 ? 1 : WK )); WK=${WORKERS:-$WK}
+echo "cpu quota: $N  memory slots: $M"
 echo "== $(date -u) running l1 with $WK workers"
 python scripts/explore/cb2_l1.py run --twin runs/explore/cb2/candidates/s2b-final --bootstrap runs/explore/cb2/bootstrap \
-  --out runs/explore/cb2/l1 --workers $WK --resume 2>&1 | grep -v '^ \|^{$\|^}$' | tee -a runs/explore/cb2/l1-run.log
+  --out runs/explore/cb2/l1 --workers $WK --resume 2>&1 | grep --line-buffered -v '^{$\|^}$' | tee -a runs/explore/cb2/l1-run.log
 python scripts/explore/cb2_l1.py report --out runs/explore/cb2/l1 --report evidence/explore/cb2/l1-report.json > /dev/null
 echo "== $(date -u) gate 4 probes (learning twin's core vs the frozen core), on the learning twin's held-out lives"
 python - <<'PY'

@@ -155,7 +155,9 @@ def run_lives(pool, home, seeds, kind, life0, workers, **kw):
         if kind == "situation":
             j["situations"] = [kw["bank"][seeds.index(s)] for s in ch]
         jobs.append(j)
-    res = [x for r in pool.map(life_job, jobs) for x in r]
+    t = time.time()
+    res = [x for r in pool.map(life_job, jobs) for x in r]       # a killed worker raises BrokenProcessPool (no silent hang)
+    print(f"  {time.strftime('%H:%M:%S')} {kind} x{len(seeds)} done in {time.time() - t:.0f}s", flush=True)
     return sorted(res, key=lambda r: (r["seed"], r.get("situation", "")))
 
 
@@ -319,11 +321,13 @@ def run(a) -> int:
                                               "args": {k: v for k, v in vars(a).items() if k != "func"}}, indent=1) + "\n")
     ctx = mp.get_context("fork")
     bank_f = out / "situations.pkl"
-    with ctx.Pool(a.workers) as pool:
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(a.workers, mp_context=ctx) as pool:
         if not bank_f.exists():
             seeds = list(range(SITU0, SITU0 + a.situation_worlds))
-            parts = pool.starmap(build_bank, [(str(homes["frozen"]), seeds[k::a.workers], out / f"bank-{k}.pkl")
-                                              for k in range(a.workers) if seeds[k::a.workers]])
+            ks = [k for k in range(a.workers) if seeds[k::a.workers]]
+            parts = list(pool.map(build_bank, [str(homes["frozen"])] * len(ks), [seeds[k::a.workers] for k in ks],
+                                  [out / f"bank-{k}.pkl" for k in ks]))
             bank = sorted([x for p in parts for x in p], key=lambda s: (s["seed"], s["name"]))
             with open(bank_f, "wb") as f:
                 pickle.dump(bank, f)
