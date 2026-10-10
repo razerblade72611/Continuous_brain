@@ -18,8 +18,9 @@ SUMS
 
 if [ $# -ge 3 ]; then POD=$1; IP=$2; PORT=$3
 else
-  echo "== creating pod ($GPU)"
-  $RP pod create --name cb2-l1 --gpu-id "$GPU" --image "runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404" \
+  # GPUS (default 4): the lives run on CPU and a pod's CPU cores scale with its GPU count; sleeps use one GPU
+  echo "== creating pod (${GPUS:-4} x $GPU)"
+  $RP pod create --name cb2-l1 --gpu-id "$GPU" --gpu-count "${GPUS:-4}" --image "runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404" \
       --container-disk-in-gb 40 --volume-in-gb 40 --ports "22/tcp" | tee /tmp/cb2_l1_create.txt
   POD=$(grep -oE '"?id"?[": ]+[a-z0-9]{10,16}' /tmp/cb2_l1_create.txt | head -1 | grep -oE '[a-z0-9]{10,16}$' || true)
   [ -n "$POD" ] || { echo "Could not read the pod id above. Re-run: bash $0 <pod-id> <ip> <ssh-port>"; exit 1; }

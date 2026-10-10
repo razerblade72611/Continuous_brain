@@ -145,20 +145,30 @@ def life_job(job):
     return out
 
 
-def run_lives(pool, home, seeds, kind, life0, workers, **kw):
+def submit_lives(pool, home, seeds, kind, life0, workers, **kw):
+    """Queue a set of lives on the pool now; returns gather() -> the sorted results.  Queuing every set of a cycle
+    before gathering keeps all workers busy (one barrier per cycle instead of one per set); the chunking, seeds and
+    life ids are exactly those of run_lives, so the results are the same."""
     chunks = [seeds[k::workers] for k in range(workers) if seeds[k::workers]]
-    jobs = []
+    futs = []
     for k, ch in enumerate(chunks):
         j = {"home": str(home), "seeds": ch, "kind": kind, "life0": life0 + k * 1000, **kw}
         if kw.get("archive"):
             j["stream"] = f"{kw['stream']}-w{k:02d}"
         if kind == "situation":
             j["situations"] = [kw["bank"][seeds.index(s)] for s in ch]
-        jobs.append(j)
+        futs.append(pool.submit(life_job, j))                     # a killed worker raises BrokenProcessPool
     t = time.time()
-    res = [x for r in pool.map(life_job, jobs) for x in r]       # a killed worker raises BrokenProcessPool (no silent hang)
-    print(f"  {time.strftime('%H:%M:%S')} {kind} x{len(seeds)} done in {time.time() - t:.0f}s", flush=True)
-    return sorted(res, key=lambda r: (r["seed"], r.get("situation", "")))
+
+    def gather():
+        res = [x for f in futs for x in f.result()]
+        print(f"  {time.strftime('%H:%M:%S')} {kind} x{len(seeds)} gathered (+{time.time() - t:.0f}s)", flush=True)
+        return sorted(res, key=lambda r: (r["seed"], r.get("situation", "")))
+    return gather
+
+
+def run_lives(pool, home, seeds, kind, life0, workers, **kw):
+    return submit_lives(pool, home, seeds, kind, life0, workers, **kw)()
 
 
 # ================================================================================================ situations
@@ -344,23 +354,28 @@ def run(a) -> int:
                     "frozen": dict(home=homes["frozen"])}
             if c == a.cycles:
                 arms["learning_chooser_off"] = dict(home=homes["learning"], chooser_on=False)
-            rec["probes"] = {}
+            # queue every probe set and the wake lives at once (one barrier per cycle), then gather in order
+            pend = {}
             for arm, kw in arms.items():
-                rec["probes"][arm] = {
-                    "fresh": run_lives(pool, kw["home"], fresh, "life", 20_000_000 + c * 1000, a.workers,
-                                       chooser_on=kw.get("chooser_on", True), steps=a.max_steps),
-                    "transfer": run_lives(pool, kw["home"], trans, "life", 21_000_000 + c * 1000, a.workers,
-                                          chooser_on=kw.get("chooser_on", True), config=TRANSFER, steps=a.max_steps),
-                    "situations": run_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * 1000, a.workers,
-                                            chooser_on=kw.get("chooser_on", True), bank=bank)}
-            rec["probe_seconds"] = round(time.time() - t0)
+                pend[arm] = {
+                    "fresh": submit_lives(pool, kw["home"], fresh, "life", 20_000_000 + c * 1000, a.workers,
+                                          chooser_on=kw.get("chooser_on", True), steps=a.max_steps),
+                    "transfer": submit_lives(pool, kw["home"], trans, "life", 21_000_000 + c * 1000, a.workers,
+                                             chooser_on=kw.get("chooser_on", True), config=TRANSFER, steps=a.max_steps)}
             if c < a.cycles:
                 # wake: the learning twin lives new practice worlds; its lives become its experience
                 seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
                 st = json.loads((homes["learning"] / "individual.json").read_text())["state_hash"]
-                rec["wake"] = {"learning": run_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
-                                                     archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
-                                                     state_hash=st, steps=a.max_steps)}
+                wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
+                                    archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
+                                    state_hash=st, steps=a.max_steps)
+            for arm, kw in arms.items():
+                pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * 1000,
+                                                       a.workers, chooser_on=kw.get("chooser_on", True), bank=bank)
+            rec["probes"] = {arm: {k: g() for k, g in p.items()} for arm, p in pend.items()}
+            rec["probe_seconds"] = round(time.time() - t0)
+            if c < a.cycles:
+                rec["wake"] = {"learning": wake()}
                 if c == 0 and not fixed_buf.exists():       # the reference twin's fixed buffer: the cycle-0 lives only
                     shutil.copytree(own, fixed_buf)
                 rec["sleep"] = {"learning": sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning"),
