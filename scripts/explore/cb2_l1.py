@@ -209,6 +209,32 @@ def build_bank(home, seeds, out: Path) -> list[dict]:
 
 
 # ================================================================================================ sleep
+def _cpu_quota() -> int:
+    try:
+        q, per = open("/sys/fs/cgroup/cpu.max").read().split()[:2]
+        if q != "max":
+            return max(1, min(os.cpu_count() or 1, int(int(q) / int(per))))
+    except Exception:
+        pass
+    return os.cpu_count() or 1
+
+
+def _sleep_init(gpu, threads):
+    """Spawned sleep process: its own GPU (when there are two) and its share of the CPU."""
+    if gpu is not None:
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu)
+    os.environ["L1_SLEEP_THREADS"] = str(threads)
+
+
+def _n_gpus() -> int:
+    import subprocess
+    try:
+        return len([l for l in subprocess.run(["nvidia-smi", "-L"], capture_output=True, text=True).stdout.splitlines()
+                    if l.startswith("GPU ")])
+    except Exception:
+        return 0
+
+
 def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: Path, a, twin: str = "learning") -> dict:
     """One sleep of the learning twin: L-A core, selector re-anchoring, L-C chooser, one consolidation."""
     import torch
@@ -218,6 +244,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     from continuous_brain_cb2.data import SequenceSampler
     from continuous_brain_cb2.skill_host import pack_weights, unpack_chooser, unpack_weights
     from continuous_brain_cb2.world_model import PredictiveCore
+    torch.set_num_threads(int(os.environ.get("L1_SLEEP_THREADS", 0)) or _cpu_quota())   # nproc is the host's
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(1000 + cycle)
     ind, meta = load_individual(twin_home, vision())
@@ -302,9 +329,11 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
                                                                         "own_streams": sorted(s.stream for s in s_own.streams)},
                "updates": {"core": a.core_updates, "anchor": a.anchor_updates, "chooser": a.chooser_updates}, "code": git_rev()}
     _consolidate(twin_home, ind, meta, vision(), weights, lineage, candidate=True)
-    with open(out / "sleep.jsonl", "a") as fh:
-        for r in log:
-            fh.write(json.dumps(r) + "\n")
+    fd = os.open(out / "sleep.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)   # one append: twins may sleep at once
+    try:
+        os.write(fd, "".join(json.dumps(r) + "\n" for r in log).encode())
+    finally:
+        os.close(fd)
     return {"cycle": cycle, "seconds": round(time.time() - t0), "last": log[-6:]}
 
 
@@ -332,6 +361,13 @@ def run(a) -> int:
     ctx = mp.get_context("fork")
     bank_f = out / "situations.pkl"
     from concurrent.futures import ProcessPoolExecutor
+    ng = _n_gpus()
+    sleepers = []
+    if ng >= 2 or os.environ.get("L1_PARALLEL_SLEEP") == "1":
+        th = max(1, _cpu_quota() // 2)
+        sleepers = [ProcessPoolExecutor(1, mp_context=mp.get_context("spawn"), initializer=_sleep_init,
+                                        initargs=(g if ng >= 2 else None, th)) for g in (0, 1)]
+    print(f"gpus: {ng}  sleeps: {'parallel' if sleepers else 'sequential'}", flush=True)
     with ProcessPoolExecutor(a.workers, mp_context=ctx) as pool:
         if not bank_f.exists():
             seeds = list(range(SITU0, SITU0 + a.situation_worlds))
@@ -378,12 +414,19 @@ def run(a) -> int:
                 rec["wake"] = {"learning": wake()}
                 if c == 0 and not fixed_buf.exists():       # the reference twin's fixed buffer: the cycle-0 lives only
                     shutil.copytree(own, fixed_buf)
-                rec["sleep"] = {"learning": sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning"),
-                                "reference": sleep(homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")}
+                if sleepers:                                 # the two twins sleep at once, each on its own GPU
+                    fl = sleepers[0].submit(sleep, homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning")
+                    fr = sleepers[1].submit(sleep, homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")
+                    rec["sleep"] = {"learning": fl.result(), "reference": fr.result()}
+                else:
+                    rec["sleep"] = {"learning": sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning"),
+                                    "reference": sleep(homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")}
             rec["seconds"] = round(time.time() - t0)
             with open(out / "cycles.jsonl", "a") as fh:
                 fh.write(json.dumps(rec, default=str) + "\n")
             print(json.dumps({"cycle": c, "seconds": rec["seconds"], **summary_line(rec)}), flush=True)
+    for x in sleepers:
+        x.shutdown()
     return 0
 
 
