@@ -27,6 +27,8 @@ from .data import N_ACTIONS
 
 N_COMMANDS = 8
 DEATH = 10.0                      # the death signal (drive), as in S2b
+VCLIP = 15.0                      # value head output bound (symlog space: |v| <= ~3.3e6, far above any real return);
+GRAD_CLIP = 100.0                 # without it the value head overflowed to inf/NaN in the first L1 GPU sleep
 
 
 @dataclass
@@ -66,7 +68,7 @@ class Chooser(nn.Module):
         return self.hands(torch.cat([feat, F.one_hot(command, N_COMMANDS).float()], -1))
 
     def v(self, feat):
-        return symexp(self.value(feat).squeeze(-1))
+        return symexp(self.value(feat).squeeze(-1).clamp(-VCLIP, VCLIP))
 
     # ----------------------------------------------------------------------------------------- acting
     @torch.no_grad()
@@ -91,9 +93,10 @@ class Chooser(nn.Module):
         g = self.imagined_returns(core, post)
         logp = F.log_softmax(prior_logits.reshape(-1), -1)
         score = g + self.cfg.tau * logp
-        c = int(score.argmax())
+        bad = not bool(torch.isfinite(score).all())
+        c = int(logp.argmax()) if bad else int(score.argmax())   # never act on non-finite imagination: the prior decides
         return c, {"imagined": [round(float(x), 3) for x in g], "prior_choice": int(logp.argmax()), "chosen": c,
-                   "changed": c != int(logp.argmax())}
+                   "changed": c != int(logp.argmax()), "nonfinite": bad}
 
     # ----------------------------------------------------------------------------------------- learning
     def losses(self, feat, command, action, reward, done, is_first):
@@ -120,9 +123,15 @@ class Chooser(nn.Module):
         self.train()
         loss, m = self.losses(*args)
         self.opt.zero_grad(set_to_none=True)
+        if not bool(torch.isfinite(loss)):                # skip (and count) a non-finite update instead of applying it
+            return {**m, "skipped": 1}
         loss.backward()
+        gn = torch.nn.utils.clip_grad_norm_(self.parameters(), GRAD_CLIP)
+        if not bool(torch.isfinite(gn)):
+            self.opt.zero_grad(set_to_none=True)
+            return {**m, "skipped": 1, "grad_norm": float(gn)}
         self.opt.step()
-        return m
+        return {**m, "skipped": 0, "grad_norm": float(gn)}
 
     # ----------------------------------------------------------------------------------------- persistence
     def state_dict_full(self) -> dict:

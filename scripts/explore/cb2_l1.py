@@ -277,6 +277,9 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     for s in s_own.streams:                                 # the command it chose at every row (wake sidecar)
         s.cols["command"] = np.load(Path(own_archive) / f"{s.stream}.cmd.npy").astype(np.int64)
         assert len(s.cols["command"]) == len(s), s.stream
+        for col in ("reward", "done"):                      # bad numbers in its own lives would poison the value head
+            if col in s.cols and not np.isfinite(np.asarray(s.cols[col], float)).all():
+                raise RuntimeError(f"{twin} sleep {cycle}: non-finite {col} in {s.stream}")
     log = []
     t0 = time.time()
     # L-A: the core continues, alternating its recent lives with its whole past
@@ -321,6 +324,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     ch = ch0 if ch0 is not None else Chooser(ChooserConfig(tau=a.tau, horizon=a.horizon), core.feat_size, dev)
     ch.to(dev); ch.device = dev
     ch.train()
+    skipped = 0
     for u in range(1, a.chooser_updates + 1):
         b = s_own.batch(a.batch)
         f = feats(core, b)[:, burn:]
@@ -329,12 +333,20 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         r_next = np.concatenate([b["reward"][:, burn + 1:], np.zeros_like(b["reward"][:, :1])], 1)
         m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(r_next, torch.float32),
                           (1 - tt(b["cont"][:, burn:], torch.float32)).bool(), tt(b["is_first"][:, burn:], torch.float32))
+        skipped += m.get("skipped", 0)
+        if skipped > max(5, a.chooser_updates // 100):     # tripwire: stop loudly rather than learn from bad numbers
+            raise RuntimeError(f"{twin} sleep {cycle}: {skipped} non-finite chooser updates by update {u}")
         if u % 250 == 0 or u == a.chooser_updates:
-            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, "s": round(time.time() - t0), **m})
+            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, "s": round(time.time() - t0),
+                        "skipped_so_far": skipped, **m})
     ch.eval()
     for x in (core, pol, ch):
         x.to("cpu")
     core.device = pol.device = ch.device = "cpu"
+    for name, x in (("core", core), ("selector", pol), ("chooser", ch)):   # tripwire: never consolidate bad numbers
+        badp = [n for n, p_ in x.named_parameters() if not bool(torch.isfinite(p_).all())]
+        if badp:
+            raise RuntimeError(f"{twin} sleep {cycle}: non-finite {name} parameters {badp[:5]} -- not consolidated")
     weights = pack_weights(core, pol, ch)
     lineage = {"kind": "cb2-l1-sleep", "twin": twin, "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
                                                                         "own_streams": sorted(s.stream for s in s_own.streams)},

@@ -31,6 +31,14 @@ if [ ! -f $W/.l1_restored ]; then
   touch $W/.l1_restored
 fi
 cd "$CODE"
+# a reused pod gets the uploaded code too, and a run never resumes across code revisions
+if [ "$(git rev-parse HEAD)" != "$(cat $W/cb2_l1_code.rev)" ]; then
+  git fetch -q "$W/cb2_l1_code.bundle" explore/cb2-r3 && git checkout -q --detach FETCH_HEAD
+fi
+[ "$(git rev-parse HEAD)" = "$(cat $W/cb2_l1_code.rev)" ] || { echo "STOP: code revision differs"; exit 1; }
+if [ -f runs/explore/cb2/l1/run.json ] && ! grep -q "$(cat $W/cb2_l1_code.rev)" runs/explore/cb2/l1/run.json; then
+  S=runs/explore/cb2/l1-stale-$(date -u +%Y%m%dT%H%M%S); mv runs/explore/cb2/l1 "$S"; echo "== a run from older code moved aside to $S"
+fi
 PINS="numpy==2.4.4 scipy==1.17.1 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest"
 if [ ! -x $W/venv/bin/python ]; then
   if python3 -m venv --system-site-packages $W/venv 2>/dev/null; then $W/venv/bin/pip install -q $PINS
@@ -39,7 +47,7 @@ if [ ! -x $W/venv/bin/python ]; then
 fi
 export PATH=$W/venv/bin:$PATH PYTHONPATH=$CODE OPENBLAS_NUM_THREADS=1
 python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
-python -m pytest -q -p no:cacheprovider tests/test_cb2_core.py tests/test_cb2_core_map.py tests/test_cb2_consolidation.py tests/test_cb2_intent.py
+python -m pytest -q -p no:cacheprovider tests/test_cb2_core.py tests/test_cb2_core_map.py tests/test_cb2_consolidation.py tests/test_cb2_intent.py tests/test_cb2_chooser_guards.py
 python - <<'PY'
 import json
 m = json.load(open("runs/explore/cb2/candidates/s2b-final/cb2-ind-0001/individual.json"))
