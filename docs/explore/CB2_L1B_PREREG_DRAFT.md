@@ -93,10 +93,15 @@ L1 measures are kept as descriptive secondaries.
   variance.
 - Capping survival does not raise the standardised effect (≈0.13 at caps 750–1,500), so raw steps stay.
 
-**At N = 1,200 per family** (SD 430, one-sided 95% lower bound):
+**At N = 1,200 per family** (SD 430, one-sided 95% lower bound). Sol recomputed these independently from L1's records
+(`cb_exchange/sol_l1b_power_review.json`): about 83% joint power at +40, 46% at +30, 26% at +25.
 - single comparison: 94% power at +40; minimum detectable effect (MDE) at 80% power is **31 steps**;
 - the joint four-way claim (both comparisons × both families; L−F vs L−Y correlation 0.45–0.51 in L1): 81% at +40
   everywhere, 43% at +30.
+
+**Sensitivity (Sol).** If every SD is 20% larger, joint power at +40 falls to about 60%. The yoked control and the
+final-only primary may change the variance and correlations, so this power is a planning assumption, not a
+guarantee.
 
 **Honest limit.** L1's transfer point estimate vs frozen was −9.6. If the true transfer effect is near zero, this run
 reports that as a bounded small effect; it does not diagnose the cause.
@@ -185,22 +190,44 @@ bounds the effect of *this implementation, at this budget, on this metric*.
 - Scaling to more workers is **not assumed**. `bench-lives` measures it on the actual pod with its real CPU quota and
   RAM, before the loop starts and again on any pod used for the final battery.
 
-**Price.**
-- RunPod lists the RTX 4090 at $0.89/h on its pricing page (2026-10-11). The live rate is read in the console at
-  launch.
-- CPU-pod prices are not published there; they are read in the console too.
+**Price and capacity** (Sol's live RunPod reads, 2026-10-11 ~21:40 UTC, `cb_exchange/sol_next_run_compute_evidence.json`;
+these are not a launch quote):
+- **RTX 4090:** catalog $0.89/GPU-h (secure), so $1.78/h for a pair. **2× RTX 4090 currently reports availability NONE**
+  in both secure and community.
+- **CPU pods:** every listed CPU3/CPU5 flavour supports at most **32 vCPUs per pod**. CPU3c is $0.03/vCPU-h, so
+  **$0.96/h for 32 vCPUs**. One or two 32-vCPU pods, not one 64.
 
-**Estimate (2× RTX 4090 at $1.78/h).**
-- **Loop:** about 10 × 5,900 s ≈ 16.5 h ≈ **$29**. Sleep dominates, as in L1.
-- **Final battery, worst case on the same GPU pod:** ~115 worker-hours, ≈ 7.7 h at 15 workers ≈ **$14**. On a
-  many-core CPU pod it costs less, *if* `bench-lives` confirms the scaling.
-- **Setup and bench:** ≈ 1 h ≈ $2.
-- **Total ≈ $35–45.** This needs David's approval against what remains of his GPU budget.
+**Estimate.**
+- **Loop on 2× RTX 4090:** about 10 × 5,900 s ≈ 16.5 h ≈ **$29**. Sleep dominates, as in L1.
+- **If no GPU pair is available,** three alternatives, each projected by `bench-sleep` on the actual pod before
+  committing:
+  - (a) 1× RTX 4090 with both sleeps sharing the GPU (`L1_PARALLEL_SLEEP=1`, already supported): slower per cycle,
+    cheaper per hour;
+  - (b) another GPU pair (e.g. 2× RTX 3090 / A5000);
+  - (c) one 48 GB GPU running both sleeps.
+- **Final battery:** ~115 worker-hours.
+  - On one 32-vCPU CPU pod: ≈ 4 h ≈ **$4**, *if* `bench-lives` shows ~30 useful workers.
+  - Worst case on the GPU pod: ≈ 7.7 h ≈ $14.
+- **Setup, benches and storage:** ≈ $3–5.
+- **Total ≈ $35–50** depending on the GPU option. This needs David's approval against what remains of his GPU budget.
 
 ## 8. Launch gates
 
 1. Sol has verified the §6 delta (the repairs 93f3c45 are verified, S-003).
-2. Sol's CPU memory diagnostic has reported. If it shows no history benefit over the one-step baseline, we decide
-   together whether L1b's core objective changes before launch.
-3. `bench-lives` on the launch pod puts the workload inside the approved budget.
-4. This document is locked (hashed, committed) with the code revision, and David has approved the cost.
+2. **Cleared (S-007, 21:51 UTC).** Sol's locked CPU memory diagnostic passed its joint rule.
+   - Coverage: 48 episodes, 16 held-out test worlds, frozen L1 cores.
+   - Learning-core balanced knownness accuracy beat:
+     - its own one-step baseline: +5.85 points, lower95 4.29;
+     - its frame/body embedding: +2.82 (1.37);
+     - the reference core: +1.76 (0.75);
+     - the frozen core: +2.54 (1.26);
+     - the spatial prior: +10.77 (8.35).
+   - Result sha `01e932f2…`.
+   - **Limits (Sol):** this is retained perceptual-map information on the frozen-S2b policy distribution. It is not
+     behavioural growth, learned hands or general memory; 16 test worlds; bounds conditional on fit readouts; trained
+     map heads remain weak in absolute tile-type accuracy (~18%). The no-history trigger did not fire, so L1b's core
+     objective stays.
+3. A GPU option is available. `bench-sleep` and `bench-lives` on the launch pod put the workload inside the approved
+   budget.
+4. This document is locked (hashed, committed) with the code revision. It is recorded in the repo and Linear (Sol's
+   S-006 found no L1b record on Linear yet). David has approved the cost.
