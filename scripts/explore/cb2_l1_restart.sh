@@ -6,16 +6,17 @@ set -uo pipefail
 cd ~/projects/continuous_brain_explore || exit 1
 RP=./runpodctl; K=/home/davei/.runpod/ssh/runpodctl-ssh-key; X=/mnt/c/Users/davei/ContinuousBrain/cb_exchange
 (cd $X/l1 && sha256sum -c cb2_l1_SHA256SUMS) || { echo "STOP: package checksum"; exit 1; }
-$RP pod list > /tmp/cb2_pods.json
-read -r POD N < <(python3 - /tmp/cb2_pods.json <<'PY'
+$RP pod list --all > /tmp/cb2_pods.json            # --all: a stopped (EXITED) pod is listed too
+read -r POD N ST < <(python3 - /tmp/cb2_pods.json <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1])); d = d if isinstance(d, list) else d.get("pods", [])
 p = [x for x in d if x.get("name") == "cb2-l1"]
-print(p[0]["id"] if p else "", len(p))
+print(p[0]["id"] if p else "-", len(p), (p[0].get("desiredStatus") or "?") if p else "-")
 PY
 )
-[ -n "$POD" ] || { echo "no cb2-l1 pod found"; cat /tmp/cb2_pods.json; exit 1; }
+[ "$POD" != "-" ] || { echo "no cb2-l1 pod found"; cat /tmp/cb2_pods.json; exit 1; }
 [ "$N" = "1" ] || { echo "STOP: $N cb2-l1 pods -- delete the extra one(s) first"; cat /tmp/cb2_pods.json; exit 1; }
+[ "$ST" = "RUNNING" ] || { echo "STOP: pod $POD is $ST -- start it first (Runpod console: Start, with 0 GPUs if its GPUs are taken)"; exit 1; }
 $RP pod get "$POD" > /tmp/cb2_get.json
 read -r IP PORT < <(python3 - /tmp/cb2_get.json <<'PY'
 import json, re, sys
