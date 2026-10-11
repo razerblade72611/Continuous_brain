@@ -50,29 +50,53 @@ changes) versus matched-world experience from the frozen S2b policy, with identi
 ## 3. Schedule and worlds (new experiment: nothing reused from L1)
 
 **Schedule.**
-- Practice run **10** (seeds 90,000,000 + cycle × 10,000 + n). Runs 0–9 are taken (L1 = 9) and are refused by the
-  code.
+- Practice run **11** (seeds 91,000,000 + cycle × 10,000 + n). Runs 0–9 are taken (L1 = 9) and run 10 was touched
+  by CPU rehearsals; all are refused by the code.
 - 10 wake/sleep cycles, 20 practice lives per cycle for the learning twin. The frozen twin lives the same 20 worlds
   for the yoked archive.
 - 2 held-out lives per cycle, never slept on.
 - Sleep budgets as L1: core 1,500, anchor 1,000, chooser 1,500 updates; batch 16, T 256.
 
-**Development world blocks, all new.** Each is checked at start against L1's actual probe and situation worlds
-(78100–79639), Sol's claimed diagnostic block (83090–83195), every other family and the sealed ranges:
+**Development world blocks, all new.** Each is checked at start against:
+- L1's actual probe and situation worlds (78100–79639);
+- Sol's claimed diagnostic block (83090–83195);
+- **every world a CPU rehearsal touched before the lock** (the `TOUCHED` list in the code: 84000–84002, 86000–86002,
+  88000–88001, 88100–88101, 92000–92001, 92100–92101, 94000, plus repair-era 80100–80101, 80200–80201, 82100);
+- every other family and the sealed ranges.
 
 | family | worlds | role |
 |---|---|---|
-| per-cycle fresh | 88000 + 100c, 40 worlds | growth curve (secondary) |
-| per-cycle transfer | 92000 + 100c, 40 worlds | growth curve (secondary) |
-| situations | 94000–94023 (×3) | growth curve (secondary) |
-| final fresh | 84000–85199 | primary |
-| final transfer | 86000–87199 | primary |
+| per-cycle fresh | 88050 + 100c, 40 worlds | growth curve (secondary) |
+| per-cycle transfer | 92050 + 100c, 40 worlds | growth curve (secondary) |
+| situations | 94050–94073 (×3) | growth curve (secondary) |
+| final fresh | 84100–85299 | primary |
+| final transfer | 86100–87299 | primary |
 | timing | 95000–95099 | throughput only, never scored |
 
-**Integrity.**
+**Rehearsals** (`--rehearsal`) use their own smoke blocks (96000+, 97000+, 98000, final 98500/99000) and practice run
+99. They are recorded in the lock, and the report says **"rehearsal: no claim"**.
+
+**Integrity** (Sol, S-009):
+- **The lock (`run.json`) is written once, read-only, and never rewritten.** A resume first checks, before writing
+  anything:
+  - the code revision, with a clean tree;
+  - every experimental argument (only the worker count and paths may differ);
+  - the origin and bootstrap input hashes;
+  - and the recorded progress against each twin's consolidation count.
+
+  If anything differs, it refuses.
+- **A checksummed origin manifest** (S2b's metadata and snapshot files) lets the rollback check run on any machine.
+- **Pairing is strict:** exactly the expected worlds, no duplicates, finite values, or the report stops. The
+  chooser-off comparison is an explicit expected subset.
+- **Final-battery files are bound and checksummed:** each records the run id, revision, condition (arm, family,
+  chooser, configuration, max steps, state hash, worlds) and a content checksum, and is written as each set
+  completes. A set that was started but never recorded stops the battery instead of being silently rerun.
 - One code revision for the whole run: the final battery refuses another revision.
-- Cycle 0 must give identical probe lives across all arms (instrument check), or the run stops with the evidence
-  kept.
+- **Cycle 0 must give identical probe lives across all arms,** or the run stops with the evidence kept. Every
+  expected arm and row must be present, and each life is compared by:
+  - its action/command trace hash;
+  - its length and death;
+  - its unlocks and requests.
 - A sleep tripwire stops the run and is reported as a failure.
 - Nothing is silently rerun.
 
@@ -186,6 +210,11 @@ bounds the effect of *this implementation, at this budget, on this metric*.
 | final: 3 arms × (1,200 + 1,200), plus chooser-off 300 + 300 | 7,800 | ≈ 4.95 M |
 
 **Throughput.**
+- `bench-sleep --concurrent 2` runs both sleeps at once on one GPU (the single-GPU option). It reports wall time,
+  peak GPU memory and peak host RAM per sleeper.
+  - A CPU smoke run in an 8 GB container was killed for running out of memory, at about 3 GB per sleeper, so a
+    one-GPU pod needs real RAM headroom.
+- `bench-lives` measures several worker counts, on S2b *and* on a retained learner with its chooser active.
 - L1 and the rehearsal measured ~12–13 steps/s per worker.
 - Scaling to more workers is **not assumed**. `bench-lives` measures it on the actual pod with its real CPU quota and
   RAM, before the loop starts and again on any pod used for the final battery.
