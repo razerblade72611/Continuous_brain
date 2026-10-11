@@ -18,3 +18,9 @@ About $15-20 of the L1 spend was avoidable. Each rule below comes from one of th
    a stuck pod billed ~7 h unnoticed.
 7. **Estimates are ranges with their unmeasured input named** ("depends on sleep time, not yet measured"),
    and that input gets measured before money is committed.
+8. **Rehearse on the hardware the run uses** (a GPU-only device bug crashed the first GPU sleep; every rehearsal was CPU).
+9. **Kill whole process trees, verify, and give runs an identity.** Name-based pkill missed spawned children, which then wrote
+   into the next run's directory. Runs carry a run_id that every writer checks; a pod refuses to start with leftovers alive.
+10. **Large data stays on the WSL (ext4) side**; only small files cross to Windows folders (cross-OS bulk I/O is slow).
+11. **Two agents share this machine and RunPod account:** claim pods/processes/folders in cb_exchange/COORDINATION.md,
+    name pods by owner, select pods by exact name, and never stop or delete what the other agent owns.
