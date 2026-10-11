@@ -1,0 +1,48 @@
+{
+ "format": "cb2-probe-life/1",
+ "status": "ENGINEERING_ONLY",
+ "git": "b6a76ee1aba5ea5751136a8022492377eec7b4cf",
+ "git_dirty": false,
+ "core": "runs/explore/cb2/l1/core-frozen.pt",
+ "core_sha256": "894e4d3e4ae5cdbba7eadc24e07985378e7650b477ea94c82545609d4ad35a0e",
+ "heldout_lives": [
+  30009000,
+  30009001,
+  30010000,
+  30010001,
+  30011000,
+  30011001,
+  30012000,
+  30012001,
+  30013000,
+  30013001,
+  30014000,
+  30015000,
+  30016000,
+  30017000,
+  30018000,
+  30019000,
+  30020000,
+  30021000,
+  30022000,
+  30023000
+ ],
+ "skip": 64,
+ "every": 4,
+ "known_out_of_view_r2": {
+  "trained": {
+   "r2": 0.0191,
+   "penalty": 10.0
+  },
+  "untrained": {
+   "r2": -0.0108,
+   "penalty": 100.0
+  },
+  "frame": {
+   "r2": 0.0156,
+   "penalty": 100.0
+  }
+ },
+ "map_head_oov": null,
+ "gate4_reading": "persistent state shown if trained > frame and trained > untrained on known-out-of-view R^2, and the map head beats the constant guess out of view"
+}

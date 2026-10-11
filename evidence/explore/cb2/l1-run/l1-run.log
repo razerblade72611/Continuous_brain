@@ -1,0 +1,250 @@
+gpus: 2  sleeps: parallel
+  03:02:33 life x40 gathered (+93s)
+  03:03:19 life x40 gathered (+139s)
+  03:06:52 situation x64 gathered (+352s)
+  03:06:52 life x40 gathered (+352s)
+  03:06:52 life x40 gathered (+352s)
+  03:07:29 situation x64 gathered (+389s)
+  03:07:29 life x40 gathered (+389s)
+  03:07:29 life x40 gathered (+389s)
+  03:08:05 situation x64 gathered (+425s)
+  03:08:05 life x20 gathered (+425s)
+/workspace/Continuous_brain/scripts/explore/cb2_l1.py:340: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "s": round(time.time() - t0), "kl": float(loss),
+/workspace/Continuous_brain/scripts/explore/cb2_l1.py:340: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "s": round(time.time() - t0), "kl": float(loss),
+{"cycle": 0, "seconds": 4994, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 0.0, "lower95": 0.0}, "unlocks": {"n": 40, "mean": 0.0, "lower95": 0.0}}, "transfer": {"survival": {"n": 40, "mean": 0.0, "lower95": 0.0}, "unlocks": {"n": 40, "mean": 0.0, "lower95": 0.0}}, "situations": {"survival": {"n": 64, "mean": 0.0, "lower95": 0.0}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": 0.0, "lower95": 0.0}, "unlocks": {"n": 40, "mean": 0.0, "lower95": 0.0}}, "transfer": {"survival": {"n": 40, "mean": 0.0, "lower95": 0.0}, "unlocks": {"n": 40, "mean": 0.0, "lower95": 0.0}}, "situations": {"survival": {"n": 64, "mean": 0.0, "lower95": 0.0}}}, "chooser_changed_share": 0.0}
+  04:29:43 life x40 gathered (+329s)
+  04:30:35 life x40 gathered (+381s)
+  04:41:45 situation x64 gathered (+1052s)
+  04:41:45 life x40 gathered (+1052s)
+  04:41:45 life x40 gathered (+1052s)
+  04:43:52 situation x64 gathered (+1178s)
+  04:43:52 life x40 gathered (+1178s)
+  04:43:52 life x40 gathered (+1178s)
+  04:44:16 situation x64 gathered (+1202s)
+  04:44:16 life x20 gathered (+1202s)
+{"cycle": 1, "seconds": 5738, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": -27.3, "lower95": -119.62625}, "unlocks": {"n": 40, "mean": -0.2, "lower95": -1.1}}, "transfer": {"survival": {"n": 40, "mean": -88.975, "lower95": -202.4}, "unlocks": {"n": 40, "mean": -0.65, "lower95": -1.25}}, "situations": {"survival": {"n": 64, "mean": 0.40625, "lower95": -22.625}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -110.05, "lower95": -221.1525}, "unlocks": {"n": 40, "mean": 0.25, "lower95": -0.725}}, "transfer": {"survival": {"n": 40, "mean": -71.875, "lower95": -191.01}, "unlocks": {"n": 40, "mean": 0.05, "lower95": -0.7}}, "situations": {"survival": {"n": 64, "mean": 10.09375, "lower95": -10.110937499999999}}}, "chooser_changed_share": 0.054610804141408724}
+  06:05:30 life x40 gathered (+338s)
+  06:08:18 life x40 gathered (+506s)
+  06:17:28 situation x64 gathered (+1056s)
+  06:17:28 life x40 gathered (+1056s)
+  06:17:28 life x40 gathered (+1056s)
+  06:19:44 situation x64 gathered (+1192s)
+  06:19:44 life x40 gathered (+1192s)
+  06:19:44 life x40 gathered (+1192s)
+  06:19:44 situation x64 gathered (+1192s)
+  06:19:44 life x20 gathered (+1192s)
+{"cycle": 2, "seconds": 5751, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": -34.725, "lower95": -138.775}, "unlocks": {"n": 40, "mean": -0.3, "lower95": -1.225}}, "transfer": {"survival": {"n": 40, "mean": 57.375, "lower95": -24.904999999999994}, "unlocks": {"n": 40, "mean": -0.275, "lower95": -1.05}}, "situations": {"survival": {"n": 64, "mean": -7.578125, "lower95": -24.87578125}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -16.15, "lower95": -102.1}, "unlocks": {"n": 40, "mean": -0.75, "lower95": -1.75}}, "transfer": {"survival": {"n": 40, "mean": 54.4, "lower95": -74.75125}, "unlocks": {"n": 40, "mean": 0.4, "lower95": -0.675}}, "situations": {"survival": {"n": 64, "mean": 1.484375, "lower95": -18.128124999999997}}}, "chooser_changed_share": 0.026033513074737634}
+  07:40:51 life x40 gathered (+308s)
+  07:42:58 life x40 gathered (+434s)
+  07:55:24 situation x64 gathered (+1181s)
+  07:55:24 life x40 gathered (+1181s)
+  07:55:24 life x40 gathered (+1181s)
+  07:57:11 situation x64 gathered (+1288s)
+  07:57:11 life x40 gathered (+1288s)
+  07:57:11 life x40 gathered (+1288s)
+  07:57:11 situation x64 gathered (+1288s)
+  07:57:11 life x20 gathered (+1288s)
+{"cycle": 3, "seconds": 5840, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 3.775, "lower95": -97.53}, "unlocks": {"n": 40, "mean": -0.075, "lower95": -0.9}}, "transfer": {"survival": {"n": 40, "mean": -171.35, "lower95": -317.25}, "unlocks": {"n": 40, "mean": -0.625, "lower95": -1.275}}, "situations": {"survival": {"n": 64, "mean": -7.890625, "lower95": -24.65625}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -44.3, "lower95": -162.025}, "unlocks": {"n": 40, "mean": -0.275, "lower95": -1.4}}, "transfer": {"survival": {"n": 40, "mean": -56.6, "lower95": -175.1}, "unlocks": {"n": 40, "mean": 0.2, "lower95": -0.575}}, "situations": {"survival": {"n": 64, "mean": 1.0625, "lower95": -15.640625}}}, "chooser_changed_share": 0.05239698420977761}
+  09:20:53 life x40 gathered (+469s)
+  09:22:51 life x40 gathered (+587s)
+  09:31:20 situation x64 gathered (+1096s)
+  09:31:20 life x40 gathered (+1096s)
+  09:31:20 life x40 gathered (+1096s)
+  09:33:14 situation x64 gathered (+1210s)
+  09:33:14 life x40 gathered (+1210s)
+  09:33:14 life x40 gathered (+1210s)
+  09:33:21 situation x64 gathered (+1218s)
+  09:33:21 life x20 gathered (+1218s)
+{"cycle": 4, "seconds": 5773, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 23.15, "lower95": -109.10624999999999}, "unlocks": {"n": 40, "mean": -0.1, "lower95": -0.975}}, "transfer": {"survival": {"n": 40, "mean": -57.325, "lower95": -180.65125}, "unlocks": {"n": 40, "mean": -0.65, "lower95": -1.55}}, "situations": {"survival": {"n": 64, "mean": -0.34375, "lower95": -17.6875}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": 66.275, "lower95": -72.97625}, "unlocks": {"n": 40, "mean": -0.925, "lower95": -1.85}}, "transfer": {"survival": {"n": 40, "mean": -7.575, "lower95": -116.13125}, "unlocks": {"n": 40, "mean": -0.4, "lower95": -1.125}}, "situations": {"survival": {"n": 64, "mean": 17.5625, "lower95": 0.671875}}}, "chooser_changed_share": 0.038561396041711}
+  10:53:48 life x40 gathered (+271s)
+  10:58:24 life x40 gathered (+548s)
+  11:08:33 situation x64 gathered (+1157s)
+  11:08:33 life x40 gathered (+1157s)
+  11:08:33 life x40 gathered (+1157s)
+  11:10:55 situation x64 gathered (+1298s)
+  11:10:55 life x40 gathered (+1298s)
+  11:10:55 life x40 gathered (+1298s)
+  11:10:55 situation x64 gathered (+1298s)
+  11:10:55 life x20 gathered (+1298s)
+{"cycle": 5, "seconds": 5852, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": -144.55, "lower95": -263.20125}, "unlocks": {"n": 40, "mean": -1.0, "lower95": -1.925}}, "transfer": {"survival": {"n": 40, "mean": 52.35, "lower95": -67.0025}, "unlocks": {"n": 40, "mean": -0.4, "lower95": -1.15}}, "situations": {"survival": {"n": 64, "mean": -7.46875, "lower95": -22.59453125}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -6.15, "lower95": -101.72874999999999}, "unlocks": {"n": 40, "mean": -0.225, "lower95": -0.975}}, "transfer": {"survival": {"n": 40, "mean": -10.875, "lower95": -138.025}, "unlocks": {"n": 40, "mean": -0.2, "lower95": -0.975}}, "situations": {"survival": {"n": 64, "mean": -0.984375, "lower95": -17.1265625}}}, "chooser_changed_share": 0.03356991141273377}
+  12:32:41 life x40 gathered (+351s)
+  12:36:27 life x40 gathered (+578s)
+  12:45:41 situation x64 gathered (+1132s)
+  12:45:41 life x40 gathered (+1132s)
+  12:45:41 life x40 gathered (+1132s)
+  12:47:50 situation x64 gathered (+1261s)
+  12:47:50 life x40 gathered (+1261s)
+  12:47:50 life x40 gathered (+1261s)
+  12:47:50 situation x64 gathered (+1261s)
+  12:47:50 life x20 gathered (+1261s)
+{"cycle": 6, "seconds": 5818, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 132.575, "lower95": 39.745000000000005}, "unlocks": {"n": 40, "mean": 0.175, "lower95": -0.575}}, "transfer": {"survival": {"n": 40, "mean": 106.35, "lower95": 7.275}, "unlocks": {"n": 40, "mean": -0.15, "lower95": -0.85}}, "situations": {"survival": {"n": 64, "mean": -2.90625, "lower95": -22.51640625}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": 14.775, "lower95": -102.0275}, "unlocks": {"n": 40, "mean": -0.475, "lower95": -1.25}}, "transfer": {"survival": {"n": 40, "mean": 150.0, "lower95": 38.198750000000004}, "unlocks": {"n": 40, "mean": 1.2, "lower95": 0.3}}, "situations": {"survival": {"n": 64, "mean": -8.1875, "lower95": -25.92265625}}}, "chooser_changed_share": 0.0446521287642783}
+  14:07:46 life x40 gathered (+239s)
+  14:11:21 life x40 gathered (+454s)
+  14:22:46 situation x64 gathered (+1139s)
+  14:22:46 life x40 gathered (+1139s)
+  14:22:46 life x40 gathered (+1139s)
+  14:24:33 situation x64 gathered (+1246s)
+  14:24:33 life x40 gathered (+1246s)
+  14:24:33 life x40 gathered (+1246s)
+  14:24:33 situation x64 gathered (+1246s)
+  14:24:33 life x20 gathered (+1246s)
+{"cycle": 7, "seconds": 5802, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": -23.275, "lower95": -126.96}, "unlocks": {"n": 40, "mean": -0.375, "lower95": -1.025}}, "transfer": {"survival": {"n": 40, "mean": -103.625, "lower95": -197.425}, "unlocks": {"n": 40, "mean": -0.35, "lower95": -1.1}}, "situations": {"survival": {"n": 64, "mean": 5.546875, "lower95": -12.6875}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -27.525, "lower95": -124.10749999999999}, "unlocks": {"n": 40, "mean": 0.025, "lower95": -0.95}}, "transfer": {"survival": {"n": 40, "mean": -48.85, "lower95": -127.45}, "unlocks": {"n": 40, "mean": 0.8, "lower95": 0.05}}, "situations": {"survival": {"n": 64, "mean": 0.046875, "lower95": -15.859375}}}, "chooser_changed_share": 0.04034284025417467}
+  15:48:05 life x40 gathered (+455s)
+  15:49:38 life x40 gathered (+548s)
+  15:58:54 situation x64 gathered (+1104s)
+  15:58:54 life x40 gathered (+1104s)
+  15:58:54 life x40 gathered (+1104s)
+  16:00:37 situation x64 gathered (+1207s)
+  16:00:37 life x40 gathered (+1207s)
+  16:00:37 life x40 gathered (+1207s)
+  16:00:37 situation x64 gathered (+1207s)
+  16:00:37 life x20 gathered (+1207s)
+{"cycle": 8, "seconds": 5760, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 53.5, "lower95": -73.4}, "unlocks": {"n": 40, "mean": -0.35, "lower95": -1.025}}, "transfer": {"survival": {"n": 40, "mean": -66.075, "lower95": -196.25125}, "unlocks": {"n": 40, "mean": -0.825, "lower95": -1.775}}, "situations": {"survival": {"n": 64, "mean": -1.546875, "lower95": -17.0}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": 140.2, "lower95": 56.99875}, "unlocks": {"n": 40, "mean": 0.95, "lower95": 0.225}}, "transfer": {"survival": {"n": 40, "mean": 16.025, "lower95": -71.3025}, "unlocks": {"n": 40, "mean": 0.075, "lower95": -0.675}}, "situations": {"survival": {"n": 64, "mean": -0.3125, "lower95": -17.53203125}}}, "chooser_changed_share": 0.04168912848158131}
+  17:21:21 life x40 gathered (+291s)
+  17:25:36 life x40 gathered (+547s)
+  17:35:26 situation x64 gathered (+1137s)
+  17:35:26 life x40 gathered (+1137s)
+  17:35:26 life x40 gathered (+1137s)
+  17:37:46 situation x64 gathered (+1276s)
+  17:37:46 life x40 gathered (+1276s)
+  17:37:46 life x40 gathered (+1276s)
+  17:37:46 situation x64 gathered (+1276s)
+  17:37:46 life x20 gathered (+1276s)
+{"cycle": 9, "seconds": 5813, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 27.7, "lower95": -77.1}, "unlocks": {"n": 40, "mean": 0.15, "lower95": -0.725}}, "transfer": {"survival": {"n": 40, "mean": -44.375, "lower95": -175.6025}, "unlocks": {"n": 40, "mean": 0.15, "lower95": -0.7}}, "situations": {"survival": {"n": 64, "mean": -1.59375, "lower95": -15.625}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": -36.3, "lower95": -162.5025}, "unlocks": {"n": 40, "mean": -0.55, "lower95": -1.175}}, "transfer": {"survival": {"n": 40, "mean": 35.55, "lower95": -84.16499999999999}, "unlocks": {"n": 40, "mean": 0.5, "lower95": -0.325}}, "situations": {"survival": {"n": 64, "mean": -4.125, "lower95": -18.67265625}}}, "chooser_changed_share": 0.060530341662417136}
+  18:59:09 life x40 gathered (+346s)
+  19:03:22 life x40 gathered (+599s)
+  19:13:03 situation x64 gathered (+1180s)
+  19:13:03 life x40 gathered (+1180s)
+  19:13:03 life x40 gathered (+1180s)
+  19:15:26 situation x64 gathered (+1323s)
+  19:15:26 life x40 gathered (+1323s)
+  19:15:26 life x40 gathered (+1323s)
+  19:15:29 situation x64 gathered (+1326s)
+  19:15:29 life x40 gathered (+1326s)
+  19:15:29 life x40 gathered (+1326s)
+  19:16:09 situation x64 gathered (+1366s)
+{"cycle": 10, "seconds": 1366, "vs_frozen": {"fresh": {"survival": {"n": 40, "mean": 73.425, "lower95": -28.576249999999998}, "unlocks": {"n": 40, "mean": 0.15, "lower95": -0.55}}, "transfer": {"survival": {"n": 40, "mean": 59.775, "lower95": -51.13374999999999}, "unlocks": {"n": 40, "mean": -0.05, "lower95": -0.775}}, "situations": {"survival": {"n": 64, "mean": 0.203125, "lower95": -16.359375}}}, "vs_reference": {"fresh": {"survival": {"n": 40, "mean": 129.45, "lower95": 21.5225}, "unlocks": {"n": 40, "mean": 0.3, "lower95": -0.525}}, "transfer": {"survival": {"n": 40, "mean": 112.875, "lower95": 8.022500000000003}, "unlocks": {"n": 40, "mean": 0.2, "lower95": -0.6}}, "situations": {"survival": {"n": 64, "mean": 1.34375, "lower95": -18.5328125}}}, "chooser_changed_share": 0.04904929151023374}
+ "event": "install",
+ "event_sha": "a619c649b6e084e8c568ac2e93ca25db2047701863dd670316d0631b30334d1e",
+ "parent": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+ "state_hash": "6f3c1ed5134c12dc589123b733a02f1d6230d55fd42c386be40b27147b0fbd31",
+ "weights_sha256": "0adf9032983aafba99808597ed532f2fb2a61060fb58e0f6cb117cd551ee60c5",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T042410158939Z_consolidation2"
+ "event": "install",
+ "event_sha": "19e1b61bb4a064aa2dcb9410da361b81b2696f9478d153cd05346abec599fb55",
+ "parent": "6f3c1ed5134c12dc589123b733a02f1d6230d55fd42c386be40b27147b0fbd31",
+ "state_hash": "da357ee510def1eb8de20d171d12e82c8fbc88f04a33231d0431683231bf7936",
+ "weights_sha256": "a244b558698b840c7b6cae1547eb43476030f6959908f97f500066f9a10054b9",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T055948222116Z_consolidation3"
+ "event": "install",
+ "event_sha": "15fe1ff2b519ffdbdf3df7d6306a2734f40e11478bb0a14d36d4c83adadbad4d",
+ "parent": "da357ee510def1eb8de20d171d12e82c8fbc88f04a33231d0431683231bf7936",
+ "state_hash": "a1df8fbf3d6c34f85b3a50053a216a529cb2ae9ccae94b492de01cb67f37f4b1",
+ "weights_sha256": "e6f9ad24b48991748d20579538a2e74ce9cdce84b964a65f20067be921b74bd8",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T073539561510Z_consolidation4"
+ "event": "install",
+ "event_sha": "262738d8694fbb3140c5ba14eabf2e45e3477b37d63bc134fa6dd7214a3321e5",
+ "parent": "a1df8fbf3d6c34f85b3a50053a216a529cb2ae9ccae94b492de01cb67f37f4b1",
+ "state_hash": "88be872daec27749660a5d2d8ff1499061b498c997704a290e379b9b8c205a24",
+ "weights_sha256": "3b59c9440c0ed8f5588c6750534cf1fa75a0beff372f0839b730363f8e44b21d",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T091259772572Z_consolidation5"
+ "event": "install",
+ "event_sha": "edf507e997039da7f3862bdf9bc8eb433e99528ad3e0e7957bd0defe7e011749",
+ "parent": "88be872daec27749660a5d2d8ff1499061b498c997704a290e379b9b8c205a24",
+ "state_hash": "3e51b1c0d96bfc5ee35e7b87bee9bb3b6371569316819c0e7fb7b42d1c691dea",
+ "weights_sha256": "2c9c45ecbbb680a078492c53eeae5062333d26cf81ec7b2a8c0813477c106cdb",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T104913071198Z_consolidation6"
+ "event": "install",
+ "event_sha": "2164b8c21c235b1d69eacce1cb51dcd9798ca6a77db4ca42ce7b97292f14b30e",
+ "parent": "3e51b1c0d96bfc5ee35e7b87bee9bb3b6371569316819c0e7fb7b42d1c691dea",
+ "state_hash": "54194899d7fa3293e0923bdbb9aa354cb486098d0ab2f763182e14b7b7152c0a",
+ "weights_sha256": "7a77c7612ee6da0713828f195fb2ce372dde7d92b6e30fdf7f0a3c2b5ced15cf",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T122645524159Z_consolidation7"
+ "event": "install",
+ "event_sha": "bacbdcd1d5ac84e589588f2f810b6b7ee57b9e569adb2729eeabe11b8d85b418",
+ "parent": "54194899d7fa3293e0923bdbb9aa354cb486098d0ab2f763182e14b7b7152c0a",
+ "state_hash": "5d33789185f46ac57d9bfa26718acd11882e9ccda615cb74c7555396e421b2cd",
+ "weights_sha256": "fb3d71dddf2101ec58b60c4c99e1f1fc3330f3bf83b7a45668bf7b0df4cfa5d4",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T140343558379Z_consolidation8"
+ "event": "install",
+ "event_sha": "3e4ee00f010eebe711b4e4797dbf015e5bb735b081a00a528236c5ca5acab597",
+ "parent": "5d33789185f46ac57d9bfa26718acd11882e9ccda615cb74c7555396e421b2cd",
+ "state_hash": "ea01b515350fa805dabd55d0cbe889d8393d5fc197ce9f8c8545c75fff9a0754",
+ "weights_sha256": "4b163fbebb2b49d37ec578a83290691e1d8ccb156ed9bf35ef6c70f7030a36bc",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T154025807307Z_consolidation9"
+ "event": "install",
+ "event_sha": "bce31589391f50c3a7000634249283aa55fb573761c12ae8f133543b936276dc",
+ "parent": "ea01b515350fa805dabd55d0cbe889d8393d5fc197ce9f8c8545c75fff9a0754",
+ "state_hash": "c435cf8e4b476902fb82cdbc4d91e25e2e67708388bbe86f37e6a6c85c854ecc",
+ "weights_sha256": "15fd4b219f1811d0a0237e61503ab3488dbd2a2e1be0f2b20c16439ffcc1a01f",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T171625982999Z_consolidation10"
+ "event": "install",
+ "event_sha": "a7e60d49ebf728d045eb58d1d7061a6ceccce9c09e58381edeb3a7261b289e5d",
+ "parent": "c435cf8e4b476902fb82cdbc4d91e25e2e67708388bbe86f37e6a6c85c854ecc",
+ "state_hash": "f7c771aeb2532f54b0844ece8ee2770de8cccb5b821f1fd22a036d5a9a4bf732",
+ "weights_sha256": "6a7996b21f235d3d52ddd505b49a8b301a04abd5a98ce3af4b895f6b13653f8e",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/learning/cb2-ind-0001/checkpoints/20261011T185319166441Z_consolidation11"
+ "event": "install",
+ "event_sha": "aeceb74383cb72286e69a98e8f407fcb3ab12acf9150bb52737f94ca0500b6a5",
+ "parent": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+ "state_hash": "e8d698dec8ce4832be64bda38878800ea16b8df5539d3c6fc824b1a84a7063eb",
+ "weights_sha256": "f726082b7808f88f3410d05132ed967b81dc484ec0b1907dd95758786fd604fc",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T042336098611Z_consolidation2"
+ "event": "install",
+ "event_sha": "310acfafac962fd49528d26d28cd8616625faa5e7ddafd7de0116ec747e681ce",
+ "parent": "e8d698dec8ce4832be64bda38878800ea16b8df5539d3c6fc824b1a84a7063eb",
+ "state_hash": "97d5d70659008835578636c838ad07ece5e43ca6c22a09e4feab34cf0b1ca856",
+ "weights_sha256": "8bf4b75e6ac68874beca16503f6b53e33b95ae0f8673a790adeec2b5959c9193",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T055857144226Z_consolidation3"
+ "event": "install",
+ "event_sha": "ebf786c08eb4fe0a476bf098c0e264be134edde67d4a7881c1bceaa95174923d",
+ "parent": "97d5d70659008835578636c838ad07ece5e43ca6c22a09e4feab34cf0b1ca856",
+ "state_hash": "98e312d0d525c428ad5788aedff7469cfbe56f147644c14557df886277755159",
+ "weights_sha256": "24bab15c15822d6a6a54b12cba8482fdcd31f6bc3525d1d9879e9f1f068ecb2b",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T073447620346Z_consolidation4"
+ "event": "install",
+ "event_sha": "9b09f4eff029684efce30658766991a9f9f5ae93f8902397ad63c390ae7fabf6",
+ "parent": "98e312d0d525c428ad5788aedff7469cfbe56f147644c14557df886277755159",
+ "state_hash": "5260ee547ad00c3243e338048fb5b4fe1c983d337a294fabbf4cf31d85d743f1",
+ "weights_sha256": "e1587bda4cec5bad36451dbeef34164610f4fc921802e15c2c7f0229a65b4177",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T091219292035Z_consolidation5"
+ "event": "install",
+ "event_sha": "91f3240a8fa738029b816d9473c8abd19ecc61b8c7dc62312de0874572bf8df5",
+ "parent": "5260ee547ad00c3243e338048fb5b4fe1c983d337a294fabbf4cf31d85d743f1",
+ "state_hash": "6f151727f68a79e792fd2825434e8f5f72ad689f76c34e850b5faa95da0217bd",
+ "weights_sha256": "8079eb9a7ad2773f98f3438f101d80329b9b648f33052a77db2beba52d6b3d05",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T104818094811Z_consolidation6"
+ "event": "install",
+ "event_sha": "ece4abebc501edf7051a8932d081fc2a85886544231768a8f7debdd968e9153f",
+ "parent": "6f151727f68a79e792fd2825434e8f5f72ad689f76c34e850b5faa95da0217bd",
+ "state_hash": "8946d8b3bd252ca9c070cdad7dc7767b838240400637b490475a27e802a0cf23",
+ "weights_sha256": "f7f6a61bb7afa4b5251f15140b982627c275b0c76f8d9b2f531e278b535e9f66",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T122551496723Z_consolidation7"
+ "event": "install",
+ "event_sha": "9656882ec6d8443801eb1cb8dfb5d965118b0aee8ee094d102a5d38ef6383ce2",
+ "parent": "8946d8b3bd252ca9c070cdad7dc7767b838240400637b490475a27e802a0cf23",
+ "state_hash": "98fef4980e559a77d28c5087c5d87eedb158c532e1e1a3c32c9c4aa7cd08e097",
+ "weights_sha256": "1b09ebb9491a5988e87dd6a64020f8001cf775cc4ec8e22e3df1590e0eee5ef6",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T140253160150Z_consolidation8"
+ "event": "install",
+ "event_sha": "351572f53357e10953d65f0170d0d4894aaf60e67235c3d8ae2500804074ae60",
+ "parent": "98fef4980e559a77d28c5087c5d87eedb158c532e1e1a3c32c9c4aa7cd08e097",
+ "state_hash": "4fb3191e2f2435dc8558e153929835ca1899173849a81cb18fe345662dab813c",
+ "weights_sha256": "dce666baa6d82bdbe94dd91fa6b732d73f2272098207aef6c00a64844189fcaa",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T153932572199Z_consolidation9"
+ "event": "install",
+ "event_sha": "69aaf90fafcd5ed0a10fead1eb3126a3ae6970c23f0500bbfce0186125505c87",
+ "parent": "4fb3191e2f2435dc8558e153929835ca1899173849a81cb18fe345662dab813c",
+ "state_hash": "08f8c35ea6f39859654866e5f953847b73ce1c976cd1ee1424a41a635750aaa8",
+ "weights_sha256": "deba485398dd4c5f1f6cb5b74a6ec115aa5a9f86fe21a4fd2f1b1530b6b359cc",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T171535358737Z_consolidation10"
+ "event": "install",
+ "event_sha": "b6f02165b82e24957ce33b8593eb6b7503491a3a371b6d454e7c2bdee4a57520",
+ "parent": "08f8c35ea6f39859654866e5f953847b73ce1c976cd1ee1424a41a635750aaa8",
+ "state_hash": "c393a0e51a411e29a05b4a621a110487ee25551589fab349b9b1fa48c37ad7ee",
+ "weights_sha256": "1b06c3d3e24ba77503d9f304cc4cd01d516c7492fa02d81dc89aa3069b51f780",
+ "snapshot": "/workspace/Continuous_brain/runs/explore/cb2/l1/twins/reference/cb2-ind-0001/checkpoints/20261011T185222343897Z_consolidation11"
