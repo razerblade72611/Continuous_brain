@@ -38,6 +38,10 @@ SSH_OPTS = ["-o", "BatchMode=yes", "-o", "ConnectTimeout=20", "-o", "ServerAlive
             "-o", "StrictHostKeyChecking=accept-new"]
 
 
+class BudgetSpent(Exception):
+    """The time/cost budget is used up: billing must stop now."""
+
+
 class Ctl:
     def __init__(self, a):
         self.a = a
@@ -123,13 +127,38 @@ class Ctl:
                 self.log(f"stop {pid} attempt {attempt}: API error {err.strip()[:200]}")
             for _ in range(self.a.verify_polls):
                 j = self.pod(pid)
-                if j == "gone" or (isinstance(j, dict) and j.get("desiredStatus") == "EXITED"):
-                    self.log(f"pod {pid} stopped (verified: {'gone' if j == 'gone' else 'EXITED'}); its volume is kept")
+                rt = str((j or {}).get("runtimeStatus", "")).lower() if isinstance(j, dict) else ""
+                if j == "gone" or (isinstance(j, dict) and j.get("desiredStatus") == "EXITED"
+                                   and rt in ("stopped", "exited", "terminated")):   # the runtime itself, not intent
+                    self.log(f"pod {pid} stopped (verified: {'gone' if j == 'gone' else 'EXITED + runtime ' + rt}); volume kept")
                     return True
                 time.sleep(self.a.verify_wait)
         self.log(f"URGENT: pod {pid} could NOT be verified stopped -- it may still be billing GPU time. "
                  f"Stop it by hand: runpodctl pod stop {pid}")
         return False
+
+    # ------------------------------------------------------------------ the budget clock (Sol, S-019)
+    def deadline(self) -> float:
+        """When billing must end: the claim's creation time (taken BEFORE the create call, conservatively) plus the
+        hard limit, or sooner if the live rate would reach the cost ceiling first; minus a margin kept for a verified
+        stop.  Every external call is bounded by what is left, so no transfer can carry billing past it."""
+        c = json.loads(self.claim.read_text()) if self.claim.exists() else {}
+        t0 = float(c.get("created") or time.time())
+        limit = self.a.maxh * 3600
+        rate = float(c.get("costPerHr") or 0)
+        if rate:
+            limit = min(limit, self.a.max_cost / rate * 3600)
+        return t0 + limit - self.a.margin
+
+    def left(self) -> float:
+        return self.deadline() - time.time()
+
+    def bounded(self, t: float) -> float:
+        """A call's timeout, cut to the budget left; raises BudgetSpent when nothing is left."""
+        rem = self.left()
+        if rem <= 0:
+            raise BudgetSpent()
+        return max(1.0, min(t, rem))
 
     # ------------------------------------------------------------------ identity
     def identity_ok(self, pid: str, j) -> bool:
@@ -182,7 +211,8 @@ class Ctl:
                     "--image", self.a.image, "--container-disk-in-gb", "40", "--volume-in-gb", "40", "--ports", "22/tcp", "--wait"]
             if self.a.cloud == "COMMUNITY":
                 args.insert(-1, "--public-ip")
-            code, j, err = self.rpj(args, self.a.create_timeout)
+            t_create = time.time()                            # the budget starts BEFORE the create wait (Sol, S-019)
+            code, j, err = self.rpj(args, min(self.a.create_timeout, self.a.maxh * 3600 - self.a.margin))
             pid = (j or {}).get("id") if isinstance(j, dict) else None
             if not pid:                                       # never assume nothing was created: reconcile by name
                 found = self.ours_on_account()
@@ -195,7 +225,7 @@ class Ctl:
                 else:
                     self.log(f"URGENT: create unclear and {len(found)} pods named {NAME} exist: {[p['id'] for p in found]}")
                     return 2
-            self.claim.write_text(json.dumps({"id": pid, "name": NAME, "created": time.time()}) + "\n")
+            self.claim.write_text(json.dumps({"id": pid, "name": NAME, "created": t_create}) + "\n")
             self.log(f"created {pid} ({NAME}, 1x {self.a.gpu}, {self.a.cloud}); claim recorded")
         try:                                                  # until the watcher owns it, any failure deletes the pod
             j = self.pod(pid)
@@ -210,7 +240,7 @@ class Ctl:
             p = None
             for _ in range(self.a.ssh_polls):
                 p = self.endpoint(pid)
-                if p and self.ssh(p, "true", 60)[0] == 0:
+                if p and self.ssh(p, "true", self.bounded(60))[0] == 0:
                     break
                 p = None
                 time.sleep(self.a.ssh_wait)
@@ -218,7 +248,7 @@ class Ctl:
                 raise RuntimeError("ssh never became reachable")
             ups = [Path(self.a.exchange) / f for f in INPUTS] + [self.l1b / f for f in FILES]
             for attempt in range(1, 3):
-                code, _, err = self.scp_up(p, ups, self.a.upload_timeout)
+                code, _, err = self.scp_up(p, ups, self.bounded(self.a.upload_timeout))
                 if code == 0:
                     break
                 self.log(f"upload attempt {attempt} failed: {err.strip()[:200]}")
@@ -229,9 +259,13 @@ class Ctl:
                                  start_new_session=True)
             self.log(f"watcher started (pid {w.pid}); it owns cleanup of {pid} from now on")
             code, _, err = self.ssh(p, "cd /workspace && (PHASE=bench setsid nohup bash /workspace/cb2_l1b_pod.sh "
-                                       "> /workspace/l1b-bench.log 2>&1 < /dev/null &); sleep 2; head -3 /workspace/l1b-bench.log", 60)
+                                       "> /workspace/l1b-bench.log 2>&1 < /dev/null &); sleep 2; head -3 /workspace/l1b-bench.log",
+                                    self.bounded(60))
             self.log(f"bench start: exit {code}; {err.strip()[:120]}")
             return 0
+        except BudgetSpent:
+            self.log(f"budget spent before hand-off; deleting {pid}")
+            return 1 if self.delete_verified(pid) else 2
         except Exception as e:
             self.log(f"launch failed before hand-off ({e}); deleting {pid}")
             return 1 if self.delete_verified(pid) else 2
@@ -239,18 +273,26 @@ class Ctl:
     def passthrough(self) -> list:
         a = self.a
         return ["--exchange", a.exchange, "--key", a.key, "--runpodctl", a.runpodctl, "--maxh", str(a.maxh),
-                "--max-cost", str(a.max_cost), "--data-dir", a.data_dir,
+                "--max-cost", str(a.max_cost), "--data-dir", a.data_dir, "--margin", str(a.margin),
+                "--download-timeout", str(a.download_timeout),
                 "--poll", str(a.poll), "--grace", str(a.grace), "--retries", str(a.retries),
                 "--verify-polls", str(a.verify_polls), "--verify-wait", str(a.verify_wait)]
 
     # ------------------------------------------------------------------ watch
     def watch(self) -> int:
+        try:
+            return self._watch()
+        except BudgetSpent:                                   # the clock ran out, possibly during a transfer
+            c = json.loads(self.claim.read_text()) if self.claim.exists() else {}
+            self.log(f"billing guard: budget spent (limit {self.a.maxh} h / {self.a.max_cost} at {c.get('costPerHr')}/h) -- "
+                     f"stopping {self.a.pod_id} (volume kept, decision needed)")
+            return 3 if self.stop_verified(self.a.pod_id) else 2
+
+    def _watch(self) -> int:
         pid, t0 = self.a.pod_id, time.time()
         data = Path(self.a.data_dir).expanduser()          # bulk evidence stays WSL-native (house rule 4)
         data.mkdir(parents=True, exist_ok=True)
         log_f, tgz = self.l1b / "bench_pod.log", data / "cb2_l1b_bench.tgz"
-        claim = json.loads(self.claim.read_text()) if self.claim.exists() else {}
-        rate = float(claim.get("costPerHr") or 0)
         while True:
             j = self.pod(pid)
             if j == "gone":
@@ -259,34 +301,33 @@ class Ctl:
             if isinstance(j, dict) and not self.identity_ok(pid, j):
                 self.log(f"URGENT: pod {pid} is not our claimed {NAME} -- touching nothing")
                 return 2
-            hours = (time.time() - (float(claim["created"]) if claim.get("created") else t0)) / 3600
-            if hours > self.a.maxh or (rate and rate * hours >= self.a.max_cost):   # billing guard BEFORE any transfer
-                self.log(f"billing guard: {hours:.2f} h at {rate}/h (limit {self.a.maxh} h / {self.a.max_cost}) -- "
-                         f"stopping {pid} (volume kept, decision needed)")
-                return 3 if self.stop_verified(pid) else 2
+            self.bounded(1)                                   # billing guard BEFORE any transfer (raises when spent)
             p = self.endpoint(pid) if isinstance(j, dict) else None
             if p:
                 code, out, _ = self.ssh(p, "ps -eo cmd | grep -c '[b]ash /workspace/cb2_l1b_pod.sh'; "
-                                           "nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader", 60)
+                                           "nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader",
+                                        self.bounded(60))
                 running = code == 0 and out.strip().split("\n")[0].strip() not in ("", "0")
-                self.scp_down(p, "/workspace/l1b-bench.log", log_f, 120)
+                self.scp_down(p, "/workspace/l1b-bench.log", log_f, self.bounded(120))
                 text = log_f.read_text() if log_f.exists() else ""
                 if "l1b BENCH finished" in text:
                     ok = False
                     for attempt in range(1, 3):
-                        c1, _, e1 = self.scp_down(p, "/workspace/cb2_l1b_bench.tgz", tgz, self.a.download_timeout)
-                        c2, rs, _ = self.ssh(p, "sha256sum /workspace/cb2_l1b_bench.tgz", 300)
+                        c1, _, e1 = self.scp_down(p, "/workspace/cb2_l1b_bench.tgz", tgz, self.bounded(self.a.download_timeout))
+                        c2, rs, _ = self.ssh(p, "sha256sum /workspace/cb2_l1b_bench.tgz", self.bounded(300))
                         if c1 == 0 and c2 == 0 and tgz.exists() and rs.split() and \
                                 rs.split()[0] == hashlib.sha256(tgz.read_bytes()).hexdigest():
                             ok = True
                             break
                         self.log(f"evidence transfer attempt {attempt} failed ({e1.strip()[:120]})")
                     if not ok:
+                        self.bounded(1)                       # a transfer cut off by the deadline is a budget stop
                         self.log("evidence NOT verified: stopping the pod with its volume kept, not deleting")
                         return 4 if self.stop_verified(pid) else 2
                     self.log(f"cb2_l1b_bench.tgz downloaded to {tgz}, sha256 MATCH {hashlib.sha256(tgz.read_bytes()).hexdigest()}")
                     for f in ("l1b-bench-sleep.json", "l1b-bench-lives-s2b.json", "l1b-bench-lives-learner.json"):
-                        self.scp_down(p, f"/workspace/{f}", self.l1b / f, 120)
+                        if self.left() > 0:
+                            self.scp_down(p, f"/workspace/{f}", self.l1b / f, self.bounded(120))
                     return 0 if self.delete_verified(pid) else 2
                 if not running and time.time() - t0 > self.a.grace:
                     if not log_f.exists():
@@ -294,7 +335,7 @@ class Ctl:
                         return 4 if self.stop_verified(pid) else 2
                     self.log("BENCH FAILED or stopped (see bench_pod.log): logs saved; deleting the pod")
                     return 5 if self.delete_verified(pid) else 2
-            time.sleep(self.a.poll)
+            time.sleep(max(0.0, min(self.a.poll, self.left())))
 
 
 def main() -> int:
@@ -310,6 +351,7 @@ def main() -> int:
     ap.add_argument("--maxh", type=float, default=2.0, help="hard limit in hours since creation (Sol/David: 2 h)")
     ap.add_argument("--max-cost", type=float, default=3.0, help="total ceiling in dollars at the pod's live costPerHr")
     ap.add_argument("--data-dir", default="~/cb_data/l1b-bench", help="WSL-native folder for the bulk evidence archive")
+    ap.add_argument("--margin", type=float, default=180, help="seconds of the budget kept for a verified stop/delete")
     ap.add_argument("--poll", type=float, default=120)
     ap.add_argument("--grace", type=float, default=600)
     ap.add_argument("--retries", type=int, default=3)

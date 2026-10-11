@@ -48,7 +48,7 @@ def cloud(tmp_path):
 
         def run(self, *args, timeout=60):
             fast = ["--poll", "0.05", "--grace", "0", "--verify-polls", "2", "--verify-wait", "0.01", "--ssh-polls", "2",
-                    "--ssh-wait", "0.01", "--retries", "2", "--skip-input-sums"]
+                    "--ssh-wait", "0.01", "--retries", "2", "--skip-input-sums", "--margin", "0"]
             r = subprocess.run([sys.executable, str(CTL), *args, "--exchange", str(ex), "--key", "k",
                                 "--data-dir", str(ex.parent / "wsl-data"), *fast],
                                env=env, capture_output=True, text=True, timeout=timeout)
@@ -61,7 +61,8 @@ def cloud(tmp_path):
 
         def add_pod(self, pid, status="RUNNING"):
             s = self.st()
-            s["pods"][pid] = {"id": pid, "name": "cb2-l1b-bench-claude", "desiredStatus": status, "costPerHr": 0.34}
+            s["pods"][pid] = {"id": pid, "name": "cb2-l1b-bench-claude", "desiredStatus": status,
+                              "runtimeStatus": "running" if status == "RUNNING" else "stopped", "costPerHr": 0.34}
             self.state.write_text(json.dumps(s))
     return C()
 
@@ -170,3 +171,38 @@ def test_launch_hands_off_to_the_watcher_after_upload_and_start(cloud, tmp_path)
     import signal
     wpid = int(re.search(r"watcher started \(pid (\d+)\)", log).group(1))   # the real watcher it spawned: end it
     os.kill(wpid, signal.SIGTERM)
+
+
+def test_the_budget_counts_from_creation_not_from_when_the_watcher_starts(cloud):
+    """Sol's fixture (S-019): a claim already 3 h old was treated as fresh and downloaded/deleted."""
+    import time
+    cloud.add_pod("p1")
+    cloud.claim("p1", created=time.time() - 3 * 3600)
+    (cloud.remote / "l1b-bench.log").write_text("l1b BENCH finished\n")
+    (cloud.remote / "cb2_l1b_bench.tgz").write_bytes(b"evidence")
+    code, log = cloud.run("watch", "--pod-id", "p1", "--maxh", "2", "--max-cost", "3")
+    assert code == 3 and "budget spent" in log and cloud.st()["pods"]["p1"]["desiredStatus"] == "EXITED"
+    assert not (cloud.ex.parent / "wsl-data" / "cb2_l1b_bench.tgz").exists()   # no transfer after the deadline
+
+
+def test_the_deadline_cuts_a_blocked_transfer_and_stops_the_pod(cloud):
+    """Expiry DURING a transfer: the download hangs; its timeout is cut to the budget left, then the pod is stopped."""
+    import time
+    cloud.add_pod("p1")
+    cloud.claim("p1", created=time.time() - (2 * 3600 - 3))  # 3 s of a 2 h budget left
+    cloud.set(download_hang=True)
+    (cloud.remote / "l1b-bench.log").write_text("l1b BENCH finished\n")
+    (cloud.remote / "cb2_l1b_bench.tgz").write_bytes(b"evidence")
+    t = time.time()
+    code, log = cloud.run("watch", "--pod-id", "p1", "--maxh", "2", "--max-cost", "3", "--download-timeout", "3600")
+    assert code == 3 and "budget spent" in log and time.time() - t < 20          # not the 30 s hang, not 3600 s
+    assert cloud.st()["pods"]["p1"]["desiredStatus"] == "EXITED" and "p1" in cloud.st()["pods"]   # volume kept
+
+
+def test_a_stop_is_verified_by_the_runtime_not_by_the_intent(cloud):
+    """Sol (S-019): desiredStatus EXITED with runtimeStatus still running is not stopped."""
+    cloud.add_pod("p1")
+    cloud.claim("p1")
+    cloud.set(stop_runtime_lags=True)
+    code, log = cloud.run("watch", "--pod-id", "p1", "--maxh", "0")
+    assert code == 2 and "URGENT" in log and "could NOT be verified stopped" in log
