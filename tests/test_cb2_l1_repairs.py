@@ -141,7 +141,7 @@ def test_life_id_plan_rejects_collisions_before_any_work():
 
     import pytest
     m = _l1()
-    ok = argparse.Namespace(cycles=10, probe_worlds=40, lives=20, holdout_lives=2, situation_worlds=24)
+    ok = argparse.Namespace(cycles=10, probe_worlds=40, lives=20, holdout_lives=2, situation_worlds=24, run=10)
     m._check_worlds(ok)
     for bad in (dict(lives=m.LIFE_STRIDE), dict(cycles=1_000_000 // m.LIFE_STRIDE)):
         with pytest.raises(AssertionError):

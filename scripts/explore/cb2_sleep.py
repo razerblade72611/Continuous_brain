@@ -184,7 +184,7 @@ def probe(a) -> int:
     untrained core of the same size, and on the frame encoder alone (no recurrence: the present frame only)."""
     import torch
     from continuous_brain_cb2.data import SequenceSampler
-    from continuous_brain_cb2.world_model import PredictiveCore
+    from continuous_brain_cb2.world_model import PredictiveCore, in_view_crop
     dev = device(a.device)
     trained = PredictiveCore.from_state(torch.load(a.core, map_location=dev, weights_only=False), dev)
     torch.manual_seed(12345)
@@ -207,8 +207,7 @@ def probe(a) -> int:
             X["frame"].append(e)
             Y["features"].append(b["features"][:, a.T // 2:].reshape(-1, b["features"].shape[-1]))
             crop = b["map_crop"][:, a.T // 2:].reshape(-1, 33, 33)
-            out_of_view = np.ones((33, 33), bool)
-            out_of_view[16 - 3:16 + 4, 16 - 4:16 + 5] = False                # the 7 x 9 view around it
+            out_of_view = ~in_view_crop(33)        # crop is [x, y]: 9 x-cells by 7 y-cells in view (Sol, S-002)
             Y["known"].append((crop[:, out_of_view] >= 0).astype(np.float32))
         return {k: np.concatenate(v) for k, v in X.items()}, {k: np.concatenate(v) for k, v in Y.items()}
 
@@ -283,15 +282,14 @@ def probe_life(a) -> int:
     out-of-view tiles it remembers, against the same probe on the frame encoder alone and on an untrained core."""
     import torch
     from continuous_brain_cb2.data import SequenceSampler
-    from continuous_brain_cb2.world_model import PredictiveCore
+    from continuous_brain_cb2.world_model import PredictiveCore, in_view_crop
     dev = device(a.device)
     trained = PredictiveCore.from_state(torch.load(a.core, map_location=dev, weights_only=False), dev)
     trained.eval()
     torch.manual_seed(12345)
     untrained = PredictiveCore(trained.cfg, dev)
     arch, train, test, held = split(a.archive, a.heldout_lives, getattr(a, "test_archive", None))
-    out_of_view = np.ones((33, 33), bool)
-    out_of_view[16 - 3:16 + 4, 16 - 4:16 + 5] = False
+    out_of_view = ~in_view_crop(33)                # crop is [x, y] (Sol, S-002: the old mask was transposed)
 
     def lives_of(refs, limit):
         smp = SequenceSampler(arch, refs, T=1, seed=0, map_crop=True)

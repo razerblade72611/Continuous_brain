@@ -58,14 +58,19 @@ sys.path.insert(0, str(REPO / "scripts/explore"))
 from cb2_collect import PRACTICE_BASE, RESERVED, git_rev, vision  # noqa: E402
 from cb2_evaluate import _consolidate, load_individual  # noqa: E402
 
-RUN = 9
+RUN = 10                   # L1b's practice run (seeds 80M + run * 1M + ...); runs 0-9 are taken (L1 = 9) -- never reuse
+USED_RUNS = set(range(10))
 # development probe worlds (never practice, never sealed).  L1 used 78100 / 78600 / 79100, whose per-cycle blocks
 # overlapped across families (fresh cycle 5 = transfer cycle 0; the situation bank = transfer cycle 5) -- Sol's audit.
-# Disjoint by construction now, and checked at start (_check_worlds).
-FRESH0, TRANSFER0, SITU0 = 78100, 80100, 82100
+# L1b: new blocks (Sol, S-003), disjoint by construction and checked at start (_check_worlds) against L1's actual worlds.
+FRESH0, TRANSFER0, SITU0 = 88000, 92000, 94000
+L1_USED = [(78100, 79639)]  # every probe/situation world L1 (b6a76ee) touched
+TIMING0, TIMING_N = 95000, 100   # throughput measurement worlds (bench-lives): never scored
 # L1b final battery (docs/explore/CB2_L1B_PREREG_DRAFT.md): new blocks, used only once, by the final individuals
 FINAL_FRESH0, FINAL_TRANSFER0, FINAL_BLOCK = 84000, 86000, 2000
 CLAIMED = [(83090, 83195)]  # Sol's CPU memory diagnostic (timing 83090-83091, episodes 83100-83195): never ours
+# capability safeguards for "shown" (prereg section 5): learning - frozen lower95 must stay above these, both families
+SAFE_MARGIN = {"n_unlocked": -0.5, "requests_net": -0.5}
 LIFE_STRIDE = 50_000       # life ids: family base (1,000,000 apart) + cycle * LIFE_STRIDE + index; counts < LIFE_STRIDE
 # life-id family bases (one per kind of life; final-battery ids have no cycle part)
 LID = {"fresh": 20_000_000, "transfer": 21_000_000, "situations": 22_000_000, "final-fresh": 23_000_000,
@@ -485,12 +490,14 @@ def _check_worlds(a) -> dict:
     for c in range(a.cycles + 1):
         fam[f"fresh-c{c}"] = set(range(FRESH0 + 100 * c, FRESH0 + 100 * c + a.probe_worlds))
         fam[f"transfer-c{c}"] = set(range(TRANSFER0 + 100 * c, TRANSFER0 + 100 * c + a.probe_worlds))
-        fam[f"wake-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)}
-        fam[f"heldout-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)}
+        fam[f"wake-c{c}"] = {PRACTICE_BASE + a.run * 1_000_000 + c * 10_000 + n for n in range(a.lives)}
+        fam[f"heldout-c{c}"] = {PRACTICE_BASE + a.run * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)}
     fam["situations"] = set(range(SITU0, SITU0 + a.situation_worlds))
     nf = getattr(a, "final_worlds", 0)
     fam["final-fresh"] = set(range(FINAL_FRESH0, FINAL_FRESH0 + nf))
     fam["final-transfer"] = set(range(FINAL_TRANSFER0, FINAL_TRANSFER0 + nf))
+    fam["timing"] = set(range(TIMING0, TIMING0 + TIMING_N))
+    assert a.run not in USED_RUNS, f"practice run {a.run} was used before (runs {sorted(USED_RUNS)}): use a new one"
     # (the yoked archive's lives use the wake worlds on purpose: same worlds, different author)
     assert a.probe_worlds <= 100 and a.lives <= 5000 and a.holdout_lives <= 5000, "world blocks would overlap"
     assert nf <= FINAL_BLOCK and getattr(a, "chooser_off_worlds", 0) <= nf, "final battery larger than its block"
@@ -502,6 +509,7 @@ def _check_worlds(a) -> dict:
     for i, x in enumerate(names):
         assert not any(_sealed(w) for w in fam[x]), f"{x} touches sealed worlds"
         assert not any(lo <= w <= hi for lo, hi in CLAIMED for w in fam[x]), f"{x} touches a block claimed by Sol"
+        assert not any(lo <= w <= hi for lo, hi in L1_USED for w in fam[x]), f"{x} touches a world L1 used"
         for y in names[i + 1:]:
             assert not (fam[x] & fam[y]), f"world families overlap: {x} / {y}"
     return {k: [min(v), max(v)] for k, v in fam.items() if v}
@@ -512,8 +520,8 @@ def wake_specs(c: int, a, homes: dict, archives: dict, run_dir, run_id, hashes: 
     learning: its own lives -> archive-learning.  yoked-source: the FROZEN twin on the same practice worlds ->
     archive-yoked (the yoked twin's experience: same worlds and count, another author).  heldout: the learning twin's
     reserved lives -> archive-heldout, never slept on."""
-    seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
-    hseeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
+    seeds = [PRACTICE_BASE + a.run * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
+    hseeds = [PRACTICE_BASE + a.run * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
     common = dict(steps=a.max_steps, run_dir=str(run_dir), run_id=run_id)
     return {
         "learning": dict(home=homes["learning"], seeds=seeds, life0=LID["wake"] + c * LIFE_STRIDE,
@@ -696,20 +704,69 @@ MDE = 31.0          # L1b prereg section 4: minimum detectable effect (80% power
 FAMS = ("fresh", "transfer")
 
 
-def verdict(prim: dict) -> dict:
-    """L1b prereg section 5, exactly.  prim[vs_o][fam] has lower95 / upper95 (one-sided 95% bootstrap over worlds)."""
+def verdict(prim: dict, safe: dict | None = None, identity: dict | None = None) -> dict:
+    """L1b prereg section 5, exactly.  prim[vs_o][fam] has lower95 / upper95 (one-sided 95% bootstrap over worlds);
+    safe[metric][fam] has learning - frozen lower95 for the capability safeguards; identity[arm]["ok"] the identity /
+    provenance / rollback checks.  Direction notes are DECISIONS to take, with the cause unproven (Sol, S-003);
+    none of them launches anything."""
     G = all(prim["vs_frozen"][f]["lower95"] > 0 for f in FAMS)
     O = all(prim["vs_yoked"][f]["lower95"] > 0 for f in FAMS)
-    claim = "shown" if G and O else ("growth, not shown to be from its own experience" if G else "not shown")
-    trig = []
+    guard = {m: all(safe[m][f]["lower95"] is not None and safe[m][f]["lower95"] > SAFE_MARGIN[m] for f in FAMS)
+             for m in SAFE_MARGIN} if safe else {m: False for m in SAFE_MARGIN}
+    ident = bool(identity) and all(v.get("ok") for v in identity.values())
+    ok = all(guard.values()) and ident
+    failed = [k for k, v in guard.items() if not v] + ([] if ident else ["identity/provenance/rollback"])
+    if not G:
+        claim = "not shown"
+    elif failed:                                  # a survival gain bought with capability or identity is not a claim
+        claim = "not shown: safeguards failed (" + ", ".join(failed) + ")"
+    elif O:
+        claim = "shown"
+    else:
+        claim = "growth shown; own closed-loop adaptation beyond matched-world frozen-policy experience not shown"
+    notes = []
     if prim["vs_frozen"]["fresh"]["upper95"] < MDE:
-        trig.append("futility: no growth of detectable size on fresh -> stop adding to this loop; "
-                    "vanilla-DreamerV3 baseline next, adopt it if it beats us")
+        notes.append("decision needed: on fresh worlds this implementation at this budget gained less than the detectable "
+                     "size (cause unproven) -- e.g. investigate objectives/controls or a bounded baseline comparison")
     elif prim["vs_frozen"]["fresh"]["lower95"] > 0 and prim["vs_frozen"]["transfer"]["upper95"] < MDE:
-        trig.append("memorisation-type gain: fresh shown, transfer below detectable size -> change objectives before scaling")
+        notes.append("decision needed: gain on fresh worlds, below detectable size on transfer (cause unproven; "
+                     "memorisation is one hypothesis) -- investigate before scaling")
     if G and all(prim["vs_yoked"][f]["upper95"] < MDE for f in FAMS):
-        trig.append("gain from more data, not its own life: drop the own-experience claim; L2 must earn it")
-    return {"G_growth": G, "O_own_experience": O, "claim": claim, "direction_triggers": trig, "mde": MDE}
+        notes.append("decision needed: the yoked twin gained about as much (cause unproven) -- the own-adaptation "
+                     "question stays open for L2")
+    return {"G_growth": G, "O_own_adaptation": O, "safeguards": guard, "identity_ok": ident, "claim": claim,
+            "decisions_needed": notes, "mde": MDE, "safe_margin": SAFE_MARGIN}
+
+
+def identity_check(home: Path, origin: dict, sleeps: int) -> dict:
+    """Identity / provenance / rollback for one final twin (prereg section 5): its consolidation chain verifies, links
+    from the origin individual's state to its present state through exactly `sleeps` new events, and its origin
+    snapshot (still in its home) restores to the origin's exact state hash."""
+    from continuous_brain_cb2.consolidation import ConsolidationLog
+    from continuous_brain_individual.individual import Individual, IndividualConfig
+    from continuous_brain_organs.language import LanguageOrgan
+    from continuous_brain_snn.snapshot import SnapshotStore
+    from cb2_evaluate import organ_vision
+    from cb2_collect import snapshot_path
+    meta = json.loads((home / "individual.json").read_text())
+    out = {"state_hash": meta["state_hash"]}
+    try:
+        ev = ConsolidationLog(home / "consolidations.jsonl")
+        n = ev.verify()
+        new = ev.events()[int(origin["consolidations"]):]
+        chain = [origin["state_hash"]] + [e["event"]["state_hash"] for e in new]
+        links = all(e["event"]["parent_state_hash"] == chain[i] for i, e in enumerate(new))
+        out.update(chain_records=n, new_events=len(new), chain_links=links, ends_at_present=chain[-1] == meta["state_hash"])
+        om = {**meta, "snapshot": origin["snapshot"], "skills": origin.get("skills", "cb2")}
+        ind = Individual(IndividualConfig(lifelong=True, skills=om["skills"]), organ_vision(home, om, vision()),
+                         LanguageOrgan.from_config({"backend": "dev"}))
+        ind.rt.restore(SnapshotStore(home), snapshot_path(home, om))
+        out["rollback_hash"] = ind.state_hash()
+        out["ok"] = bool(links and len(new) == sleeps and chain[-1] == meta["state_hash"]
+                         and out["rollback_hash"] == origin["state_hash"])
+    except Exception as e:                                    # a broken chain is a failed check, reported
+        out.update(ok=False, error=f"{type(e).__name__}: {e}")
+    return out
 
 
 def final(a) -> int:
@@ -766,6 +823,27 @@ def final(a) -> int:
     return 0
 
 
+def bench_lives(a) -> int:
+    """Measured throughput of probe lives on THIS machine (Sol, S-003: measure before committing a cost): one twin,
+    timing worlds only (never scored), the real worker count; prints steps/s and the projected L1b workload time."""
+    from concurrent.futures import ProcessPoolExecutor
+    seeds = list(range(TIMING0, TIMING0 + min(a.lives, TIMING_N)))
+    t = time.time()
+    with ProcessPoolExecutor(a.workers, mp_context=mp.get_context("fork")) as pool:
+        res = run_lives(pool, Path(a.twin) / "cb2-ind-0001", seeds, "life", 25_000_000, a.workers, steps=a.max_steps)
+    sec = time.time() - t
+    steps = sum(r["steps"] for r in res)
+    rate = steps / sec
+    # L1b workload, in steps, from L1's measured mean life lengths (cycles 6-10, ~620 fresh / ~650 transfer)
+    per_cycle = 3 * (40 * 620 + 40 * 650 + 72 * 250) + 2 * 20 * 620      # 3 arms' probes + learning & yoked-source wake
+    final = 3 * 1200 * (620 + 650) + 300 * (620 + 650)
+    proj = {"per_cycle_probe_and_wake_h": round(per_cycle / rate / 3600, 2), "final_battery_h": round(final / rate / 3600, 2)}
+    print(json.dumps({"workers": a.workers, "cpu_quota": _cpu_quota(), "lives": len(res), "steps": steps,
+                      "seconds": round(sec, 1), "steps_per_s": round(rate, 1), "steps_per_s_per_worker": round(rate / a.workers, 2),
+                      "projected": proj}, indent=1))
+    return 0
+
+
 def report(a) -> int:
     out = Path(a.out)
     C = [json.loads(l) for l in open(out / "cycles.jsonl")]
@@ -780,7 +858,21 @@ def report(a) -> int:
         prim = {f"vs_{o}": {fam: paired(F["learning"][fam], F[o][fam], "steps", upper=True) for fam in FAMS}
                 for o in ("frozen", ctrl)}
         rep["primary_final"] = prim
-        rep["verdict"] = verdict(prim) if ctrl == "yoked" else None
+        net = lambda L: [{**r, "requests_net": r["fulfilled"] - r["failed"]} for r in L]
+        safe = {m: {fam: paired(net(F["learning"][fam]), net(F["frozen"][fam]), m, upper=True) for fam in FAMS}
+                for m in SAFE_MARGIN}
+        rep["safeguards_final"] = safe
+        run = rep["run"]
+        origin = json.loads((Path(run["twin_source"]) / "cb2-ind-0001" / "individual.json").read_text()) \
+            if (Path(run["twin_source"]) / "cb2-ind-0001" / "individual.json").exists() else None
+        if origin is None or origin["state_hash"] != run["twin_state_hash"]:
+            rep["identity"] = {"error": "origin individual not found at twin_source, or not the run's origin"}
+            ident = None
+        else:
+            n = sum(1 for r in C if r.get("sleep"))
+            ident = rep["identity"] = {k: identity_check(out / f"twins/{k}/cb2-ind-0001", origin, n if k != "frozen" else 0)
+                                       for k in ARMS}
+        rep["verdict"] = verdict(prim, safe, ident) if ctrl == "yoked" else None
         if "learning_chooser_off" in F:
             rep["gate2_final"] = {fam: paired(F["learning"][fam], F["learning_chooser_off"][fam], "steps", upper=True)
                                   for fam in F["learning_chooser_off"]}
@@ -843,6 +935,7 @@ def main() -> int:
     r.add_argument("--horizon", type=int, default=15)
     r.add_argument("--resume", action="store_true")
     r.add_argument("--max-steps", type=int, default=10000)
+    r.add_argument("--run", type=int, default=RUN, help="practice run number (never one used before)")
     r.add_argument("--final-worlds", type=int, default=1200, help="final battery worlds per family (L1b primary)")
     r.add_argument("--chooser-off-worlds", type=int, default=300, help="of those, Gate 2 ablation worlds per family")
     r.set_defaults(func=run)
@@ -861,6 +954,12 @@ def main() -> int:
         bq.add_argument(k, type=int, default=v)
     bq.add_argument("--tau", type=float, default=1.0)
     bq.set_defaults(func=bench_sleep)
+    bl = sub.add_parser("bench-lives", help="measure probe-life throughput on this machine (timing worlds, never scored)")
+    bl.add_argument("--twin", required=True, help="directory holding cb2-ind-0001 (read only)")
+    bl.add_argument("--workers", type=int, default=30)
+    bl.add_argument("--lives", type=int, default=60)
+    bl.add_argument("--max-steps", type=int, default=10000)
+    bl.set_defaults(func=bench_lives)
     q = sub.add_parser("report")
     q.add_argument("--out", required=True)
     q.add_argument("--report", default=str(REPO / "evidence/explore/cb2/l1b-report.json"))

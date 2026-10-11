@@ -30,6 +30,9 @@ reads it as memorisation, but this run does not establish memorisation as the ca
   map head out of view: balanced accuracy 0.373 vs chance 0.108 (seen accuracy 0.733 vs constant 0.629).
   CORRECTION (Sol's audit): the probe's test lives were in the core's training replay pool (not held out from core training),
   so this is descriptive only; Gate 4 stays OPEN pending a genuinely held-out test. Also not compared against the reference twin.
+  Limitation added 2026-10-11 (Sol's review S-002): the out-of-view mask used for these numbers was transposed (the crop is
+  [x, y], the mask assumed [y, x]); at radius 8 it counted 14 visible cells as out of view and dropped 14 hidden ones. These
+  Gate 4 numbers are therefore approximate. Fixed on explore/cb2-l1fix (in_view_crop + regression). The L1 verdict is unchanged.
 - Hands model (primitive-action prediction) training accuracy: learning 0.95-0.99, reference ~1.00 (fits its fixed 20-life buffer).
 - Learned-authored primitive share: 0% by construction.
 - Growth curve: per-cycle paired differences swing by +/-100 steps with 40 worlds; no clear trend.

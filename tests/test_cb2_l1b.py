@@ -18,7 +18,7 @@ def _l1():
 
 def _plan(**kw):
     d = dict(cycles=10, probe_worlds=40, lives=20, holdout_lives=2, situation_worlds=24, max_steps=10000,
-             final_worlds=1200, chooser_off_worlds=300)
+             final_worlds=1200, chooser_off_worlds=300, run=10)
     d.update(kw)
     return argparse.Namespace(**d)
 
@@ -96,16 +96,41 @@ def _prim(lf, uf, lt, ut, lyf, uyf, lyt, uyt):
             "vs_yoked": {"fresh": b(lyf, uyf), "transfer": b(lyt, uyt)}}
 
 
+SAFE_OK = {m: {f: {"lower95": -0.1} for f in ("fresh", "transfer")} for m in ("n_unlocked", "requests_net")}
+ID_OK = {k: {"ok": True} for k in ("learning", "yoked", "frozen")}
+
+
 def test_verdict_follows_the_preregistered_rules():
     m = _l1()
-    v = m.verdict(_prim(5, 90, 3, 80, 2, 70, 1, 60))
-    assert v["claim"] == "shown" and not v["direction_triggers"]
-    v = m.verdict(_prim(5, 90, 3, 80, -40, 20, -30, 25))      # growth, but the yoked twin grew as much
-    assert v["claim"] == "growth, not shown to be from its own experience"
-    assert any("more data" in t for t in v["direction_triggers"])
-    v = m.verdict(_prim(-40, 25, -50, 20, -40, 25, -30, 20))  # nothing of detectable size on fresh
-    assert v["claim"] == "not shown" and any("futility" in t for t in v["direction_triggers"])
-    v = m.verdict(_prim(10, 90, -60, 20, 5, 70, -30, 40))     # fresh only: memorisation-type
-    assert v["claim"] == "not shown" and any("memorisation" in t for t in v["direction_triggers"])
-    v = m.verdict(_prim(-5, 60, -10, 50, -5, 60, -10, 50))    # wide: inconclusive, no direction change
-    assert v["claim"] == "not shown" and not v["direction_triggers"]
+    v = m.verdict(_prim(5, 90, 3, 80, 2, 70, 1, 60), SAFE_OK, ID_OK)
+    assert v["claim"] == "shown" and not v["decisions_needed"]
+    v = m.verdict(_prim(5, 90, 3, 80, -40, 20, -30, 25), SAFE_OK, ID_OK)   # growth; the yoked twin grew as much
+    assert v["claim"].startswith("growth shown; own closed-loop adaptation") and v["decisions_needed"]
+    assert all("cause unproven" in t for t in v["decisions_needed"])
+    v = m.verdict(_prim(-40, 25, -50, 20, -40, 25, -30, 20), SAFE_OK, ID_OK)
+    assert v["claim"] == "not shown" and "detectable size" in v["decisions_needed"][0]
+    v = m.verdict(_prim(10, 90, -60, 20, 5, 70, -30, 40), SAFE_OK, ID_OK)   # fresh only
+    assert v["claim"] == "not shown" and "transfer" in v["decisions_needed"][0]
+    v = m.verdict(_prim(-5, 60, -10, 50, -5, 60, -10, 50), SAFE_OK, ID_OK)  # wide: inconclusive, nothing to decide
+    assert v["claim"] == "not shown" and not v["decisions_needed"]
+
+
+def test_survival_gain_bought_with_capability_or_identity_is_not_shown():
+    m = _l1()
+    bad = {**SAFE_OK, "n_unlocked": {"fresh": {"lower95": -0.1}, "transfer": {"lower95": -0.8}}}
+    v = m.verdict(_prim(5, 90, 3, 80, 2, 70, 1, 60), bad, ID_OK)
+    assert v["claim"] == "not shown: safeguards failed (n_unlocked)"
+    v = m.verdict(_prim(5, 90, 3, 80, 2, 70, 1, 60), SAFE_OK, {**ID_OK, "yoked": {"ok": False}})
+    assert v["claim"] == "not shown: safeguards failed (identity/provenance/rollback)"
+    v = m.verdict(_prim(5, 90, 3, 80, 2, 70, 1, 60), SAFE_OK, None)       # identity never checked: no claim
+    assert v["claim"].startswith("not shown: safeguards failed")
+
+
+def test_new_run_and_blocks_never_reuse_l1():
+    m = _l1()
+    for r in (9, 6, 0):
+        with pytest.raises(AssertionError, match="used before"):
+            m._check_worlds(_plan(run=r))
+    m.FRESH0 = 78900                                          # inside L1's probe worlds
+    with pytest.raises(AssertionError, match="L1 used"):
+        m._check_worlds(_plan())

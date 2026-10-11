@@ -26,7 +26,21 @@ from torch import nn
 from .data import BODY_DIM, N_ACTIONS, N_RISK
 
 MAP_CLASSES = 14                  # believed-map values -1 (never seen) .. 12 (vision MATERIALS), shifted by +1
-VIEW_H, VIEW_W = 7, 9             # the view around it (rows = y, cols = x in the 33 x 33 crop)
+VIEW_H, VIEW_W = 7, 9             # the view: 7 cells in y (rows of the image), 9 in x
+
+
+def in_view_crop(d: int) -> np.ndarray:
+    """[d, d] bool, True where a cell of the egocentric crop is in the current view.  The crop is indexed [x, y]
+    (record.map_crop slices memory["map"][x, y]), NOT image [y, x]; built from the memory's own view geometry
+    (memory.view_cells) so the two cannot drift apart.  Sol's review (S-002): the old mask was transposed and,
+    at radius 8, counted 14 visible cells as out of view and dropped 14 hidden ones."""
+    from continuous_brain_individual.memory import view_cells
+    c = d // 2
+    m = np.zeros((d, d), bool)
+    for _, _, x, y in view_cells((c, c)):
+        if 0 <= x < d and 0 <= y < d:
+            m[x, y] = True
+    return m
 from .third_party.dreamerv3_torch import networks, tools
 
 
@@ -201,11 +215,7 @@ class PredictiveCore(nn.Module):
         return self._t(sub.reshape(*sub.shape[:-2], -1), torch.int64)
 
     def out_of_view_mask(self) -> np.ndarray:
-        r = self.cfg.map_radius
-        d = 2 * r + 1
-        m = np.ones((d, d), bool)
-        m[max(0, r - VIEW_H // 2):r + VIEW_H // 2 + 1, max(0, r - VIEW_W // 2):r + VIEW_W // 2 + 1] = False
-        return m.reshape(-1)
+        return ~in_view_crop(2 * self.cfg.map_radius + 1).reshape(-1)
 
     def train_step(self, batch: dict) -> dict:
         self.train()
