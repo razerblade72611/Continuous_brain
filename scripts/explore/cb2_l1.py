@@ -24,6 +24,15 @@ Two twins are cloned from the same individual (S2b): LEARNING (sleeps) and FROZE
   report  python scripts/explore/cb2_l1.py report --out runs/explore/cb2/l1
 
 Every number a claim rests on is a paired difference (learning - frozen) on the same probe worlds or situations.
+
+L1b (docs/explore/CB2_L1B_PREREG_DRAFT.md) changes three things:
+  YOKED twin (replaces L1's fixed-buffer reference): each cycle the FROZEN twin also lives the same practice worlds
+          into archive-yoked; the yoked twin sleeps on that accumulating archive with identical budgets -- the same
+          amount of matched-world experience, by another author.  "learning - yoked" is the own-experience contrast.
+  cycle 0 instrument check: every arm must give identical probe lives before any sleep, or the run stops.
+  final   the PRIMARY: the final individuals on a large battery of new worlds (default 1,200 fresh + 1,200 transfer):
+              python scripts/explore/cb2_l1.py final --out <run> --workers <n>      (after the loop; any machine)
+          the report applies the preregistered decision rules (verdict()).
 """
 from __future__ import annotations
 
@@ -54,7 +63,14 @@ RUN = 9
 # overlapped across families (fresh cycle 5 = transfer cycle 0; the situation bank = transfer cycle 5) -- Sol's audit.
 # Disjoint by construction now, and checked at start (_check_worlds).
 FRESH0, TRANSFER0, SITU0 = 78100, 80100, 82100
+# L1b final battery (docs/explore/CB2_L1B_PREREG_DRAFT.md): new blocks, used only once, by the final individuals
+FINAL_FRESH0, FINAL_TRANSFER0, FINAL_BLOCK = 84000, 86000, 2000
+CLAIMED = [(83090, 83195)]  # Sol's CPU memory diagnostic (timing 83090-83091, episodes 83100-83195): never ours
 LIFE_STRIDE = 50_000       # life ids: family base (1,000,000 apart) + cycle * LIFE_STRIDE + index; counts < LIFE_STRIDE
+# life-id family bases (one per kind of life; final-battery ids have no cycle part)
+LID = {"fresh": 20_000_000, "transfer": 21_000_000, "situations": 22_000_000, "final-fresh": 23_000_000,
+       "final-transfer": 24_000_000, "wake": 30_000_000, "heldout": 31_000_000, "yoked-wake": 32_000_000}
+ARMS = ("learning", "yoked", "frozen")
 TRANSFER = {"arrival_rate0": 2 / 110, "arrival_growth": 0.3, "arrival_rate_max": 1 / 20,
             "family_weights": {"collect": 0.10, "craft": 0.06, "place": 0.07, "maintain": 0.25, "avoid": 0.30,
                                "visit": 0.08, "report": 0.14}}
@@ -422,7 +438,9 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     lineage = {"kind": "cb2-l1-sleep", "twin": twin, "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
                                                                         "own_streams": sorted(s.stream for s in s_own.streams),
                                                                         "own_excluded_rows": s_own.excluded_rows,
-                                                                        "own_data_sha256": data_sha},
+                                                                        "own_data_sha256": data_sha,
+                                                                        "author": {"learning": "self", "yoked": "frozen twin, same worlds (yoked)",
+                                                                                   "reference": "self, fixed cycle-0 buffer"}.get(twin, twin)},
                "updates": {"core": a.core_updates, "anchor": a.anchor_updates, "chooser": a.chooser_updates}, "code": git_rev()}
     _consolidate(twin_home, ind, meta, vision(), weights, lineage, candidate=True)
     fd = os.open(out / "sleep.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)   # one append: twins may sleep at once
@@ -430,7 +448,9 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         os.write(fd, "".join(json.dumps(r) + "\n" for r in log).encode())
     finally:
         os.close(fd)
-    return {"cycle": cycle, "seconds": round(time.time() - t0), "last": log[-6:]}
+    # exposure (L1b compares arms with equal updates; unique rows differ with life lengths, so they are reported)
+    return {"cycle": cycle, "seconds": round(time.time() - t0), "own_rows": s_own.rows(),
+            "own_streams": len(s_own.streams), "own_excluded_rows": s_own.excluded_rows, "last": log[-6:]}
 
 
 # ================================================================================================ bench
@@ -468,16 +488,62 @@ def _check_worlds(a) -> dict:
         fam[f"wake-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)}
         fam[f"heldout-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)}
     fam["situations"] = set(range(SITU0, SITU0 + a.situation_worlds))
+    nf = getattr(a, "final_worlds", 0)
+    fam["final-fresh"] = set(range(FINAL_FRESH0, FINAL_FRESH0 + nf))
+    fam["final-transfer"] = set(range(FINAL_TRANSFER0, FINAL_TRANSFER0 + nf))
+    # (the yoked archive's lives use the wake worlds on purpose: same worlds, different author)
     assert a.probe_worlds <= 100 and a.lives <= 5000 and a.holdout_lives <= 5000, "world blocks would overlap"
+    assert nf <= FINAL_BLOCK and getattr(a, "chooser_off_worlds", 0) <= nf, "final battery larger than its block"
     n_situ = 3 * a.situation_worlds
     assert max(a.lives, a.holdout_lives, a.probe_worlds, n_situ) < LIFE_STRIDE and (a.cycles + 1) * LIFE_STRIDE <= 1_000_000, \
         "life ids would collide across cycles or families"   # (Sol's review: lives=1001 collided at stride 1000)
+    assert nf < 1_000_000
     names = list(fam)
     for i, x in enumerate(names):
         assert not any(_sealed(w) for w in fam[x]), f"{x} touches sealed worlds"
+        assert not any(lo <= w <= hi for lo, hi in CLAIMED for w in fam[x]), f"{x} touches a block claimed by Sol"
         for y in names[i + 1:]:
             assert not (fam[x] & fam[y]), f"world families overlap: {x} / {y}"
     return {k: [min(v), max(v)] for k, v in fam.items() if v}
+
+
+def wake_specs(c: int, a, homes: dict, archives: dict, run_dir, run_id, hashes: dict) -> dict:
+    """The lives that become experience in cycle c (pure: tested without running lives).
+    learning: its own lives -> archive-learning.  yoked-source: the FROZEN twin on the same practice worlds ->
+    archive-yoked (the yoked twin's experience: same worlds and count, another author).  heldout: the learning twin's
+    reserved lives -> archive-heldout, never slept on."""
+    seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
+    hseeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
+    common = dict(steps=a.max_steps, run_dir=str(run_dir), run_id=run_id)
+    return {
+        "learning": dict(home=homes["learning"], seeds=seeds, life0=LID["wake"] + c * LIFE_STRIDE,
+                         archive=str(archives["learning"]), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
+                         state_hash=hashes["learning"], **common),
+        "yoked_source": dict(home=homes["frozen"], seeds=seeds, life0=LID["yoked-wake"] + c * LIFE_STRIDE,
+                             archive=str(archives["yoked"]), stream=f"y{c:02d}", who="twin-F-of-cb2-ind-0001",
+                             state_hash=hashes["frozen"], **common),
+        "heldout": dict(home=homes["learning"], seeds=hseeds, life0=LID["heldout"] + c * LIFE_STRIDE,
+                        archive=str(archives["heldout"]), stream=f"h{c:02d}", who="twin-L-of-cb2-ind-0001",
+                        state_hash=hashes["learning"], **common),
+    }
+
+
+def sleep_specs(homes: dict, archives: dict) -> dict:
+    """Who sleeps on what: identical arguments otherwise (same a, cycle, bootstrap, update counts)."""
+    return {"learning": (homes["learning"], archives["learning"]), "yoked": (homes["yoked"], archives["yoked"])}
+
+
+def instrument_check(probes: dict) -> list:
+    """Cycle 0 (before any sleep) every arm is the same individual: every probe life must be identical."""
+    bad = []
+    ref = probes["frozen"]
+    for arm in probes:
+        for fam, lives in probes[arm].items():
+            m = {(r["seed"], r.get("situation")): (r["steps"], r.get("n_unlocked")) for r in ref[fam]}
+            for r in lives:
+                if m.get((r["seed"], r.get("situation"))) != (r["steps"], r.get("n_unlocked")):
+                    bad.append((arm, fam, r["seed"], r.get("situation")))
+    return bad
 
 
 def run(a) -> int:
@@ -488,20 +554,21 @@ def run(a) -> int:
     if (out / "run.json").exists() and not a.resume:
         raise SystemExit(f"{out} exists (use --resume to continue it)")
     out.mkdir(parents=True, exist_ok=True)
-    # learning: sleeps on its own accumulating lives; reference (Sol, DAV-98): the same sleeps, update counts and
-    # budget, but on a FIXED buffer (the cycle-0 lives, never its later experience); frozen: never sleeps
-    twins = {"learning": out / "twins/learning", "reference": out / "twins/reference", "frozen": out / "twins/frozen"}
+    # L1b (docs/explore/CB2_L1B_PREREG_DRAFT.md): learning sleeps on its own accumulating lives; yoked sleeps with
+    # identical budgets on the lives the FROZEN twin lived on the same practice worlds (replaces L1's fixed-buffer
+    # reference, which degraded by itself); frozen never sleeps
+    twins = {k: out / f"twins/{k}" for k in ARMS}
     for t in twins.values():
         if not t.exists():
             shutil.copytree(Path(a.twin) / "cb2-ind-0001", t / "cb2-ind-0001")
     homes = {k: v / "cb2-ind-0001" for k, v in twins.items()}
-    own = out / "archive-learning"
-    own.mkdir(exist_ok=True)
-    fixed_buf = out / "archive-reference"
+    archives = {"learning": out / "archive-learning", "yoked": out / "archive-yoked", "heldout": out / "archive-heldout"}
+    for d in archives.values():
+        d.mkdir(exist_ok=True)
     meta0 = json.loads((homes["frozen"] / "individual.json").read_text())
     prev = json.loads((out / "run.json").read_text()) if (out / "run.json").exists() else {}
     a.run_id = prev.get("run_id") or uuid.uuid4().hex          # this run's identity; every writer checks it
-    (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", "run_id": a.run_id, **git_rev(), "twin_source": str(a.twin),
+    (out / "run.json").write_text(json.dumps({"format": "cb2-l1b/1", "run_id": a.run_id, **git_rev(), "twin_source": str(a.twin),
                                               "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap), "worlds": worlds,
                                               "args": {k: v for k, v in vars(a).items() if k != "func"}}, indent=1) + "\n")
     ctx = mp.get_context("fork")
@@ -527,62 +594,61 @@ def run(a) -> int:
         situ_ids = [s["seed"] * 10 + ("dark_awake", "hungry", "zombie_near").index(s["name"]) for s in bank]
         prior = [json.loads(l) for l in open(out / "cycles.jsonl")] if (out / "cycles.jsonl").exists() else []
         start = len(prior)
-        seen_lives = {r["life"] for p_ in prior for k in ("wake", "heldout") for r in (p_.get(k) or {}).get("learning", [])
-                      if "life" in r}
-        (out / "archive-heldout").mkdir(exist_ok=True)
+        seen_lives = {r["life"] for p_ in prior for k in ("wake", "heldout") for v in (p_.get(k) or {}).values()
+                      for r in v if "life" in r}
         for c in range(start, a.cycles + 1):
             t0 = time.time()
-            rec = {"cycle": c, "twin_hashes": {k: json.loads((h / "individual.json").read_text())["state_hash"] for k, h in homes.items()}}
-            # probes (cycle 0 = before any sleep: both twins are the same individual, a sanity check of the instrument)
+            hashes = {k: json.loads((h / "individual.json").read_text())["state_hash"] for k, h in homes.items()}
+            rec = {"cycle": c, "twin_hashes": hashes}
+            # probes (cycle 0 = before any sleep: every arm is the same individual -- the instrument check below)
             fresh = list(range(FRESH0 + 100 * c, FRESH0 + 100 * c + a.probe_worlds))
             trans = list(range(TRANSFER0 + 100 * c, TRANSFER0 + 100 * c + a.probe_worlds))
-            arms = {"learning": dict(home=homes["learning"]), "reference": dict(home=homes["reference"]),
-                    "frozen": dict(home=homes["frozen"])}
+            arms = {k: dict(home=homes[k]) for k in ARMS}
             if c == a.cycles:
                 arms["learning_chooser_off"] = dict(home=homes["learning"], chooser_on=False)
             # queue every probe set and the wake lives at once (one barrier per cycle), then gather in order
             pend = {}
             for arm, kw in arms.items():
                 pend[arm] = {
-                    "fresh": submit_lives(pool, kw["home"], fresh, "life", 20_000_000 + c * LIFE_STRIDE, a.workers,
+                    "fresh": submit_lives(pool, kw["home"], fresh, "life", LID["fresh"] + c * LIFE_STRIDE, a.workers,
                                           chooser_on=kw.get("chooser_on", True), steps=a.max_steps),
-                    "transfer": submit_lives(pool, kw["home"], trans, "life", 21_000_000 + c * LIFE_STRIDE, a.workers,
+                    "transfer": submit_lives(pool, kw["home"], trans, "life", LID["transfer"] + c * LIFE_STRIDE, a.workers,
                                              chooser_on=kw.get("chooser_on", True), config=TRANSFER, steps=a.max_steps)}
+            woke = {}
             if c < a.cycles:
-                # wake: the learning twin lives new practice worlds; its lives become its experience
-                seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
-                st = json.loads((homes["learning"] / "individual.json").read_text())["state_hash"]
-                wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * LIFE_STRIDE, a.workers,
-                                    archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
-                                    state_hash=st, steps=a.max_steps, run_dir=str(out), run_id=a.run_id)
-                # held-out lives: reserved before any sleep, written to their own archive, never given to a sleep
-                # (Gate 4's memory test needs lives the core was not trained on -- Sol's audit)
-                hseeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
-                held_out = submit_lives(pool, homes["learning"], hseeds, "life", 31_000_000 + c * LIFE_STRIDE, a.workers,
-                                        archive=str(out / "archive-heldout"), stream=f"h{c:02d}",
-                                        who="twin-L-of-cb2-ind-0001", state_hash=st, steps=a.max_steps,
-                                        run_dir=str(out), run_id=a.run_id) if hseeds else (lambda: [])
+                for k, w in wake_specs(c, a, homes, archives, out, a.run_id, hashes).items():
+                    w = dict(w)
+                    if not w["seeds"]:
+                        woke[k] = lambda: []
+                        continue
+                    woke[k] = submit_lives(pool, w.pop("home"), w.pop("seeds"), "life", w.pop("life0"), a.workers, **w)
             for arm, kw in arms.items():
-                pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * LIFE_STRIDE,
+                pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", LID["situations"] + c * LIFE_STRIDE,
                                                        a.workers, chooser_on=kw.get("chooser_on", True), bank=bank)
             rec["probes"] = {arm: {k: g() for k, g in p.items()} for arm, p in pend.items()}
             rec["probe_seconds"] = round(time.time() - t0)
+            if c == 0:
+                bad = instrument_check(rec["probes"])
+                rec["instrument_check"] = {"ok": not bad, "mismatches": bad[:20]}
+                if bad:                                  # keep the evidence, then stop: the arms are not comparable
+                    with open(out / "cycles.jsonl", "a") as fh:
+                        fh.write(json.dumps(rec, default=str) + "\n")
+                    raise RuntimeError(f"instrument check failed at cycle 0: {len(bad)} probe lives differ between arms")
             if c < a.cycles:
-                rec["wake"] = {"learning": wake()}
-                rec["heldout"] = {"learning": held_out()}
-                for r in rec["wake"]["learning"] + rec["heldout"]["learning"]:   # every archived life has its own id
+                got = {k: g() for k, g in woke.items()}
+                rec["wake"] = {"learning": got["learning"], "yoked_source": got["yoked_source"]}
+                rec["heldout"] = {"learning": got["heldout"]}
+                for r in got["learning"] + got["yoked_source"] + got["heldout"]:   # every archived life has its own id
                     if r["life"] in seen_lives:
                         raise RuntimeError(f"life id {r['life']} reused (world {r['seed']}, cycle {c})")
                     seen_lives.add(r["life"])
-                if c == 0 and not fixed_buf.exists():       # the reference twin's fixed buffer: the cycle-0 lives only
-                    shutil.copytree(own, fixed_buf)
+                sp = sleep_specs(homes, archives)
                 if sleepers:                                 # the two twins sleep at once, each on its own GPU
-                    fl = sleepers[0].submit(sleep, homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning")
-                    fr = sleepers[1].submit(sleep, homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")
-                    rec["sleep"] = {"learning": fl.result(), "reference": fr.result()}
+                    fut = {k: sleepers[i].submit(sleep, h, ar, Path(a.bootstrap), c + 1, out, a, k)
+                           for i, (k, (h, ar)) in enumerate(sp.items())}
+                    rec["sleep"] = {k: f.result() for k, f in fut.items()}
                 else:
-                    rec["sleep"] = {"learning": sleep(homes["learning"], own, Path(a.bootstrap), c + 1, out, a, "learning"),
-                                    "reference": sleep(homes["reference"], fixed_buf, Path(a.bootstrap), c + 1, out, a, "reference")}
+                    rec["sleep"] = {k: sleep(h, ar, Path(a.bootstrap), c + 1, out, a, k) for k, (h, ar) in sp.items()}
             rec["seconds"] = round(time.time() - t0)
             with open(out / "cycles.jsonl", "a") as fh:
                 fh.write(json.dumps(rec, default=str) + "\n")
@@ -600,16 +666,20 @@ def _lb(d, q=5):
     return float(np.percentile(d[rng.integers(0, len(d), (10000, len(d)))].mean(1), q))
 
 
-def paired(L, F, key):
+def paired(L, F, key, upper=False):
     m = {(r["seed"], r.get("situation")): r for r in F}
     d = [r[key] - m[(r["seed"], r.get("situation"))][key] for r in L if (r["seed"], r.get("situation")) in m]
-    return {"n": len(d), "mean": float(np.mean(d)) if d else None, "lower95": _lb(d)}
+    out = {"n": len(d), "mean": float(np.mean(d)) if d else None, "lower95": _lb(d)}
+    if upper:
+        out["upper95"] = _lb(d, 95)
+        out["sd"] = float(np.std(d, ddof=1)) if len(d) > 1 else None
+    return out
 
 
 def summary_line(rec) -> dict:
     p = rec["probes"]
     out = {}
-    for other in ("frozen", "reference"):
+    for other in ("frozen", "yoked", "reference"):          # "reference": L1's records
         if other not in p:
             continue
         o = out[f"vs_{other}"] = {}
@@ -622,39 +692,131 @@ def summary_line(rec) -> dict:
     return out
 
 
+MDE = 31.0          # L1b prereg section 4: minimum detectable effect (80% power, N=1,200/family); the futility threshold
+FAMS = ("fresh", "transfer")
+
+
+def verdict(prim: dict) -> dict:
+    """L1b prereg section 5, exactly.  prim[vs_o][fam] has lower95 / upper95 (one-sided 95% bootstrap over worlds)."""
+    G = all(prim["vs_frozen"][f]["lower95"] > 0 for f in FAMS)
+    O = all(prim["vs_yoked"][f]["lower95"] > 0 for f in FAMS)
+    claim = "shown" if G and O else ("growth, not shown to be from its own experience" if G else "not shown")
+    trig = []
+    if prim["vs_frozen"]["fresh"]["upper95"] < MDE:
+        trig.append("futility: no growth of detectable size on fresh -> stop adding to this loop; "
+                    "vanilla-DreamerV3 baseline next, adopt it if it beats us")
+    elif prim["vs_frozen"]["fresh"]["lower95"] > 0 and prim["vs_frozen"]["transfer"]["upper95"] < MDE:
+        trig.append("memorisation-type gain: fresh shown, transfer below detectable size -> change objectives before scaling")
+    if G and all(prim["vs_yoked"][f]["upper95"] < MDE for f in FAMS):
+        trig.append("gain from more data, not its own life: drop the own-experience claim; L2 must earn it")
+    return {"G_growth": G, "O_own_experience": O, "claim": claim, "direction_triggers": trig, "mde": MDE}
+
+
+def final(a) -> int:
+    """The final battery (L1b primary): the three final individuals on FINAL worlds, every arm on the same worlds and
+    life ids; plus the learning twin with its chooser off on the first chooser_off_worlds of each family (Gate 2).
+    Runs after the loop, anywhere with the run directory (e.g. a many-core CPU pod); resumable per arm x family."""
+    out = Path(a.out).resolve()
+    run = json.loads((out / "run.json").read_text())
+    ra = run["args"]
+    C = [json.loads(l) for l in open(out / "cycles.jsonl")]
+    if not C or C[-1]["cycle"] != ra["cycles"]:
+        raise SystemExit("the loop has not finished: the final battery tests the final individuals only")
+    if git_rev()["git"] != run["git"] and not a.rehearsal:
+        raise SystemExit(f"code {git_rev()['git'][:8]} is not the run's {run['git'][:8]}: one revision per run")
+    homes = {k: out / f"twins/{k}/cb2-ind-0001" for k in ARMS}
+    hashes = {k: json.loads((h / "individual.json").read_text())["state_hash"] for k, h in homes.items()}
+    for k in ARMS:                     # the final cycle's record holds the twins as they were after the last sleep
+        if hashes[k] != C[-1]["twin_hashes"][k]:
+            raise SystemExit(f"{k} twin changed since the loop finished ({hashes[k][:12]} != {C[-1]['twin_hashes'][k][:12]})")
+    nf, noff = ra["final_worlds"], ra["chooser_off_worlds"]
+    worlds = {"fresh": list(range(FINAL_FRESH0, FINAL_FRESH0 + nf)), "transfer": list(range(FINAL_TRANSFER0, FINAL_TRANSFER0 + nf))}
+    plan = [(arm, fam, worlds[fam], True) for arm in ARMS for fam in FAMS]
+    plan += [("learning_chooser_off", fam, worlds[fam][:noff], False) for fam in FAMS if noff]
+    part = out / "final"
+    part.mkdir(exist_ok=True)
+    t0 = time.time()
+    from concurrent.futures import ProcessPoolExecutor
+    res = {}
+    with ProcessPoolExecutor(a.workers, mp_context=mp.get_context("fork")) as pool:
+        pend = {}
+        for arm, fam, seeds, on in plan:
+            f = part / f"{arm}-{fam}.json"
+            home = homes["learning" if arm == "learning_chooser_off" else arm]
+            h = hashes["learning" if arm == "learning_chooser_off" else arm]
+            if f.exists():
+                got = json.loads(f.read_text())
+                if got["state_hash"] != h or [r["seed"] for r in got["lives"]] != seeds:
+                    raise SystemExit(f"{f} is from another individual or plan")
+                res.setdefault(arm, {})[fam] = got["lives"]
+                continue
+            kw = dict(chooser_on=on, steps=ra["max_steps"])
+            if fam == "transfer":
+                kw["config"] = TRANSFER
+            pend[(arm, fam)] = (submit_lives(pool, home, seeds, "life", LID[f"final-{fam}"], a.workers, **kw), h, f)
+        for (arm, fam), (g, h, f) in pend.items():
+            lives = g()
+            f.write_text(json.dumps({"state_hash": h, "lives": lives}) + "\n")
+            res.setdefault(arm, {})[fam] = lives
+    rec = {"format": "cb2-l1b-final/1", "run_id": run["run_id"], **git_rev(), "twin_hashes": hashes,
+           "worlds": {k: [v[0], v[-1]] for k, v in worlds.items()}, "chooser_off_worlds": noff,
+           "seconds": round(time.time() - t0), "arms": res}
+    (out / "final.json").write_text(json.dumps(rec) + "\n")
+    print(json.dumps({"final_seconds": rec["seconds"], **{f"n_{k}": {f: len(v) for f, v in d.items()} for k, d in res.items()}}))
+    return 0
+
+
 def report(a) -> int:
     out = Path(a.out)
     C = [json.loads(l) for l in open(out / "cycles.jsonl")]
-    rep = {"format": "cb2-l1-report/1", "run": json.loads((out / "run.json").read_text()),
+    ctrl = "yoked" if "yoked" in C[0]["probes"] else "reference"          # L1 records used "reference"
+    rep = {"format": "cb2-l1b-report/1", "run": json.loads((out / "run.json").read_text()),
+           "instrument_check_cycle0": C[0].get("instrument_check"),
            "cycles": [{"cycle": r["cycle"], **summary_line(r)} for r in C]}
-    # primary (l1-prereg.json): pooled over cycles 6-10, learning minus frozen and learning minus reference
+    # primary (L1b prereg section 4/5): the final individuals on the final battery
+    fj = out / "final.json"
+    if fj.exists():
+        F = json.loads(fj.read_text())["arms"]
+        prim = {f"vs_{o}": {fam: paired(F["learning"][fam], F[o][fam], "steps", upper=True) for fam in FAMS}
+                for o in ("frozen", ctrl)}
+        rep["primary_final"] = prim
+        rep["verdict"] = verdict(prim) if ctrl == "yoked" else None
+        if "learning_chooser_off" in F:
+            rep["gate2_final"] = {fam: paired(F["learning"][fam], F["learning_chooser_off"][fam], "steps", upper=True)
+                                  for fam in F["learning_chooser_off"]}
+    else:
+        rep["primary_final"] = rep["verdict"] = None
+        rep["note"] = "final battery not run yet: no primary result"
+    # secondary: pooled over cycles 6-10 (L1's primary, kept for continuity)
     late = [r for r in C if 6 <= r["cycle"] <= 10]
-    rep["primary_pooled_cycles_6_10"] = {
+    sec = rep["secondary_pooled_cycles_6_10"] = {
         f"vs_{o}": {fam: paired([x for r in late for x in r["probes"]["learning"][fam]],
                                 [x for r in late for x in r["probes"][o][fam]], "steps")
-                    for fam in ("fresh", "transfer")} for o in ("frozen", "reference")}
-    for o in ("frozen", "reference"):                       # situations: per situation, mean over cycles 6-10
+                    for fam in FAMS} for o in ("frozen", ctrl)}
+    for o in ("frozen", ctrl):                              # situations: per situation, mean over cycles 6-10
         sid = sorted({(x["seed"], x["situation"]) for r in late for x in r["probes"]["learning"]["situations"]})
         mean = lambda arm, k: np.mean([x["steps"] for r in late for x in r["probes"][arm]["situations"]
                                        if (x["seed"], x["situation"]) == k])
         d = [mean("learning", k) - mean(o, k) for k in sid]
-        rep["primary_pooled_cycles_6_10"][f"vs_{o}"]["situations"] = {"n": len(d), "mean": float(np.mean(d)) if d else None,
-                                                                     "lower95": _lb(d)}
+        sec[f"vs_{o}"]["situations"] = {"n": len(d), "mean": float(np.mean(d)) if d else None, "lower95": _lb(d)}
     by = {r["cycle"]: r for r in C}
     if 5 in by and 10 in by:
         rep["retention_situations_c10_minus_c5"] = paired(by[10]["probes"]["learning"]["situations"],
                                                           by[5]["probes"]["learning"]["situations"], "steps")
+    rep["exposure_per_sleep"] = [{"cycle": r["cycle"], **{k: {x: v.get(x) for x in ("own_rows", "own_streams", "own_excluded_rows")}
+                                                          for k, v in (r.get("sleep") or {}).items()}} for r in C if r.get("sleep")]
     sl = [json.loads(l) for l in open(out / "sleep.jsonl")] if (out / "sleep.jsonl").exists() else []
+    last_u = max((x.get("chooser_update", 0) for x in sl), default=0)
     rep["hands_model_training_accuracy"] = {f"{r['twin']}-c{r['cycle']}": r["hands_acc"] for r in sl if "hands_acc" in r
-                                            and r["chooser_update"] == max(x.get("chooser_update", 0) for x in sl)}
-    rep["learned_authored_primitive_share"] = 0.0           # the executor is still scripted in L1 (reported plainly)
+                                            and r.get("chooser_update") == last_u}
+    rep["learned_authored_primitive_share"] = 0.0           # the executor is still scripted (reported plainly)
     last = C[-1]
     if "learning_chooser_off" in last["probes"]:
         p = last["probes"]
-        rep["gate2_ablation"] = {fam: paired(p["learning"][fam], p["learning_chooser_off"][fam], "steps")
-                                 for fam in ("fresh", "transfer", "situations")}
+        rep["gate2_last_cycle"] = {fam: paired(p["learning"][fam], p["learning_chooser_off"][fam], "steps")
+                                   for fam in ("fresh", "transfer", "situations")}
     Path(a.report).write_text(json.dumps(rep, indent=1) + "\n")
-    print(json.dumps(rep["cycles"][-1], indent=1))
+    print(json.dumps({"verdict": rep["verdict"], "primary_final": rep["primary_final"]}, indent=1))
     return 0
 
 
@@ -681,7 +843,14 @@ def main() -> int:
     r.add_argument("--horizon", type=int, default=15)
     r.add_argument("--resume", action="store_true")
     r.add_argument("--max-steps", type=int, default=10000)
+    r.add_argument("--final-worlds", type=int, default=1200, help="final battery worlds per family (L1b primary)")
+    r.add_argument("--chooser-off-worlds", type=int, default=300, help="of those, Gate 2 ablation worlds per family")
     r.set_defaults(func=run)
+    fb = sub.add_parser("final", help="the final battery, after the loop (any machine holding the run directory)")
+    fb.add_argument("--out", required=True)
+    fb.add_argument("--workers", type=int, default=30)
+    fb.add_argument("--rehearsal", action="store_true", help="allow a code revision other than the run's (rehearsals only)")
+    fb.set_defaults(func=final)
     bq = sub.add_parser("bench-sleep")
     bq.add_argument("--twin", required=True, help="a cb2-ind-0001 directory (copied, never changed)")
     bq.add_argument("--own", required=True, help="an archive of its own lives (with .cmd.npy sidecars)")
@@ -694,7 +863,7 @@ def main() -> int:
     bq.set_defaults(func=bench_sleep)
     q = sub.add_parser("report")
     q.add_argument("--out", required=True)
-    q.add_argument("--report", default=str(REPO / "evidence/explore/cb2/l1-report.json"))
+    q.add_argument("--report", default=str(REPO / "evidence/explore/cb2/l1b-report.json"))
     q.set_defaults(func=report)
     a = ap.parse_args()
     return a.func(a)
