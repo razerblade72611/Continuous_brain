@@ -54,6 +54,7 @@ RUN = 9
 # overlapped across families (fresh cycle 5 = transfer cycle 0; the situation bank = transfer cycle 5) -- Sol's audit.
 # Disjoint by construction now, and checked at start (_check_worlds).
 FRESH0, TRANSFER0, SITU0 = 78100, 80100, 82100
+LIFE_STRIDE = 50_000       # life ids: family base (1,000,000 apart) + cycle * LIFE_STRIDE + index; counts < LIFE_STRIDE
 TRANSFER = {"arrival_rate0": 2 / 110, "arrival_growth": 0.3, "arrival_rate_max": 1 / 20,
             "family_weights": {"collect": 0.10, "craft": 0.06, "place": 0.07, "maintain": 0.25, "avoid": 0.30,
                                "visit": 0.08, "report": 0.14}}
@@ -278,7 +279,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     import torch.nn.functional as F
     from continuous_brain_cb2.archive import Archive
     from continuous_brain_cb2.chooser import Chooser, ChooserConfig
-    from continuous_brain_cb2.data import SequenceSampler
+    from continuous_brain_cb2.data import SequenceSampler, train_mask
     from continuous_brain_cb2.skill_host import pack_weights, unpack_chooser, unpack_weights
     from continuous_brain_cb2.world_model import PredictiveCore
     rid = getattr(a, "run_id", None)
@@ -334,13 +335,19 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
                 raise RuntimeError(f"{twin} sleep {cycle}: non-finite {col} in {s.stream}")
     log = []
     t0 = time.time()
+    prog = Path(out) / f"sleep-progress-{twin}-c{cycle:02d}.jsonl"    # appended as it happens, not only at the end
+
+    def progress(rec):
+        log.append(rec)
+        with open(prog, "a") as fh:
+            fh.write(json.dumps(rec) + "\n")
     # L-A: the core continues, alternating its recent lives with its whole past
     for u in range(1, a.core_updates + 1):
         with amp():
             m = core.train_step((s_own if u % 2 else s_boot).batch(a.batch))
         if u % 250 == 0 or u == a.core_updates:
             ev = core.evaluate(s_own.batch(a.batch))
-            log.append({"twin": twin, "cycle": cycle, "core_update": u, "s": round(time.time() - t0), "train": m,
+            progress({"twin": twin, "cycle": cycle, "core_update": u, "s": round(time.time() - t0), "train": m,
                         "own_heldout_like": {k: ev[k] for k in ev if k.startswith(("map_", "risk_brier", "openloop", "copy_last", "image"))}})
     core.eval()
     burn = T // 4
@@ -369,29 +376,37 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         opt.zero_grad(); loss.backward(); opt.step()
         if u % 250 == 0 or u == a.anchor_updates:
             agree = float((logits.argmax(-1) == target.argmax(-1)).float().mean())
-            log.append({"twin": twin, "cycle": cycle, "anchor_update": u, "s": round(time.time() - t0), "kl": float(loss),
+            progress({"twin": twin, "cycle": cycle, "anchor_update": u, "s": round(time.time() - t0), "kl": float(loss),
                         "agreement": agree})
     pol.eval()
     # L-C: its hands and the value of its states, from its own lives only
     ch = ch0 if ch0 is not None else Chooser(ChooserConfig(tau=a.tau, horizon=a.horizon), core.feat_size, dev)
     ch.to(dev); ch.device = dev
     ch.train()
-    skipped = 0
+    skipped, blk_vmax, blk_cap = 0, 0.0, 0.0
     for u in range(1, a.chooser_updates + 1):
         b = s_own.batch(a.batch)
-        f = feats(core, b)[:, burn:]
+        f = feats(core, b)
         tt = lambda x, dt=torch.int64: torch.as_tensor(np.asarray(x), dtype=dt, device=dev)
+        mask = tt(train_mask(b["life_start"], burn), torch.bool)
         # the window's "reward" is the previous step's (the core's input): the reward of transition t is at t + 1
         # the reward of each transition, terminal rewards included (L1 shifted the core's masked input instead and
         # lost every life's terminal reward -- Sol's audit)
-        m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(b["reward_out"][:, burn:], torch.float32),
-                          (1 - tt(b["cont"][:, burn:], torch.float32)).bool(), tt(b["is_first"][:, burn:], torch.float32))
+        m = ch.train_step(f, tt(b["command"]), tt(b["action"]), tt(b["reward_out"], torch.float32),
+                          (1 - tt(b["cont"], torch.float32)).bool(), tt(b["is_first"], torch.float32), mask)
         skipped += m.get("skipped", 0)
+        blk_vmax, blk_cap = max(blk_vmax, m.get("value_raw_absmax", 0.0)), max(blk_cap, m.get("value_capped_frac", 0.0))
+        if m.get("skipped"):
+            progress({"twin": twin, "cycle": cycle, "chooser_update": u, "event": "skipped non-finite update", **m})
         if skipped > max(5, a.chooser_updates // 100):     # tripwire: stop loudly rather than learn from bad numbers
+            progress({"twin": twin, "cycle": cycle, "chooser_update": u, "event": "TRIPWIRE", "skipped_so_far": skipped})
             raise RuntimeError(f"{twin} sleep {cycle}: {skipped} non-finite chooser updates by update {u}")
         if u % 250 == 0 or u == a.chooser_updates:
-            log.append({"twin": twin, "cycle": cycle, "chooser_update": u, "s": round(time.time() - t0),
-                        "skipped_so_far": skipped, **m})
+            # value_raw_absmax / value_capped_frac: this update's batch; block_*: the maximum over every update since
+            # the previous record (Sol's review asked which one is logged)
+            progress({"twin": twin, "cycle": cycle, "chooser_update": u, "s": round(time.time() - t0),
+                      "skipped_so_far": skipped, **m, "block_value_raw_absmax": blk_vmax, "block_value_capped_frac": blk_cap})
+            blk_vmax, blk_cap = 0.0, 0.0
     ch.eval()
     for x in (core, pol, ch):
         x.to("cpu")
@@ -454,6 +469,9 @@ def _check_worlds(a) -> dict:
         fam[f"heldout-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)}
     fam["situations"] = set(range(SITU0, SITU0 + a.situation_worlds))
     assert a.probe_worlds <= 100 and a.lives <= 5000 and a.holdout_lives <= 5000, "world blocks would overlap"
+    n_situ = 3 * a.situation_worlds
+    assert max(a.lives, a.holdout_lives, a.probe_worlds, n_situ) < LIFE_STRIDE and (a.cycles + 1) * LIFE_STRIDE <= 1_000_000, \
+        "life ids would collide across cycles or families"   # (Sol's review: lives=1001 collided at stride 1000)
     names = list(fam)
     for i, x in enumerate(names):
         assert not any(_sealed(w) for w in fam[x]), f"{x} touches sealed worlds"
@@ -526,26 +544,26 @@ def run(a) -> int:
             pend = {}
             for arm, kw in arms.items():
                 pend[arm] = {
-                    "fresh": submit_lives(pool, kw["home"], fresh, "life", 20_000_000 + c * 1000, a.workers,
+                    "fresh": submit_lives(pool, kw["home"], fresh, "life", 20_000_000 + c * LIFE_STRIDE, a.workers,
                                           chooser_on=kw.get("chooser_on", True), steps=a.max_steps),
-                    "transfer": submit_lives(pool, kw["home"], trans, "life", 21_000_000 + c * 1000, a.workers,
+                    "transfer": submit_lives(pool, kw["home"], trans, "life", 21_000_000 + c * LIFE_STRIDE, a.workers,
                                              chooser_on=kw.get("chooser_on", True), config=TRANSFER, steps=a.max_steps)}
             if c < a.cycles:
                 # wake: the learning twin lives new practice worlds; its lives become its experience
                 seeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)]
                 st = json.loads((homes["learning"] / "individual.json").read_text())["state_hash"]
-                wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
+                wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * LIFE_STRIDE, a.workers,
                                     archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
                                     state_hash=st, steps=a.max_steps, run_dir=str(out), run_id=a.run_id)
                 # held-out lives: reserved before any sleep, written to their own archive, never given to a sleep
                 # (Gate 4's memory test needs lives the core was not trained on -- Sol's audit)
                 hseeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
-                held_out = submit_lives(pool, homes["learning"], hseeds, "life", 31_000_000 + c * 1000, a.workers,
+                held_out = submit_lives(pool, homes["learning"], hseeds, "life", 31_000_000 + c * LIFE_STRIDE, a.workers,
                                         archive=str(out / "archive-heldout"), stream=f"h{c:02d}",
                                         who="twin-L-of-cb2-ind-0001", state_hash=st, steps=a.max_steps,
                                         run_dir=str(out), run_id=a.run_id) if hseeds else (lambda: [])
             for arm, kw in arms.items():
-                pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * 1000,
+                pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * LIFE_STRIDE,
                                                        a.workers, chooser_on=kw.get("chooser_on", True), bank=bank)
             rec["probes"] = {arm: {k: g() for k, g in p.items()} for arm, p in pend.items()}
             rec["probe_seconds"] = round(time.time() - t0)

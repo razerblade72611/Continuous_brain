@@ -140,6 +140,15 @@ class FrameCache:
         return arr
 
 
+def train_mask(life_start: np.ndarray, burn: int) -> np.ndarray:
+    """[B,T] rows that may be training targets.  A window that begins mid-life needs ``burn`` rows to warm the
+    recurrent state; a row at or after a TRUE life start already has the state the individual really had (a fresh
+    one), so it is a valid target at once.  (L1 used rows >= burn only: the first ``burn`` rows of every stream, and so
+    short lives at a stream's head, never reached value/hands training -- found in Sol's review.)"""
+    T = life_start.shape[1]
+    return (np.arange(T)[None, :] >= burn) | (np.cumsum(life_start, axis=1) > 0)
+
+
 class SequenceSampler:
     """Random windows of T steps.  ``batch()`` returns numpy arrays shaped [B, T, ...]."""
 
@@ -220,6 +229,8 @@ class SequenceSampler:
             arr = self.cache.group(ref, g, ns, column)
             a0 = local - g * self.row_group
             take = min(end - i, len(arr) - a0)
+            if take <= 0:                                  # row groups smaller than assumed would loop forever
+                raise ValueError(f"{s.stream}: row group {g} has {len(arr)} rows; sampler row_group={self.row_group}")
             out.append(arr[a0:a0 + take])
             i += take
         return np.concatenate(out)
@@ -231,7 +242,9 @@ class SequenceSampler:
         prev = np.r_[0, act[:-1]]
         rew = c["rew_total"]
         prev_rew = np.r_[0.0, rew[start:start + T - 1]] if start == 0 else rew[start - 1:start + T - 1]
-        is_first = c["is_first"][sl].copy()
+        # true life starts only: a new life at step 0 (an archive or shard head that begins mid-life is not one)
+        life_start = c["is_first"][sl] & (c["step"][sl] == 0)
+        is_first = life_start.copy()
         is_first[0] = True                                  # every window starts its own recurrent state
         out = {"image": self._column(s, start, T, "student", "frame"), "body": c["body"][sl],
                "action": act, "prev_action": np.where(is_first, 0, prev), "reward": np.where(is_first, 0.0, prev_rew),
@@ -239,6 +252,7 @@ class SequenceSampler:
                # learning target for anything that values transitions.  "reward" above is the core's *input* (the
                # previous transition's reward, zeroed at a life's first row) and must not be shifted to stand in for it
                "reward_out": rew[sl].astype(np.float32),
+               "life_start": life_start.astype(np.float32),
                "cont": 1.0 - c["done"][sl].astype(np.float32), "is_first": is_first.astype(np.float32),
                "risk": c["risk"][sl], "who": c["who"][sl]}
         if "teacher_action" in c:

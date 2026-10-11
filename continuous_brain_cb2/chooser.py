@@ -99,9 +99,12 @@ class Chooser(nn.Module):
                    "changed": c != int(logp.argmax()), "nonfinite": bad}
 
     # ----------------------------------------------------------------------------------------- learning
-    def losses(self, feat, command, action, reward, done, is_first):
-        """feat [B,T,F] (detached core states of its lived windows), command/action/reward/done [B,T]."""
-        hl = F.cross_entropy(self.hands_logits(feat, command).reshape(-1, N_ACTIONS), action.reshape(-1))
+    def losses(self, feat, command, action, reward, done, is_first, mask=None):
+        """feat [B,T,F] (detached core states of its lived windows), command/action/reward/done [B,T].
+        mask [B,T] (bool, optional): rows that are training targets (see data.train_mask); default all rows."""
+        m = torch.ones_like(action, dtype=torch.bool) if mask is None else mask.bool()
+        hl_rows = F.cross_entropy(self.hands_logits(feat, command).reshape(-1, N_ACTIONS), action.reshape(-1), reduction="none")
+        hl = (hl_rows * m.reshape(-1).float()).sum() / m.sum().clamp(min=1)
         with torch.no_grad():
             r = reward - DEATH * done.float()
             v = self.v(feat)
@@ -116,10 +119,12 @@ class Chooser(nn.Module):
                 nxt = r[:, t] + self.cfg.gamma * (1 - end) * (1 - cut) * ((1 - self.cfg.lam) * boot + self.cfg.lam * nxt)
                 ret[:, t] = nxt
         raw = self.value(feat).squeeze(-1)
-        vl = F.mse_loss(raw[:, : T - 1], symlog(ret)[:, : T - 1])
+        vm = m.clone()
+        vm[:, T - 1] &= done[:, T - 1].bool()               # the last row has no next value: a target only if terminal
+        vl = (((raw - symlog(ret)) ** 2) * vm.float()).sum() / vm.sum().clamp(min=1)
         with torch.no_grad():                               # telemetry: how close the raw value head is to its bound
             vmax, vcap = float(raw.abs().max()), float((raw.abs() >= VCLIP).float().mean())
-        acc = (self.hands_logits(feat, command).argmax(-1) == action).float().mean()
+        acc = ((self.hands_logits(feat, command).argmax(-1) == action).float() * m.float()).sum() / m.sum().clamp(min=1)
         return hl + vl, {"hands_loss": float(hl), "hands_acc": float(acc), "value_loss": float(vl),
                          "value_raw_absmax": vmax, "value_capped_frac": vcap}
 
