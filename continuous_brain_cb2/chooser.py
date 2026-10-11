@@ -115,9 +115,13 @@ class Chooser(nn.Module):
                 cut = is_first[:, t + 1].float() if t + 1 < T else torch.zeros_like(end)
                 nxt = r[:, t] + self.cfg.gamma * (1 - end) * (1 - cut) * ((1 - self.cfg.lam) * boot + self.cfg.lam * nxt)
                 ret[:, t] = nxt
-        vl = F.mse_loss(self.value(feat).squeeze(-1)[:, : T - 1], symlog(ret)[:, : T - 1])
+        raw = self.value(feat).squeeze(-1)
+        vl = F.mse_loss(raw[:, : T - 1], symlog(ret)[:, : T - 1])
+        with torch.no_grad():                               # telemetry: how close the raw value head is to its bound
+            vmax, vcap = float(raw.abs().max()), float((raw.abs() >= VCLIP).float().mean())
         acc = (self.hands_logits(feat, command).argmax(-1) == action).float().mean()
-        return hl + vl, {"hands_loss": float(hl), "hands_acc": float(acc), "value_loss": float(vl)}
+        return hl + vl, {"hands_loss": float(hl), "hands_acc": float(acc), "value_loss": float(vl),
+                         "value_raw_absmax": vmax, "value_capped_frac": vcap}
 
     def train_step(self, *args) -> dict:
         self.train()

@@ -47,9 +47,13 @@ def device(name: str) -> str:
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 
-def split(archive, heldout_lives: int):
+def split(archive, heldout_lives: int, test_archive=None):
     from continuous_brain_cb2.archive import Archive
     arch = Archive(archive)
+    if test_archive:                    # lives reserved before training, in their own archive: a true holdout
+        test = Archive(test_archive).shards(("LIVED", "PRACTICE"))
+        held = sorted({l for r in test for l in r.manifest["lives"]})
+        return arch, arch.shards(("LIVED", "PRACTICE")), test, held
     lived = arch.shards(("LIVED",))
     if not lived:                       # no lived stream (an engineering archive): hold out the last practice lives
         lived = [r for r in arch.shards(("PRACTICE",)) if not r.stream.endswith("-routine")]
@@ -285,7 +289,7 @@ def probe_life(a) -> int:
     trained.eval()
     torch.manual_seed(12345)
     untrained = PredictiveCore(trained.cfg, dev)
-    arch, train, test, held = split(a.archive, a.heldout_lives)
+    arch, train, test, held = split(a.archive, a.heldout_lives, getattr(a, "test_archive", None))
     out_of_view = np.ones((33, 33), bool)
     out_of_view[16 - 3:16 + 4, 16 - 4:16 + 5] = False
 
@@ -501,6 +505,7 @@ def main() -> int:
             p.add_argument("--label", required=True)
         if name == "probe-life":
             p.add_argument("--fit-lives", type=int, default=24)
+            p.add_argument("--test-archive", default=None, help="test on this archive's lives (reserved before training)")
             p.add_argument("--test-lives", type=int, default=12)
             p.add_argument("--skip", type=int, default=64, help="probe from this step of each life on")
             p.add_argument("--every", type=int, default=4)

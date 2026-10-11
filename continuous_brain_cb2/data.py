@@ -84,6 +84,7 @@ class StreamIndex:
     offsets: np.ndarray          # first stream row of each shard
     cols: dict                   # small per-row arrays
     namespaces: tuple
+    components: tuple = ()       # ((stream, rows), ...) when several short streams are chained into one
 
     @classmethod
     def load(cls, archive: Archive, refs: list[ShardRef], namespaces=("student",)) -> "StreamIndex":
@@ -144,14 +145,37 @@ class SequenceSampler:
 
     def __init__(self, archive: Archive, refs: list[ShardRef], T: int = 64, seed: int = 0,
                  namespaces=("student",), row_group: int = 4096, cache_groups: int = 24, map_crop: bool = False,
-                 preload: bool = False):
+                 preload: bool = False, chain_short: bool = False):
         self.archive, self.T = archive, T
         by_stream: dict[str, list[ShardRef]] = {}
         for r in refs:
             by_stream.setdefault(r.stream, []).append(r)
-        self.streams = [StreamIndex.load(archive, sorted(v, key=lambda r: r.manifest["shard"]), namespaces)
-                        for v in by_stream.values()]
+        groups = {k: sorted(v, key=lambda r: r.manifest["shard"]) for k, v in by_stream.items()}
+        self.streams = [StreamIndex.load(archive, v, namespaces) for v in groups.values()]
+        short = sorted((s for s in self.streams if len(s) < T), key=lambda s: s.stream)
         self.streams = [s for s in self.streams if len(s) >= T]
+        self.excluded_rows = sum(len(s) for s in short)
+        if chain_short and short:
+            # lives shorter than a window (early deaths) are kept: consecutive short streams are chained into one
+            # index; is_first marks every life start, so windows never carry state or reward across a boundary
+            chains, cur, n = [], [], 0
+            for s in short:
+                cur.append(s); n += len(s)
+                if n >= T:
+                    chains.append(cur); cur, n = [], 0
+            if cur:
+                if chains:
+                    chains[-1] += cur
+                else:
+                    chains.append(cur)
+            for ch in chains:
+                if sum(len(s) for s in ch) < T:
+                    continue                               # (only possible when all short streams together < T)
+                idx = StreamIndex.load(archive, [r for s in ch for r in groups[s.stream]], namespaces)
+                idx.stream = "+".join(s.stream for s in ch)
+                idx.components = tuple((s.stream, len(s)) for s in ch)
+                self.streams.append(idx)
+                self.excluded_rows -= len(idx)
         if not self.streams:
             raise ValueError(f"no stream has {T} rows")
         w = np.asarray([len(s) - T + 1 for s in self.streams], np.float64)
@@ -211,6 +235,10 @@ class SequenceSampler:
         is_first[0] = True                                  # every window starts its own recurrent state
         out = {"image": self._column(s, start, T, "student", "frame"), "body": c["body"][sl],
                "action": act, "prev_action": np.where(is_first, 0, prev), "reward": np.where(is_first, 0.0, prev_rew),
+               # the reward of the transition taken at each row (outgoing; a life's terminal reward included) -- the
+               # learning target for anything that values transitions.  "reward" above is the core's *input* (the
+               # previous transition's reward, zeroed at a life's first row) and must not be shifted to stand in for it
+               "reward_out": rew[sl].astype(np.float32),
                "cont": 1.0 - c["done"][sl].astype(np.float32), "is_first": is_first.astype(np.float32),
                "risk": c["risk"][sl], "who": c["who"][sl]}
         if "teacher_action" in c:

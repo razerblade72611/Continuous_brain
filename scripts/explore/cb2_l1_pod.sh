@@ -92,6 +92,7 @@ for t in ("learning", "frozen"):
 PY
 for t in learning frozen; do
   python scripts/explore/cb2_sleep.py probe-life --archive runs/explore/cb2/l1/archive-learning --heldout-lives 20 \
+    --test-archive runs/explore/cb2/l1/archive-heldout \
     --core runs/explore/cb2/l1/core-$t.pt --fit-lives 120 --test-lives 20 --out evidence/explore/cb2/l1-gate4-$t.json > /dev/null || true
 done
 echo "== $(date -u) packing results"

@@ -50,7 +50,10 @@ from cb2_collect import PRACTICE_BASE, RESERVED, git_rev, vision  # noqa: E402
 from cb2_evaluate import _consolidate, load_individual  # noqa: E402
 
 RUN = 9
-FRESH0, TRANSFER0, SITU0 = 78100, 78600, 79100        # development probe worlds (never practice, never sealed)
+# development probe worlds (never practice, never sealed).  L1 used 78100 / 78600 / 79100, whose per-cycle blocks
+# overlapped across families (fresh cycle 5 = transfer cycle 0; the situation bank = transfer cycle 5) -- Sol's audit.
+# Disjoint by construction now, and checked at start (_check_worlds).
+FRESH0, TRANSFER0, SITU0 = 78100, 80100, 82100
 TRANSFER = {"arrival_rate0": 2 / 110, "arrival_growth": 0.3, "arrival_rate_max": 1 / 20,
             "family_weights": {"collect": 0.10, "craft": 0.06, "place": 0.07, "maintain": 0.25, "avoid": 0.30,
                                "visit": 0.08, "report": 0.14}}
@@ -79,6 +82,12 @@ def _cmd(ind):
     return int(last.get("command", -1)), bool((last.get("chooser") or {}).get("changed", False))
 
 
+def _fallback(ind) -> int:
+    """1 when the chooser fell back to the prior this tick because its imagination was non-finite."""
+    last = getattr(ind.rt.components["skills"], "last", None) or {}
+    return int(bool((last.get("chooser") or {}).get("nonfinite", False)))
+
+
 def life_job(job):
     """One worker's share of lives: job = {home, seeds, kind, life0, archive?, stream?, chooser_on, config?}."""
     from continuous_brain_cb2.archive import StreamWriter
@@ -95,15 +104,17 @@ def life_job(job):
             _guard(job.get("run_dir"), job.get("run_id"), f"wake {job.get('stream')}")
         if _sealed(seed):
             raise SystemExit(f"refusing sealed world {seed}")
-        ind, _ = _actor(job["home"], job["life0"] + i, job.get("chooser_on", True))
+        life_id = job["lives"][i]
+        ind, _ = _actor(job["home"], life_id, job.get("chooser_on", True))
         cfg = W1Config(**job.get("config", {}))
         env = W1Env(cfg)
-        stats = {"changed": 0, "steps": 0, "dmg": 0}
+        stats = {"changed": 0, "steps": 0, "dmg": 0, "fallback": 0}
 
         def on_step(n, action, _u, _o, _r, info2, ind=ind):
             c, ch = _cmd(ind)
             cmds.append(c)
             stats["changed"] += int(ch)
+            stats["fallback"] += _fallback(ind)
             ev = info2.get("events", {}) or {}
             if ev.get("zombie_hits") or ev.get("arrow_hits"):
                 stats["dmg"] += 1
@@ -119,9 +130,11 @@ def life_job(job):
                 ev = info.get("events", {}) or {}
                 stats["dmg"] += max(0, h0 - int(info["privileged"]["health"])) if (ev.get("zombie_hits") or ev.get("arrow_hits")) else 0
                 stats["changed"] += int(_cmd(ind)[1])
+                stats["fallback"] += _fallback(ind)
                 n += 1
-            out.append({"seed": seed, "situation": snap["name"], "steps": n, "died": bool(done) and n < SITU_STEPS,
-                        "combat_damage": stats["dmg"], "chooser_changed": stats["changed"]})
+            out.append({"seed": seed, "life": life_id, "situation": snap["name"], "steps": n,
+                        "died": bool(done) and n < SITU_STEPS, "combat_damage": stats["dmg"],
+                        "chooser_changed": stats["changed"], "chooser_fallback": stats["fallback"]})
             continue
         if writer is not None:
             rec = record_life(ind, env, seed, writer, steps=job.get("steps", 10000), who="SELF", lived=False, on_step=on_step)
@@ -138,12 +151,16 @@ def life_job(job):
                 n += 1
             rec = {"steps": n, "done": bool(done)}
         s = env.episode_summary()
-        out.append({"seed": seed, "steps": rec["steps"], "died": bool(rec["done"]) and rec["steps"] < job.get("steps", 10000),
+        out.append({"seed": seed, "life": life_id, "chooser_fallback": stats["fallback"],
+                    "steps": rec["steps"], "died": bool(rec["done"]) and rec["steps"] < job.get("steps", 10000),
                     "n_unlocked": s["crafter"]["n_unlocked"], "unlocked": sorted(s["crafter"]["unlocked"]),
                     "fulfilled": s["obligations"]["fulfilled"], "failed": s["obligations"]["failed"],
                     "combat_hits": stats["dmg"], "chooser_changed": stats["changed"]})
     if writer is not None:
-        np.save(Path(job["archive"]) / f"{job['stream']}.cmd.npy", np.asarray(cmds, np.int8))
+        p = Path(job["archive"]) / f"{job['stream']}.cmd.npy"
+        np.save(p, np.asarray(cmds, np.int8))
+        import hashlib                                     # the sidecar is outside the archive's own checksums
+        (p.parent / f"{job['stream']}.cmd.sha256").write_text(hashlib.sha256(p.read_bytes()).hexdigest() + "\n")
     return out
 
 
@@ -152,9 +169,10 @@ def submit_lives(pool, home, seeds, kind, life0, workers, **kw):
     before gathering keeps all workers busy (one barrier per cycle instead of one per set); the chunking, seeds and
     life ids are exactly those of run_lives, so the results are the same."""
     chunks = [seeds[k::workers] for k in range(workers) if seeds[k::workers]]
+    life_of = {s: life0 + n for n, s in enumerate(seeds)}   # one life id per world, whatever the worker split
     futs = []
     for k, ch in enumerate(chunks):
-        j = {"home": str(home), "seeds": ch, "kind": kind, "life0": life0 + k * 1000, **kw}
+        j = {"home": str(home), "seeds": ch, "kind": kind, "lives": [life_of[s] for s in ch], **kw}
         if kw.get("archive"):
             j["stream"] = f"{kw['stream']}-w{k:02d}"
         if kind == "situation":
@@ -188,12 +206,13 @@ def build_bank(home, seeds, out: Path) -> list[dict]:
         env = W1Env(W1Config())
         obs = env.reset(seed)
         info = first_info(env)
-        want = {"dusk_outside": None, "hungry": None, "zombie_near": None}
+        # "dark_awake" is what L1 called "dusk_outside": it checks darkness and wakefulness, NOT being outside a shelter
+        want = {"dark_awake": None, "hungry": None, "zombie_near": None}
         n, done = 0, False
         while n < 3000 and not done and any(v is None for v in want.values()):
             pv = info["privileged"]
             pos = pv["player_pos"]
-            cond = {"dusk_outside": dl.is_dark(int(obs["step"])) and not pv["sleeping"],
+            cond = {"dark_awake": dl.is_dark(int(obs["step"])) and not pv["sleeping"],
                     "hungry": pv["inventory"]["food"] <= 3,
                     "zombie_near": any(o["kind"] == "zombie" and abs(o["pos"][0] - pos[0]) + abs(o["pos"][1] - pos[1]) <= 3
                                        for o in pv["objects"])}
@@ -287,15 +306,28 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     boot = Archive(bootstrap).shards(("LIVED",)) or Archive(bootstrap).shards(("PRACTICE",))   # (engineering smoke: practice)
     T = a.T
     ns = ("student", "organ")
-    s_own = SequenceSampler(Archive(own_archive), own, T=T, seed=cycle, namespaces=ns, map_crop=True, preload=dev == "cuda")
+    s_own = SequenceSampler(Archive(own_archive), own, T=T, seed=cycle, namespaces=ns, map_crop=True, preload=dev == "cuda",
+                            chain_short=True)
     key = (str(bootstrap), T)
     if key not in _BOOT:                                    # its past before the split does not change: load it once
         _BOOT[key] = SequenceSampler(Archive(bootstrap), boot, T=T, seed=77, namespaces=ns, map_crop=True,
                                      preload=dev == "cuda")
     s_boot = _BOOT[key]
     s_boot.rng = np.random.default_rng(77 + cycle)          # the same past batches for every twin's sleep this cycle
+    import hashlib
+    sidecar_sha = {}
     for s in s_own.streams:                                 # the command it chose at every row (wake sidecar)
-        s.cols["command"] = np.load(Path(own_archive) / f"{s.stream}.cmd.npy").astype(np.int64)
+        parts = []
+        for name, rows in (s.components or ((s.stream, len(s)),)):
+            p = Path(own_archive) / f"{name}.cmd.npy"
+            sha = hashlib.sha256(p.read_bytes()).hexdigest()
+            want = Path(own_archive) / f"{name}.cmd.sha256"
+            if want.exists() and want.read_text().strip() != sha:
+                raise RuntimeError(f"{twin} sleep {cycle}: command sidecar {name} does not match its checksum")
+            sidecar_sha[name] = sha
+            parts.append(np.load(p).astype(np.int64))
+            assert len(parts[-1]) == rows, (name, len(parts[-1]), rows)
+        s.cols["command"] = np.concatenate(parts)
         assert len(s.cols["command"]) == len(s), s.stream
         for col in ("reward", "done"):                      # bad numbers in its own lives would poison the value head
             if col in s.cols and not np.isfinite(np.asarray(s.cols[col], float)).all():
@@ -350,8 +382,9 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         f = feats(core, b)[:, burn:]
         tt = lambda x, dt=torch.int64: torch.as_tensor(np.asarray(x), dtype=dt, device=dev)
         # the window's "reward" is the previous step's (the core's input): the reward of transition t is at t + 1
-        r_next = np.concatenate([b["reward"][:, burn + 1:], np.zeros_like(b["reward"][:, :1])], 1)
-        m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(r_next, torch.float32),
+        # the reward of each transition, terminal rewards included (L1 shifted the core's masked input instead and
+        # lost every life's terminal reward -- Sol's audit)
+        m = ch.train_step(f, tt(b["command"][:, burn:]), tt(b["action"][:, burn:]), tt(b["reward_out"][:, burn:], torch.float32),
                           (1 - tt(b["cont"][:, burn:], torch.float32)).bool(), tt(b["is_first"][:, burn:], torch.float32))
         skipped += m.get("skipped", 0)
         if skipped > max(5, a.chooser_updates // 100):     # tripwire: stop loudly rather than learn from bad numbers
@@ -369,8 +402,12 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
             raise RuntimeError(f"{twin} sleep {cycle}: non-finite {name} parameters {badp[:5]} -- not consolidated")
     _guard(out, rid, f"{twin} sleep {cycle} (consolidation)")
     weights = pack_weights(core, pol, ch)
+    data_sha = hashlib.sha256(json.dumps(sorted([r.stream, r.manifest["shard"], r.manifest["manifest_sha"]] for r in own)
+                                         + sorted(sidecar_sha.items())).encode()).hexdigest()
     lineage = {"kind": "cb2-l1-sleep", "twin": twin, "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
-                                                                        "own_streams": sorted(s.stream for s in s_own.streams)},
+                                                                        "own_streams": sorted(s.stream for s in s_own.streams),
+                                                                        "own_excluded_rows": s_own.excluded_rows,
+                                                                        "own_data_sha256": data_sha},
                "updates": {"core": a.core_updates, "anchor": a.anchor_updates, "chooser": a.chooser_updates}, "code": git_rev()}
     _consolidate(twin_home, ind, meta, vision(), weights, lineage, candidate=True)
     fd = os.open(out / "sleep.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)   # one append: twins may sleep at once
@@ -407,10 +444,29 @@ def bench_sleep(a) -> int:
 
 
 # ================================================================================================ run
+def _check_worlds(a) -> dict:
+    """Every world family of the run is disjoint from every other and from the sealed worlds."""
+    fam = {}
+    for c in range(a.cycles + 1):
+        fam[f"fresh-c{c}"] = set(range(FRESH0 + 100 * c, FRESH0 + 100 * c + a.probe_worlds))
+        fam[f"transfer-c{c}"] = set(range(TRANSFER0 + 100 * c, TRANSFER0 + 100 * c + a.probe_worlds))
+        fam[f"wake-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + n for n in range(a.lives)}
+        fam[f"heldout-c{c}"] = {PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)}
+    fam["situations"] = set(range(SITU0, SITU0 + a.situation_worlds))
+    assert a.probe_worlds <= 100 and a.lives <= 5000 and a.holdout_lives <= 5000, "world blocks would overlap"
+    names = list(fam)
+    for i, x in enumerate(names):
+        assert not any(_sealed(w) for w in fam[x]), f"{x} touches sealed worlds"
+        for y in names[i + 1:]:
+            assert not (fam[x] & fam[y]), f"world families overlap: {x} / {y}"
+    return {k: [min(v), max(v)] for k, v in fam.items() if v}
+
+
 def run(a) -> int:
     import pickle
     import uuid
     out = Path(a.out).resolve()
+    worlds = _check_worlds(a)
     if (out / "run.json").exists() and not a.resume:
         raise SystemExit(f"{out} exists (use --resume to continue it)")
     out.mkdir(parents=True, exist_ok=True)
@@ -428,7 +484,7 @@ def run(a) -> int:
     prev = json.loads((out / "run.json").read_text()) if (out / "run.json").exists() else {}
     a.run_id = prev.get("run_id") or uuid.uuid4().hex          # this run's identity; every writer checks it
     (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", "run_id": a.run_id, **git_rev(), "twin_source": str(a.twin),
-                                              "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap),
+                                              "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap), "worlds": worlds,
                                               "args": {k: v for k, v in vars(a).items() if k != "func"}}, indent=1) + "\n")
     ctx = mp.get_context("fork")
     bank_f = out / "situations.pkl"
@@ -450,8 +506,12 @@ def run(a) -> int:
             with open(bank_f, "wb") as f:
                 pickle.dump(bank, f)
         bank = pickle.load(open(bank_f, "rb"))
-        situ_ids = [s["seed"] * 10 + ("dusk_outside", "hungry", "zombie_near").index(s["name"]) for s in bank]
-        start = len([l for l in open(out / "cycles.jsonl")]) if (out / "cycles.jsonl").exists() else 0
+        situ_ids = [s["seed"] * 10 + ("dark_awake", "hungry", "zombie_near").index(s["name"]) for s in bank]
+        prior = [json.loads(l) for l in open(out / "cycles.jsonl")] if (out / "cycles.jsonl").exists() else []
+        start = len(prior)
+        seen_lives = {r["life"] for p_ in prior for k in ("wake", "heldout") for r in (p_.get(k) or {}).get("learning", [])
+                      if "life" in r}
+        (out / "archive-heldout").mkdir(exist_ok=True)
         for c in range(start, a.cycles + 1):
             t0 = time.time()
             rec = {"cycle": c, "twin_hashes": {k: json.loads((h / "individual.json").read_text())["state_hash"] for k, h in homes.items()}}
@@ -477,6 +537,13 @@ def run(a) -> int:
                 wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
                                     archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
                                     state_hash=st, steps=a.max_steps, run_dir=str(out), run_id=a.run_id)
+                # held-out lives: reserved before any sleep, written to their own archive, never given to a sleep
+                # (Gate 4's memory test needs lives the core was not trained on -- Sol's audit)
+                hseeds = [PRACTICE_BASE + RUN * 1_000_000 + c * 10_000 + 5000 + n for n in range(a.holdout_lives)]
+                held_out = submit_lives(pool, homes["learning"], hseeds, "life", 31_000_000 + c * 1000, a.workers,
+                                        archive=str(out / "archive-heldout"), stream=f"h{c:02d}",
+                                        who="twin-L-of-cb2-ind-0001", state_hash=st, steps=a.max_steps,
+                                        run_dir=str(out), run_id=a.run_id) if hseeds else (lambda: [])
             for arm, kw in arms.items():
                 pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * 1000,
                                                        a.workers, chooser_on=kw.get("chooser_on", True), bank=bank)
@@ -484,6 +551,11 @@ def run(a) -> int:
             rec["probe_seconds"] = round(time.time() - t0)
             if c < a.cycles:
                 rec["wake"] = {"learning": wake()}
+                rec["heldout"] = {"learning": held_out()}
+                for r in rec["wake"]["learning"] + rec["heldout"]["learning"]:   # every archived life has its own id
+                    if r["life"] in seen_lives:
+                        raise RuntimeError(f"life id {r['life']} reused (world {r['seed']}, cycle {c})")
+                    seen_lives.add(r["life"])
                 if c == 0 and not fixed_buf.exists():       # the reference twin's fixed buffer: the cycle-0 lives only
                     shutil.copytree(own, fixed_buf)
                 if sleepers:                                 # the two twins sleep at once, each on its own GPU
@@ -577,6 +649,7 @@ def main() -> int:
     r.add_argument("--out", required=True)
     r.add_argument("--cycles", type=int, default=10)
     r.add_argument("--lives", type=int, default=20)
+    r.add_argument("--holdout-lives", type=int, default=2, help="per cycle, reserved for memory tests, never slept on")
     r.add_argument("--workers", type=int, default=30)
     r.add_argument("--probe-worlds", type=int, default=40)
     r.add_argument("--situation-worlds", type=int, default=24)
