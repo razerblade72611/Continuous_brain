@@ -51,6 +51,8 @@ if [ "$(git rev-parse HEAD)" != "$(cat $W/cb2_l1b_code.rev)" ]; then
 fi
 [ "$(git rev-parse HEAD)" = "$(cat $W/cb2_l1b_code.rev)" ] || { echo "STOP: code revision differs"; exit 1; }
 [ -z "$(git status --porcelain --untracked-files=no)" ] || { echo "STOP: tracked files modified"; exit 1; }
+# shellcheck source=cb2_l1b_pack.sh
+. scripts/explore/cb2_l1b_pack.sh                    # packing: every needed log travels inside the run directory
 PINS="numpy==2.4.4 scipy==1.17.1 crafter==1.8.3 opensimplex==0.4.5.1 pillow==12.2.0 pyarrow==25.0.1 zstandard==0.25.0 jsonschema==4.26.0 pytest"
 if [ ! -x $W/venv/bin/python ]; then
   if python3 -m venv --system-site-packages $W/venv 2>/dev/null; then $W/venv/bin/pip install -q $PINS
@@ -112,15 +114,11 @@ run)
   python scripts/explore/cb2_l1.py run --twin runs/explore/cb2/candidates/s2b-final --bootstrap runs/explore/cb2/bootstrap \
     --out $OUT --workers $WK $RES 2>&1 | grep --line-buffered -v '^{$\|^}$' | tee -a $W/l1b-run.log
   python scripts/explore/cb2_l1.py report --out $OUT --report $OUT/loop-report.json > /dev/null
-  tar -czf $W/cb2_l1b_loop.tgz $OUT $W/l1b-run.log
-  sha256sum $W/cb2_l1b_loop.tgz
+  l1b_pack_loop $W "$CODE" $OUT
   echo "== $(date -u) l1b LOOP finished -- STOP: download + verify cb2_l1b_loop.tgz, then PHASE=final (here or a CPU pod)"
   ;;
 final)
-  if [ ! -f $OUT/run.json ]; then
-    [ -f $W/cb2_l1b_loop.tgz ] || { echo "STOP: no loop results (cb2_l1b_loop.tgz)"; exit 1; }
-    tar --no-same-owner -C "$CODE" -xzf $W/cb2_l1b_loop.tgz runs
-  fi
+  l1b_restore_loop $W "$CODE" $OUT
   echo "== $(date -u) l1b final battery with $WK workers"
   python scripts/explore/cb2_l1.py final --out $OUT --workers $WK 2>&1 | tee -a $W/l1b-final.log
   python scripts/explore/cb2_l1.py report --out $OUT --report evidence/explore/cb2/l1b-report.json | tee -a $W/l1b-final.log
@@ -138,8 +136,7 @@ PY
       --test-archive $OUT/archive-heldout --core $OUT/core-$t.pt --fit-lives 120 --test-lives 20 \
       --out evidence/explore/cb2/l1b-gate4-$t.json > /dev/null || echo "gate 4 probe for $t FAILED (secondary; reported)"
   done
-  tar -czf $W/cb2_l1b_results.tgz $OUT evidence/explore/cb2/l1b-* $W/l1b-run.log $W/l1b-final.log
-  sha256sum $W/cb2_l1b_results.tgz
+  l1b_pack_final $W "$CODE" $OUT
   echo "== $(date -u) l1b FINAL finished"
   ;;
 *) echo "unknown PHASE $PHASE"; exit 1 ;;

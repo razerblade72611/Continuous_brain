@@ -199,6 +199,20 @@ bounds the effect of *this implementation, at this budget, on this metric*.
    - Regression: 14 + 14 cells were misclassified at radius 8.
    - L1's Gate 4 numbers carry this limitation; its verdict is unchanged.
 
+9. **Result binding (Sol, S-013).** `final_plan`, `read_partial` and `verified_final` are shared by `final()` and
+   `report()`. The report scores only bound, checksummed partials of this lock, and only when all of them are present.
+   `final.json` must match the run id, revision, twin hashes and content, or it is refused.
+10. **Portable final stage (S-013).** Packing lives in `cb2_l1b_pack.sh`, and all logs travel in `$OUT/logs`, so the
+    final phase runs on a fresh CPU pod from the loop tarball alone.
+11. **Benchmark pod controller (S-014): `cb2_l1b_bench_ctl.py`, with launch and watch modes.**
+    - From the moment the pod exists, it holds a claim and cleanup is verified.
+    - Delete and stop are verified against the live API, with bounded retries; if verification fails, it reports
+      URGENT and exits non-zero.
+    - Every external call has a timeout.
+    - The billing guard stops the pod before any slow transfer.
+    - A failed evidence transfer stops the pod and keeps its volume.
+    - It adopts only our own claimed pod, and refuses duplicate claims.
+
 ## 7. Workload and cost (measured at launch before committing; priced for David)
 
 **Workload, in environment steps.** Life lengths are L1's means: ~620 fresh, ~650 transfer, ~250 situations.

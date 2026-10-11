@@ -265,3 +265,45 @@ def test_final_refuses_stale_partials_and_never_silently_repeats_an_interrupted_
     (out / "final" / "yoked-transfer.started.json").write_text("{}")
     with pytest.raises(SystemExit, match="started and never recorded"):
         m.final(argparse.Namespace(out=str(out), workers=1))
+
+
+def _bound_final(tmp_path, m):
+    """A run dir whose final battery is complete: bound partials for every set + a matching final.json."""
+    import json
+    out = _final_dir(tmp_path, m)
+    P = m.final_plan(out)
+    res = {}
+    for (arm, fam), cond in P["conds"].items():
+        lives = [{"seed": s, "steps": 100.0, "n_unlocked": 5, "fulfilled": 1, "failed": 0} for s in cond["seeds"]]
+        (out / "final" / f"{arm}-{fam}.json").write_text(json.dumps({"condition": cond, "lives": lives,
+                                                                     "lives_sha256": m._canon_sha(lives)}))
+        res.setdefault(arm, {})[fam] = lives
+    fj = {"run_id": P["lock"]["run_id"], "git": P["lock"]["git"], "twin_hashes": P["hashes"], "arms": res}
+    (out / "final.json").write_text(json.dumps(fj))
+    return out, fj
+
+
+def test_report_scores_only_verified_partials_and_refuses_a_foreign_final_json(tmp_path):
+    """Sol's counterexample (S-013): another run's final.json with the expected seeds produced a 'shown' report."""
+    import json
+    m = _l1()
+    out, fj = _bound_final(tmp_path, m)
+    assert set(m.verified_final(out)) == {"learning", "yoked", "frozen", "learning_chooser_off"}
+    for bad in ({**fj, "run_id": "OTHER-RUN"}, {**fj, "twin_hashes": {k: "x" for k in fj["twin_hashes"]}}):
+        (out / "final.json").write_text(json.dumps(bad))
+        with pytest.raises(SystemExit, match="does not match"):
+            m.verified_final(out)
+    edited = json.loads(json.dumps(fj))                       # better numbers pasted into the aggregate only
+    edited["arms"]["learning"]["fresh"][0]["steps"] = 9999.0
+    (out / "final.json").write_text(json.dumps(edited))
+    with pytest.raises(SystemExit, match="does not match"):
+        m.verified_final(out)
+    (out / "final.json").write_text(json.dumps(fj))
+    p = out / "final" / "yoked-fresh.json"                    # a corrupt partial
+    g = json.loads(p.read_text()); g["lives"][0]["steps"] = 1.0
+    p.write_text(json.dumps(g))
+    with pytest.raises(SystemExit, match="stale or corrupt"):
+        m.verified_final(out)
+    p.unlink()                                                # a missing partial
+    with pytest.raises(SystemExit, match="no recorded result"):
+        m.verified_final(out)

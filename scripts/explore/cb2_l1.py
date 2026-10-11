@@ -954,21 +954,14 @@ def _canon_sha(x) -> str:
     return hashlib.sha256(json.dumps(x, sort_keys=True, default=str).encode()).hexdigest()
 
 
-def final(a) -> int:
-    """The final battery (L1b primary): the three final individuals on FINAL worlds, every arm on the same worlds and
-    life ids; plus the learning twin with its chooser off on the first chooser_off_worlds of each family (Gate 2).
-    Runs after the loop, anywhere with the run directory (e.g. a many-core CPU pod).  Each arm x family is bound to the
-    locked run, revision and condition, checksummed, and written as soon as it completes; a batch that was started but
-    never recorded stops the battery (its worlds were run and are not silently repeated -- Sol, S-009)."""
-    out = Path(a.out).resolve()
+def final_plan(out: Path) -> dict:
+    """The locked final battery: its lock, twins (verified unchanged since the loop) and every arm x family condition.
+    Shared by final() and report() so results are bound and checked the same way (Sol, S-013)."""
     lock = json.loads((out / "run.json").read_text())
     ra = lock["args"]
     C = [json.loads(l) for l in open(out / "cycles.jsonl")]
     if not C or C[-1]["cycle"] != ra["cycles"]:
         raise SystemExit("the loop has not finished: the final battery tests the final individuals only")
-    g = git_rev()
-    if (g["git"] != lock["git"] or g["git_dirty"]) and not lock.get("rehearsal"):
-        raise SystemExit(f"code {g['git'][:8]}{' (dirty)' if g['git_dirty'] else ''} is not the run's {lock['git'][:8]}")
     homes = {k: out / f"twins/{k}/cb2-ind-0001" for k in ARMS}
     hashes = {k: json.loads((h / "individual.json").read_text())["state_hash"] for k, h in homes.items()}
     for k in ARMS:                     # the final cycle's record holds the twins as they were after the last sleep
@@ -978,31 +971,72 @@ def final(a) -> int:
     nf, noff = ra["final_worlds"], ra["chooser_off_worlds"]
     worlds = {"fresh": list(range(B["final_fresh0"], B["final_fresh0"] + nf)),
               "transfer": list(range(B["final_transfer0"], B["final_transfer0"] + nf))}
-    plan = [(arm, fam, worlds[fam], True) for arm in ARMS for fam in FAMS]
-    plan += [("learning_chooser_off", fam, worlds[fam][:noff], False) for fam in FAMS if noff]
+    sets = [(arm, fam, worlds[fam], True) for arm in ARMS for fam in FAMS]
+    sets += [("learning_chooser_off", fam, worlds[fam][:noff], False) for fam in FAMS if noff]
+    conds = {}
+    for arm, fam, seeds, on in sets:
+        src = "learning" if arm == "learning_chooser_off" else arm
+        conds[(arm, fam)] = {"run_id": lock["run_id"], "git": lock["git"], "arm": arm, "family": fam, "chooser_on": on,
+                             "config": TRANSFER if fam == "transfer" else {}, "max_steps": ra["max_steps"],
+                             "state_hash": hashes[src], "seeds": seeds, "life0": LID[f"final-{fam}"]}
+    return {"lock": lock, "cycles": C, "homes": homes, "hashes": hashes, "worlds": worlds, "noff": noff, "conds": conds}
+
+
+def read_partial(part: Path, key: tuple, cond: dict):
+    """A recorded arm x family set, verified against its expected condition and checksum; None if never recorded."""
+    f = part / f"{key[0]}-{key[1]}.json"
+    if not f.exists():
+        return None
+    got = json.loads(f.read_text())
+    if got.get("condition") != cond or _canon_sha(got.get("lives")) != got.get("lives_sha256"):
+        raise SystemExit(f"{f} is stale or corrupt (not this run/revision/condition, or its checksum fails)")
+    return got["lives"]
+
+
+def verified_final(out: Path) -> dict:
+    """The final battery's results for scoring: rebuilt ONLY from bound, checksummed partials of this locked run, all
+    present; final.json must agree with them (run id, revision, twin hashes, content) -- a foreign or edited final.json
+    is refused, never scored (Sol, S-013)."""
+    P = final_plan(out)
+    res = {}
+    for key, cond in P["conds"].items():
+        lives = read_partial(out / "final", key, cond)
+        if lives is None:
+            raise SystemExit(f"final battery incomplete: {key[0]} x {key[1]} has no recorded result")
+        res.setdefault(key[0], {})[key[1]] = lives
+    fj = json.loads((out / "final.json").read_text())
+    lock = P["lock"]
+    if fj.get("run_id") != lock["run_id"] or fj.get("twin_hashes") != P["hashes"] or _canon_sha(fj.get("arms")) != _canon_sha(res) \
+            or (fj.get("git") != lock["git"] and not lock.get("rehearsal")):
+        raise SystemExit("final.json does not match this run's verified final results (foreign, stale or edited)")
+    return res
+
+
+def final(a) -> int:
+    """The final battery (L1b primary): the three final individuals on FINAL worlds, every arm on the same worlds and
+    life ids; plus the learning twin with its chooser off on the first chooser_off_worlds of each family (Gate 2).
+    Runs after the loop, anywhere with the run directory (e.g. a many-core CPU pod).  Each arm x family is bound to the
+    locked run, revision and condition, checksummed, and written as soon as it completes; a batch that was started but
+    never recorded stops the battery (its worlds were run and are not silently repeated -- Sol, S-009)."""
+    out = Path(a.out).resolve()
+    P = final_plan(out)
+    lock, ra, homes, hashes, worlds, noff = P["lock"], P["lock"]["args"], P["homes"], P["hashes"], P["worlds"], P["noff"]
+    g = git_rev()
+    if (g["git"] != lock["git"] or g["git_dirty"]) and not lock.get("rehearsal"):
+        raise SystemExit(f"code {g['git'][:8]}{' (dirty)' if g['git_dirty'] else ''} is not the run's {lock['git'][:8]}")
     part = out / "final"
     part.mkdir(exist_ok=True)
-
-    def condition(arm, fam, seeds, on):
-        src = "learning" if arm == "learning_chooser_off" else arm
-        return {"run_id": lock["run_id"], "git": lock["git"], "arm": arm, "family": fam, "chooser_on": on,
-                "config": TRANSFER if fam == "transfer" else {}, "max_steps": ra["max_steps"], "state_hash": hashes[src],
-                "seeds": seeds, "life0": LID[f"final-{fam}"]}
     t0 = time.time()
     res, todo = {}, []
-    for arm, fam, seeds, on in plan:                          # verify what exists before running anything
-        cond = condition(arm, fam, seeds, on)
-        f, st = part / f"{arm}-{fam}.json", part / f"{arm}-{fam}.started.json"
-        if f.exists():
-            got = json.loads(f.read_text())
-            if got.get("condition") != cond or _canon_sha(got.get("lives")) != got.get("lives_sha256"):
-                raise SystemExit(f"{f} is stale or corrupt (not this run/revision/condition, or its checksum fails)")
-            res.setdefault(arm, {})[fam] = got["lives"]
-        elif st.exists():
+    for (arm, fam), cond in P["conds"].items():               # verify what exists before running anything
+        lives = read_partial(part, (arm, fam), cond)
+        if lives is not None:
+            res.setdefault(arm, {})[fam] = lives
+        elif (part / f"{arm}-{fam}.started.json").exists():
             raise SystemExit(f"{arm} x {fam} was started and never recorded: its worlds ran unrecorded. Not repeating "
-                             f"them silently -- this needs an explicit, recorded decision ({st})")
+                             f"them silently -- this needs an explicit, recorded decision")
         else:
-            todo.append((arm, fam, seeds, on, cond))
+            todo.append((arm, fam, cond["seeds"], cond["chooser_on"], cond))
     from concurrent.futures import ProcessPoolExecutor
     with ProcessPoolExecutor(a.workers, mp_context=mp.get_context("fork")) as pool:
         pend = {}
@@ -1064,7 +1098,7 @@ def report(a) -> int:
     # primary (L1b prereg section 4/5): the final individuals on the final battery
     fj = out / "final.json"
     if fj.exists():
-        F = json.loads(fj.read_text())["arms"]
+        F = verified_final(out)                       # bound partials only; final.json must agree (Sol, S-013)
         lock = rep["run"]
         B, nf, noff = lock["blocks"], lock["args"]["final_worlds"], lock["args"]["chooser_off_worlds"]
         exp = {"fresh": list(range(B["final_fresh0"], B["final_fresh0"] + nf)),
