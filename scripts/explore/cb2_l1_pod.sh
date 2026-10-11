@@ -31,6 +31,14 @@ if [ ! -f $W/.l1_restored ]; then
   touch $W/.l1_restored
 fi
 cd "$CODE"
+# nothing from an earlier run may still be alive (a restart once left two spawned sleeps running, which wrote into
+# the new run's directory): no python, no multiprocessing children, no GPU memory in use
+if pgrep -f 'cb2_l1\.py|multiprocessing|/workspace/venv/bin/python' >/dev/null; then
+  echo "STOP: processes from an earlier run are still alive:"; ps -eo pid,etime,cmd | grep -E 'python|multiprocessing' | grep -v grep | cut -c1-150; exit 1
+fi
+if nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits 2>/dev/null | awk '$1 > 200 {b=1} END {exit !b}'; then
+  echo "STOP: GPU memory is in use by something else:"; nvidia-smi; exit 1
+fi
 # a reused pod gets the uploaded code too, and a run never resumes across code revisions
 if [ "$(git rev-parse HEAD)" != "$(cat $W/cb2_l1_code.rev)" ]; then
   git fetch -q "$W/cb2_l1_code.bundle" explore/cb2-r3 && git checkout -q --detach FETCH_HEAD

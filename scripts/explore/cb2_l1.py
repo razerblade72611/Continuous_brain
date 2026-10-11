@@ -91,6 +91,8 @@ def life_job(job):
         writer = StreamWriter(job["archive"], job["stream"], "PRACTICE", job["who"],
                               {"role": "cb2-l1-wake", **git_rev(), "twin_state_hash": job["state_hash"]})
     for i, seed in enumerate(job["seeds"]):
+        if job.get("archive"):
+            _guard(job.get("run_dir"), job.get("run_id"), f"wake {job.get('stream')}")
         if _sealed(seed):
             raise SystemExit(f"refusing sealed world {seed}")
         ind, _ = _actor(job["home"], job["life0"] + i, job.get("chooser_on", True))
@@ -209,6 +211,22 @@ def build_bank(home, seeds, out: Path) -> list[dict]:
 
 
 # ================================================================================================ sleep
+def _owns(run_dir, run_id) -> bool:
+    """True while run_dir still belongs to the run that started this process (a process orphaned by a restart --
+    the first L1 restart left two spawned sleeps alive -- must never write into the next run's directory)."""
+    if not run_id:
+        return True
+    try:
+        return json.loads((Path(run_dir) / "run.json").read_text()).get("run_id") == run_id
+    except Exception:
+        return False
+
+
+def _guard(run_dir, run_id, what):
+    if not _owns(run_dir, run_id):
+        raise RuntimeError(f"{what}: {run_dir} no longer belongs to run {run_id} -- refusing to write")
+
+
 def _cpu_quota() -> int:
     try:
         q, per = open("/sys/fs/cgroup/cpu.max").read().split()[:2]
@@ -244,6 +262,8 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
     from continuous_brain_cb2.data import SequenceSampler
     from continuous_brain_cb2.skill_host import pack_weights, unpack_chooser, unpack_weights
     from continuous_brain_cb2.world_model import PredictiveCore
+    rid = getattr(a, "run_id", None)
+    _guard(out, rid, f"{twin} sleep {cycle}")
     torch.set_num_threads(int(os.environ.get("L1_SLEEP_THREADS", 0)) or _cpu_quota())   # nproc is the host's
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(1000 + cycle)
@@ -347,6 +367,7 @@ def sleep(twin_home: Path, own_archive: Path, bootstrap: Path, cycle: int, out: 
         badp = [n for n, p_ in x.named_parameters() if not bool(torch.isfinite(p_).all())]
         if badp:
             raise RuntimeError(f"{twin} sleep {cycle}: non-finite {name} parameters {badp[:5]} -- not consolidated")
+    _guard(out, rid, f"{twin} sleep {cycle} (consolidation)")
     weights = pack_weights(core, pol, ch)
     lineage = {"kind": "cb2-l1-sleep", "twin": twin, "cycle": cycle, "learned_from": {"own_rows": s_own.rows(), "bootstrap_rows": s_boot.rows(),
                                                                         "own_streams": sorted(s.stream for s in s_own.streams)},
@@ -388,7 +409,8 @@ def bench_sleep(a) -> int:
 # ================================================================================================ run
 def run(a) -> int:
     import pickle
-    out = Path(a.out)
+    import uuid
+    out = Path(a.out).resolve()
     if (out / "run.json").exists() and not a.resume:
         raise SystemExit(f"{out} exists (use --resume to continue it)")
     out.mkdir(parents=True, exist_ok=True)
@@ -403,7 +425,9 @@ def run(a) -> int:
     own.mkdir(exist_ok=True)
     fixed_buf = out / "archive-reference"
     meta0 = json.loads((homes["frozen"] / "individual.json").read_text())
-    (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", **git_rev(), "twin_source": str(a.twin),
+    prev = json.loads((out / "run.json").read_text()) if (out / "run.json").exists() else {}
+    a.run_id = prev.get("run_id") or uuid.uuid4().hex          # this run's identity; every writer checks it
+    (out / "run.json").write_text(json.dumps({"format": "cb2-l1/1", "run_id": a.run_id, **git_rev(), "twin_source": str(a.twin),
                                               "twin_state_hash": meta0["state_hash"], "bootstrap": str(a.bootstrap),
                                               "args": {k: v for k, v in vars(a).items() if k != "func"}}, indent=1) + "\n")
     ctx = mp.get_context("fork")
@@ -452,7 +476,7 @@ def run(a) -> int:
                 st = json.loads((homes["learning"] / "individual.json").read_text())["state_hash"]
                 wake = submit_lives(pool, homes["learning"], seeds, "life", 30_000_000 + c * 1000, a.workers,
                                     archive=str(own), stream=f"c{c:02d}", who="twin-L-of-cb2-ind-0001",
-                                    state_hash=st, steps=a.max_steps)
+                                    state_hash=st, steps=a.max_steps, run_dir=str(out), run_id=a.run_id)
             for arm, kw in arms.items():
                 pend[arm]["situations"] = submit_lives(pool, kw["home"], situ_ids, "situation", 22_000_000 + c * 1000,
                                                        a.workers, chooser_on=kw.get("chooser_on", True), bank=bank)
