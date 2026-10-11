@@ -91,16 +91,13 @@ class Ctl:
         return self.run([self.scp_bin, "-i", self.a.key, "-P", str(p["port"]), *SSH_OPTS, f"root@{p['ip']}:{remote}",
                          str(local)], timeout)
 
-    @staticmethod
-    def ssh_of(j: dict):
-        ip = port = None
-        s = j.get("ssh") or {}
-        ip, port = s.get("ip") or s.get("host"), s.get("port")
-        if not (ip and port):
-            for q in ((j.get("runtime") or {}).get("ports") or []):
-                if q.get("privatePort") == 22 and q.get("isIpPublic"):
-                    ip, port = q.get("ip"), q.get("publicPort")
-        return {"ip": ip, "port": port} if ip and port else None
+    def endpoint(self, pid: str):
+        """SSH endpoint from `runpodctl ssh info` -- the CLI's documented connection shape ({"ip","port",...} when
+        connectable; an object with "error" when not).  Not inferred from pod-get fields (Sol, S-018)."""
+        code, j, _ = self.rpj(["ssh", "info", pid], 60)
+        if code != 0 or not isinstance(j, dict) or j.get("error") or not (j.get("ip") and j.get("port")):
+            return None
+        return {"ip": j["ip"], "port": j["port"]}
 
     # ------------------------------------------------------------------ cleanup that is verified, never assumed
     def delete_verified(self, pid: str) -> bool:
@@ -201,10 +198,18 @@ class Ctl:
             self.claim.write_text(json.dumps({"id": pid, "name": NAME, "created": time.time()}) + "\n")
             self.log(f"created {pid} ({NAME}, 1x {self.a.gpu}, {self.a.cloud}); claim recorded")
         try:                                                  # until the watcher owns it, any failure deletes the pod
+            j = self.pod(pid)
+            rate = float(j.get("costPerHr") or 0) if isinstance(j, dict) else 0.0
+            cap = rate * self.a.maxh
+            if not rate or cap > self.a.max_cost:
+                raise RuntimeError(f"cost check failed: {rate}/h x {self.a.maxh} h = {cap:.2f} vs ceiling {self.a.max_cost}")
+            c = json.loads(self.claim.read_text())
+            c.update({"costPerHr": rate, "maxh": self.a.maxh, "max_cost": self.a.max_cost})
+            self.claim.write_text(json.dumps(c) + "\n")
+            self.log(f"cost check: {rate}/h, hard limit {self.a.maxh} h -> at most {cap:.2f} (ceiling {self.a.max_cost})")
             p = None
             for _ in range(self.a.ssh_polls):
-                j = self.pod(pid)
-                p = self.ssh_of(j) if isinstance(j, dict) else None
+                p = self.endpoint(pid)
                 if p and self.ssh(p, "true", 60)[0] == 0:
                     break
                 p = None
@@ -234,13 +239,18 @@ class Ctl:
     def passthrough(self) -> list:
         a = self.a
         return ["--exchange", a.exchange, "--key", a.key, "--runpodctl", a.runpodctl, "--maxh", str(a.maxh),
+                "--max-cost", str(a.max_cost), "--data-dir", a.data_dir,
                 "--poll", str(a.poll), "--grace", str(a.grace), "--retries", str(a.retries),
                 "--verify-polls", str(a.verify_polls), "--verify-wait", str(a.verify_wait)]
 
     # ------------------------------------------------------------------ watch
     def watch(self) -> int:
         pid, t0 = self.a.pod_id, time.time()
-        log_f, tgz = self.l1b / "bench_pod.log", self.l1b / "cb2_l1b_bench.tgz"
+        data = Path(self.a.data_dir).expanduser()          # bulk evidence stays WSL-native (house rule 4)
+        data.mkdir(parents=True, exist_ok=True)
+        log_f, tgz = self.l1b / "bench_pod.log", data / "cb2_l1b_bench.tgz"
+        claim = json.loads(self.claim.read_text()) if self.claim.exists() else {}
+        rate = float(claim.get("costPerHr") or 0)
         while True:
             j = self.pod(pid)
             if j == "gone":
@@ -249,10 +259,12 @@ class Ctl:
             if isinstance(j, dict) and not self.identity_ok(pid, j):
                 self.log(f"URGENT: pod {pid} is not our claimed {NAME} -- touching nothing")
                 return 2
-            if time.time() - t0 > self.a.maxh * 3600:         # billing guard BEFORE any slow transfer
-                self.log(f"billing guard: past {self.a.maxh} h -- stopping {pid} (volume kept, decision needed)")
+            hours = (time.time() - (float(claim["created"]) if claim.get("created") else t0)) / 3600
+            if hours > self.a.maxh or (rate and rate * hours >= self.a.max_cost):   # billing guard BEFORE any transfer
+                self.log(f"billing guard: {hours:.2f} h at {rate}/h (limit {self.a.maxh} h / {self.a.max_cost}) -- "
+                         f"stopping {pid} (volume kept, decision needed)")
                 return 3 if self.stop_verified(pid) else 2
-            p = self.ssh_of(j) if isinstance(j, dict) else None
+            p = self.endpoint(pid) if isinstance(j, dict) else None
             if p:
                 code, out, _ = self.ssh(p, "ps -eo cmd | grep -c '[b]ash /workspace/cb2_l1b_pod.sh'; "
                                            "nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader", 60)
@@ -272,7 +284,7 @@ class Ctl:
                     if not ok:
                         self.log("evidence NOT verified: stopping the pod with its volume kept, not deleting")
                         return 4 if self.stop_verified(pid) else 2
-                    self.log(f"cb2_l1b_bench.tgz downloaded, sha256 MATCH {hashlib.sha256(tgz.read_bytes()).hexdigest()}")
+                    self.log(f"cb2_l1b_bench.tgz downloaded to {tgz}, sha256 MATCH {hashlib.sha256(tgz.read_bytes()).hexdigest()}")
                     for f in ("l1b-bench-sleep.json", "l1b-bench-lives-s2b.json", "l1b-bench-lives-learner.json"):
                         self.scp_down(p, f"/workspace/{f}", self.l1b / f, 120)
                     return 0 if self.delete_verified(pid) else 2
@@ -295,7 +307,9 @@ def main() -> int:
     ap.add_argument("--gpu", default="NVIDIA GeForce RTX 4090")
     ap.add_argument("--cloud", default="COMMUNITY", choices=["COMMUNITY", "SECURE"])
     ap.add_argument("--image", default="runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404")
-    ap.add_argument("--maxh", type=float, default=3.0)
+    ap.add_argument("--maxh", type=float, default=2.0, help="hard limit in hours since creation (Sol/David: 2 h)")
+    ap.add_argument("--max-cost", type=float, default=3.0, help="total ceiling in dollars at the pod's live costPerHr")
+    ap.add_argument("--data-dir", default="~/cb_data/l1b-bench", help="WSL-native folder for the bulk evidence archive")
     ap.add_argument("--poll", type=float, default=120)
     ap.add_argument("--grace", type=float, default=600)
     ap.add_argument("--retries", type=int, default=3)

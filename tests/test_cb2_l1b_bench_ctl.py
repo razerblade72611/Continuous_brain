@@ -49,17 +49,19 @@ def cloud(tmp_path):
         def run(self, *args, timeout=60):
             fast = ["--poll", "0.05", "--grace", "0", "--verify-polls", "2", "--verify-wait", "0.01", "--ssh-polls", "2",
                     "--ssh-wait", "0.01", "--retries", "2", "--skip-input-sums"]
-            r = subprocess.run([sys.executable, str(CTL), *args, "--exchange", str(ex), "--key", "k", *fast],
+            r = subprocess.run([sys.executable, str(CTL), *args, "--exchange", str(ex), "--key", "k",
+                                "--data-dir", str(ex.parent / "wsl-data"), *fast],
                                env=env, capture_output=True, text=True, timeout=timeout)
             return r.returncode, (ex / "l1b" / "bench_status.txt").read_text() if (ex / "l1b" / "bench_status.txt").exists() else ""
 
-        def claim(self, pid):
-            (ex / "l1b" / "bench_claim.json").write_text(json.dumps({"id": pid, "name": "cb2-l1b-bench-claude"}))
+        def claim(self, pid, **kw):
+            import time
+            (ex / "l1b" / "bench_claim.json").write_text(json.dumps({"id": pid, "name": "cb2-l1b-bench-claude",
+                                                                     "created": time.time(), "costPerHr": 0.34, **kw}))
 
         def add_pod(self, pid, status="RUNNING"):
             s = self.st()
-            s["pods"][pid] = {"id": pid, "name": "cb2-l1b-bench-claude", "desiredStatus": status,
-                              "ssh": {"ip": "10.0.0.1", "port": 2222}}
+            s["pods"][pid] = {"id": pid, "name": "cb2-l1b-bench-claude", "desiredStatus": status, "costPerHr": 0.34}
             self.state.write_text(json.dumps(s))
     return C()
 
@@ -112,7 +114,8 @@ def test_finished_bench_is_downloaded_verified_then_deleted(cloud):
     (cloud.remote / "cb2_l1b_bench.tgz").write_bytes(b"evidence")
     code, log = cloud.run("watch", "--pod-id", "p1")
     assert code == 0 and "sha256 MATCH" in log and "p1" not in cloud.st()["pods"]
-    assert (cloud.ex / "l1b" / "cb2_l1b_bench.tgz").read_bytes() == b"evidence"
+    assert (cloud.ex.parent / "wsl-data" / "cb2_l1b_bench.tgz").read_bytes() == b"evidence"   # bulk stays WSL-side
+    assert not (cloud.ex / "l1b" / "cb2_l1b_bench.tgz").exists()
 
 
 @pytest.mark.parametrize("fault", ["download_fail", "download_hang"])
@@ -141,3 +144,29 @@ def test_watcher_refuses_a_pod_that_is_not_our_claim(cloud):
     cloud.claim("someone-else")
     code, log = cloud.run("watch", "--pod-id", "p1")
     assert code == 2 and "not our claimed" in log and "p1" in cloud.st()["pods"]
+
+
+def test_a_pod_that_would_breach_the_cost_ceiling_is_deleted_at_once(cloud):
+    cloud.set(rate=1.78)                                       # e.g. a 2-GPU price: 2 h x 1.78 = 3.56 > $3
+    code, log = cloud.run("launch", "--maxh", "2", "--max-cost", "3")
+    assert code == 1 and "cost check failed" in log and "newpod00001" not in cloud.st()["pods"]
+
+
+def test_the_cost_ceiling_stops_a_running_bench(cloud):
+    import time
+    cloud.add_pod("p1")
+    cloud.claim("p1", created=time.time() - 3600, costPerHr=3.5)  # one hour at 3.5/h is past a $3 ceiling
+    code, log = cloud.run("watch", "--pod-id", "p1", "--maxh", "2", "--max-cost", "3")
+    assert code == 3 and cloud.st()["pods"]["p1"]["desiredStatus"] == "EXITED"
+
+
+def test_launch_hands_off_to_the_watcher_after_upload_and_start(cloud, tmp_path):
+    code, log = cloud.run("launch", "--maxh", "2", "--max-cost", "3")
+    assert code == 0 and "cost check: 0.34/h" in log and "watcher started" in log
+    claim = json.loads((cloud.ex / "l1b" / "bench_claim.json").read_text())
+    assert claim["id"] == "newpod00001" and claim["maxh"] == 2.0 and claim["max_cost"] == 3.0
+    assert cloud.st().get("bench_started")
+    import re
+    import signal
+    wpid = int(re.search(r"watcher started \(pid (\d+)\)", log).group(1))   # the real watcher it spawned: end it
+    os.kill(wpid, signal.SIGTERM)

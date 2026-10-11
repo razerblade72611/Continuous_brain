@@ -212,6 +212,10 @@ bounds the effect of *this implementation, at this budget, on this metric*.
     - The billing guard stops the pod before any slow transfer.
     - A failed evidence transfer stops the pod and keeps its volume.
     - It adopts only our own claimed pod, and refuses duplicate claims.
+    - **Bench limits (Sol/David): 2 h hard and $3 in total at the pod's live `costPerHr`.** A pod whose rate would
+      breach the ceiling is deleted at once.
+    - SSH details come from `runpodctl ssh info`.
+    - The bulk archive goes to WSL-native `~/cb_data/l1b-bench`; only small logs go to `cb_exchange`.
 
 ## 7. Workload and cost (measured at launch before committing; priced for David)
 

@@ -30,9 +30,16 @@ if prog == "runpodctl":
     elif args[:2] == ["pod", "create"]:
         name = args[args.index("--name") + 1]
         pid = st.get("next_id", "newpod00001")
-        pods[pid] = {"id": pid, "name": name, "desiredStatus": "RUNNING", "ssh": {"ip": "10.0.0.1", "port": 2222}}
+        pods[pid] = {"id": pid, "name": name, "desiredStatus": "RUNNING", "costPerHr": st.get("rate", 0.34)}
         if st.get("create_garbage"): print("not json")
         else: print(json.dumps(pods[pid]))
+    elif args[:2] == ["ssh", "info"]:
+        p = pods.get(args[2])
+        if not p: err("not_found", f"pod '{args[2]}' not found")
+        if p["desiredStatus"] != "RUNNING" or not st.get("ssh_ok", True):
+            print(json.dumps({"error": "pod not ready: stopped", "id": args[2]}))
+        else:
+            print(json.dumps({"id": args[2], "name": p["name"], "ip": "10.0.0.1", "port": 2222, "ssh_command": "ssh ..."}))
     elif args[:2] == ["pod", "delete"]:
         if st.get("delete_fail", 0) > 0:
             st["delete_fail"] -= 1; err("api_error", "internal error")
