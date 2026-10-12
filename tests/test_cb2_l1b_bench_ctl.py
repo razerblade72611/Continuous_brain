@@ -246,3 +246,28 @@ def test_a_failed_loop_keeps_its_volume_it_is_stopped_not_deleted(cloud):
     (cloud.remote / "l1b-run-phase.log").write_text("TRIPWIRE: learning sleep 4\n")
     code, log = cloud.run("watch", "--phase", "run", "--pod-id", "lp1", "--maxh", "30", "--max-cost", "30")
     assert code == 5 and cloud.st()["pods"]["lp1"]["desiredStatus"] == "EXITED" and "volume kept" in log
+
+
+@pytest.mark.parametrize("phase,prefix,name", [("run", "loop", "cb2-l1b-loop-claude"), ("final", "final", "cb2-l1b-final-claude")])
+def test_an_adopted_evidence_bearing_pod_is_stopped_not_deleted_when_setup_fails(cloud, phase, prefix, name):
+    """Sol (S-026): launch --pod-id on our own claimed run/final pod, SSH unavailable -> must not erase its volume."""
+    import time
+    s = cloud.st()
+    s["pods"]["keep1"] = {"id": "keep1", "name": name, "desiredStatus": "RUNNING", "runtimeStatus": "running",
+                          "costPerHr": 0.89}
+    s["ssh_ok"] = False
+    cloud.state.write_text(json.dumps(s))
+    (cloud.ex / "l1b" / f"{prefix}_claim.json").write_text(json.dumps({"id": "keep1", "name": name, "created": time.time()}))
+    if phase == "final":
+        (cloud.ex.parent / "wsl-data").mkdir(exist_ok=True)
+        (cloud.ex.parent / "wsl-data" / "cb2_l1b_loop.tgz").write_bytes(b"loop")
+    code, log = cloud.run("launch", "--phase", phase, "--pod-id", "keep1", "--maxh", "30", "--max-cost", "30")
+    assert code == 1 and "volume kept" in log
+    assert "keep1" in cloud.st()["pods"] and cloud.st()["pods"]["keep1"]["desiredStatus"] == "EXITED"
+    assert not any(c[:2] == ["pod", "delete"] for c in cloud.st()["calls"])
+
+
+def test_a_fresh_pod_whose_setup_fails_is_still_deleted(cloud):
+    cloud.set(ssh_ok=False)
+    code, log = cloud.run("launch", "--phase", "run", "--maxh", "30", "--max-cost", "30")
+    assert code == 1 and "fresh, empty pod" in log and "newpod00001" not in cloud.st()["pods"]

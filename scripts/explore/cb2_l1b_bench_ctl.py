@@ -285,11 +285,12 @@ class Ctl:
                                     self.bounded(60))
             self.log(f"bench start: exit {code}; {err.strip()[:120]}")
             return 0
-        except BudgetSpent:
-            self.log(f"budget spent before hand-off; deleting {pid}")
-            return 1 if self.delete_verified(pid) else 2
-        except Exception as e:
-            self.log(f"launch failed before hand-off ({e}); deleting {pid}")
+        except (BudgetSpent, Exception) as e:
+            why = "budget spent" if isinstance(e, BudgetSpent) else str(e)
+            if self.a.pod_id:                                 # ADOPTED pod: it may hold a run's evidence (Sol, S-026)
+                self.log(f"launch failed before hand-off ({why}) on adopted pod {pid}: stopping it, volume kept")
+                return 1 if self.stop_verified(pid) else 2
+            self.log(f"launch failed before hand-off ({why}); deleting the fresh, empty pod {pid}")
             return 1 if self.delete_verified(pid) else 2
 
     def passthrough(self) -> list:

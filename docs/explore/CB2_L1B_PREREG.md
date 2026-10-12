@@ -221,6 +221,9 @@ bounds the effect of *this implementation, at this budget, on this metric*.
 
 ## 7. Workload and cost (measured at launch before committing; priced for David)
 
+> **Superseded by §8, item 3.** The estimates in this section were written before the GPU bench, including the 2-GPU
+> option and the "$35–50" range. The plan that was approved is the measured one recorded in §8.
+
 **Workload, in environment steps.** Life lengths are L1's means: ~620 fresh, ~650 transfer, ~250 situations.
 
 | part | lives | steps |
@@ -280,10 +283,17 @@ these are not a launch quote):
      objective stays.
 3. **Cleared (2026-10-12 00:41 UTC).** GPU bench on 1x RTX 4090 secure (pod zcy64urgffgd9q, ~43 min, ~$0.64,
    archive sha 01487800…, pod deletion verified):
-   - two sleeps sharing the GPU: 92.8 min per cycle (an upper bound, measured under the CPU-quota bug fixed since);
+   - two sleeps sharing the GPU: 92.8 min per cycle. This is a conservative short-sample projection, not a proven upper
+     bound; it was measured under the CPU-quota bug fixed since.
    - lives at 9 workers: S2b 214.8 steps/s; a learner with its chooser active 60.5 steps/s.
    - Price (plan C-021): loop ~26.4 h ≈ $23.5 incl. allowances, **caps 30 h / $27**; final battery on the GPU pod
-     ~20.6 h ≈ $18.3, **caps 22 h / $20** (or a CPU pod if SSH works there); **total ceiling $47**.
+     ~20.6 h ≈ $18.3, **caps 22 h / $20** (or a CPU pod if SSH works there).
+   - **$47 is the aggregate COMPUTE cap** (27 + 20). It is not an invoice ceiling: it excludes storage, including any
+     volume retained after a protective stop.
 4. **Cleared.** This document is locked and committed with the code revision that runs it, and recorded on Linear
-   (DAV-99). **David approved the loop under the caps (30 h / $27) on 2026-10-11 20:19 CT** ("yes"). The final battery
-   is a separate decision after the loop (cap $20).
+   (DAV-99). **David approved the loop under the caps (30 h / $27) on 2026-10-11 20:19 CT** ("yes"), and confirmed at
+   20:34 CT ("You're approved."), both in Claude's chat. The final battery is a separate decision after the loop
+   (cap $20).
+   - **Launch owner:** Claude (claim, monitoring, decisions). Claude has no WSL shell, so the single command is
+     executed in WSL by Sol on Claude's behalf, or by David. Sol does independent review and monitoring. There is no
+     second, simultaneous creation.
