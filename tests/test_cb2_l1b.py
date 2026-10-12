@@ -1,5 +1,5 @@
 """CB2-L1b: the yoked control, the instrument check, the final-battery world plan and the preregistered verdict
-(docs/explore/CB2_L1B_PREREG_DRAFT.md).  Pure functions only: no lives are run here."""
+(docs/explore/CB2_L1B_PREREG.md).  Pure functions only: no lives are run here."""
 import argparse
 from pathlib import Path
 

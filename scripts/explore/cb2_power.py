@@ -1,4 +1,4 @@
-"""CB2-L1b power calculation, from L1's own probe records (docs/explore/CB2_L1B_PREREG_DRAFT.md section 4).
+"""CB2-L1b power calculation, from L1's own probe records (docs/explore/CB2_L1B_PREREG.md section 4).
 
 Reads L1's cycles.jsonl (pooled cycles 6-10, paired by world) and reports:
   - SD of the paired survival difference and the correlation between paired arms (how much world-pairing helps);

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # CB2-L1b (DAV-99), pod side.  Three phases, each ending in an explicit stop; nothing proceeds to the next phase by
-# itself (docs/explore/CB2_L1B_PREREG_DRAFT.md s7-8, pod-runbook.md):
+# itself (docs/explore/CB2_L1B_PREREG.md s7-8, pod-runbook.md):
 #   PHASE=bench  GPU rehearsal on the real hardware (smoke blocks, no claim) + bench-sleep (both sleeps as the run will
 #                run them) + bench-lives (S2b and a learner with its chooser active, two worker counts).  Prints the
 #                measured projection, packs it, STOPS.  Price from these numbers, then decide.

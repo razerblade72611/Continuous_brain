@@ -25,7 +25,7 @@ Two twins are cloned from the same individual (S2b): LEARNING (sleeps) and FROZE
 
 Every number a claim rests on is a paired difference (learning - frozen) on the same probe worlds or situations.
 
-L1b (docs/explore/CB2_L1B_PREREG_DRAFT.md) changes three things:
+L1b (docs/explore/CB2_L1B_PREREG.md) changes three things:
   YOKED twin (replaces L1's fixed-buffer reference): each cycle the FROZEN twin also lives the same practice worlds
           into archive-yoked; the yoked twin sleeps on that accumulating archive with identical budgets -- the same
           amount of matched-world experience, by another author.  "learning - yoked" is the own-experience contrast.
@@ -67,7 +67,7 @@ USED_RUNS = set(range(11))  # rehearsals -- never reuse
 FRESH0, TRANSFER0, SITU0 = 88050, 92050, 94050
 L1_USED = [(78100, 79639)]  # every probe/situation world L1 (b6a76ee) touched
 TIMING0, TIMING_N = 95000, 100   # throughput measurement worlds (bench-lives): never scored
-# L1b final battery (docs/explore/CB2_L1B_PREREG_DRAFT.md): new blocks, used only once, by the final individuals
+# L1b final battery (docs/explore/CB2_L1B_PREREG.md): new blocks, used only once, by the final individuals
 FINAL_FRESH0, FINAL_TRANSFER0, FINAL_BLOCK = 84100, 86100, 1900
 # every world a CPU rehearsal touched before the lock (exposure bookkeeping, Sol S-010); production families avoid them
 TOUCHED = [(84000, 84002), (86000, 86002), (88000, 88001), (88100, 88101), (92000, 92001), (92100, 92101), (94000, 94000),
@@ -736,7 +736,7 @@ def run(a) -> int:
         (out / "run.json").write_text(json.dumps(lock, indent=1) + "\n")
         os.chmod(out / "run.json", 0o444)
         os.chmod(out / "origin.json", 0o444)
-    # L1b (docs/explore/CB2_L1B_PREREG_DRAFT.md): learning sleeps on its own accumulating lives; yoked sleeps with
+    # L1b (docs/explore/CB2_L1B_PREREG.md): learning sleeps on its own accumulating lives; yoked sleeps with
     # identical budgets on the lives the FROZEN twin lived on the same practice worlds (replaces L1's fixed-buffer
     # reference, which degraded by itself); frozen never sleeps
     twins = {k: out / f"twins/{k}" for k in ARMS}

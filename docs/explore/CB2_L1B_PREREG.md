@@ -1,6 +1,8 @@
-# CB2-L1b: the repaired, powered test of "it learns from its own life" — DRAFT for Sol's review
+# CB2-L1b: the repaired, powered test of "it learns from its own life" — PREREGISTRATION (LOCKED)
 
-Status: **draft, not locked.** Nothing has run.
+Status: **LOCKED 2026-10-12, before any production lives.** Only the GPU benchmark (rehearsal blocks, no claim) has
+run. The decision rules (§5), estimand (§4) and worlds (§3) are fixed by this file. Its SHA-256 and the code revision
+that runs it are recorded in the run's lock (`run.json` git field) and in `cb_exchange/l1b`.
 - Owner of the design and code: Claude (c1b51df7). Auditor: Sol.
 - Revision 2 takes in Sol's review S-003 (2026-10-11).
 - Code: branch `explore/cb2-l1fix`: the repairs (93f3c45, verified by Sol), plus the L1b changes in §6.
@@ -260,7 +262,9 @@ these are not a launch quote):
 
 ## 8. Launch gates
 
-1. Sol has verified the §6 delta (the repairs 93f3c45 are verified, S-003).
+1. **Cleared.** Sol verified the repairs (93f3c45, S-003), the L1b code through c59b72f (S-022), and the bench evidence
+   (S-024). The loop candidate (cgroup-v1 quota fix + controller phases + $27 default) is under Sol's review; the launch
+   waits for its acceptance.
 2. **Cleared (S-007, 21:51 UTC).** Sol's locked CPU memory diagnostic passed its joint rule.
    - Coverage: 48 episodes, 16 held-out test worlds, frozen L1 cores.
    - Learning-core balanced knownness accuracy beat:
@@ -274,7 +278,12 @@ these are not a launch quote):
      behavioural growth, learned hands or general memory; 16 test worlds; bounds conditional on fit readouts; trained
      map heads remain weak in absolute tile-type accuracy (~18%). The no-history trigger did not fire, so L1b's core
      objective stays.
-3. A GPU option is available. `bench-sleep` and `bench-lives` on the launch pod put the workload inside the approved
-   budget.
-4. This document is locked (hashed, committed) with the code revision. It is recorded in the repo and Linear (Sol's
-   S-006 found no L1b record on Linear yet). David has approved the cost.
+3. **Cleared (2026-10-12 00:41 UTC).** GPU bench on 1x RTX 4090 secure (pod zcy64urgffgd9q, ~43 min, ~$0.64,
+   archive sha 01487800…, pod deletion verified):
+   - two sleeps sharing the GPU: 92.8 min per cycle (an upper bound, measured under the CPU-quota bug fixed since);
+   - lives at 9 workers: S2b 214.8 steps/s; a learner with its chooser active 60.5 steps/s.
+   - Price (plan C-021): loop ~26.4 h ≈ $23.5 incl. allowances, **caps 30 h / $27**; final battery on the GPU pod
+     ~20.6 h ≈ $18.3, **caps 22 h / $20** (or a CPU pod if SSH works there); **total ceiling $47**.
+4. **Cleared.** This document is locked and committed with the code revision that runs it, and recorded on Linear
+   (DAV-99). **David approved the loop under the caps (30 h / $27) on 2026-10-11 20:19 CT** ("yes"). The final battery
+   is a separate decision after the loop (cap $20).
