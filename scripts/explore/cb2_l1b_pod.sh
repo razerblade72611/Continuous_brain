@@ -86,6 +86,7 @@ set -euo pipefail
 SLOTS=$(( NG > 0 ? M - 5 : M )); SLOTS=$(( SLOTS < 1 ? 1 : SLOTS ))
 WK=$(( N - 1 < SLOTS ? N - 1 : SLOTS )); WK=$(( WK < 1 ? 1 : WK )); WK=${WORKERS:-$WK}
 [ "$NG" = "1" ] && export L1_PARALLEL_SLEEP=1          # one GPU: both twins sleep at once on it (as benchmarked)
+export L1_CPU_QUOTA=$N                                 # python reads the same quota (cgroup v1 pods: see _cpu_quota)
 echo "cpu quota: $N  memory slots: $M  gpus: $NG  workers: $WK  parallel-sleep-on-one-gpu: ${L1_PARALLEL_SLEEP:-0}"
 
 case "$PHASE" in

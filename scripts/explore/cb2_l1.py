@@ -292,14 +292,26 @@ def _guard(run_dir, run_id, what):
         raise RuntimeError(f"{what}: {run_dir} no longer belongs to run {run_id} -- refusing to write")
 
 
-def _cpu_quota() -> int:
+def _cpu_quota(cg: str = "/sys/fs/cgroup") -> int:
+    """The CPUs this process may really use (runbook rule 1: never nproc).  cgroup v2 cpu.max, then cgroup v1
+    cfs_quota/period, then the pod script's own reading (L1_CPU_QUOTA).  The L1b bench pod was cgroup v1: the v2-only
+    reader returned the host's 96 and each sleeper ran 48 torch threads on a 10-CPU quota."""
+    n = os.cpu_count() or 1
     try:
-        q, per = open("/sys/fs/cgroup/cpu.max").read().split()[:2]
+        q, per = open(f"{cg}/cpu.max").read().split()[:2]
         if q != "max":
-            return max(1, min(os.cpu_count() or 1, int(int(q) / int(per))))
+            return max(1, min(n, int(int(q) / int(per))))
     except Exception:
         pass
-    return os.cpu_count() or 1
+    try:
+        q = int(open(f"{cg}/cpu/cpu.cfs_quota_us").read().strip())
+        per = int(open(f"{cg}/cpu/cpu.cfs_period_us").read().strip())
+        if q > 0 and per > 0:
+            return max(1, min(n, q // per))
+    except Exception:
+        pass
+    env = os.environ.get("L1_CPU_QUOTA", "")
+    return max(1, min(n, int(env))) if env.isdigit() else n
 
 
 def _sleep_init(gpu, threads):

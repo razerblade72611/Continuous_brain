@@ -307,3 +307,21 @@ def test_report_scores_only_verified_partials_and_refuses_a_foreign_final_json(t
     p.unlink()                                                # a missing partial
     with pytest.raises(SystemExit, match="no recorded result"):
         m.verified_final(out)
+
+
+def test_cpu_quota_reads_cgroup_v1_and_the_pod_scripts_value(tmp_path, monkeypatch):
+    """The bench pod was cgroup v1: the v2-only reader returned the host's cores (96) instead of the quota (10)."""
+    m = _l1()
+    monkeypatch.setattr(m.os, "cpu_count", lambda: 96)
+    monkeypatch.delenv("L1_CPU_QUOTA", raising=False)
+    assert m._cpu_quota(str(tmp_path)) == 96                    # nothing readable: the host's count (last resort)
+    (tmp_path / "cpu").mkdir()
+    (tmp_path / "cpu/cpu.cfs_quota_us").write_text("1000000\n")
+    (tmp_path / "cpu/cpu.cfs_period_us").write_text("100000\n")
+    assert m._cpu_quota(str(tmp_path)) == 10                    # cgroup v1
+    (tmp_path / "cpu.max").write_text("800000 100000\n")
+    assert m._cpu_quota(str(tmp_path)) == 8                     # cgroup v2 first
+    empty = tmp_path / "none"
+    empty.mkdir()
+    monkeypatch.setenv("L1_CPU_QUOTA", "10")
+    assert m._cpu_quota(str(empty)) == 10                       # the pod script's reading
