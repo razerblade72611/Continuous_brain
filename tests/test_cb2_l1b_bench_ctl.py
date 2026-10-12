@@ -52,7 +52,7 @@ def cloud(tmp_path):
             r = subprocess.run([sys.executable, str(CTL), *args, "--exchange", str(ex), "--key", "k",
                                 "--data-dir", str(ex.parent / "wsl-data"), *fast],
                                env=env, capture_output=True, text=True, timeout=timeout)
-            return r.returncode, (ex / "l1b" / "bench_status.txt").read_text() if (ex / "l1b" / "bench_status.txt").exists() else ""
+            return r.returncode, "".join(f.read_text() for f in sorted((ex / "l1b").glob("*_status.txt")))
 
         def claim(self, pid, **kw):
             import time
@@ -206,3 +206,43 @@ def test_a_stop_is_verified_by_the_runtime_not_by_the_intent(cloud):
     cloud.set(stop_runtime_lags=True)
     code, log = cloud.run("watch", "--pod-id", "p1", "--maxh", "0")
     assert code == 2 and "URGENT" in log and "could NOT be verified stopped" in log
+
+
+def _run_claim(cloud, pid, **kw):
+    import time
+    (cloud.ex / "l1b" / "loop_claim.json").write_text(json.dumps({"id": pid, "name": "cb2-l1b-loop-claude", "created": time.time(),
+                                                                  "costPerHr": 0.89, **kw}))
+    s = cloud.st()
+    s["pods"][pid] = {"id": pid, "name": "cb2-l1b-loop-claude", "desiredStatus": "RUNNING", "runtimeStatus": "running",
+                      "costPerHr": 0.89}
+    cloud.state.write_text(json.dumps(s))
+
+
+def test_the_loop_phase_has_its_own_pod_name_and_does_not_collide_with_a_bench_claim(cloud):
+    cloud.add_pod("benchpod0001")                              # an existing BENCH pod does not block the LOOP launch
+    cloud.claim("benchpod0001")
+    cloud.set(upload_fail=True)
+    code, log = cloud.run("launch", "--phase", "run", "--maxh", "30", "--max-cost", "30")
+    created = [c for c in cloud.st()["calls"] if c[:2] == ["pod", "create"]]
+    assert created and created[0][created[0].index("--name") + 1] == "cb2-l1b-loop-claude"
+    assert "benchpod0001" in cloud.st()["pods"]                 # untouched
+    assert (cloud.ex / "l1b" / "loop_status.txt").exists()
+
+
+def test_a_finished_loop_is_downloaded_to_wsl_with_its_progress_record_then_deleted(cloud):
+    _run_claim(cloud, "lp1")
+    (cloud.remote / "l1b-run-phase.log").write_text("== l1b LOOP finished -- STOP\n")
+    (cloud.remote / "cb2_l1b_loop.tgz").write_bytes(b"loop evidence")
+    (cloud.remote / "cycles.jsonl").write_text('{"cycle": 0}\n')
+    code, log = cloud.run("watch", "--phase", "run", "--pod-id", "lp1", "--maxh", "30", "--max-cost", "30")
+    assert code == 0 and "lp1" not in cloud.st()["pods"]
+    assert (cloud.ex.parent / "wsl-data" / "cb2_l1b_loop.tgz").read_bytes() == b"loop evidence"
+    assert (cloud.ex / "l1b" / "loop_cycles.jsonl").exists()
+
+
+def test_a_failed_loop_keeps_its_volume_it_is_stopped_not_deleted(cloud):
+    _run_claim(cloud, "lp1")
+    cloud.set(running=False)
+    (cloud.remote / "l1b-run-phase.log").write_text("TRIPWIRE: learning sleep 4\n")
+    code, log = cloud.run("watch", "--phase", "run", "--pod-id", "lp1", "--maxh", "30", "--max-cost", "30")
+    assert code == 5 and cloud.st()["pods"]["lp1"]["desiredStatus"] == "EXITED" and "volume kept" in log

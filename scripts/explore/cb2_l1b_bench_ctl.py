@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""CB2-L1b benchmark pod controller (WSL side): launch + watch, with billing safety first (Sol's review S-014).
+"""CB2-L1b pod controller (WSL side): launch + watch one pod per phase (bench | run | final), billing safety first
+(Sol's reviews S-014/S-019).  A failed bench pod is deleted; a failed run/final pod is STOPPED with its volume kept,
+because the run's evidence lives there.
 
   launch   verify the package; refuse a duplicate claim; create ONE pod named cb2-l1b-bench-claude (or adopt an
            existing pod only if its live name AND our recorded claim match); from the moment it exists, any failure
@@ -29,7 +31,19 @@ import sys
 import time
 from pathlib import Path
 
-NAME = "cb2-l1b-bench-claude"
+# one pod per phase, each with its own name, claim, status files, pod-side log, finish marker and evidence archive
+PHASES = {
+    "bench": dict(name="cb2-l1b-bench-claude", prefix="bench", log="/workspace/l1b-bench.log", marker="l1b BENCH finished",
+                  archive="cb2_l1b_bench.tgz", extras=("l1b-bench-sleep.json", "l1b-bench-lives-s2b.json",
+                                                       "l1b-bench-lives-learner.json"), upload_loop=False, progress=None,
+                  keep_on_failure=False),
+    "run": dict(name="cb2-l1b-loop-claude", prefix="loop", log="/workspace/l1b-run-phase.log", marker="l1b LOOP finished",
+                archive="cb2_l1b_loop.tgz", extras=(), upload_loop=False,
+                progress="/workspace/Continuous_brain/runs/explore/cb2/l1b/cycles.jsonl", keep_on_failure=True),
+    "final": dict(name="cb2-l1b-final-claude", prefix="final", log="/workspace/l1b-final-phase.log",
+                  marker="l1b FINAL finished", archive="cb2_l1b_results.tgz", extras=(), upload_loop=True, progress=None,
+                  keep_on_failure=True),
+}
 FILES = ["cb2_l1b_code.bundle", "cb2_l1b_code.rev", "cb2_l1b_pod.sh", "cb2_l1b_SHA256SUMS"]
 INPUTS = {"tile_decoder_v1.pt": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999",
           "cb2_kit_r2.tgz": "2d3ec50ce05e635a46fc2d658a2395aa65de929088c17879090e751f15a1a1ec",
@@ -49,8 +63,10 @@ class Ctl:
         self.ssh_bin = os.environ.get("SSH_BIN", "ssh")
         self.scp_bin = os.environ.get("SCP_BIN", "scp")
         self.l1b = Path(a.exchange) / "l1b"
-        self.status = self.l1b / "bench_status.txt"
-        self.claim = self.l1b / "bench_claim.json"
+        self.P = PHASES[a.phase]
+        self.name, pre = self.P["name"], self.P["prefix"]
+        self.status = self.l1b / f"{pre}_status.txt"
+        self.claim = self.l1b / f"{pre}_claim.json"
 
     # ------------------------------------------------------------------ plumbing
     def log(self, msg: str):
@@ -113,7 +129,7 @@ class Ctl:
                 if self.pod(pid) == "gone":
                     self.log(f"pod {pid} deleted (verified: not_found)")
                     if self.claim.exists() and json.loads(self.claim.read_text()).get("id") == pid:
-                        self.claim.rename(self.l1b / f"bench_claim_{pid}.closed.json")   # claim closed, kept as record
+                        self.claim.rename(self.l1b / f"{self.P['prefix']}_claim_{pid}.closed.json")   # claim closed, kept as record
                     return True
                 time.sleep(self.a.verify_wait)
         self.log(f"URGENT: pod {pid} could NOT be verified deleted after {self.a.retries} attempts -- it may still be "
@@ -163,13 +179,13 @@ class Ctl:
     # ------------------------------------------------------------------ identity
     def identity_ok(self, pid: str, j) -> bool:
         claim = json.loads(self.claim.read_text()) if self.claim.exists() else {}
-        return isinstance(j, dict) and j.get("name") == NAME and claim.get("id") == pid and claim.get("name") == NAME
+        return isinstance(j, dict) and j.get("name") == self.name and claim.get("id") == pid and claim.get("name") == self.name
 
     def ours_on_account(self) -> list:
         code, j, err = self.rpj(["pod", "list", "--all"], 120)
         if code != 0 or not isinstance(j, list):
             raise SystemExit(f"cannot list pods ({err.strip()[:200]}): refusing to create anything blind")
-        return [p for p in j if p.get("name") == NAME]
+        return [p for p in j if p.get("name") == self.name]
 
     # ------------------------------------------------------------------ launch
     def verify_package(self):
@@ -196,18 +212,18 @@ class Ctl:
         if self.a.pod_id:                                     # adopt an existing pod: only OUR claimed one
             j = self.pod(self.a.pod_id)
             if not self.identity_ok(self.a.pod_id, j):
-                self.log(f"REFUSED: pod {self.a.pod_id} is not {NAME} with a matching claim -- not touching it")
+                self.log(f"REFUSED: pod {self.a.pod_id} is not {self.name} with a matching claim -- not touching it")
                 return 1
             pid = self.a.pod_id
         else:
             if mine:
-                self.log(f"REFUSED: {NAME} already exists ({[p.get('id') for p in mine]}): one claim at a time")
+                self.log(f"REFUSED: {self.name} already exists ({[p.get('id') for p in mine]}): one claim at a time")
                 return 1
             if self.claim.exists():
                 old = json.loads(self.claim.read_text())
                 self.log(f"REFUSED: an earlier claim is still recorded ({old.get('id')}); resolve it first")
                 return 1
-            args = ["pod", "create", "--name", NAME, "--gpu-id", self.a.gpu, "--gpu-count", "1", "--cloud-type", self.a.cloud,
+            args = ["pod", "create", "--name", self.name, "--gpu-id", self.a.gpu, "--gpu-count", "1", "--cloud-type", self.a.cloud,
                     "--image", self.a.image, "--container-disk-in-gb", "40", "--volume-in-gb", "40", "--ports", "22/tcp", "--wait"]
             if self.a.cloud == "COMMUNITY":
                 args.insert(-1, "--public-ip")
@@ -220,13 +236,13 @@ class Ctl:
                     pid = found[0]["id"]
                     self.log(f"create output unusable (exit {code}); reconciled by name: {pid}")
                 elif not found:
-                    self.log(f"create failed (exit {code}: {err.strip()[:200]}); account shows no {NAME}: nothing to clean")
+                    self.log(f"create failed (exit {code}: {err.strip()[:200]}); account shows no {self.name}: nothing to clean")
                     return 1
                 else:
-                    self.log(f"URGENT: create unclear and {len(found)} pods named {NAME} exist: {[p['id'] for p in found]}")
+                    self.log(f"URGENT: create unclear and {len(found)} pods named {self.name} exist: {[p['id'] for p in found]}")
                     return 2
-            self.claim.write_text(json.dumps({"id": pid, "name": NAME, "created": t_create}) + "\n")
-            self.log(f"created {pid} ({NAME}, 1x {self.a.gpu}, {self.a.cloud}); claim recorded")
+            self.claim.write_text(json.dumps({"id": pid, "name": self.name, "phase": self.a.phase, "created": t_create}) + "\n")
+            self.log(f"created {pid} ({self.name}, 1x {self.a.gpu}, {self.a.cloud}); claim recorded")
         try:                                                  # until the watcher owns it, any failure deletes the pod
             j = self.pod(pid)
             rate = float(j.get("costPerHr") or 0) if isinstance(j, dict) else 0.0
@@ -247,6 +263,11 @@ class Ctl:
             if not p:
                 raise RuntimeError("ssh never became reachable")
             ups = [Path(self.a.exchange) / f for f in INPUTS] + [self.l1b / f for f in FILES]
+            if self.P["upload_loop"]:                         # a fresh pod for the final battery gets the loop's results
+                loop = Path(self.a.data_dir).expanduser() / "cb2_l1b_loop.tgz"
+                if not loop.exists():
+                    raise RuntimeError(f"no loop results at {loop}")
+                ups.append(loop)
             for attempt in range(1, 3):
                 code, _, err = self.scp_up(p, ups, self.bounded(self.a.upload_timeout))
                 if code == 0:
@@ -255,11 +276,12 @@ class Ctl:
             else:
                 raise RuntimeError("upload failed")
             w = subprocess.Popen([sys.executable, __file__, "watch", "--pod-id", pid, *self.passthrough()],
-                                 stdout=open(self.l1b / "bench_watcher.out", "a"), stderr=subprocess.STDOUT,
+                                 stdout=open(self.l1b / f"{self.P['prefix']}_watcher.out", "a"), stderr=subprocess.STDOUT,
                                  start_new_session=True)
             self.log(f"watcher started (pid {w.pid}); it owns cleanup of {pid} from now on")
-            code, _, err = self.ssh(p, "cd /workspace && (PHASE=bench setsid nohup bash /workspace/cb2_l1b_pod.sh "
-                                       "> /workspace/l1b-bench.log 2>&1 < /dev/null &); sleep 2; head -3 /workspace/l1b-bench.log",
+            ph, lg = self.a.phase, self.P["log"]
+            code, _, err = self.ssh(p, f"cd /workspace && (PHASE={ph} setsid nohup bash /workspace/cb2_l1b_pod.sh "
+                                       f"> {lg} 2>&1 < /dev/null &); sleep 2; head -3 {lg}",
                                     self.bounded(60))
             self.log(f"bench start: exit {code}; {err.strip()[:120]}")
             return 0
@@ -272,7 +294,7 @@ class Ctl:
 
     def passthrough(self) -> list:
         a = self.a
-        return ["--exchange", a.exchange, "--key", a.key, "--runpodctl", a.runpodctl, "--maxh", str(a.maxh),
+        return ["--phase", a.phase, "--exchange", a.exchange, "--key", a.key, "--runpodctl", a.runpodctl, "--maxh", str(a.maxh),
                 "--max-cost", str(a.max_cost), "--data-dir", a.data_dir, "--margin", str(a.margin),
                 "--download-timeout", str(a.download_timeout),
                 "--poll", str(a.poll), "--grace", str(a.grace), "--retries", str(a.retries),
@@ -292,14 +314,15 @@ class Ctl:
         pid, t0 = self.a.pod_id, time.time()
         data = Path(self.a.data_dir).expanduser()          # bulk evidence stays WSL-native (house rule 4)
         data.mkdir(parents=True, exist_ok=True)
-        log_f, tgz = self.l1b / "bench_pod.log", data / "cb2_l1b_bench.tgz"
+        P = self.P
+        log_f, tgz = self.l1b / f"{P['prefix']}_pod.log", data / P["archive"]
         while True:
             j = self.pod(pid)
             if j == "gone":
                 self.log(f"pod {pid} no longer exists (deleted elsewhere?) -- watcher ends")
                 return 0
             if isinstance(j, dict) and not self.identity_ok(pid, j):
-                self.log(f"URGENT: pod {pid} is not our claimed {NAME} -- touching nothing")
+                self.log(f"URGENT: pod {pid} is not our claimed {self.name} -- touching nothing")
                 return 2
             self.bounded(1)                                   # billing guard BEFORE any transfer (raises when spent)
             p = self.endpoint(pid) if isinstance(j, dict) else None
@@ -308,13 +331,15 @@ class Ctl:
                                            "nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader",
                                         self.bounded(60))
                 running = code == 0 and out.strip().split("\n")[0].strip() not in ("", "0")
-                self.scp_down(p, "/workspace/l1b-bench.log", log_f, self.bounded(120))
+                self.scp_down(p, P["log"], log_f, self.bounded(120))
+                if P["progress"] and self.left() > 0:          # small progress record for watching a long run
+                    self.scp_down(p, P["progress"], self.l1b / f"{P['prefix']}_cycles.jsonl", self.bounded(120))
                 text = log_f.read_text() if log_f.exists() else ""
-                if "l1b BENCH finished" in text:
+                if P["marker"] in text:
                     ok = False
                     for attempt in range(1, 3):
-                        c1, _, e1 = self.scp_down(p, "/workspace/cb2_l1b_bench.tgz", tgz, self.bounded(self.a.download_timeout))
-                        c2, rs, _ = self.ssh(p, "sha256sum /workspace/cb2_l1b_bench.tgz", self.bounded(300))
+                        c1, _, e1 = self.scp_down(p, f"/workspace/{P['archive']}", tgz, self.bounded(self.a.download_timeout))
+                        c2, rs, _ = self.ssh(p, f"sha256sum /workspace/{P['archive']}", self.bounded(300))
                         if c1 == 0 and c2 == 0 and tgz.exists() and rs.split() and \
                                 rs.split()[0] == hashlib.sha256(tgz.read_bytes()).hexdigest():
                             ok = True
@@ -324,8 +349,8 @@ class Ctl:
                         self.bounded(1)                       # a transfer cut off by the deadline is a budget stop
                         self.log("evidence NOT verified: stopping the pod with its volume kept, not deleting")
                         return 4 if self.stop_verified(pid) else 2
-                    self.log(f"cb2_l1b_bench.tgz downloaded to {tgz}, sha256 MATCH {hashlib.sha256(tgz.read_bytes()).hexdigest()}")
-                    for f in ("l1b-bench-sleep.json", "l1b-bench-lives-s2b.json", "l1b-bench-lives-learner.json"):
+                    self.log(f"{P['archive']} downloaded to {tgz}, sha256 MATCH {hashlib.sha256(tgz.read_bytes()).hexdigest()}")
+                    for f in P["extras"]:
                         if self.left() > 0:
                             self.scp_down(p, f"/workspace/{f}", self.l1b / f, self.bounded(120))
                     return 0 if self.delete_verified(pid) else 2
@@ -333,7 +358,11 @@ class Ctl:
                     if not log_f.exists():
                         self.log("bench not running and its log could not be fetched: stopping, volume kept")
                         return 4 if self.stop_verified(pid) else 2
-                    self.log("BENCH FAILED or stopped (see bench_pod.log): logs saved; deleting the pod")
+                    if P["keep_on_failure"]:                  # a long run's evidence lives on the pod: keep it
+                        self.log(f"{self.a.phase.upper()} FAILED or stopped (see {log_f.name}): stopping the pod, volume "
+                                 f"kept for diagnosis/resume (the locked run resumes only as the same experiment)")
+                        return 5 if self.stop_verified(pid) else 2
+                    self.log(f"{self.a.phase.upper()} FAILED or stopped (see {log_f.name}): logs saved; deleting the pod")
                     return 5 if self.delete_verified(pid) else 2
             time.sleep(max(0.0, min(self.a.poll, self.left())))
 
@@ -341,6 +370,7 @@ class Ctl:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["launch", "watch"])
+    ap.add_argument("--phase", default="bench", choices=sorted(PHASES), help="which pod-script phase this pod runs")
     ap.add_argument("--exchange", default="/mnt/c/Users/davei/ContinuousBrain/cb_exchange")
     ap.add_argument("--key", default="/home/davei/.runpod/ssh/runpodctl-ssh-key")
     ap.add_argument("--runpodctl", default=str(Path.home() / "projects/continuous_brain_explore/runpodctl"))

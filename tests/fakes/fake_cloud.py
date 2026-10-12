@@ -56,7 +56,7 @@ elif prog == "ssh":
     if remote == "true": sys.exit(0 if st.get("ssh_ok", True) else 255)
     if "grep -c" in remote: print("1" if st.get("running", True) else "0"); sys.exit(0)
     if remote.startswith("sha256sum"):
-        f = R / "cb2_l1b_bench.tgz"; print(hashlib.sha256(f.read_bytes()).hexdigest() + "  " + str(f)); sys.exit(0)
+        f = R / remote.split()[-1].split("/")[-1]; print(hashlib.sha256(f.read_bytes()).hexdigest() + "  " + str(f)); sys.exit(0)
     st["bench_started"] = True; save(); sys.exit(0)
 elif prog == "scp":
     src, dst = args[-2], args[-1]
@@ -64,7 +64,7 @@ elif prog == "scp":
         if st.get("upload_fail"): sys.exit(1)
         sys.exit(0)
     name = src.split(":", 1)[1].split("/")[-1]
-    if name == "cb2_l1b_bench.tgz" and st.get("download_hang"): time.sleep(30)
-    if name == "cb2_l1b_bench.tgz" and st.get("download_fail"): sys.exit(1)
+    if name.endswith(".tgz") and st.get("download_hang"): time.sleep(30)
+    if name.endswith(".tgz") and st.get("download_fail"): sys.exit(1)
     if (R / name).exists(): shutil.copy(R / name, dst); sys.exit(0)
     sys.exit(1)
