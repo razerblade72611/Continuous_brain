@@ -1,0 +1,17 @@
+{
+  "format": "cb-historical-core-overlay/1",
+  "archive_name": "continuous_brain_v0.12.2_unified_workspace.zip",
+  "archive_sha256": "a73545ba5729214101e17f96578cdbeb3e9f27e16773c61b7a5764edad6aa554",
+  "archive_prefix": "continuous_brain_v0.12.2/",
+  "reason": "All first-wave G0 frozen evaluators/results precede the 2026-09-20 04:46 UTC growth_v110 nucleus-depth change in the accumulated WSL tree. The protected base checkpoint was created for this pre-change core. G0 therefore overlays only base-core files that differ from the original v0.12.2 snapshot; target mechanism/evaluator files remain hash-pinned to their historical overlay versions.",
+  "files": [
+    {"relpath":"continuous_brain/teacher.py","sha256":"74feff031dec9e93e608002db8a72bfb3e89b1da31d724e67b6f9a40b0832176"},
+    {"relpath":"continuous_brain/growth_v110.py","sha256":"aa349757f5ed2b4eb998e9cc9c012f746f5b6f411e716710a491f642259465db"},
+    {"relpath":"continuous_brain/cognition.py","sha256":"4c6dba9437ad68784afe8345d43f61b3899cb7e2f975fcf0761b75d71806a6d6"},
+    {"relpath":"continuous_brain/model.py","sha256":"c8e1a5782ec3735e6142e7a191032a00e02322079ecf4c36cf7fc9a99bbd9de4"},
+    {"relpath":"continuous_brain/parented_train.py","sha256":"6d626b21ef8406fc6ed3a26379ad8cba8137db3a575a71c1cef7e5cf8022ca7a"},
+    {"relpath":"continuous_brain/whole_brain_v110.py","sha256":"2bf0d79358725e69f2eeaf6711b166010376dbda6ec0dcba88ea84f0ff2f216c"},
+    {"relpath":"continuous_brain/infant.py","sha256":"592f5a29e3c7b6b374f9637f0fb4db47d3fd3f484d36b24352249b60876db3fe"},
+    {"relpath":"continuous_brain/lifelong/model.py","sha256":"be6f6aaaff3f29602cc58e2c99dc35abf58f6745b0e02b77ae3ef986dd399545"}
+  ]
+}

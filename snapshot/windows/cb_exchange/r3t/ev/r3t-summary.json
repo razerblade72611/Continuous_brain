@@ -1,0 +1,98 @@
+{
+ "format": "cb2-r3t-summary/1",
+ "status": "ENGINEERING_ONLY (DIAGNOSTIC)",
+ "label": "r3t",
+ "seeds": "75001-75040 (development)",
+ "routine": {
+  "crafter_score": 24.756095181493034,
+  "survival_steps": 500.675,
+  "achievements_per_episode": 11.7,
+  "obligations": 0.4818181818181818
+ },
+ "arms": {
+  "r2 P-A (reference)": {
+   "crafter_score": 10.729,
+   "survival_steps": 226.275,
+   "achievements_per_episode": 7.225,
+   "obligations": 0.07142857142857142,
+   "closed_loop_agreement": 0.421
+  },
+  "none": {
+   "crafter_score": 13.272713152667478,
+   "survival_steps": 248.225,
+   "achievements_per_episode": 8.25,
+   "obligations": 0.10869565217391304,
+   "closed_loop_agreement": 0.4564,
+   "paired_vs_routine": {
+    "steps": {
+     "mean": -252.45,
+     "se": 54.650954785569475
+    },
+    "n_unlocked": {
+     "mean": -3.45,
+     "se": 0.6354384716729474
+    }
+   }
+  },
+  "branch": {
+   "crafter_score": 14.805162667721108,
+   "survival_steps": 272.85,
+   "achievements_per_episode": 8.75,
+   "obligations": 0.25862068965517243,
+   "closed_loop_agreement": 0.5194,
+   "paired_vs_routine": {
+    "steps": {
+     "mean": -227.825,
+     "se": 50.918233693205586
+    },
+    "n_unlocked": {
+     "mean": -2.95,
+     "se": 0.6334176731967216
+    }
+   }
+  },
+  "full": {
+   "crafter_score": 15.708164253939028,
+   "survival_steps": 292.525,
+   "achievements_per_episode": 9.65,
+   "obligations": 0.3392857142857143,
+   "closed_loop_agreement": 0.7528,
+   "paired_vs_routine": {
+    "steps": {
+     "mean": -208.15,
+     "se": 48.070148394473115
+    },
+    "n_unlocked": {
+     "mean": -2.05,
+     "se": 0.5511642688727665
+    }
+   }
+  }
+ },
+ "ratio_to_routine": {
+  "r2 P-A (reference)": {
+   "crafter_score": 0.433,
+   "survival_steps": 0.452
+  },
+  "none": {
+   "crafter_score": 0.536,
+   "survival_steps": 0.496
+  },
+  "branch": {
+   "crafter_score": 0.598,
+   "survival_steps": 0.545
+  },
+  "full": {
+   "crafter_score": 0.635,
+   "survival_steps": 0.584
+  }
+ },
+ "intent_effect_branch_minus_none": {
+  "crafter_score": 0.062,
+  "survival_steps": 0.049
+ },
+ "intent_effect_full_minus_none": {
+  "crafter_score": 0.099,
+  "survival_steps": 0.088
+ }
+}

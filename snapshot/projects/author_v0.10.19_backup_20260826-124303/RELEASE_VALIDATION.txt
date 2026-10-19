@@ -1,0 +1,8 @@
+AUTHOR v0.10.19 release validation
+- Source test suite: 225 passed
+- compileall: pass
+- dry-run metadata: version 0.10.19 / trainer portal_center_place_pose_curriculum / place level 4
+- wheel metadata: Version 0.10.19
+- v0.10.18 repair: tested idempotent, raw replay preserved
+- Unity rebuild required: no
+- state reset required: no

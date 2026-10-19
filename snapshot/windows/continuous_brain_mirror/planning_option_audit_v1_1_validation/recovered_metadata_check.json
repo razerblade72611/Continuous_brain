@@ -1,0 +1,32 @@
+{
+  "validation_scope": "Metadata-only parsing of a recovered checkpoint pickle; this is not a complete checkpoint validation or capability test.",
+  "fixture_sha256": "faf092e6f8af7166576afceadfdf14d7381ccd02ed5c4223d1fdea032ed317a0",
+  "format": "continuous_brain.infant.v110",
+  "updates": 14000,
+  "planning_updates": 4000,
+  "option_updates": 3000,
+  "option_cortex_version": "latent-temporal-options-v1",
+  "tensor_groups": {
+    "planning": {
+      "count": 62,
+      "numel": 4371661
+    },
+    "options": {
+      "count": 29,
+      "numel": 1963597
+    },
+    "world": {
+      "count": 102,
+      "numel": 16272795
+    },
+    "nucleus": {
+      "count": 39,
+      "numel": 3290377
+    },
+    "target_spatial": {
+      "count": 54,
+      "numel": 3378596
+    }
+  },
+  "torch_imported": false
+}

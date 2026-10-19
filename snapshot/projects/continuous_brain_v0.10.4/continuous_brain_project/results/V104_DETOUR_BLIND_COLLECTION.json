@@ -1,0 +1,22 @@
+v104_detour_holdout=250/1200
+v104_detour_holdout=500/1200
+v104_detour_holdout=750/1200
+v104_detour_holdout=1000/1200
+{
+  "child_model_used": false,
+  "domain": "detour",
+  "executed_action_counts": {
+    "0": 91,
+    "1": 294,
+    "2": 304,
+    "3": 109,
+    "4": 402
+  },
+  "exploration": 0.45,
+  "format": "continuous_brain.world_retention_holdout.v104",
+  "parent_models_used": false,
+  "records": 1200,
+  "seed": 24019,
+  "training_prohibited": true,
+  "transition_digest": "a0ba1cb474601031626214b371e988afd187f345a0836a071056cc5764062551"
+}

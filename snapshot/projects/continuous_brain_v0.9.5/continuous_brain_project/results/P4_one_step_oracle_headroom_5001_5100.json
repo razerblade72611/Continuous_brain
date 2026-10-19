@@ -1,0 +1,47 @@
+{
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.9.0/continuous_brain_project/state/child_v090/infant_training.at_8000_P3_FINAL_PASS.pt",
+  "diagnostic_only": true,
+  "episodes": 100,
+  "format": "continuous_brain.p4_one_step_headroom_diagnostic.v095",
+  "imagination": {
+    "completion_rate": 1.0,
+    "episodes": 100,
+    "mean_final_energy": 0.9854999999999999,
+    "mean_first_success_step_penalized": 11.47,
+    "mean_planner_overrides": 21.77,
+    "mean_reward": 11.10568144491315,
+    "mean_targets_reached": 7.53
+  },
+  "interpretation": {
+    "oracle_headroom_at_least_10_percent_but_imagination_low": "The task contains enough one-step decision headroom. The planner/world-value ranking needs improvement.",
+    "oracle_headroom_below_10_percent": "The current proof world cannot fairly demonstrate the predeclared +10% one-step reward gate. Move to a planning-sensitive environment."
+  },
+  "one_step_true_reward_oracle": {
+    "completion_rate": 1.0,
+    "episodes": 100,
+    "mean_final_energy": 0.9839600000000001,
+    "mean_first_success_step_penalized": 11.38,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": 11.15243862279132,
+    "mean_targets_reached": 7.56
+  },
+  "reactive": {
+    "completion_rate": 1.0,
+    "episodes": 100,
+    "mean_final_energy": 0.9843599999999999,
+    "mean_first_success_step_penalized": 11.49,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": 11.017493798740212,
+    "mean_targets_reached": 7.45
+  },
+  "reward_analysis": {
+    "fraction_of_oracle_headroom_captured": 0.6535089196124965,
+    "imagination_absolute_gain": 0.08818764617293873,
+    "imagination_relative_gain": 0.008004329095517394,
+    "oracle_absolute_headroom": 0.13494482405110908,
+    "oracle_relative_headroom": 0.012248232358119344
+  },
+  "seed_end": 5100,
+  "seed_start": 5001,
+  "steps": 100
+}

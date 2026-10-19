@@ -1,0 +1,31 @@
+Continuous Brain v0.5.2 release validation
+
+Automated tests: 61 passed.
+Python compileall: passed.
+Dashboard JavaScript node --check: passed.
+
+Real-run diagnosis basis:
+- v0.5.1 telemetry proved an upstream sensor freeze: RGB hash stopped changing across pose changes, rgb_diff remained 0.00, depth valid fraction fell to 0.00, and stale=1.
+- v0.5.1 preserved hard occupancy, but episode-only reset could not repair the underlying controller and L2 curriculum statistics collapsed.
+
+v0.5.2 sensor/controller recovery validation:
+- sensor faults are excluded from curriculum attempts/windows.
+- sensor-fault tick is excluded from replay, working memory, episodic/visual memory, reward totals, learning and consolidation.
+- scene-reset recovery uses active forced camera rotation and trusted-depth verification.
+- permanently frozen first controller escalates to controller recreation; replacement controller verifies healthy.
+- end-to-end 160-tick induced-freeze smoke: one mid-run controller froze, controller restart recovered, replay=159 for steps=160 (fault tick quarantined), spatial map remained populated (known=233), and training continued.
+- permanently frozen replacement stream produces fatal recovery result; agent saves and exits cleanly rather than resuming bad learning.
+- simulated Controller.step ConnectionError is converted to an infrastructure fault and recovered through controller recreation rather than crashing the agent.
+- controller restarts are protected by a time-window restart budget.
+- bounded forensic telemetry is written to sensor_faults.jsonl.
+
+Migration validation:
+- v0.5.1 checkpoint at step 8 resumed under v0.5.2, replay restored, advanced to step 11, and saved as version 0.5.2 / checkpoint format 8.
+- neural interface unchanged: observation_dim=6, action_dim=5.
+- v0.4.3 L0/L1 mastered neural tensors remain shape-compatible.
+
+Spatial cognition protections retained:
+- invalid near-zero depth is treated as unknown during simulator training.
+- hard native-collision occupancy cannot be erased by ordinary depth free-space rays.
+- stale/invalid sensor data is not integrated into persistent spatial memory.
+- unrecoverable sensors fail closed instead of poisoning the canonical brain.

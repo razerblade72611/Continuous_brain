@@ -1,0 +1,93 @@
+Extracting lived states for conservative Bellman Q learning...
+planning_features=520
+planning_features=1017
+planning_features=1558
+planning_features=2025
+planning_features=2568
+planning_features=3034
+planning_features=617
+bellman_q_update=1/3000 loss=0.16362 td=0.00317 cql=1.60231 consistency=0.00216 grad=0.085 val_td_mae=0.0634 val_imag_q_mae=0.0479
+bellman_q_update=250/3000 loss=0.16098 td=0.00141 cql=1.59439 consistency=0.00131 grad=0.050 val_td_mae=0.0493 val_imag_q_mae=0.0449
+bellman_q_update=500/3000 loss=0.16173 td=0.00213 cql=1.59465 consistency=0.00135 grad=0.067 val_td_mae=0.0581 val_imag_q_mae=0.0455
+bellman_q_update=750/3000 loss=0.16058 td=0.00170 cql=1.58701 consistency=0.00183 grad=0.028 val_td_mae=0.0613 val_imag_q_mae=0.0475
+bellman_q_update=1000/3000 loss=0.16119 td=0.00259 cql=1.58388 consistency=0.00209 grad=0.027 val_td_mae=0.0655 val_imag_q_mae=0.0510
+bellman_q_update=1250/3000 loss=0.16106 td=0.00207 cql=1.58823 consistency=0.00169 grad=0.060 val_td_mae=0.0724 val_imag_q_mae=0.0544
+bellman_q_update=1500/3000 loss=0.16138 td=0.00215 cql=1.59087 consistency=0.00141 grad=0.033 val_td_mae=0.0687 val_imag_q_mae=0.0561
+bellman_q_update=1750/3000 loss=0.16143 td=0.00261 cql=1.58640 consistency=0.00181 grad=0.057 val_td_mae=0.0742 val_imag_q_mae=0.0598
+bellman_q_update=2000/3000 loss=0.16019 td=0.00173 cql=1.58297 consistency=0.00163 grad=0.020 val_td_mae=0.0775 val_imag_q_mae=0.0613
+bellman_q_update=2250/3000 loss=0.16609 td=0.00673 cql=1.59150 consistency=0.00206 grad=0.045 val_td_mae=0.0794 val_imag_q_mae=0.0622
+bellman_q_update=2500/3000 loss=0.16082 td=0.00203 cql=1.58573 consistency=0.00215 grad=0.029 val_td_mae=0.0776 val_imag_q_mae=0.0627
+bellman_q_update=2750/3000 loss=0.16228 td=0.00245 cql=1.59588 consistency=0.00246 grad=0.077 val_td_mae=0.0809 val_imag_q_mae=0.0634
+bellman_q_update=3000/3000 loss=0.16145 td=0.00232 cql=1.58916 consistency=0.00208 grad=0.056 val_td_mae=0.0767 val_imag_q_mae=0.0620
+{
+  "best_update": 250,
+  "changed_non_q_tensors": 0,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.1/continuous_brain_project/state/child_v101_bellman/infant_training.pt",
+  "dropped_incomplete_episode_ids": [
+    52
+  ],
+  "episodes_complete": 52,
+  "episodes_train": 41,
+  "episodes_validation": 11,
+  "format": "continuous_brain.planning_bellman_q_training.v101",
+  "legacy_optimizer_carried_forward": false,
+  "planning_bellman_q_updates": 3000,
+  "planning_updates": 4000,
+  "planning_value_version": "conservative-bellman-q-v1",
+  "q_only": true,
+  "q_only_trainable_parameters": [
+    "planning.q_head.0.weight",
+    "planning.q_head.0.bias",
+    "planning.q_head.2.weight",
+    "planning.q_head.2.bias"
+  ],
+  "return_support": [
+    -1.921358346939087,
+    2.0023930072784424
+  ],
+  "source_checkpoint_sha256": "1492f8bb1199972ae279090f9fdde84dfe4e4d0246f6835432f1706e77c5b15c",
+  "source_training_updates": 11000,
+  "train_action_counts": {
+    "0": 308,
+    "1": 734,
+    "2": 716,
+    "3": 331,
+    "4": 1016
+  },
+  "train_transitions": 3105,
+  "trained_checkpoint_sha256": "2a4edd256d1c5fff208bef358044b68fda2134d85ea34d545e914f9686be1fa3",
+  "training": {
+    "balanced_action_sampling": true,
+    "batch": 256,
+    "conservative_regularizer": "logsumexp(Q(s,*)) - Q(s,a_lived)",
+    "cql_alpha": 0.1,
+    "gamma": 0.95,
+    "learning_rate": 0.0003,
+    "seed": 10110,
+    "target": "r + gamma * max_a Q_target(s',a), terminal-masked and support-clamped",
+    "target_tau": 0.01,
+    "updates": 3000
+  },
+  "validation": {
+    "behavior_return_mae": 0.223180504231681,
+    "bellman_residual_mae": 0.0492657529957924,
+    "conservative_gap_mean": 1.5850538672831354,
+    "executed_action_counts": {
+      "0": 89,
+      "1": 181,
+      "2": 197,
+      "3": 84,
+      "4": 303
+    },
+    "greedy_action_counts": {
+      "0": 0,
+      "1": 332,
+      "2": 201,
+      "3": 0,
+      "4": 321
+    },
+    "imagined_vs_actual_q_mae": 0.044936424001744094,
+    "transitions": 854
+  },
+  "validation_transitions": 854
+}

@@ -1,0 +1,70 @@
+{
+  "reviewed_revision": "d5141e8",
+  "regression_tests": {
+    "Passed": 14,
+    "Suites": [
+      "l1_repairs",
+      "chooser_guards",
+      "archive",
+      "core",
+      "core_map"
+    ],
+    "CloudComputeUsed": false,
+    "Approval": "Changes requested"
+  },
+  "short_life_burn_in": {
+    "episode_lengths": [
+      50,
+      206
+    ],
+    "T": 256,
+    "burn": 64,
+    "retained_rows": 256,
+    "reported_excluded_rows": 0,
+    "possible_window_starts": [
+      0
+    ],
+    "first_terminal_row": 49,
+    "terminal_reward_out": 2.0,
+    "first_terminal_can_reach_chooser_value_loss": false,
+    "conclusion": "Rows retained, but first early death permanently falls before burn-in in every possible window."
+  },
+  "episode_id_stride": {
+    "configuration_accepted_by_world_check": {
+      "cycles": 1,
+      "lives": 1001,
+      "holdout_lives": 0,
+      "probe_worlds": 1,
+      "situation_worlds": 1
+    },
+    "mocked_episode_count": 2002,
+    "collisions": [
+      {
+        "life": 30001000,
+        "worlds": [
+          89001000,
+          89010000
+        ]
+      }
+    ],
+    "conclusion": "Allowed lives > 1000 exceed the cycle life-ID stride; the later guard detects collisions only after collection."
+  },
+  "exploratory_reference_minus_frozen": {
+    "fresh": {
+      "n": 200,
+      "mean": 8.665,
+      "sd": 414.0537711481566,
+      "lower_one_sided_95": -39.75449999999999,
+      "upper_one_sided_95": 56.5755,
+      "interpretation": "Exploratory paired comparison; does not establish overfitting as a mechanism."
+    },
+    "transfer": {
+      "n": 200,
+      "mean": -62.71,
+      "sd": 443.1487560627921,
+      "lower_one_sided_95": -114.35600000000001,
+      "upper_one_sided_95": -10.86925000000001,
+      "interpretation": "Exploratory paired comparison; does not establish overfitting as a mechanism."
+    }
+  }
+}

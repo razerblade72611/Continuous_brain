@@ -1,0 +1,10 @@
+AUTHOR v0.10.14 release validation
+- pytest: 200 passed
+- compileall: passed
+- training dry-run: version 0.10.14, trainer component_verified_semantic_route_curriculum, level 4, pickup curriculum
+- component-partition blocked-route regression: passed
+- unrouteable first target is rejected inside the same raw setup regression: passed
+- maneuverable opposite-side/path-aligned start regression: passed
+- strict semantic route continuation regressions retained: passed
+- v0.10.12 FIFO timeout/transport recovery regressions retained: passed
+- wheel metadata/build: Version 0.10.14

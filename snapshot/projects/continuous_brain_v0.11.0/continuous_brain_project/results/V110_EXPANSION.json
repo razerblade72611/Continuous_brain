@@ -1,0 +1,40 @@
+{
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.11.0/continuous_brain_project/state/child_v110_growth/infant_training.pt",
+  "equivalence": {
+    "by_interface": {
+      "audio": 0.0,
+      "dynamics_temporal": 0.0,
+      "fusion": 0.0,
+      "language": 0.0,
+      "meta": 0.0,
+      "motor": 0.0,
+      "option_action": 0.0,
+      "option_q": 0.0,
+      "option_selector": 0.0,
+      "option_term": 0.0,
+      "planning_latent": 0.0,
+      "planning_step": 0.0,
+      "router": 0.0,
+      "spatial": 0.0,
+      "target_spatial": 0.0,
+      "target_vision": 0.0,
+      "temporal": 0.0,
+      "values": 0.0,
+      "vision": 0.0,
+      "workspace": 0.0,
+      "world": 0.0
+    },
+    "exact_function_preservation": true,
+    "max_abs_difference": 0.0,
+    "seed": 11000
+  },
+  "expanded_checkpoint_sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f",
+  "expanded_trainable_parameters": 53684720,
+  "format": "continuous_brain.function_preserving_growth.v110",
+  "growth_profile": "balanced-v110",
+  "legacy_tensor_mismatches": 0,
+  "new_growth_parameters": 44366592,
+  "new_growth_state_keys": 292,
+  "source_checkpoint_sha256": "1936e046b21292a5d0519d03fe087f2568b3899e91e9bd6796a0b020a966b3a9",
+  "source_trainable_parameters": 9318128
+}

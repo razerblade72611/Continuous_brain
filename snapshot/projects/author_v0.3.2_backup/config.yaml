@@ -1,0 +1,52 @@
+scene: FloorPlan1
+grid_size: 0.25
+rotate_step_degrees: 90
+visibility_distance: 1.5
+image_width: 640
+image_height: 480
+field_of_view: 90
+
+simulation:
+  # Real-time pause after each primitive Unity action. Raise this to 0.20-0.35
+  # for slower, easier-to-watch roaming. Set 0 for maximum speed.
+  step_delay_seconds: 0.10
+
+navigation:
+  # Navigate to a reachable grid position near the target, then face it.
+  interaction_distance: 1.25
+
+agent:
+  # Counts actual Unity movement/rotation/interaction actions. Query actions such
+  # as GetReachablePositions do not consume this budget.
+  max_steps: 120
+  max_replans: 30
+  max_retries_per_action: 2
+  log_dir: runs
+
+llm:
+  base_url: "http://127.0.0.1:8080/v1"
+  model: "local-model"
+  timeout_seconds: 120
+  enabled: false
+
+vision:
+  enabled: false
+  base_url: "http://127.0.0.1:8080/v1"
+  model: "vision-model"
+  timeout_seconds: 120
+
+roam:
+  # The LLM may choose a short burst of primitive movements per decision.
+  max_burst_actions: 6
+  # Do not NavigateTo the same target again for this many decisions.
+  target_cooldown: 6
+  # slow/normal/fast scales the base step delay by 2.0/1.0/0.5.
+  llm_controls_pace: true
+  # LLM decisions. One NavigateTo decision may expand into many Unity actions.
+  max_decisions: 100
+  # Send the AI2-THOR camera image every N decisions when --vision is enabled.
+  vision_every: 1
+  # Leave false for movement-only roaming; use --interact to override on the CLI.
+  allow_interactions: false
+  use_vision: false
+  print_decisions: true

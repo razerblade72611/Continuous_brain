@@ -1,0 +1,99 @@
+{
+  "checked_utc": "2026-10-11 21:38:17 UTC",
+  "source": "Runpod live MCP catalog and pod reads; no mutations",
+  "gpu_requested_count": 2,
+  "gpu": {
+    "id": "NVIDIA GeForce RTX 4090",
+    "secure": {
+      "availability": "NONE",
+      "price_per_gpu_hour": 0.89,
+      "pair_hour": 1.78
+    },
+    "community": {
+      "availability": "NONE",
+      "price_per_gpu_hour": 0.34,
+      "pair_hour": 0.68
+    }
+  },
+  "cpu": [
+    {
+      "id": "cpu3c",
+      "group": "CPU3",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.03,
+      "ramGbPerVcpu": 2
+    },
+    {
+      "id": "cpu3g",
+      "group": "CPU3",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.04,
+      "ramGbPerVcpu": 4
+    },
+    {
+      "id": "cpu3m",
+      "group": "CPU3",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.055,
+      "ramGbPerVcpu": 8
+    },
+    {
+      "id": "cpu5c",
+      "group": "CPU5",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.035,
+      "ramGbPerVcpu": 2
+    },
+    {
+      "id": "cpu5g",
+      "group": "CPU5",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.046,
+      "ramGbPerVcpu": 4
+    },
+    {
+      "id": "cpu5m",
+      "group": "CPU5",
+      "availability": "HIGH",
+      "vcpu": {
+        "max": 32,
+        "min": 2
+      },
+      "price_per_vcpu_hour": 0.065,
+      "ramGbPerVcpu": 8
+    }
+  ],
+  "retained_pod": {
+    "id": "gjfpfnsfymn8yf",
+    "status": "EXITED",
+    "runtime": null
+  },
+  "estimate": {
+    "gpu_hours": 16.5,
+    "secure_gpu_compute_only": 29.37,
+    "cpu_worker_hours": 100,
+    "cpu3c_compute_only_ideal": 3,
+    "not_included": "storage, transfer/setup, CPU throughput inefficiency, all unspecified extra diagnostics; estimates do not constitute a launch budget"
+  },
+  "finding": "CPU types advertise max32 vCPUs; planned single 64-vCPU CPU pod is not supported by this catalog. A 64-vCPU availability expansion does not override the advertised range."
+}

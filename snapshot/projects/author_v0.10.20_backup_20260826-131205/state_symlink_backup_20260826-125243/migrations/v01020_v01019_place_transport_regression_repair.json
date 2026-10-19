@@ -1,0 +1,20 @@
+{
+  "repair_id": "v01020_v01019_place_transport_regression_repair",
+  "applied_at": "2026-08-26T17:43:26.644752+00:00",
+  "state_dir": "state",
+  "matched_place_transport_regressions": 29,
+  "agents": {
+    "A": {
+      "events": 72,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/a/embodied_skills.pre_v01020_place_transport_repair.json"
+    },
+    "B": {
+      "events": 15,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/b/embodied_skills.pre_v01020_place_transport_repair.json"
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

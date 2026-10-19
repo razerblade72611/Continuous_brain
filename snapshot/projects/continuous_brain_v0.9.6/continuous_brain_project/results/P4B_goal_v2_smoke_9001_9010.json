@@ -1,0 +1,548 @@
+{
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/child_v090_p4_detour/infant_training.at_11000_P4A_PASS.pt",
+  "critic": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/p4b_goal_v2/goal_to_go.pt",
+  "episodes": {
+    "h1": [
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.63812443733213,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.636305446624734,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.635606393814065,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.749990205764748,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.529235987663249,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.742166419029214,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.636593980789163,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 0,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 0,
+        "reward": -11.63021939754484,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.744854769706702,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h3": [
+      {
+        "collisions": 79,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 34,
+        "reward": -8.350652084350589,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 74,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 39,
+        "reward": -7.846629443168646,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.49408560752868685,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 114,
+        "reward": -11.6542735815048,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.49117226600647007,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4925783061981205,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 8,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 105,
+        "reward": -1.2555378723144537,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4786166954040531,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4867068290710453,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 52,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "goal_imagination",
+        "planner_overrides": 62,
+        "reward": -5.657482652664188,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h6": [
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4921129894256595,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.48284276962280315,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.49710554122924844,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 1,
+        "reward": -11.749990205764748,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.49391034126281774,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.489885349273682,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4831691837310795,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4786166954040531,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.4867068290710453,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "goal_imagination",
+        "planner_overrides": 120,
+        "reward": -0.49036460876464877,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "reactive": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.63021939754484,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ]
+  },
+  "experiment": {
+    "beam_width": 16,
+    "critic_input": "predicted_structured_context7_only",
+    "discount": 0.95,
+    "goal_weight": 1.0,
+    "horizons": [
+      1,
+      3,
+      6
+    ],
+    "memory_written": false,
+    "paired_episodes": 10,
+    "parents_used": false,
+    "planner_score": "short predicted reward/success/uncertainty + bounded learned discounted-goal tail",
+    "seed_end": 9010,
+    "seed_start": 9001,
+    "steps_per_episode": 120,
+    "success_bonus": 0.5,
+    "training_performed_during_evaluation": false,
+    "uncertainty_weight": 1.0
+  },
+  "format": "continuous_brain.p4b_goal_planning_gate.v096.v2",
+  "horizons": {
+    "1": {
+      "advantages": {
+        "collisions_reduced": 0.7999999999999972,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 0.07884451913833601,
+        "steps_saved_penalized": 0.0
+      },
+      "imagination": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 112.4,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 0.8,
+        "mean_reward": -11.678676960945108,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    },
+    "3": {
+      "advantages": {
+        "collisions_reduced": 80.7,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 8.036747946262338,
+        "steps_saved_penalized": 0.0
+      },
+      "imagination": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 32.5,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 95.4,
+        "mean_reward": -3.720773533821105,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    },
+    "6": {
+      "advantages": {
+        "collisions_reduced": 101.9,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 10.143051028728465,
+        "steps_saved_penalized": 0.0
+      },
+      "imagination": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 11.3,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 108.1,
+        "mean_reward": -1.6144704513549786,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    }
+  },
+  "p4b_passed": false,
+  "reactive": {
+    "completion_rate": 0.0,
+    "episodes": 10,
+    "mean_collisions": 113.2,
+    "mean_final_energy": 0.7599999999999998,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": -11.757521480083444,
+    "mean_steps_penalized": 121.0
+  },
+  "thresholds": {
+    "absolute_completion_rate": 0.2,
+    "completion_advantage": 0.05,
+    "max_collision_regression_per_episode": 2.0
+  },
+  "training_updates": 11000
+}

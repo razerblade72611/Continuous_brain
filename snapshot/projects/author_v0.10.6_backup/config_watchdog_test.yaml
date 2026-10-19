@@ -1,0 +1,160 @@
+scene: FloorPlan1Discovery_physics
+grid_size: 0.25
+rotate_step_degrees: 90
+visibility_distance: 1.5
+image_width: 640
+image_height: 480
+field_of_view: 90
+
+simulation:
+  # Optional custom AI2-THOR player. Leave null to use the stock downloaded build.
+  # Set this after building the humanoid Unity backend in unity_humanoid/.
+  local_executable_path: null
+  # Base real-time pause after each primitive action. In embodied mode the LLM
+  # may select slow/normal/fast, which scales this value by 2.0/1.0/0.5.
+  step_delay_seconds: 0.08
+  # Internal-only viewport grounding. IDs/masks are never serialized to the LLM.
+  render_instance_segmentation: true
+
+navigation:
+  interaction_distance: 1.25
+  # v0.10.4: resolve simulator visibility-valid candidate poses, then learn which
+  # candidates are physically actionable for each interaction.
+  use_interactable_poses: true
+  max_interaction_pose_replans: 3
+  allow_legacy_object_center_fallback: false
+  # If the chosen target is beyond a closed interior Door, the body may open/cross
+  # a reachable blocking door and continue toward the SAME semantic target.
+  door_aware_route_continuation: true
+  max_door_route_hops: 3
+  # GetInteractablePoses does not guarantee that Open/Pickup/etc. will succeed from
+  # every returned pose. Persist pose/action outcomes and retry alternate poses.
+  use_interaction_actionability: true
+  max_interaction_action_retries: 3
+  # Soft prior for opening/closing; learned exact + spatial outcomes override this.
+  preferred_open_clearance_m: 1.0
+  # After a moving-object interaction fails, recovery avoids the whole nearby X/Z
+  # region before considering a cheaper but physically similar retry.
+  interaction_recovery_exclusion_radius_m: 0.50
+  interaction_recovery_min_position_change_m: 0.25
+
+agent:
+  max_steps: 3000
+  max_replans: 30
+  max_retries_per_action: 2
+  log_dir: runs
+
+llm:
+  base_url: "http://127.0.0.1:8080/v1"
+  model: "local-model"
+  timeout_seconds: 120
+  enabled: false
+
+# v0.4 embodied/autonomous settings.
+embodied:
+  # Critical privacy/neutrality boundary: object metadata remains available to
+  # the internal grounder but is never serialized into the LLM prompt.
+  metadata_to_llm: false
+  use_vision: true
+  vision_every: 1
+  allow_interactions: true
+  max_burst_actions: 6
+  max_decisions: 500
+  print_decisions: true
+  llm_controls_pace: true
+  # On model/network failure, the controller idles instead of deciding where to roam.
+  fallback_action: "Pass"
+
+# Kept for compatibility with --roam; v0.4 routes it through the same neutral
+# embodied planner used by --session.
+roam:
+  max_decisions: 500
+  vision_every: 1
+  allow_interactions: true
+  use_vision: true
+  print_decisions: true
+  llm_controls_pace: true
+
+
+# v0.8 social multi-agent settings. These describe capabilities and transport,
+# not social goals or preferences.
+social:
+  enabled: true
+  agent_count: 2
+  labels: ["A", "B"]
+  speech_range_m: 4.0
+  # Neutral social proprioception. When another embodied body lies inside the
+  # camera cone by pose geometry, the model receives only that fact plus distance
+  # and bearing. It does not receive the peer's private state or scene-object IDs.
+  peer_camera_cone_sensor: true
+  peer_camera_cone_margin_degrees: 3.0
+  # LLM calls are serialized A then B so one local Qwen server can serve both
+  # contexts without duplicating model weights in VRAM.
+  serialized_inference: true
+  # Explicit distance-independent peer texting. Messages are persisted under state/messages/.
+  text_enabled: true
+  text_max_chars: 800
+  max_texts_per_turn: 2
+  # v0.9.3 visible LLM-to-LLM peer channel. Each agent gets a dedicated
+  # compose/send opportunity every N of its own turns. Set 0 to disable.
+  peer_text_every: 3
+  peer_text_fallback: true
+  peer_text_max_chars: 500
+
+observer:
+  # Read-only local browser dashboard. Enable with --dashboard or set enabled: true.
+  enabled: false
+  host: 127.0.0.1
+  port: 8765
+  refresh_ms: 350
+  image_width: 640
+  jpeg_quality: 75
+
+
+# v0.6 identity/context policy. These are factual embodiment settings, not personality.
+identity:
+  explicit_peer_identity: true
+  describe_peer_as: "another independently embodied agent like you"
+  observation_history_to_llm: false
+  persistent_intention: true
+  max_intention_chars: 180
+
+# v0.8 persistent learning (v0.7-compatible). Detailed route/map state remains controller-private;
+# only compact self-history/training summaries are eligible for LLM recall.
+learning:
+  state_dir: state
+  load_persistent_memory: true
+  memory_max_records: 12000
+  replay_max_records: 250000
+  use_skill_navigation: true
+  # v0.10.4: load independent staged A/B body-skill and spatial-actionability checkpoints during normal sessions.
+  # Legacy v0.10 mechanics are preserved, but contaminated legacy navigation is
+  # never treated as staged approach competence.
+  use_embodied_skills: true
+  embodied_skill_min_attempts: 5
+  embodied_skill_min_success_rate: 0.65
+
+# v0.10.4 pose-authoritative, spatial-actionability embodied curriculum. Invalid setup is
+# skipped rather than scored. Start at level 0 and graduate only after healthy
+# verified rates; the default trainer still makes zero LLM calls.
+training:
+  episodes: 1000
+  workers: 1
+  level: 0
+  max_setup_attempts_per_episode: 12
+  # v0.10.6: hard AUTHOR-side deadlines protect blocking AI2-THOR FIFO reads.
+  simulator_step_timeout_seconds: 5.0
+  simulator_start_timeout_seconds: 30.0
+  progress_every_episodes: 10
+  image_width: 160
+  image_height: 120
+  max_steps_per_episode: 140
+  keep_worker_artifacts: false
+  export_sft: true
+  curriculum:
+    navigate: 0.20
+    door: 0.25
+    pickup: 0.20
+    place: 0.13
+    toggle: 0.07
+    peer_meet: 0.15

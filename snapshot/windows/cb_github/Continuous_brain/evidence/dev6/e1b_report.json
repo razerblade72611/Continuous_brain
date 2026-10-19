@@ -1,0 +1,394 @@
+{
+  "E1b_all": "PASS",
+  "e1_tag": "e1v2",
+  "format": "cb-e1b-store-authority/3",
+  "hosts": [
+    {
+      "mechanism": "autobiographical_discrepancy_v0322",
+      "slot": "self_state",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "consequence_replanning_v0252",
+      "slot": "planner",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "slot": "autobiography",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "slot": "goal_genesis",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "slot": "self_state",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "event_consistent_self_development_v0341",
+      "slot": "autobiography",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "event_consistent_self_development_v0341",
+      "slot": "self_state",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "event_consistent_self_development_v0341",
+      "slot": "skills",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "recurrent_self_trajectory_v031",
+      "slot": "self_state",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "slot": "autobiography",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "slot": "curriculum",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "slot": "goal_genesis",
+      "store_output_consumed": true
+    },
+    {
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "slot": "self_state",
+      "store_output_consumed": true
+    }
+  ],
+  "n": 32,
+  "rows": [
+    {
+      "api": "active_goal_from_intention",
+      "fatal_error": "TypeError: unsupported operand type(s) for +: 'int' and 'list'",
+      "first_window_tick": 257,
+      "intervention_applications": 16,
+      "mechanism": "recurrent_self_trajectory_v031",
+      "outcome": "ABORTED_AFTER_REPLACEMENT",
+      "returncode": 1,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "rollout",
+      "fatal_error": null,
+      "first_window_tick": 261,
+      "intervention_applications": 16,
+      "mechanism": "recurrent_self_trajectory_v031",
+      "outcome": "CHANGED",
+      "returncode": 4,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "trajectory_self_value",
+      "fatal_error": null,
+      "first_window_tick": 357,
+      "intervention_applications": 16,
+      "mechanism": "recurrent_self_trajectory_v031",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "update_explicit_intention",
+      "fatal_error": null,
+      "first_window_tick": 2,
+      "intervention_applications": 16,
+      "mechanism": "recurrent_self_trajectory_v031",
+      "outcome": "CHANGED",
+      "returncode": 4,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "rollout",
+      "fatal_error": null,
+      "first_window_tick": 5,
+      "intervention_applications": 16,
+      "mechanism": "autobiographical_discrepancy_v0322",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "update_explicit_intention",
+      "fatal_error": null,
+      "first_window_tick": 6,
+      "intervention_applications": 16,
+      "mechanism": "autobiographical_discrepancy_v0322",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "reliability_from_memory",
+      "fatal_error": null,
+      "first_window_tick": 71,
+      "intervention_applications": 16,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "autobiography",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "rollout",
+      "fatal_error": null,
+      "first_window_tick": 5,
+      "intervention_applications": 16,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "update_explicit_intention",
+      "fatal_error": null,
+      "first_window_tick": 3,
+      "intervention_applications": 16,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "UNCHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "HistoryRelativeDevelopmentalController.initialize",
+      "fatal_error": null,
+      "first_window_tick": 62,
+      "intervention_applications": 16,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "CHANGED",
+      "returncode": 4,
+      "route_blocked": null,
+      "slot": "skills",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "HistoryRelativeDevelopmentalController.strategy",
+      "fatal_error": null,
+      "first_window_tick": 73,
+      "intervention_applications": 16,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "skills",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "HistoryRelativeDevelopmentalController.update",
+      "fatal_error": null,
+      "first_window_tick": 157,
+      "intervention_applications": 3,
+      "mechanism": "event_consistent_self_development_v0341",
+      "outcome": "CHANGED",
+      "returncode": 4,
+      "route_blocked": null,
+      "slot": "skills",
+      "tier": 1,
+      "windows": 3
+    },
+    {
+      "api": "reliability_from_memory",
+      "fatal_error": null,
+      "first_window_tick": 67,
+      "intervention_applications": 16,
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "autobiography",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "EndogenousGoalGenerator.generate",
+      "fatal_error": null,
+      "first_window_tick": 129,
+      "intervention_applications": 16,
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "goal_genesis",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "rollout",
+      "fatal_error": null,
+      "first_window_tick": 5,
+      "intervention_applications": 16,
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "update_explicit_intention",
+      "fatal_error": null,
+      "first_window_tick": 2,
+      "intervention_applications": 16,
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "outcome": "UNCHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "reliability_from_memory",
+      "fatal_error": null,
+      "first_window_tick": 67,
+      "intervention_applications": 16,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "autobiography",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "goal_is_advanced",
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "NOT_TESTABLE",
+      "slot": "curriculum",
+      "why": "no differing response among first 64 calls"
+    },
+    {
+      "api": "same_goal_semantics",
+      "fatal_error": null,
+      "first_window_tick": 134,
+      "intervention_applications": 16,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "CHANGED",
+      "returncode": 4,
+      "route_blocked": null,
+      "slot": "curriculum",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "EndogenousGoalGenerator.generate",
+      "fatal_error": null,
+      "first_window_tick": 129,
+      "intervention_applications": 16,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "goal_genesis",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "rollout",
+      "fatal_error": null,
+      "first_window_tick": 5,
+      "intervention_applications": 16,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "UNCHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "update_explicit_intention",
+      "fatal_error": null,
+      "first_window_tick": 2,
+      "intervention_applications": 16,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "UNCHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "*",
+      "fatal_error": "AttributeError: 'dict' object has no attribute 'primary'",
+      "first_window_tick": 1,
+      "intervention_applications": 1,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "outcome": "ABORTED_AFTER_REPLACEMENT",
+      "returncode": 1,
+      "route_blocked": null,
+      "slot": "self_state",
+      "tier": 2
+    },
+    {
+      "api": "plan_route_cost_consistent",
+      "fatal_error": null,
+      "first_window_tick": 4,
+      "intervention_applications": 16,
+      "mechanism": "consequence_replanning_v0252",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "planner",
+      "tier": 1,
+      "windows": 16
+    },
+    {
+      "api": "state_mismatch",
+      "fatal_error": null,
+      "first_window_tick": 19,
+      "intervention_applications": 6,
+      "mechanism": "consequence_replanning_v0252",
+      "outcome": "CHANGED",
+      "returncode": 0,
+      "route_blocked": null,
+      "slot": "planner",
+      "tier": 1,
+      "windows": 6
+    }
+  ],
+  "status": "ENGINEERING_ONLY"
+}

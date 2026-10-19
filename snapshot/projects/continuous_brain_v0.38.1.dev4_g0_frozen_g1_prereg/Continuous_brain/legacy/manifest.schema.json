@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cb-legacy-manifest/1",
+  "title": "Continuous Brain legacy manifest (VERIFIED entries only)",
+  "type": "object",
+  "required": [
+    "format",
+    "entries"
+  ],
+  "properties": {
+    "format": {
+      "const": "cb-legacy-manifest/1"
+    },
+    "description": {
+      "type": "string"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "pattern": "^(?![A-Za-z]:)(?!/)(?!.*\\\\)(?!.*(^|/)\\.\\.(/|$)).+$"
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "mechanism_id",
+        "slot",
+        "lineage_version",
+        "evidence_status",
+        "status",
+        "files",
+        "entry_points",
+        "audit_ref",
+        "verified_by",
+        "verified_utc"
+      ],
+      "properties": {
+        "mechanism_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "slot": {
+          "enum": [
+            "perception",
+            "workspace",
+            "working_memory",
+            "episodic_memory",
+            "self_state",
+            "autobiography",
+            "world_model",
+            "skills",
+            "planner",
+            "goal_genesis",
+            "curriculum",
+            "metacognition"
+          ]
+        },
+        "lineage_version": {
+          "type": "string"
+        },
+        "evidence_status": {
+          "type": "string"
+        },
+        "status": {
+          "const": "VERIFIED"
+        },
+        "files": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "relpath",
+              "sha256",
+              "role"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "relpath": {
+                "$ref": "#/$defs/relpath"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "role": {
+                "enum": [
+                  "module",
+                  "evaluator",
+                  "runner",
+                  "protocol",
+                  "result",
+                  "result_bundle",
+                  "checkpoint",
+                  "support"
+                ]
+              }
+            }
+          }
+        },
+        "entry_points": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "audit_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "root_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

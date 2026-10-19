@@ -1,0 +1,244 @@
+{
+  "version": "0.10.0",
+  "timestamp": "2026-08-24T04:14:01.456883+00:00",
+  "run_id": "20260823-225623",
+  "scene": "FloorPlan1Discovery_physics",
+  "workers": [
+    {
+      "worker_id": 0,
+      "episodes": 2500,
+      "successful_episodes": 360,
+      "failed_episodes": 2140,
+      "primitive_steps": 5396,
+      "successful_actions": 1250,
+      "failed_actions": 2141,
+      "reachable_cells": 163,
+      "unique_cells": 138,
+      "wall_seconds": 293.3531828970008,
+      "curriculum_attempts": {
+        "place": 321,
+        "peer_meet": 371,
+        "toggle": 160,
+        "pickup": 462,
+        "navigate": 604,
+        "open_cross": 582
+      },
+      "curriculum_successes": {
+        "place": 2,
+        "peer_meet": 344,
+        "navigate": 12,
+        "open_cross": 1,
+        "pickup": 1
+      },
+      "episode_success_rate_pct": 14.4,
+      "action_success_rate_pct": 36.86,
+      "steps_per_wall_second": 18.39,
+      "coverage_pct": 84.66,
+      "curriculum_success_rate_pct": {
+        "navigate": 1.99,
+        "open_cross": 0.17,
+        "peer_meet": 92.72,
+        "pickup": 0.22,
+        "place": 0.62,
+        "toggle": 0.0
+      }
+    },
+    {
+      "worker_id": 1,
+      "episodes": 2500,
+      "successful_episodes": 632,
+      "failed_episodes": 1868,
+      "primitive_steps": 24982,
+      "successful_actions": 8611,
+      "failed_actions": 1870,
+      "reachable_cells": 163,
+      "unique_cells": 442,
+      "wall_seconds": 1028.1999246819978,
+      "curriculum_attempts": {
+        "navigate": 609,
+        "pickup": 458,
+        "peer_meet": 364,
+        "open_cross": 622,
+        "toggle": 177,
+        "place": 270
+      },
+      "curriculum_successes": {
+        "navigate": 115,
+        "pickup": 93,
+        "peer_meet": 250,
+        "toggle": 78,
+        "open_cross": 14,
+        "place": 82
+      },
+      "episode_success_rate_pct": 25.28,
+      "action_success_rate_pct": 82.16,
+      "steps_per_wall_second": 24.3,
+      "coverage_pct": 100.0,
+      "curriculum_success_rate_pct": {
+        "navigate": 18.88,
+        "open_cross": 2.25,
+        "peer_meet": 68.68,
+        "pickup": 20.31,
+        "place": 30.37,
+        "toggle": 44.07
+      }
+    }
+  ],
+  "wall_seconds": 1030.575,
+  "curriculum": {
+    "navigate": 0.24,
+    "open_cross": 0.24,
+    "pickup": 0.18,
+    "place": 0.12,
+    "toggle": 0.07,
+    "peer_meet": 0.15
+  },
+  "totals": {
+    "episodes": 5000,
+    "successful_episodes": 992,
+    "failed_episodes": 4008,
+    "primitive_steps": 30378,
+    "successful_actions": 9861,
+    "failed_actions": 4011,
+    "reachable_cells": 163,
+    "unique_cells": 523,
+    "merged_navigation_replay_transitions": 6685,
+    "merged_embodied_replay_transitions": 4442,
+    "merged_sft_examples": 798,
+    "navigation_skill_transitions": 136461,
+    "curriculum_attempts": {
+      "place": 591,
+      "peer_meet": 735,
+      "toggle": 337,
+      "pickup": 920,
+      "navigate": 1213,
+      "open_cross": 1204
+    },
+    "curriculum_successes": {
+      "place": 84,
+      "peer_meet": 594,
+      "navigate": 127,
+      "open_cross": 15,
+      "pickup": 94,
+      "toggle": 78
+    },
+    "agent_skills": {
+      "A": {
+        "close_cleanup": {
+          "attempts": 28,
+          "success_rate_pct": 14.29,
+          "mean_steps": 1.0
+        },
+        "cross_door": {
+          "attempts": 6,
+          "success_rate_pct": 83.33,
+          "mean_steps": 19.17
+        },
+        "face_target": {
+          "attempts": 311,
+          "success_rate_pct": 100.0,
+          "mean_steps": 0.0
+        },
+        "navigate": {
+          "attempts": 2488,
+          "success_rate_pct": 14.03,
+          "mean_steps": 4.3
+        },
+        "open": {
+          "attempts": 6,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0
+        },
+        "peer_meet": {
+          "attempts": 363,
+          "success_rate_pct": 63.91,
+          "mean_steps": 2.46
+        },
+        "pickup": {
+          "attempts": 91,
+          "success_rate_pct": 42.86,
+          "mean_steps": 1.0
+        },
+        "place": {
+          "attempts": 45,
+          "success_rate_pct": 71.11,
+          "mean_steps": 1.0
+        },
+        "place_prepare_pickup": {
+          "attempts": 94,
+          "success_rate_pct": 50.0,
+          "mean_steps": 1.0
+        },
+        "toggle": {
+          "attempts": 47,
+          "success_rate_pct": 82.98,
+          "mean_steps": 1.0
+        }
+      },
+      "B": {
+        "close_cleanup": {
+          "attempts": 50,
+          "success_rate_pct": 20.0,
+          "mean_steps": 1.0
+        },
+        "cross_door": {
+          "attempts": 13,
+          "success_rate_pct": 92.31,
+          "mean_steps": 22.77
+        },
+        "face_target": {
+          "attempts": 540,
+          "success_rate_pct": 100.0,
+          "mean_steps": 0.0
+        },
+        "navigate": {
+          "attempts": 2507,
+          "success_rate_pct": 25.09,
+          "mean_steps": 8.59
+        },
+        "open": {
+          "attempts": 13,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0
+        },
+        "peer_meet": {
+          "attempts": 372,
+          "success_rate_pct": 97.31,
+          "mean_steps": 5.09
+        },
+        "pickup": {
+          "attempts": 159,
+          "success_rate_pct": 49.69,
+          "mean_steps": 1.0
+        },
+        "place": {
+          "attempts": 64,
+          "success_rate_pct": 96.88,
+          "mean_steps": 1.0
+        },
+        "place_prepare_pickup": {
+          "attempts": 137,
+          "success_rate_pct": 50.36,
+          "mean_steps": 1.0
+        },
+        "toggle": {
+          "attempts": 117,
+          "success_rate_pct": 86.32,
+          "mean_steps": 1.0
+        }
+      }
+    },
+    "episode_success_rate_pct": 19.84,
+    "action_success_rate_pct": 71.09,
+    "coverage_pct": 320.86,
+    "curriculum_success_rate_pct": {
+      "navigate": 10.47,
+      "open_cross": 1.25,
+      "peer_meet": 80.82,
+      "pickup": 10.22,
+      "place": 14.21,
+      "toggle": 23.15
+    },
+    "aggregate_steps_per_wall_second": 29.48
+  }
+}

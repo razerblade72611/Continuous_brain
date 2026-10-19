@@ -1,0 +1,10 @@
+AUTHOR v0.10.9 release validation
+- 183 pytest tests passed
+- Python compileall passed
+- runtime stool sanitizer shipped under unity_world/DiscoveryRuntimeSanitizer.cs
+- builder attaches DiscoveryRuntimeSanitizer to generated Discovery root
+- patch installer copies sanitizer into AI2-THOR Assets/Scripts
+- Windows sync copies sanitizer into Windows Unity Assets/Scripts
+- verifier checks sanitizer presence/attachment/early execution/runtime SimObjPhysics scan
+- runtime smoke test remains authoritative for Stool objects: [] and maneuver-zone reachability
+- wheel built with pip --no-build-isolation

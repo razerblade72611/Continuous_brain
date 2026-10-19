@@ -1,0 +1,74 @@
+{
+ "event": "install",
+ "event_sha": "6c4cc908e13ab58f76a49895df8de87d345e919a67081209036a3c5114c9cb2d",
+ "parent": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+ "state_hash": "6d0a40cdbf823324312ac589fed5fc51683fa8ea4818524886c86a64edd1cce6",
+ "weights_sha256": "cb44c876151aaec2dce1696c86189fb9c68ef5f8734421b3495616fcb1034d28",
+ "snapshot": "/workspace/bench-sleep/p0/twin/cb2-ind-0001/checkpoints/20261012T002128777045Z_consolidation2"
+}
+{
+ "event": "install",
+ "event_sha": "4afa386d9652641b8ecfd54765e3cdd2e2f7e4ce6e049b75dc7f5ca612c7424b",
+ "parent": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+ "state_hash": "1f41212b79fec56a6402d3c238ef35af875419c21038608ae6d5eb09895bc4dd",
+ "weights_sha256": "2054560a49ea46244244633ddb469f8263cb364a2b71d553ec92b7b32947d85b",
+ "snapshot": "/workspace/bench-sleep/p1/twin/cb2-ind-0001/checkpoints/20261012T002128703602Z_consolidation2"
+}
+{
+ "tf32": false,
+ "amp": false,
+ "concurrent": 2,
+ "updates_per_phase": 100,
+ "wall_s": 455,
+ "processes": [
+  {
+   "sec_per_update": {
+    "core": 1.71,
+    "anchor": 1.68,
+    "chooser": 0.88
+   },
+   "wall_s": 452,
+   "projected_full_sleep_min": 92.8,
+   "peak_gpu_mem_mb": 8356,
+   "peak_host_rss_mb": 10195,
+   "last_core": {
+    "image_loss": 31.2886905670166,
+    "body_loss": 0.10160858184099197,
+    "reward_loss": 0.08888683468103409,
+    "cont_loss": 0.0031612354796379805,
+    "risk_loss": 2.5301854610443115,
+    "map_loss": 1.5471534729003906,
+    "kl": 19.214502334594727,
+    "dyn_loss": 19.214502334594727,
+    "rep_loss": 19.214502334594727,
+    "grad_norm": 36.85606002807617,
+    "loss": 47.08838653564453
+   }
+  },
+  {
+   "sec_per_update": {
+    "core": 1.71,
+    "anchor": 1.68,
+    "chooser": 0.88
+   },
+   "wall_s": 452,
+   "projected_full_sleep_min": 92.8,
+   "peak_gpu_mem_mb": 8356,
+   "peak_host_rss_mb": 10217,
+   "last_core": {
+    "image_loss": 31.29998016357422,
+    "body_loss": 0.10167628526687622,
+    "reward_loss": 0.08940205723047256,
+    "cont_loss": 0.0032333754934370518,
+    "risk_loss": 2.538816213607788,
+    "map_loss": 1.5473171472549438,
+    "kl": 19.26797103881836,
+    "dyn_loss": 19.26797103881836,
+    "rep_loss": 19.26797103881836,
+    "grad_norm": 42.9494514465332,
+    "loss": 47.14120864868164
+   }
+  }
+ ],
+ "projected_cycle_sleep_min": 92.8
+}

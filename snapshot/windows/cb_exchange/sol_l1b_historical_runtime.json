@@ -1,0 +1,12 @@
+{
+  "source": "finished b6a76ee L1 cycles.jsonl",
+  "cycle_count": 11,
+  "total_recorded_loop_hours": 16.251944444444444,
+  "completed_cycle_wall_seconds_mean": 5714.1,
+  "last_probe_round_seconds": 1366,
+  "limitations": [
+    "These are old L1 timings, not a benchmark of L1b or a different GPU",
+    "New yoked wake work and short-life repairs may change throughput",
+    "Shared GPU contention must be measured in the intended concurrent configuration"
+  ]
+}

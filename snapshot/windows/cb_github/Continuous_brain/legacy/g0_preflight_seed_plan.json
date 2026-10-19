@@ -1,0 +1,14 @@
+{
+  "format": "cb-g0-preflight-seed-plan/1",
+  "purpose": "ENGINEERING_ONLY",
+  "note": "Single-use engineering-only runtime-compatibility families. Metrics/pass fields are not surfaced or interpreted. These runs exist only to prove the frozen evaluator can load every runtime artifact and complete on the historical-core overlay before any remaining scientific G0 DEV family is opened.",
+  "families": [
+    {"mechanism_id":"episodic_two_item_v023","name":"g0-preflight-v023-eng","start":900000,"stop":900287,"purpose":"ENGINEERING"},
+    {"mechanism_id":"consequence_replanning_v0252","name":"g0-preflight-v0252-eng","start":900300,"stop":900555,"purpose":"ENGINEERING"},
+    {"mechanism_id":"recurrent_self_trajectory_v031","name":"g0-preflight-v031-eng","start":900600,"stop":901623,"purpose":"ENGINEERING"},
+    {"mechanism_id":"autobiographical_discrepancy_v0322","name":"g0-preflight-v0322-eng","start":901700,"stop":901955,"purpose":"ENGINEERING"},
+    {"mechanism_id":"event_consistent_self_development_v0341","name":"g0-preflight-v0341-eng","start":902000,"stop":902127,"purpose":"ENGINEERING"},
+    {"mechanism_id":"endogenous_goal_genesis_v0353","name":"g0-preflight-v0353-eng","start":902200,"stop":902327,"purpose":"ENGINEERING"},
+    {"mechanism_id":"recursive_autobiographical_curriculum_v0361","name":"g0-preflight-v0361-eng","start":902400,"stop":902527,"purpose":"ENGINEERING"}
+  ]
+}

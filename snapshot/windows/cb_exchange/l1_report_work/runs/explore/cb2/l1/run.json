@@ -1,0 +1,31 @@
+{
+ "format": "cb2-l1/1",
+ "run_id": "802255ef6bf24b2da2c15951e3322ca4",
+ "git": "b6a76ee1aba5ea5751136a8022492377eec7b4cf",
+ "git_dirty": false,
+ "twin_source": "runs/explore/cb2/candidates/s2b-final",
+ "twin_state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+ "bootstrap": "runs/explore/cb2/bootstrap",
+ "args": {
+  "cmd": "run",
+  "twin": "runs/explore/cb2/candidates/s2b-final",
+  "bootstrap": "runs/explore/cb2/bootstrap",
+  "out": "runs/explore/cb2/l1",
+  "cycles": 10,
+  "lives": 20,
+  "workers": 15,
+  "probe_worlds": 40,
+  "situation_worlds": 24,
+  "core_updates": 1500,
+  "anchor_updates": 1000,
+  "chooser_updates": 1500,
+  "batch": 16,
+  "T": 256,
+  "map_radius": 8,
+  "tau": 1.0,
+  "horizon": 15,
+  "resume": true,
+  "max_steps": 10000,
+  "run_id": "802255ef6bf24b2da2c15951e3322ca4"
+ }
+}

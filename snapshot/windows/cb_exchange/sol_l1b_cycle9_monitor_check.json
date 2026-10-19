@@ -1,0 +1,127 @@
+{
+  "checked_utc": "2026-10-13T00:24:28Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "current_phase": "cycle10 diagnostic probes within the locked LOOP; nine active life workers, watcher245583 alive",
+  "loop_complete": false,
+  "archive_verified": false,
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle9": {
+    "seconds": 7452,
+    "probe_seconds": 1745,
+    "probes_after_sleep_cycle": 9,
+    "learning_mean_survival_steps": {
+      "fresh": 410.125,
+      "transfer": 445.175
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 485.2,
+      "transfer": 587.275
+    },
+    "frozen_mean_survival_steps": {
+      "fresh": 490.55,
+      "transfer": 402.275
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -80.425,
+      "transfer": 42.9
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -171.3,
+      "transfer": -62.8275
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -75.075,
+      "transfer": -142.1
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -168.38125,
+      "transfer": -249.32625
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.058031088082901555,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep10": {
+    "learning": {
+      "seconds": 5698,
+      "own_rows": 95920,
+      "own_streams": 90,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 6.018723487854004,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02104806900024414,
+      "final_raw_absmax": 2.722154140472412,
+      "final_grad_norm": 0.7724696397781372
+    },
+    "yoked": {
+      "seconds": 5698,
+      "own_rows": 99425,
+      "own_streams": 90,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 5.168910980224609,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.021872565150260925,
+      "final_raw_absmax": 2.7283334732055664,
+      "final_grad_norm": 0.6823186874389648
+    }
+  },
+  "assessment": "All ten paired sleeps are complete; the LOOP is still running its locked cycle10 diagnostic probes. Cycle9 probes followed sleep9, before the newly completed sleep10. Learning fresh survival mean is below both controls; transfer is above frozen but below yoked. All four one-sided survival lower95 bounds remain negative. No confirmed survival gain or final growth verdict. Different per-cycle worlds and intervals conditional on trained individuals leave causes and training-realisation uncertainty unresolved.",
+  "numeric_note": "Sleeps3–10 each had maximum block capped fractions0; sleep2 had transient learning capping. Sleep10 learning raw-value block peak6.019 fell from sleep9's8.648; the late-sleep sequence does not keep rising through the last sleep. Yoked sleep10 peak5.169. Block capped fractions are minibatch maxima within250-update blocks, not mean rates. All22 root current-run JSONL files scanned for finite logged numbers with no pending parse. No independent checkpoint tensor reload.",
+  "peer_coordination": "Claude C-038 accepted Sol as sole WSL executor for the archive checksum/live deletion handoff and will independently review the evidence. He owns per-cycle analysis. Final-battery evaluation remains a separate decision for David.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute excluding storage. Original30h/$27caps and October13 09:08:36UTC cleanup deadline unchanged.",
+  "action": "Continue the exact authorized LOOP through cycle10 probes, checks, archive transfer and controller cleanup. No separate final evaluation, checkpoint selection or installation.",
+  "local_cycles_sha256": "659e90eee4b3ee0831488c98ea44263648ba671d3067fedd51e732a891313353",
+  "remote_cycles_sha256": "659e90eee4b3ee0831488c98ea44263648ba671d3067fedd51e732a891313353",
+  "local_cycles_bytes": 1887880,
+  "checksum_matches": true
+}

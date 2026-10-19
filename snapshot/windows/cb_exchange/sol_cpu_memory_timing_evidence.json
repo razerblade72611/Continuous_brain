@@ -1,0 +1,117 @@
+{
+  "format": "sol-memory-timing/1",
+  "script_sha256": "f9af8eb686af20cfe68bc43a46bb4e4a094face9feea63284ffebadd782c86a1",
+  "seed_block": [
+    83090,
+    83091
+  ],
+  "records": [
+    {
+      "seed": 83090,
+      "rows": 355,
+      "queries": 33,
+      "died": true,
+      "source_initial_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+      "seconds_collect": 6.42816115997266,
+      "scripted_primitive_share": 1.0,
+      "learning": {
+        "seconds_features": 0.9370495139155537,
+        "queries": 33,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625,
+          "map_full": 289,
+          "map_one": 289
+        },
+        "map_radius": 8
+      },
+      "reference": {
+        "seconds_features": 0.9755262240068987,
+        "queries": 33,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625,
+          "map_full": 289,
+          "map_one": 289
+        },
+        "map_radius": 8
+      },
+      "frozen": {
+        "seconds_features": 0.9351333579979837,
+        "queries": 33,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625
+        },
+        "map_radius": 0
+      },
+      "sha256": "c0197cfdb8426c1afcc6faf90fb20db354ac2105cd056deec48a2fb0a578c581"
+    },
+    {
+      "seed": 83091,
+      "rows": 199,
+      "queries": 18,
+      "died": true,
+      "source_initial_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+      "seconds_collect": 4.037464760011062,
+      "scripted_primitive_share": 1.0,
+      "learning": {
+        "seconds_features": 0.5276188539573923,
+        "queries": 18,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625,
+          "map_full": 289,
+          "map_one": 289
+        },
+        "map_radius": 8
+      },
+      "reference": {
+        "seconds_features": 0.5469809169881046,
+        "queries": 18,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625,
+          "map_full": 289,
+          "map_one": 289
+        },
+        "map_radius": 8
+      },
+      "frozen": {
+        "seconds_features": 0.5582419759593904,
+        "queries": 18,
+        "widths": {
+          "full": 1536,
+          "one": 1536,
+          "frame": 4625
+        },
+        "map_radius": 0
+      },
+      "sha256": "40e84a52f5a8258f6d5c25dd58cd9d1eb47b2ebba312e75881c9518ff140a5d3"
+    }
+  ],
+  "elapsed": 32.66208370006643,
+  "worst_observed_seconds_per_step": 0.02849400254731633,
+  "conservative_seconds_estimates": {
+    "48": 2957.122312958536,
+    "96": 5521.5825422170055
+  },
+  "recommended_N": null,
+  "selection_uses": "timing and row counts only; pilot prediction scores are never computed",
+  "weights": {
+    "learning": "6a7996b21f235d3d52ddd505b49a8b301a04abd5a98ce3af4b895f6b13653f8e",
+    "reference": "1b06c3d3e24ba77503d9f304cc4cd01d516c7492fa02d81dc89aa3069b51f780",
+    "frozen": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b"
+  },
+  "geometry": {
+    "crop_matches_archive_xy": true,
+    "correct_oov_matches_actual_view": true,
+    "old_mask_visible_cells_in_oov": 14,
+    "old_mask_hidden_cells_excluded": 14
+  }
+}

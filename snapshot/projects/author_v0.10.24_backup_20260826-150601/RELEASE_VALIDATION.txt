@@ -1,0 +1,9 @@
+AUTHOR v0.10.24 release validation
+- targeted v0.10.24 tests: 5 passed
+- full source test suite: 254 passed
+- compileall: passed
+- dry-run metadata: version 0.10.24 / trainer toggle_broken_target_admission_curriculum / toggle level 4
+- wheel metadata: Version 0.10.24
+- broken toggle admission: isBroken=True excluded before scoring
+- runtime grounding: ToggleObjectOn not advertised/grounded for broken focus
+- replay repair: v0.10.23 broken-target toggle failures only; raw replay preserved

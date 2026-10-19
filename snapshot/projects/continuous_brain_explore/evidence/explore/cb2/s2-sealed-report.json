@@ -1,0 +1,297 @@
+{
+ "format": "cb2-s2-sealed/1",
+ "status": "ENGINEERING_ONLY",
+ "prereg": {
+  "format": "cb2-s2-prereg/1",
+  "title": "CB2-S2 (r4): outcome-based improvement of the accepted high-level controller r3h-B, executor fixed",
+  "authority": "DAV-91: protocol drafted by Claude, approved in principle by Sol with guardrails (PPO + KL anchored to frozen r3h-B; 'outlive the routine' as completion; S2-progress label; one-sided 95% lower bound), David approved proceeding (2026-10-09)",
+  "reference": {
+   "what": "frozen candidates/r3h-B: initial policy, KL anchor, rollback point (also installed and marked stable in cb2-ind-0001)",
+   "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+   "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+   "selector_policy_sha256": "75aed1529ae0e4cddbabdf7a49bad13be8cee0b1798e3d774307ddd10d9d61f1"
+  },
+  "fixed": "the scripted executor organ, the r2 core (frozen), the vision organ v1, the language stand-in; only the selector (and a value head) learns",
+  "learner": {
+   "algorithm": "PPO over the 8 organ commands, one command per step, + beta*KL(pi||pi_r3hB) per step + entropy bonus",
+   "value_head": "MLP on the detached selector trunk",
+   "gamma": 0.99,
+   "lambda": 0.95,
+   "clip": 0.2,
+   "lr": 0.0001,
+   "epochs": 4,
+   "minibatch": 2048,
+   "entropy": 0.001,
+   "beta_initial": 0.1,
+   "beta_rule": "x2 if the iteration's mean KL to r3h-B > 1.5 * 0.02; /2 if < 0.02 / 1.5",
+   "early_stop": "an update stops when the approximate KL to the rollout policy exceeds 0.05",
+   "iterations": 50,
+   "lives_per_iteration": 64,
+   "practice_seeds": "85,000,000 + iteration * 10,000 + n (practice run 5, never used)",
+   "sampling": "temperature 1, a pure function of (iteration, life, step)"
+  },
+  "reward": "the environment's own reward['total'] = Crafter (+1 per new unlock, +-0.1 per health point) + caretaker (+1 fulfilled, -1 failed/late); no shaping, no survival bonus; not tuned after seeing results",
+  "anti_hacking": {
+   "logged_every_iteration": [
+    "reward components",
+    "command shares",
+    "organ 'cannot' rate",
+    "requests fulfilled/failed",
+    "death causes",
+    "KL to r3h-B",
+    "entropy"
+   ],
+   "red_flags_reported": [
+    "any command share > 0.9",
+    "training reward rising while development survival or requests fall"
+   ]
+  },
+  "development": {
+   "seeds": "76001-76040 (new)",
+   "when": "r3h-B before training (iteration 0) and every 5 iterations, greedy (temperature 0)",
+   "selection": "the checkpoint with the best mean development survival among those whose development Crafter score >= r3h-B's; if none is eligible: no candidate, the sealed set is not opened"
+  },
+  "sealed": {
+   "seeds": "90041-90080",
+   "use": "once",
+   "arms": [
+    "S2 candidate (paired with the routine on the same worlds, unchanged cb2_evaluate protocol)",
+    "frozen r3h-B (same worlds, same protocol)"
+   ],
+   "bootstrap": "paired per-world differences; one-sided 95% lower bound = 5th percentile of 10,000 bootstrap means, numpy default_rng(20261009)"
+  },
+  "verdicts": {
+   "S2_complete_beyond_routine": "all of: (1) lower bound of paired survival (S2 - routine) > 0; (2) Crafter score >= 1.0x routine; (3) requests on time >= 0.85x the routine's rate (aggregate counts); (4) continuity as in r3-H (integrity, save/restore, consolidation round-trip, replay of 90041, 100% delegation provenance); no protocol deviation",
+   "S2_progress": "if not complete: lower bound of paired survival (S2 - r3h-B) > 0 AND score >= r3h-B's score on the same worlds AND (3) AND (4)",
+   "no_improvement": "otherwise (reported as such; no post-hoc retuning on the sealed set)"
+  },
+  "integrity": "any crash, missing world, corrupted artifact or protocol deviation is reported as such, never silently rerun",
+  "gate4": "OPEN: S2 does not address prediction / persistent memory"
+ },
+ "selection": {
+  "rule": "best development survival among checkpoints with development score >= r3h-B's (iteration 0)",
+  "eligible": [
+   5,
+   10,
+   20,
+   25,
+   30,
+   35,
+   40,
+   45
+  ],
+  "selected": 10,
+  "selected_dev": {
+   "lives": 40,
+   "crafter_score": 33.19361713675748,
+   "survival_steps": 576.025,
+   "achievements_per_episode": 13.8,
+   "requests": {
+    "fulfilled": 74,
+    "failed": 95,
+    "rate": 0.4378698224852071
+   },
+   "ratio_to_routine": {
+    "crafter_score": 1.346345215554734,
+    "survival_steps": 0.9223779023218575
+   }
+  },
+  "r3h-B_dev": {
+   "lives": 40,
+   "crafter_score": 26.745795937493643,
+   "survival_steps": 490.175,
+   "achievements_per_episode": 13.45,
+   "requests": {
+    "fulfilled": 66,
+    "failed": 76,
+    "rate": 0.4647887323943662
+   },
+   "ratio_to_routine": {
+    "crafter_score": 1.0848192364300238,
+    "survival_steps": 0.7849079263410729
+   }
+  },
+  "beats_r3hB_on_dev_survival": true
+ },
+ "candidate": {
+  "individual": "cb2-ind-0001",
+  "state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+  "weights_sha256": "91703a610cfe6495f8087ffef2360fc95ae5c1ab3486e64b96ec12a84316424e",
+  "event_sha": "b56145f83f0b30c35371740a2ec01f16986fa41f16b1271c091ecc49f24e8927"
+ },
+ "started": "2026-10-09T17:41:23Z",
+ "deviations": [],
+ "REHEARSAL": false,
+ "candidate_report": {
+  "format": "cb2-r3h-sealed/1",
+  "status": "ENGINEERING_ONLY",
+  "prereg": {
+   "candidate": {
+    "individual": "cb2-ind-0001",
+    "state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+    "weights_sha256": "91703a610cfe6495f8087ffef2360fc95ae5c1ab3486e64b96ec12a84316424e",
+    "event_sha": "b56145f83f0b30c35371740a2ec01f16986fa41f16b1271c091ecc49f24e8927"
+   },
+   "seeds": "90041-90080",
+   "steps": 10000,
+   "label": "s2-sealed",
+   "replay_seed": 90041,
+   "gates": {
+    "score_ratio_min": 1.0,
+    "survival_ratio_min": 0.0,
+    "requests_ratio_min": 0.85
+   }
+  },
+  "prereg_sha256": "17395f126df1ad497201e90bd05081d41ca3471e7f6d517ac51aa6a2b8b88490",
+  "git": "8ecc081f0e22a79d834e5ef36ae77f7bdb4851c9",
+  "git_dirty": false,
+  "started": "2026-10-09T17:41:25Z",
+  "deviations": [],
+  "integrity": {
+   "state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+   "weights_sha256": "91703a610cfe6495f8087ffef2360fc95ae5c1ab3486e64b96ec12a84316424e",
+   "event_sha": "b56145f83f0b30c35371740a2ec01f16986fa41f16b1271c091ecc49f24e8927",
+   "weights_file_sha256": "91703a610cfe6495f8087ffef2360fc95ae5c1ab3486e64b96ec12a84316424e",
+   "consolidations": 2,
+   "ok": true
+  },
+  "evaluate_cmd": [
+   "/workspace/venv/bin/python",
+   "/workspace/Continuous_brain/scripts/explore/cb2_evaluate.py",
+   "evaluate",
+   "--individuals",
+   "runs/explore/cb2/candidates/s2-final",
+   "--individual",
+   "cb2-ind-0001",
+   "--label",
+   "s2-sealed",
+   "--seeds",
+   "90041-90080",
+   "--steps",
+   "10000",
+   "--archive",
+   "runs/explore/cb2/s2/sealed/candidate/archive",
+   "--out",
+   "runs/explore/cb2/s2/sealed/candidate/eval-s2-sealed.json",
+   "--telemetry",
+   "runs/explore/cb2/s2/sealed/candidate/telemetry"
+  ],
+  "evaluation": {
+   "candidate": {
+    "episodes": 40,
+    "crafter_score": 32.031146981306215,
+    "achievements_per_episode": 13.6,
+    "survival_steps": 618.1,
+    "deaths": 40,
+    "obligations_on_time": {
+     "fulfilled": 81,
+     "failed": 87,
+     "rate": 0.48214285714285715
+    }
+   },
+   "routine": {
+    "episodes": 40,
+    "crafter_score": 31.518004676368996,
+    "achievements_per_episode": 13.15,
+    "survival_steps": 733.55,
+    "deaths": 40,
+    "obligations_on_time": {
+     "fulfilled": 92,
+     "failed": 101,
+     "rate": 0.47668393782383417
+    }
+   },
+   "ratio_to_routine": {
+    "crafter_score": 1.0163,
+    "survival_steps": 0.8426,
+    "achievements_per_episode": 1.0342
+   },
+   "requests": {
+    "candidate_on_time": 81,
+    "candidate_eligible": 168,
+    "routine_on_time": 92,
+    "routine_eligible": 193,
+    "candidate_rate": 0.48214285714285715,
+    "routine_rate": 0.47668393782383417,
+    "ratio": 1.0115
+   },
+   "paired_difference": {
+    "steps": {
+     "mean": -115.45,
+     "se": 103.3041063919334
+    },
+    "n_unlocked": {
+     "mean": 0.45,
+     "se": 0.5828202872065171
+    }
+   },
+   "candidate_outlived_routine": 14
+  },
+  "continuity": {
+   "save_restore_state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+   "save_restore_ok": true,
+   "consolidation": {
+    "kind": "install",
+    "weights_sha256": "91703a610cfe6495f8087ffef2360fc95ae5c1ab3486e64b96ec12a84316424e",
+    "parent_state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+    "prev_event_sha": "b56145f83f0b30c35371740a2ec01f16986fa41f16b1271c091ecc49f24e8927",
+    "non_skill_channels": 19,
+    "non_skill_channels_changed": [],
+    "tick_kept": true,
+    "life_kept": true,
+    "lineage_events": 3
+   },
+   "consolidation_ok": true,
+   "replay": {
+    "seed": 90041,
+    "steps_eval": 429,
+    "steps_replay": 429,
+    "first_difference": null
+   },
+   "replay_ok": true,
+   "delegation": {
+    "worlds": 40,
+    "steps": 24724,
+    "logged_with_provenance": 24724,
+    "worlds_failing": []
+   },
+   "delegation_ok": true,
+   "ok": true
+  },
+  "gates": {
+   "score": true,
+   "survival": true,
+   "requests": true,
+   "continuity": true
+  },
+  "verdict": "PASS",
+  "finished": "2026-10-09T17:51:03Z"
+ },
+ "paired": {
+  "worlds": 40,
+  "vs_routine": {
+   "survival_mean": -115.45,
+   "survival_lower95": -268.7
+  },
+  "vs_r3hB": {
+   "survival_mean": 115.675,
+   "survival_lower95": -48.48499999999999,
+   "score_s2": 32.031146981306215,
+   "score_r3hB": 25.73059532387013
+  },
+  "r3hB_summary": {
+   "episodes": 40,
+   "crafter_score": 25.73059532387013,
+   "achievements_per_episode": 13.325,
+   "survival_steps": 502.425,
+   "deaths": 40,
+   "obligations_on_time": {
+    "fulfilled": 77,
+    "failed": 75,
+    "rate": 0.506578947368421
+   }
+  }
+ },
+ "verdict": "NO IMPROVEMENT",
+ "finished": "2026-10-09T17:51:03Z"
+}

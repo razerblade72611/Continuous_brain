@@ -1,0 +1,23 @@
+{
+  "reviewed_revision": "d286a093a31e072b469090d02171c4ff903dff0b",
+  "instrument_different_actions_and_requests_pass": true,
+  "instrument_empty_arm_pass": true,
+  "paired_missing_world_silently_dropped": {
+    "n": 2,
+    "mean": 10.0,
+    "lower95": 10.0,
+    "upper95": 10.0,
+    "sd": 0.0
+  },
+  "paired_duplicate_world_silently_counted_twice": {
+    "n": 2,
+    "mean": 10.0,
+    "lower95": 10.0,
+    "upper95": 10.0,
+    "sd": 0.0
+  },
+  "resume_accepts_and_rewrites_revision_and_max_steps": true,
+  "environment_lives_executed": 0,
+  "training_updates": 0,
+  "cloud_compute_used": false
+}

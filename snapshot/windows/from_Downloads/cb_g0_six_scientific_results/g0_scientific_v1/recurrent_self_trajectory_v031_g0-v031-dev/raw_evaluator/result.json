@@ -1,0 +1,71 @@
+{
+  "autoregressive_test_metrics": {
+    "active_goal_accuracy": 0.986572265625,
+    "horizon": 8,
+    "mode_accuracy": 0.999267578125,
+    "primary_accuracy": 0.9873046875,
+    "self_mae": 0.018906064018665347,
+    "sequences": 1024,
+    "world_mae": 0.018450561270810795
+  },
+  "checks": {
+    "donor_primary_flips_trajectory_choice": true,
+    "explicit_intention_guides_trajectory": true,
+    "model_surprise_self_error": true,
+    "primary_resumes": true,
+    "rollout_goal": true,
+    "rollout_mode": true,
+    "rollout_primary": true,
+    "rollout_self": true,
+    "rollout_world": true,
+    "scalar_only_control_collapses": true,
+    "surprise_preserves_primary": true,
+    "surprise_self_error": true,
+    "teacher_agency": true,
+    "teacher_mode": true,
+    "teacher_primary": true,
+    "teacher_self": true,
+    "teacher_world": true
+  },
+  "format": "continuous_brain.recurrent_self_trajectory_test_v1",
+  "fresh_interruption_resumption_metrics": {
+    "mean_model_to_surprise_self_error": 0.25928941718302667,
+    "mean_transition_surprise_self_error": 0.2558886167826131,
+    "primary_resumes_after_investigate_resolves": 1.0,
+    "surprise_preserves_primary_and_enters_investigate": 1.0
+  },
+  "fresh_tie_intention_metrics": {
+    "donor_primary_flips_choice_world_and_scalars_fixed": 1.0,
+    "explicit_intention_guided_trajectory_choice": 1.0,
+    "scalar_rederived_intention_choice": 0.5
+  },
+  "protected_unchanged": true,
+  "scope": {
+    "consciousness_claimed": false,
+    "functional_intention_continuity_claimed": true,
+    "sentience_claimed": false,
+    "subjective_experience_claimed": false
+  },
+  "source_model_unchanged": true,
+  "source_v0310_dev_status": "PASS",
+  "split": {
+    "test": [
+      20000,
+      21023
+    ],
+    "test_spent": true,
+    "test_tuning_after_run_forbidden": true,
+    "test_used": true
+  },
+  "teacher_forced_test_metrics": {
+    "active_goal_accuracy": 0.9931640625,
+    "agency_accuracy": 1.0,
+    "mode_accuracy": 0.999267578125,
+    "primary_accuracy": 0.993896484375,
+    "self_mae": 0.007323747500777245,
+    "world_mae": 0.0076550752855837345
+  },
+  "test_admission_passed": true,
+  "training_performed": false,
+  "v030_test_touched": false
+}

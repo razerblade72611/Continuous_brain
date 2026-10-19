@@ -1,0 +1,19 @@
+{
+  "format": "cb-i1-validity/1",
+  "n": 64,
+  "note": "primary and secondary values are sealed; open only after the scientific I1 result is frozen",
+  "run": "pf_test",
+  "sealed_report_sha256": "8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc",
+  "status": "ENGINEERING_ONLY",
+  "valid": true,
+  "validity": {
+    "fidelity_to_frozen_v036_driver": true,
+    "host_state_read_from_store": true,
+    "interventions_applied_exactly_where_planned": true,
+    "legacy_tree_unchanged": true,
+    "no_errors": true,
+    "no_unbound_calls": true,
+    "pins_verified": true,
+    "replay_bit_exact_before_every_intervention": true
+  }
+}

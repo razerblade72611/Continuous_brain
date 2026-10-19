@@ -1,0 +1,679 @@
+{
+  "any_planning_completion": false,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.1/continuous_brain_project/state/child_v101_bellman/infant_training.pt",
+  "checkpoint_sha256": "2a4edd256d1c5fff208bef358044b68fda2134d85ea34d545e914f9686be1fa3",
+  "episodes": {
+    "h1": [
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 117,
+        "reward": -0.49757355690002475,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 118,
+        "reward": -0.5093848705291751,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 115,
+        "reward": -0.4740160369873046,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 119,
+        "reward": -0.5052269268035892,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 114,
+        "reward": -0.4657729721069339,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 116,
+        "reward": -0.4777266693115238,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 117,
+        "reward": -0.4801867389678959,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 117,
+        "reward": -0.4752407169342042,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 115,
+        "reward": -0.4684520626068115,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "planning",
+        "planner_overrides": 117,
+        "reward": -0.48544462203979516,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h12": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 106,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 7,
+        "reward": -11.054628534316999,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 10,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 102,
+        "reward": -1.4274620437622076,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h3": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 113,
+        "reward": -0.4905008983612064,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 115,
+        "reward": -0.46518795967102083,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 3,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 61,
+        "reward": -0.7542635154724125,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h6": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 113,
+        "reward": -0.4905008983612064,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 108,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 4,
+        "reward": -11.227339897155742,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "planning",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "reactive": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.63021939754484,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ]
+  },
+  "experiment": {
+    "beam_width": 32,
+    "discount": 0.95,
+    "horizons": [
+      1,
+      3,
+      6,
+      12
+    ],
+    "memory_written": false,
+    "paired_episodes": 10,
+    "parents_used": false,
+    "planner_score": "imagined discounted reward + terminal learned action-value",
+    "planner_state": "dedicated recurrent child-owned latent",
+    "seed_end": 9010,
+    "seed_start": 9001,
+    "steps_per_episode": 120,
+    "training_performed_during_evaluation": false
+  },
+  "format": "continuous_brain.p4b_dedicated_planning_gate.v100",
+  "horizons": {
+    "1": {
+      "advantages": {
+        "collisions_reduced": 113.2,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 11.273618962764719,
+        "steps_saved_penalized": 0.0
+      },
+      "p4b_passed": false,
+      "planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 0.0,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 116.5,
+        "mean_reward": -0.4839025173187258,
+        "mean_steps_penalized": 121.0
+      }
+    },
+    "12": {
+      "advantages": {
+        "collisions_reduced": 22.60000000000001,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 2.2548403677940314,
+        "steps_saved_penalized": 0.0
+      },
+      "p4b_passed": false,
+      "planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 90.6,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 22.6,
+        "mean_reward": -9.502681112289412,
+        "mean_steps_penalized": 121.0
+      }
+    },
+    "3": {
+      "advantages": {
+        "collisions_reduced": 45.0,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 4.48591559982299,
+        "steps_saved_penalized": 0.0
+      },
+      "p4b_passed": false,
+      "planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 68.2,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 40.3,
+        "mean_reward": -7.271605880260454,
+        "mean_steps_penalized": 121.0
+      }
+    },
+    "6": {
+      "advantages": {
+        "collisions_reduced": 23.400000000000006,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 2.331265346050259,
+        "steps_saved_penalized": 0.0
+      },
+      "p4b_passed": false,
+      "planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 89.8,
+        "mean_final_energy": 0.7599999999999998,
+        "mean_planner_overrides": 23.4,
+        "mean_reward": -9.426256134033185,
+        "mean_steps_penalized": 121.0
+      }
+    }
+  },
+  "p4b_passed": false,
+  "planning_cortex_version": "recurrent-latent-v1+conservative-bellman-q-v1",
+  "planning_updates": 4000,
+  "reactive": {
+    "completion_rate": 0.0,
+    "episodes": 10,
+    "mean_collisions": 113.2,
+    "mean_final_energy": 0.7599999999999998,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": -11.757521480083444,
+    "mean_steps_penalized": 121.0
+  },
+  "source_training_updates": 11000,
+  "thresholds": {
+    "absolute_completion": 0.2,
+    "completion_advantage": 0.05,
+    "max_collision_regression_per_episode": 2.0
+  }
+}

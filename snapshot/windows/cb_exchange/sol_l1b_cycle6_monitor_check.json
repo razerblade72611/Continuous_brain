@@ -1,0 +1,116 @@
+{
+  "checked_utc": "2026-10-12T18:14:37Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "current_phase": "cycle7 probes/lives; nine active workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle6": {
+    "seconds": 7685,
+    "probe_seconds": 1971,
+    "probes_after_sleep_cycle": 6,
+    "learning_mean_survival_steps": {
+      "fresh": 479.625,
+      "transfer": 496.975
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 565.425,
+      "transfer": 553.125
+    },
+    "frozen_mean_survival_steps": {
+      "fresh": 526.95,
+      "transfer": 539.625
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -47.325,
+      "transfer": -42.65
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -140.225,
+      "transfer": -142.75125
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -85.8,
+      "transfer": -56.15
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -196.1775,
+      "transfer": -140.88125
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.04034401876465989,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep7": {
+    "learning": {
+      "seconds": 5707,
+      "own_rows": 67539,
+      "own_streams": 63,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 5.577231407165527,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.017424384132027626,
+      "final_raw_absmax": 2.7944748401641846,
+      "final_grad_norm": 0.6570513844490051
+    },
+    "yoked": {
+      "seconds": 5708,
+      "own_rows": 69214,
+      "own_streams": 63,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.5320563316345215,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.021206682547926903,
+      "final_raw_absmax": 2.8761913776397705,
+      "final_grad_norm": 0.5898325443267822
+    }
+  },
+  "assessment": "Seven of ten paired sleeps completed. Cycle6 learning survival sample means are below both frozen and yoked in both families; all four one-sided survival lower95 bounds remain negative. No confirmed survival gain or final growth verdict. Per-cycle worlds differ and intervals are conditional on trained individuals; causes of alternating contrasts remain unisolated.",
+  "numeric_note": "Sleeps3–7 each had maximum block capped fractions0; sleep2 had transient learning capping. Block capped fractions are minibatch maxima within250-update blocks, not mean rates. All root current-run JSONL numeric values scanned for finiteness. No independent checkpoint tensor reload.",
+  "peer_coordination": "Claude C-035 accepted keeping causal labels open: per-cycle probes cannot resolve causes of alternating contrasts. Cumulative own rows are reported per sleep without claiming a wake trend.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute. Claude's03:00–03:30UTC October13 projection remains inside that window. Original30h/$27caps and October13 09:08UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; record independent cycle6/sleep7 evidence for Claude and DAV99. No final evaluation, checkpoint selection or installation.",
+  "local_cycles_sha256": "0345e8e0bae9e618492b11cdcdb628af80fdb2f0d19670fce27755973190823c",
+  "remote_cycles_sha256": "0345e8e0bae9e618492b11cdcdb628af80fdb2f0d19670fce27755973190823c",
+  "local_cycles_bytes": 1320169,
+  "checksum_matches": true
+}

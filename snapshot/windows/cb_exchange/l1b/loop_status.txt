@@ -1,0 +1,9 @@
+2026-10-12T02:47:00Z create failed (exit 1: {"error":"failed to create pod: graphql error: There are no longer any instances available with the requested specifications. Please refresh and try again.","code":"graphql_error"}); account shows no cb2-l1b-loop-claude: nothing to clean
+2026-10-12T02:56:34Z create failed (exit 1: {"error":"failed to create pod: graphql error: There are no longer any instances available with the requested specifications. Please refresh and try again.","code":"graphql_error"}); account shows no cb2-l1b-loop-claude: nothing to clean
+2026-10-12T02:57:11Z create failed (exit 1: {"error":"failed to create pod: graphql error: There are no longer any instances available with the requested specifications. Please refresh and try again.","code":"graphql_error"}); account shows no cb2-l1b-loop-claude: nothing to clean
+2026-10-12T03:11:49Z created in1l63ie5bzd2e (cb2-l1b-loop-claude, 1x NVIDIA GeForce RTX 4090, SECURE); claim recorded
+2026-10-12T03:11:51Z cost check: 0.89/h, hard limit 30.0 h -> at most 26.70 (ceiling 27.0)
+2026-10-12T03:14:20Z watcher started (pid 245583); it owns cleanup of in1l63ie5bzd2e from now on
+2026-10-12T03:14:23Z bench start: exit 0; 
+2026-10-13T01:10:26Z cb2_l1b_loop.tgz downloaded to /home/davei/cb_data/l1b-bench/cb2_l1b_loop.tgz, sha256 MATCH f0b1e22e39671208a414e6e8fa9ace14a186b78200feff8065253595d6241e92
+2026-10-13T01:10:27Z pod in1l63ie5bzd2e deleted (verified: not_found)

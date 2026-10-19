@@ -1,0 +1,57 @@
+{
+  "format": "cb-g0-seed-plan/1",
+  "prereg_id": "G0-LEGACY-REQUAL-v1",
+  "status": "APPROVED_REGISTERED_UNSPENT",
+  "note": "Approved by David on 2026-09-27 under G0-LEGACY-REQUAL-v1. These exact DEV families are registered in registry/seed_ranges.json and remain unspent until explicitly opened. Opening is single-use: the runner records spent before evaluator launch.",
+  "families": [
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "name": "g0-v023-dev",
+      "start": 300000,
+      "stop": 300287,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "name": "g0-v0252-dev",
+      "start": 301000,
+      "stop": 301255,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "name": "g0-v031-dev",
+      "start": 302000,
+      "stop": 303023,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "name": "g0-v0322-dev",
+      "start": 304000,
+      "stop": 304255,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "name": "g0-v0341-dev",
+      "start": 305000,
+      "stop": 305127,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "name": "g0-v0353-dev",
+      "start": 306000,
+      "stop": 306127,
+      "purpose": "DEV"
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "name": "g0-v0361-dev",
+      "start": 307000,
+      "stop": 307127,
+      "purpose": "DEV"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+MULTI_ITEM_EPISODIC_MEMORY_TEST_V1
+device: cpu
+training_performed: false
+reader_training_performed: false
+historical_64d_writer_training: false
+canonical_recall_training: false
+base_training: false
+goal_decoder_training: false
+composition_test_ids: 1312-1599
+composition_test_members: 288 conditions
+composition_test_used_exactly_once: true
+test_tuning_after_run: forbidden
+environmental_writer_generalization_claimed: false
+reader_sha256: db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097

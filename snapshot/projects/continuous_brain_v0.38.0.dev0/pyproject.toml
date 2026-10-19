@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuous-brain-unified"
+version = "0.38.0.dev0"
+description = "Evidence-preserving integration foundation for the Continuous Brain research project"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["torch>=2.5", "numpy>=1.26"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+continuous-brain-unified = "continuous_brain_unified.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain_substrates*", "continuous_brain_unified*", "continuous_brain_eval*"]
+
+[tool.setuptools.package-data]
+continuous_brain_unified = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

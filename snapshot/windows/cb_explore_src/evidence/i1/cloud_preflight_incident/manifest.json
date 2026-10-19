@@ -1,0 +1,29 @@
+{
+  "code": {
+    "boundary.py": "b181b9c109cc39a988e0b204e8220b8103a8be790b829382d007deba3832d9f6",
+    "codec.py": "e8c17de13e33a18f57bbc848dbc3030e5aab8913290873ad87b26bf2b1e872b7",
+    "evaluate.py": "37b3f7aff932f4472fa1bb6b00c038390bc1dbbf2a1a96c580e2d55e96f3632f",
+    "hosts.py": "e71936bd6082238db1cb34d09befebf00194c723f290d327bbc513192c1bad85",
+    "life.py": "526559c9c5a81e42d12184e49edd697640e6e557d47ef9fb8a9e7e623d9d0d08",
+    "route.py": "b0c0b9971d36b2fe7df79db79318dc1cff260b6c68f963342db350dc7e84668b",
+    "runner.py": "63c48365d69f0d12d6631c3d284025c38ca0177ed3f7461b9a476e5228f25a20",
+    "spec.py": "08db192e6eb7e5b61914d4a5e44aac975282d8325f9d6c2743c2da20049c03e0"
+  },
+  "codec_version": "cb-exact-codec/1",
+  "environment": {
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "machine": "x86_64",
+    "numpy": "2.4.4",
+    "python": "3.11.15",
+    "threads": 2,
+    "torch": "2.14.0+cu130"
+  },
+  "format": "cb-i1-manifest/1",
+  "historical_core_archive_sha256": "a73545ba5729214101e17f96578cdbeb3e9f27e16773c61b7a5764edad6aa554",
+  "historical_core_manifest_digest": "e4decc380be29eb9378ba5ad4c2db52e13d011a6dbb577374c4bf65f14dcb633",
+  "legacy_pins_count": 28,
+  "legacy_pins_sha256": "1bf988e1265907e254084dcf7d883ade48c18fc29a4b468a69870080b6133598",
+  "manifest_sha256": "57ec2575c70e19d23559689ca24d18b128f54f2ab19c31fa70af78e10095bd10",
+  "prereg_id": "I1-INTEGRATED-INDIVIDUAL-v1",
+  "spec_digest": "4845a9bb9e5efc74cad942a4f409097ab2bb0fcf56ec9aa87248228c1c66f09d"
+}

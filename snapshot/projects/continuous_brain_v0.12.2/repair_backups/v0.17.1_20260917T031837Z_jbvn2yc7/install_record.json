@@ -1,0 +1,61 @@
+{
+  "project": "/home/davei/projects/continuous_brain_v0.12.2",
+  "changed": [
+    {
+      "path": "ACTION_INTENT_EXECUTIVE_PROTOCOL_v1.md",
+      "previously_existed": true
+    },
+    {
+      "path": "continuous_brain/action_intent_executive_v1.py",
+      "previously_existed": true
+    },
+    {
+      "path": "continuous_brain/action_intent_gate_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "continuous_brain/action_intent_integrity_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "continuous_brain/action_intent_rollout_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "decide_action_intent_executive_train_v1.py",
+      "previously_existed": true
+    },
+    {
+      "path": "evaluate_action_intent_control_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "evaluate_action_intent_executive_final_train_v1.py",
+      "previously_existed": true
+    },
+    {
+      "path": "qualify_action_intent_executive_v1.py",
+      "previously_existed": true
+    },
+    {
+      "path": "run_action_intent_executive_v1.sh",
+      "previously_existed": true
+    },
+    {
+      "path": "run_action_intent_repair_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "run_action_intent_repair_v1.sh",
+      "previously_existed": false
+    },
+    {
+      "path": "test_action_intent_repair_v1.py",
+      "previously_existed": false
+    },
+    {
+      "path": "train_action_intent_executive_v1.py",
+      "previously_existed": true
+    }
+  ]
+}

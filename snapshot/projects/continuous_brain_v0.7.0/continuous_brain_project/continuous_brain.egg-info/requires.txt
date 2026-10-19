@@ -1,0 +1,16 @@
+numpy>=1.24
+torch>=2.1
+
+[dev]
+pytest>=8
+
+[semantic]
+transformers>=4.56
+pillow>=10
+
+[thor]
+ai2thor
+
+[vision]
+transformers>=4.56
+pillow>=10

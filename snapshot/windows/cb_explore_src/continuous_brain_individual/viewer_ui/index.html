@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Continuous Brain, live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #172029; --panel: #1E2833; --raised: #26323F; --line: #33414F;
+  --paper: #EAE5D9; --muted: #9AA7B4; --faint: #6D7A88;
+  --ok: #8CC57A; --bad: #E2735F; --warn: #E3C062;
+  --f-driver: #8A97A8; --f-perception: #6FB3D9; --f-episodic_memory: #D8B25A; --f-goal_genesis: #E07BA5;
+  --f-self_state: #93C47D; --f-metacognition: #B48CF0; --f-skills: #4FC1B5; --f-autobiography: #C9C2B0;
+  --f-world: #8A97A8; --f-world_model: #F4A259;
+  --r: 6px;
+  font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-size: 14px; line-height: 1.45; color: var(--paper); background: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ink); min-height: 100vh; }
+h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: 0; }
+h2 { font-size: 15px; margin-bottom: 8px; }
+h2 small { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+button, select, input { font: inherit; color: inherit; }
+button {
+  background: var(--raised); border: 1px solid var(--line); border-radius: var(--r); padding: 5px 11px;
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--f-perception); outline-offset: 1px; }
+button.primary { background: var(--paper); color: var(--ink); border-color: var(--paper); font-weight: 600; min-width: 74px; }
+select, input[type=number] { background: var(--raised); border: 1px solid var(--line); border-radius: var(--r); padding: 4px 6px; }
+input[type=number] { width: 86px; }
+
+header {
+  display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 10px 18px;
+  border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 5;
+}
+.title { display: flex; flex-direction: column; }
+.title h1 { font-size: 17px; }
+.title span { color: var(--muted); font-size: 12.5px; }
+.clock { display: flex; align-items: center; gap: 10px; }
+.clock strong { font-size: 17px; }
+.daybar { width: 140px; height: 8px; border-radius: 4px; background: var(--raised); position: relative; overflow: hidden; }
+.daybar i { position: absolute; inset: 0; }
+.daybar b { position: absolute; top: -2px; width: 2px; height: 12px; background: var(--paper); }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-left: auto; }
+.controls label { color: var(--muted); font-size: 13px; display: flex; align-items: center; gap: 5px; }
+.sep { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+
+main { padding: 14px 18px 40px; display: grid; gap: 14px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-width: 0; }
+.row { display: grid; gap: 14px; }
+.hero { grid-template-columns: minmax(300px, 1.15fr) minmax(280px, 1fr) minmax(280px, 1fr); }
+.inside { grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.6fr); }
+.life { grid-template-columns: minmax(250px, 0.8fr) minmax(300px, 1.1fr) minmax(320px, 1.2fr) minmax(260px, 0.9fr); }
+.learn { grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1fr) minmax(380px, 1.5fr); }
+.mindrow { grid-template-columns: minmax(380px, 1.4fr) minmax(300px, 1fr) minmax(300px, 1fr); }
+.sleeprow { grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr) minmax(320px, 1fr); }
+.pix { image-rendering: pixelated; border-radius: 4px; border: 1px solid var(--line); background: #000; }
+.seeing { display: flex; gap: 12px; align-items: flex-start; }
+.seeing figure { margin: 0; text-align: center; font-size: 12px; color: var(--muted); }
+.dream { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
+.dream figure { margin: 0; font-size: 11px; color: var(--muted); text-align: center; }
+.dream img { width: 100%; }
+.riskgrid { display: grid; grid-template-columns: 96px repeat(3, 1fr); gap: 4px; font-size: 12.5px; align-items: center; }
+.riskgrid .c { padding: 3px 6px; border-radius: 4px; text-align: right; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 13px; }
+.kv span:nth-child(odd) { color: var(--muted); }
+.events { font-size: 12.5px; max-height: 190px; overflow: auto; }
+.events p { margin: 0 0 6px; }
+.chart { width: 100%; height: 150px; display: block; }
+.ok { color: var(--ok); } .bad { color: var(--bad); }
+.state { font-weight: 700; letter-spacing: 0.04em; font-size: 12.5px; padding: 6px 8px; border: 1px dashed var(--line); border-radius: 6px; margin-bottom: 8px; color: #F4A259; }
+.captable { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.captable th { text-align: left; color: var(--muted); font-weight: 600; padding: 4px 6px; border-bottom: 1px solid var(--line); }
+.captable td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.chip { display: inline-block; padding: 1px 7px; border-radius: 9px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.chip.kept { background: #24453F; color: #8FE0C9; } .chip.successor { background: #4A3A1E; color: #F4C77A; }
+.chip.absent { background: #4A2622; color: #F2A093; } .chip.removed { background: #33414F; color: #C9D2DC; }
+.chip.passed { background: #24453F; color: #8FE0C9; } .chip.failed { background: #4A2622; color: #F2A093; }
+.chip.wait { background: #2B3642; color: #9AA7B4; }
+.alt { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.alt td, .alt th { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; }
+.alt td:first-child, .alt th:first-child { text-align: left; }
+.bars { display: grid; grid-template-columns: 128px 1fr 56px; gap: 5px 8px; align-items: center; font-size: 13px; }
+.bars .track { height: 10px; background: var(--raised); border-radius: 5px; overflow: hidden; position: relative; }
+.bars .track i { position: absolute; top: 0; bottom: 0; background: var(--c); border-radius: 5px; }
+.bars .track b { position: absolute; top: -2px; bottom: -2px; width: 1px; left: 50%; background: var(--faint); }
+.bars span.on { color: var(--paper); font-weight: 700; }
+.bars span.off { color: var(--faint); }
+#lifechart { width: 100%; height: auto; display: block; }
+@media (max-width: 1250px) { .mindrow, .sleeprow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .mindrow, .sleeprow { grid-template-columns: 1fr; } }
+@media (max-width: 1250px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .hero, .inside, .life, .learn { grid-template-columns: 1fr; } header { position: static; } }
+
+.legend { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+.stage { position: relative; width: 100%; aspect-ratio: 1 / 1; background: #0E151C; border-radius: 4px; overflow: hidden; }
+.stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.seesbar { display: flex; gap: 12px; align-items: flex-start; }
+.seesbar canvas { width: 96px; height: 96px; image-rendering: pixelated; border: 1px solid var(--line); border-radius: 3px; flex: none; }
+.mapbox { position: relative; width: 100%; aspect-ratio: 1/1; }
+.mapbox canvas { width: 100%; height: 100%; image-rendering: pixelated; border-radius: 4px; background: #0E151C; }
+.toggle { color: var(--muted); font-size: 12.5px; display: inline-flex; gap: 5px; align-items: center; margin-right: 12px; }
+.now {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline;
+  padding: 10px 14px; border-radius: var(--r); background: var(--raised); border-left: 4px solid var(--f-skills);
+}
+.now .act { font-size: 18px; font-weight: 700; }
+.now span { color: var(--muted); }
+#nowwhy { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.now em { font-style: normal; color: var(--paper); }
+.death { grid-column: 1 / -1; display: none; padding: 10px 14px; border-radius: var(--r); background: #3A2522; border: 1px solid var(--bad); }
+.death.show { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+/* inside */
+#graph { width: 100%; height: auto; display: block; }
+#graph .node rect { fill: var(--raised); stroke-width: 2; }
+#graph .node text { fill: var(--paper); font-size: 12.5px; font-weight: 600; }
+#graph .node .ms { fill: var(--muted); font-size: 11px; font-weight: 400; }
+#graph .edge { fill: none; stroke: var(--line); stroke-width: 1.6; }
+#graph .edge.delayed { stroke-dasharray: 4 4; }
+#graph .edge.sense { stroke-opacity: .45; }
+#graph .edge.hot { stroke: var(--paper); stroke-opacity: .6; }
+.raster-wrap { position: relative; }
+#raster { width: 100%; display: block; image-rendering: pixelated; cursor: crosshair; }
+#tip {
+  position: absolute; pointer-events: none; background: var(--ink); border: 1px solid var(--line); border-radius: 4px;
+  padding: 4px 8px; font-size: 12.5px; display: none; white-space: nowrap; z-index: 3;
+}
+.store { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.store span {
+  font-size: 11.5px; padding: 2px 6px; border-radius: 4px; background: var(--raised); color: var(--muted);
+  border-left: 3px solid var(--c, var(--line));
+}
+.store span.changed { color: var(--paper); background: #2F3D4C; }
+
+/* life panels */
+.vitals { display: grid; grid-template-columns: 62px 1fr 22px; gap: 5px 8px; align-items: center; }
+.pips { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; }
+.pips i { height: 10px; border-radius: 2px; background: var(--raised); }
+.pips i.on { background: var(--c); }
+#spark { width: 100%; height: 70px; margin-top: 10px; display: block; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.chip { font-size: 12px; padding: 2px 7px; border-radius: 10px; background: var(--raised); color: var(--paper); }
+.chip.dim { color: var(--muted); }
+.subtle { color: var(--muted); font-size: 12.5px; }
+
+.commit { padding: 8px 0; border-top: 1px solid var(--line); }
+.commit:first-of-type { border-top: 0; }
+.commit .head { display: flex; gap: 8px; align-items: baseline; }
+.commit .id { font-weight: 700; }
+.commit .fam { font-size: 12px; color: var(--f-goal_genesis); }
+.commit .st { margin-left: auto; font-size: 12px; }
+.commit .text { color: var(--muted); font-size: 13px; }
+.commit.working { background: linear-gradient(90deg, rgba(79,193,181,.12), transparent 70%); }
+.commit .bar { height: 4px; background: var(--raised); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.commit .bar i { display: block; height: 100%; background: var(--f-goal_genesis); }
+.st.open { color: var(--paper); } .st.fulfilled, .st.correct { color: var(--ok); } .st.failed, .st.expired, .st.wrong { color: var(--bad); } .st.cancelled { color: var(--faint); }
+.scroll { max-height: 420px; overflow-y: auto; padding-right: 4px; }
+
+.log .m { margin: 6px 0; max-width: 92%; }
+.log .caretaker { }
+.log .caretaker .b { background: var(--raised); border-radius: 8px 8px 8px 2px; padding: 6px 9px; }
+.log .individual { margin-left: auto; }
+.log .individual .b { background: #2D2840; border: 1px solid #4A3F6B; border-radius: 8px 8px 2px 8px; padding: 6px 9px; }
+.log .world, .log .operator { max-width: 100%; color: var(--muted); font-size: 12.5px; text-align: center; }
+.log .world.ok { color: var(--ok); } .log .world.bad { color: var(--bad); }
+.log .operator { color: var(--warn); }
+.log .meta { font-size: 11.5px; color: var(--faint); margin-bottom: 2px; }
+.log .individual .meta { text-align: right; }
+.log .und { font-size: 12.5px; color: var(--f-goal_genesis); margin-top: 3px; }
+
+.belief { display: grid; grid-template-columns: 74px 1fr 46px; gap: 4px 8px; align-items: center; font-size: 13px; }
+.belief .track { height: 8px; background: var(--raised); border-radius: 4px; overflow: hidden; }
+.belief .track i { display: block; height: 100%; background: var(--f-self_state); }
+.diary { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.diary p { margin: 0 0 8px; font-size: 13px; color: var(--paper); white-space: pre-wrap; }
+.diary .d { color: var(--f-autobiography); font-weight: 600; font-size: 12.5px; }
+
+dialog { background: var(--panel); color: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; }
+dialog::backdrop { background: rgba(10, 14, 18, .6); }
+dialog .grid { display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; align-items: center; margin: 12px 0 16px; }
+.err { color: var(--bad); font-size: 13px; }
+.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--raised); border: 1px solid var(--line); padding: 8px 14px; border-radius: var(--r); display: none; z-index: 9; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <h1>Continuous Brain, live in W1</h1>
+    <span id="lifeinfo">Connecting…</span>
+  </div>
+  <div class="clock">
+    <strong id="clock">–</strong>
+    <div class="daybar" title="Daylight over one day; the mark is now"><i id="daygrad"></i><b id="daypos"></b></div>
+    <span class="subtle" id="steprate"></span>
+  </div>
+  <div class="controls">
+    <button class="primary" id="play" title="Space">Play</button>
+    <button id="step" title="Period key">Step</button>
+    <label>Speed
+      <select id="speed">
+        <option value="2">2 / s</option><option value="5">5 / s</option><option value="10" selected>10 / s</option>
+        <option value="25">25 / s</option><option value="60">60 / s</option><option value="0">As fast as it can</option>
+      </select>
+    </label>
+    <label><input type="checkbox" id="autonext"> Next life when it dies</label>
+    <span class="sep"></span>
+    <button id="newlife">New individual…</button>
+    <label>
+      <select id="erase" title="Erase one faculty's state in the store">
+        <option value="">Erase a faculty…</option>
+        <option value="episodic_memory">Memory</option><option value="goal_genesis">Commitments</option>
+        <option value="self_state">Self-model</option><option value="metacognition">Speech</option>
+        <option value="skills">Skills (and what it learned)</option><option value="world_model">Foresight (and what it learned)</option>
+        <option value="autobiography">Autobiography</option>
+      </select>
+    </label>
+    <button id="mark" title="Keep this moment in memory to come back to">Bookmark</button>
+    <button id="back">Back to bookmark</button>
+    <button id="save" title="Write the whole life to disk">Save to disk</button>
+  </div>
+</header>
+
+<main>
+  <section class="row hero">
+    <div class="death" id="death"><strong id="deathtext"></strong><button id="nextlife">Start the next life</button></div>
+    <div class="panel">
+      <h2>What it sees <small id="percacc"></small></h2>
+      <div class="stage">
+        <img id="view" alt="The individual's view of the world">
+        <canvas id="overlay" width="540" height="540"></canvas>
+      </div>
+      <div class="legend seesbar">
+        <canvas id="raw" width="64" height="64" title="Its actual input: 64 by 64 pixels"></canvas>
+        <div>
+          <label class="toggle"><input type="checkbox" id="showperc" checked> What it perceives</label>
+          <label class="toggle"><input type="checkbox" id="showerr" checked> Mark its mistakes</label>
+          <div>Left: its actual input, 64 by 64 pixels. Above, a sharper picture of the same view for you. Each tile's corner shows what it thinks is there; a question mark means it is unsure; a red frame means it is wrong.</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>What it remembers <small id="memknown"></small></h2>
+      <div class="mapbox"><canvas id="memmap" width="512" height="512"></canvas></div>
+      <div class="legend">Built only from what it has seen. Dark is never seen; the box is its view now; rings are creatures it believes are there; the cross is where it is heading.</div>
+    </div>
+    <div class="panel">
+      <h2>What is really there <small>for you only</small></h2>
+      <div class="mapbox"><canvas id="truemap" width="512" height="512"></canvas></div>
+      <div class="legend">The true world and every creature in it. The individual never reads this.</div>
+    </div>
+    <div class="now" id="now"><span class="act" id="nowact">–</span><span id="nowwhy"></span></div>
+  </section>
+
+  <section class="row inside">
+    <div class="panel">
+      <h2>How its faculties are wired <small>this tick</small></h2>
+      <svg id="graph" viewBox="0 0 560 330" role="img" aria-label="Faculties and the store channels between them"></svg>
+      <div class="legend">Each faculty keeps its state in the canonical store. A box fills when its state changed this tick and the lines out of it brighten. A solid line is read this tick, a dashed line is last tick's value. The number is milliseconds spent this tick.</div>
+    </div>
+    <div class="panel">
+      <h2>Its activity over time <small id="rasterspan"></small></h2>
+      <div class="raster-wrap"><canvas id="raster" width="900" height="300"></canvas><div id="tip"></div></div>
+      <div class="legend">Every number each faculty writes to the store, one row per number, one column per tick, scaled within the window. Hover for the value.</div>
+      <div class="store" id="store"></div>
+    </div>
+  </section>
+
+  <section class="row mindrow" id="mindrow" hidden>
+    <div class="panel">
+      <h2>What it sees and imagines <small id="mindsub"></small></h2>
+      <div id="seeing"></div>
+    </div>
+    <div class="panel">
+      <h2>What it would do</h2>
+      <div id="foresight2"></div>
+      <div id="choice" style="margin-top:12px"></div>
+    </div>
+    <div class="panel">
+      <h2>Who it is: its record</h2>
+      <div id="record"></div>
+    </div>
+  </section>
+
+  <section class="row sleeprow" id="sleeprow" hidden>
+    <div class="panel">
+      <h2>Sleep: its world model <small id="corerun"></small></h2>
+      <canvas class="chart" id="chartsee" width="600" height="150"></canvas>
+      <div class="legend">Predicting what it will see, from what it saw: its error when it only imagines (open loop) against simply assuming nothing changes. Below the grey line, its imagination beats "nothing changes".</div>
+      <canvas class="chart" id="chartrisk" width="600" height="150"></canvas>
+      <div class="legend">Foreseeing danger (12 risks, squared error): its world model against always guessing the average. Lower is better.</div>
+    </div>
+    <div class="panel">
+      <h2>Sleep: its skill <small id="polrun"></small></h2>
+      <canvas class="chart" id="chartpol" width="600" height="150"></canvas>
+      <div class="legend">How often its learned skill chooses what the routine would, on lives it has not trained on. P-A also reads its remembered map; P-B only its world model. The grey line is always choosing the most common action.</div>
+    </div>
+    <div class="panel">
+      <h2>Tests</h2>
+      <div id="tests"></div>
+    </div>
+  </section>
+
+  <section class="row" id="caprow">
+    <div class="panel">
+      <h2>What it can do, and what replaced what <small id="capsub"></small></h2>
+      <div id="caps"></div>
+    </div>
+  </section>
+
+  <section class="row learn" id="learnrow" hidden>
+    <div class="panel" id="foreseepanel">
+      <h2>What it foresees <small id="foreseesub">in the next 100 steps</small></h2>
+      <div class="bars" id="foresee"></div>
+      <div class="legend" id="foreseestats"></div>
+    </div>
+    <div class="panel" id="valuespanel">
+      <h2 id="valueshead">How sure it is that another choice is better</h2>
+      <div class="bars" id="values"></div>
+      <div class="legend" id="valuestats"></div>
+    </div>
+    <div class="panel">
+      <h2>Across its lives <small id="livescount"></small></h2>
+      <canvas id="lifechart" width="640" height="190"></canvas>
+      <div class="legend">Each bar is one life: how long it lived (left scale) and, as dots, how many of the 22 things it did. The line is the average of the last ten lives.</div>
+      <div class="subtle" id="lastlives"></div>
+    </div>
+  </section>
+
+  <section class="row life">
+    <div class="panel">
+      <h2>Body</h2>
+      <div class="vitals" id="vitals"></div>
+      <canvas id="spark" width="400" height="70"></canvas>
+      <div class="chips" id="inventory"></div>
+      <div class="subtle" style="margin-top:10px" id="achcount"></div>
+      <div class="chips" id="achievements"></div>
+    </div>
+    <div class="panel">
+      <h2>Commitments <small id="ledgercount"></small></h2>
+      <div class="scroll" id="ledger"></div>
+    </div>
+    <div class="panel">
+      <h2>Conversation</h2>
+      <div class="scroll log" id="log"></div>
+    </div>
+    <div class="panel">
+      <h2>What it believes about itself</h2>
+      <div class="belief" id="belief"></div>
+      <div class="diary"><h2>Its diary <small id="diarycount"></small></h2><div class="scroll" id="diary" style="max-height:260px"></div></div>
+    </div>
+  </section>
+  <p class="subtle" id="provenance"></p>
+</main>
+
+<dialog id="dlg">
+  <h2>Start a new individual</h2>
+  <p class="subtle" style="max-width:440px">A newborn: nothing learned yet. To keep the one you have, use "Next life when it dies" instead.</p>
+  <div class="grid">
+    <label for="seed">World seed</label><input type="number" id="seed" value="71001">
+    <label for="perc">Perception</label>
+    <select id="perc"><option value="organ">Its vision organ (from pixels)</option><option value="oracle">Perfect perception (true tiles)</option></select>
+    <label for="memsel">Memory</label>
+    <select id="memsel"><option value="full">Full memory</option><option value="none">No memory beyond the view</option></select>
+    <label for="skillsel">Skills</label>
+    <select id="skillsel"><option value="learned">Learns from its lives, one individual across lives</option><option value="routine">Fixed routine, one life</option></select>
+    <label for="lang">Language</label>
+    <select id="lang"><option value="organ">Listens to the caretaker</option><option value="none">Ignores the caretaker</option></select>
+  </div>
+  <div style="display:flex; gap:8px; justify-content:flex-end">
+    <button id="dlgcancel">Cancel</button><button class="primary" id="dlgok">Start a new individual</button>
+  </div>
+</dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const css = getComputedStyle(document.documentElement);
+const fc = (f) => css.getPropertyValue("--f-" + f).trim() || "#8A97A8";
+
+const MAT_COLORS = {
+  outside: "#0E151C", water: "#3E7CB1", grass: "#4E7A3A", stone: "#7B8087", path: "#A0967F", sand: "#D6C68D",
+  tree: "#2C5A2A", lava: "#E2552D", coal: "#33363A", iron: "#B98C6B", diamond: "#8FE3F0", table: "#8B5A2B",
+  furnace: "#5E5252",
+};
+const OBJ_STYLE = {
+  cow: ["#F2EDE3", "circle"], zombie: ["#7BD15A", "square"], skeleton: ["#E9E4D9", "triangle"],
+  arrow: ["#E3C062", "dot"], sapling: ["#9BE07A", "dot"], plant_ripe: ["#F0D25A", "dot"], player: ["#FFFFFF", "ring"],
+};
+
+let META = null, lastTick = -1, recs = [], frame = null, busy = false, lastView = -1, lastViewAt = 0;
+let stepTimes = [];
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
+  const j = await r.json();
+  if (j && j.ok === false) throw new Error(j.error);
+  return j;
+}
+function toast(text, ms = 2600) { const t = $("toast"); t.textContent = text; t.style.display = "block"; clearTimeout(toast._t); toast._t = setTimeout(() => t.style.display = "none", ms); }
+async function cmd(c, extra = {}) { try { const r = await api("/api/control", { cmd: c, ...extra }); if (r.note) toast(r.note); if (r.meta) setMeta(r.meta, true); poll(true); } catch (e) { toast(e.message, 5000); } }
+
+function setMeta(m, reset) {
+  META = m;
+  if (reset) { recs = []; lastTick = -1; lastView = -1; }
+  buildGraph();
+  const curve = m.daylight_curve || [];
+  $("daygrad").style.background = "linear-gradient(90deg," + curve.map((v, i) => `${v > 0.5 ? mix("#E3C062", 0.25 + 0.75 * v) : mix("#3B5480", 0.5 + v)} ${(i / curve.length * 100).toFixed(1)}%`).join(",") + ")";
+  const L = m.language || {};
+  $("provenance").textContent = `Engineering only, not a scientific result. Language: ${L.label || L.backend || "?"}${L.model_id ? " (" + L.model_id + (L.revision ? " @ " + String(L.revision).slice(0, 10) : "") + ")" : ""}. Vision weights ${String(m.vision_weights || "none").slice(0, 12)}.`;
+}
+
+// ------------------------------------------------------------------------------------------- polling
+async function poll(force) {
+  if (busy && !force) return;
+  busy = true;
+  try {
+    const f = await api("/api/frame?since=" + lastTick);
+    if (f.records && f.records.length) {
+      if (f.records[0].t <= lastTick || (recs.length && f.records[0].t !== recs[recs.length - 1].t + 1 && f.records[0].t !== 0)) {
+        recs = recs.filter((r) => r.t < f.records[0].t);
+      }
+      recs.push(...f.records);
+      if (recs.length > 4000) recs = recs.slice(-4000);
+      stepTimes.push([performance.now(), f.records.length]);
+    }
+    if (f.tick < lastTick) { recs = recs.filter((r) => r.t <= f.tick); }
+    lastTick = f.tick;
+    frame = f;
+    render();
+  } catch (e) { $("lifeinfo").textContent = "Lost the connection to the viewer server. Is it still running?"; }
+  busy = false;
+}
+setInterval(poll, 120);
+
+// --------------------------------------------------------------------------------------------- render
+function render() {
+  const f = frame; if (!f || !META) return;
+  const R = f.runner || {};
+  $("play").textContent = R.playing ? "Pause" : "Play";
+  if (R.error) toast("Stopped: " + R.error, 6000);
+  if (f.tick < 0) { $("lifeinfo").textContent = "No life yet. Start one with New life."; return; }
+  $("lifeinfo").textContent = (f.lifelong ? `Life ${f.life + 1}, ` : "") + `world seed ${f.seed}, ${f.arm}, tick ${f.tick}`;
+  $("learnrow").hidden = false;
+  $("clock").textContent = `Day ${f.day + 1}, ${f.phase}`;
+  const dlen = META.day_length || 300;
+  $("daypos").style.left = ((f.step % dlen) / dlen * 100) + "%";
+  const now = performance.now(); stepTimes = stepTimes.filter((s) => now - s[0] < 3000);
+  const n = stepTimes.reduce((a, s) => a + s[1], 0);
+  $("steprate").textContent = `step ${f.step}` + (n ? `, ${(n / 3).toFixed(0)} steps/s` : "");
+  $("death").classList.toggle("show", !f.alive);
+  if (!f.alive && f.death) $("deathtext").textContent = "It " + f.death.text + "." + (f.lifelong ? " It was saved; the next life continues the same individual." : "");
+  renderView(f); renderMaps(f); renderNow(f); renderGraph(f); renderRaster(); renderStore(f);
+  renderBody(f); renderLedger(f); renderLog(f); renderSelf(f);
+  if (f.learning) { $("foreseesub").textContent = "in the next 100 steps"; $("valueshead").textContent = "How sure it is that another choice is better"; renderLearning(f); }
+  else renderLives(f);
+}
+
+function renderView(f) {
+  if (f.tick !== lastView && performance.now() - lastViewAt > 160) {
+    $("view").src = "/api/view.jpg?size=540&t=" + f.tick; lastView = f.tick; lastViewAt = performance.now();
+  }
+  const raw = $("raw").getContext("2d"), im = new Image();
+  im.onload = () => raw.drawImage(im, 0, 0); im.src = "data:image/png;base64," + f.image;
+  const c = $("overlay"), g = c.getContext("2d"); g.clearRect(0, 0, c.width, c.height);
+  const P = f.perceived; if (!P) return;
+  $("percacc").textContent = `tiles ${(P.accuracy.material * 100).toFixed(0)}% right, creatures ${(P.accuracy.object * 100).toFixed(0)}%`;
+  const cols = META.view.cols, rows = META.view.rows, u = c.width / cols;   // Crafter: 9 x 9 units, the top 7 rows are the map
+  const T = f.truth_view;
+  for (let r = 0; r < rows; r++) for (let q = 0; q < cols; q++) {
+    const x = q * u, y = r * u, m = META.materials[P.material[r][q]], o = META.objects[P.object[r][q]];
+    if ($("showperc").checked) {
+      g.fillStyle = "rgba(14,21,28,.85)"; g.fillRect(x + 3, y + 3, 17, 17);
+      g.fillStyle = MAT_COLORS[m] || "#000"; g.fillRect(x + 6, y + 6, 11, 11);
+      const conf = Math.min(P.material_conf[r][q], P.object_conf[r][q]);
+      if (conf < 0.9) { g.fillStyle = "rgba(14,21,28,.85)"; g.fillRect(x + u - 19, y + 3, 16, 18); g.fillStyle = "#E3C062"; g.font = "bold 15px system-ui"; g.fillText("?", x + u - 15, y + 17); }
+      if (o !== "none" && o !== "player") drawGlyph(g, o, x + u / 2, y + u / 2, u * 0.2, true);
+    }
+    if ($("showerr").checked && (P.material[r][q] !== T.material[r][q] || P.object[r][q] !== T.object[r][q])) {
+      g.strokeStyle = "#E2735F"; g.lineWidth = 3; g.strokeRect(x + 2, y + 2, u - 4, u - 4);
+    }
+  }
+}
+
+function drawGlyph(g, kind, x, y, s, outline) {
+  const [col, shape] = OBJ_STYLE[kind] || ["#fff", "dot"];
+  g.save(); g.fillStyle = col; g.strokeStyle = col; g.lineWidth = Math.max(1.5, s / 3);
+  g.beginPath();
+  if (shape === "circle") g.arc(x, y, s, 0, 7);
+  else if (shape === "square") g.rect(x - s, y - s, 2 * s, 2 * s);
+  else if (shape === "triangle") { g.moveTo(x, y - s * 1.1); g.lineTo(x + s, y + s * 0.8); g.lineTo(x - s, y + s * 0.8); g.closePath(); }
+  else if (shape === "ring") g.arc(x, y, s, 0, 7);
+  else g.arc(x, y, s * 0.6, 0, 7);
+  if (shape === "ring" || outline) g.stroke(); else g.fill();
+  if (outline && shape !== "ring") { g.globalAlpha = 0.35; g.fill(); }
+  g.restore();
+}
+
+function decode(b64) { const s = atob(b64), a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+function drawMap(canvas, grid, offset, objects, f, mine) {
+  const [W, H] = META.world_size, g = canvas.getContext("2d"), s = canvas.width / W;
+  g.fillStyle = "#0E151C"; g.fillRect(0, 0, canvas.width, canvas.height);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const v = grid[y * W + x] - offset;
+    if (v < 0) continue;
+    g.fillStyle = MAT_COLORS[META.materials[v]] || "#000"; g.fillRect(x * s, y * s, s, s);
+    if (META.materials[v] === "tree") { g.fillStyle = "#1E401C"; g.fillRect(x * s + s * .3, y * s + s * .3, s * .4, s * .4); }
+  }
+  const [px, py] = f.body.pos, R = META.view.player;
+  g.strokeStyle = "rgba(234,229,217,.8)"; g.lineWidth = 1.5;
+  g.strokeRect((px - R[1]) * s, (py - R[0]) * s, META.view.cols * s, META.view.rows * s);
+  for (const o of objects) drawGlyph(g, o.kind, (o.pos[0] + .5) * s, (o.pos[1] + .5) * s, s * .38, mine && !inView(o.pos, f));
+  if (mine) {
+    const t = f.skills.explore_target;
+    if (t) { g.strokeStyle = fc("skills"); g.lineWidth = 2; const cx = (t[0] + .5) * s, cy = (t[1] + .5) * s;
+      g.beginPath(); g.moveTo(cx - 5, cy - 5); g.lineTo(cx + 5, cy + 5); g.moveTo(cx + 5, cy - 5); g.lineTo(cx - 5, cy + 5); g.stroke(); }
+    for (const b of f.skills.bad_spots || []) { g.strokeStyle = "#E2735F"; g.lineWidth = 2; g.strokeRect(b[0] * s - 1, b[1] * s - 1, s + 2, s + 2); }
+  }
+  drawGlyph(g, "player", (px + .5) * s, (py + .5) * s, s * .55, false);
+  const [fx, fy] = f.body.facing; g.strokeStyle = "#fff"; g.lineWidth = 2; g.beginPath();
+  g.moveTo((px + .5) * s, (py + .5) * s); g.lineTo((px + .5 + fx * .9) * s, (py + .5 + fy * .9) * s); g.stroke();
+}
+function inView(p, f) { const [px, py] = f.body.pos, R = META.view.player; return Math.abs(p[0] - px) <= R[1] && Math.abs(p[1] - py) <= R[0]; }
+function renderMaps(f) {
+  drawMap($("memmap"), decode(f.memory.map), 1, f.memory.objects, f, true);
+  drawMap($("truemap"), decode(f.world.map), 0, f.world.objects, f, false);
+  $("memknown").textContent = `${(f.memory.known * 100).toFixed(0)}% of the world`;
+}
+
+function famText(c) {
+  const s = c.spec || {};
+  if (c.family === "collect") return `collect ${s.quantity ?? ""} ${s.item ?? ""}`.trim();
+  if (c.family === "craft") return `make a ${(s.tool ?? "").replaceAll("_", " ")}`;
+  if (c.family === "place") return `place a ${s.what ?? ""}${s.near ? " near " + s.near : s.on ? " on " + s.on : ""}`;
+  if (c.family === "maintain") return `keep ${s.stat} at ${s.threshold} or more`;
+  if (c.family === "avoid") return { zombie: "avoid zombie damage", arrow: "avoid arrows", any: "avoid getting hurt" }[s.source] || "avoid damage";
+  if (c.family === "visit") return `go and look at ${s.feature ?? "a place"}${s.direction ? " to the " + s.direction : ""}`;
+  return c.family;
+}
+function renderNow(f) {
+  const S = f.skills;
+  $("nowact").textContent = (S.action || "–").replaceAll("_", " ");
+  const bits = [];
+  const why = { routine: "following its routine", explore: "exploring", sleeping: "asleep", eat: "going for food",
+    drink: "going for water", rest: "going to rest in a shelter", retreat: "getting away from danger",
+    requests: "working on its requests", build: "building and making things" }[S.option] || S.option;
+  bits.push(`<span>Now <em>${why || "–"}</em>${f.learning ? ", its own choice" : ""}</span>`);
+  if (S.task) { const c = (f.ledger.commitments || []).find((x) => x.id === S.task); bits.push(`<span>Working on <em>${S.task}${c ? ": " + famText(c) : ""}</em></span>`); }
+  if (S.explore_target && S.option === "explore") bits.push(`<span>Heading for <em>${S.explore_target.join(", ")}</em></span>`);
+  const wants = []; if (S.drinking) wants.push("water"); if (S.eating) wants.push("food");
+  if (wants.length) bits.push(`<span>Wants <em>${wants.join(" and ")}</em></span>`);
+  if (S.shelter) bits.push(`<span>Sheltering</span>`);
+  if (S.caution_until > f.step) bits.push(`<span>Wary of water walls until step <em>${S.caution_until}</em></span>`);
+  if (f.speech.last) bits.push(`<span>Says <em>“${f.speech.last}”</em></span>`);
+  $("nowwhy").innerHTML = bits.join("");
+}
+
+// -------------------------------------------------------------------------------------------- graph
+const LAYOUT_BASE = { driver: [8, 140], perception: [140, 40], episodic_memory: [282, 40], goal_genesis: [140, 236],
+  self_state: [282, 284], autobiography: [434, 284], skills: [434, 110], metacognition: [434, 200], world: [470, 4] };
+let LAYOUT = LAYOUT_BASE;
+const NW = 116, NH = 40;
+function buildGraph() {
+  const svg = $("graph"); if (!META) return;
+  LAYOUT = META.learned ? { ...LAYOUT_BASE, world_model: [282, 150] } : LAYOUT_BASE;
+  const ns = "http://www.w3.org/2000/svg"; svg.innerHTML = "";
+  const defs = document.createElementNS(ns, "defs");
+  defs.innerHTML = `<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6D7A88"/></marker>`;
+  svg.appendChild(defs);
+  const pos = (id) => { const p = LAYOUT[id]; const w = id === "world" ? 80 : NW; return { x: p[0], y: p[1], w, h: id === "world" ? 30 : NH }; };
+  const anchor = (a, b) => { const A = pos(a), B = pos(b); const ax = A.x + A.w / 2, ay = A.y + A.h / 2, bx = B.x + B.w / 2, by = B.y + B.h / 2;
+    const clip = (P, cx, cy, tx, ty) => { const dx = tx - cx, dy = ty - cy; const sx = P.w / 2 / Math.abs(dx || 1e-9), sy = P.h / 2 / Math.abs(dy || 1e-9); const k = Math.min(sx, sy); return [cx + dx * k, cy + dy * k]; };
+    return [clip(A, ax, ay, bx, by), clip(B, bx, by, ax, ay)]; };
+  const seen = new Set();
+  for (const e of META.graph.edges) {
+    const key = e.from + ">" + e.to + (e.delayed ? "d" : ""); if (seen.has(key)) continue; seen.add(key);
+    if (!LAYOUT[e.from] || !LAYOUT[e.to]) continue;
+    const [[x1, y1], [x2, y2]] = anchor(e.from, e.to);
+    const p = document.createElementNS(ns, "path");
+    const bend = e.from === "world" ? ` Q ${x1 - 120} ${(y1 + y2) / 2 - 40} ` : (e.delayed ? ` Q ${(x1 + x2) / 2 + 14} ${(y1 + y2) / 2 - 18} ` : " L ");
+    p.setAttribute("d", `M ${x1} ${y1}${bend}${x2} ${y2}`);
+    p.setAttribute("class", "edge" + (e.delayed ? " delayed" : "") + (e.from === "driver" || e.from === "world" ? " sense" : "")); p.dataset.from = e.from;
+    p.setAttribute("marker-end", "url(#arr)");
+    const t = document.createElementNS(ns, "title"); t.textContent = `${e.channel}${e.delayed ? " (last tick's value)" : ""}`; p.appendChild(t);
+    svg.appendChild(p);
+  }
+  for (const id of Object.keys(LAYOUT)) {
+    const P = pos(id), gEl = document.createElementNS(ns, "g"); gEl.setAttribute("class", "node"); gEl.id = "n-" + id;
+    const name = (META.faculty_names || {})[id] || (id === "world" ? "World" : id);
+    gEl.innerHTML = `<rect x="${P.x}" y="${P.y}" width="${P.w}" height="${P.h}" rx="6" stroke="${fc(id)}"></rect>
+      <text x="${P.x + 9}" y="${P.y + (id === "world" ? 19 : 17)}">${name}</text>` + (id === "world" ? "" : `<text class="ms" x="${P.x + 9}" y="${P.y + 32}"></text>`);
+    svg.appendChild(gEl);
+  }
+}
+function renderGraph(f) {
+  const r = recs[recs.length - 1]; if (!r) return;
+  const changed = new Set(r.ch);
+  for (const id of META.faculties) {
+    const n = $("n-" + id); if (!n) continue;
+    const on = changed.has(id), rect = n.querySelector("rect");
+    rect.style.fill = on ? mix(fc(id), 0.32) : "";
+    const ms = r.ms[id]; n.querySelector(".ms").textContent = ms != null ? `${ms.toFixed(1)} ms${on ? ", changed" : ""}` : "";
+  }
+  const dn = $("n-driver"); if (dn) dn.querySelector("rect").style.fill = r.heard ? mix(fc("driver"), 0.35) : "";
+  const wn = $("n-world"); if (wn) wn.querySelector("rect").style.fill = (r.said || r.hit) ? mix(r.hit ? "#E2735F" : fc("metacognition"), 0.4) : "";
+  if (dn) dn.querySelector(".ms").textContent = r.heard ? `heard ${r.heard}` : "pixels, body";
+  for (const p of $("graph").querySelectorAll(".edge")) p.classList.toggle("hot", changed.has(p.dataset.from) || (p.dataset.from === "driver" && r.heard > 0));
+}
+function mix(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
+
+// ------------------------------------------------------------------------------------------- raster
+const ROW_H = 7, GAP = 6, LABEL_W = 108;
+function rasterRows() {
+  const rows = []; let y = 0, prev = null;
+  META.units.forEach((u, i) => { if (u.faculty !== prev) { if (prev !== null) y += GAP; prev = u.faculty; } rows.push({ i, y, ...u }); y += ROW_H; });
+  return { rows, height: y + GAP + 3 * 0 };
+}
+function renderRaster() {
+  const c = $("raster"), g = c.getContext("2d");
+  const { rows, height } = rasterRows();
+  const timeH = 7 * (ROW_H - 2) + 4;          // per-faculty milliseconds strip
+  const H = height + 18 + timeH;
+  if (c.height !== H) c.height = H;
+  const W = c.width, cw = 2, n = Math.floor((W - LABEL_W) / cw), win = recs.slice(-n);
+  g.fillStyle = "#1E2833"; g.fillRect(0, 0, W, H);
+  $("rasterspan").textContent = win.length ? `steps ${win[0].s} to ${win[win.length - 1].s}` : "";
+  // labels
+  g.font = "600 11.5px 'Atkinson Hyperlegible Next', system-ui"; g.textBaseline = "middle";
+  const groups = {};
+  for (const r of rows) { (groups[r.faculty] ||= []).push(r); }
+  for (const [fac, rs] of Object.entries(groups)) {
+    g.fillStyle = fc(fac); const mid = (rs[0].y + rs[rs.length - 1].y + ROW_H) / 2;
+    g.fillText(META.faculty_names[fac] || fac, 4, mid);
+  }
+  if (!win.length) return;
+  const x0 = LABEL_W + (n - win.length) * cw;
+  for (const r of rows) {
+    let lo = Infinity, hi = -Infinity;
+    for (const q of win) { const v = q.u[r.i]; if (v < lo) lo = v; if (v > hi) hi = v; }
+    const span = hi - lo, col = fc(r.faculty);
+    for (let k = 0; k < win.length; k++) {
+      const v = win[k].u[r.i]; const a = span > 1e-9 ? (v - lo) / span : (v !== 0 ? 0.35 : 0);
+      if (a <= 0.02) continue;
+      g.fillStyle = mix(col, 0.12 + 0.88 * a); g.fillRect(x0 + k * cw, r.y, cw, ROW_H - 1);
+    }
+  }
+  // milliseconds strip (log scale), one thin row per faculty
+  const ty = height + 14;
+  g.fillStyle = "#9AA7B4"; g.font = "11px 'Atkinson Hyperlegible Next', system-ui"; g.fillText("time spent", 4, ty + timeH / 2);
+  META.faculties.forEach((fac, j) => {
+    const y = ty + j * (ROW_H - 2), col = fc(fac);
+    for (let k = 0; k < win.length; k++) {
+      const ms = win[k].ms[fac] || 0; const a = Math.min(1, Math.log10(1 + ms * 4) / 2);
+      if (a < 0.05) continue; g.fillStyle = mix(col, a); g.fillRect(x0 + k * cw, y, cw, ROW_H - 3);
+    }
+  });
+  // events: hits and things heard
+  for (let k = 0; k < win.length; k++) {
+    const q = win[k];
+    if (q.hit) { g.fillStyle = "#E2735F"; g.fillRect(x0 + k * cw, height + 2, cw, 8); }
+    else if (q.heard) { g.fillStyle = fc("goal_genesis"); g.fillRect(x0 + k * cw, height + 4, cw, 4); }
+    else if (q.ach && q.ach.length) { g.fillStyle = "#E3C062"; g.fillRect(x0 + k * cw, height + 2, cw, 8); }
+  }
+  c._win = win; c._x0 = x0; c._cw = cw; c._rows = rows;
+}
+$("raster").addEventListener("mousemove", (ev) => {
+  const c = $("raster"), tip = $("tip"); if (!c._win) return;
+  const b = c.getBoundingClientRect(), sx = c.width / b.width, sy = c.height / b.height;
+  const x = (ev.clientX - b.left) * sx, y = (ev.clientY - b.top) * sy, k = Math.floor((x - c._x0) / c._cw);
+  const row = c._rows.find((r) => y >= r.y && y < r.y + ROW_H);
+  if (k < 0 || k >= c._win.length || !row) { tip.style.display = "none"; return; }
+  const q = c._win[k];
+  tip.innerHTML = `<b style="color:${fc(row.faculty)}">${META.faculty_names[row.faculty]}</b>, ${row.label} = ${q.u[row.i]}<br><span style="color:#9AA7B4">step ${q.s}, ${META.actions[q.a].replaceAll("_", " ")}</span>`;
+  tip.style.display = "block"; tip.style.left = Math.min(ev.clientX - b.left + 12, b.width - 220) + "px"; tip.style.top = (ev.clientY - b.top + 12) + "px";
+});
+$("raster").addEventListener("mouseleave", () => $("tip").style.display = "none");
+
+function renderStore(f) {
+  const r = recs[recs.length - 1]; const ch = new Set(r ? r.ch : []);
+  $("store").innerHTML = f.store.map((s) => {
+    const fac = s.owner; const changed = ch.has(fac);
+    const size = s.bytes > 1024 ? (s.bytes / 1024).toFixed(1) + " KB" : s.bytes + " B";
+    return `<span class="${changed ? "changed" : ""}" style="--c:${fc(fac)}" title="${(META.channels[s.name] || "").replaceAll('"', "'")}">${s.name} ${size}</span>`;
+  }).join("");
+}
+
+// ---------------------------------------------------------------------------------------------- body
+function renderBody(f) {
+  const V = f.body.vitals, colors = { health: "#E2735F", food: "#D8B25A", drink: "#6FB3D9", energy: "#B48CF0" };
+  const names = { health: "Health", food: "Food", drink: "Water", energy: "Energy" };
+  $("vitals").innerHTML = Object.keys(V).map((k) => `<span>${names[k]}</span><span class="pips" style="--c:${colors[k]}">${
+    Array.from({ length: 9 }, (_, i) => `<i class="${i < V[k] ? "on" : ""}"></i>`).join("")}</span><span>${V[k]}</span>`).join("");
+  const c = $("spark"), g = c.getContext("2d"), w = c.width, h = c.height; g.clearRect(0, 0, w, h);
+  const win = recs.slice(-w / 1); const sx = w / Math.max(1, win.length);
+  META.vitals.forEach((k, j) => { g.strokeStyle = colors[k]; g.lineWidth = 1.4; g.beginPath();
+    win.forEach((q, i) => { const y = h - 3 - (q.v[j] / 9) * (h - 6) - j * 0.6; i ? g.lineTo(i * sx, y) : g.moveTo(0, y); }); g.stroke(); });
+  for (let i = 0; i < win.length; i++) if (win[i].hit) { g.fillStyle = "rgba(226,115,95,.5)"; g.fillRect(i * sx, 0, Math.max(1, sx), h); }
+  const inv = f.body.inventory;
+  $("inventory").innerHTML = Object.keys(inv).length ? Object.entries(inv).map(([k, v]) => `<span class="chip">${k.replaceAll("_", " ")} ${v}</span>`).join("") : `<span class="chip dim">nothing carried</span>`;
+  $("achcount").textContent = `${f.body.achievements.length} of 22 things it has ever done${f.body.sleeping ? ". Asleep now." : ""}`;
+  $("achievements").innerHTML = f.body.achievements.map((a) => `<span class="chip dim">${a.replaceAll("_", " ")}</span>`).join("");
+}
+
+// -------------------------------------------------------------------------------------------- ledger
+function renderLedger(f) {
+  const L = f.ledger, cs = L.commitments || [];
+  const open = cs.filter((c) => c.status === "open").length;
+  $("ledgercount").textContent = cs.length ? `${open} open of ${cs.length} heard` : "";
+  if (!cs.length && !(L.questions || []).length) { $("ledger").innerHTML = `<p class="subtle">No requests yet. The caretaker sends the first within a few hundred steps.</p>`; return; }
+  const items = cs.map((c) => {
+    const truth = (f.caretaker || {})[c.id] || {};
+    const span = Math.max(1, c.deadline - c.issue_step), left = c.deadline - f.step;
+    const pct = c.status === "open" ? Math.max(0, Math.min(100, left / span * 100)) : 0;
+    const when = c.status === "open" ? (left >= 0 ? `${left} steps left` : `${-left} steps late`) : `closed at step ${c.closed_step}`;
+    const verdict = truth.status && truth.status !== c.status ? `, caretaker says ${truth.status}` : "";
+    return `<div class="commit ${f.skills.task === c.id ? "working" : ""}"><div class="head"><span class="id">${c.id}</span><span class="fam">${c.family}</span><span>${famText(c)}</span><span class="st ${c.status}">${c.status}${verdict}</span></div>
+      <div class="text">“${c.text.replace(/^\[o\d+\]\s*/, "")}” ${when}</div>${c.status === "open" ? `<div class="bar"><i style="width:${pct}%"></i></div>` : ""}</div>`;
+  });
+  const qs = (L.questions || []).slice(-6).reverse().map((q) => { const e = q.event || {};
+    return `<div class="commit"><div class="head"><span class="id">${e.id || ""}</span><span class="fam">question</span><span class="st ${q.outcome || "open"}">${q.outcome || "asked"}</span></div><div class="text">“${esc((e.message || "").replace(/^\[o\d+\]\s*/, ""))}” asked at step ${q.asked_step}</div></div>`; });
+  $("ledger").innerHTML = items.join("") + qs.join("");
+}
+
+// ----------------------------------------------------------------------------------------------- log
+let logKey = "";
+function understood(evs) {
+  if (!evs || !evs.length) return "Not understood.";
+  return evs.map((e) => {
+    if (e.type === "new_commitment") return `Understood: ${famText(e)}, due at step ${e.deadline_step}.`;
+    if (e.type === "amendment") return `Understood: ${e.id} changed${e.changes && e.changes.deadline_step ? ", now due at step " + e.changes.deadline_step : ""}.`;
+    if (e.type === "cancellation") return `Understood: ${e.id} is cancelled.`;
+    if (e.type === "question") { const s = e.spec || {};
+      const what = { last_seen: `where it last saw ${s.kind || "something"}`, count_today: `how often it did ${(s.event || "something").replaceAll("_", " ")}`,
+        first_request: "which request came first", count_requests: "how many requests it got", last_cancelled: "which request was cancelled last" }[s.question] || "the past";
+      return `Understood as a question: ${what}.`; }
+    if (e.type === "feedback") return `Understood: ${e.id} was ${e.outcome}.`;
+    if (e.type === "unparsed") return "Not understood.";
+    return e.type;
+  }).join(" ");
+}
+function renderLog(f) {
+  const key = f.log.length + ":" + (f.log.length ? f.log[f.log.length - 1].step + f.log[f.log.length - 1].text : "");
+  if (key === logKey) return; logKey = key;
+  const box = $("log"), atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+  box.innerHTML = f.log.map((m) => {
+    if (m.who === "caretaker") return `<div class="m caretaker"><div class="meta">Caretaker, step ${m.step}</div><div class="b">${esc(m.text)}<div class="und">${esc(understood(m.understood))}</div></div></div>`;
+    if (m.who === "individual") return `<div class="m individual"><div class="meta">It says, step ${m.step}</div><div class="b">${esc(m.text)}</div></div>`;
+    if (m.who === "operator") return `<div class="m operator">${esc(m.text)}</div>`;
+    return `<div class="m world ${m.ok === true ? "ok" : m.ok === false ? "bad" : ""}">Step ${m.step}: ${esc(m.text)}</div>`;
+  }).join("") || `<p class="subtle">Nothing said yet.</p>`;
+  if (atBottom) box.scrollTop = box.scrollHeight;
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+// ------------------------------------------------------------------------------------------ self + diary
+let diaryKey = -1;
+function renderSelf(f) {
+  const S = f.self_model || {};
+  $("belief").innerHTML = (META.families || []).map((fam) => {
+    const [ok, n] = S[fam] || [0, 0]; const p = (ok + 1) / (n + 2);
+    return `<span>${fam}</span><span class="track"><i style="width:${(p * 100).toFixed(0)}%"></i></span><span class="subtle">${n ? ok + " of " + n : "untried"}</span>`;
+  }).join("");
+  const days = f.autobiography.days || [];
+  $("diarycount").textContent = days.length ? `${days.length} day${days.length > 1 ? "s" : ""} written` : "";
+  if (days.length === diaryKey) return; diaryKey = days.length;
+  $("diary").innerHTML = days.length ? days.slice().reverse().map((d) => `<p><span class="d">Day ${d.day + 1}</span><br>${esc(d.text)}</p>`).join("")
+    : `<p class="subtle">It writes about each day at the next dawn.</p>`;
+}
+
+// ------------------------------------------------------------------------------------------- learning
+const OPTION_WORDS = { routine: "Its routine", drink: "Drink", eat: "Eat", rest: "Rest in a shelter", retreat: "Get away",
+  explore: "Explore", requests: "Its requests", build: "Build and make" };
+function renderLearning(f) {
+  const L = f.learning;
+  $("foresee").className = "bars"; $("values").className = "bars";
+  $("foresee").innerHTML = L.risks.map((r, i) => { const p = L.prediction[i];
+    return `<span>${r[0].toUpperCase() + r.slice(1)}</span><span class="track" style="--c:${p > 0.5 ? "#E2735F" : fc("world_model")}"><i style="left:0;width:${(p * 100).toFixed(0)}%"></i></span><span>${(p * 100).toFixed(0)}%</span>`; }).join("");
+  const F = L.foresight, br = (F.brier || []).map((b) => b == null ? "–" : b.toFixed(3));
+  $("foreseestats").textContent = !F.updates ? `It has noted ${F.samples} moments of its life and what followed; it starts learning from them at 128, so these are still guesses.`
+    : `Learned from ${F.samples} moments of its own life (${F.memory} kept, ${F.updates} updates). How far its foresight was off lately, per risk (squared error, 0 is perfect): ${br.join(", ")}.`;
+  const adv = L.advantage.map((a, i) => i === 0 ? 0 : a), span = Math.max(0.5, ...adv.map(Math.abs));
+  $("values").innerHTML = L.options.map((o, i) => { const v = adv[i], w = Math.abs(v) / span * 50, on = i === L.selected;
+    const left = v >= 0 ? 50 : 50 - w;
+    return `<span class="${on ? "on" : ""}">${OPTION_WORDS[o] || o}${on ? " (now)" : ""}</span><span class="track" style="--c:${v > 0 ? fc("skills") : mix(fc("skills"), 0.4)}"><b></b><i style="left:${left}%;width:${w}%"></i></span><span>${i === 0 ? "base" : (v >= 0 ? "+" : "") + v.toFixed(2)}</span>`; }).join("");
+  $("valuestats").textContent = "How much better than its routine it is sure each option would be here (its estimates' average advantage, less their disagreement). It leaves its routine only for a bar right of the middle. " +
+    (L.updates ? "" : "Not learning yet: it starts once it remembers 64 finished decisions. ") + `${L.decisions} decisions made, ${L.updates} learning updates. ` +
+    (L.learning_on ? `It also tries a random option ${(L.exploration * 100).toFixed(0)}% of the time, to keep learning.` : "Learning is off (frozen).") +
+    ` ${L.replay} decisions remembered.`;
+  renderLives(f);
+}
+function renderLives(f) {
+  const lives = f.lives || [], c = $("lifechart"), g = c.getContext("2d"), W = c.width, H = c.height;
+  g.clearRect(0, 0, W, H);
+  $("livescount").textContent = lives.length ? `${lives.length} li${lives.length > 1 ? "ves" : "fe"} lived` : "";
+  if (!lives.length) { g.fillStyle = "#9AA7B4"; g.font = "13px 'Atkinson Hyperlegible Next', system-ui"; g.fillText("Its first life is still going.", 8, 24); $("lastlives").textContent = ""; return; }
+  const pad = 30, n = lives.length, bw = Math.max(1, Math.min(14, (W - pad - 6) / n - 1)), maxS = Math.max(500, ...lives.map((l) => l.steps));
+  g.strokeStyle = "#33414F"; g.fillStyle = "#6D7A88"; g.font = "11px system-ui";
+  for (const t of [0.5, 1]) { const y = H - 14 - (H - 24) * t; g.beginPath(); g.moveTo(pad, y); g.lineTo(W, y); g.stroke(); g.fillText(String(Math.round(maxS * t)), 0, y + 4); }
+  const x = (i) => pad + 2 + i * (bw + 1);
+  lives.forEach((l, i) => { const h = (H - 24) * l.steps / maxS; g.fillStyle = mix(fc("skills"), 0.55); g.fillRect(x(i), H - 14 - h, bw, h);
+    g.fillStyle = "#E3C062"; g.beginPath(); g.arc(x(i) + bw / 2, H - 14 - (H - 24) * (l.done / 22), Math.min(3, bw / 2 + 0.5), 0, 7); g.fill(); });
+  g.strokeStyle = "#EAE5D9"; g.lineWidth = 1.6; g.beginPath();
+  lives.forEach((l, i) => { const w = lives.slice(Math.max(0, i - 9), i + 1); const m = w.reduce((a, q) => a + q.steps, 0) / w.length;
+    const y = H - 14 - (H - 24) * m / maxS; i ? g.lineTo(x(i) + bw / 2, y) : g.moveTo(x(i) + bw / 2, y); }); g.stroke();
+  const last = lives.slice(-3).reverse().map((l) => `Life ${l.life + 1}: ${l.steps} steps, ${l.done} things done${l.fulfilled == null ? "" : `, ${l.fulfilled} requests kept`}; it ${l.cause.replace(/^died at step \d+: ?/, "died: ").replace(/^died: /, "died: ")}`);
+  $("lastlives").innerHTML = last.map(esc).join("<br>");
+}
+
+// ------------------------------------------------------------------------------------------- the mind
+let mindTick = -2, sleepAt = 0, SLEEP = null;
+const RISK_WORDS = { die: "Die", no_water: "Out of water", no_food: "Out of food", hurt3: "Lose 3+ health" };
+async function pollMind() {
+  if (!frame || frame.tick === mindTick) return;
+  try { const m = await api("/api/mind"); mindTick = m.tick; renderMind(m); } catch (e) { /* the server may be busy */ }
+}
+async function pollSleep() {
+  try { SLEEP = await api("/api/sleep"); renderSleep(SLEEP); } catch (e) { }
+}
+setInterval(pollMind, 700);
+let CAPS = null;
+async function pollCaps() { try { CAPS = await api("/api/capabilities"); renderCaps(CAPS); } catch (e) { } }
+setInterval(pollCaps, 15000); setTimeout(pollCaps, 500);
+function renderCaps(C) {
+  const word = { kept: "kept", successor: "successor", absent: "absent", removed: "removed" };
+  const counts = {}; C.entries.forEach((e) => counts[e.disposition] = (counts[e.disposition] || 0) + 1);
+  $("capsub").textContent = Object.entries(counts).map(([k, v]) => `${v} ${word[k] || k}`).join(", ");
+  $("caps").innerHTML = `<p class="subtle" style="margin-top:0">${esc(C.rule)}</p><table class="captable"><tr><th>Capability before</th><th></th><th>Now, and its successor</th><th>Gate</th><th>Status</th></tr>` +
+    C.entries.map((e) => { const g = e.gate_status || {};
+      const st = g.status === "passed" ? "passed" : g.status === "failed" ? "failed" : "wait";
+      return `<tr><td>${esc(e.w1)}</td><td><span class="chip ${e.disposition}">${word[e.disposition] || e.disposition}</span></td><td>${esc(e.cb2)}${e.reason ? "<br><span class='subtle'>Why: " + esc(e.reason) + "</span>" : ""}</td><td>${esc(e.gate || "–")}</td><td>${e.gate ? `<span class="chip ${st}">${esc(g.status)}</span>${g.summary ? "<br><span class='subtle'>" + esc(g.summary) + "</span>" : ""}` : ""}</td></tr>`; }).join("") + `</table>`;
+}
+setInterval(pollSleep, 15000);
+setTimeout(pollSleep, 800);
+
+function cell(p) { const a = Math.min(1, p); return `<span class="c" style="background:${mix(p > 0.5 ? "#E2735F" : "#F4A259", 0.15 + 0.7 * a)}">${(p * 100).toFixed(0)}%</span>`; }
+const RISK_LABEL = { die: "Die", no_water: "Out of water", no_food: "Out of food", hurt3: "Lose 3+ health", no_energy: "Out of energy" };
+function capLine(id) {
+  const e = CAPS && CAPS.entries.find((x) => x.id === id); if (!e) return "";
+  const g = e.gate_status || {};
+  return `<div class="legend">Successor: ${esc(e.cb2)}.<br>${esc(e.gate || "")} <span class="chip ${g.status === "passed" ? "passed" : g.status === "failed" ? "failed" : "wait"}">${esc(g.status || "")}</span>${g.summary ? " " + esc(g.summary) : ""}</div>`;
+}
+function renderPredictive(m) {
+  if (frame && frame.learning) return;                     // the overnight design draws its own
+  $("foresee").className = ""; $("values").className = "";
+  const M = m.mind;
+  if (!M) {
+    $("foreseesub").textContent = "";
+    $("foresee").innerHTML = `<div class="state">PREDICTIVE FORESIGHT: UNTRAINED / NOT INSTALLED</div><p class="subtle">It has no foresight faculty yet: it acts with the hand-written routine, which foresees nothing.</p>` + capLine("foresight");
+    $("foreseestats").innerHTML = "";
+    $("valueshead").textContent = "Whether another choice would be better";
+    $("values").innerHTML = `<div class="state">ROUTINE POLICY: NO LEARNED ALTERNATIVE VALUE</div><p class="subtle">The routine follows fixed rules; nothing in it weighs one action against another.</p>` + capLine("choice");
+    $("valuestats").innerHTML = "";
+    return;
+  }
+  $("foreseesub").textContent = "its world model, from where it stands now";
+  const names = [...new Set(M.risks.map((r) => r.split(" within ")[0]))], H = [...new Set(M.risks.map((r) => r.split(" within ")[1]))];
+  let g = `<div class="riskgrid"><span></span>` + H.map((h) => `<span class="subtle">${h} steps</span>`).join("");
+  names.forEach((k, r) => { g += `<span>${RISK_LABEL[k] || k}</span>` + H.map((_, j) => cell(M.risk[r * H.length + j])).join(""); });
+  $("foresee").innerHTML = g + "</div>";
+  $("foreseestats").innerHTML = capLine("foresight");
+  $("valueshead").textContent = "What else it could do, as it imagines it";
+  const A = M.alternatives || [], vit = ["health", "food", "water", "energy"];
+  const dv = (a) => a.vs_choice.vitals.map((d, i) => Math.abs(d) >= 0.5 ? `${vit[i]} ${d > 0 ? "+" : ""}${d.toFixed(1)}` : "").filter(Boolean).join(", ") || "no change";
+  const dieIdx = names.indexOf("die") * H.length + H.length - 1;
+  $("values").innerHTML = `<table class="alt"><tr><th>First action</th><th>imagined reward</th><th>± spread</th><th>vs its choice</th><th>death risk after</th></tr>` +
+    A.map((a, i) => `<tr><td>${i === 0 ? "<b>" + esc(a.action) + " (its choice)</b>" : esc(a.action)}</td><td>${a.reward.toFixed(2)}</td><td>${a.reward_spread.toFixed(2)}</td><td>${i === 0 ? "–" : (a.vs_choice.reward >= 0 ? "+" : "") + a.vs_choice.reward.toFixed(2) + "<br><span class='subtle'>" + esc(dv(a)) + "</span>"}</td><td>${((a.risk[dieIdx] || 0) * 100).toFixed(0)}% ± ${((a.risk_spread[dieIdx] || 0) * 100).toFixed(0)}</td></tr>`).join("") + `</table>`;
+  $("valuestats").innerHTML = `<div class="legend">Each row: that action first, then its own skill for ${M.alt_horizon} steps, imagined ${M.alt_samples} times by its world model. Its skill does not act on these yet: it imitates, with no learned value.</div>` + capLine("choice");
+}
+function renderMind(m) {
+  renderPredictive(m);
+  const show = m.canonical || m.skills === "cb2";
+  $("mindrow").hidden = !show; if (!show) return;
+  const M = m.mind, R = m.routine || {};
+  if (!M) {
+    $("mindsub").textContent = "";
+    $("seeing").innerHTML = `<p class="subtle">It acts with the hand-written routine for now. Its learned mind (a predictive world model and a skill) arrives with its first consolidation, after the first training round; then this panel shows what its world model sees and imagines.</p>`;
+    $("foresight2").innerHTML = "";
+  } else {
+    $("mindsub").textContent = `world model ${(M.params / 1e6).toFixed(1)}M weights, skill ${M.arm}`;
+    const real = frame && frame.image ? `<figure><img class="pix" width="128" height="128" src="data:image/png;base64,${frame.image}"><br>the world</figure>` : "";
+    $("seeing").innerHTML = `<div class="seeing">${real}<figure><img class="pix" width="128" height="128" src="data:image/png;base64,${M.sees}"><br>its picture of now</figure>
+      <p class="subtle" style="max-width:260px">Its picture of now is decoded from its world model's state: what it holds of this moment. Below, the next ${M.imagined.length} steps as it imagines them, acting on its own skill, with nothing seen.</p></div>
+      <div class="dream">${M.imagined.map((im, i) => `<figure><img class="pix" src="data:image/png;base64,${im}"><br>+${i + 1} ${esc(M.imagined_actions[i])}</figure>`).join("")}</div>`;
+    $("foresight2").innerHTML = "";
+  }
+  let c = "";
+  if (!M) c += `<div class="state">ROUTINE POLICY</div><p>It acts by the hand-written rules: now <b>${esc((frame && frame.skills && frame.skills.action) || "–")}</b>, serving its "${esc((frame && frame.skills && frame.skills.option) || "–")}". No learned skill is installed, so there is no learned choice to show.</p>` + capLine("skills");
+  if (M) c += `<div class="bars">` + M.policy.map((a, i) => `<span class="${i === 0 ? "on" : ""}">${esc(a.action)}</span><span class="track" style="--c:${fc("skills")}"><i style="left:0;width:${(a.p * 100).toFixed(0)}%"></i></span><span>${(a.p * 100).toFixed(0)}%</span>`).join("") + `</div><div class="legend">Its skill's choice now${M.intent ? `, serving what it takes to be its "${esc(M.intent)}"` : ""}.</div>`;
+  if (R.n && m.skills !== "routine") c += `<p>The routine would: <b>${esc(R.action || "–")}</b>. It chose as the routine would ${R.agree} of ${R.n} steps this life (${(100 * R.agree / R.n).toFixed(0)}%).</p>`;
+  $("choice").innerHTML = c;
+  const rec = m.record;
+  if (!rec) { $("record").innerHTML = `<p class="subtle">Not the canonical individual: nothing it does here is recorded.</p>`; return; }
+  const A = rec.archive.rows;
+  let h = `<div class="kv"><span>Lives lived</span><span>${rec.lives_lived}</span>
+    <span>Lived (its own)</span><span>${A.LIVED.toLocaleString()} moments, chain ${rec.archive.lived_chain_ok ? '<b class="ok">intact</b>' : '<b class="bad">BROKEN</b>'}</span>
+    <span>Practice (not lived)</span><span>${A.PRACTICE.toLocaleString()} moments</span>
+    <span>Dreamed</span><span>${A.DREAMED.toLocaleString()} moments</span>
+    <span>Consolidations</span><span>${rec.consolidations}, record ${rec.consolidation_log_ok ? '<b class="ok">intact</b>' : '<b class="bad">BROKEN</b>'}</span>
+    <span>Stable point</span><span>${rec.stable ? esc(rec.stable.snapshot) + " (" + esc(rec.stable.note || "") + ")" : "none marked yet"}</span>`;
+  if (M) h += `<span>Skill weights</span><span>${M.weights_sha256.slice(0, 12)}</span>`;
+  h += `</div>`;
+  const ev = M ? M.lineage.slice().reverse() : [];
+  h += `<div class="events" style="margin-top:8px">${ev.length ? ev.map((e) => `<p><b>${esc(e.kind)}</b> ${esc(e.time || "")}, life ${e.life + 1}: weights ${String(e.weights_sha256).slice(0, 10)}${e.note ? " (" + esc(e.note) + ")" : ""}</p>`).join("") : '<p class="subtle">No consolidation yet: everything it is came from living.</p>'}</div>`;
+  $("record").innerHTML = h;
+}
+
+function lineChart(id, series, opts = {}) {
+  const c = $(id), g = c.getContext("2d"), W = c.width, H = c.height; g.clearRect(0, 0, W, H);
+  const pts = series.flatMap((s) => s.points.filter((p) => p[1] != null));
+  if (!pts.length) { g.fillStyle = "#9AA7B4"; g.font = "13px system-ui"; g.fillText(opts.empty || "No training yet.", 8, 22); return; }
+  const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs, x0 + 1), y0 = opts.y0 != null ? opts.y0 : Math.min(...ys), y1 = Math.max(...ys, y0 + 1e-9);
+  const L = 44, B = 18, X = (x) => L + (W - L - 8) * (x - x0) / (x1 - x0), Y = (y) => H - B - (H - B - 8) * (y - y0) / (y1 - y0);
+  g.strokeStyle = "#33414F"; g.fillStyle = "#6D7A88"; g.font = "11px system-ui";
+  for (const t of [0, 0.5, 1]) { const y = y0 + (y1 - y0) * t; g.beginPath(); g.moveTo(L, Y(y)); g.lineTo(W, Y(y)); g.stroke(); g.fillText(y < 1 ? y.toFixed(3) : y.toFixed(1), 2, Y(y) + 4); }
+  g.fillText(String(x1), W - 40, H - 4); g.fillText(String(x0), L, H - 4);
+  let lx = L + 4;
+  series.forEach((s) => { const p = s.points.filter((q) => q[1] != null); if (!p.length) return;
+    g.strokeStyle = s.color; g.lineWidth = s.width || 1.6; g.setLineDash(s.dash || []); g.beginPath();
+    p.forEach((q, i) => i ? g.lineTo(X(q[0]), Y(q[1])) : g.moveTo(X(q[0]), Y(q[1]))); g.stroke(); g.setLineDash([]);
+    g.fillStyle = s.color; g.fillText(s.name, lx, 12); lx += g.measureText(s.name).width + 14; });
+}
+function renderSleep(S) {
+  const runs = S.runs || [], any = runs.length || S.probe || S.eval || S.bench;
+  $("sleeprow").hidden = !any; if (!any) return;
+  const cores = runs.filter((r) => r.kind === "core"), pols = runs.filter((r) => r.kind === "policy");
+  const core = cores[cores.length - 1];
+  $("corerun").textContent = core ? `${core.name}, ${(core.params / 1e6).toFixed(1)}M weights on ${core.device}, ${core.done ? "finished" : "training"}` : "";
+  const P = (r, k) => (r ? r.points.map((p) => [p.u, p[k]]) : []);
+  lineChart("chartsee", [{ name: "imagining", color: "#F4A259", points: P(core, "openloop") },
+                         { name: "nothing changes", color: "#6D7A88", dash: [4, 3], points: P(core, "copy_last") }], { y0: 0 });
+  lineChart("chartrisk", [{ name: "its world model", color: "#F4A259", points: P(core, "risk") },
+                          { name: "average guess", color: "#6D7A88", dash: [4, 3], points: P(core, "risk_base") }], { y0: 0 });
+  const colors = { "P-A": "#4FC1B5", "P-B": "#B48CF0" };
+  const latest = {}; pols.forEach((r) => latest[r.arm] = r);
+  const ser = Object.values(latest).map((r) => ({ name: r.arm, color: colors[r.arm] || "#EAE5D9", points: P(r, "agreement") }));
+  const any0 = Object.values(latest)[0];
+  if (any0) ser.push({ name: "most common action", color: "#6D7A88", dash: [4, 3], points: P(any0, "majority") });
+  $("polrun").textContent = Object.values(latest).map((r) => `${r.arm}: ${r.name}`).join(", ");
+  lineChart("chartpol", ser, { y0: 0 });
+  let t = "";
+  const ev = (S.eval || []).slice(-3);
+  if (ev.length) t += `<h3 style="font-size:13px">On ${ev[0].seeds ? ev[0].seeds[2] : 40} fresh worlds, against the routine</h3><div class="kv">` + ev.map((e) => {
+    const a = e.summary.individual, b = e.summary.routine;
+    return `<span>${esc(e.label)}</span><span>score ${a.crafter_score.toFixed(1)} vs ${b.crafter_score.toFixed(1)}, lives ${a.survival_steps.toFixed(0)} vs ${b.survival_steps.toFixed(0)} steps, ${a.achievements_per_episode.toFixed(1)} vs ${b.achievements_per_episode.toFixed(1)} things done</span>`; }).join("") + `</div>`;
+  const pr = (S.probe || []).slice(-1)[0];
+  if (pr) { const r = pr.r2, v = (k) => r[k] ? r[k].r2.toFixed(2) : "–";
+    t += `<h3 style="font-size:13px;margin-top:10px">What its world model knows (${esc(pr.name)})</h3><div class="kv">
+      <span>The 62 belief features</span><span>${v("trained/core->features")} (untrained ${v("untrained/core->features")}, this frame only ${v("trained/frame->features")})</span>
+      <span>Remembered places out of view</span><span>${v("trained/core->known")} (untrained ${v("untrained/core->known")}, this frame only ${v("trained/frame->known")})</span></div>
+      <div class="legend">How much of what the hand-built faculties knew can be read back from its world model's state (R², 1 is all of it).</div>`; }
+  const bn = (S.bench || []).slice(-1)[0];
+  if (bn) t += `<p class="subtle">Practice worlds in parallel: ${bn.rows.map((r) => `${r.workers} worker${r.workers > 1 ? "s" : ""} ${r.steps_per_s.toFixed(0)} steps/s`).join(", ")} (${esc(bn.name)}).</p>`;
+  $("tests").innerHTML = t || `<p class="subtle">No tests yet.</p>`;
+}
+
+// -------------------------------------------------------------------------------------------- controls
+$("play").onclick = () => cmd(frame && frame.runner && frame.runner.playing ? "pause" : "play");
+$("step").onclick = () => cmd("step");
+$("speed").onchange = (e) => cmd("speed", { value: Number(e.target.value) });
+$("autonext").onchange = (e) => cmd("auto_next", { value: e.target.checked });
+$("newlife").onclick = () => { if (frame && frame.seed != null) $("seed").value = frame.seed + 1; $("dlg").showModal(); };
+$("dlgcancel").onclick = () => $("dlg").close();
+$("dlgok").onclick = () => { $("dlg").close(); const learned = $("skillsel").value === "learned";
+  cmd("new_life", { seed: Number($("seed").value), arm: { perception: $("perc").value, memory: $("memsel").value, language: $("lang").value, skills: $("skillsel").value, lifelong: learned } }); };
+$("nextlife").onclick = () => cmd("next_life");
+$("erase").onchange = (e) => { const v = e.target.value; e.target.value = ""; if (v) cmd("erase", { slot: v }); };
+$("mark").onclick = () => cmd("bookmark");
+$("back").onclick = () => cmd("back");
+$("save").onclick = () => cmd("save");
+for (const id of ["showperc", "showerr"]) $(id).onchange = () => frame && renderView(frame);
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || $("dlg").open) return;
+  if (e.code === "Space") { e.preventDefault(); $("play").click(); }
+  if (e.key === ".") cmd("step");
+});
+api("/api/meta").then((m) => { setMeta(m, true); poll(true); });
+</script>
+</body>
+</html>

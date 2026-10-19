@@ -1,0 +1,32 @@
+  00:26:10 life x60 gathered (+277s)
+  00:28:35 life x60 gathered (+145s)
+{
+ "twin": "runs/explore/cb2/candidates/s2b-final",
+ "cpu_quota": 96,
+ "runs": [
+  {
+   "workers": 4,
+   "lives": 60,
+   "steps": 31239,
+   "seconds": 277.4,
+   "steps_per_s": 112.6,
+   "steps_per_s_per_worker": 28.15,
+   "projected_h": {
+    "per_cycle_probe_and_wake": 0.57,
+    "final_battery": 12.22
+   }
+  },
+  {
+   "workers": 9,
+   "lives": 60,
+   "steps": 31239,
+   "seconds": 145.5,
+   "steps_per_s": 214.8,
+   "steps_per_s_per_worker": 23.86,
+   "projected_h": {
+    "per_cycle_probe_and_wake": 0.3,
+    "final_battery": 6.41
+   }
+  }
+ ]
+}

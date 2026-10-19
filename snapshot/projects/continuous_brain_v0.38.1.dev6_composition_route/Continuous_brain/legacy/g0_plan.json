@@ -1,0 +1,1793 @@
+{
+  "counts": {
+    "checkpoint_files": 520,
+    "evaluator_files": 134,
+    "result_files": 54
+  },
+  "entries": [
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "DEV + frozen TEST PASS",
+      "files": [
+        {
+          "relpath": "state/multi_item_episodic_memory_v1/episodic_reader.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097"
+        },
+        {
+          "relpath": "evaluate_multi_item_episodic_memory_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "67a9c59f033d80eeec8379174d2c6d7f6c787f775efb4b871d61312d3e68bc9e"
+        },
+        {
+          "relpath": "continuous_brain/multi_item_episodic_memory_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "929693fd6010da97dcfadbc92117ddf705c10929e8935df712fc8254f3ed43a3"
+        },
+        {
+          "relpath": "MULTI_ITEM_EPISODIC_MEMORY_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "4639e66f826fd7ff1dfb8f8e376c0b312bc31f89617ca3b0831a7451c3b965c1"
+        },
+        {
+          "relpath": "MULTI_ITEM_EPISODIC_MEMORY_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "408881382fb651ccd66f1065effa7ca4b879d6f778203c81f1555de172a058f5"
+        },
+        {
+          "relpath": "state/multi_item_episodic_memory_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "d7398710d8d69a326f7b048c0c296912e18ad77593aac534a156c17b61313df4"
+        },
+        {
+          "relpath": "state/multi_item_episodic_memory_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "7b491327af33c92324d6596368d0e5e7e2cf2e933866ffe643f94809a2aa591c"
+        },
+        {
+          "relpath": "run_multi_item_episodic_memory_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "9102074af2316214b33c9663d37537f7f42a94dfab04e92d014e7319005a3b6c"
+        },
+        {
+          "relpath": "run_multi_item_episodic_memory_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "dbe6f09ddfcf9150d828afc5331b7a18c056da27f9f9dab7b2f5e00a7f066c4b"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.23.0/0.23.1",
+      "mechanism_id": "episodic_two_item_v023",
+      "reason": "closed DEV + TEST PASS; reader checkpoint hash is recorded by the TEST result",
+      "slot_options": [
+        "episodic_memory"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "learned state is recovered through four upstream checkpoint files whose hashes are pinned in this G0 plan"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "PASS integration",
+      "files": [
+        {
+          "relpath": "state/additive_goal_options_v1/goal_options.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+        },
+        {
+          "relpath": "state/memory_guided_goal_option_v1/goal_decoder.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_decoder.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_options.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_goal_option_state.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+        },
+        {
+          "relpath": "state/multi_item_episodic_memory_v1/episodic_reader.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097"
+        },
+        {
+          "relpath": "state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+        },
+        {
+          "relpath": "evaluate_episodic_goal_skill_integration_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "24c1088a69757a91e2b89eac4526b25692c68d52288058a89a043d4529cd9302"
+        },
+        {
+          "relpath": "continuous_brain/episodic_goal_skill_integration_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "4270c4a4667a0075491f1b09b30ebd6e2194d797428a453183b48d3a6c521893"
+        },
+        {
+          "relpath": "EPISODIC_GOAL_SKILL_INTEGRATION_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "7d99449d5308c8f73a0e93b4767495d7ecbb8062522ce96182947cdbe947cce2"
+        },
+        {
+          "relpath": "state/episodic_goal_skill_integration_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "fdcbeaab45f59f68c5714f28b835f98617897ba627ccdae8cbf83ca25af6d43f"
+        },
+        {
+          "relpath": "run_episodic_goal_skill_integration_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "e804f8aaab8d8a8160f2ef0d415cc54c75df0067cd025edb317a03e12b6f9352"
+        },
+        {
+          "relpath": "continuous_brain/additive_goal_options_v1.py",
+          "role": "support",
+          "root": "wsl-canonical",
+          "sha256": "198bab9cc3b3c43d88467499e6d61051bfdcbbe9aa034965fed7419ff0cefeea"
+        },
+        {
+          "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+          "role": "support",
+          "root": "wsl-canonical",
+          "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+        },
+        {
+          "relpath": "continuous_brain/recurrent_goal_option_state_v1.py",
+          "role": "support",
+          "root": "wsl-canonical",
+          "sha256": "0c430f5c2cd0716ddd9cc3a5235405416c54ab43561a4af7efd75953f712921b"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.24.0",
+      "mechanism_id": "episodic_goal_skill_v024",
+      "reason": "integration PASS; result records exact hashes of the four upstream learned-state files it composes",
+      "slot_options": [
+        "skills"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "state/memory_guided_goal_option_v1/result.json records ['development_gate_passed'] = false",
+        "state/additive_goal_options_v1/result.json records ['development_gate_passed'] = false",
+        "state/recurrent_goal_option_state_v1/result.json records ['test_admission_passed'] = false",
+        "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_result.json records ['test_admission_passed'] = false"
+      ],
+      "disposition": "SUPPORT_ONLY",
+      "dossier_status": "admitted pieces + formal temporal termination failures",
+      "files": [
+        {
+          "relpath": "state/additive_goal_options_v1/goal_options.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+        },
+        {
+          "relpath": "state/memory_guided_goal_option_v1/goal_decoder.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_decoder.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_options.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_goal_option_state.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+        },
+        {
+          "relpath": "state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+        },
+        {
+          "relpath": "run_memory_guided_goal_option_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "2fafe2238aecda158af645eed6c076070842bf1b67a72122bf09f09dd4444287"
+        },
+        {
+          "relpath": "train_evaluate_additive_goal_options_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "c967f1f0dd70d53edb6e433dc655d3aae6e279cf21f2232c7bde2225f4946d2f"
+        },
+        {
+          "relpath": "train_test_recurrent_goal_option_state_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "653ab50f0bd1ec0e325ee0a60fbe26913f54928e6d8eb9abcdcec07b2c1cadac"
+        },
+        {
+          "relpath": "continuous_brain/additive_goal_options_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "198bab9cc3b3c43d88467499e6d61051bfdcbbe9aa034965fed7419ff0cefeea"
+        },
+        {
+          "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+        },
+        {
+          "relpath": "continuous_brain/recurrent_goal_option_state_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "0c430f5c2cd0716ddd9cc3a5235405416c54ab43561a4af7efd75953f712921b"
+        },
+        {
+          "relpath": "ADDITIVE_GOAL_OPTIONS_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "fcb5cc7bc870344d68cf529e20b16e531a65b3ef004f09854cfb2cbcb9bc9105"
+        },
+        {
+          "relpath": "MEMORY_GUIDED_GOAL_OPTION_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "bb42a7075f610bd26efa6ce49bae62776e1155c8b67e929b5fa50465cac2c34b"
+        },
+        {
+          "relpath": "RECURRENT_GOAL_OPTION_STATE_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "b305921a02ed2bc9a2da3185fdfefd70dfc7c2f09313df8d189378ed3aec8692"
+        },
+        {
+          "relpath": "state/additive_goal_options_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "26b4f24bda93385fa3215f8fe643dea2698e9505140c6a389f777c46cc2bd8af"
+        },
+        {
+          "relpath": "state/memory_guided_goal_option_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "154d67e90232cf1f3b1b1e77e4718969d6e1d82973c960c92fd6d94adbd20635"
+        },
+        {
+          "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd"
+        },
+        {
+          "relpath": "state/recurrent_goal_option_state_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd"
+        },
+        {
+          "relpath": "run_additive_goal_options_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "181cd2bb255edf512e415d8a54102085d7152df9f9951f30c0ef199430a641ac"
+        },
+        {
+          "relpath": "run_memory_guided_goal_option_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "f608ee44b03fbe836ecd44ecb82af1ff220c44a50a8a3c6f6e637d973bcdd2eb"
+        },
+        {
+          "relpath": "run_recurrent_goal_option_state_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "0b0be0b7e77dabbc0171492d55539e41ce01eba288e11030ba67c3bad1ea2d29"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.21-v0.22",
+      "mechanism_id": "memory_guided_goal_options_v021",
+      "reason": "the aggregate v0.21-v0.22 candidate contains formal DEV/TEST failures; DAV-74 must split any admitted subcomponents before G0",
+      "slot_options": [
+        "skills"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "state/consequence_replanning_v1/result.json records ['development_gate_passed'] = false"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "PASS / admitted",
+      "files": [
+        {
+          "relpath": "state/consequence_replanning_v1/consequence_model.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "fc8dfc24fe65ee4d45a6d9693eec75a941c777a7b4d911dba216376e83723e8f"
+        },
+        {
+          "relpath": "evaluate_consequence_replanning_cost_repair_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "30f662424f4ac63d2495bde3eb6d388253399187594a204cff384c9c05ec0bc2"
+        },
+        {
+          "relpath": "evaluate_consequence_replanning_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+        },
+        {
+          "relpath": "continuous_brain/consequence_replanning_cost_repair_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "cbf8bfcb92d792e76f973223949bb5db4f4673626388361fe52988ac5ef1c115"
+        },
+        {
+          "relpath": "continuous_brain/consequence_replanning_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+        },
+        {
+          "relpath": "CONSEQUENCE_REPLANNING_COST_REPAIR_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "92fdbc5a8ea663b9aad28b926d2e988a6d37685c03b6c718cb589493064c1811"
+        },
+        {
+          "relpath": "CONSEQUENCE_REPLANNING_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "c6a8ee790d6466956cad2bee4795d48d50358bb09e7063b1180709f7ddb7f16a"
+        },
+        {
+          "relpath": "CONSEQUENCE_REPLANNING_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "fc21a65379f8e5aa1c0c8cda8e9f7c85c067069a4bd5b9bcbf6a95961b34fd42"
+        },
+        {
+          "relpath": "state/consequence_replanning_cost_repair_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "ca628e9ae8932ac627928956d91c02dc080600ece616b8c1ed0bcce2aa13e34e"
+        },
+        {
+          "relpath": "state/consequence_replanning_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0"
+        },
+        {
+          "relpath": "state/consequence_replanning_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "cccb0aacb87bac5c2998fadf167e2243c9c7f7004cf7f6ebb992a6fdefa8a27f"
+        },
+        {
+          "relpath": "run_consequence_replanning_cost_repair_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "e64ce8b93010c56d340c7744e673e8ed2b170ce201fa672c5537c332bf4e77e0"
+        },
+        {
+          "relpath": "run_consequence_replanning_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "6219fabe6683243740d5658cefcf644aaa1138366d805b17ee1f8ebe1695b082"
+        },
+        {
+          "relpath": "run_consequence_replanning_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "a37bdddfd1f13139fdf6f9237eb911bad82e3669bc6a4a2f5450eae0f6325eaf"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.25.2",
+      "mechanism_id": "consequence_replanning_v0252",
+      "reason": "v0.25.2 frozen TEST PASS; consequence-model checkpoint is present",
+      "slot_options": [
+        "planner"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "learned state is shared with consequence_replanning_v0252 via state/consequence_replanning_v1/consequence_model.pt"
+      ],
+      "disposition": "READY_FOR_G0_SHARED_STATE",
+      "dossier_status": "PASS / admitted (as part of consequence replanning)",
+      "files": [
+        {
+          "relpath": "state/consequence_replanning_v1/consequence_model.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "fc8dfc24fe65ee4d45a6d9693eec75a941c777a7b4d911dba216376e83723e8f"
+        },
+        {
+          "relpath": "evaluate_consequence_replanning_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+        },
+        {
+          "relpath": "continuous_brain/consequence_replanning_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+        },
+        {
+          "relpath": "CONSEQUENCE_REPLANNING_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "fc21a65379f8e5aa1c0c8cda8e9f7c85c067069a4bd5b9bcbf6a95961b34fd42"
+        },
+        {
+          "relpath": "state/consequence_replanning_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.25.2",
+      "mechanism_id": "consequence_model_v0252",
+      "reason": "world-model slot is the RouteConsequenceModel inside the admitted v0.25.2 planner and shares its checkpoint/evaluator",
+      "slot_options": [
+        "world_model"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "environment admission has no learned checkpoint requirement; G0 requires the real external simulator/environment"
+      ],
+      "disposition": "CONDITIONAL_EXTERNAL_ENV",
+      "dossier_status": "PASS",
+      "files": [
+        {
+          "relpath": "admit_thor_discovery_embodiment_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "ca9db1e1971d8a661401e2d1bb47390d7df6b96100f0518bd4bfc461ebb1d4c3"
+        },
+        {
+          "relpath": "continuous_brain/embodied.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "b240040f380e016a56f963ccdda10dfcdb75e1da26e9b5a394695d989a146a51"
+        },
+        {
+          "relpath": "THOR_DISCOVERY_EMBODIMENT_ADMISSION_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "a9ccef2be9750fcc376fdecba1c36d8ddd8a69f1ac906c3000c3c3b2eb6394bb"
+        },
+        {
+          "relpath": "state/thor_discovery_embodiment_admission_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "2af28fd67360185c8cbf88d4275af4b02e2311188769f8468ca02f23798fadf4"
+        },
+        {
+          "relpath": "run_thor_discovery_embodiment_admission_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "ae1512b73e5ae249fd8670824ba938b8c1ea2fa012c07fe718ee22e29535322b"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.26.0",
+      "mechanism_id": "discovery_embodiment_v026",
+      "reason": "admitted environment bridge; requires the real AI2-THOR discovery executable, not a learned checkpoint",
+      "slot_options": [
+        "perception"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "DEV + frozen TEST PASS / admitted",
+      "files": [
+        {
+          "relpath": "state/persistent_self_autobiographical_test_v1/fresh_test_continuity_probe.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "158906cc9d143066c548dfa4445f49326a20c482ec028475e7254806a13852e0"
+        },
+        {
+          "relpath": "state/persistent_self_autobiographical_v1/agency_self_model.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "40e483df108a632b4a185f9b809bfa0c5eae8454d315317d8fd545bf42a236cc"
+        },
+        {
+          "relpath": "state/persistent_self_autobiographical_v1/continuity_probe.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "b721c1cc104a2ae2dda7666e71fbfbe769736a0183ca41159918dbd16c58e490"
+        },
+        {
+          "relpath": "state/persistent_self_autobiographical_v1/persistent_self_seed.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "4e7bec4111b2cabc4ff9897d7748a67291c0a3464459fdacd3eb19315f587034"
+        },
+        {
+          "relpath": "evaluate_persistent_self_autobiographical_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "1575047768fb9ff2540275fb2c0fafa918e236770c511a004350cd6d2ad0626e"
+        },
+        {
+          "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+        },
+        {
+          "relpath": "PERSISTENT_SELF_AUTOBIOGRAPHICAL_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "963c9e240f63b28146957c67c1ba517fbfd8c5419ba740e7aa3a07b71160a550"
+        },
+        {
+          "relpath": "PERSISTENT_SELF_AUTOBIOGRAPHICAL_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "7333f41905a0610d6a8dcda58634c40850f0b365d8f98b65f0d71f2282baba48"
+        },
+        {
+          "relpath": "state/persistent_self_autobiographical_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "0e58202326bada3b869da1dcdea834687d579fbf2468351d65e03851bf095ba4"
+        },
+        {
+          "relpath": "state/persistent_self_autobiographical_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "fcc972c0db43b56078d4d8501ecd32654bdbbd57d910d9c822c71c137fb1c7e6"
+        },
+        {
+          "relpath": "run_persistent_self_autobiographical_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "afdf8aaf8fecb7fa5e24d06c63dbc2f2652e9adbac1b98923c089ed2667e4614"
+        },
+        {
+          "relpath": "run_persistent_self_autobiographical_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "eb043788fec6adbfb31fb89f97beca8adb790304c1a927dc746698bee23c9058"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.28.0/0.28.1",
+      "mechanism_id": "persistent_self_v028",
+      "reason": "closed DEV + TEST PASS with persistent-self checkpoints present",
+      "slot_options": [
+        "self_state",
+        "autobiography"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "DEV + frozen TEST PASS / admitted",
+      "files": [
+        {
+          "relpath": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+        },
+        {
+          "relpath": "evaluate_recurrent_self_trajectory_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "064811e7f5d5e7e05ac578157031efb139c4858c9c36e90c546a868f80b0e5b1"
+        },
+        {
+          "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+        },
+        {
+          "relpath": "RECURRENT_SELF_TRAJECTORY_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "0fff60c89944c40324750c0389786bae354524c8946ed81f983947b1c77c54eb"
+        },
+        {
+          "relpath": "RECURRENT_SELF_TRAJECTORY_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "86036b733dc1e3d363f4ab795797afc60a258f4336bb03f9edd8355ae9609220"
+        },
+        {
+          "relpath": "state/recurrent_self_trajectory_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "b1b79db3a1354008a75e9a34466174df131d7fb2171e6506ea3865aa1ae3129b"
+        },
+        {
+          "relpath": "state/recurrent_self_trajectory_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "f62d36c36f8308f7307ce65f102da209e50b03e6242a5899b429762ee9d96674"
+        },
+        {
+          "relpath": "run_recurrent_self_trajectory_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "5a5fcc7e05af775ab945d5a817f19beaa42207f7e5b1991d54b5368d2fb98aac"
+        },
+        {
+          "relpath": "run_recurrent_self_trajectory_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "4e17c3f167aebc1bce5e05e955dd6bbd13d91e998068e0935aa2e0226ba382f6"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.31.0/0.31.1",
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "reason": "closed DEV + TEST PASS with trajectory checkpoint present",
+      "slot_options": [
+        "self_state",
+        "metacognition"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "PASS / admitted",
+      "files": [
+        {
+          "relpath": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "df850057cb672e3a5dcb82afe477b24a8df76c67f13383fc449e59072e8b39f1"
+        },
+        {
+          "relpath": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+        },
+        {
+          "relpath": "evaluate_autobiographical_self_discrepancy_neutral_postfix_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "aba6d20a8e2a2d9c0ec8c415b3c561357204de5de8f0ca273d6a008ffd3949b4"
+        },
+        {
+          "relpath": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "27fb6fe85669bc8f7f95daf0cd47ca8dcdc5cbc74525851ab8e99b7a4ede60fb"
+        },
+        {
+          "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+        },
+        {
+          "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_POSTFIX_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "7281cb1471ade138cdb17fa5c83b898c3d07f7363afee471abd7c9ce133f9018"
+        },
+        {
+          "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "30c70b4dd41e6d5cff4901eb82e3b7224def24d3a638a486c4121f70a4229fec"
+        },
+        {
+          "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "fc2b9a2813acd92ad5e994d91cf452c13a42d0e1274326cbc25cf42d0016ea1d"
+        },
+        {
+          "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "dfc01c20ff7332d699795e5fd7f10fbb2f675389f869b0e0b679dec2fef02c7b"
+        },
+        {
+          "relpath": "state/autobiographical_self_discrepancy_neutral_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "be306b56770006896fa4928f4257448c4b76e3c1a2f73fb3130ef08437f92962"
+        },
+        {
+          "relpath": "run_autobiographical_self_discrepancy_neutral_postfix_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "e941225e4606c1ff1189d9152ee21f69cf0082f6c38b822641ec5d077318749f"
+        },
+        {
+          "relpath": "run_autobiographical_self_discrepancy_neutral_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "f66eea8c21f5bd602513032cf3d007cbc85ae513e44588a08bbb17c39eb4820f"
+        },
+        {
+          "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+          "role": "support",
+          "root": "wsl-canonical",
+          "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.32.2",
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "reason": "neutral repair + frozen TEST PASS; model and upstream trajectory hashes are recorded",
+      "slot_options": [
+        "autobiography"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "fresh G0 execution still requires explicit preregistration approval"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "DEV PASS + frozen TEST PASS/closed; direct WSL primary result recovered",
+      "files": [
+        {
+          "relpath": "state/event_consistent_self_development_test_v1/developmental_state_probe.memory.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "04c157352af88c44ef8898a328c4b419e14f56145113ebc94e7b5ff8e5ddf924"
+        },
+        {
+          "relpath": "state/event_consistent_self_development_test_v1/developmental_state_probe.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "7b9415564eb91bc89ccf0417964032fda84c08642b46d0d019d24491b4131e12"
+        },
+        {
+          "relpath": "state/event_consistent_self_development_v1/developmental_state_probe.memory.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "cdd76abae91c2752b23db3af8a923ead988ce6cdbd61e94ac1255aecae2fa23b"
+        },
+        {
+          "relpath": "state/event_consistent_self_development_v1/developmental_state_probe.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "1d5e71a4d370873a46542851260c6a7b4ac30e1d9b8b923bcf6175a7129ab6b7"
+        },
+        {
+          "relpath": "evaluate_event_consistent_self_development_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "b474dc5979fc739400dacaf3be88c37d2c718c1742b59a53c41112c8274d4b24"
+        },
+        {
+          "relpath": "evaluate_event_consistent_self_development_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "0f9df10658536040d888b988b6bad9f6275fcdba6d7610ce95d964dfaf22cee2"
+        },
+        {
+          "relpath": "continuous_brain/self_development_hysteresis_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+        },
+        {
+          "relpath": "continuous_brain/self_development_loop_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+        },
+        {
+          "relpath": "EVENT_CONSISTENT_SELF_DEVELOPMENT_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "e5c3d87c8bff497e1f2f3feb262ceb0d6addb6c6614109d71c974bb212a468cb"
+        },
+        {
+          "relpath": "EVENT_CONSISTENT_SELF_DEVELOPMENT_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "64367e6a062ce8adf6c49e2c3cd0280b5fdd7432ba4e321e1249191643d9345c"
+        },
+        {
+          "relpath": "state/event_consistent_self_development_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "5ca0aa737f5dec2671049b7acd02783b52219a74dce3268737c52716b7585f4d"
+        },
+        {
+          "relpath": "state/event_consistent_self_development_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "5d4ae4171bbd367ead7da389bd01ec97c7fa5b4f8edcd8aa9e46f166dd97d297"
+        },
+        {
+          "relpath": "run_event_consistent_self_development_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "a26740ffcfc7c764903dbcc94c80ee776bde28c391cae346638be6a4079bd525"
+        },
+        {
+          "relpath": "run_event_consistent_self_development_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "22e382f9b64884bf9270c33328ce36c7e9b550d50e4b5b6b88c4968797c713fd"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.34.0/0.34.1",
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "reason": "direct WSL result.json recovered: test_admission_passed=true on spent 80000-80127; no sealed TEST rerun",
+      "slot_options": [
+        "curriculum"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "fresh G0 execution still requires explicit preregistration approval"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "v0.35.0 DEV FAIL preserved; v0.35.2 DEV PASS; v0.35.3 frozen TEST PASS/closed",
+      "files": [
+        {
+          "relpath": "state/endogenous_goal_genesis_v1/goal_lifecycle_probe.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "b3ff6bec7484c6e65ea49c921c5cdf85577da62a1d702ce3182ed971c1bd06b4"
+        },
+        {
+          "relpath": "diagnose_endogenous_goal_completion_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "cfa3ff7eea3101c4c68d8e7b0655005495489d93b00ad9e2a5c1e85ec2f3db77"
+        },
+        {
+          "relpath": "evaluate_endogenous_goal_genesis_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "5e20ec14bc90e9c126397f4d2632d6aba56f343198c5903305588543b5d4fde5"
+        },
+        {
+          "relpath": "evaluate_endogenous_goal_genesis_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "484aada34f104633b3bc8cf2093e2da69cafb2b4a84d11336fb180df1143b814"
+        },
+        {
+          "relpath": "evaluate_endogenous_goal_horizon_repair_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "1bc10aaa993ec22b47bdf441aa863162571a9b54f8bea1fd3aff73778f645868"
+        },
+        {
+          "relpath": "continuous_brain/endogenous_goal_genesis_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "efb80a053518d1a09e9c8350077ca293302f4b203546abbd10c9d09431f7149e"
+        },
+        {
+          "relpath": "ENDOGENOUS_GOAL_COMPLETION_DIAGNOSTIC_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "f752dbfdf4cd6527a7b95526f39c691b2f5b55fe962bcef9a05ada7736452138"
+        },
+        {
+          "relpath": "ENDOGENOUS_GOAL_GENESIS_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "34cd5ba9d5e1fcabb38d78091c540de8e9ec68ed082dae05327eb4be8f8b5b6f"
+        },
+        {
+          "relpath": "ENDOGENOUS_GOAL_GENESIS_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "87967e3664db1c6114195b9e3f1a40f21af393c46bc21430b2dc96ae8aa50411"
+        },
+        {
+          "relpath": "ENDOGENOUS_GOAL_HORIZON_REPAIR_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "514d6e6f87e18cada3acce1b7ac4b60c01975995737dd154beeb52524ca23afe"
+        },
+        {
+          "relpath": "state/endogenous_goal_completion_diagnostic_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "5ea0f30a80ba0f100b848f2b81b38e50885b62d717bcc7aa0b0997d815533892"
+        },
+        {
+          "relpath": "state/endogenous_goal_genesis_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "eb47f72e36807988802f9fb5c6a80a6436c1f3e7473ab9b1f19d50fd40d1a87f"
+        },
+        {
+          "relpath": "state/endogenous_goal_genesis_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "8ba6357e2ecbd67af90cc7974ec12a2d55c5603b4bfc896240f2ca8ea51eb0ef"
+        },
+        {
+          "relpath": "state/endogenous_goal_horizon_repair_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "835ec5f14517294cf50895840be5c2a307bfdb2325c27071d0b25defe1c8ed7e"
+        },
+        {
+          "relpath": "run_endogenous_goal_completion_diagnostic_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "060a28ca8d1209954aa15b99423578601a468f04a39b52377eeea0870f97d97c"
+        },
+        {
+          "relpath": "run_endogenous_goal_genesis_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "cf6168e2623e601f40f2a931e99f091912b27b47af05e6fff14163392fde9396"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.35.0-v0.35.3",
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "reason": "refreshed WSL primary result directly records v0.35.3 test_admission_passed=true; spent 100000-100127 remains closed",
+      "slot_options": [
+        "goal_genesis"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "READY_FOR_G0",
+      "dossier_status": "DEV PASS; frozen TEST PASS/closed (119/128)",
+      "files": [
+        {
+          "relpath": "state/recursive_autobiographical_curriculum_test_v1/curriculum_snapshot.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d3d0836dae59f6119c89f204be26a472a62e7abcab3843dcd7501cdbd7767be2"
+        },
+        {
+          "relpath": "state/recursive_autobiographical_curriculum_v1/curriculum_snapshot.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "fd0811fd7102c5b6d921239eb1fc95fd065fa4b27982abe62a3a0d2fcb2b03d7"
+        },
+        {
+          "relpath": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "199d425411c3af4cb83dc09659f5dadf496a88b7cc8cf475189f6b2197721e11"
+        },
+        {
+          "relpath": "evaluate_recursive_autobiographical_curriculum_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c"
+        },
+        {
+          "relpath": "test_recursive_autobiographical_curriculum_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "e8fd20d07da2e84c0162ad722f8e981dd20ac5fc9bc761ed9d625c74596903ab"
+        },
+        {
+          "relpath": "test_recursive_autobiographical_curriculum_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "bad6f197288fec169eb8c825e66aa9e162f64d9347ed1e83f302fff124b740df"
+        },
+        {
+          "relpath": "continuous_brain/recursive_autobiographical_curriculum_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "e3ffce362d6ec4ae5feb735f3a1ade84b045bbf873ab818d5c361dbb5e82362b"
+        },
+        {
+          "relpath": "RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "065ebf731a4e8eaa6366ab0b4604f620b720b97dd3cee31ed8b81da87f1ff6af"
+        },
+        {
+          "relpath": "RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "6a49b0835047893f98fdf5e1d8bd80ed210879e03d8663f1962ae885c3a8dd28"
+        },
+        {
+          "relpath": "state/recursive_autobiographical_curriculum_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "55f86d283220868233ea0b9882f3550f0db53ca1413e5368f19bafb84459b085"
+        },
+        {
+          "relpath": "state/recursive_autobiographical_curriculum_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "67de3888ec1ff7e3a25bf91a9e8a4dd55a2f83f81a9b92456bf057c5f7680d45"
+        },
+        {
+          "relpath": "run_recursive_autobiographical_curriculum_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "f42b2e6c54b4d69b91410df5b38fa03f359d63a6c676605ffbd17f47910faf33"
+        },
+        {
+          "relpath": "run_recursive_autobiographical_curriculum_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "0f7861181a7a9da4acde662017cc858a439165354141a792614857d58e806431"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.36.0/0.36.1",
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "reason": "DEV + frozen TEST PASS with both curriculum snapshots present",
+      "slot_options": [
+        "curriculum"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission"
+      ],
+      "disposition": "NEEDS_ADJUDICATION",
+      "dossier_status": "mixed; line closed after formal failures and admitted components",
+      "files": [
+        {
+          "relpath": "state/working_memory_m1/smoke_v1/latest.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "6581a5c50684df2807aa17827541bc5d9eb3354259b36e4a9a641fbfc17227fa"
+        },
+        {
+          "relpath": "state/working_memory_m1/smoke_v1/working_memory_u000025.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "6b68422607f53340dca7e1b9a1cd8a197356d5d8067dad7de4c8c37201352c78"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/latest.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "c5fa239ee16c476221043432cf2376bf4ac46566b0090c2ef5d34d67a04e3a90"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "99229947c71d0c28328b0ab3cff545b962599e078528892565d956168ddca5ba"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "8fe0e7b0d67bef059c10d252c75fa3d896cab69c21f3ee8c640a42bb750a3410"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "0d41248f91b2efbe7d7373f0107b1b0292c8af449c1b408046d3c6ebf32f5c82"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "4be6a69e457c1f9aea544a20b370895ce3b361f8ceebf31852d0f550e20366c0"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "a99acfeef59a20142e36d85a868ed9e321a056552ed14e7a70f7ced76cc583b2"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "94c0cdb76f19d4ec23383a6f752f4757d68d6189c0f75a277410f88fc87a7d83"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000700.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "3508479ad0e16208642de90c9b9e3e6845f65f385efe23291325b288de1f9f2c"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000800.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "7977b15902cd9ccd0c389c652cf67e1e57c1b1ac28d9af93f7ffcdbeae8867ab"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000900.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "7717e198d22bd6ea77c4380680bc6abe4167ddd4d73a3092201523ad15bf1d1a"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001000.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e64966535fa631e2e8e8ba45a8760a16605e024cee7a1c31c4aa8fc2120a84b"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "94269e1eae66e19f375657f6e3635edb1109fac959fdf7d688d6105afc96c2d1"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "61cf872d4b70d843e6593e4adfcffab1a4da671c2a8c3de377cc825316707bba"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "a08acf4c81f93033a19d7d7e6d3bd4c16f9a903198574914ae636dce01404116"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2f656b6746fc558eedb59deae6e461aaa4d6f12e78645e76079862863f1004a8"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "5acefcf1d5b6f171b807d2d9dc2a65e69792d89911be70ed741e9bb9adbd8bd6"
+        },
+        {
+          "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "80c35730af3a5a1362cc43eeee3fdfa767cde23535cc14468a3a76bcaf87b7dd"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "7f1c81b2af68ba7bf9147f528eb76f4d336d38b2afead07626039528664598a4"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "68fa8594346ef3ffe7129e419694297c260ddb2309b1300e65b33826ce2fc1e3"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "eb82f02dc68938ba55a393843a0f3114df69f687b2e731f2164d4b88d23bdc93"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "c8dba9fb57fb159f8b1fcf565beda1ee1c63e2f92e1f28763c9a0dfba11124b0"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "1240e616fe55f06a0f09fc2cc8a8fdbc5104e541c89ae982c8e40088673ef764"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "7a015947fcc750f940c95452c9583ac80240c28bf2c3d5e21b358ea4015362f0"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000700.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "01f32b6a4c36a083ac5889ee777071e2e988b5111e364ae1e54bcaae459785d0"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000800.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "f7e361635df93b0cd8dd2784069061de197a267fda772798eaf8269cfb722018"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000900.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "c71b516385d8fbc36af7d3bac9ad510b88eccd031ae0f400e8689be8cd3d6b2f"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001000.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "ae5fdf63714a64c017a629bf0ea2bcd1d4d45c2f633905353454f33504dbdf0a"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "89dc97ad99e3cd7b2863367264c2d9fe9531d1534615fac1eef8b73a4c3ca04b"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "f5acecbe4c889e5c31d473432c74d87898751db81436bcc892e3201d03562056"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e4389802d318f3b63057d7af4db35cdb0509a76b83364825d5be93dab3e5dbb"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "be246efc771ed0563588c23f06662fca24696157d74c7c24c983c8766d26f2a7"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "ea73c3dacf50dcc58616c16e3294ad607213626062706c3dc8ab003aeb6a6536"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "f7fb594d97f7efcc7ffd6377bdefd8ec86ca00e6f8491e668c1faaae4ab8cc1f"
+        },
+        {
+          "relpath": "state/working_memory_recall_capacity_control_phase1_v1/latest.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "f9976894357b795525ce464c4ff5ef5a882f00073ed81444184c1bc79756282c"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "a142400a0b504dacdc25758fc71b0ed7ab27d16ecf53fc67395a9eae55d8c884"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "3eac357554d0bc6b25f1b0dfff9308375de855a8984950a18d5f7ba53d3940da"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "530875985b52641a2d3d508bdecf6590767c58f1a8687748267483c6f3c422ad"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "6f19e3b2f330efe47c8093bb2c755c7566f99a895f243dcab7c1e1cab207ba6b"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "3638da48b980fd78f63c984770a7b64006b66d943f3c49905a6619c4d2ce993e"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "d79b5250bd21ffa21d6e21ac62e0e0cb34af43941509bc8979a0cb43ed5dded2"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000700.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "76b1d9bed80e57bb26b612e1cd57c10fa9208d377425a7251c8f01450d825d56"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000800.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "9a91f9c236edd12c912c9344f16e9a7300d45e8d8d2f8604a191ee112e02631d"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000900.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "8e5844108bffda1a6894f8bd23fb51f115eaf8260b143138fb69f020127d6f23"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001000.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "dd42dc2c99853d6cd6766b6334ec4c48d698d3eefdabb3d983c4f5705fb9b1df"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "69a9be947dff336e0e24af1f6ce9d50e608354f048ba8316663751eecd071732"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "beb5b5293d9fdebdf64625aa8a7dfeb57891506a462544481dadaaccba000c7c"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "5a1c10a9f0edeee2b178f94cd027481c58099c6a80e50c8ccb462325248e7c58"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "1a0219c81c45250d9fba666da30a93078ef78df56e1e3c4add918d72bb794b34"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "ab827b17fec19547a69475bc26b21838f2dadee16384d87c56c212f2cefeaf00"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "773bfc12fa4bcc60c95bd780d56ee0ad650dbbd69f2f3edbe175ea14bd56d6d6"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/gated/latest.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "92df0b47f11cf3f70d749d49cec34423587707d215ebf8d0baa259a6452ceadb"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/latest.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "397357a39237688339d0cd05eb5374c6aa7fee7fd3e172a76ea3f215078043ac"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "ee8c20ea6f190e3b95c6427f4dfc1625acfe4403abe8f461f12fd2fdc2141ce2"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "075c3f070c4ab9eaf515bd6019b4a4868950f4aef47493935921fd003d700946"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "b77af54da33a7d6316fca3a2c4b24b74789ac000b4e31b99ed750e147fcd39b9"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "4a4ad4d191252ff0ec97f0e78b950ff38ab2f2995d42134a1bc1907ccbe5b3a8"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "6a5ee58b8fc0defb2a2d1ac6ad13f90ddd2ec442fb7378288509cdc2f97714cb"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "432131f5cf224d31628fc772b0b55dd7c75490408553340102c2b87caada4ed7"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000700.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "043bf0f02fed135a187a4e0d3a295847a7694f7e7098621c4093461487d12f9d"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000800.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "2e1f1a81fb0dc97db3526403c44ff4e67e38dd2d0932c4e2ac12f7f981fe349e"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000900.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "5568fe4c7946c3b4968b5419fe22bd30b4695cc3a17ea2550c55a6e74d0f0e59"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001000.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "56adb55a3a87f1ae12e9d0c238b1b7a987e6c29efab9b856564cfb522f0f1aa9"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001100.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "38ab5c6d36ea088f3dc75c7c25cc06b5749f68bad594bc83cb373dcbd1314a16"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001200.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "de6b946547d6861b7e8fd3c8c140628289b811f7653b2f84e8b3bab98d002c3a"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001300.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "4da7456e9a17a7bc055ada59b4d8119bb9e97bbb34a5530598723382971002d9"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001400.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "eaca323d768b60c85c8bc6fd3e8b4613792b541297bfaa3bb1f4838aac3ef437"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001500.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "c175df3415e27434d39df5ecf63be0fd85ceb9c88ce4839cf2520057d73ac695"
+        },
+        {
+          "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001600.portable.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "309d8d966789ab57ceee6055cc287827e095874c4e9d3c3d35d2049102abd8dc"
+        },
+        {
+          "relpath": "decide_working_memory_capacity_dev_admission_v2.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "fdac0a2467859866bd2892db241c30465e066d0ce34ba793f584a1d4dc2d8e9c"
+        },
+        {
+          "relpath": "decide_working_memory_dev_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "1559f823918aa3865e9f398881c741a6fb8dddaa260b361aa235111db0921730"
+        },
+        {
+          "relpath": "evaluate_working_memory_capacity_dev_causal_v2.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "b5887ab25ef6ecc51fc6f9267fc043b4022251e13d107f2c779d544f5553cd08"
+        },
+        {
+          "relpath": "evaluate_working_memory_dev_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "d143fbd1bee2e971a70fe8738231cd5835218debc7375efd81eede801d7720e1"
+        },
+        {
+          "relpath": "continuous_brain/executive_working_memory_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "2f26bdc86ff10e0b9fe02fdbdeb4f54ced1fac168cb27d02dd07bf7c1dcab670"
+        },
+        {
+          "relpath": "continuous_brain/working_memory_infant.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "8f311be59e5d6ff18e21fc88d40d1eef55d30b82acfb2f14c4d8c8fb278988eb"
+        },
+        {
+          "relpath": "continuous_brain/working_memory_recall_arms_v2.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "0aec86537c42325dff4c186aa690233154a57297452deb6709b96f0881fc85de"
+        },
+        {
+          "relpath": "continuous_brain/working_memory_recall_capacity_control_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "9f1a0f7e6737b5dc9d6b0332124fe5ba7ad329b1612476e41b162fe5c7e63fd4"
+        },
+        {
+          "relpath": "WORKING_MEMORY_CAPACITY_DEV_ADMISSION_PROTOCOL_v2.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "e31bd688ecdf148660eec8d68a956a0b544530ba8bba28ebe131735871f3cdbe"
+        },
+        {
+          "relpath": "WORKING_MEMORY_DEV_ADMISSION_GATE_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "fbd30c2f236c82a1a964fa7822294c05c41732c86760ed60609f6217c4ddf7af"
+        },
+        {
+          "relpath": "WORKING_MEMORY_DML_QUALIFICATION_GATE_v2.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "f44b0f73b9599a972018ff88edf39b12c053447dfa4246c34b4e2a6dc68fe875"
+        },
+        {
+          "relpath": "WORKING_MEMORY_DML_QUALIFICATION_GATE_v3.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "48d8870c1f6ca10a514a38e4129bcd9fc2412e6982962bb09ea8426aa773819a"
+        },
+        {
+          "relpath": "WORKING_MEMORY_POST_WRITE_INSTRUCTION_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "5208ccc91bdf3280909e7b52c48f96722e1a8c4a8307bb7e677e98d2e062b03a"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_CAPACITY_CONTROL_PHASE1_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "86c765fe038f9304269ba4ac56821efbbe908ed0cb461564406b943668706de6"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_CAPACITY_CONTROL_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "0859a104d43678efec11763bf9751ba53764dba571fa7562799d6d1bc9055ff3"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_COMPARISON_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "4f3489f42cb33088f58074fdfd7b1f932da5552fa70ed7559c291c11f3ddded1"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_COMPARISON_PROTOCOL_v2.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "1919f2703bade1182e1ac3f9134e1802539cc5a52b781cf8f513ba95b536081e"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_FINAL_TRAIN_CAUSAL_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "533b6e6ed14415bff7a2c36184fb4b5b8fbd0bdc8b5da6029dc066f66d15b7a6"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_PHASE1_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "d8bd8d288a7be77380675773e36f32f0535d495074ceb6864a60fa20b5c47380"
+        },
+        {
+          "relpath": "WORKING_MEMORY_RECALL_SMOKE_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "1d66f698a8c1a62f7d2ee6dad500d93249a4e0b394da9c630f794c827583d046"
+        },
+        {
+          "relpath": "WORKING_MEMORY_REPRESENTATION_REUSE_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "4ae7bb959a427341ba6f3dcb0b6770f166c1c73cee9a2be636bb3eb2ef3dddb2"
+        },
+        {
+          "relpath": "WORKING_MEMORY_SHUFFLE_MECHANISM_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "a6a164af5a4eaf4be1aebb7d62f10ee580b98bb8dab37fbbafecbd1335f9244e"
+        },
+        {
+          "relpath": "WORKING_MEMORY_TASK_FAMILY_GATE.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "a89c2f3e1ea415c609034b3f39380b4ba8f05762e1bc1a54846f378b86f7799a"
+        },
+        {
+          "relpath": "WORKING_MEMORY_TRAINING_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "4ae88353675b8528874f891482e11fb4418864063195433b3153bac7e4063ebc"
+        },
+        {
+          "relpath": "run_working_memory_capacity_dev_admission_v2.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "fe58b2069817b452fda36cb8846141b49ba02a638cd8ad217c7ef184f78df89a"
+        },
+        {
+          "relpath": "run_working_memory_dev_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "a4582e2c756b4508dea752c2908e83abbc5fd67ded8158c8135390d8465d8d87"
+        }
+      ],
+      "historical_admissible_flag": true,
+      "lineage_version": "v0.13-v0.19",
+      "mechanism_id": "working_memory_components_v013_v019",
+      "reason": "mixed lineage with many checkpoints but no parsed admission result in the candidate inventory; DAV-74 must identify admitted subcomponents",
+      "slot_options": [
+        "working_memory"
+      ]
+    },
+    {
+      "candidate_unverified_reasons": [
+        "hashes captured read-only from the canonical WSL root; re-hash before adapter admission",
+        "state/self_broadcast_centrality_test_v1/result.json records ['test_admission_passed'] = false",
+        "state/self_broadcast_centrality_v1/result.json records ['development_gate_passed'] = false",
+        "formal failure: regression check only, never a capability"
+      ],
+      "disposition": "CONTROL_ONLY",
+      "dossier_status": "Frozen TEST FAIL; family closed",
+      "files": [
+        {
+          "relpath": "state/self_broadcast_centrality_v1/self_broadcast_hub.pt",
+          "role": "checkpoint",
+          "root": "wsl-canonical",
+          "sha256": "57845dad732243ecf35152c58bf146c3761c99e93b0ae7f4041a5a81acb1f7aa"
+        },
+        {
+          "relpath": "evaluate_self_broadcast_centrality_test_v1.py",
+          "role": "evaluator",
+          "root": "wsl-canonical",
+          "sha256": "bf6c75d876a138f31fc46e9d8fefe77fd8958264fcdae21e504a05403031ffdd"
+        },
+        {
+          "relpath": "continuous_brain/self_broadcast_centrality_v1.py",
+          "role": "module",
+          "root": "wsl-canonical",
+          "sha256": "cffe58dbd1ca220da47fa342b20c6a908413252b32657ae364bf4a202f2fdf2d"
+        },
+        {
+          "relpath": "SELF_BROADCAST_CENTRALITY_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "c547bbf2a27e3b1291826a3d011268d588c22a2ba21492764c6df31e3ff833ec"
+        },
+        {
+          "relpath": "SELF_BROADCAST_CENTRALITY_TEST_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "6036f392f51619ef82e86034c4adb12b61c0298067f9e77a9e398bae2edf8260"
+        },
+        {
+          "relpath": "SELF_BROADCAST_VALUE_PRIORITY_GRADIENT_SAFE_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "786a047e6134ab909b1909ca717d706020209c544bb058569f4b7cdd9c6cfd9f"
+        },
+        {
+          "relpath": "SELF_BROADCAST_VALUE_PRIORITY_REPAIR_PROTOCOL_v1.md",
+          "role": "protocol",
+          "root": "wsl-canonical",
+          "sha256": "002657cfdf491280fc1e29fd02862af979e5bbb58eb96b974cb95eb27faba415"
+        },
+        {
+          "relpath": "state/self_broadcast_centrality_test_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "1f394195c26bdc81401775242c18953a5dcb760d038a846832943288f51fc2d1"
+        },
+        {
+          "relpath": "state/self_broadcast_centrality_v1/result.json",
+          "role": "result",
+          "root": "wsl-canonical",
+          "sha256": "1e197965cf30e65b8353fa29f75e33524b374f13dd9cdc592b34c7107faaad70"
+        },
+        {
+          "relpath": "run_self_broadcast_centrality_test_v1.sh",
+          "role": "runner",
+          "root": "wsl-canonical",
+          "sha256": "7edad10da9651427352d1e6424a3f42c1c33df1e5fca4a0223305238838ebed1"
+        }
+      ],
+      "historical_admissible_flag": false,
+      "lineage_version": "v0.29.0-0.29.3",
+      "mechanism_id": "self_broadcast_v029",
+      "reason": "formal frozen TEST FAIL; retained only as regression/control evidence",
+      "slot_options": [
+        "workspace"
+      ]
+    }
+  ],
+  "format": "cb-g0-plan/1",
+  "generated_from": "David WSL G0 evidence bundle 2026-09-27",
+  "protected_checkpoint": {
+    "exists": true,
+    "expected_sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f",
+    "matches": true,
+    "outside_root": false,
+    "relpath": "state/child_v113_dml_smoke/infant_training.pt",
+    "sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f"
+  },
+  "rules": [
+    "G0 never reopens a historical sealed TEST range.",
+    "READY_FOR_G0 means evidence is sufficient to write an isolated fresh-DEV requalification adapter; it is not a new PASS.",
+    "SUPPORT_ONLY and CONTROL_ONLY can be used as controls but cannot be promoted to admitted capabilities.",
+    "NEEDS_ADJUDICATION and NEEDS_REFRESHED_RESULT_PARSE remain blocked until the missing evidence is resolved.",
+    "Before runtime binding, the transitive in-package import closure and all state/result artifacts must be hash-pinned.",
+    "v0.38.1 engineering validation: 174 tests passed and E0 INFRASTRUCTURE PASS on David WSL; this is engineering provenance, not a G0 result"
+  ],
+  "source_bundle_sha256": "76697543b19a2ecf7b6b2dfd45e0d84a7e0871ad8dc05368d53ab5f4a526e805",
+  "source_inventory_sha256": "6d93d85961d48fadd38d67e74e3acd73c68056812f63faf923fcca78c8edf62c",
+  "source_repo_commit": "c011d4048969b969520c6f8814f18e7ec11cc02e",
+  "validation": {
+    "engineering_bundle_sha256": "540e94d7d7b3961dd31b3bf20aa2984fc58b1b7ec5f3b50b85f6873e03508976",
+    "validated_repo_commit": "337f2a2d516f610feee678d7f94edb26f798f1ce",
+    "refreshed_inventory_sha256": "5409d82ad1c2a65017bc19919faccab9d9660b696115503a6574ba8b113af0c8",
+    "pytest": "174 passed in 34.60s",
+    "e0_report_sha256": "1152ec64bc9f30e69552f099fad264fcb4c9ee41cb668decc7e52585160b7797",
+    "e0_result": "INFRASTRUCTURE PASS"
+  }
+}

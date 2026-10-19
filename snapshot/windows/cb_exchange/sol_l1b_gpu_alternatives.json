@@ -1,0 +1,215 @@
+{
+  "checked_utc": "2026-10-11 21:58:09 UTC",
+  "source": "RunPod live catalog; read-only",
+  "queries": [
+    {
+      "cloud": "SECURE",
+      "gpu_count": 1,
+      "gpus": [
+        {
+          "id": "NVIDIA GeForce RTX 3090",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.5,
+          "total_hourly_gpu_compute": 0.5,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA GeForce RTX 4090",
+          "memory_GB": 24,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.89,
+          "total_hourly_gpu_compute": 0.89,
+          "advertised_available_cuda_versions": [
+            "12.8",
+            "13.0",
+            "13.2"
+          ]
+        },
+        {
+          "id": "NVIDIA L40S",
+          "memory_GB": 48,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 1.09,
+          "total_hourly_gpu_compute": 1.09,
+          "advertised_available_cuda_versions": [
+            "12.8",
+            "13.0",
+            "13.2"
+          ]
+        },
+        {
+          "id": "NVIDIA RTX A5000",
+          "memory_GB": 24,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.27,
+          "total_hourly_gpu_compute": 0.27,
+          "advertised_available_cuda_versions": [
+            "13.0"
+          ]
+        },
+        {
+          "id": "NVIDIA RTX A6000",
+          "memory_GB": 48,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.59,
+          "total_hourly_gpu_compute": 0.59,
+          "advertised_available_cuda_versions": [
+            "13.2"
+          ]
+        }
+      ]
+    },
+    {
+      "cloud": "SECURE",
+      "gpu_count": 2,
+      "gpus": [
+        {
+          "id": "NVIDIA GeForce RTX 3090",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.5,
+          "total_hourly_gpu_compute": 1,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA GeForce RTX 4090",
+          "memory_GB": 24,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.89,
+          "total_hourly_gpu_compute": 1.78,
+          "advertised_available_cuda_versions": [
+            "13.2"
+          ]
+        },
+        {
+          "id": "NVIDIA L40S",
+          "memory_GB": 48,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 1.09,
+          "total_hourly_gpu_compute": 2.18,
+          "advertised_available_cuda_versions": [
+            "13.0",
+            "13.2"
+          ]
+        },
+        {
+          "id": "NVIDIA RTX A5000",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.27,
+          "total_hourly_gpu_compute": 0.54,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA RTX A6000",
+          "memory_GB": 48,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.59,
+          "total_hourly_gpu_compute": 1.18,
+          "advertised_available_cuda_versions": []
+        }
+      ]
+    },
+    {
+      "cloud": "COMMUNITY",
+      "gpu_count": 1,
+      "gpus": [
+        {
+          "id": "NVIDIA GeForce RTX 3090",
+          "memory_GB": 24,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.22,
+          "total_hourly_gpu_compute": 0.22,
+          "advertised_available_cuda_versions": [
+            "13.0"
+          ]
+        },
+        {
+          "id": "NVIDIA GeForce RTX 4090",
+          "memory_GB": 24,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.34,
+          "total_hourly_gpu_compute": 0.34,
+          "advertised_available_cuda_versions": [
+            "13.0"
+          ]
+        },
+        {
+          "id": "NVIDIA L40S",
+          "memory_GB": 48,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.79,
+          "total_hourly_gpu_compute": 0.79,
+          "advertised_available_cuda_versions": [
+            "12.4"
+          ]
+        },
+        {
+          "id": "NVIDIA RTX A5000",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.16,
+          "total_hourly_gpu_compute": 0.16,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA RTX A6000",
+          "memory_GB": 48,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.33,
+          "total_hourly_gpu_compute": 0.33,
+          "advertised_available_cuda_versions": []
+        }
+      ]
+    },
+    {
+      "cloud": "COMMUNITY",
+      "gpu_count": 2,
+      "gpus": [
+        {
+          "id": "NVIDIA GeForce RTX 3090",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.22,
+          "total_hourly_gpu_compute": 0.44,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA GeForce RTX 4090",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.34,
+          "total_hourly_gpu_compute": 0.68,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA L40S",
+          "memory_GB": 48,
+          "availability": "LOW",
+          "rate_per_gpu_hour": 0.79,
+          "total_hourly_gpu_compute": 1.58,
+          "advertised_available_cuda_versions": [
+            "12.4"
+          ]
+        },
+        {
+          "id": "NVIDIA RTX A5000",
+          "memory_GB": 24,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.16,
+          "total_hourly_gpu_compute": 0.32,
+          "advertised_available_cuda_versions": []
+        },
+        {
+          "id": "NVIDIA RTX A6000",
+          "memory_GB": 48,
+          "availability": "NONE",
+          "rate_per_gpu_hour": 0.33,
+          "total_hourly_gpu_compute": 0.66,
+          "advertised_available_cuda_versions": []
+        }
+      ]
+    }
+  ]
+}

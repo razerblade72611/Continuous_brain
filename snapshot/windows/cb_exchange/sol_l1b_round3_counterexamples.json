@@ -1,0 +1,20 @@
+{
+  "revision": "dfcaad74e30f58e937ec14b082927339bd92b282",
+  "environment_lives": 0,
+  "training_updates": 0,
+  "cloud_compute": false,
+  "missing_rows_refused": true,
+  "duplicate_rows_refused": true,
+  "unexpected_rows_refused": true,
+  "nonfinite_rows_refused": true,
+  "matching_instrument_passes": true,
+  "empty_instrument_arm_refused": true,
+  "different_trace_refused": true,
+  "report_accepts_foreign_final_run_and_revision": true,
+  "report_requires_no_verified_partial_files": true,
+  "identity_check_mocked_only_for_report_binding_isolation": true,
+  "cpu_restore_preserves_run_directory": true,
+  "cpu_restore_missing_required_run_log": true,
+  "final_pack_after_cpu_restore_exit_code": 2,
+  "final_pack_after_cpu_restore_error": "tar: Removing leading `/' from member names\ntar: /tmp/sol-l1b-r3-wg399778/workspace/l1b-run.log: Cannot stat: No such file or directory\ntar: Exiting with failure status due to previous errors"
+}

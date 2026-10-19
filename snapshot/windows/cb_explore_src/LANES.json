@@ -1,0 +1,23 @@
+{
+  "format": "cb-lanes/1",
+  "lane": "explore",
+  "branch": "explore/w1-world-and-organs",
+  "protected_branch": "v0.38.1-dev7-i1",
+  "base_commit": "c6520831429cbb5bc62605533d635518f2eaf94c",
+  "protected_paths": [
+    "registry/i1_integration_v1.json",
+    "continuous_brain_unified/integration",
+    "scripts/i1_preflight.py",
+    "scripts/i1_run.py",
+    "scripts/i1_approve.py",
+    "scripts/dev/i1_dev.py",
+    "scripts/dev/i1_tamper_check.py",
+    "scripts/dev/i1_approval_gate_check.py",
+    "scripts/dev/i1_lifecycle_suite.py",
+    "legacy",
+    "tests/test_i1_runner.py",
+    "tests/i1_fixtures.py",
+    "evidence/i1"
+  ],
+  "note": "Exploration lane. Files under protected_paths are frozen by the protected lane and must equal base_commit; new work goes into new modules. To build on a newer protected state, merge the protected branch and set base_commit to the merged protected commit. Run exploration in its own checkout, with its own engineering seed families, never an I1 family."
+}

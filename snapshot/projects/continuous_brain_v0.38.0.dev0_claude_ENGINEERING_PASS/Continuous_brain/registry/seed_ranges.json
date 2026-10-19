@@ -1,0 +1,23 @@
+{
+  "format": "cb-seed-ranges/1",
+  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree).",
+  "ranges": [
+    {"name": "v0.31.1-TEST", "start": 20000, "stop": 21023, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "dossier Appendix B", "note": "frozen TEST PASS", "allowed_overlap_with": ["v0.33.5-TEST"]},
+    {"name": "v0.32.2-TEST", "start": 6000, "stop": 6255, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "dossier Appendix B", "note": "frozen TEST PASS"},
+    {"name": "v0.33.5-TEST", "start": 20000, "stop": 20127, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "dossier", "note": "FORMAL FAIL 89/128. Lies inside v0.31.1's range in the historical record; flagged, not corrected.",
+     "allowed_overlap_with": ["v0.31.1-TEST"]},
+    {"name": "v0.34.1-TEST", "start": 80000, "stop": 80127, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "E2 prereg; mirror result.json split.test", "note": "reserved: do not rerun (DAV-77)"},
+    {"name": "v0.35.3-TEST", "start": 100000, "stop": 100127, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "dossier", "note": "frozen TEST PASS/closed"},
+    {"name": "v0.36.1-TEST", "start": 120000, "stop": 120127, "purpose": "HISTORICAL", "sealed": true, "spent": true,
+     "source": "dossier", "note": "frozen TEST PASS/closed"},
+    {"name": "v0.37.x-TEST", "start": 140000, "stop": 140127, "purpose": "HISTORICAL", "sealed": true, "spent": false,
+     "source": "dossier", "note": "still sealed; v0.37.0 formally failed at DEV, so this TEST was never opened"},
+    {"name": "v0.38-ENGINEERING", "start": 900000, "stop": 909999, "purpose": "ENGINEERING", "sealed": false, "spent": false,
+     "source": "v0.38.0.dev0", "note": "harness validation only (tests, smoke runs); never scientific evidence"}
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "prereg_id": "G0-LEGACY-REQUAL-v1",
+  "completed": 6,
+  "passes": 6,
+  "fails": 0,
+  "results": [
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v0322-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 304000,
+        "stop": 304255
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "37f4489c2b1525b35cac7fcbe99f70401e325bb8a20df95aacba11e7c0a13b7d",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v0252-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 301000,
+        "stop": 301255
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "269ab9b10573b4589b72b69f1ecf02f271ec6b68f481d871b45728f69f109c29",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v0353-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 306000,
+        "stop": 306127
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "3a2a499fd8cd392273432a5a5291168039580d57a65165f29b916b1c380701e1",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v0341-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 305000,
+        "stop": 305127
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "866c10d49ca08f979317260fa31d256c5a374827968588e1640fa9193e739307",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v031-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 302000,
+        "stop": 303023
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "7bba68ae76bb6e12841933af8eeb087ae91dc08c9bf4a5ede0f3635cfdcd809d",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "status": "PASS",
+      "process_returncode": 0,
+      "seed_family": {
+        "name": "g0-v0361-dev",
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": true,
+        "start": 307000,
+        "stop": 307127
+      },
+      "raw_legacy_pass_value": true,
+      "raw_result_sha256": "2a825494e6cee4c457e500bf39691f14ec09c80cfe9305e6a788855676209279",
+      "historical_test_reopened": false,
+      "threshold_or_intervention_override_performed": false,
+      "legacy_tree_metadata_unchanged": true,
+      "pinned_evidence_still_matches": true,
+      "dependency_closure_still_matches": true
+    }
+  ]
+}

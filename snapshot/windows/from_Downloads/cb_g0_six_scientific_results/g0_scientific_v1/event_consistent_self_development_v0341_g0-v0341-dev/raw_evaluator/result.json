@@ -1,0 +1,99 @@
+{
+  "behavior_to_history_metrics": {
+    "strategy_changes_next_autobiographical_discrepancy": 1.0
+  },
+  "checks": {
+    "autobiography_guides_initial_behavior": true,
+    "autobiography_persists": true,
+    "behavior_changes_next_autobiography": true,
+    "behavior_develops_capability": true,
+    "behavior_policy_persists": true,
+    "capability_persists": true,
+    "development_reduces_discrepancy": true,
+    "donor_history_changes_behavior": true,
+    "erased_history_removes_fragility_response": true,
+    "event_consistent_full_feedback_loop": true,
+    "frozen_autobiography_blocks_behavior_change": true,
+    "initial_autobiography_identifies_fragility": true,
+    "new_autobiography_updates_self_estimate_at_decision": true,
+    "self_estimate_changes_later_behavior": true,
+    "self_estimate_event_exactly_causes_graduation": true,
+    "stable_history_guides_direct_behavior": true
+  },
+  "closed_loop_metrics": {
+    "discrepancy_reduction_rate": 0.96875,
+    "event_consistent_full_loop_rate": 0.9296875,
+    "fragile_behavior_switch_to_direct_rate": 0.9609375,
+    "frozen_history_blocks_graduation_rate": 1.0,
+    "initial_fragile_profile_identification": 1.0,
+    "initial_fragile_scaffold_rate": 1.0,
+    "mean_fragile_capability_gain": 0.6659163698630496,
+    "mean_late_to_bootstrap_discrepancy_ratio": 0.20011191565583955,
+    "stable_commitment_always_direct_rate": 1.0
+  },
+  "donor_history_metrics": {
+    "donor_history_flips_strategy": 1.0,
+    "erased_history_selects_neutral_direct": 1.0,
+    "fragile_history_selects_scaffold": 1.0
+  },
+  "event_aligned_metrics": {
+    "exact_event_alignment_rate": 1.0,
+    "graduated_without_predecision_cross_rate": 0.0,
+    "graduation_rate": 0.9609375,
+    "predecision_cross_rate": 0.9609375,
+    "predecision_cross_without_graduation_rate": 0.0
+  },
+  "family": "v0.34",
+  "format": "continuous_brain.event_consistent_self_development_test_v1",
+  "frozen_mechanism": {
+    "controller_changed": false,
+    "development_dynamics_changed": false,
+    "full_loop_definition_changed": false,
+    "neural_models_changed": false,
+    "self_estimate_gain_threshold": 0.12,
+    "thresholds_changed": false
+  },
+  "historical_status": {
+    "v0335": "FROZEN_TEST_FAIL",
+    "v0335_test_spent": true,
+    "v0340": "DEV_PASS"
+  },
+  "per_subject_component_rates": {
+    "capability_gain": 1.0,
+    "event_cross": 0.9609375,
+    "exact_alignment": 1.0,
+    "frozen_history_block": 1.0,
+    "initial_fragility": 1.0,
+    "initial_scaffold": 1.0,
+    "reduced_discrepancy": 0.96875,
+    "stable_direct": 1.0,
+    "switched": 0.9609375
+  },
+  "persistence_metrics": {
+    "autobiographical_reliability_exact_after_reload": 1.0,
+    "capability_exact_after_reload": 1.0,
+    "developmental_strategy_exact_after_reload": 1.0
+  },
+  "protected_unchanged": true,
+  "scope": {
+    "consciousness_claimed": false,
+    "functional_self_development_loop_claimed_if_pass": true,
+    "sentience_claimed": false,
+    "subjective_experience_claimed": false
+  },
+  "source_models_unchanged": true,
+  "split": {
+    "test": [
+      80000,
+      80127
+    ],
+    "test_opened_in_this_run": true,
+    "test_spent": true,
+    "test_tuning_after_run_forbidden": true
+  },
+  "test_admission_passed": true,
+  "training_performed": false,
+  "v0335_frozen_test_failure_preserved": true,
+  "v033_test_reopened": false,
+  "v034_test_spent": true
+}

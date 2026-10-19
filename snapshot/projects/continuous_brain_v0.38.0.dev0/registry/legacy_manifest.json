@@ -1,0 +1,294 @@
+{
+  "components": [
+    {
+      "component_id": "episodic_memory_two_slot",
+      "entry_symbols": [
+        "TwoSlotMemory",
+        "EpisodicLateQueryReader",
+        "save_reader",
+        "load_reader"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_multi_item_episodic_memory_test_v1.py",
+          "role": "evaluator",
+          "sha256": "67a9c59f033d80eeec8379174d2c6d7f6c787f775efb4b871d61312d3e68bc9e"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.multi_item_episodic_memory_v1",
+      "notes": "",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/multi_item_episodic_memory_v1.py",
+          "role": "source",
+          "sha256": "929693fd6010da97dcfadbc92117ddf705c10929e8935df712fc8254f3ed43a3"
+        }
+      ]
+    },
+    {
+      "component_id": "episodic_goal_skill",
+      "entry_symbols": [
+        "verify_integration_provenance",
+        "select_canonical_recall",
+        "decode_goal"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_episodic_goal_skill_integration_v1.py",
+          "role": "evaluator",
+          "sha256": "24c1088a69757a91e2b89eac4526b25692c68d52288058a89a043d4529cd9302"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.episodic_goal_skill_integration_v1",
+      "notes": "",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/episodic_goal_skill_integration_v1.py",
+          "role": "source",
+          "sha256": "4270c4a4667a0075491f1b09b30ebd6e2194d797428a453183b48d3a6c521893"
+        }
+      ]
+    },
+    {
+      "component_id": "consequence_replanning",
+      "entry_symbols": [
+        "RouteConsequenceModel",
+        "predict_transition",
+        "plan_route",
+        "state_mismatch",
+        "save_consequence_model",
+        "load_consequence_model"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_consequence_replanning_test_v1.py",
+          "role": "evaluator",
+          "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.consequence_replanning_v1",
+      "notes": "",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/consequence_replanning_v1.py",
+          "role": "source",
+          "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+        }
+      ]
+    },
+    {
+      "component_id": "persistent_self_autobiography",
+      "entry_symbols": [
+        "PersistentSelfState",
+        "AutobiographicalMemory",
+        "AgencySelfModel",
+        "PersistentSelfCore",
+        "save_self_bundle",
+        "load_self_bundle"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_persistent_self_autobiographical_test_v1.py",
+          "role": "evaluator",
+          "sha256": "1575047768fb9ff2540275fb2c0fafa918e236770c511a004350cd6d2ad0626e"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.persistent_self_autobiographical_v1",
+      "notes": "",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/persistent_self_autobiographical_v1.py",
+          "role": "source",
+          "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+        }
+      ]
+    },
+    {
+      "component_id": "recurrent_self_trajectory",
+      "entry_symbols": [
+        "ExplicitIntentionState",
+        "RecurrentSelfTrajectoryModel",
+        "rollout",
+        "update_explicit_intention",
+        "save_trajectory_model",
+        "load_trajectory_model"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_recurrent_self_trajectory_test_v1.py",
+          "role": "evaluator",
+          "sha256": "064811e7f5d5e7e05ac578157031efb139c4858c9c36e90c546a868f80b0e5b1"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.recurrent_self_trajectory_v1",
+      "notes": "",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/recurrent_self_trajectory_v1.py",
+          "role": "source",
+          "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+        }
+      ]
+    },
+    {
+      "component_id": "autobiographical_discrepancy",
+      "entry_symbols": [
+        "AutobiographicalTrajectoryMemory",
+        "AutobiographicalSelfModel",
+        "save_autobiographical_model",
+        "load_autobiographical_model",
+        "save_memory",
+        "load_memory"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+          "role": "evaluator",
+          "sha256": "27fb6fe85669bc8f7f95daf0cd47ca8dcdc5cbc74525851ab8e99b7a4ede60fb"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.autobiographical_self_discrepancy_v1",
+      "notes": "Neutral-control source is hash-pinned as a dependency; evaluator identity is preserved.",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+          "role": "source",
+          "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+        },
+        {
+          "path": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+          "role": "source",
+          "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+        }
+      ]
+    },
+    {
+      "component_id": "event_consistent_self_development",
+      "entry_symbols": [
+        "DevelopmentalState",
+        "DevelopmentalController",
+        "reliability_from_memory"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_event_consistent_self_development_test_v1.py",
+          "role": "evaluator",
+          "sha256": "b474dc5979fc739400dacaf3be88c37d2c718c1742b59a53c41112c8274d4b24"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.self_development_loop_v1",
+      "notes": "Composite historical mechanism; this binding exposes verified source entrypoints but does not reproduce the original multi-script evaluator orchestration.",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/self_development_loop_v1.py",
+          "role": "source",
+          "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+        },
+        {
+          "path": "continuous_brain/self_development_hysteresis_v1.py",
+          "role": "source",
+          "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+        },
+        {
+          "path": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+          "role": "source",
+          "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+        },
+        {
+          "path": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+          "role": "source",
+          "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+        }
+      ]
+    },
+    {
+      "component_id": "endogenous_goal_genesis",
+      "entry_symbols": [
+        "SelfGeneratedGoal",
+        "GoalLifecycle",
+        "EndogenousGoalGenerator",
+        "save_goal_lifecycle",
+        "load_goal_lifecycle"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_endogenous_goal_genesis_v1.py",
+          "role": "evaluator",
+          "sha256": "484aada34f104633b3bc8cf2093e2da69cafb2b4a84d11336fb180df1143b814"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.endogenous_goal_genesis_v1",
+      "notes": "Mirror contains DEV evaluator; sealed TEST evaluator is preserved separately as an overlay archive and not silently substituted.",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": [
+        {
+          "path": "continuous_brain/endogenous_goal_genesis_v1.py",
+          "role": "source",
+          "sha256": "efb80a053518d1a09e9c8350077ca293302f4b203546abbd10c9d09431f7149e"
+        }
+      ]
+    },
+    {
+      "component_id": "executive_working_memory",
+      "entry_symbols": [
+        "LateBoundMemoryExecutive",
+        "ExecutiveCompositionInfant"
+      ],
+      "evaluator_files": [
+        {
+          "path": "evaluate_working_memory_capacity_dev_causal_v2.py",
+          "role": "evaluator",
+          "sha256": "b5887ab25ef6ecc51fc6f9267fc043b4022251e13d107f2c779d544f5553cd08"
+        }
+      ],
+      "locally_bindable": true,
+      "module": "continuous_brain.executive_working_memory_v1",
+      "notes": "Broad v0.13\u2013v0.19 family has multiple gates; this is a source binding, not a claim that one evaluator represents the whole family.",
+      "scientific_status": "HISTORICAL_CAUSAL_COMPONENT",
+      "source_files": [
+        {
+          "path": "continuous_brain/executive_working_memory_v1.py",
+          "role": "source",
+          "sha256": "2f26bdc86ff10e0b9fe02fdbdeb4f54ced1fac168cb27d02dd07bf7c1dcab670"
+        },
+        {
+          "path": "continuous_brain/working_memory_infant.py",
+          "role": "source",
+          "sha256": "8f311be59e5d6ff18e21fc88d40d1eef55d30b82acfb2f14c4d8c8fb278988eb"
+        }
+      ]
+    },
+    {
+      "component_id": "recursive_autobiographical_curriculum",
+      "entry_symbols": [],
+      "evaluator_files": [],
+      "locally_bindable": false,
+      "module": null,
+      "notes": "Not present in the preserved mirror used for local binding. Library overlay archives were verified during build: v0.36.0 sha256=c1226423adcb5ec52cf2f0825f5c9d9d7eb035ffec9a72b2682ebced613326b4; v0.36.1 TEST sha256=a2ac99dd9caa5f14399c9923fcbcc2b6672c8f4f2631898aa8a5da1185134cb2. Install/extract the canonical overlay and update DAV-74 before binding.",
+      "scientific_status": "ADMITTED_HISTORICAL",
+      "source_files": []
+    }
+  ],
+  "generated_from": "read-only preserved mirror audit",
+  "schema_version": 1,
+  "source_snapshot": {
+    "name": "continuous_brain_mirror.zip",
+    "note": "archive bytes were available to the build; archive is not redistributed in this ZIP",
+    "sha256": "fdb5af4a1232c1f93b76f819869ae3472cf80bbc03a03683602ba9c3b3533b6d"
+  }
+}

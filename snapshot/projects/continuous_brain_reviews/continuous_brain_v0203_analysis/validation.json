@@ -1,0 +1,17 @@
+{
+  "positive_check": "480 recorded segments replayed; zero reward error; all aggregate fields reproduced",
+  "negative_checks": {
+    "reject_empty_evidence": {
+      "rejected": true,
+      "reason": "empty evidence"
+    },
+    "reject_stale_summary": {
+      "rejected": true,
+      "reason": "summary.top2.completion_rate: 1.0 != 0.08125"
+    },
+    "reject_action_outcome_mismatch": {
+      "rejected": true,
+      "reason": "replayed reward mismatch"
+    }
+  }
+}

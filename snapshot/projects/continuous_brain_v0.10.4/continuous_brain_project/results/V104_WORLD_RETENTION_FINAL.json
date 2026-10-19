@@ -1,0 +1,146 @@
+{
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.4/continuous_brain_project/state/child_v104_consolidated/infant_training.pt",
+  "checkpoint_sha256": "1936e046b21292a5d0519d03fe087f2568b3899e91e9bd6796a0b020a966b3a9",
+  "domains": {
+    "detour": {
+      "evidence_eligible": true,
+      "executed_action_counts": {
+        "0": 91,
+        "1": 294,
+        "2": 304,
+        "3": 109,
+        "4": 402
+      },
+      "metrics": {
+        "world_context_action_advantage": 0.003286159124411844,
+        "world_context_baseline_by_dim": [
+          0.001258666385547258,
+          0.0015146662667393685,
+          0.0012586663706072917,
+          0.0015146661825322857,
+          0.0001409650002642593,
+          0.020186884370976117,
+          0.0001409650002642593
+        ],
+        "world_context_error_by_dim": [
+          0.00010061107057783785,
+          6.124131280843544e-05,
+          0.00020018578589955593,
+          0.0001354899676074998,
+          6.121216637312206e-05,
+          0.00967622836342494,
+          6.121216216624573e-05
+        ],
+        "world_context_no_change_baseline_error": 0.003716497251992005,
+        "world_context_relative_improvement": 0.6042286896835121,
+        "world_context_relative_improvement_by_dim": [
+          0.9200653392089334,
+          0.9595677845653287,
+          0.8409540521822564,
+          0.9105479681463664,
+          0.5657633720542617,
+          0.5206675688231994,
+          0.5657634018976719
+        ],
+        "world_context_wrong_action_error": 0.004757042111620346,
+        "world_next_context_error": 0.0014708829872085024,
+        "world_next_spatial_error": 0.001262917305495345,
+        "world_reward_mae": 0.04051169329938906,
+        "world_spatial_action_advantage": 0.0010723085655399698,
+        "world_spatial_no_change_baseline_error": 0.0018182649561297019,
+        "world_spatial_relative_improvement": 0.3054272419221296,
+        "world_spatial_wrong_action_error": 0.002335225871035315,
+        "world_success_accuracy": 0.9958333333333333,
+        "world_uncertainty_mean": 9.148423484172478e-06
+      },
+      "records": 1200,
+      "supported_executed_action_counts": {
+        "0": 91,
+        "1": 294,
+        "2": 304,
+        "3": 109,
+        "4": 402
+      },
+      "transition_digest": "a0ba1cb474601031626214b371e988afd187f345a0836a071056cc5764062551",
+      "world_model_passed": true,
+      "world_spatial_passed": true,
+      "world_structured_state_passed": true
+    },
+    "foraging": {
+      "evidence_eligible": true,
+      "executed_action_counts": {
+        "0": 103,
+        "1": 264,
+        "2": 259,
+        "3": 286,
+        "4": 288
+      },
+      "metrics": {
+        "world_context_action_advantage": 0.004972303541443352,
+        "world_context_baseline_by_dim": [
+          0.001530666303782103,
+          0.0013946663433065016,
+          0.012271633264802706,
+          0.011190370266587403,
+          5.554500340262318e-05,
+          0.047947860417343675,
+          5.554500340262318e-05
+        ],
+        "world_context_error_by_dim": [
+          3.0168908821821463e-05,
+          2.1551682247968607e-05,
+          0.009876358597463348,
+          0.009277072160415878,
+          4.8507291889448763e-05,
+          0.009666356205470064,
+          4.850728933392408e-05
+        ],
+        "world_context_no_change_baseline_error": 0.010635183896166705,
+        "world_context_relative_improvement": 0.6108802324642307,
+        "world_context_relative_improvement_by_dim": [
+          0.9802903423513815,
+          0.9845470693751213,
+          0.19518792777237284,
+          0.17097719383641108,
+          0.1267028730228154,
+          0.7983985912753355,
+          0.1267029190309984
+        ],
+        "world_context_wrong_action_error": 0.009110663826819897,
+        "world_next_context_error": 0.004138360285376545,
+        "world_next_spatial_error": 0.004666698326918777,
+        "world_reward_mae": 0.06802032597537618,
+        "world_spatial_action_advantage": 0.0012341686293954497,
+        "world_spatial_no_change_baseline_error": 0.005265713007279033,
+        "world_spatial_relative_improvement": 0.11375756322690034,
+        "world_spatial_wrong_action_error": 0.005900866956314227,
+        "world_success_accuracy": 0.9816666666666667,
+        "world_uncertainty_mean": 2.2622093934690685e-05
+      },
+      "records": 1200,
+      "supported_executed_action_counts": {
+        "0": 103,
+        "1": 264,
+        "2": 259,
+        "3": 286,
+        "4": 288
+      },
+      "transition_digest": "1797991caa73463ebbed25f35e5240dba339f35e007b64a574195672bf2b2b5e",
+      "world_model_passed": true,
+      "world_spatial_passed": true,
+      "world_structured_state_passed": true
+    }
+  },
+  "format": "continuous_brain.world_consolidation_qualification.v104",
+  "holdout_seal_sha256": "8f00579cad8e283fac4103da250b1c768b5ad92353d628f8bc50700db4d63a4b",
+  "parents_used": false,
+  "thresholds": {
+    "positive_action_advantage": true,
+    "spatial_vs_no_change": 0.98,
+    "structured_context_vs_no_change": 0.8,
+    "success_accuracy": 0.7
+  },
+  "training_performed_during_evaluation": false,
+  "training_updates": 14000,
+  "world_consolidation_passed": true
+}

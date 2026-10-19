@@ -1,0 +1,17 @@
+{
+ "candidate": {
+  "individual": "cb2-ind-0001",
+  "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f"
+ },
+ "seeds": "90121-90200",
+ "steps": 10000,
+ "label": "s2-sealed",
+ "replay_seed": 90121,
+ "gates": {
+  "score_ratio_min": 1.0,
+  "survival_ratio_min": 0.0,
+  "requests_ratio_min": 0.85
+ }
+}

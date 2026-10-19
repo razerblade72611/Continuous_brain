@@ -1,0 +1,477 @@
+{
+  "format": "cb-legacy-candidate-spec/1",
+  "description": "Where to look for each admitted legacy mechanism. Built by Claude (AI agent) from the Complete Project Dossier (2026-09-23, sections 7-9, 11.1 and Appendix A) and the file names in the Windows source mirror. Every mapping is a guess for the DAV-74 audit to confirm or correct; nothing here is VERIFIED.",
+  "protected_checkpoint": {
+    "relpath": "state/child_v113_dml_smoke/infant_training.pt",
+    "sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f"
+  },
+  "candidates": [
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "slot_options": [
+        "episodic_memory"
+      ],
+      "lineage_version": "v0.23.0/0.23.1",
+      "dossier_status": "DEV + frozen TEST PASS",
+      "admissible": true,
+      "module": [
+        "continuous_brain/multi_item_episodic_memory_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_multi_item_episodic_memory_test_v1.py"
+      ],
+      "trainer": [
+        "train_evaluate_multi_item_episodic_memory_v1.py"
+      ],
+      "runner": [
+        "run_multi_item_episodic_memory_test_v1.sh",
+        "run_multi_item_episodic_memory_v1.sh"
+      ],
+      "test": [
+        "test_multi_item_episodic_memory_v1.py"
+      ],
+      "protocol": [
+        "MULTI_ITEM_EPISODIC_MEMORY_*.md"
+      ],
+      "result_dirs": [
+        "state/multi_item_episodic_memory_test_v1",
+        "state/multi_item_episodic_memory_v1"
+      ]
+    },
+    {
+      "mechanism_id": "episodic_goal_skill_v024",
+      "slot_options": [
+        "skills"
+      ],
+      "lineage_version": "v0.24.0",
+      "dossier_status": "PASS integration",
+      "admissible": true,
+      "module": [
+        "continuous_brain/episodic_goal_skill_integration_v1.py"
+      ],
+      "support": [
+        "continuous_brain/memory_guided_goal_option_v1.py",
+        "continuous_brain/additive_goal_options_v1.py",
+        "continuous_brain/recurrent_goal_option_state_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_episodic_goal_skill_integration_v1.py"
+      ],
+      "runner": [
+        "run_episodic_goal_skill_integration_v1.sh"
+      ],
+      "protocol": [
+        "EPISODIC_GOAL_SKILL_INTEGRATION_*.md"
+      ],
+      "result_dirs": [
+        "state/episodic_goal_skill_integration_v1"
+      ]
+    },
+    {
+      "mechanism_id": "memory_guided_goal_options_v021",
+      "slot_options": [
+        "skills"
+      ],
+      "lineage_version": "v0.21-v0.22",
+      "dossier_status": "admitted pieces + formal temporal termination failures",
+      "admissible": true,
+      "notes": [
+        "The dossier says v0.21-v0.22 has admitted pieces and formal failures; DAV-74 must split them."
+      ],
+      "module": [
+        "continuous_brain/memory_guided_goal_option_v1.py",
+        "continuous_brain/additive_goal_options_v1.py",
+        "continuous_brain/recurrent_goal_option_state_v1.py"
+      ],
+      "evaluator": [
+        "run_memory_guided_goal_option_v1.py",
+        "train_evaluate_additive_goal_options_v1.py",
+        "train_test_recurrent_goal_option_state_v1.py"
+      ],
+      "runner": [
+        "run_memory_guided_goal_option_v1.sh",
+        "run_additive_goal_options_v1.sh",
+        "run_recurrent_goal_option_state_v1.sh"
+      ],
+      "protocol": [
+        "MEMORY_GUIDED_GOAL_OPTION_*.md",
+        "ADDITIVE_GOAL_OPTIONS_*.md",
+        "RECURRENT_GOAL_OPTION_STATE_*.md"
+      ],
+      "result_dirs": [
+        "state/memory_guided_goal_option_v1",
+        "state/additive_goal_options_v1",
+        "state/recurrent_goal_option_state_v1",
+        "state/milestones/v0222_memory_goal_temporal_skill"
+      ]
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "slot_options": [
+        "planner"
+      ],
+      "lineage_version": "v0.25.2",
+      "dossier_status": "PASS / admitted",
+      "admissible": true,
+      "notes": [
+        "v0.25.0 DEV FAIL and v0.25.1 DEV PASS on spent data precede the frozen v0.25.2 TEST."
+      ],
+      "module": [
+        "continuous_brain/consequence_replanning_v1.py",
+        "continuous_brain/consequence_replanning_cost_repair_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_consequence_replanning_test_v1.py",
+        "evaluate_consequence_replanning_cost_repair_v1.py"
+      ],
+      "trainer": [
+        "train_evaluate_consequence_replanning_v1.py"
+      ],
+      "runner": [
+        "run_consequence_replanning_test_v1.sh",
+        "run_consequence_replanning_cost_repair_v1.sh",
+        "run_consequence_replanning_v1.sh"
+      ],
+      "test": [
+        "test_consequence_replanning_v1.py"
+      ],
+      "protocol": [
+        "CONSEQUENCE_REPLANNING_*.md"
+      ],
+      "result_dirs": [
+        "state/consequence_replanning_test_v1",
+        "state/consequence_replanning_cost_repair_v1",
+        "state/consequence_replanning_v1"
+      ]
+    },
+    {
+      "mechanism_id": "consequence_model_v0252",
+      "slot_options": [
+        "world_model"
+      ],
+      "lineage_version": "v0.25.2",
+      "dossier_status": "PASS / admitted (as part of consequence replanning)",
+      "admissible": true,
+      "notes": [
+        "RouteConsequenceModel inside consequence_replanning_v1.py; the same files as consequence_replanning_v0252."
+      ],
+      "module": [
+        "continuous_brain/consequence_replanning_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_consequence_replanning_test_v1.py"
+      ],
+      "protocol": [
+        "CONSEQUENCE_REPLANNING_TEST_PROTOCOL_v1.md"
+      ],
+      "result_dirs": [
+        "state/consequence_replanning_test_v1"
+      ]
+    },
+    {
+      "mechanism_id": "discovery_embodiment_v026",
+      "slot_options": [
+        "perception"
+      ],
+      "lineage_version": "v0.26.0",
+      "dossier_status": "PASS",
+      "admissible": true,
+      "notes": [
+        "An environment/embodiment admission (AI2-THOR discovery scene), not a learned perception module."
+      ],
+      "module": [
+        "continuous_brain/embodied.py"
+      ],
+      "evaluator": [
+        "admit_thor_discovery_embodiment_v1.py"
+      ],
+      "runner": [
+        "run_thor_discovery_embodiment_admission_v1.sh"
+      ],
+      "protocol": [
+        "THOR_DISCOVERY_EMBODIMENT_ADMISSION_*.md"
+      ],
+      "result_dirs": [
+        "state/thor_discovery_embodiment_admission_v1"
+      ]
+    },
+    {
+      "mechanism_id": "persistent_self_v028",
+      "slot_options": [
+        "self_state",
+        "autobiography"
+      ],
+      "lineage_version": "v0.28.0/0.28.1",
+      "dossier_status": "DEV + frozen TEST PASS / admitted",
+      "admissible": true,
+      "module": [
+        "continuous_brain/persistent_self_autobiographical_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_persistent_self_autobiographical_test_v1.py"
+      ],
+      "trainer": [
+        "train_evaluate_persistent_self_autobiographical_v1.py"
+      ],
+      "runner": [
+        "run_persistent_self_autobiographical_test_v1.sh",
+        "run_persistent_self_autobiographical_v1.sh"
+      ],
+      "test": [
+        "test_persistent_self_autobiographical_v1.py"
+      ],
+      "protocol": [
+        "PERSISTENT_SELF_AUTOBIOGRAPHICAL_*.md"
+      ],
+      "result_dirs": [
+        "state/persistent_self_autobiographical_test_v1",
+        "state/persistent_self_autobiographical_v1"
+      ]
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "slot_options": [
+        "self_state",
+        "metacognition"
+      ],
+      "lineage_version": "v0.31.0/0.31.1",
+      "dossier_status": "DEV + frozen TEST PASS / admitted",
+      "admissible": true,
+      "notes": [
+        "Separate explicit intention and mode; surprise-triggered INVESTIGATE (the HOT-3 row of the indicator map)."
+      ],
+      "module": [
+        "continuous_brain/recurrent_self_trajectory_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_recurrent_self_trajectory_test_v1.py"
+      ],
+      "trainer": [
+        "train_evaluate_recurrent_self_trajectory_v1.py"
+      ],
+      "runner": [
+        "run_recurrent_self_trajectory_test_v1.sh",
+        "run_recurrent_self_trajectory_v1.sh"
+      ],
+      "test": [
+        "test_recurrent_self_trajectory_v1.py"
+      ],
+      "protocol": [
+        "RECURRENT_SELF_TRAJECTORY_*.md"
+      ],
+      "result_dirs": [
+        "state/recurrent_self_trajectory_test_v1",
+        "state/recurrent_self_trajectory_v1"
+      ]
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "slot_options": [
+        "autobiography"
+      ],
+      "lineage_version": "v0.32.2",
+      "dossier_status": "PASS / admitted",
+      "admissible": true,
+      "notes": [
+        "v0.32.0 FAIL (leakage/neutrality loophole) is preserved; the admitted line is the structural-neutral repair."
+      ],
+      "module": [
+        "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py"
+      ],
+      "support": [
+        "continuous_brain/autobiographical_self_discrepancy_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+        "evaluate_autobiographical_self_discrepancy_neutral_postfix_v1.py"
+      ],
+      "trainer": [
+        "train_evaluate_autobiographical_self_discrepancy_neutral_v1.py"
+      ],
+      "runner": [
+        "run_autobiographical_self_discrepancy_neutral_test_v1.sh",
+        "run_autobiographical_self_discrepancy_neutral_postfix_v1.sh"
+      ],
+      "test": [
+        "test_autobiographical_self_discrepancy_neutral_v1.py"
+      ],
+      "protocol": [
+        "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_*.md"
+      ],
+      "result_dirs": [
+        "state/autobiographical_self_discrepancy_neutral_test_v1",
+        "state/autobiographical_self_discrepancy_neutral_v1"
+      ]
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "slot_options": [
+        "curriculum"
+      ],
+      "lineage_version": "v0.34.0/0.34.1",
+      "dossier_status": "PASS/closed per later protocols; direct primary bundle not yet recovered (DAV-77)",
+      "admissible": true,
+      "notes": [
+        "If state/event_consistent_self_development_test_v1/result.json is present, it may be the v0.34.1 primary artifact DAV-77 is looking for."
+      ],
+      "module": [
+        "continuous_brain/self_development_loop_v1.py",
+        "continuous_brain/self_development_hysteresis_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_event_consistent_self_development_test_v1.py",
+        "evaluate_event_consistent_self_development_v1.py"
+      ],
+      "runner": [
+        "run_event_consistent_self_development_test_v1.sh",
+        "run_event_consistent_self_development_v1.sh"
+      ],
+      "test": [
+        "test_event_consistent_self_development_test_v1.py",
+        "test_event_consistent_self_development_v1.py"
+      ],
+      "protocol": [
+        "EVENT_CONSISTENT_SELF_DEVELOPMENT_*.md"
+      ],
+      "result_dirs": [
+        "state/event_consistent_self_development_test_v1",
+        "state/event_consistent_self_development_v1"
+      ]
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "slot_options": [
+        "goal_genesis"
+      ],
+      "lineage_version": "v0.35.0-v0.35.3",
+      "dossier_status": "v0.35.0 DEV FAIL; v0.35.2 DEV PASS; v0.35.3 frozen TEST PASS/closed",
+      "admissible": true,
+      "notes": [
+        "The admitted result is v0.35.3 (horizon-only repair, frozen TEST). v0.35.0 records development_gate_passed=false."
+      ],
+      "module": [
+        "continuous_brain/endogenous_goal_genesis_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_endogenous_goal_genesis_v1.py",
+        "diagnose_endogenous_goal_completion_v1.py",
+        "evaluate_endogenous_goal_horizon_repair_v1.py",
+        "evaluate_endogenous_goal_genesis_test_v1.py"
+      ],
+      "runner": [
+        "run_endogenous_goal_genesis_v1.sh",
+        "run_endogenous_goal_completion_diagnostic_v1.sh",
+        "run_endogenous_goal_horizon_repair_v1.sh",
+        "run_endogenous_goal_genesis_test_v1.sh"
+      ],
+      "test": [
+        "test_endogenous_goal_genesis_v1.py",
+        "test_endogenous_goal_horizon_repair_v1.py",
+        "test_endogenous_goal_genesis_test_v1.py"
+      ],
+      "protocol": [
+        "ENDOGENOUS_GOAL_*.md"
+      ],
+      "result_dirs": [
+        "state/endogenous_goal_genesis_v1",
+        "state/endogenous_goal_completion_diagnostic_v1",
+        "state/endogenous_goal_horizon_repair_v1",
+        "state/endogenous_goal_genesis_test_v1"
+      ]
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "slot_options": [
+        "curriculum"
+      ],
+      "lineage_version": "v0.36.0/0.36.1",
+      "dossier_status": "DEV PASS; frozen TEST PASS/closed (119/128)",
+      "admissible": true,
+      "notes": [
+        "File names unknown; globbed. The dossier calls v0.36/v0.37 'additive packages'."
+      ],
+      "module": [
+        "continuous_brain/*recursive*.py",
+        "continuous_brain/*curriculum*v1.py"
+      ],
+      "evaluator": [
+        "*recursive*.py"
+      ],
+      "runner": [
+        "run_*recursive*.sh"
+      ],
+      "protocol": [
+        "*RECURSIVE*.md"
+      ],
+      "result_dirs": [
+        "state/recursive_autobiographical_curriculum_v1",
+        "state/recursive_autobiographical_curriculum_test_v1"
+      ]
+    },
+    {
+      "mechanism_id": "working_memory_components_v013_v019",
+      "slot_options": [
+        "working_memory"
+      ],
+      "lineage_version": "v0.13-v0.19",
+      "dossier_status": "mixed; line closed after formal failures and admitted components",
+      "admissible": true,
+      "notes": [
+        "Which components were admitted is for DAV-74 to establish from the decide_* outputs."
+      ],
+      "module": [
+        "continuous_brain/executive_working_memory_v1.py",
+        "continuous_brain/working_memory_infant.py",
+        "continuous_brain/working_memory_recall_arms_v2.py",
+        "continuous_brain/working_memory_recall_capacity_control_v1.py"
+      ],
+      "evaluator": [
+        "decide_working_memory_capacity_dev_admission_v2.py",
+        "decide_working_memory_dev_v1.py",
+        "evaluate_working_memory_capacity_dev_causal_v2.py",
+        "evaluate_working_memory_dev_v1.py"
+      ],
+      "runner": [
+        "run_working_memory_capacity_dev_admission_v2.sh",
+        "run_working_memory_dev_v1.sh"
+      ],
+      "protocol": [
+        "WORKING_MEMORY_*.md"
+      ],
+      "result_dirs": [
+        "state/working_memory_m1",
+        "state/working_memory_recall_phase1_v1",
+        "state/working_memory_recall_qualification_v2",
+        "state/working_memory_recall_capacity_control_phase1_v1"
+      ]
+    },
+    {
+      "mechanism_id": "self_broadcast_v029",
+      "slot_options": [
+        "workspace"
+      ],
+      "lineage_version": "v0.29.0-0.29.3",
+      "dossier_status": "Frozen TEST FAIL; family closed",
+      "admissible": false,
+      "notes": [
+        "GWT-3 broadcast attempt. Formal failure: usable as a regression check only."
+      ],
+      "module": [
+        "continuous_brain/self_broadcast_centrality_v1.py"
+      ],
+      "evaluator": [
+        "evaluate_self_broadcast_centrality_test_v1.py"
+      ],
+      "runner": [
+        "run_self_broadcast_centrality_test_v1.sh"
+      ],
+      "protocol": [
+        "SELF_BROADCAST_*.md"
+      ],
+      "result_dirs": [
+        "state/self_broadcast_centrality_test_v1",
+        "state/self_broadcast_centrality_v1"
+      ]
+    }
+  ]
+}

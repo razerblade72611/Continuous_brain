@@ -1,0 +1,210 @@
+{
+  "checked_utc": "2026-10-13T00:55:43Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "compute_phase_complete": true,
+  "loop_complete": false,
+  "archive_verified": false,
+  "pod_cleanup_verified": false,
+  "current_phase": "archive packing; cycle10 diagnostic probes and report generation completed",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle10": {
+    "seconds": 1881,
+    "probe_seconds": 1881,
+    "probes_after_sleep_cycle": 10,
+    "learning_mean_survival_steps": {
+      "fresh": 496.475,
+      "transfer": 545.35
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 518.5,
+      "transfer": 520.425
+    },
+    "frozen_mean_survival_steps": {
+      "fresh": 538.85,
+      "transfer": 483.275
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -42.375,
+      "transfer": 62.075
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -176.47625,
+      "transfer": -71.01499999999999
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -22.025,
+      "transfer": 24.925
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -128.9025,
+      "transfer": -71.5025
+    },
+    "probe_counts": {
+      "learning": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "yoked": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "frozen": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "learning_chooser_off": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      }
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.048693287678130824,
+    "learned_primitive_action_control_share": 0
+  },
+  "final_loop_checks": {
+    "run_lock_matches": true,
+    "git_dirty": false,
+    "rehearsal": false,
+    "instrument_check_cycle0": {
+      "ok": true,
+      "mismatches": []
+    },
+    "cycles_count": 11,
+    "paired_sleeps_count": 10,
+    "logged_numeric_values_finite": true,
+    "loop_report_numeric_values_finite": true,
+    "final_chooser_off_probe_arm_present": true,
+    "final_twin_state_hashes": {
+      "learning": "da35ee09bd90f1640994f1d924d95ab75312fe8fce88c861abf7f8f272f62d87",
+      "yoked": "5c8a369dec80ad8cd566daa42925be6a49b8b046c4371544fdc5df9684d6bf5c",
+      "frozen": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a"
+    },
+    "primary_final": null,
+    "verdict": null,
+    "note": "The generated report explicitly has no primary final-battery result. No separate battery or full identity verdict was run. Independent native archive validation and cleanup verification remain pending."
+  },
+  "assessment": "Cycle10 diagnostic probes followed all ten sleeps. Learning fresh survival mean is below both controls and transfer is above both; all four one-sided survival lower95 bounds remain negative. The LOOP diagnostics do not confirm a survival gain. No final growth verdict; a separate final evaluation remains David's decision.",
+  "numeric_note": "Ten paired sleeps completed with equal configured update budgets. Logged chooser skips0 for both. Sleeps3–10 have zero maximum block capped fraction; sleep2 had transient learning capping. Final learning raw block peak6.019 declined from8.648. Block capped fractions are minibatch maxima within250-update blocks. No independent checkpoint tensor reload.",
+  "archive_packing": {
+    "exists": true,
+    "bytes": 2990538752,
+    "mtime_epoch": 1791852943.2429476
+  },
+  "packing_processes": [
+    {
+      "pid": 153,
+      "ppid": 1,
+      "stat": "Ss",
+      "cpu_percent": 0,
+      "cpu_time": "00:00:00",
+      "command": "bash",
+      "args": "bash /workspace/cb2_l1b_pod.sh",
+      "io": {
+        "rchar": 4486822536100,
+        "wchar": 14165238610,
+        "syscr": 4266113,
+        "syscw": 256844,
+        "read_bytes": 7115255808,
+        "write_bytes": 11504087040,
+        "cancelled_write_bytes": 16896000
+      }
+    },
+    {
+      "pid": 26094,
+      "ppid": 153,
+      "stat": "S",
+      "cpu_percent": 2.4,
+      "cpu_time": "00:00:07",
+      "command": "tar",
+      "args": "tar -C /workspace/Continuous_brain -czf /workspace/cb2_l1b_loop.tgz runs/explore/cb2/l1b",
+      "io": {
+        "rchar": 3758537119,
+        "wchar": 3758653440,
+        "syscr": 367132,
+        "syscw": 367056,
+        "read_bytes": 3702751232,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      }
+    },
+    {
+      "pid": 26096,
+      "ppid": 26095,
+      "stat": "R",
+      "cpu_percent": 99.7,
+      "cpu_time": "00:04:57",
+      "command": "gzip",
+      "args": "gzip",
+      "io": {
+        "rchar": 3758591996,
+        "wchar": 2990800896,
+        "syscr": 114712,
+        "syscw": 11409,
+        "read_bytes": 94208,
+        "write_bytes": 2990800896,
+        "cancelled_write_bytes": 0
+      }
+    }
+  ],
+  "output_directory_bytes": 9435003303,
+  "native_archive_downloaded": false,
+  "native_disk_free_bytes_observed": 907547242496,
+  "native_memory_available_kib_observed": 47995552,
+  "eta": "Archive packing is active. No transfer speed has been measured for this archive; retain the notified9–11pm Central October12/$20–22compute estimate until secured completion. Original30h/$27caps and October13 09:08:36UTC cleanup deadline unchanged.",
+  "action": "Continue controller-owned packing/transfer/cleanup. Independently verify downloaded native archive SHA and its run records, then verify normal live pod deletion. No separate final evaluation or installation.",
+  "local_cycles_sha256": "c2f18ecf1a39edf23686b22d716f5a618b88596bd2deeb5ae42af83dba18281a",
+  "remote_cycles_sha256": "c2f18ecf1a39edf23686b22d716f5a618b88596bd2deeb5ae42af83dba18281a",
+  "local_cycles_bytes": 2105427,
+  "checksum_matches": true
+}

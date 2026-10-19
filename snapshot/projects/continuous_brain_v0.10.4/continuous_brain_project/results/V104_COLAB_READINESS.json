@@ -1,0 +1,19 @@
+{
+  "changed_non_world_tensor_count": 0,
+  "changed_world_tensor_count": 42,
+  "colab_ready": true,
+  "current_sha256": "1936e046b21292a5d0519d03fe087f2568b3899e91e9bd6796a0b020a966b3a9",
+  "extra_tensor_count": 0,
+  "format": "continuous_brain.colab_readiness.v104",
+  "gates": {
+    "bootstrap_vision_language_retention": true,
+    "fresh_foraging_and_detour_world_retention": true,
+    "hierarchical_option_planner_preserved": true,
+    "p4b_blind_hierarchical_option_planning": true,
+    "v103_to_v104_only_world_tensors_changed": true,
+    "world_consolidation_metadata": true
+  },
+  "meaning": "Engineering readiness for major whole-brain training; not evidence of consciousness or AGI.",
+  "missing_tensor_count": 0,
+  "source_v103_sha256": "ba1792d340b761ae436585f77a6a80dd7188b4daf108e4ab4c0c7bf8091fae07"
+}

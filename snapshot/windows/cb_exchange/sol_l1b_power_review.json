@@ -1,0 +1,225 @@
+{
+  "source": "finished L1, paired cycle6-10 worlds",
+  "family_estimates": {
+    "fresh": {
+      "n": 200,
+      "means": [
+        52.785,
+        44.12
+      ],
+      "sd": [
+        415.8695663982656,
+        419.2639945015873
+      ],
+      "correlation": 0.5084025776161346
+    },
+    "transfer": {
+      "n": 200,
+      "means": [
+        -9.59,
+        53.12
+      ],
+      "sd": [
+        443.56016502837593,
+        401.3611333910957
+      ],
+      "correlation": 0.4534560046726872
+    }
+  },
+  "scenarios": [
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 25.0,
+      "sd_multiplier": 1.0,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.6691586538067669,
+            0.6630243629237464
+          ],
+          "MDE80": [
+            29.850429836924516,
+            30.09407627350375
+          ],
+          "joint_two_comparison_power": 0.516966
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.6208021368635666,
+            0.6959780014365133
+          ],
+          "MDE80": [
+            31.838015220267906,
+            28.80903850532249
+          ],
+          "joint_two_comparison_power": 0.496762
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.256809064092
+    },
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 30.0,
+      "sd_multiplier": 1.0,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.8034696947537097,
+            0.7978167721555476
+          ],
+          "MDE80": [
+            29.850429836924516,
+            30.09407627350375
+          ],
+          "joint_two_comparison_power": 0.688786
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.7574353307721773,
+            0.8275203591642678
+          ],
+          "MDE80": [
+            31.838015220267906,
+            28.80903850532249
+          ],
+          "joint_two_comparison_power": 0.669406
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.46107748111599994
+    },
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 40.0,
+      "sd_multiplier": 1.0,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.9542039005903755,
+            0.9515510532849071
+          ],
+          "MDE80": [
+            29.850429836924516,
+            30.09407627350375
+          ],
+          "joint_two_comparison_power": 0.917314
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.9304369571137108,
+            0.964657838463899
+          ],
+          "MDE80": [
+            31.838015220267906,
+            28.80903850532249
+          ],
+          "joint_two_comparison_power": 0.905536
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.8306608503039999
+    },
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 25.0,
+      "sd_multiplier": 1.2,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.5360618133545012,
+            0.530476287155789
+          ],
+          "MDE80": [
+            35.820515804309416,
+            36.11289152820451
+          ],
+          "joint_two_comparison_power": 0.368926
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.49289170357841416,
+            0.5608983812282587
+          ],
+          "MDE80": [
+            38.205618264321494,
+            34.570846206386996
+          ],
+          "joint_two_comparison_power": 0.350524
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.129317417224
+    },
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 30.0,
+      "sd_multiplier": 1.2,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.6691586538067669,
+            0.6630243629237464
+          ],
+          "MDE80": [
+            35.820515804309416,
+            36.11289152820451
+          ],
+          "joint_two_comparison_power": 0.516966
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.6208021368635664,
+            0.6959780014365133
+          ],
+          "MDE80": [
+            38.205618264321494,
+            34.570846206386996
+          ],
+          "joint_two_comparison_power": 0.496762
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.256809064092
+    },
+    {
+      "N_per_family": 1200,
+      "effect_in_all_four_contrasts": 40.0,
+      "sd_multiplier": 1.2,
+      "families": {
+        "fresh": {
+          "single_comparison_power": [
+            0.8711279942104151,
+            0.8663409091131027
+          ],
+          "MDE80": [
+            35.820515804309416,
+            36.11289152820451
+          ],
+          "joint_two_comparison_power": 0.785628
+        },
+        "transfer": {
+          "single_comparison_power": [
+            0.8310699808046486,
+            0.891045609251564
+          ],
+          "MDE80": [
+            38.205618264321494,
+            34.570846206386996
+          ],
+          "joint_two_comparison_power": 0.768034
+        }
+      },
+      "joint_four_comparison_power_if_families_independent": 0.603389015352
+    }
+  ],
+  "method": "one-sided normal-approximation bounds; 500000 correlated Gaussian draws per family; multiply independent-family probabilities",
+  "limits": [
+    "new yoked control may have different variance/correlation from old reference",
+    "not a simulation of the actual bootstrap or rerun",
+    "effect assumed equal in every required contrast",
+    "late-cycle mixture estimates may differ from final-only distributions"
+  ],
+  "design_review": [
+    "final-checkpoint battery is a new estimand",
+    "futility effect bound does not prove a causal diagnosis",
+    "retain score/commitment/continuity safeguards",
+    "cost the 7800 final lives plus per-cycle probes",
+    "CPU catalog currently limits listed pod flavors to 32 vCPUs; 64-vCPU single-pod estimate needs correction"
+  ]
+}

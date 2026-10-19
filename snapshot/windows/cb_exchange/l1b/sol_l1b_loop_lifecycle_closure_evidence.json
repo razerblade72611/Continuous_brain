@@ -1,0 +1,30 @@
+{
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "real_api_calls": 0,
+  "real_ssh_calls": 0,
+  "paid_resources": 0,
+  "adopted_loop_setup_failure": {
+    "phase": "run",
+    "trigger": "SSH unavailable while adopting a previously claimed evidence-bearing pod",
+    "exit_code": 1,
+    "cleanup_calls": [
+      [
+        "stop",
+        "existing-evidence-pod"
+      ]
+    ],
+    "evidence_preserved": true
+  },
+  "adopted_final_setup_failure": {
+    "phase": "final",
+    "trigger": "SSH unavailable while adopting a previously claimed evidence-bearing pod",
+    "exit_code": 1,
+    "cleanup_calls": [
+      [
+        "stop",
+        "existing-evidence-pod"
+      ]
+    ],
+    "evidence_preserved": true
+  }
+}

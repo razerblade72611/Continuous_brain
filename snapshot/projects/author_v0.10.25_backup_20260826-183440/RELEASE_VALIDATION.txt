@@ -1,0 +1,12 @@
+AUTHOR v0.10.26 release validation
+- targeted v0.10.26 tests: 6 passed
+- full source test suite: 267 passed
+- compileall: passed
+- dry-run metadata: version 0.10.26 / trainer peer_authoritative_neutral_curriculum / toggle level 4
+- wheel metadata: Version 0.10.26
+- setup-search hygiene: passive peer parking uses peer-authoritative reachability
+- already-neutral peer poses are accepted without redundant TeleportFull
+- direct peer parking has a two-agent neutral normalization fallback
+- parking exhaustion reports active/peer/common/candidate/failure counts
+- v0.10.24 broken-toggle admission/runtime guard retained
+- no replay repair required for interrupted v0.10.25 starvation worker

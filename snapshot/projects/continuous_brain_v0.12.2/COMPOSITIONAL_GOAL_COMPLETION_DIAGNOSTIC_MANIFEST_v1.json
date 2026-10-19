@@ -1,0 +1,17 @@
+{
+  "format": "continuous_brain.v0371_diagnostic_manifest_v1",
+  "pinned_v0370_files": {
+    "COMPOSITIONAL_AUTOBIOGRAPHICAL_GOALS_MANIFEST_v1.json": "562ca2926556d4a5757d00c6353957bef1c73878c0431736b402f24c2c6e9774",
+    "continuous_brain/compositional_autobiographical_goals_v1.py": "0710a527d4367db79e444481d1f8d2ef7962e46c71c4a5da70cdf7c9ec206471",
+    "evaluate_compositional_autobiographical_goals_v1.py": "672f1c303055312a9d511638b150678a314f5a4ae6849e850e3294f547121516"
+  },
+  "release_files": {
+    "COMPOSITIONAL_GOAL_COMPLETION_DIAGNOSTIC_PROTOCOL_v1.md": "200c431a31cab27f12e4c5b8c31fa3e46dac3af4369c02f3d24763b126935beb",
+    "README_COMPOSITIONAL_GOAL_COMPLETION_DIAGNOSTIC_v1.md": "1312035af3098240e97e9db6a15b84e81cd7e41ceb3e3aeb667b6b3900b50dce",
+    "SOFTWARE_VALIDATION_v0371.json": "56e8f92c4b9d3b467239424e8a13d616dfdaafe58c24cf81708fc1d2489ad367",
+    "diagnose_compositional_goal_completion_v1.py": "fc19709dfcc66acb86c7d70a1a9d0c1ea21c12464930a65d21ec0ff083ed6803",
+    "run_compositional_goal_completion_diagnostic_v1.sh": "e8923e7192af6b9d8bcf477fef13df1b7a549fa97b1305e006a076fff15dcd42",
+    "test_compositional_goal_completion_diagnostic_v1.py": "eb7d11871e0eb946d60d8558fa14c9cfb20f1226ee6d6c37fd0df5292f954793"
+  },
+  "version": "0.37.1"
+}

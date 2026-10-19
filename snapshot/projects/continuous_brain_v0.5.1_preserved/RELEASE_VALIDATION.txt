@@ -1,0 +1,23 @@
+Continuous Brain v0.5.1 release validation
+
+Automated tests: 56 passed.
+Python compileall: passed.
+Dashboard JavaScript node --check: passed.
+
+Sensor-integrity validation:
+- dynamic synthetic camera: 500-tick L2 neural smoke completed with 31 lifetime goals, 25 L2 goals, 63 L2 translations, stale=0, depth_valid_fraction=1.00.
+- frozen RGB controller: watchdog detects unchanged RGB across actual pose/yaw changes and terminates the affected episode with task_reason=sensor_stale.
+- near-zero 0.14 m policy depth is rejected as untrusted rather than treated as an obstacle.
+- non-native/physical depth safety remains fail-closed on invalid depth.
+
+Spatial-map validation:
+- native collision hard locks survive repeated 5 m free-depth rays.
+- v0.5.0 spatial state format 1 loads with an empty hard-collision mask and saves as spatial format 2.
+
+Migration validation:
+- v0.5.0 neural checkpoint resumed under v0.5.1 and advanced; persistent replay restored.
+- shape-migrated v0.4.3-style checkpoint safely reset incompatible Adam moments and completed subsequent optimization instead of crashing.
+
+Compatibility:
+- neural interface unchanged: observation_dim=6, action_dim=5.
+- checkpoint format remains 7.

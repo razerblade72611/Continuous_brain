@@ -1,0 +1,147 @@
+{
+ "format": "cb2-gate7/1",
+ "status": "ENGINEERING_ONLY",
+ "work": "/home/claude/gate7_run",
+ "swap": {
+  "event": "organ_swap",
+  "event_sha": "04b483ebcece89d655c3101910bbc045cc328c246ee4a56ba50f0f70096683d2",
+  "from": {
+   "weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999",
+   "oracle": false
+  },
+  "to": {
+   "weights_sha256": "02eb3941c7ce27c277408ec5c15f2f708075ed9034bc535707425e32c9edcbac",
+   "oracle": false
+  },
+  "parent_state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "identity_digest": "b777fd9ea482a586098a3355713919d3add8ebf132230308d160dc3b3da04917",
+  "snapshot": "/home/claude/gate7_run/c/cb2-ind-0001/checkpoints/20261009T100112686077Z_organswap0"
+ },
+ "rollback": {
+  "event": "organ_rollback",
+  "event_sha": "5d6e76e5b2273597a2078068e3206c1b90d5bbdb2d3ebb06d8a68521fdc6eee4",
+  "from": {
+   "weights_sha256": "02eb3941c7ce27c277408ec5c15f2f708075ed9034bc535707425e32c9edcbac",
+   "oracle": false
+  },
+  "to": {
+   "weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999",
+   "oracle": false
+  },
+  "parent_state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "identity_digest": "b777fd9ea482a586098a3355713919d3add8ebf132230308d160dc3b3da04917",
+  "snapshot": "/home/claude/gate7_run/c/cb2-ind-0001/checkpoints/20261009T102203769251Z_organswap1"
+ },
+ "verify_after_swap": {
+  "organ_swaps": 1,
+  "log_matches_individual": true,
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "organs": {
+   "vision": {
+    "name": "tile_decoder_v2",
+    "weights_sha256": "02eb3941c7ce27c277408ec5c15f2f708075ed9034bc535707425e32c9edcbac"
+   }
+  },
+  "vision_weights_sha256": "02eb3941c7ce27c277408ec5c15f2f708075ed9034bc535707425e32c9edcbac"
+ },
+ "verify_after_rollback": {
+  "organ_swaps": 2,
+  "log_matches_individual": true,
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "organs": {
+   "vision": {
+    "name": "tile_decoder_v1",
+    "weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999"
+   }
+  },
+  "vision_weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999"
+ },
+ "replay": {
+  "seed": 75001,
+  "reference_steps": 158,
+  "steps": 158,
+  "first_difference": null
+ },
+ "vision_test_accuracy": {
+  "overall": {
+   "v1": {
+    "material": 0.99496,
+    "object": 0.99853,
+    "both": 0.99363
+   },
+   "v2": {
+    "material": 0.99586,
+    "object": 0.99887,
+    "both": 0.99489
+   }
+  },
+  "night": {
+   "v1": {
+    "material": 0.98889,
+    "object": 0.99653,
+    "both": 0.98579
+   },
+   "v2": {
+    "material": 0.9901,
+    "object": 0.99728,
+    "both": 0.98779
+   }
+  }
+ },
+ "closed_loop_v2": {
+  "candidate": {
+   "episodes": 40,
+   "crafter_score": 27.68125540966499,
+   "achievements_per_episode": 13.0,
+   "survival_steps": 541.25,
+   "deaths": 40,
+   "obligations_on_time": {
+    "fulfilled": 68,
+    "failed": 77,
+    "rate": 0.4689655172413793
+   }
+  },
+  "routine": {
+   "episodes": 40,
+   "crafter_score": 24.756095181493034,
+   "achievements_per_episode": 11.7,
+   "survival_steps": 500.675,
+   "deaths": 40,
+   "obligations_on_time": {
+    "fulfilled": 53,
+    "failed": 57,
+    "rate": 0.4818181818181818
+   }
+  },
+  "ratio_to_routine": {
+   "crafter_score": 1.1182,
+   "survival_steps": 1.081,
+   "achievements_per_episode": 1.1111
+  }
+ },
+ "paired_v2_vs_v1": {
+  "steps": {
+   "mean": 45.025,
+   "se": 28.343892922914467
+  },
+  "n_unlocked": {
+   "mean": 0.4,
+   "se": 0.21720839573894737
+  },
+  "v1": {
+   "crafter_score": 25.1601318236507,
+   "survival_steps": 496.225,
+   "achievements_per_episode": 12.6
+  }
+ },
+ "criteria": {
+  "2_identity": true,
+  "3_rollback_exact": true,
+  "4a_vision_not_worse": true,
+  "4b_closed_loop": true
+ },
+ "verdict": "PASS",
+ "note": "criterion 1 (tests) is run separately: tests/test_cb2_organ_swap.py"
+}

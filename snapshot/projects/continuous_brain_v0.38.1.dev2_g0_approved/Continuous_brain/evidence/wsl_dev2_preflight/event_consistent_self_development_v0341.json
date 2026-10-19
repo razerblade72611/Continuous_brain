@@ -1,0 +1,21 @@
+{
+  "blocked_reasons": [],
+  "evidence_ok": true,
+  "mechanism_id": "event_consistent_self_development_v0341",
+  "prereg_status": "APPROVED",
+  "recipe": {
+    "evaluator": "evaluate_event_consistent_self_development_test_v1.py",
+    "fresh_family": "g0-v0341-dev",
+    "mechanism_id": "event_consistent_self_development_v0341",
+    "pass_field": "test_admission_passed",
+    "seed_container": "range",
+    "seed_symbol": "TEST_IDS"
+  },
+  "seed_plan": {
+    "mechanism_id": "event_consistent_self_development_v0341",
+    "name": "g0-v0341-dev",
+    "purpose": "DEV",
+    "start": 305000,
+    "stop": 305127
+  }
+}

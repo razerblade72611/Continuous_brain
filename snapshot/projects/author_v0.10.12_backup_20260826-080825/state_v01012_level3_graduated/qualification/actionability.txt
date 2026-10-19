@@ -1,0 +1,1140 @@
+{
+  "A": {
+    "checkpoint": "state/checkpoints/a/interaction_actionability.json",
+    "pose_rows": 383,
+    "position_rows": 147,
+    "aggregate": [
+      {
+        "action": "OpenObject",
+        "object": "Door_+02.40_+00.00_+00.83",
+        "attempts": 338,
+        "successes": 314,
+        "failures": 24,
+        "recovery_attempts": 21,
+        "success_rate_pct": 92.9
+      },
+      {
+        "action": "OpenObject",
+        "object": "Door_-00.63_+00.00_+02.50",
+        "attempts": 297,
+        "successes": 293,
+        "failures": 4,
+        "recovery_attempts": 4,
+        "success_rate_pct": 98.65
+      }
+    ],
+    "worst_positions": [
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4",
+        "attempts": 9,
+        "successes": 0,
+        "failures": 9,
+        "recovery_attempts": 6,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3",
+        "attempts": 5,
+        "successes": 0,
+        "failures": 5,
+        "recovery_attempts": 3,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4",
+        "attempts": 4,
+        "successes": 0,
+        "failures": 4,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4",
+        "attempts": 3,
+        "successes": 0,
+        "failures": 3,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|11",
+        "attempts": 3,
+        "successes": 0,
+        "failures": 3,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|3",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|12",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|-1",
+        "attempts": 29,
+        "successes": 29,
+        "failures": 0,
+        "recovery_attempts": 11,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|6",
+        "attempts": 28,
+        "successes": 28,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-1|9",
+        "attempts": 13,
+        "successes": 13,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-5|5",
+        "attempts": 13,
+        "successes": 13,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|1|5",
+        "attempts": 12,
+        "successes": 12,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|2",
+        "attempts": 11,
+        "successes": 11,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|6",
+        "attempts": 11,
+        "successes": 11,
+        "failures": 0,
+        "recovery_attempts": 1,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|2",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|5",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|0|7",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|0|9",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|2|7",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|0",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|-1",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|2|5",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|3|6",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|3",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|-4",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|5",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|2",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|5",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|7",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      }
+    ],
+    "worst_exact_poses": [
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|90|30",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|90|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|3|90|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|90|30",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|180|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|180|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|180|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|90|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3|90|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|0|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|11|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|11|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|11|90|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|12|180|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|-1|0|0",
+        "attempts": 25,
+        "successes": 25,
+        "failures": 0,
+        "recovery_attempts": 11,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|6|90|-30",
+        "attempts": 22,
+        "successes": 22,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|2|180|30",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|6|90|-30",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 1,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|13|4|0|60",
+        "attempts": 6,
+        "successes": 6,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|-1|0|30",
+        "attempts": 6,
+        "successes": 6,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|0|0|30",
+        "attempts": 5,
+        "successes": 5,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      }
+    ]
+  },
+  "B": {
+    "checkpoint": "state/checkpoints/b/interaction_actionability.json",
+    "pose_rows": 373,
+    "position_rows": 146,
+    "aggregate": [
+      {
+        "action": "OpenObject",
+        "object": "Door_+02.40_+00.00_+00.83",
+        "attempts": 324,
+        "successes": 295,
+        "failures": 29,
+        "recovery_attempts": 28,
+        "success_rate_pct": 91.05
+      },
+      {
+        "action": "OpenObject",
+        "object": "Door_-00.63_+00.00_+02.50",
+        "attempts": 326,
+        "successes": 324,
+        "failures": 2,
+        "recovery_attempts": 2,
+        "success_rate_pct": 99.39
+      }
+    ],
+    "worst_positions": [
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3",
+        "attempts": 9,
+        "successes": 0,
+        "failures": 9,
+        "recovery_attempts": 3,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4",
+        "attempts": 6,
+        "successes": 0,
+        "failures": 6,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4",
+        "attempts": 5,
+        "successes": 0,
+        "failures": 5,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|3",
+        "attempts": 4,
+        "successes": 0,
+        "failures": 4,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3",
+        "attempts": 3,
+        "successes": 0,
+        "failures": 3,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|12",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|12",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|0",
+        "attempts": 41,
+        "successes": 41,
+        "failures": 0,
+        "recovery_attempts": 23,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|5",
+        "attempts": 39,
+        "successes": 39,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|6",
+        "attempts": 15,
+        "successes": 15,
+        "failures": 0,
+        "recovery_attempts": 1,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|8",
+        "attempts": 12,
+        "successes": 12,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-5|7",
+        "attempts": 12,
+        "successes": 12,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|2|6",
+        "attempts": 12,
+        "successes": 12,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|2",
+        "attempts": 11,
+        "successes": 11,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|8",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-4|6",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|3|8",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|-1",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-1|9",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|7",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|0|6",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|5|7",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|5",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|6",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-5|8",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|0|8",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|1|5",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|2|8",
+        "attempts": 8,
+        "successes": 8,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|-3",
+        "attempts": 7,
+        "successes": 7,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      }
+    ],
+    "worst_exact_poses": [
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|3|180|30",
+        "attempts": 3,
+        "successes": 0,
+        "failures": 3,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|180|30",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|180|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|30",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|90|-30",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|90|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|90|60",
+        "attempts": 2,
+        "successes": 0,
+        "failures": 2,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|0|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|3|90|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 1,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|4|90|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|3|90|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|4|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3|0|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|3|180|60",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|180|0",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|8|4|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|12|180|30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-3|12|180|-30",
+        "attempts": 1,
+        "successes": 0,
+        "failures": 1,
+        "recovery_attempts": 0,
+        "success_rate_pct": 0.0,
+        "last_error": "Object failed to open/close successfully."
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|7|0|90|30",
+        "attempts": 39,
+        "successes": 39,
+        "failures": 0,
+        "recovery_attempts": 23,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|5|0|0",
+        "attempts": 30,
+        "successes": 30,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|6|6|180|30",
+        "attempts": 10,
+        "successes": 10,
+        "failures": 0,
+        "recovery_attempts": 1,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|5|2|90|0",
+        "attempts": 9,
+        "successes": 9,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_+02.40_+00.00_+00.83|13|7|180|30",
+        "attempts": 6,
+        "successes": 6,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-2|6|270|60",
+        "attempts": 5,
+        "successes": 5,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      },
+      {
+        "key": "OpenObject|Door_-00.63_+00.00_+02.50|-4|6|0|0",
+        "attempts": 5,
+        "successes": 5,
+        "failures": 0,
+        "recovery_attempts": 0,
+        "success_rate_pct": 100.0,
+        "last_error": null
+      }
+    ]
+  }
+}

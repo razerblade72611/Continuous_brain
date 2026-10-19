@@ -1,0 +1,12 @@
+[project]
+name = "continuous-individual-v1"
+version = "0.1.0"
+description = "Survival-focused continuous individual with canonical store"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.1", "numpy>=1.24"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["continuous_individual*"]

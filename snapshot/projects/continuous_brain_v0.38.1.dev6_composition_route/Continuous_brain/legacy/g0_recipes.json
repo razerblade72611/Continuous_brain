@@ -1,0 +1,101 @@
+{
+  "format": "cb-g0-recipes/1",
+  "prereg_id": "G0-LEGACY-REQUAL-v1",
+  "rules": [
+    "Never invoke a historical sealed TEST range.",
+    "Evaluator source hash must match the G0 evidence plan before import and after completion.",
+    "Only the named seed symbol may be substituted; threshold/intervention constants remain untouched.",
+    "Evaluator --state-dir is redirected outside the legacy root.",
+    "PYTHONDONTWRITEBYTECODE is enforced and legacy-tree metadata is compared before/after.",
+    "The raw evaluator result is evidence input only; its historical TEST/admission labels are not reused as G0 semantics.",
+    "G0 scientific PASS/FAIL is impossible unless the preregistration is APPROVED/FROZEN by David."
+  ],
+  "recipes": [
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "evaluator": "evaluate_multi_item_episodic_memory_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "list",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v023-dev"
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "evaluator": "evaluate_consequence_replanning_test_v1.py",
+      "seed_symbol": "TEST_ROUTE_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v0252-dev"
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "evaluator": "evaluate_recurrent_self_trajectory_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v031-dev"
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "evaluator": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v0322-dev"
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "evaluator": "evaluate_event_consistent_self_development_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v0341-dev"
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "evaluator": "evaluate_endogenous_goal_genesis_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v0353-dev"
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "evaluator": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+      "seed_symbol": "TEST_IDS",
+      "seed_container": "range",
+      "pass_field": "test_admission_passed",
+      "fresh_family": "g0-v0361-dev"
+    }
+  ],
+  "blocked": [
+    {
+      "mechanism_id": "episodic_goal_skill_v024",
+      "reason": "historical evaluator intentionally consumes no new holdout and maps 64 cases into the historical 0..1599 source family; no fresh-family semantics are frozen yet"
+    },
+    {
+      "mechanism_id": "persistent_self_v028",
+      "reason": "historical evaluator contains additional hard-coded fresh causal seed ranges (130000..170127) beyond TEST_IDS; a complete seed-remap audit is required before safe fresh-family execution"
+    },
+    {
+      "mechanism_id": "consequence_model_v0252",
+      "reason": "shared-state subcomponent is requalified through consequence_replanning_v0252 rather than independently double-counted"
+    },
+    {
+      "mechanism_id": "discovery_embodiment_v026",
+      "reason": "requires the real external AI2-THOR Discovery environment and is outside this first G0 CPU wave"
+    },
+    {
+      "mechanism_id": "memory_guided_goal_options_v021",
+      "reason": "SUPPORT_ONLY historical failures are preserved, not promoted"
+    },
+    {
+      "mechanism_id": "working_memory_components_v013_v019",
+      "reason": "NEEDS_ADJUDICATION before a single G0 contract can be assigned"
+    },
+    {
+      "mechanism_id": "self_broadcast_v029",
+      "reason": "CONTROL_ONLY frozen TEST FAIL; regression control, not a candidate capability"
+    }
+  ]
+}

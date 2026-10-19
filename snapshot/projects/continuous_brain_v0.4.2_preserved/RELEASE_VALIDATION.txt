@@ -1,0 +1,49 @@
+Continuous Brain v0.4.2 — Release Validation
+============================================
+
+Date: 2026-09-02
+Release: Hierarchical Navigation Correction
+
+Static / automated validation
+-----------------------------
+- Python compileall: PASS
+- Unit/integration suite: 28 passed
+- Browser dashboard JavaScript (node --check): PASS
+- v0.4.1 -> v0.4.2 neural checkpoint resume: PASS
+  - generated a real v0.4.1 checkpoint at step 120
+  - resumed under v0.4.2 to step 150
+  - resulting checkpoint format_version=5
+  - status version=0.4.2
+
+New coverage in v0.4.2
+----------------------
+- per-level curriculum statistics isolation
+- v0.4.1 mixed-stat migration does not seed L1 graduation
+- L1 short teacher waypoint path generation
+- L1 angular reward preserves orientation shaping
+- L1 forward progress reports nonzero physical movement / distance delta
+- useful L1 rotation resets stagnation without requiring translation
+- newly unlocked curriculum level restarts an epsilon floor
+- tagged/stratified replay retains prior-skill rehearsal
+- existing action-mask, migration, vision, memory and dashboard tests remain green
+
+Embodied end-to-end smoke
+-------------------------
+Environment: mocked AI2-THOR Event/Controller contract
+Curriculum: L1
+Ticks: 500
+Vision: pixel-stats
+Result:
+- completed goals: 9
+- cumulative extrinsic reward: +10.709
+- checkpoint written successfully
+- positive forward progress observed (example dDist=+1.000, move=1.000)
+- wrong-way movement also observed and penalized (example dDist=-0.832)
+- level-specific epsilon floor began near 0.35 and decayed during the run
+- online learning/replay/memory/checkpoint path: PASS
+
+Important limitation
+--------------------
+The exact v0.4.2 waypoint/navigation behavior has not been executed against the
+user's local custom FloorPlan1Discovery_physics Unity binary in this build
+environment. That real-world simulator run is the next validation step.

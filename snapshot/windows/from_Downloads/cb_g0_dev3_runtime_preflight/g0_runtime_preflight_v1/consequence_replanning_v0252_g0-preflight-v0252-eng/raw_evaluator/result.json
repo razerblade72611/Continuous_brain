@@ -1,0 +1,7641 @@
+{
+  "checks": {
+    "known_block_consequence_override": true,
+    "known_block_success": true,
+    "memory_selected_goal": true,
+    "model_cost": true,
+    "model_next_blocked": true,
+    "model_next_node": true,
+    "model_success": true,
+    "model_valid": true,
+    "open_success": true,
+    "overall_replanning_success": true,
+    "query_flip_plan": true,
+    "surprise_exposure": true,
+    "surprise_mismatch_detection": true,
+    "surprise_plan_once_fails": true,
+    "surprise_replan_trigger": true,
+    "surprise_replanning_advantage": true,
+    "surprise_success": true
+  },
+  "details": [
+    {
+      "condition_id": 900300,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900301,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900302,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900303,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900304,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900305,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900306,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900307,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900308,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900309,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900310,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900311,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900312,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900313,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900314,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900315,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900316,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900317,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900318,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900319,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900320,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900321,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900322,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900323,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900324,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900325,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900326,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900327,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900328,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900329,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900330,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900331,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900332,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900333,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900334,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900335,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900336,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900337,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900338,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900339,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900340,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900341,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900342,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900343,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900344,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900345,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900346,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900347,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900348,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900349,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900350,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900351,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900352,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900353,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900354,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900355,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900356,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900357,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900358,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900359,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900360,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900361,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900362,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900363,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900364,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900365,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900366,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900367,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900368,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900369,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900370,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900371,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900372,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900373,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900374,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900375,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900376,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900377,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900378,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900379,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900380,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900381,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900382,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900383,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900384,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900385,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900386,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900387,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900388,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900389,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900390,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900391,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900392,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900393,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900394,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900395,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900396,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900397,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900398,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900399,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900400,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900401,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900402,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900403,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900404,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900405,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900406,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900407,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900408,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900409,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900410,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900411,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900412,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900413,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900414,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900415,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900416,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900417,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900418,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900419,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900420,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900421,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900422,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900423,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900424,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900425,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900426,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900427,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900428,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900429,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900430,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900431,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900432,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900433,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900434,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900435,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900436,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900437,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900438,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900439,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900440,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900441,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900442,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900443,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900444,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900445,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900446,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900447,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900448,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900449,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900450,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900451,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900452,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900453,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900454,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900455,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900456,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900457,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900458,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900459,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900460,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900461,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900462,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900463,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900464,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900465,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900466,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900467,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900468,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900469,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900470,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900471,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900472,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900473,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900474,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900475,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900476,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900477,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900478,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900479,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900480,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900481,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900482,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900483,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900484,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900485,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900486,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900487,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900488,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900489,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900490,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900491,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900492,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900493,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900494,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900495,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900496,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900497,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900498,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900499,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900500,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900501,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900502,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900503,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900504,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900505,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900506,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900507,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900508,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900509,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900510,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900511,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900512,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900513,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900514,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900515,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900516,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900517,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900518,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900519,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900520,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900521,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900522,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900523,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          4
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900524,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900525,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900526,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900527,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900528,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900529,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900530,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900531,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900532,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900533,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900534,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900535,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900536,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900537,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900538,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900539,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900540,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900541,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900542,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900543,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900544,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900545,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900546,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900547,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900548,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900549,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900550,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900551,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900552,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900553,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 1,
+        "initial_plan": [
+          0,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 0,
+        "initial_plan": [
+          1,
+          3,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "known_block",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    },
+    {
+      "condition_id": 900554,
+      "first": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      },
+      "second": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 1,
+        "mode": "surprise_block",
+        "plan_once_success": false,
+        "replanning_success": true,
+        "replans": 1
+      }
+    },
+    {
+      "condition_id": 900555,
+      "first": {
+        "first_plan_action": 1,
+        "goal": 1,
+        "initial_plan": [
+          1,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      },
+      "second": {
+        "first_plan_action": 0,
+        "goal": 0,
+        "initial_plan": [
+          0,
+          2
+        ],
+        "mismatches": 0,
+        "mode": "open",
+        "plan_once_success": true,
+        "replanning_success": true,
+        "replans": 0
+      }
+    }
+  ],
+  "format": "continuous_brain.consequence_replanning_test_v1",
+  "historical_planner_untouched": true,
+  "protected_unchanged": true,
+  "source_consequence_model_unchanged": true,
+  "split": {
+    "route_test": [
+      2304,
+      2559
+    ],
+    "route_test_spent": true,
+    "route_test_used": true,
+    "test_tuning_after_run_forbidden": true
+  },
+  "test_admission_passed": true,
+  "test_behavior_metrics": {
+    "known_block_model_override_rate": 1.0,
+    "known_block_plan_once_success": 1.0,
+    "known_block_replanning_success": 1.0,
+    "memory_selected_goal_accuracy": 1.0,
+    "open_plan_once_success": 1.0,
+    "open_replanning_success": 1.0,
+    "plan_once_success": 0.66796875,
+    "query_flip_changes_goal_and_initial_plan": 1.0,
+    "replanning_success": 1.0,
+    "surprise_block_plan_once_success": 0.0,
+    "surprise_block_replanning_success": 1.0,
+    "surprise_initial_target_direct_rate": 1.0,
+    "surprise_mismatch_detection_rate": 1.0,
+    "surprise_replan_trigger_rate": 1.0,
+    "surprise_replanning_advantage": 1.0
+  },
+  "test_model_metrics": {
+    "cost_mae": 0.027793509885668755,
+    "next_blocked_accuracy": 1.0,
+    "next_node_accuracy": 1.0,
+    "success_accuracy": 1.0,
+    "valid_accuracy": 1.0
+  },
+  "training_performed": false
+}

@@ -1,0 +1,36 @@
+{
+  "scope": "synthetic software checks only; no model training or inference",
+  "empty_evidence_accepted": {
+    "exit_code": 0,
+    "accepted": true,
+    "factor_failures": 0,
+    "nonzero_none_difference": 0.0,
+    "raw_records_supplied": 0
+  },
+  "nonzero_none_difference_accepted": {
+    "exit_code": 0,
+    "accepted": true,
+    "factor_failures": 0,
+    "nonzero_none_difference": 5e-07,
+    "raw_records_supplied": 0
+  },
+  "evaluator_crash_without_stale_report": {
+    "stale_report_supplied": false,
+    "exit_code": 4,
+    "evaluator_crash_executed": true,
+    "runner_reported_pass": false,
+    "runner_reported_max_epochs": true,
+    "simulated_extra_training_targets": [
+      "3200",
+      "4800"
+    ]
+  },
+  "evaluator_crash_with_stale_report": {
+    "stale_report_supplied": true,
+    "exit_code": 0,
+    "evaluator_crash_executed": true,
+    "runner_reported_pass": true,
+    "runner_reported_max_epochs": false,
+    "simulated_extra_training_targets": []
+  }
+}

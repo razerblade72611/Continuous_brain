@@ -1,0 +1,26 @@
+# Runtime state never goes in git: checkpoints, episodic memory, logs, model weights.
+runs/
+checkpoints/
+episodes/
+logs/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.npz
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+/evidence/g0_runtime/
+/constraints/directml.local.txt
+
+# Local append-only scientific seed opening/spend ledger.
+/registry/seed_ranges.local.jsonl
+# Cross-process lock file of the I1 protocol (no content).
+/registry/i1_protocol.lock

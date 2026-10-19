@@ -1,0 +1,257 @@
+{
+  "advantages": {
+    "collisions_reduced": 59.800000000000004,
+    "completion_percentage_points": 0.0,
+    "reward_absolute": 5.977949863910652,
+    "steps_saved_penalized": 0.0
+  },
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/child_v090_p4_detour/infant_training.at_11000_P4A_PASS.pt",
+  "critic": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/p4b_action_tail_v4/action_tail.pt",
+  "episodes": {
+    "imagination": [
+      {
+        "collisions": 91,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 22,
+        "reward": -9.538124437332147,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 83,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 30,
+        "reward": -8.736305446624756,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 64,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 49,
+        "reward": -6.838081855773931,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 78,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 36,
+        "reward": -8.246074757575993,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 26,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 86,
+        "reward": -3.0302699184417743,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 64,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 50,
+        "reward": -6.844909796714788,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 114,
+        "reward": -0.44282691955566444,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 115,
+        "reward": -0.4459831142425541,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 39,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 73,
+        "reward": -4.328285145759585,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 89,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "one_step_action_tail",
+        "planner_overrides": 25,
+        "reward": -9.344854769706721,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "reactive": [
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.63021939754484,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ]
+  },
+  "experiment": {
+    "critic_gamma": 0.95,
+    "critic_input": "world-predicted next_context7 + candidate action",
+    "memory_written": false,
+    "paired_episodes": 10,
+    "parents_used": false,
+    "planner_score": "predicted_reward - uncertainty + gamma * learned action-conditioned future-return tail",
+    "planning_horizon": 1,
+    "recursive_world_rollout": false,
+    "seed_end": 9010,
+    "seed_start": 9001,
+    "steps_per_episode": 120,
+    "training_performed_during_evaluation": false,
+    "uncertainty_weight": 1.0
+  },
+  "format": "continuous_brain.p4b_one_step_action_tail_gate.v096.v4",
+  "imagination": {
+    "completion_rate": 0.0,
+    "episodes": 10,
+    "mean_collisions": 53.4,
+    "mean_final_energy": 0.7599999999999998,
+    "mean_planner_overrides": 60.0,
+    "mean_reward": -5.779571616172792,
+    "mean_steps_penalized": 121.0
+  },
+  "p4b_passed": false,
+  "reactive": {
+    "completion_rate": 0.0,
+    "episodes": 10,
+    "mean_collisions": 113.2,
+    "mean_final_energy": 0.7599999999999998,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": -11.757521480083444,
+    "mean_steps_penalized": 121.0
+  },
+  "thresholds": {
+    "absolute_completion_rate": 0.2,
+    "completion_advantage": 0.05,
+    "max_collision_regression_per_episode": 2.0
+  },
+  "training_updates": 11000
+}

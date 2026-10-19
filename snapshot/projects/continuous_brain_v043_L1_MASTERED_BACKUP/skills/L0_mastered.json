@@ -1,0 +1,40 @@
+{
+  "version": "0.4.3",
+  "skill_level": 0,
+  "steps": 1117,
+  "goals": 100,
+  "curriculum_stats": {
+    "level": 0,
+    "window": 100,
+    "recent_attempts": 100,
+    "recent_successes": 100,
+    "recent_success_rate": 1.0,
+    "recent_failure_rate": 0.0,
+    "recent_timeout_rate": 0.0,
+    "recent_stagnation_rate": 0.0,
+    "recent_route_unavailable_rate": 0.0,
+    "recent_blocked_move_rate": 0.0,
+    "recent_blocked_advances": 0,
+    "recent_successful_translations": 0,
+    "median_success_steps": 6.0,
+    "graduation_median_limit": 6.0,
+    "graduation_ready": true,
+    "attempts_total": 100,
+    "successes_total": 100,
+    "goals_total": 100,
+    "timeouts_total": 0,
+    "stagnations_total": 0,
+    "successful_translations_total": 0,
+    "blocked_advances_total": 0,
+    "replans_total": 0,
+    "route_unavailable_total": 0,
+    "level_action_steps": 1117,
+    "episode_action_counts": [
+      0,
+      0,
+      2,
+      2,
+      0
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "baseline": {
+    "mean_survival": 259.4,
+    "mean_score": 0.075,
+    "need_death_rate": 0.0,
+    "n": 40
+  },
+  "learned": {
+    "mean_survival": 135.85,
+    "mean_score": 81.84999999999994,
+    "need_death_rate": 0.0,
+    "n": 40
+  },
+  "train_last20": 58.799999999999955
+}

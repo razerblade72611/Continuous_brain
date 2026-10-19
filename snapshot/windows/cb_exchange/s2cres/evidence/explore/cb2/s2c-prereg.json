@@ -1,0 +1,81 @@
+{
+ "format": "cb2-s2c-prereg/1",
+ "title": "CB2-S2c (r6): continue from S2b (initial policy and KL anchor), gamma 0.995, death penalty 10, 100 iterations; sealed 91001-91080",
+ "authority": "DAV-91: S2b sealed S2-PROGRESS (bc3a678), installed in cb2-ind-0001 (d09e426). S2c drafted on DAV-91 (2026-10-09 21:22Z); David: 'Please help me start pod' (2026-10-09 16:52 CT). Locked before any S2c outcome exists.",
+ "reference": {
+  "what": "frozen candidates/s2b-final: initial policy, KL anchor, sealed comparator; the canonical's current skill",
+  "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f",
+  "source": "cb2_s2b_results.tgz sha256 4ff65462f5f7cf5479c720315d938770cd9907399d9210a8956a2dd921b63d65"
+ },
+ "changes_from_S2b": {
+  "reference": "S2b instead of r3h-B (initial policy, KL anchor, comparator)",
+  "gamma": "0.995 instead of 0.99 (horizon ~200 steps: food/drink deaths, ~54% of S2b training deaths, build over hundreds of steps)",
+  "iterations": "100 instead of 50",
+  "practice_seeds": "run 7: 87,000,000 + iteration * 10,000 + n (never used)",
+  "development": "76001-76120 at iteration 0 (S2b) and every 20 iterations (20, 40, 60, 80, 100): 5 candidates",
+  "sealed": "91001-91080 (80 worlds, sealed block 2, never used; ledger: sealed-ledger.json)"
+ },
+ "fixed": "the scripted executor organ, the r2 core (frozen), the vision organ v1, the language stand-in; only the selector (and a value head) learns",
+ "learner": {
+  "algorithm": "PPO over the 8 organ commands, one command per step, + beta*KL(pi||pi_r3hB) per step + entropy bonus",
+  "value_head": "MLP on the detached selector trunk",
+  "gamma": 0.995,
+  "lambda": 0.95,
+  "clip": 0.2,
+  "lr": 0.0001,
+  "epochs": 4,
+  "minibatch": 2048,
+  "entropy": 0.001,
+  "beta_initial": 0.1,
+  "beta_rule": "x2 if the iteration's mean KL to r3h-B > 1.5 * 0.02; /2 if < 0.02 / 1.5",
+  "early_stop": "an update stops when the approximate KL to the rollout policy exceeds 0.05",
+  "iterations": 100,
+  "lives_per_iteration": 64,
+  "practice_seeds": "87,000,000 + iteration * 10,000 + n (practice run 7)",
+  "sampling": "temperature 1, a pure function of (iteration, life, step)",
+  "death_penalty": 10.0,
+  "initial_policy_and_anchor": "S2b"
+ },
+ "reward": "training: reward['total'] - 10 * [terminal death step]; reported: the environment's own reward components, the penalty total per life, as before",
+ "anti_hacking": {
+  "logged_every_iteration": [
+   "reward components",
+   "command shares",
+   "organ 'cannot' rate",
+   "requests fulfilled/failed",
+   "death causes",
+   "KL to r3h-B",
+   "entropy"
+  ],
+  "red_flags_reported": [
+   "any command share > 0.9",
+   "training reward rising while development survival or requests fall"
+  ],
+  "added": "'hiding' check: command share of 'rest' and Crafter unlocks per life logged per iteration; the sealed score gate (>= 1.0x routine) and requests gate (>= 0.85x) make pure hiding fail"
+ },
+ "development": {
+  "seeds": "76001-76120",
+  "when": "iteration 0 (S2b) and every 20 iterations, greedy",
+  "selection": "the checkpoint with the best mean development survival among those whose development Crafter score >= S2b's (iteration 0); if none is eligible: no candidate, the sealed set is not opened"
+ },
+ "post_install_check": "the installed s2c-final, under the unchanged cb2_evaluate, must reproduce its development life on 76001 (survival steps and unlocks); otherwise stop before the sealed set",
+ "sealed": {
+  "seeds": "91001-91080",
+  "use": "once",
+  "arms": [
+   "S2c candidate (paired with the routine on the same worlds, unchanged cb2_evaluate protocol)",
+   "frozen S2b (same worlds, same protocol)"
+  ],
+  "bootstrap": "paired per-world differences; one-sided 95% lower bound = 5th percentile of 10,000 bootstrap means, numpy default_rng(20261009)"
+ },
+ "verdicts": {
+  "S2c_complete_beyond_routine": "all of: (1) lower bound of paired survival (S2 - routine) > 0; (2) Crafter score >= 1.0x routine; (3) requests on time >= 0.85x the routine's rate (aggregate counts); (4) continuity as in r3-H (integrity, save/restore, consolidation round-trip, replay of 90041, 100% delegation provenance); no protocol deviation",
+  "S2c_progress": "if not complete: lower bound of paired survival (S2c - S2b) > 0 AND score >= S2b's score on the same worlds AND (3) AND (4)",
+  "no_improvement": "otherwise (reported as such; no post-hoc retuning on the sealed set)"
+ },
+ "integrity": "any crash, missing world, corrupted artifact or protocol deviation is reported as such, never silently rerun",
+ "gate4": "OPEN: S2 does not address prediction / persistent memory",
+ "note": "report keys 'vs_r3hB' / 'score_r3hB' in s2c-sealed-report.json name the comparator slot; here the comparator is S2b (comparator_name)"
+}

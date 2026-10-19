@@ -1,0 +1,23 @@
+AUTHOR v0.10.8 release validation
+=================================
+
+Source test suite: 179 passed
+Python compileall: PASS
+YAML parse (config.yaml, benchmarks/tasks.yaml): PASS
+Training dry-run: version 0.10.8, trainer maneuver_clear_discovery_curriculum, level 3
+Wheel build: ai2thor_agent-0.10.8-py3-none-any.whl
+Wheel isolated import: agent_core.__version__ == 0.10.8
+Geometry static regressions: PASS
+  - stool removal before NavMesh rebuild
+  - no-stool post-build validation present
+  - 2.20 m turnaround contracts present in both generated rooms
+  - 1.25 m door corridors present in both generated rooms
+  - 0.35 m perimeter keep-out buffers present
+  - generated floor Statue/Box rollover obstacles removed
+  - Windows source sync includes DiscoveryWorldBuilder and build script
+  - Windows-built player has explicit sync script back to AUTHOR's WSL executable path
+
+Unity player generation/runtime geometry smoke cannot execute in this container because
+it requires David's AI2-THOR Unity checkout/player build. The release therefore includes
+build-time collider assertions and scripts/smoke_test_discovery_world.py, which must pass
+on the rebuilt custom player before Level-3 training resumes.

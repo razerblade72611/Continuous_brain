@@ -1,0 +1,228 @@
+{
+  "format": "cb-g1-retention-prereg/1",
+  "id": "G1-COMPOSITION-RETENTION-v1",
+  "title": "G1 Composition Retention of G0-Requalified Historical Mechanisms",
+  "status": "PROPOSED",
+  "approved_by": null,
+  "scientific_question": "When the six G0-requalified historical mechanisms are simultaneously bound into one Unified Individual runtime, does each retain the complete causal/admission behavior of its own frozen evaluator?",
+  "scope": {
+    "required_mechanisms": [
+      "autobiographical_discrepancy_v0322",
+      "consequence_replanning_v0252",
+      "endogenous_goal_genesis_v0353",
+      "event_consistent_self_development_v0341",
+      "recurrent_self_trajectory_v031",
+      "recursive_autobiographical_curriculum_v0361"
+    ],
+    "excluded": [
+      "episodic_two_item_v023",
+      "episodic_goal_skill_v024",
+      "persistent_self_autobiographical_v028"
+    ],
+    "reason_excluded": "Not G0-cleared for this composition gate. Adding any mechanism requires a new preregistration version."
+  },
+  "preconditions": [
+    "All six G0 evidence rows in registry/g0_requalifications.json must verify.",
+    "All six mechanisms must be bound through hash-pinned audited adapters/state codecs into one continuously running UnifiedRuntime; no stand-ins.",
+    "The composed runtime must report all six mechanism_ids as bound before any G1 scientific family opens.",
+    "Each compatibility/evaluator adapter must be hash-pinned and must not modify historical evaluator thresholds, interventions, or required check semantics.",
+    "No parameter training, threshold tuning, or post-G0 mechanism repair may occur against proposed G1 DEV families before they open."
+  ],
+  "design": {
+    "condition": "All six mechanisms enabled simultaneously in one runtime. For the focal mechanism, run its frozen causal/admission check construct against runtime-owned state while the other five remain enabled.",
+    "control": "Its verified G0 isolated result is the preregistered retention reference; G1 is not allowed to substitute a new task or weaker proxy metric.",
+    "state_policy": "Fresh runtime per condition id unless the frozen evaluator explicitly requires within-condition persistence. No cross-family carryover.",
+    "continuation_after_valid_fail": "Continue remaining families after a valid scientific FAIL to characterize which mechanisms retain function; stop immediately on infrastructure/provenance failure.",
+    "fresh_dev_families_are_proposed_not_registered": true
+  },
+  "primary_decision_rule": {
+    "gate_pass": "PASS only if every one of the six mechanism-level G1 results is PASS.",
+    "mechanism_pass": "The frozen evaluator/compatibility contract completes with return code 0, top-level admission/pass field true, every required_frozen_check present and true, no threshold/intervention override, all six mechanisms were bound for the run, and provenance/integrity checks all pass.",
+    "mechanism_fail": "A completed scientifically valid evaluator contract returns a false admission/pass field or any required frozen check false.",
+    "blocked_or_infrastructure_failure": "Missing check, missing/broken binding, adapter mismatch, result missing, provenance change, dependency mismatch, or process/setup failure. Such outcomes are not scientific FAIL and stop before another family is opened."
+  },
+  "mechanisms": [
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "g0_raw_result_sha256": "37f4489c2b1525b35cac7fcbe99f70401e325bb8a20df95aacba11e7c0a13b7d",
+      "g0_g0_result_sha256": "7fe65fdd78fec4af4d70b0860d6f99c6dd85c8a3fb8116b60e510af1598649e1",
+      "required_frozen_checks": [
+        "commitment_formation",
+        "discrepancy_ablation_bit_exact_neutral",
+        "discrepancy_ablation_exact_neutral",
+        "donor_history_causal",
+        "empty_history_exact_neutral",
+        "fresh_direct_history",
+        "fresh_donor_history",
+        "model_reload_preference_exact",
+        "model_reload_reliability_exact",
+        "normal_history_causal",
+        "primary_labels_alone_exact_neutral",
+        "reliability_prediction",
+        "zero_discrepancy_gradient_alive",
+        "zero_discrepancy_structural_neutral"
+      ],
+      "required_check_count": 14,
+      "proposed_dev_family": {
+        "name": "g1-v0322-dev",
+        "start": 313000,
+        "stop": 313255,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "g0_raw_result_sha256": "269ab9b10573b4589b72b69f1ecf02f271ec6b68f481d871b45728f69f109c29",
+      "g0_g0_result_sha256": "43e98fe885360523734f0ea0001106c84f8a6179b97f2db7b7929c44175dbfe3",
+      "required_frozen_checks": [
+        "known_block_consequence_override",
+        "known_block_success",
+        "memory_selected_goal",
+        "model_cost",
+        "model_next_blocked",
+        "model_next_node",
+        "model_success",
+        "model_valid",
+        "open_success",
+        "overall_replanning_success",
+        "query_flip_plan",
+        "surprise_exposure",
+        "surprise_mismatch_detection",
+        "surprise_plan_once_fails",
+        "surprise_replan_trigger",
+        "surprise_replanning_advantage",
+        "surprise_success"
+      ],
+      "required_check_count": 17,
+      "proposed_dev_family": {
+        "name": "g1-v0252-dev",
+        "start": 310000,
+        "stop": 310255,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "g0_raw_result_sha256": "3a2a499fd8cd392273432a5a5291168039580d57a65165f29b916b1c380701e1",
+      "g0_g0_result_sha256": "c7c5093ed993787045a13e9c997821120526bae63a424d4b59926689ca5e81ff",
+      "required_frozen_checks": [
+        "donor_autobiography_changes_generated_goal",
+        "endogenous_goal_genesis",
+        "erased_autobiography_has_no_directional_goal",
+        "goal_context_persists",
+        "goal_lifecycle_persists",
+        "self_generated_goal_completes_from_self_estimate",
+        "self_generated_goal_controls_plan",
+        "self_generated_goal_develops_capability",
+        "self_generated_goal_persists",
+        "self_generated_goal_reduces_discrepancy"
+      ],
+      "required_check_count": 10,
+      "proposed_dev_family": {
+        "name": "g1-v0353-dev",
+        "start": 315000,
+        "stop": 315127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "g0_raw_result_sha256": "866c10d49ca08f979317260fa31d256c5a374827968588e1640fa9193e739307",
+      "g0_g0_result_sha256": "0d7ce8a8cc12f056b8742de5c5550813773ad2caf7f1d9cc58919360c8cb206f",
+      "required_frozen_checks": [
+        "autobiography_guides_initial_behavior",
+        "autobiography_persists",
+        "behavior_changes_next_autobiography",
+        "behavior_develops_capability",
+        "behavior_policy_persists",
+        "capability_persists",
+        "development_reduces_discrepancy",
+        "donor_history_changes_behavior",
+        "erased_history_removes_fragility_response",
+        "event_consistent_full_feedback_loop",
+        "frozen_autobiography_blocks_behavior_change",
+        "initial_autobiography_identifies_fragility",
+        "new_autobiography_updates_self_estimate_at_decision",
+        "self_estimate_changes_later_behavior",
+        "self_estimate_event_exactly_causes_graduation",
+        "stable_history_guides_direct_behavior"
+      ],
+      "required_check_count": 16,
+      "proposed_dev_family": {
+        "name": "g1-v0341-dev",
+        "start": 314000,
+        "stop": 314127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "g0_raw_result_sha256": "7bba68ae76bb6e12841933af8eeb087ae91dc08c9bf4a5ede0f3635cfdcd809d",
+      "g0_g0_result_sha256": "d3b7cd52b64f54dcff7a38420b620f197db29483a699123f507e07676277b472",
+      "required_frozen_checks": [
+        "donor_primary_flips_trajectory_choice",
+        "explicit_intention_guides_trajectory",
+        "model_surprise_self_error",
+        "primary_resumes",
+        "rollout_goal",
+        "rollout_mode",
+        "rollout_primary",
+        "rollout_self",
+        "rollout_world",
+        "scalar_only_control_collapses",
+        "surprise_preserves_primary",
+        "surprise_self_error",
+        "teacher_agency",
+        "teacher_mode",
+        "teacher_primary",
+        "teacher_self",
+        "teacher_world"
+      ],
+      "required_check_count": 17,
+      "proposed_dev_family": {
+        "name": "g1-v031-dev",
+        "start": 311000,
+        "stop": 312023,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "g0_raw_result_sha256": "2a825494e6cee4c457e500bf39691f14ec09c80cfe9305e6a788855676209279",
+      "g0_g0_result_sha256": "98353d73ae967a48c4deb20912c798b1766019a681a5c55ee8e5a132966e2d09",
+      "required_frozen_checks": [
+        "curriculum_persists",
+        "donor_history_changes_first_goal",
+        "erased_history_has_no_directional_goal",
+        "first_goal_completes",
+        "first_goal_endogenous",
+        "frozen_autobiography_repeats_old_goal",
+        "second_goal_changes_capability",
+        "second_goal_controls_behavior",
+        "updated_autobiography_advances_curriculum",
+        "updated_autobiography_authors_second_goal",
+        "updated_history_causes_new_curriculum"
+      ],
+      "required_check_count": 11,
+      "proposed_dev_family": {
+        "name": "g1-v0361-dev",
+        "start": 316000,
+        "stop": 316127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      }
+    }
+  ],
+  "notes": "SUPERSEDED PROPOSAL. Never approved or executed. Superseded by G1-COMPOSITION-RETENTION-v2 before any G1 family was registered or opened."
+}

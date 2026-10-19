@@ -1,0 +1,49 @@
+Continuous Brain v0.4.1 release validation
+==========================================
+
+Purpose
+-------
+Focused curriculum correction after the first real AI2-THOR L0 run.
+
+Static/runtime validation
+-------------------------
+python compile: PASS
+pytest: 20 passed
+checkpoint format: 4 (compatible with v0.4)
+status version: 0.4.1
+
+New behavior validated
+----------------------
+- curriculum-specific valid action sets: PASS
+- greedy neural selection masks invalid actions: PASS
+- epsilon-random selection samples only valid actions: PASS
+- TD bootstrap target masks invalid actions: covered by implementation/regression suite
+- optional slow planner receives only valid actions: covered by implementation/regression suite
+- L0 external ADVANCE request hard-masked: PASS
+- L0 position remains anchored: PASS
+- correct angular turn is rewarded over wrong turn: PASS
+- stagnation termination and counters: PASS
+- curriculum statistics state round-trip: PASS
+- legacy v0.2/v0.3/v0.4 migration tests: PASS
+- live visualizer tests: PASS
+
+End-to-end embodied smoke
+-------------------------
+Mocked AI2-THOR Event/Controller contract, ContinuousAgent, pixel-stats vision,
+online replay learning, L0 curriculum.
+
+steps: 240
+goals: 36
+MoveAhead calls: 0
+RotateLeft/RotateRight calls: 219
+result: V041_EMBODIED_SMOKE_PASS
+
+Representative diagnostic at step 240:
+step=240 ... goals=36 ... brain=turn_left thor=RotateLeft dBearing=+30.0
+stagnation=0/20 Lstats=100.0%/med6.0 ... agent=(+0.00,+0.00)
+
+Not validated here
+------------------
+The local custom Unity executable FloorPlan1Discovery_physics is not available in
+this build environment. The user's machine is the authoritative real-simulator
+validation target.

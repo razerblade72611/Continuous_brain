@@ -1,0 +1,69 @@
+{
+ "format": "cb2-l1-prereg/1",
+ "title": "CB2-L1: does the individual learn from its own lived experience, and can we tell? (learning twin vs frozen twin)",
+ "authority": "DAV-98, approved by David ('Please proceed', 2026-10-10 03:29 CT); defaults for the open questions recorded on DAV-98 (L-C first; amnesic twin deferred; DreamerV3 baseline reported, not gating; drives = env reward + death signal); revised before launch with Sol's review (DAV-98, 2026-10-10 04:18 CT): reference twin added, drive spec fixed, primitive-action prediction and L2 made explicit, DreamerV3 comparison terms set",
+ "principle": "competence from learning, not rules we write; scaffolding listed and measured",
+ "twins": {
+  "source": "S2b (state cc8948e7..., weights 8cffde79...), the canonical's current skill; copies, never the canonical itself",
+  "learning": "sleeps after every wake (L-A core, selector re-anchoring by self-distillation, L-C chooser); each sleep is one consolidation event in its own home",
+  "frozen": "never sleeps",
+  "reference": "sleeps exactly like the learning twin (same starting weights, same update counts, same budget, same per-cycle seeds) but always on a FIXED buffer: the cycle-0 lives only, never its later experience. Tests whether its own accumulating experience helps beyond extra optimisation. (Erasing memories only at evaluation would test retrieval, a separate question, not run here.)"
+ },
+ "experience": {
+  "wake": "20 lives per cycle on practice run 9 (89,000,000 + cycle*10,000 + n), identical worlds for both twins",
+  "sleep_data": "its own wake lives (all cycles so far), alternated 1:1 with the canonical's 592 lived lives before the split (lived-cb2-ind-0001); no teacher labels, no routine, no privileged inputs",
+  "drives": "fixed in advance: the environment's reward, which carries perceived health change (+/-0.1 per health point, the same reading as its body sense), first achievement unlocks and caretaker requests; death as a terminal signal (-10). No other term: no separate damage penalty (no double counting), no rule-shaped terms (e.g. nothing for being outside at night: the model must learn that relationship). These encode objectives, not behaviour, and imply nothing about suffering."
+ },
+ "sleep": {
+  "core_updates": 1500,
+  "T": 256,
+  "map_radius": 8,
+  "anchor_updates": 1000,
+  "chooser_updates": 1500,
+  "batch": 16,
+  "chooser": {
+   "horizon": 15,
+   "gamma": 0.99,
+   "lambda": 0.95,
+   "tau": 1.0
+  }
+ },
+ "cycles": 10,
+ "probes": {
+  "never_learned_from": true,
+  "fresh": "40 new worlds per cycle (78100 + 100*cycle + i), full lives, paired learning vs frozen",
+  "transfer": "40 new worlds per cycle (78600 + 100*cycle + i) under a different caretaker: arrival rate x2 (growth x2, max 1/20), family weights avoid 0.30, maintain 0.25 (practice never sees this)",
+  "situations": "a fixed bank built once from the frozen twin's lives on worlds 79100-79123: first dusk outside, first food<=3, first zombie within 3; each twin wakes there with a fresh mind for 300 steps; same bank every cycle (also retention)",
+  "gate2_ablation": "at cycle 10 the learning twin also runs every probe with its chooser off"
+ },
+ "primary": {
+  "experience_causes_improvement": "pooled over cycles 6-10: one-sided 95% bootstrap lower bound of paired survival (learning - reference) > 0 on fresh worlds AND on transfer worlds",
+  "learning_helps_at_all": "pooled over cycles 6-10: lower95 of paired survival (learning - frozen) > 0 on fresh AND transfer worlds",
+  "situations": "per situation, mean over cycles 6-10, paired: lower95 > 0 (vs reference and vs frozen, each reported)",
+  "bootstrap": "numpy default_rng(20261009), 10,000 resamples, 5th percentile"
+ },
+ "secondary": {
+  "retention": "situation survival of the learning twin at cycle 10 minus cycle 5 (paired by situation): lower95 > -25 steps",
+  "gate2": "cycle 10, chooser on - off, pooled over fresh+transfer: mean > 0 (reported; the chooser is credited only if > 0)",
+  "gate4": "probe-life on the learning twin's core after cycle 10 vs the frozen r2 core (known-out-of-view R^2 and map-head balanced accuracy)",
+  "learned_authored_share": "primitive actions authored by learning: 0% in L1 by construction (the executor is scripted), reported plainly; share of command decisions changed by the learned chooser per cycle",
+  "growth_curve": "paired survival difference per cycle (fresh, transfer, situations), with the trend over cycles",
+  "primitive_action_prediction": "built in from the start: the chooser's hands model predicts primitive actions from the core's state and a command; its accuracy is reported every sleep (precursor to L2)"
+ },
+ "reading": {
+  "own_experience_shown": "experience_causes_improvement holds on fresh and transfer (fresh-only = possible memorisation)",
+  "optimisation_only": "learning beats frozen but not reference: the gain comes from extra training, not from its experience",
+  "not_shown": "otherwise"
+ },
+ "change_of_direction": [
+  "no learning-vs-frozen advantage on fresh probes (pooled lower95 <= 0) -> the learner design is wrong; stop and redesign before scaling",
+  "advantage on fresh but not transfer -> memorisation; change objectives",
+  "chooser credited 0 and changed-decision share ~0 -> learned choice is not doing the work",
+  "learned-authored primitive share stays 0% -> L2 (learned hands, shelter/night first) is required next, not more selector work"
+ ],
+ "not_claimed": "technical continuity is not selfhood; this is development-level evidence (no sealed worlds are used in L1); a positive result would get its own sealed confirmation",
+ "integrity": "crashes and deviations are reported, never silently rerun; cycle 0 (before any sleep) must show zero paired difference (identical twins): the instrument check",
+ "next_milestone": "L2 (explicit): replace at least one scripted skill with learned primitive-action behaviour, shelter/night first (about 74% of damage deaths begin upstream) -- so the track does not return to the eight-command box",
+ "dreamerv3_baseline": "run separately after L1, reported, not gating the track: matched observations, primitive actions, experience budget and the same drive specification. Beating it would gate a claim of superior control, not a claim of lifelong growth. Reference: Hafner et al., Nature 2025 (DreamerV3).",
+ "compute": "one 4090 pod: wake (learning twin), two sleeps per cycle (learning, reference), probes for three twins per cycle; about 6-9 h"
+}

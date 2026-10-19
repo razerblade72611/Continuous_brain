@@ -1,0 +1,36 @@
+AUTHOR v0.10.5 RELEASE VALIDATION
+=================================
+Release: 0.10.5
+Focus: CrossThreshold restoration + v0.10.4 synthetic cross-failure state repair
+
+Source validation
+-----------------
+pytest: 160 passed
+python compileall: PASS
+config.yaml parse: PASS
+benchmarks/tasks.yaml parse: PASS
+trainer dry-run: PASS
+trainer identity: pose_authoritative_cross_restored_curriculum
+replay schema for new records: author.embodied.v0105
+unfinished TODO/FIXME/NotImplementedError scan: none
+
+Regression coverage added
+-------------------------
+- live _AdapterMixin.execute(CrossThreshold) dispatch
+- live _AdapterMixin.execute(FaceTarget) dispatch
+- v0.10.4 missing-cross replay/checkpoint repair
+- repair idempotence and checkpoint backup
+
+Wheel
+-----
+File: dist/ai2thor_agent-0.10.5-py3-none-any.whl
+SHA256: c1bcbf93e1b47de7d48eef892b41fa6624a4e52fd5fe58e1239e4daa24601239
+Wheel unzip integrity: PASS
+Wheel isolated install/import: PASS
+Imported version: 0.10.5
+
+State policy
+------------
+Runtime state is intentionally excluded from this release archive.
+Existing A/B state must be copied from the prior installation.
+Raw v0.10.4 replay is preserved; repair only adjusts proven synthetic checkpoint failures.

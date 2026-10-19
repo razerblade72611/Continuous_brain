@@ -1,0 +1,128 @@
+{
+ "scientific": true,
+ "ticks": 100,
+ "checkpoint": "runs/unified_boot/checkpoints/20260927T152308634859Z_unified_boot",
+ "binding": [
+  {
+   "slot": "perception",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "workspace",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "working_memory",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "episodic_memory",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "self_state",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "autobiography",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "world_model",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "skills",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "planner",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "goal_genesis",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "curriculum",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "metacognition",
+   "kind": "mechanism",
+   "status": "unbound",
+   "component": null,
+   "provenance": null,
+   "reason": "no verified mechanism bound (DAV-74 pending)"
+  },
+  {
+   "slot": "persistence",
+   "kind": "infrastructure",
+   "status": "infrastructure",
+   "component": "runtime",
+   "provenance": null,
+   "reason": "SnapshotStore (never-overwrite, SHA-256 checksums)"
+  },
+  {
+   "slot": "provenance",
+   "kind": "infrastructure",
+   "status": "infrastructure",
+   "component": "runtime",
+   "provenance": null,
+   "reason": "config hash, binding report, write log, run registry"
+  },
+  {
+   "slot": "coprocessor",
+   "kind": "infrastructure",
+   "status": "infrastructure",
+   "component": "runtime",
+   "provenance": null,
+   "reason": "null (disabled)"
+  }
+ ],
+ "manifest_sha256": "f555ca62b8375af81e9b07df97259244d5d6dc3378c05928794c9e168c0930cc"
+}

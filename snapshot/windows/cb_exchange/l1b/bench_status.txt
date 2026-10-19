@@ -1,0 +1,7 @@
+2026-10-11T23:57:30Z create failed (exit 1: {"error":"failed to create pod: graphql error: There are no longer any instances available with the requested specifications. Please refresh and try again.","code":"graphql_error"}); account shows no cb2-l1b-bench-claude: nothing to clean
+2026-10-11T23:58:05Z created zcy64urgffgd9q (cb2-l1b-bench-claude, 1x NVIDIA GeForce RTX 4090, SECURE); claim recorded
+2026-10-11T23:58:06Z cost check: 0.89/h, hard limit 2.0 h -> at most 1.78 (ceiling 3.0)
+2026-10-11T23:59:19Z watcher started (pid 242715); it owns cleanup of zcy64urgffgd9q from now on
+2026-10-11T23:59:23Z bench start: exit 0; 
+2026-10-12T00:41:03Z cb2_l1b_bench.tgz downloaded to /home/davei/cb_data/l1b-bench/cb2_l1b_bench.tgz, sha256 MATCH 01487800f755627134396308c9b48c455d415be09b44443335a0244bf860170b
+2026-10-12T00:41:10Z pod zcy64urgffgd9q deleted (verified: not_found)

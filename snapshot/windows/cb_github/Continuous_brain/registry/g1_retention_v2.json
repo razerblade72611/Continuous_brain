@@ -1,0 +1,286 @@
+{
+  "format": "cb-g1-retention-prereg/2",
+  "id": "G1-COMPOSITION-RETENTION-v2",
+  "title": "G1 Composition Retention of G0-Requalified Historical Mechanisms \u2014 Shared-State Composition",
+  "status": "PROPOSED",
+  "approved_by": null,
+  "scientific_question": "When the six G0-requalified historical mechanisms are simultaneously hosted in one Unified Individual runtime with one canonical shared state store and an active common scheduler, does each retain the complete causal/admission behavior of its own frozen evaluator?",
+  "scope": {
+    "required_mechanisms": [
+      "autobiographical_discrepancy_v0322",
+      "consequence_replanning_v0252",
+      "endogenous_goal_genesis_v0353",
+      "event_consistent_self_development_v0341",
+      "recurrent_self_trajectory_v031",
+      "recursive_autobiographical_curriculum_v0361"
+    ],
+    "excluded": [
+      "episodic_two_item_v023",
+      "episodic_goal_skill_v024",
+      "persistent_self_autobiographical_v028"
+    ],
+    "reason_excluded": "Not G0-cleared for this composition gate. Adding any mechanism requires a new preregistration version."
+  },
+  "preconditions": [
+    "All six G0 evidence rows in registry/g0_requalifications.json must verify.",
+    "All six mechanisms must be bound through hash-pinned audited adapters/state codecs into one continuously running UnifiedRuntime; no stand-ins.",
+    "One canonical runtime-owned state store must be authoritative for shared self_state, autobiography, world_model, goal and planning channels. Compatibility adapters may translate views but may not hold independent authoritative shadow copies of those shared domains.",
+    "Every focal run must use one runtime instance containing all six adapters in the same scheduler graph. No non-focal mechanism may be administratively disabled, bypassed, detached, replaced by a mock, or run in a private duplicate runtime.",
+    "The runtime must emit a composition attestation containing runtime_instance_id, scheduler_graph_hash, binding/adaptor hashes, state-codec hashes, canonical state-store identity, base-checkpoint identity, and per-mechanism scheduler eligibility/invocation counts.",
+    "Each compatibility/evaluator adapter must be hash-pinned and must not modify historical evaluator thresholds, interventions, required check semantics, or pass-field semantics.",
+    "A full-composition ENGINEERING_ONLY preflight must complete for each of the six focal evaluator routes under the exact adapter/binding/state-store/scheduler identities intended for science. Preflight may verify structure, execution, provenance, complete check-key presence and scheduler participation but must not be used to tune against scientific pass/fail values.",
+    "After engineering preflight, the exact composition manifest must be frozen. Any adapter, binding, state codec, scheduler graph, shared-state mapping or historical-core change invalidates the preflight and requires a new preregistration version before science.",
+    "No parameter training, threshold tuning, task-specific routing repair, or post-G0 mechanism repair may occur against proposed G1 DEV families before they open."
+  ],
+  "design": {
+    "condition": "All six mechanisms are instantiated in one runtime, share the canonical runtime-owned state store for overlapping domains, and remain scheduler-eligible. For the focal mechanism, execute its frozen causal/admission construct against runtime-owned state while the other five remain bound and active in the same scheduler graph.",
+    "control": "Its verified G0 isolated result is the preregistered retention reference; G1 may not substitute a new task, weaker proxy metric, isolated private runtime, or private authoritative shadow state.",
+    "shared_state_rule": "Shared self/autobiography/world/goal/planning domains have one authoritative runtime-owned representation per condition. Adapter-local caches must be derivable/non-authoritative and excluded from checkpoint authority.",
+    "scheduler_rule": "All six adapters remain in the scheduler graph for every focal run. Eligibility and actual invocation counts are recorded. Zero invocation is allowed only when the frozen trigger conditions are not met; administrative disable/bypass is never allowed.",
+    "state_policy": "Fresh composed runtime per condition id unless the frozen evaluator explicitly requires within-condition persistence. No cross-family carryover.",
+    "engineering_preflight": "Before any scientific family opens, run the six focal evaluator routes on disjoint ENGINEERING_ONLY families with the exact proposed composition manifest. Redact scientific pass/fail values from the preflight attestation; record only runtime completion, check-key completeness, provenance, routing, shared-state identity and scheduler participation.",
+    "manifest_freeze": "The exact composition manifest SHA-256 produced by successful preflight is required by every scientific G1 result. A mismatch is infrastructure failure, not scientific FAIL.",
+    "continuation_after_valid_fail": "Continue remaining scientific families after a valid scientific FAIL to characterize which mechanisms retain function; stop immediately on infrastructure/provenance/composition-attestation failure.",
+    "fresh_dev_families_are_proposed_not_registered": true,
+    "engineering_preflight_families_are_proposed_not_registered": true
+  },
+  "primary_decision_rule": {
+    "gate_pass": "PASS only if every one of the six mechanism-level G1 results is PASS.",
+    "mechanism_pass": "The frozen evaluator/compatibility contract completes with return code 0; top-level admission/pass field is true; every required_frozen_check is present and true; all six mechanisms were instantiated in one runtime and remained scheduler-eligible; canonical shared-state identity and composition-manifest hash match the frozen preflight; no threshold/intervention override occurred; and all provenance/integrity checks pass.",
+    "mechanism_fail": "A completed scientifically valid composed-runtime evaluator contract returns a false admission/pass field or any required frozen check false while composition/provenance attestations remain valid.",
+    "blocked_or_infrastructure_failure": "Missing check, missing/broken binding, private/shadow authoritative state, disabled/detached non-focal mechanism, composition-manifest mismatch, scheduler-attestation failure, adapter mismatch, result missing, provenance change, dependency mismatch, or process/setup failure. Such outcomes are not scientific FAIL and stop before another family opens."
+  },
+  "mechanisms": [
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "g0_raw_result_sha256": "37f4489c2b1525b35cac7fcbe99f70401e325bb8a20df95aacba11e7c0a13b7d",
+      "g0_g0_result_sha256": "7fe65fdd78fec4af4d70b0860d6f99c6dd85c8a3fb8116b60e510af1598649e1",
+      "required_frozen_checks": [
+        "commitment_formation",
+        "discrepancy_ablation_bit_exact_neutral",
+        "discrepancy_ablation_exact_neutral",
+        "donor_history_causal",
+        "empty_history_exact_neutral",
+        "fresh_direct_history",
+        "fresh_donor_history",
+        "model_reload_preference_exact",
+        "model_reload_reliability_exact",
+        "normal_history_causal",
+        "primary_labels_alone_exact_neutral",
+        "reliability_prediction",
+        "zero_discrepancy_gradient_alive",
+        "zero_discrepancy_structural_neutral"
+      ],
+      "required_check_count": 14,
+      "proposed_dev_family": {
+        "name": "g1-v0322-dev",
+        "start": 313000,
+        "stop": 313255,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v0322-eng",
+        "start": 904400,
+        "stop": 904655,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "g0_raw_result_sha256": "269ab9b10573b4589b72b69f1ecf02f271ec6b68f481d871b45728f69f109c29",
+      "g0_g0_result_sha256": "43e98fe885360523734f0ea0001106c84f8a6179b97f2db7b7929c44175dbfe3",
+      "required_frozen_checks": [
+        "known_block_consequence_override",
+        "known_block_success",
+        "memory_selected_goal",
+        "model_cost",
+        "model_next_blocked",
+        "model_next_node",
+        "model_success",
+        "model_valid",
+        "open_success",
+        "overall_replanning_success",
+        "query_flip_plan",
+        "surprise_exposure",
+        "surprise_mismatch_detection",
+        "surprise_plan_once_fails",
+        "surprise_replan_trigger",
+        "surprise_replanning_advantage",
+        "surprise_success"
+      ],
+      "required_check_count": 17,
+      "proposed_dev_family": {
+        "name": "g1-v0252-dev",
+        "start": 310000,
+        "stop": 310255,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v0252-eng",
+        "start": 903000,
+        "stop": 903255,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "g0_raw_result_sha256": "3a2a499fd8cd392273432a5a5291168039580d57a65165f29b916b1c380701e1",
+      "g0_g0_result_sha256": "c7c5093ed993787045a13e9c997821120526bae63a424d4b59926689ca5e81ff",
+      "required_frozen_checks": [
+        "donor_autobiography_changes_generated_goal",
+        "endogenous_goal_genesis",
+        "erased_autobiography_has_no_directional_goal",
+        "goal_context_persists",
+        "goal_lifecycle_persists",
+        "self_generated_goal_completes_from_self_estimate",
+        "self_generated_goal_controls_plan",
+        "self_generated_goal_develops_capability",
+        "self_generated_goal_persists",
+        "self_generated_goal_reduces_discrepancy"
+      ],
+      "required_check_count": 10,
+      "proposed_dev_family": {
+        "name": "g1-v0353-dev",
+        "start": 315000,
+        "stop": 315127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v0353-eng",
+        "start": 904900,
+        "stop": 905027,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "g0_raw_result_sha256": "866c10d49ca08f979317260fa31d256c5a374827968588e1640fa9193e739307",
+      "g0_g0_result_sha256": "0d7ce8a8cc12f056b8742de5c5550813773ad2caf7f1d9cc58919360c8cb206f",
+      "required_frozen_checks": [
+        "autobiography_guides_initial_behavior",
+        "autobiography_persists",
+        "behavior_changes_next_autobiography",
+        "behavior_develops_capability",
+        "behavior_policy_persists",
+        "capability_persists",
+        "development_reduces_discrepancy",
+        "donor_history_changes_behavior",
+        "erased_history_removes_fragility_response",
+        "event_consistent_full_feedback_loop",
+        "frozen_autobiography_blocks_behavior_change",
+        "initial_autobiography_identifies_fragility",
+        "new_autobiography_updates_self_estimate_at_decision",
+        "self_estimate_changes_later_behavior",
+        "self_estimate_event_exactly_causes_graduation",
+        "stable_history_guides_direct_behavior"
+      ],
+      "required_check_count": 16,
+      "proposed_dev_family": {
+        "name": "g1-v0341-dev",
+        "start": 314000,
+        "stop": 314127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v0341-eng",
+        "start": 904700,
+        "stop": 904827,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "g0_raw_result_sha256": "7bba68ae76bb6e12841933af8eeb087ae91dc08c9bf4a5ede0f3635cfdcd809d",
+      "g0_g0_result_sha256": "d3b7cd52b64f54dcff7a38420b620f197db29483a699123f507e07676277b472",
+      "required_frozen_checks": [
+        "donor_primary_flips_trajectory_choice",
+        "explicit_intention_guides_trajectory",
+        "model_surprise_self_error",
+        "primary_resumes",
+        "rollout_goal",
+        "rollout_mode",
+        "rollout_primary",
+        "rollout_self",
+        "rollout_world",
+        "scalar_only_control_collapses",
+        "surprise_preserves_primary",
+        "surprise_self_error",
+        "teacher_agency",
+        "teacher_mode",
+        "teacher_primary",
+        "teacher_self",
+        "teacher_world"
+      ],
+      "required_check_count": 17,
+      "proposed_dev_family": {
+        "name": "g1-v031-dev",
+        "start": 311000,
+        "stop": 312023,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v031-eng",
+        "start": 903300,
+        "stop": 904323,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "g0_raw_result_sha256": "2a825494e6cee4c457e500bf39691f14ec09c80cfe9305e6a788855676209279",
+      "g0_g0_result_sha256": "98353d73ae967a48c4deb20912c798b1766019a681a5c55ee8e5a132966e2d09",
+      "required_frozen_checks": [
+        "curriculum_persists",
+        "donor_history_changes_first_goal",
+        "erased_history_has_no_directional_goal",
+        "first_goal_completes",
+        "first_goal_endogenous",
+        "frozen_autobiography_repeats_old_goal",
+        "second_goal_changes_capability",
+        "second_goal_controls_behavior",
+        "updated_autobiography_advances_curriculum",
+        "updated_autobiography_authors_second_goal",
+        "updated_history_causes_new_curriculum"
+      ],
+      "required_check_count": 11,
+      "proposed_dev_family": {
+        "name": "g1-v0361-dev",
+        "start": 316000,
+        "stop": 316127,
+        "purpose": "DEV",
+        "sealed": false,
+        "spent": false
+      },
+      "proposed_engineering_preflight_family": {
+        "name": "g1-preflight-v0361-eng",
+        "start": 905100,
+        "stop": 905227,
+        "purpose": "ENGINEERING",
+        "sealed": false,
+        "spent": false
+      }
+    }
+  ],
+  "notes": "PROPOSED ONLY. v2 supersedes the unapproved v1 proposal by adding canonical shared-state identity, scheduler participation/eligibility attestations, an immutable composition manifest, and mandatory engineering-only full-composition preflight before any scientific G1 family can open. No G1 family is registered or runnable from this artifact.",
+  "supersedes": "G1-COMPOSITION-RETENTION-v1"
+}

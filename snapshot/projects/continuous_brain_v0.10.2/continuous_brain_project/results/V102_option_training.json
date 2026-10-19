@@ -1,0 +1,113 @@
+Extracting lived successful sequences for temporal option discovery...
+planning_features=540
+planning_features=1055
+planning_features=1531
+planning_features=2019
+planning_features=2523
+planning_features=3021
+planning_features=567
+option_update=1/3000 loss=4.33015 sel=1.7830 term=0.9740 act=1.6208 q=0.2601 rank=0.0893 grad=1.946 val_sel=0.205 val_act=0.269 val_term_f1=0.000 val_rank=0.378
+option_update=250/3000 loss=2.95976 sel=0.9486 term=0.9373 act=1.2840 q=0.0264 rank=0.0751 grad=0.967 val_sel=0.554 val_act=0.447 val_term_f1=0.313 val_rank=0.435
+option_update=500/3000 loss=2.89466 sel=0.9938 term=0.7973 act=1.2765 q=0.0170 rank=0.0777 grad=1.692 val_sel=0.579 val_act=0.456 val_term_f1=0.314 val_rank=0.399
+option_update=750/3000 loss=2.83745 sel=0.9202 term=0.7846 act=1.3024 q=0.0156 rank=0.0780 grad=2.107 val_sel=0.578 val_act=0.474 val_term_f1=0.331 val_rank=0.447
+option_update=1000/3000 loss=2.95807 sel=0.8768 term=0.8474 act=1.4175 q=0.0208 rank=0.0800 grad=1.500 val_sel=0.586 val_act=0.478 val_term_f1=0.329 val_rank=0.455
+option_update=1250/3000 loss=2.77335 sel=0.8424 term=0.7895 act=1.3129 q=0.0141 rank=0.0794 grad=0.977 val_sel=0.579 val_act=0.476 val_term_f1=0.318 val_rank=0.440
+option_update=1500/3000 loss=2.90242 sel=0.9331 term=0.8707 act=1.2962 q=0.0126 rank=0.0783 grad=1.940 val_sel=0.593 val_act=0.469 val_term_f1=0.323 val_rank=0.456
+option_update=1750/3000 loss=2.79063 sel=0.8544 term=0.8005 act=1.3086 q=0.0173 rank=0.0787 grad=1.206 val_sel=0.593 val_act=0.490 val_term_f1=0.348 val_rank=0.456
+option_update=2000/3000 loss=3.00070 sel=0.9496 term=0.8463 act=1.3805 q=0.0298 rank=0.0818 grad=1.484 val_sel=0.581 val_act=0.496 val_term_f1=0.332 val_rank=0.465
+option_update=2250/3000 loss=2.87451 sel=0.9186 term=0.9888 act=1.2047 q=0.0098 rank=0.0745 grad=1.283 val_sel=0.590 val_act=0.476 val_term_f1=0.338 val_rank=0.457
+option_update=2500/3000 loss=2.76556 sel=0.7928 term=0.9556 act=1.2428 q=0.0137 rank=0.0735 grad=1.164 val_sel=0.594 val_act=0.482 val_term_f1=0.347 val_rank=0.471
+option_update=2750/3000 loss=2.69922 sel=0.8629 term=0.8776 act=1.1584 q=0.0185 rank=0.0724 grad=1.870 val_sel=0.575 val_act=0.495 val_term_f1=0.328 val_rank=0.447
+option_update=3000/3000 loss=2.68174 sel=0.8714 term=0.8752 act=1.1334 q=0.0177 rank=0.0742 grad=1.182 val_sel=0.586 val_act=0.485 val_term_f1=0.341 val_rank=0.452
+{
+  "best_update": 2500,
+  "changed_non_option_tensors": 0,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.2/continuous_brain_project/state/child_v102_options/infant_training.pt",
+  "dropped_incomplete_episode_ids": [
+    52
+  ],
+  "episodes_complete": 52,
+  "format": "continuous_brain.temporal_option_training.v102",
+  "option_cortex_version": "latent-temporal-options-v1",
+  "option_migrated": true,
+  "option_migration_keys": [
+    "options.embedding.weight",
+    "options.selector.0.weight",
+    "options.selector.0.bias",
+    "options.selector.2.weight",
+    "options.selector.2.bias",
+    "options.termination.0.weight",
+    "options.termination.0.bias",
+    "options.termination.2.weight",
+    "options.termination.2.bias",
+    "options.action_policy.0.weight",
+    "options.action_policy.0.bias",
+    "options.action_policy.2.weight",
+    "options.action_policy.2.bias",
+    "options.q_head.0.weight",
+    "options.q_head.0.bias",
+    "options.q_head.2.weight",
+    "options.q_head.2.bias"
+  ],
+  "option_only": true,
+  "option_only_trainable_parameters": [
+    "options.embedding.weight",
+    "options.selector.0.weight",
+    "options.selector.0.bias",
+    "options.selector.2.weight",
+    "options.selector.2.bias",
+    "options.termination.0.weight",
+    "options.termination.0.bias",
+    "options.termination.2.weight",
+    "options.termination.2.bias",
+    "options.action_policy.0.weight",
+    "options.action_policy.0.bias",
+    "options.action_policy.2.weight",
+    "options.action_policy.2.bias",
+    "options.q_head.0.weight",
+    "options.q_head.0.bias",
+    "options.q_head.2.weight",
+    "options.q_head.2.bias"
+  ],
+  "option_parameters": 188941,
+  "option_updates": 3000,
+  "planning_bellman_q_updates": 3000,
+  "planning_updates": 4000,
+  "samples_train": 2781,
+  "samples_validation": 818,
+  "source_checkpoint_sha256": "2a4edd256d1c5fff208bef358044b68fda2134d85ea34d545e914f9686be1fa3",
+  "source_training_updates": 11000,
+  "successful_train_episodes": 39,
+  "successful_validation_episodes": 10,
+  "trained_checkpoint_sha256": "ba1792d340b761ae436585f77a6a80dd7188b4daf108e4ab4c0c7bf8091fae07",
+  "training": {
+    "batch": 256,
+    "detour_geometry_labels_used": false,
+    "gamma": 0.95,
+    "goal_gamma": 0.97,
+    "learning_rate": 0.0003,
+    "lookahead": 6,
+    "option_labels": "anonymous clusters discovered from successful lived sequences",
+    "q_margin": 0.08,
+    "seed": 10210,
+    "updates": 3000
+  },
+  "validation": {
+    "action_accuracy": 0.48166259168704156,
+    "executed_action_rank_accuracy": 0.4706601466992665,
+    "option_counts": {
+      "0": 210,
+      "1": 210,
+      "2": 21,
+      "3": 149,
+      "4": 188,
+      "5": 40
+    },
+    "option_q_mae": 0.13710467003440727,
+    "samples": 818,
+    "selector_accuracy": 0.5941320293398533,
+    "termination_f1": 0.3474903474903475,
+    "termination_precision": 0.3383458646616541,
+    "termination_recall": 0.35714285714285715
+  }
+}

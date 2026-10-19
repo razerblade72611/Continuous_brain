@@ -1,0 +1,63 @@
+RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_TEST_V1
+device: cpu
+training_performed: false
+family: v0.36
+source_v0353_test_status: PASS
+source_v0360_dev_status: PASS
+curriculum_source: updated autobiographical self-estimate
+external_second_goal_supplied: false
+frozen_history_counterfactual_enabled: true
+first_goal_horizon: 16
+second_goal_probe_episodes: 4
+curriculum_advancement_definition: different primary OR same primary with target >= previous target + 0.05
+test_subjects: 120000-120127
+test_opened_in_this_run: true
+test_spent_after_run: true
+test_tuning_after_run: forbidden
+recursive_curriculum_test_subjects=1/128
+recursive_curriculum_test_subjects=32/128
+recursive_curriculum_test_subjects=64/128
+recursive_curriculum_test_subjects=96/128
+recursive_curriculum_test_subjects=128/128
+
+TEST_CURRICULUM
+first_goal_genesis_rate: 1.0
+first_goal_completion_rate: 0.875
+second_goal_generation_given_first_completion: 1.0
+curriculum_advancement_given_first_completion: 1.0
+frozen_bootstrap_history_repeats_first_goal: 1.0
+updated_vs_frozen_second_goal_divergence: 1.0
+second_goal_controls_plan: 1.0
+second_goal_changes_target_capability: 1.0
+mean_second_goal_capability_gain: 0.1249887831368599
+
+TEST_DONOR_AND_NEUTRAL
+donor_history_flips_first_goal: 1.0
+erased_history_generates_no_goal: 1.0
+
+TEST_PERSISTENCE
+curriculum_snapshot_exact_after_reload: 1.0
+
+ADMISSION_GATE
+first_goal_endogenous: PASS
+first_goal_completes: PASS
+updated_autobiography_authors_second_goal: PASS
+updated_autobiography_advances_curriculum: PASS
+frozen_autobiography_repeats_old_goal: PASS
+updated_history_causes_new_curriculum: PASS
+donor_history_changes_first_goal: PASS
+erased_history_has_no_directional_goal: PASS
+second_goal_controls_behavior: PASS
+second_goal_changes_capability: PASS
+curriculum_persists: PASS
+TRAINING_PERFORMED: false
+THRESHOLDS_CHANGED_FROM_V0360: false
+NEURAL_MODELS_CHANGED: false
+PROTECTED_UNCHANGED: true
+SOURCE_MODELS_UNCHANGED: true
+V0353_TEST_PASS_PRESERVED: true
+V036_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_TEST_ADMISSION: PASS
+RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_scientific_v1/recursive_autobiographical_curriculum_v0361_g0-v0361-dev/raw_evaluator/result.json

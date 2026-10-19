@@ -1,0 +1,16 @@
+AUTHOR Release Validation
+Release: 0.10.6
+
+Source suite: 167 passed
+Fresh-extraction suite: 167 passed
+compileall: PASS
+config.yaml parse: PASS
+benchmarks/tasks.yaml parse: PASS
+Level-3 trainer dry-run metadata: PASS
+wheel build/integrity/version/import: PASS
+blocking FIFO-style read watchdog unit test: PASS
+worker timeout -> unscored skip -> controller restart -> continue regression: PASS
+runtime state excluded from package before tests: PASS
+stale build/cache/egg-info excluded from package before tests: PASS
+internal SHA256 manifest: PASS
+release ZIP integrity: PASS

@@ -1,0 +1,115 @@
+scene: FloorPlan1
+grid_size: 0.25
+rotate_step_degrees: 90
+visibility_distance: 1.5
+image_width: 640
+image_height: 480
+field_of_view: 90
+
+simulation:
+  # Optional custom AI2-THOR player. Leave null to use the stock downloaded build.
+  # Set this after building the humanoid Unity backend in unity_humanoid/.
+  local_executable_path: null
+  # Base real-time pause after each primitive action. In embodied mode the LLM
+  # may select slow/normal/fast, which scales this value by 2.0/1.0/0.5.
+  step_delay_seconds: 0.08
+  # Internal-only viewport grounding. IDs/masks are never serialized to the LLM.
+  render_instance_segmentation: true
+
+navigation:
+  interaction_distance: 1.25
+
+agent:
+  max_steps: 3000
+  max_replans: 30
+  max_retries_per_action: 2
+  log_dir: runs
+
+llm:
+  base_url: "http://127.0.0.1:8080/v1"
+  model: "local-model"
+  timeout_seconds: 120
+  enabled: false
+
+# v0.4 embodied/autonomous settings.
+embodied:
+  # Critical privacy/neutrality boundary: object metadata remains available to
+  # the internal grounder but is never serialized into the LLM prompt.
+  metadata_to_llm: false
+  use_vision: true
+  vision_every: 1
+  allow_interactions: true
+  max_burst_actions: 6
+  max_decisions: 500
+  print_decisions: true
+  llm_controls_pace: true
+  # On model/network failure, the controller idles instead of deciding where to roam.
+  fallback_action: "Pass"
+
+# Kept for compatibility with --roam; v0.4 routes it through the same neutral
+# embodied planner used by --session.
+roam:
+  max_decisions: 500
+  vision_every: 1
+  allow_interactions: true
+  use_vision: true
+  print_decisions: true
+  llm_controls_pace: true
+
+
+# v0.6 social multi-agent settings. These describe capabilities and transport,
+# not social goals or preferences.
+social:
+  enabled: true
+  agent_count: 2
+  labels: ["A", "B"]
+  speech_range_m: 4.0
+  # Neutral social proprioception. When another embodied body lies inside the
+  # camera cone by pose geometry, the model receives only that fact plus distance
+  # and bearing. It does not receive the peer's private state or scene-object IDs.
+  peer_camera_cone_sensor: true
+  peer_camera_cone_margin_degrees: 3.0
+  # LLM calls are serialized A then B so one local Qwen server can serve both
+  # contexts without duplicating model weights in VRAM.
+  serialized_inference: true
+
+observer:
+  # Read-only local browser dashboard. Enable with --dashboard or set enabled: true.
+  enabled: false
+  host: 127.0.0.1
+  port: 8765
+  refresh_ms: 350
+  image_width: 640
+  jpeg_quality: 75
+
+
+# v0.6 identity/context policy. These are factual embodiment settings, not personality.
+identity:
+  explicit_peer_identity: true
+  describe_peer_as: "another independently embodied agent like you"
+  observation_history_to_llm: false
+  persistent_intention: true
+  max_intention_chars: 180
+
+# v0.7 persistent learning. Detailed route/map state remains controller-private;
+# only compact self-history/training summaries are eligible for LLM recall.
+learning:
+  state_dir: state
+  load_persistent_memory: true
+  memory_max_records: 12000
+  replay_max_records: 250000
+  use_skill_navigation: true
+
+# v0.7 accelerated trainer. It does not call the LLM; it trains the low-level
+# navigation/map layer quickly, then normal embodied sessions load the checkpoint.
+# Peer-encounter episodes are an explicit training objective requested by the user,
+# not a hidden preference injected into normal autonomous mode.
+training:
+  episodes: 500
+  workers: 1
+  image_width: 160
+  image_height: 120
+  max_steps_per_episode: 120
+  peer_encounter_rate: 0.25
+  peer_encounter_distance_m: 1.25
+  keep_worker_artifacts: false

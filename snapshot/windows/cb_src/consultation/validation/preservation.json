@@ -1,0 +1,13 @@
+{
+  "source_archive": "continuous_brain_v0.12.0_DIRECTML.zip",
+  "source_sha256": "4204233dca596d096e349076e70dd15b5dc7c9aed29a46341eca9346b5b9b2d4",
+  "original_files": 268,
+  "missing_original_files": [],
+  "changed_original_files_before_manifest_regeneration": [
+    "README.md",
+    "continuous_brain/parented_cli.py"
+  ],
+  "model_training_environment_storage_unchanged": true,
+  "starter_sha256": "d8c8ca43c9018c9c2666324abb42b4f3279ac4b44d0860320b2176117785ec01",
+  "note": "Two inventories are regenerated when packaging."
+}

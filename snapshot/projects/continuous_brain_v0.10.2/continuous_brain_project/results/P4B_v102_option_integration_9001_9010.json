@@ -1,0 +1,2457 @@
+{
+  "blind_evidence": false,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.2/continuous_brain_project/state/child_v102_options/infant_training.pt",
+  "checkpoint_sha256": "ba1792d340b761ae436585f77a6a80dd7188b4daf108e4ab4c0c7bf8091fae07",
+  "episode_rows": {
+    "top1_h12": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 12,
+        "option_counts": {
+          "0": 13,
+          "1": 0,
+          "2": 1,
+          "3": 8,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 5,
+        "planner_overrides": 10,
+        "proposal_topk": 1,
+        "reward": 1.979696187734604,
+        "seed": 9001,
+        "steps": 31
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 3,
+          "2": 0,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 117,
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 3,
+        "proposal_topk": 1,
+        "reward": -11.43680172920225,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 7,
+          "3": 0,
+          "4": 17
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 12,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 8,
+          "4": 9,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": 1.9791673905849458,
+        "seed": 9003,
+        "steps": 32
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 0,
+          "3": 0,
+          "4": 113
+        },
+        "collisions": 107,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 113,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 7,
+        "proposal_topk": 1,
+        "reward": -11.135492820739728,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 5,
+          "3": 46,
+          "4": 61
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 7,
+          "1": 105,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 105,
+        "proposal_topk": 1,
+        "reward": -0.3904555296897891,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 9,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 12,
+        "option_counts": {
+          "0": 11,
+          "1": 0,
+          "2": 1,
+          "3": 9,
+          "4": 8,
+          "5": 6
+        },
+        "option_switches": 5,
+        "planner_overrides": 12,
+        "proposal_topk": 1,
+        "reward": 1.9616485482454298,
+        "seed": 9006,
+        "steps": 35
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 12,
+          "2": 10,
+          "3": 0,
+          "4": 15
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 12,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 12,
+          "4": 16,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 22,
+        "proposal_topk": 1,
+        "reward": 1.9455351634025573,
+        "seed": 9007,
+        "steps": 37
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 105,
+          "3": 0,
+          "4": 8
+        },
+        "collisions": 103,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 107,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": -10.753657889366135,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 4,
+          "2": 1,
+          "3": 0,
+          "4": 115
+        },
+        "collisions": 106,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 6,
+          "1": 110,
+          "2": 0,
+          "3": 4,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 5,
+        "proposal_topk": 1,
+        "reward": -11.033272242546063,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 12,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 11,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 14,
+        "proposal_topk": 1,
+        "reward": 1.9759279109239578,
+        "seed": 9010,
+        "steps": 32
+      }
+    ],
+    "top1_h3": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 3,
+        "option_counts": {
+          "0": 13,
+          "1": 0,
+          "2": 1,
+          "3": 8,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 5,
+        "planner_overrides": 10,
+        "proposal_topk": 1,
+        "reward": 1.979696187734604,
+        "seed": 9001,
+        "steps": 31
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 3,
+          "2": 0,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 117,
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 3,
+        "proposal_topk": 1,
+        "reward": -11.43680172920225,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 7,
+          "3": 0,
+          "4": 17
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 3,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 8,
+          "4": 9,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": 1.9791673905849458,
+        "seed": 9003,
+        "steps": 32
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 0,
+          "3": 0,
+          "4": 113
+        },
+        "collisions": 107,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 113,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 7,
+        "proposal_topk": 1,
+        "reward": -11.135492820739728,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 5,
+          "3": 46,
+          "4": 61
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 7,
+          "1": 105,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 105,
+        "proposal_topk": 1,
+        "reward": -0.3904555296897891,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 9,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 3,
+        "option_counts": {
+          "0": 11,
+          "1": 0,
+          "2": 1,
+          "3": 9,
+          "4": 8,
+          "5": 6
+        },
+        "option_switches": 5,
+        "planner_overrides": 12,
+        "proposal_topk": 1,
+        "reward": 1.9616485482454298,
+        "seed": 9006,
+        "steps": 35
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 12,
+          "2": 10,
+          "3": 0,
+          "4": 15
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 3,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 12,
+          "4": 16,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 22,
+        "proposal_topk": 1,
+        "reward": 1.9455351634025573,
+        "seed": 9007,
+        "steps": 37
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 105,
+          "3": 0,
+          "4": 8
+        },
+        "collisions": 103,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 107,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": -10.753657889366135,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 4,
+          "2": 1,
+          "3": 0,
+          "4": 115
+        },
+        "collisions": 106,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 6,
+          "1": 110,
+          "2": 0,
+          "3": 4,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 5,
+        "proposal_topk": 1,
+        "reward": -11.033272242546063,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 3,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 11,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 14,
+        "proposal_topk": 1,
+        "reward": 1.9759279109239578,
+        "seed": 9010,
+        "steps": 32
+      }
+    ],
+    "top1_h6": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 6,
+        "option_counts": {
+          "0": 13,
+          "1": 0,
+          "2": 1,
+          "3": 8,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 5,
+        "planner_overrides": 10,
+        "proposal_topk": 1,
+        "reward": 1.979696187734604,
+        "seed": 9001,
+        "steps": 31
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 3,
+          "2": 0,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 117,
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 3,
+        "proposal_topk": 1,
+        "reward": -11.43680172920225,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 7,
+          "3": 0,
+          "4": 17
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 6,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 8,
+          "4": 9,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": 1.9791673905849458,
+        "seed": 9003,
+        "steps": 32
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 0,
+          "3": 0,
+          "4": 113
+        },
+        "collisions": 107,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 113,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 7,
+        "proposal_topk": 1,
+        "reward": -11.135492820739728,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 5,
+          "3": 46,
+          "4": 61
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 7,
+          "1": 105,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 105,
+        "proposal_topk": 1,
+        "reward": -0.3904555296897891,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 9,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 6,
+        "option_counts": {
+          "0": 11,
+          "1": 0,
+          "2": 1,
+          "3": 9,
+          "4": 8,
+          "5": 6
+        },
+        "option_switches": 5,
+        "planner_overrides": 12,
+        "proposal_topk": 1,
+        "reward": 1.9616485482454298,
+        "seed": 9006,
+        "steps": 35
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 12,
+          "2": 10,
+          "3": 0,
+          "4": 15
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 6,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 12,
+          "4": 16,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 22,
+        "proposal_topk": 1,
+        "reward": 1.9455351634025573,
+        "seed": 9007,
+        "steps": 37
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 105,
+          "3": 0,
+          "4": 8
+        },
+        "collisions": 103,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 107,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 11,
+        "proposal_topk": 1,
+        "reward": -10.753657889366135,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 4,
+          "2": 1,
+          "3": 0,
+          "4": 115
+        },
+        "collisions": 106,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 6,
+          "1": 110,
+          "2": 0,
+          "3": 4,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 5,
+        "proposal_topk": 1,
+        "reward": -11.033272242546063,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "horizon": 6,
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 11,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 14,
+        "proposal_topk": 1,
+        "reward": 1.9759279109239578,
+        "seed": 9010,
+        "steps": 32
+      }
+    ],
+    "top2_h12": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 64,
+          "2": 55,
+          "3": 0,
+          "4": 1
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 112,
+          "1": 0,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 97,
+        "proposal_topk": 2,
+        "reward": -0.5029327392578111,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 60,
+          "2": 60,
+          "3": 0,
+          "4": 0
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 120,
+        "proposal_topk": 2,
+        "reward": -0.48000000000000026,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "top2_h3": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 2,
+          "2": 0,
+          "3": 0,
+          "4": 118
+        },
+        "collisions": 111,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 2,
+        "proposal_topk": 2,
+        "reward": -11.53521418094633,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 60,
+          "2": 60,
+          "3": 0,
+          "4": 0
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 120,
+        "proposal_topk": 2,
+        "reward": -0.48000000000000026,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "top2_h6": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 2,
+          "2": 0,
+          "3": 0,
+          "4": 118
+        },
+        "collisions": 111,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 2,
+        "proposal_topk": 2,
+        "reward": -11.53521418094633,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 60,
+          "2": 60,
+          "3": 0,
+          "4": 0
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 120,
+        "proposal_topk": 2,
+        "reward": -0.48000000000000026,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 2,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "top3_h12": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 61,
+          "2": 54,
+          "3": 0,
+          "4": 5
+        },
+        "collisions": 0,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 3,
+          "1": 109,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 62,
+        "proposal_topk": 3,
+        "reward": -0.4758160305023197,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 27,
+          "2": 29,
+          "3": 0,
+          "4": 64
+        },
+        "collisions": 56,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 56,
+        "proposal_topk": 3,
+        "reward": -6.0274620437622115,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 12,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "top3_h3": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 0,
+          "3": 4,
+          "4": 115
+        },
+        "collisions": 104,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 107,
+          "1": 0,
+          "2": 0,
+          "3": 13,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 5,
+        "proposal_topk": 3,
+        "reward": -10.835068383216841,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 2,
+          "2": 0,
+          "3": 0,
+          "4": 118
+        },
+        "collisions": 111,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 2,
+        "proposal_topk": 3,
+        "reward": -11.53521418094633,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 23,
+          "2": 25,
+          "3": 0,
+          "4": 72
+        },
+        "collisions": 64,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 48,
+        "proposal_topk": 3,
+        "reward": -6.827462043762212,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 3,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "top3_h6": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 114,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 27,
+          "2": 29,
+          "3": 0,
+          "4": 64
+        },
+        "collisions": 56,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 56,
+        "proposal_topk": 3,
+        "reward": -6.0274620437622115,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "horizon": 6,
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "proposal_topk": 3,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ]
+  },
+  "episodes": 10,
+  "format": "continuous_brain.v102_option_policy_proposal_probe.v1",
+  "memory_written": false,
+  "no_gap_wall_labels": true,
+  "parents_used": false,
+  "proposal_rule": "At every imagined node, expand only the top-k primitive actions from the learned option action policy; recurrent imagination ranks those proposals by predicted discounted reward plus option-conditioned terminal value.",
+  "seed_end": 9010,
+  "seed_start": 9001,
+  "training_performed": false,
+  "variants": {
+    "top1_h12": {
+      "completion_rate": 0.5,
+      "episodes": 10,
+      "mean_collisions": 42.6,
+      "mean_option_switches": 3.5,
+      "mean_planner_overrides": 20.0,
+      "mean_reward": -3.490770501065247,
+      "mean_steps_penalized": 77.2
+    },
+    "top1_h3": {
+      "completion_rate": 0.5,
+      "episodes": 10,
+      "mean_collisions": 42.6,
+      "mean_option_switches": 3.5,
+      "mean_planner_overrides": 20.0,
+      "mean_reward": -3.490770501065247,
+      "mean_steps_penalized": 77.2
+    },
+    "top1_h6": {
+      "completion_rate": 0.5,
+      "episodes": 10,
+      "mean_collisions": 42.6,
+      "mean_option_switches": 3.5,
+      "mean_planner_overrides": 20.0,
+      "mean_reward": -3.490770501065247,
+      "mean_steps_penalized": 77.2
+    },
+    "top2_h12": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 90.6,
+      "mean_option_switches": 1.3,
+      "mean_planner_overrides": 21.7,
+      "mean_reward": -9.508425557136517,
+      "mean_steps_penalized": 121.0
+    },
+    "top2_h3": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 101.8,
+      "mean_option_switches": 1.2,
+      "mean_planner_overrides": 12.2,
+      "mean_reward": -10.622479922771435,
+      "mean_steps_penalized": 121.0
+    },
+    "top2_h6": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 101.8,
+      "mean_option_switches": 1.2,
+      "mean_planner_overrides": 12.2,
+      "mean_reward": -10.622479922771435,
+      "mean_steps_penalized": 121.0
+    },
+    "top3_h12": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 96.2,
+      "mean_option_switches": 1.4,
+      "mean_planner_overrides": 11.8,
+      "mean_reward": -10.06046009063719,
+      "mean_steps_penalized": 121.0
+    },
+    "top3_h3": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 107.3,
+      "mean_option_switches": 1.2,
+      "mean_planner_overrides": 5.5,
+      "mean_reward": -11.167201278686504,
+      "mean_steps_penalized": 121.0
+    },
+    "top3_h6": {
+      "completion_rate": 0.0,
+      "episodes": 10,
+      "mean_collisions": 107.6,
+      "mean_option_switches": 1.2,
+      "mean_planner_overrides": 5.6,
+      "mean_reward": -11.197245744705182,
+      "mean_steps_penalized": 121.0
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "repair_id": "v0105_missing_cross_threshold_repair",
+  "applied_at": "2026-08-25T10:35:23.535351+00:00",
+  "state_dir": "state",
+  "matched_replay_rows": 149,
+  "agents": {
+    "A": {
+      "matched_replay_rows": 75,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/a/embodied_skills.pre_v0105_cross_repair.json",
+      "levels": {
+        "1": 75
+      },
+      "object_types": {
+        "Door": 75
+      }
+    },
+    "B": {
+      "matched_replay_rows": 74,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/b/embodied_skills.pre_v0105_cross_repair.json",
+      "levels": {
+        "1": 74
+      },
+      "object_types": {
+        "Door": 74
+      }
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

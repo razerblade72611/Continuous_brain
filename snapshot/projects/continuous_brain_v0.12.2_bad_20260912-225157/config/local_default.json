@@ -1,0 +1,11 @@
+{
+  "learning_every": 256,
+  "updates_per_block": 16,
+  "batch_size": 8,
+  "sequence": 12,
+  "learning_rate": 0.0002,
+  "episode_horizon": 96,
+  "evaluation_horizon": 64,
+  "retention": 0.95,
+  "save_every": 32
+}

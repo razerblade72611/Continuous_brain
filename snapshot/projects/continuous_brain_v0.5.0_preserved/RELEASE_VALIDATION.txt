@@ -1,0 +1,90 @@
+Continuous Brain v0.5.0 release validation
+===========================================
+
+Source base
+-----------
+Built from the packaged Continuous Brain v0.4.3 release, preserving its 6-input / 5-action neural interface.
+
+Automated tests
+---------------
+50 passed.
+
+New coverage includes:
+- depth self-occlusion rejection below trusted range
+- persistent spatial-map state round trip
+- scene mismatch guard
+- occupancy planner avoidance of known blocked cells
+- L2 cannot call the reachable-grid route teacher
+- L2 cannot succeed without real translation
+- aligned collision writes strong spatial obstacle evidence and replans
+- environment checkpoint includes/restores spatial state
+- stop-on-mastery skill snapshot behavior
+
+Deterministic spatial navigation
+--------------------------------
+20 L2 episodes using an oracle action selector over the same environment interface:
+- successes: 20/20
+- genuine translations required
+- planner failures: 0
+- map expanded to full fake-scene coverage
+
+Neural hierarchy smoke
+----------------------
+Fake AI2-THOR Controller/Event implementation with PixelStatsBackbone:
+1. fresh recurrent network trained on L1 teacher navigation for 1,500 ticks
+2. checkpoint + persistent replay resumed into L2 internal-map navigation
+3. L2 ran for 2,000 additional ticks
+
+Observed during L2 phase:
+- L2 goals reached 97 by step 3,500
+- successful translations 214 by step 3,500
+- recent L2 success 100% in the displayed terminal sample
+- map 81/81 known cells
+- planner failures 0
+- blocked moves 0 in unobstructed fake scene
+
+Spatial restart persistence
+---------------------------
+After the neural L2 smoke was saved and the process closed, a fresh L2 environment/agent resumed the same state:
+- step: 3500
+- goals: 152
+- replay restored: 3500 transitions
+- spatial map: 81/81 known cells
+- pose/map updates restored: 3666
+- planner state restored: 447 plans, 0 failures
+
+Checkpoint migration
+--------------------
+Generated an actual v0.4.3 checkpoint at step 180, then resumed it under v0.5.0 for 40 additional ticks.
+Final checkpoint:
+- version: 0.5.0
+- format_version: 7
+- step: 220
+- persistent replay restored successfully
+
+Persistence bug caught during validation
+----------------------------------------
+The first neural smoke exposed that raw numpy spatial arrays could not be serialized into status.json. The full binary checkpoint was unaffected. Before release, status.json was changed to store a compact environment/spatial summary while brain.pt retains the complete map state.
+
+JavaScript / packaging
+----------------------
+Dashboard JavaScript syntax validation: PASS.
+Independent extracted ZIP pytest validation: PASS (50 passed).
+Independent extracted ZIP version check: 0.5.0.
+Shell-script syntax validation: PASS.
+Dashboard JavaScript syntax validation on extracted package: PASS.
+
+Not live-tested here
+--------------------
+- user's custom Unity executable FloorPlan1Discovery_physics
+- user's exact L0/L1-mastered state files
+- gated DINOv3 weights
+- physical robot hardware
+
+Important v0.5 bootstrap limitations
+------------------------------------
+- pose belief is still anchored by simulator pose metadata
+- final L2 training destination is sampled from reachable simulator positions, but route generation is not
+- semantic landmarks use visible simulator object metadata as a bootstrap
+- no learned visual odometry / loop closure / full SLAM yet
+- no physical-robot safety claim

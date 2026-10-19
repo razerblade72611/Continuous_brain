@@ -1,0 +1,97 @@
+{
+  "checked_utc": "2026-10-12T07:24:41Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2
+    ],
+    "yoked": [
+      1,
+      2
+    ]
+  },
+  "current_phase": "cycle2 probes/lives, nine active life workers; watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle1": {
+    "seconds": 7484,
+    "probe_seconds": 1710,
+    "sleep_seconds": {
+      "learning": 5769,
+      "yoked": 5766
+    },
+    "learning_mean_survival_steps": {
+      "fresh": 326.45,
+      "transfer": 280.375
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 559.675,
+      "transfer": 504.65
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -193.95,
+      "transfer": -199.15
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -233.225,
+      "transfer": -224.275
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.41683259304640835,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep2": {
+    "learning": {
+      "own_rows": 16670,
+      "own_streams": 18,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 22.077472686767578,
+      "peak_block_capped_fraction": 0.0908203125,
+      "final_value_loss": 0.028676731511950493,
+      "final_raw_absmax": 2.714700698852539,
+      "final_capped_fraction": 0,
+      "final_grad_norm": 0.5950081944465637
+    },
+    "yoked": {
+      "own_rows": 18191,
+      "own_streams": 18,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.726375579833984,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.03158922120928764,
+      "final_raw_absmax": 2.919576406478882,
+      "final_capped_fraction": 0,
+      "final_grad_norm": 0.4072602689266205
+    }
+  },
+  "value_aggregation": "block_* are maxima over minibatches within 250-update blocks, not average rates",
+  "assessment": "First post-sleep probes are worse on sample means. This is an early diagnostic, not a growth verdict or an authorized early-stop criterion. Learning value capping recurred transiently; final logged values are finite and neither arm skipped updates.",
+  "eta": {
+    "central_window": "2026-10-12 21:00–23:00 America/Chicago",
+    "compute_estimate_usd": "20–22, excluding storage; estimate, not billed total",
+    "basis": "cycle1 measured124.7min total, including28.5min probes/lives and96.15min paired sleep; eight further sleeps remain plus cycle10 chooser-off probes and pack/download",
+    "assumptions": "Similar later cycle durations, allow roughly45min final probes and90min pack/download plus variation. Future survival length/CPU throughput/transfer can change finish. Window is a planning estimate, not a statistical confidence interval.",
+    "hard_limit_hours": 30,
+    "hard_compute_limit_usd": 27
+  },
+  "limitations": "No checkpoint tensor reload or new simulations in this monitor; all existing current-run logged JSON numbers and run identity checked. No final battery or installation.",
+  "action": "Continue exact authorized run; notify material ETA change, send independent evidence to Claude and DAV99.",
+  "local_cycles_sha256": "3c0330dca007eb6decdfb53a2a22fd19416df34bc8f7a25d29d7fd9437bef853",
+  "local_cycles_bytes": 370755
+}

@@ -1,0 +1,145 @@
+{
+ "format": "cb2-r3h-sealed/1",
+ "status": "ENGINEERING_ONLY",
+ "prereg": {
+  "candidate": {
+   "individual": "cb2-ind-0001",
+   "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+   "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+   "event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f"
+  },
+  "seeds": "90121-90200",
+  "steps": 10000,
+  "label": "s2-sealed",
+  "replay_seed": 90121,
+  "gates": {
+   "score_ratio_min": 1.0,
+   "survival_ratio_min": 0.0,
+   "requests_ratio_min": 0.85
+  }
+ },
+ "prereg_sha256": "760dd4cc718b461615ade105ff6234252778332ac58310d45b54de89f8210a58",
+ "git": "9cbc0449002068160e7f08698ebeb6f8939ba6ff",
+ "git_dirty": false,
+ "started": "2026-10-09T20:15:30Z",
+ "deviations": [],
+ "integrity": {
+  "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f",
+  "weights_file_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "consolidations": 2,
+  "ok": true
+ },
+ "evaluate_cmd": [
+  "/workspace/venv/bin/python",
+  "/workspace/Continuous_brain/scripts/explore/cb2_evaluate.py",
+  "evaluate",
+  "--individuals",
+  "runs/explore/cb2/candidates/s2b-final",
+  "--individual",
+  "cb2-ind-0001",
+  "--label",
+  "s2-sealed",
+  "--seeds",
+  "90121-90200",
+  "--steps",
+  "10000",
+  "--archive",
+  "runs/explore/cb2/s2b/sealed/candidate/archive",
+  "--out",
+  "runs/explore/cb2/s2b/sealed/candidate/eval-s2-sealed.json",
+  "--telemetry",
+  "runs/explore/cb2/s2b/sealed/candidate/telemetry"
+ ],
+ "evaluation": {
+  "candidate": {
+   "episodes": 80,
+   "crafter_score": 28.938243496964375,
+   "achievements_per_episode": 13.55,
+   "survival_steps": 561.925,
+   "deaths": 80,
+   "obligations_on_time": {
+    "fulfilled": 156,
+    "failed": 157,
+    "rate": 0.4984025559105431
+   }
+  },
+  "routine": {
+   "episodes": 80,
+   "crafter_score": 25.370103930660413,
+   "achievements_per_episode": 12.8875,
+   "survival_steps": 696.4875,
+   "deaths": 80,
+   "obligations_on_time": {
+    "fulfilled": 194,
+    "failed": 207,
+    "rate": 0.4837905236907731
+   }
+  },
+  "ratio_to_routine": {
+   "crafter_score": 1.1406,
+   "survival_steps": 0.8068,
+   "achievements_per_episode": 1.0514
+  },
+  "requests": {
+   "candidate_on_time": 156,
+   "candidate_eligible": 313,
+   "routine_on_time": 194,
+   "routine_eligible": 401,
+   "candidate_rate": 0.4984025559105431,
+   "routine_rate": 0.4837905236907731,
+   "ratio": 1.0302
+  },
+  "paired_difference": {
+   "steps": {
+    "mean": -134.5625,
+    "se": 57.09243516513762
+   },
+   "n_unlocked": {
+    "mean": 0.6625,
+    "se": 0.36280541477125416
+   }
+  },
+  "candidate_outlived_routine": 33
+ },
+ "continuity": {
+  "save_restore_state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "save_restore_ok": true,
+  "consolidation": {
+   "kind": "install",
+   "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+   "parent_state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+   "prev_event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f",
+   "non_skill_channels": 19,
+   "non_skill_channels_changed": [],
+   "tick_kept": true,
+   "life_kept": true,
+   "lineage_events": 3
+  },
+  "consolidation_ok": true,
+  "replay": {
+   "seed": 90121,
+   "steps_eval": 432,
+   "steps_replay": 432,
+   "first_difference": null
+  },
+  "replay_ok": true,
+  "delegation": {
+   "worlds": 80,
+   "steps": 44954,
+   "logged_with_provenance": 44954,
+   "worlds_failing": []
+  },
+  "delegation_ok": true,
+  "ok": true
+ },
+ "gates": {
+  "score": true,
+  "survival": true,
+  "requests": true,
+  "continuity": true
+ },
+ "verdict": "PASS",
+ "finished": "2026-10-09T20:40:39Z"
+}

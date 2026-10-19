@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuous-brain"
+version = "0.2.0"
+description = "A continuously running neural agent with persistent state, episodic memory, online learning, and a live browser visualization."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "torch>=2.1",
+]
+
+[project.scripts]
+continuous-brain = "continuous_brain.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain*"]

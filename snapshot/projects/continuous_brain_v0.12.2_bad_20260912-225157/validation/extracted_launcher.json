@@ -1,0 +1,17 @@
+{
+  "archive_extracted_to_path_with_spaces": true,
+  "shell_launcher_used": true,
+  "signal_sent_during_candidate_training": true,
+  "signal_target": "whole launcher/runtime process group",
+  "first_exit_code": 0,
+  "paused_steps": 256,
+  "completed_learning_blocks": 1,
+  "resume_exit_code": 0,
+  "resumed_steps": 264,
+  "identity_preserved": true,
+  "closed_database_matches_session_report": true,
+  "experience_count": 264,
+  "distinct_lived_steps": 264,
+  "backend": "cpu",
+  "directml_hardware_exercised": false
+}

@@ -1,0 +1,32 @@
+{
+  "format": "continuous_brain.world_retention_seal.v104",
+  "holdouts": {
+    "detour": {
+      "path": "/home/davei/projects/continuous_brain_v0.10.4/continuous_brain_project/state/nursery_v104_DETOUR_RETENTION_BLIND",
+      "records": 1200,
+      "seed": 24019,
+      "training_prohibited": true,
+      "transition_digest": "a0ba1cb474601031626214b371e988afd187f345a0836a071056cc5764062551"
+    },
+    "foraging": {
+      "path": "/home/davei/projects/continuous_brain_v0.10.4/continuous_brain_project/state/nursery_v104_FORAGING_RETENTION_BLIND",
+      "records": 1200,
+      "seed": 24017,
+      "training_prohibited": true,
+      "transition_digest": "1797991caa73463ebbed25f35e5240dba339f35e007b64a574195672bf2b2b5e"
+    }
+  },
+  "rule": "sealed holdouts must never be used by train-world-consolidation",
+  "training_datasets": [
+    {
+      "path": "/home/davei/projects/continuous_brain_v0.9.5/continuous_brain_project/state/nursery_v095_mixed_003",
+      "records": 11000,
+      "transition_digest": "3866b2698e2df336e9bf713063f1344913353fd80d61200ce5b32e6948035215"
+    },
+    {
+      "path": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/nursery_v096_detour_train",
+      "records": 4000,
+      "transition_digest": "d3c8a9407fcaadf3337133d224b88d3e4e741d19bfeb1f01ae904d5318e042db"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "blocked_reasons": [],
+  "evidence_ok": true,
+  "mechanism_id": "recurrent_self_trajectory_v031",
+  "prereg_status": "APPROVED",
+  "recipe": {
+    "evaluator": "evaluate_recurrent_self_trajectory_test_v1.py",
+    "fresh_family": "g0-v031-dev",
+    "mechanism_id": "recurrent_self_trajectory_v031",
+    "pass_field": "test_admission_passed",
+    "seed_container": "range",
+    "seed_symbol": "TEST_IDS"
+  },
+  "seed_plan": {
+    "mechanism_id": "recurrent_self_trajectory_v031",
+    "name": "g0-v031-dev",
+    "purpose": "DEV",
+    "start": 302000,
+    "stop": 303023
+  }
+}

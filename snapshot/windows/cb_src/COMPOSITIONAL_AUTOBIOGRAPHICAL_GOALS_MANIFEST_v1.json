@@ -1,0 +1,29 @@
+{
+  "format": "continuous_brain.v037_release_manifest_v1",
+  "release_files": {
+    "COMPOSITIONAL_AUTOBIOGRAPHICAL_GOALS_PROTOCOL_v1.md": "f1ba5773b404216bbf0703fc7ba2aeeb0542c82e2ff0f80a964c2bff17bf3bbb",
+    "README_COMPOSITIONAL_AUTOBIOGRAPHICAL_GOALS_v1.md": "9133739cfabd1867a6c5c715c0a1e40388828e2ecd7e31e01ea19ffe075cdd47",
+    "SOFTWARE_VALIDATION_v0370.json": "8af07d8355ce725a7cdc92390dc5d129577e1b7c628fa121d0fd02a847929a68",
+    "continuous_brain/compositional_autobiographical_goals_v1.py": "0710a527d4367db79e444481d1f8d2ef7962e46c71c4a5da70cdf7c9ec206471",
+    "evaluate_compositional_autobiographical_goals_v1.py": "672f1c303055312a9d511638b150678a314f5a4ae6849e850e3294f547121516",
+    "run_compositional_autobiographical_goals_v1.sh": "6e185be1c33bb7049c83a5145573fb95599f4cca972ecb12196069d4c4b57209",
+    "test_compositional_autobiographical_goals_v1.py": "c2d6f260bae8f9240767f2197cf2e9e4fe3259060f4ebba8a186db1f022e2cbc"
+  },
+  "source_dependencies": {
+    "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa",
+    "continuous_brain/autobiographical_self_discrepancy_v1.py": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558",
+    "continuous_brain/joint_self_world_prediction_v1.py": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af",
+    "continuous_brain/persistent_self_autobiographical_v1.py": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051",
+    "continuous_brain/recurrent_self_trajectory_v1.py": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6",
+    "continuous_brain/self_development_loop_v1.py": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774",
+    "evaluate_self_development_loop_v1.py": "7a4f6bcfd04f63058f28a8bd01acf0e7ed554eaf4940bf0f44fe00b321a22292",
+    "train_evaluate_autobiographical_self_discrepancy_v1.py": "3a6d165ac11ea0d419b83826e6194c554b3f08c5aad97c7baa5071c9ad4fea77",
+    "train_evaluate_joint_self_world_prediction_v1.py": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+  },
+  "v0361_files_verified_against_supplied_log": {
+    "evaluate_recursive_autobiographical_curriculum_test_v1.py": "199d425411c3af4cb83dc09659f5dadf496a88b7cc8cf475189f6b2197721e11",
+    "run_recursive_autobiographical_curriculum_test_v1.sh": "f42b2e6c54b4d69b91410df5b38fa03f359d63a6c676605ffbd17f47910faf33",
+    "test_recursive_autobiographical_curriculum_test_v1.py": "e8fd20d07da2e84c0162ad722f8e981dd20ac5fc9bc761ed9d625c74596903ab"
+  },
+  "version": "0.37.0"
+}

@@ -1,0 +1,12 @@
+tasks:
+  - id: pickup_apple
+    scene: FloorPlan1
+    goal: "Pick up the Apple."
+
+  - id: open_fridge
+    scene: FloorPlan1
+    goal: "Open the Fridge."
+
+  - id: pickup_and_place
+    scene: FloorPlan1
+    goal: "Pick up the Apple and put it on the CounterTop."

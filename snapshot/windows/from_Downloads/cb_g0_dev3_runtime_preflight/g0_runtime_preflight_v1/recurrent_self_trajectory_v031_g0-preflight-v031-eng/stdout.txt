@@ -1,0 +1,67 @@
+RECURRENT_SELF_TRAJECTORY_TEST_V1
+device: cpu
+training_performed: false
+trajectory_test_ids: 20000-21023
+trajectory_test_used_exactly_once: true
+test_tuning_after_run: forbidden
+fresh_tie_probe_cases: 256
+fresh_interruption_probe_cases: 128
+source_v0310_dev_status: PASS
+v030_test_touched: false
+test_trajectory_sequences=1/1024
+test_trajectory_sequences=1024/1024
+
+TEST_TEACHER_FORCED
+world_mae: 0.007708725519478321
+self_mae: 0.007339180912822485
+primary_accuracy: 0.993896484375
+mode_accuracy: 0.999267578125
+active_goal_accuracy: 0.9931640625
+agency_accuracy: 1.0
+
+TEST_AUTOREGRESSIVE_ROLLOUT
+world_mae: 0.01858639427973685
+self_mae: 0.018655946240869525
+primary_accuracy: 0.98681640625
+mode_accuracy: 0.999267578125
+active_goal_accuracy: 0.986083984375
+sequences: 1024
+horizon: 8
+
+FRESH_TIE_INTENTION_CAUSAL
+explicit_intention_guided_trajectory_choice: 1.0
+scalar_rederived_intention_choice: 0.5
+donor_primary_flips_choice_world_and_scalars_fixed: 1.0
+
+FRESH_INTERRUPTION_RESUMPTION
+surprise_preserves_primary_and_enters_investigate: 1.0
+primary_resumes_after_investigate_resolves: 1.0
+mean_transition_surprise_self_error: 0.2558886167826131
+mean_model_to_surprise_self_error: 0.25928941718302667
+
+ADMISSION_GATE
+teacher_world: PASS
+teacher_self: PASS
+teacher_primary: PASS
+teacher_mode: PASS
+teacher_agency: PASS
+rollout_world: PASS
+rollout_self: PASS
+rollout_primary: PASS
+rollout_mode: PASS
+rollout_goal: PASS
+explicit_intention_guides_trajectory: PASS
+scalar_only_control_collapses: PASS
+donor_primary_flips_trajectory_choice: PASS
+surprise_preserves_primary: PASS
+primary_resumes: PASS
+surprise_self_error: PASS
+model_surprise_self_error: PASS
+PROTECTED_UNCHANGED: true
+SOURCE_MODEL_UNCHANGED: true
+V030_TEST_TOUCHED: false
+TRAJECTORY_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+RECURRENT_SELF_TRAJECTORY_TEST_ADMISSION: PASS
+RECURRENT_SELF_TRAJECTORY_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_runtime_preflight_v1/recurrent_self_trajectory_v031_g0-preflight-v031-eng/raw_evaluator/result.json

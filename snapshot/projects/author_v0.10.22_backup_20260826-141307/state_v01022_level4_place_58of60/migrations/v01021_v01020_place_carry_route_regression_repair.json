@@ -1,0 +1,20 @@
+{
+  "repair_id": "v01021_v01020_place_carry_route_regression_repair",
+  "applied_at": "2026-08-26T18:12:29.315917+00:00",
+  "state_dir": "/home/davei/projects/author/state",
+  "matched_place_carry_route_regressions": 16,
+  "agents": {
+    "A": {
+      "events": 16,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/a/embodied_skills.pre_v01021_place_carry_repair.json"
+    },
+    "B": {
+      "events": 22,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/b/embodied_skills.pre_v01021_place_carry_repair.json"
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

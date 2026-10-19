@@ -1,0 +1,3 @@
+[console_scripts]
+continuous-brain = continuous_brain.cli:main
+continuous-individual = continuous_brain.individual_cli:main

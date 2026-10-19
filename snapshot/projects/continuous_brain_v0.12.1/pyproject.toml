@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuous-brain"
+version = "0.12.1"
+description = "A persistent embodied neural individual with function-preserving neural growth, routed developmental training, learned planning, and external developmental parents."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "torch>=2.1",
+]
+
+[project.optional-dependencies]
+thor = ["ai2thor"]
+vision = [
+  "transformers>=4.56,<5",
+  "huggingface_hub>=0.34,<1.0",
+  "pillow>=10",
+]
+semantic = [
+  "transformers>=4.56,<5",
+  "huggingface_hub>=0.34,<1.0",
+  "pillow>=10",
+]
+parents = [
+  "transformers>=4.56,<5",
+  "huggingface_hub>=0.34,<1.0",
+  "pillow>=10",
+]
+dev = ["pytest>=8"]
+
+[project.scripts]
+continuous-brain = "continuous_brain.cli:main"
+continuous-individual = "continuous_brain.individual_cli:main"
+continuous-semantic = "continuous_brain.semantic_cli:main"
+continuous-parented = "continuous_brain.parented_cli:main"
+continuous-local = "continuous_brain.local_cli:main"
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain*"]
+
+[tool.setuptools.package-data]
+"continuous_brain.lifelong" = ["dashboard.html"]

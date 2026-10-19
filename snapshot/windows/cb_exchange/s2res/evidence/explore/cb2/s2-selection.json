@@ -1,0 +1,45 @@
+{
+ "rule": "best development survival among checkpoints with development score >= r3h-B's (iteration 0)",
+ "eligible": [
+  5,
+  10,
+  20,
+  25,
+  30,
+  35,
+  40,
+  45
+ ],
+ "selected": 10,
+ "selected_dev": {
+  "lives": 40,
+  "crafter_score": 33.19361713675748,
+  "survival_steps": 576.025,
+  "achievements_per_episode": 13.8,
+  "requests": {
+   "fulfilled": 74,
+   "failed": 95,
+   "rate": 0.4378698224852071
+  },
+  "ratio_to_routine": {
+   "crafter_score": 1.346345215554734,
+   "survival_steps": 0.9223779023218575
+  }
+ },
+ "r3h-B_dev": {
+  "lives": 40,
+  "crafter_score": 26.745795937493643,
+  "survival_steps": 490.175,
+  "achievements_per_episode": 13.45,
+  "requests": {
+   "fulfilled": 66,
+   "failed": 76,
+   "rate": 0.4647887323943662
+  },
+  "ratio_to_routine": {
+   "crafter_score": 1.0848192364300238,
+   "survival_steps": 0.7849079263410729
+  }
+ },
+ "beats_r3hB_on_dev_survival": true
+}

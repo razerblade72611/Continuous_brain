@@ -1,0 +1,28 @@
+AUTHOR v0.10.3 release validation
+
+Release: 0.10.3
+Focus: Spatial Actionability + Reliable Recovery
+Source regression suite: 150 passed
+Fresh-extraction regression suite: 150 passed
+Python compileall: PASS
+config.yaml parse: PASS
+benchmarks/tasks.yaml parse: PASS
+Trainer dry-run: PASS (version 0.10.3; spatial_actionability_recovery_curriculum; skip_not_failure)
+Wheel ZIP integrity: PASS
+Wheel metadata: PASS (Version: 0.10.3)
+Wheel import: PASS (agent_core.__version__ == 0.10.3)
+Runtime state included in release: NO
+Stale build/cache/egg-info included: NO
+Internal SHA-256 manifest: PASS
+Release ZIP integrity: PASS
+
+Wheel: dist/ai2thor_agent-0.10.3-py3-none-any.whl
+Wheel SHA-256: 0c40ca7d14deadc6019c1d007fd733934da0c03b32b9849b65f1dd4c16c4de08
+Primary instructions: AUTHOR_v0.10.3_OPERATOR_README.md
+
+Compatibility:
+- Preserves v0.10.0 legacy embodied history.
+- Preserves v0.10.1/v0.10.2 staged skill history.
+- Migrates v0.10.2 exact actionability into X/Z position statistics on load.
+- Pre-v0.10.3 recovery attempts remain recovery_unclassified rather than being guessed.
+- Normal runtime and trainer share recovery configuration from config.yaml.

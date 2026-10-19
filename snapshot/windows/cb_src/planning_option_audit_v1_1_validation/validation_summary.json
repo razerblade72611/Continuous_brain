@@ -1,0 +1,17 @@
+{
+  "software_tests": 13,
+  "software_test_exit_code": 0,
+  "python_syntax": "PASS",
+  "bash_syntax": "PASS",
+  "recovered_source_classes": [
+    "CorticalNucleus",
+    "InfantBrain",
+    "OptionCortex",
+    "PlanningCortex",
+    "WorldModelEnsemble"
+  ],
+  "incomplete_local_archive_result": "INCOMPLETE",
+  "local_archive_metadata_error": "BadZipFile: File is not a zip file",
+  "learned_model_inference_tested": false,
+  "user_checkpoint_behavior_evaluated": false
+}

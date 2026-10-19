@@ -1,0 +1,21 @@
+{
+  "repair_id": "v01019_v01018_place_regression_repair",
+  "applied_at": "2026-08-26T16:46:10.129107+00:00",
+  "state_dir": "state",
+  "matched_place_approach_cross_regressions": 41,
+  "matched_invalid_place_releases": 3,
+  "agents": {
+    "A": {
+      "events": 68,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/a/embodied_skills.pre_v01019_place_repair.json"
+    },
+    "B": {
+      "events": 58,
+      "checkpoint_found": true,
+      "backup": "state/checkpoints/b/embodied_skills.pre_v01019_place_repair.json"
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

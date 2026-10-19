@@ -1,0 +1,64 @@
+Continuous Brain v0.6.0 — Release Validation
+Date: 2026-09-03
+
+Scope
+- Source-only Persistent Individual Core release; no pretrained executive checkpoint.
+- Standard recurrent attention executive plus preserved legacy motor path.
+- New SQLite checkpoint format 1; legacy motor checkpoint format 9 unchanged.
+
+Executed validation
+- pytest: 94 passed (65 existing regression tests + 29 new tests).
+- Python compileall for package, scripts and tests: PASS.
+- Shell syntax for both new launchers: PASS.
+- Dashboard JavaScript node --check: PASS.
+- Local dashboard HTTP and state endpoint: PASS.
+- Sequence training changes parameters with finite losses and gradients: PASS.
+- Memory retrieval and recurrent history influence neural outputs: PASS.
+- Empirical per-skill estimates enter the self-state vector: PASS.
+- Workspace/identity/intentions/optimizer/replay resume: PASS.
+- Split versus uninterrupted tiny-profile CPU run: identical final model tensors,
+  workspace, world position and reward.
+- Standard profile: 32,114,036 trainable parameters, 8 executive decisions,
+  30 primitive ticks, 1 optimizer update, finite loss/gradients, 8 memories: PASS.
+- Transaction rollback keeps checkpoint and memory consistent: PASS.
+- SIGTERM clean save and lock release: PASS.
+- Simultaneous writers and incompatible checkpoint dimensions rejected: PASS.
+- Entire infrastructure-fault option excluded from replay/reward/skill results: PASS.
+- Diagnostic rows excluded from retrieval: PASS.
+- Frozen legacy motor weights remain exact, original files preserved: PASS.
+- Same-shaped but wrong-environment motor import rejected: PASS.
+- Wrong vision-dimension motor import rejected: PASS.
+- Mock-THOR runtime integration: PASS.
+- Read-only executive evaluation: no teacher forcing, exploration, optimizer updates
+  or persistent database changes: PASS.
+- Offline consolidation without environment actions: PASS.
+- Non-overwriting backups and explicitly identified forks: PASS.
+- Formative memory remains in retrieval candidate pool: PASS.
+- No artificial intrinsic reward for successful idling alone: PASS.
+
+Short final-code development experiment (NOT a general-intelligence benchmark)
+- Tiny profile, seed 7, analytical reference motor, substantially teacher-assisted
+  executive: 300 decisions, 1,291 primitive ticks, 74 optimizer updates, 22/26
+  completed tasks successful, no infrastructure faults.
+- Final sampled training loss: 0.129624 (not held-out performance).
+- Read-only evaluation from that checkpoint: 100 additional executive decisions,
+  6/7 completed tasks successful; executive planner teacher and exploration OFF.
+- Reference motor remained analytical during evaluation. Seven tasks is far too
+  small a sample to establish reliability; no multi-seed generalization claim.
+- These experimental checkpoints are NOT included in the ZIP.
+
+Execution environment
+- Python 3.12 runtime, PyTorch 2.14.0+cpu, NumPy 2.5.2, pytest 9.1.1.
+- Tests used isolated scratch dependencies, not the user's ROCm installation.
+
+Not verified
+- Optional package-install check: blocked by an approval cancellation; not retried.
+  Source execution and package metadata inspection do not substitute for that check.
+- Actual custom Discovery Unity executable, real GPU/ROCm performance, physical robots.
+- Multi-day stability, all-history semantic retrieval, broad competence, autonomous
+  skill discovery, catastrophic-forgetting resistance over a lifetime, consciousness.
+
+Packaging
+- Source archive includes an embedded per-file MANIFEST_SHA256.json.
+- No environment state, weights, .venv, bytecode or cache directories are included.
+- Build script checks archive CRC and every manifest digest before completion.

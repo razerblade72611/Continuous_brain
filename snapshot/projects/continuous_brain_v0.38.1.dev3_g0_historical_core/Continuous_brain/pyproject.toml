@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Never "continuous-brain" / "continuous_brain": those names belong to the frozen legacy line (C3).
+name = "continuous-brain-unified"
+version = "0.38.1.dev3"
+description = "Continuous Brain v0.38.1.dev3 (Historical-Core G0 Recovery): neutral protocols, E0 SNN + DENSE-RNN substrates, Unified Individual composition runtime, integration-gate harness and shared battery. Lives alongside the legacy continuous_brain (v0.12.2 + overlays)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+wandb = ["wandb>=0.17"]
+directml = ["torch-directml"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain_snn*", "continuous_brain_protocols*", "continuous_brain_substrates*",
+           "continuous_brain_unified*", "continuous_brain_eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: longer smoke tests (deselect with -m 'not slow')"]

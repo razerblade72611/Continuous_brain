@@ -1,0 +1,16 @@
+AUTHOR v0.10.2 release validation
+=================================
+Release: 0.10.2
+Package: ai2thor-agent
+Regression suite: 145 passed
+Python compileall: PASS
+config.yaml parse: PASS
+benchmarks/tasks.yaml parse: PASS
+Trainer dry-run identity: PASS
+Actionability persistence/delta regression: PASS
+Alternate-pose interaction recovery regression: PASS
+Wheel integrity/metadata: PASS
+Wheel: dist/ai2thor_agent-0.10.2-py3-none-any.whl
+Wheel SHA-256: facc23ef4d66f4944acb6efa98dc12fc61cb454c507a530d4453a4626e7d5d39
+Runtime state/: intentionally excluded from the release ZIP so upgrades preserve each user's existing A/B state.
+Primary instructions: AUTHOR_v0.10.2_OPERATOR_README.md

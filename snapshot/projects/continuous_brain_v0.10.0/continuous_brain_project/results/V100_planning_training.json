@@ -1,0 +1,160 @@
+Extracting child-owned dorsal planning features...
+planning_features=556
+planning_features=1016
+planning_features=1566
+planning_features=2075
+planning_features=2566
+planning_features=3014
+planning_features=549
+planning_update=1/4000 loss=1.48492 latent=0.04053 ctx=0.20778 reward=0.04691 q=0.33116 grad=0.650 val_h1_ctx=0.204275 val_q_mae=0.6014
+planning_update=250/4000 loss=0.20043 latent=0.01366 ctx=0.01188 reward=0.04215 q=0.02546 grad=0.488 val_h1_ctx=0.005459 val_q_mae=0.3258
+planning_update=500/4000 loss=0.14430 latent=0.01018 ctx=0.00720 reward=0.01584 q=0.04536 grad=1.186 val_h1_ctx=0.004645 val_q_mae=0.3402
+planning_update=750/4000 loss=0.15971 latent=0.01094 ctx=0.00719 reward=0.02660 q=0.03781 grad=2.023 val_h1_ctx=0.003913 val_q_mae=0.3316
+planning_update=1000/4000 loss=0.09769 latent=0.01000 ctx=0.00550 reward=0.02336 q=0.01806 grad=0.688 val_h1_ctx=0.004047 val_q_mae=0.3322
+planning_update=1250/4000 loss=0.09905 latent=0.00854 ctx=0.00566 reward=0.01578 q=0.02113 grad=0.837 val_h1_ctx=0.003225 val_q_mae=0.3399
+planning_update=1500/4000 loss=0.08708 latent=0.01055 ctx=0.00464 reward=0.01054 q=0.02469 grad=0.507 val_h1_ctx=0.003376 val_q_mae=0.3438
+planning_update=1750/4000 loss=0.10770 latent=0.01042 ctx=0.00439 reward=0.02056 q=0.02645 grad=1.477 val_h1_ctx=0.002558 val_q_mae=0.3249
+planning_update=2000/4000 loss=0.06382 latent=0.00915 ctx=0.00277 reward=0.00805 q=0.01601 grad=0.463 val_h1_ctx=0.002528 val_q_mae=0.3459
+planning_update=2250/4000 loss=0.11416 latent=0.00962 ctx=0.00300 reward=0.01196 q=0.02877 grad=1.219 val_h1_ctx=0.001933 val_q_mae=0.3330
+planning_update=2500/4000 loss=0.22284 latent=0.01608 ctx=0.00611 reward=0.03128 q=0.06483 grad=3.110 val_h1_ctx=0.001952 val_q_mae=0.3404
+planning_update=2750/4000 loss=0.09849 latent=0.01065 ctx=0.00182 reward=0.00492 q=0.03236 grad=1.138 val_h1_ctx=0.001995 val_q_mae=0.3350
+planning_update=3000/4000 loss=0.05515 latent=0.00876 ctx=0.00174 reward=0.00241 q=0.01875 grad=0.792 val_h1_ctx=0.002318 val_q_mae=0.3290
+planning_update=3250/4000 loss=0.08499 latent=0.01026 ctx=0.00294 reward=0.01163 q=0.02834 grad=0.791 val_h1_ctx=0.001645 val_q_mae=0.3407
+planning_update=3500/4000 loss=0.08043 latent=0.00968 ctx=0.00249 reward=0.00901 q=0.02371 grad=1.071 val_h1_ctx=0.001985 val_q_mae=0.3498
+planning_update=3750/4000 loss=0.09616 latent=0.01105 ctx=0.00218 reward=0.00473 q=0.03102 grad=0.641 val_h1_ctx=0.002004 val_q_mae=0.3412
+planning_update=4000/4000 loss=0.07838 latent=0.01100 ctx=0.00288 reward=0.01086 q=0.02223 grad=1.097 val_h1_ctx=0.002141 val_q_mae=0.3477
+{
+  "best_update": 1750,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.0/continuous_brain_project/state/child_v100_planning/infant_training.pt",
+  "dropped_incomplete_episode_ids": [
+    52
+  ],
+  "episodes_complete": 52,
+  "episodes_train": 41,
+  "episodes_validation": 11,
+  "format": "continuous_brain.planning_training.v100",
+  "legacy_optimizer_carried_forward": false,
+  "planning_migrated": true,
+  "planning_migration_keys": [
+    "planning.encoder.0.weight",
+    "planning.encoder.0.bias",
+    "planning.encoder.1.weight",
+    "planning.encoder.1.bias",
+    "planning.encoder.3.weight",
+    "planning.encoder.3.bias",
+    "planning.transition.weight_ih",
+    "planning.transition.weight_hh",
+    "planning.transition.bias_ih",
+    "planning.transition.bias_hh",
+    "planning.spatial_decoder.0.weight",
+    "planning.spatial_decoder.0.bias",
+    "planning.spatial_decoder.2.weight",
+    "planning.spatial_decoder.2.bias",
+    "planning.context_decoder.0.weight",
+    "planning.context_decoder.0.bias",
+    "planning.context_decoder.2.weight",
+    "planning.context_decoder.2.bias",
+    "planning.reward_head.0.weight",
+    "planning.reward_head.0.bias",
+    "planning.reward_head.2.weight",
+    "planning.reward_head.2.bias",
+    "planning.success_head.0.weight",
+    "planning.success_head.0.bias",
+    "planning.success_head.2.weight",
+    "planning.success_head.2.bias",
+    "planning.collision_head.0.weight",
+    "planning.collision_head.0.bias",
+    "planning.collision_head.2.weight",
+    "planning.collision_head.2.bias",
+    "planning.value_head.0.weight",
+    "planning.value_head.0.bias",
+    "planning.value_head.2.weight",
+    "planning.value_head.2.bias",
+    "planning.goal_head.0.weight",
+    "planning.goal_head.0.bias",
+    "planning.goal_head.2.weight",
+    "planning.goal_head.2.bias",
+    "planning.q_head.0.weight",
+    "planning.q_head.0.bias",
+    "planning.q_head.2.weight",
+    "planning.q_head.2.bias"
+  ],
+  "planning_only": true,
+  "planning_only_trainable_parameters": [
+    "planning.encoder.0.weight",
+    "planning.encoder.0.bias",
+    "planning.encoder.1.weight",
+    "planning.encoder.1.bias",
+    "planning.encoder.3.weight",
+    "planning.encoder.3.bias",
+    "planning.transition.weight_ih",
+    "planning.transition.weight_hh",
+    "planning.transition.bias_ih",
+    "planning.transition.bias_hh",
+    "planning.spatial_decoder.0.weight",
+    "planning.spatial_decoder.0.bias",
+    "planning.spatial_decoder.2.weight",
+    "planning.spatial_decoder.2.bias",
+    "planning.context_decoder.0.weight",
+    "planning.context_decoder.0.bias",
+    "planning.context_decoder.2.weight",
+    "planning.context_decoder.2.bias",
+    "planning.reward_head.0.weight",
+    "planning.reward_head.0.bias",
+    "planning.reward_head.2.weight",
+    "planning.reward_head.2.bias",
+    "planning.success_head.0.weight",
+    "planning.success_head.0.bias",
+    "planning.success_head.2.weight",
+    "planning.success_head.2.bias",
+    "planning.collision_head.0.weight",
+    "planning.collision_head.0.bias",
+    "planning.collision_head.2.weight",
+    "planning.collision_head.2.bias",
+    "planning.value_head.0.weight",
+    "planning.value_head.0.bias",
+    "planning.value_head.2.weight",
+    "planning.value_head.2.bias",
+    "planning.goal_head.0.weight",
+    "planning.goal_head.0.bias",
+    "planning.goal_head.2.weight",
+    "planning.goal_head.2.bias",
+    "planning.q_head.0.weight",
+    "planning.q_head.0.bias",
+    "planning.q_head.2.weight",
+    "planning.q_head.2.bias"
+  ],
+  "planning_parameters": 428301,
+  "planning_updates": 4000,
+  "source_checkpoint_sha256": "c0f3c3b06ef17da91ad6d1c670864fc464ac9bb7f8f410122b022c94363ac647",
+  "source_training_updates": 11000,
+  "total_trainable_child_parameters": 9129187,
+  "trained_checkpoint_sha256": "1492f8bb1199972ae279090f9fdde84dfe4e4d0246f6835432f1706e77c5b15c",
+  "training": {
+    "batch": 32,
+    "gamma": 0.95,
+    "goal_gamma": 0.97,
+    "learning_rate": 0.0003,
+    "seed": 10010,
+    "unroll": 12,
+    "updates": 4000
+  },
+  "validation": {
+    "action_value_mae": 0.3248560179991369,
+    "collision_accuracy": 0.9035846724351051,
+    "context_error_by_horizon": {
+      "1": 0.00255788540033149,
+      "12": 0.005130902063049075,
+      "3": 0.002944595970142891,
+      "6": 0.0036027552019968377
+    },
+    "latent_error_by_horizon": {
+      "1": 0.0030139742843233734,
+      "12": 0.01672149380549875,
+      "3": 0.006275205683833511,
+      "6": 0.009855349387279378
+    },
+    "reward_mae": 0.03363558381844234,
+    "value_mae": 0.3260772879084639
+  }
+}

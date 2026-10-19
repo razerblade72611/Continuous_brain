@@ -1,0 +1,122 @@
+{
+  "checked_utc": "2026-10-12T22:24:39Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "current_phase": "cycle9 probes/lives; nine active life workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle8": {
+    "seconds": 7471,
+    "probe_seconds": 1824,
+    "probes_after_sleep_cycle": 8,
+    "learning_mean_survival_steps": {
+      "fresh": 493.8,
+      "transfer": 550.3
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 503.975,
+      "transfer": 464.7
+    },
+    "frozen_mean_survival_steps": {
+      "fresh": 600.65,
+      "transfer": 533.95
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -106.85,
+      "transfer": 16.35
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -221.505,
+      "transfer": -83.92625
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -10.175,
+      "transfer": 85.6
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -137.47625,
+      "transfer": -1.7274999999999978
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.04946334548400162,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep9": {
+    "learning": {
+      "seconds": 5638,
+      "own_rows": 86760,
+      "own_streams": 81,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 8.647665977478027,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02505023218691349,
+      "final_raw_absmax": 3.0187559127807617,
+      "final_grad_norm": 0.6787692308425903
+    },
+    "yoked": {
+      "seconds": 5636,
+      "own_rows": 88127,
+      "own_streams": 81,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.970867156982422,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02156851813197136,
+      "final_raw_absmax": 2.6163806915283203,
+      "final_grad_norm": 0.7476938366889954
+    }
+  },
+  "assessment": "Nine of ten paired sleeps completed. Cycle8 probes were after sleep8, before the newly completed sleep9. Learning fresh survival sample mean is below both controls and transfer is above both; all four one-sided survival lower95 bounds remain negative. No confirmed survival gain or final growth verdict. Per-cycle worlds differ and intervals are conditional on trained individuals; causes of alternating contrasts remain unisolated.",
+  "numeric_note": "Sleeps3–9 each had maximum block capped fractions0; sleep2 had transient learning capping. Learning sleep9 raw-value peak8.65 remains below cap20. Block capped fractions are minibatch maxima within250-update blocks, not mean rates. All20 root current-run JSONL files scanned for numerical finiteness with no invalid values or pending parse. No independent checkpoint tensor reload.",
+  "peer_coordination": "Claude C-037 agrees with cycle7 evidence. Sol remains the sole WSL executor and will perform the native archive checksum and live deletion verification, then post evidence for Claude's independent review. Final-battery evaluation remains a separate decision; no launch is authorized here.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute. Original30h/$27caps and October13 09:08:36UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; record independent cycle8/sleep9 evidence for Claude and DAV99. No final evaluation, checkpoint selection or installation.",
+  "local_cycles_sha256": "f4bba07c5d72c80b866edb168776c8346bb7aa485a3946559d61da76bd50d011",
+  "remote_cycles_sha256": "f4bba07c5d72c80b866edb168776c8346bb7aa485a3946559d61da76bd50d011",
+  "local_cycles_bytes": 1699013,
+  "checksum_matches": true
+}

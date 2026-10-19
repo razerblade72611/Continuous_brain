@@ -1,0 +1,109 @@
+{
+  "checked_utc": "2026-10-12T13:54:33Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "current_phase": "cycle5 probes/lives; nine active workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle4": {
+    "seconds": 7833,
+    "probe_seconds": 2155,
+    "probes_after_sleep_cycle": 4,
+    "learning_mean_survival_steps": {
+      "transfer": 585.975,
+      "fresh": 548.875
+    },
+    "yoked_mean_survival_steps": {
+      "transfer": 658.9,
+      "fresh": 531.225
+    },
+    "frozen_mean_survival_steps": {
+      "transfer": 518.125,
+      "fresh": 674.425
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -125.55,
+      "transfer": 67.85
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -251.2,
+      "transfer": -73.10125
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": 17.65,
+      "transfer": -72.925
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -66.90375,
+      "transfer": -230.30125
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.04905488499202915,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep5": {
+    "learning": {
+      "seconds": 5673,
+      "own_rows": 46358,
+      "own_streams": 45,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 5.411652088165283,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.03151983767747879,
+      "final_raw_absmax": 2.9273409843444824,
+      "final_grad_norm": 0.5199908018112183
+    },
+    "yoked": {
+      "seconds": 5671,
+      "own_rows": 48934,
+      "own_streams": 45,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.512602806091309,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.024271585047245026,
+      "final_raw_absmax": 2.6456494331359863,
+      "final_grad_norm": 0.5780892372131348
+    }
+  },
+  "assessment": "Half of ten paired sleeps completed. Cycle4 survival contrasts are mixed and all four one-sided survival lower95 bounds remain below zero. No confirmed survival gain or final growth verdict. Different probe worlds across cycles and training-realisation uncertainty require the previously agreed reporting limits.",
+  "numeric_note": "Sleep3,4,5 each had maximum block capped fractions0; sleep2 did have transient learning capping. Block capped fractions are minibatch maxima within250-update blocks, not mean rates. Current-run logs were scanned for finite numeric values; no independent checkpoint tensor reload was performed.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute. Original30h/$27caps and October13 09:08UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; record independent cycle4/sleep5 evidence for Claude and DAV99. No final evaluation or installation.",
+  "local_cycles_sha256": "78e31715cf02b331e947ac07f5c5f0a9dafa295fb28060217206da2fd6d69d3f",
+  "remote_cycles_sha256": "78e31715cf02b331e947ac07f5c5f0a9dafa295fb28060217206da2fd6d69d3f",
+  "local_cycles_bytes": 942204,
+  "checksum_matches": true
+}

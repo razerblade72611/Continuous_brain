@@ -1,0 +1,377 @@
+{
+  "version": "0.10.19",
+  "timestamp": "2026-08-26T16:55:18.423478+00:00",
+  "run_id": "20260826-114625",
+  "scene": "FloorPlan1Discovery_physics",
+  "level": 4,
+  "workers": [
+    {
+      "worker_id": 0,
+      "episodes": 60,
+      "successful_episodes": 31,
+      "failed_episodes": 29,
+      "skipped_setups": 0,
+      "primitive_steps": 2210,
+      "successful_actions": 66,
+      "failed_actions": 29,
+      "reachable_cells": 178,
+      "unique_cells": 0,
+      "wall_seconds": 506.4126648909878,
+      "curriculum_attempts": {
+        "place": 60
+      },
+      "curriculum_successes": {
+        "place": 31
+      },
+      "setup_skip_reasons": {},
+      "simulator_timeouts": 0,
+      "simulator_transport_failures": 0,
+      "simulator_restarts": 0,
+      "discovery_prop_restores": 173,
+      "episode_success_rate_pct": 51.67,
+      "action_success_rate_pct": 69.47,
+      "steps_per_wall_second": 4.36,
+      "coverage_pct": 0.0,
+      "curriculum_success_rate_pct": {
+        "place": 51.67
+      }
+    }
+  ],
+  "wall_seconds": 509.085,
+  "curriculum": {
+    "place": 1.0
+  },
+  "totals": {
+    "episodes": 60,
+    "successful_episodes": 31,
+    "failed_episodes": 29,
+    "skipped_setups": 0,
+    "setup_skip_reasons": {},
+    "primitive_steps": 2210,
+    "successful_actions": 66,
+    "failed_actions": 29,
+    "simulator_timeouts": 0,
+    "simulator_transport_failures": 0,
+    "simulator_restarts": 0,
+    "discovery_prop_restores": 173,
+    "reachable_cells": 178,
+    "unique_cells": 523,
+    "merged_navigation_replay_transitions": 0,
+    "merged_embodied_replay_transitions": 95,
+    "merged_sft_examples": 31,
+    "navigation_skill_transitions": 136461,
+    "curriculum_attempts": {
+      "place": 60
+    },
+    "curriculum_successes": {
+      "place": 31
+    },
+    "agent_skills": {
+      "A": {
+        "door_approach": {
+          "attempts": 720,
+          "success_rate_pct": 95.56,
+          "mean_steps": 13.02,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 591,
+          "success_rate_pct": 96.11,
+          "mean_steps": 18.22,
+          "recovery_attempts": 1,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 1,
+          "recovery_attempt_rate_pct": 0.17,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 888,
+          "success_rate_pct": 98.99,
+          "mean_steps": 1.24,
+          "recovery_attempts": 19,
+          "recovery_successes": 16,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 3,
+          "recovery_attempt_rate_pct": 2.14,
+          "recovery_success_rate_pct": 84.21
+        },
+        "pickup_approach": {
+          "attempts": 90,
+          "success_rate_pct": 96.67,
+          "mean_steps": 47.73,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "pickup_grasp": {
+          "attempts": 87,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "place_approach": {
+          "attempts": 38,
+          "success_rate_pct": 26.32,
+          "mean_steps": 26.37,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "place_release": {
+          "attempts": 8,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.75,
+          "recovery_attempts": 1,
+          "recovery_successes": 1,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 12.5,
+          "recovery_success_rate_pct": 100.0
+        },
+        "route_resume_target": {
+          "attempts": 128,
+          "success_rate_pct": 75.78,
+          "mean_steps": 41.39,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "legacy_v010": {
+          "close_cleanup": {
+            "attempts": 28,
+            "success_rate_pct": 14.29,
+            "mean_steps": 1.0
+          },
+          "cross_door": {
+            "attempts": 6,
+            "success_rate_pct": 83.33,
+            "mean_steps": 19.17
+          },
+          "face_target": {
+            "attempts": 311,
+            "success_rate_pct": 100.0,
+            "mean_steps": 0.0
+          },
+          "navigate": {
+            "attempts": 2488,
+            "success_rate_pct": 14.03,
+            "mean_steps": 4.3
+          },
+          "open": {
+            "attempts": 6,
+            "success_rate_pct": 100.0,
+            "mean_steps": 1.0
+          },
+          "peer_meet": {
+            "attempts": 363,
+            "success_rate_pct": 63.91,
+            "mean_steps": 2.46
+          },
+          "pickup": {
+            "attempts": 91,
+            "success_rate_pct": 42.86,
+            "mean_steps": 1.0
+          },
+          "place": {
+            "attempts": 45,
+            "success_rate_pct": 71.11,
+            "mean_steps": 1.0
+          },
+          "place_prepare_pickup": {
+            "attempts": 94,
+            "success_rate_pct": 50.0,
+            "mean_steps": 1.0
+          },
+          "toggle": {
+            "attempts": 47,
+            "success_rate_pct": 82.98,
+            "mean_steps": 1.0
+          }
+        }
+      },
+      "B": {
+        "door_approach": {
+          "attempts": 721,
+          "success_rate_pct": 96.67,
+          "mean_steps": 13.75,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 604,
+          "success_rate_pct": 98.68,
+          "mean_steps": 17.67,
+          "recovery_attempts": 10,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 10,
+          "recovery_attempt_rate_pct": 1.66,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 897,
+          "success_rate_pct": 99.33,
+          "mean_steps": 1.27,
+          "recovery_attempts": 28,
+          "recovery_successes": 27,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 1,
+          "recovery_attempt_rate_pct": 3.12,
+          "recovery_success_rate_pct": 96.43
+        },
+        "pickup_approach": {
+          "attempts": 90,
+          "success_rate_pct": 92.22,
+          "mean_steps": 43.2,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "pickup_grasp": {
+          "attempts": 83,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "place_approach": {
+          "attempts": 41,
+          "success_rate_pct": 87.8,
+          "mean_steps": 46.93,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "place_receptacle_open": {
+          "attempts": 6,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "place_release": {
+          "attempts": 35,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.97,
+          "recovery_attempts": 4,
+          "recovery_successes": 4,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 11.43,
+          "recovery_success_rate_pct": 100.0
+        },
+        "route_resume_target": {
+          "attempts": 131,
+          "success_rate_pct": 90.84,
+          "mean_steps": 44.37,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "legacy_v010": {
+          "close_cleanup": {
+            "attempts": 50,
+            "success_rate_pct": 20.0,
+            "mean_steps": 1.0
+          },
+          "cross_door": {
+            "attempts": 13,
+            "success_rate_pct": 92.31,
+            "mean_steps": 22.77
+          },
+          "face_target": {
+            "attempts": 540,
+            "success_rate_pct": 100.0,
+            "mean_steps": 0.0
+          },
+          "navigate": {
+            "attempts": 2507,
+            "success_rate_pct": 25.09,
+            "mean_steps": 8.59
+          },
+          "open": {
+            "attempts": 13,
+            "success_rate_pct": 100.0,
+            "mean_steps": 1.0
+          },
+          "peer_meet": {
+            "attempts": 372,
+            "success_rate_pct": 97.31,
+            "mean_steps": 5.09
+          },
+          "pickup": {
+            "attempts": 159,
+            "success_rate_pct": 49.69,
+            "mean_steps": 1.0
+          },
+          "place": {
+            "attempts": 64,
+            "success_rate_pct": 96.88,
+            "mean_steps": 1.0
+          },
+          "place_prepare_pickup": {
+            "attempts": 137,
+            "success_rate_pct": 50.36,
+            "mean_steps": 1.0
+          },
+          "toggle": {
+            "attempts": 117,
+            "success_rate_pct": 86.32,
+            "mean_steps": 1.0
+          }
+        }
+      }
+    },
+    "episode_success_rate_pct": 51.67,
+    "action_success_rate_pct": 69.47,
+    "run_unique_cells": 0,
+    "persistent_unique_cells": 523,
+    "run_coverage_pct": 0.0,
+    "coverage_pct": 0.0,
+    "curriculum_success_rate_pct": {
+      "place": 51.67
+    },
+    "aggregate_steps_per_wall_second": 4.34
+  }
+}

@@ -1,0 +1,46 @@
+{
+ "format": "cb2-sealed-ledger/1",
+ "rule": "each sealed range is used once, by one preregistered test, declared here before it is opened",
+ "block1": {
+  "range": "90001-90200",
+  "status": "SPENT",
+  "uses": [
+   {
+    "seeds": "90001-90040",
+    "test": "r3-H (r3h-B)",
+    "prereg": "r3h-sealed-prereg.json",
+    "verdict": "PASS"
+   },
+   {
+    "seeds": "90041-90080",
+    "test": "S2 (r4)",
+    "prereg": "s2-prereg.json",
+    "verdict": "NO IMPROVEMENT"
+   },
+   {
+    "seeds": "90081-90120",
+    "test": "vision v2 on r3h-B",
+    "prereg": "v2-sealed-prereg.json",
+    "verdict": "FAIL"
+   },
+   {
+    "seeds": "90121-90200",
+    "test": "S2b (r5)",
+    "prereg": "s2b-prereg.json",
+    "verdict": "S2-PROGRESS"
+   }
+  ]
+ },
+ "block2": {
+  "range": "91001-91400",
+  "status": "RESERVED; 91001-91080 spent (S2c); 91081-91400 untouched",
+  "uses": [
+   {
+    "seeds": "91001-91080",
+    "test": "S2c (r6)",
+    "prereg": "s2c-prereg.json",
+    "verdict": "NO IMPROVEMENT"
+   }
+  ]
+ }
+}

@@ -1,0 +1,6 @@
+# Fresh environment only. A working existing environment is reused without pip changes.
+# PyPI torch-directml 0.2.5.dev240914 requires torch 2.4.1 and torchvision 0.19.1.
+torch-directml==0.2.5.dev240914
+torch==2.4.1
+numpy==1.26.4
+Pillow>=10.4,<13

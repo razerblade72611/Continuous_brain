@@ -1,0 +1,832 @@
+{
+ "agents": {
+  "privileged_scripted": "PRIVILEGED heuristic reading info['privileged'] ground truth; an upper reference for what the world permits, not a learner; tuned on seeds 1-12",
+  "uniform_random": "uniform over 17 actions, no utterances"
+ },
+ "config": {
+  "arrival_growth": 0.15,
+  "arrival_rate0": 0.00909090909090909,
+  "arrival_rate_max": 0.02857142857142857,
+  "cancel_fraction": 0.35,
+  "change_rate": 0.0011111111111111111,
+  "difficulty0": 0.15,
+  "difficulty_growth": 0.1,
+  "episode_length": 3000,
+  "fail_penalty": 0.5,
+  "family_weights": {
+   "avoid": 0.08,
+   "collect": 0.2,
+   "craft": 0.12,
+   "maintain": 0.09,
+   "place": 0.13,
+   "report": 0.28,
+   "visit": 0.1
+  },
+  "feedback": true,
+  "first_request_step": 10,
+  "interface": "text",
+  "large_render_size": null,
+  "location_tolerance": 2,
+  "log_keep": 200,
+  "max_concurrent": 5,
+  "obs_size": 64,
+  "privileged_semantic": true,
+  "report_window": 120,
+  "reveal_answers": true
+ },
+ "crafter": {
+  "crafter_version": "1.8.3",
+  "data_yaml_sha256": "41ec28a266e74d7f98e0b7381ff5f11ed491c2a6cf39a460eda8bbd751b8630f",
+  "env_py_sha256": "a728d30479c4c0b2a3fe39505169af4a861e114132bde76d6c05d235da0171b6",
+  "objects_py_sha256": "415aa49964639f3ae6b03372d588476fcfc4cafd6fd8b04a2d19b0fd6752b161"
+ },
+ "episode_length": 3000,
+ "format": "w1-baselines/1",
+ "git_commit": "e2264d230dcffaa7535d1394365f090cf9586b69",
+ "git_dirty": false,
+ "index_note": "w1_index = 100 * mean(crafter_score/100, value-weighted on-time rate, memory accuracy, survival fraction); equal weights, untuned. Read the components, not the index.",
+ "language_inventory": {
+  "change_templates": 11,
+  "deadline_phrasings": 7,
+  "feature_synonyms": 11,
+  "item_synonyms": 11,
+  "question_templates": 20,
+  "request_templates": 39,
+  "value_markers": 6
+ },
+ "machine": "x86_64",
+ "numpy": "2.4.4",
+ "per_episode": {
+  "privileged_scripted": [
+   {
+    "achievements": 11,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 3,
+    "seed": 71001,
+    "steps": 640
+   },
+   {
+    "achievements": 16,
+    "died": false,
+    "memory_asked": 16,
+    "memory_correct": 16,
+    "obligations_failed": 12,
+    "obligations_fulfilled": 12,
+    "seed": 71002,
+    "steps": 3000
+   },
+   {
+    "achievements": 15,
+    "died": true,
+    "memory_asked": 3,
+    "memory_correct": 3,
+    "obligations_failed": 3,
+    "obligations_fulfilled": 2,
+    "seed": 71003,
+    "steps": 800
+   },
+   {
+    "achievements": 20,
+    "died": false,
+    "memory_asked": 8,
+    "memory_correct": 8,
+    "obligations_failed": 6,
+    "obligations_fulfilled": 20,
+    "seed": 71004,
+    "steps": 3000
+   },
+   {
+    "achievements": 16,
+    "died": true,
+    "memory_asked": 8,
+    "memory_correct": 8,
+    "obligations_failed": 8,
+    "obligations_fulfilled": 15,
+    "seed": 71005,
+    "steps": 2703
+   },
+   {
+    "achievements": 16,
+    "died": false,
+    "memory_asked": 14,
+    "memory_correct": 14,
+    "obligations_failed": 10,
+    "obligations_fulfilled": 17,
+    "seed": 71006,
+    "steps": 3000
+   },
+   {
+    "achievements": 11,
+    "died": true,
+    "memory_asked": 1,
+    "memory_correct": 1,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 2,
+    "seed": 71007,
+    "steps": 600
+   },
+   {
+    "achievements": 17,
+    "died": false,
+    "memory_asked": 18,
+    "memory_correct": 18,
+    "obligations_failed": 8,
+    "obligations_fulfilled": 22,
+    "seed": 71008,
+    "steps": 3000
+   },
+   {
+    "achievements": 15,
+    "died": true,
+    "memory_asked": 3,
+    "memory_correct": 3,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 2,
+    "seed": 71009,
+    "steps": 902
+   },
+   {
+    "achievements": 17,
+    "died": true,
+    "memory_asked": 8,
+    "memory_correct": 8,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 15,
+    "seed": 71010,
+    "steps": 1693
+   },
+   {
+    "achievements": 16,
+    "died": true,
+    "memory_asked": 14,
+    "memory_correct": 14,
+    "obligations_failed": 12,
+    "obligations_fulfilled": 8,
+    "seed": 71011,
+    "steps": 2618
+   },
+   {
+    "achievements": 14,
+    "died": true,
+    "memory_asked": 5,
+    "memory_correct": 5,
+    "obligations_failed": 5,
+    "obligations_fulfilled": 9,
+    "seed": 71012,
+    "steps": 2080
+   },
+   {
+    "achievements": 17,
+    "died": true,
+    "memory_asked": 12,
+    "memory_correct": 12,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 10,
+    "seed": 71013,
+    "steps": 2135
+   },
+   {
+    "achievements": 15,
+    "died": true,
+    "memory_asked": 1,
+    "memory_correct": 1,
+    "obligations_failed": 5,
+    "obligations_fulfilled": 5,
+    "seed": 71014,
+    "steps": 1104
+   },
+   {
+    "achievements": 20,
+    "died": false,
+    "memory_asked": 8,
+    "memory_correct": 8,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 23,
+    "seed": 71015,
+    "steps": 3000
+   },
+   {
+    "achievements": 17,
+    "died": false,
+    "memory_asked": 11,
+    "memory_correct": 11,
+    "obligations_failed": 9,
+    "obligations_fulfilled": 17,
+    "seed": 71016,
+    "steps": 3000
+   },
+   {
+    "achievements": 18,
+    "died": false,
+    "memory_asked": 13,
+    "memory_correct": 13,
+    "obligations_failed": 5,
+    "obligations_fulfilled": 23,
+    "seed": 71017,
+    "steps": 3000
+   },
+   {
+    "achievements": 17,
+    "died": false,
+    "memory_asked": 10,
+    "memory_correct": 10,
+    "obligations_failed": 4,
+    "obligations_fulfilled": 16,
+    "seed": 71018,
+    "steps": 3000
+   },
+   {
+    "achievements": 16,
+    "died": true,
+    "memory_asked": 1,
+    "memory_correct": 1,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 5,
+    "seed": 71019,
+    "steps": 1070
+   },
+   {
+    "achievements": 19,
+    "died": true,
+    "memory_asked": 10,
+    "memory_correct": 10,
+    "obligations_failed": 9,
+    "obligations_fulfilled": 13,
+    "seed": 71020,
+    "steps": 2712
+   }
+  ],
+  "uniform_random": [
+   {
+    "achievements": 4,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 0,
+    "seed": 71001,
+    "steps": 233
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 1,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71002,
+    "steps": 177
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 0,
+    "seed": 71003,
+    "steps": 155
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 0,
+    "seed": 71004,
+    "steps": 150
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 3,
+    "obligations_fulfilled": 0,
+    "seed": 71005,
+    "steps": 180
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71006,
+    "steps": 125
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71007,
+    "steps": 97
+   },
+   {
+    "achievements": 2,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 0,
+    "seed": 71008,
+    "steps": 141
+   },
+   {
+    "achievements": 4,
+    "died": true,
+    "memory_asked": 2,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 1,
+    "seed": 71009,
+    "steps": 395
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71010,
+    "steps": 183
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 1,
+    "memory_correct": 0,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 0,
+    "seed": 71011,
+    "steps": 132
+   },
+   {
+    "achievements": 4,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 0,
+    "seed": 71012,
+    "steps": 165
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71013,
+    "steps": 190
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 0,
+    "seed": 71014,
+    "steps": 184
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71015,
+    "steps": 166
+   },
+   {
+    "achievements": 2,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 2,
+    "obligations_fulfilled": 0,
+    "seed": 71016,
+    "steps": 157
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71017,
+    "steps": 186
+   },
+   {
+    "achievements": 2,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 0,
+    "obligations_fulfilled": 0,
+    "seed": 71018,
+    "steps": 49
+   },
+   {
+    "achievements": 3,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 0,
+    "seed": 71019,
+    "steps": 137
+   },
+   {
+    "achievements": 1,
+    "died": true,
+    "memory_asked": 0,
+    "memory_correct": 0,
+    "obligations_failed": 1,
+    "obligations_fulfilled": 0,
+    "seed": 71020,
+    "steps": 156
+   }
+  ]
+ },
+ "python": "3.11.15",
+ "seed_family": "w1-baselines-eng",
+ "seeds": [
+  71001,
+  71002,
+  71003,
+  71004,
+  71005,
+  71006,
+  71007,
+  71008,
+  71009,
+  71010,
+  71011,
+  71012,
+  71013,
+  71014,
+  71015,
+  71016,
+  71017,
+  71018,
+  71019,
+  71020
+ ],
+ "summary": {
+  "privileged_scripted": {
+   "crafter_mean_achievements": 16.15,
+   "crafter_score": 51.65916487975106,
+   "crafter_success_rates": {
+    "collect_coal": 75.0,
+    "collect_diamond": 5.0,
+    "collect_drink": 100.0,
+    "collect_iron": 35.0,
+    "collect_sapling": 90.0,
+    "collect_stone": 100.0,
+    "collect_wood": 100.0,
+    "defeat_skeleton": 0.0,
+    "defeat_zombie": 100.0,
+    "eat_cow": 100.0,
+    "eat_plant": 20.0,
+    "make_iron_pickaxe": 20.0,
+    "make_iron_sword": 15.0,
+    "make_stone_pickaxe": 100.0,
+    "make_stone_sword": 90.0,
+    "make_wood_pickaxe": 100.0,
+    "make_wood_sword": 100.0,
+    "place_furnace": 80.0,
+    "place_plant": 85.0,
+    "place_stone": 100.0,
+    "place_table": 100.0,
+    "wake_up": 100.0
+   },
+   "deaths": 12,
+   "episodes": 20,
+   "memory_accuracy": 1.0,
+   "memory_asked": 164,
+   "memory_per_question": {
+    "count_requests": {
+     "accuracy": 1.0,
+     "asked": 16,
+     "correct": 16,
+     "unanswered": 0
+    },
+    "count_today": {
+     "accuracy": 1.0,
+     "asked": 26,
+     "correct": 26,
+     "unanswered": 0
+    },
+    "first_request": {
+     "accuracy": 1.0,
+     "asked": 39,
+     "correct": 39,
+     "unanswered": 0
+    },
+    "last_cancelled": {
+     "accuracy": 1.0,
+     "asked": 14,
+     "correct": 14,
+     "unanswered": 0
+    },
+    "last_seen": {
+     "accuracy": 1.0,
+     "asked": 69,
+     "correct": 69,
+     "unanswered": 0
+    }
+   },
+   "obligations_failed": 107,
+   "obligations_fulfilled": 239,
+   "obligations_on_time_rate": 0.6907514450867052,
+   "obligations_value_weighted_rate": 0.6947040498442367,
+   "per_family": {
+    "avoid": {
+     "amended": 3,
+     "cancelled": 4,
+     "fail_reasons": {
+      "died": 2,
+      "violated": 17
+     },
+     "failed": 19,
+     "fulfilled": 20,
+     "issued": 45,
+     "on_time_rate": 0.5128205128205128,
+     "unresolved": 2,
+     "value_weighted_rate": 0.5294117647058824
+    },
+    "collect": {
+     "amended": 8,
+     "cancelled": 11,
+     "fail_reasons": {
+      "deadline": 21,
+      "died": 7
+     },
+     "failed": 28,
+     "fulfilled": 76,
+     "issued": 124,
+     "on_time_rate": 0.7307692307692307,
+     "unresolved": 9,
+     "value_weighted_rate": 0.7192118226600985
+    },
+    "craft": {
+     "amended": 4,
+     "cancelled": 10,
+     "fail_reasons": {
+      "deadline": 11,
+      "died": 2
+     },
+     "failed": 13,
+     "fulfilled": 56,
+     "issued": 87,
+     "on_time_rate": 0.8115942028985508,
+     "unresolved": 8,
+     "value_weighted_rate": 0.7803030303030303
+    },
+    "maintain": {
+     "amended": 6,
+     "cancelled": 4,
+     "fail_reasons": {
+      "died": 3,
+      "violated": 20
+     },
+     "failed": 23,
+     "fulfilled": 34,
+     "issued": 66,
+     "on_time_rate": 0.5964912280701754,
+     "unresolved": 5,
+     "value_weighted_rate": 0.6354166666666666
+    },
+    "place": {
+     "amended": 7,
+     "cancelled": 5,
+     "fail_reasons": {
+      "deadline": 11,
+      "died": 6
+     },
+     "failed": 17,
+     "fulfilled": 41,
+     "issued": 66,
+     "on_time_rate": 0.7068965517241379,
+     "unresolved": 3,
+     "value_weighted_rate": 0.6964285714285714
+    },
+    "report": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {},
+     "failed": 0,
+     "fulfilled": 164,
+     "issued": 164,
+     "on_time_rate": 1.0,
+     "unresolved": 0,
+     "value_weighted_rate": 1.0
+    },
+    "visit": {
+     "amended": 0,
+     "cancelled": 1,
+     "fail_reasons": {
+      "deadline": 7
+     },
+     "failed": 7,
+     "fulfilled": 12,
+     "issued": 20,
+     "on_time_rate": 0.631578947368421,
+     "unresolved": 0,
+     "value_weighted_rate": 0.7096774193548387
+    }
+   },
+   "survival_mean_fraction": 0.7176166666666667,
+   "survival_mean_steps": 2152.85,
+   "timing_ms_per_step": {
+    "agent": 1.039780008498861,
+    "crafter": 1.336037653110288,
+    "layer": 0.42876261618249195,
+    "wall": 2.8130208527765617
+   },
+   "total_steps": 43057,
+   "w1_index": 73.22280913271035,
+   "w1_index_components": {
+    "crafter_score/100": 0.5165916487975106,
+    "memory_accuracy": 1.0,
+    "survival_fraction": 0.7176166666666667,
+    "value_weighted_on_time": 0.6947040498442367
+   }
+  },
+  "uniform_random": {
+   "crafter_mean_achievements": 2.4,
+   "crafter_score": 1.2083320443339125,
+   "crafter_success_rates": {
+    "collect_coal": 0.0,
+    "collect_diamond": 0.0,
+    "collect_drink": 5.0,
+    "collect_iron": 0.0,
+    "collect_sapling": 65.0,
+    "collect_stone": 0.0,
+    "collect_wood": 15.0,
+    "defeat_skeleton": 0.0,
+    "defeat_zombie": 0.0,
+    "eat_cow": 0.0,
+    "eat_plant": 0.0,
+    "make_iron_pickaxe": 0.0,
+    "make_iron_sword": 0.0,
+    "make_stone_pickaxe": 0.0,
+    "make_stone_sword": 0.0,
+    "make_wood_pickaxe": 0.0,
+    "make_wood_sword": 0.0,
+    "place_furnace": 0.0,
+    "place_plant": 60.0,
+    "place_stone": 0.0,
+    "place_table": 0.0,
+    "wake_up": 95.0
+   },
+   "deaths": 20,
+   "episodes": 20,
+   "memory_accuracy": 0.0,
+   "memory_asked": 4,
+   "memory_per_question": {
+    "count_today": {
+     "accuracy": 0.0,
+     "asked": 2,
+     "correct": 0,
+     "unanswered": 1
+    },
+    "last_seen": {
+     "accuracy": 0.0,
+     "asked": 2,
+     "correct": 0,
+     "unanswered": 0
+    }
+   },
+   "obligations_failed": 18,
+   "obligations_fulfilled": 1,
+   "obligations_on_time_rate": 0.05263157894736842,
+   "obligations_value_weighted_rate": 0.06976744186046512,
+   "per_family": {
+    "avoid": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {
+      "violated": 1
+     },
+     "failed": 1,
+     "fulfilled": 0,
+     "issued": 1,
+     "on_time_rate": 0.0,
+     "unresolved": 0,
+     "value_weighted_rate": 0.0
+    },
+    "collect": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {
+      "deadline": 1,
+      "died": 7
+     },
+     "failed": 8,
+     "fulfilled": 1,
+     "issued": 9,
+     "on_time_rate": 0.1111111111111111,
+     "unresolved": 0,
+     "value_weighted_rate": 0.15789473684210525
+    },
+    "craft": {
+     "amended": 1,
+     "cancelled": 0,
+     "fail_reasons": {
+      "died": 6
+     },
+     "failed": 6,
+     "fulfilled": 0,
+     "issued": 6,
+     "on_time_rate": 0.0,
+     "unresolved": 0,
+     "value_weighted_rate": 0.0
+    },
+    "maintain": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {},
+     "failed": 0,
+     "fulfilled": 0,
+     "issued": 0,
+     "on_time_rate": null,
+     "unresolved": 0,
+     "value_weighted_rate": null
+    },
+    "place": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {
+      "died": 2
+     },
+     "failed": 2,
+     "fulfilled": 0,
+     "issued": 2,
+     "on_time_rate": 0.0,
+     "unresolved": 0,
+     "value_weighted_rate": 0.0
+    },
+    "report": {
+     "amended": 0,
+     "cancelled": 0,
+     "fail_reasons": {
+      "died": 3,
+      "no_answer": 1
+     },
+     "failed": 4,
+     "fulfilled": 0,
+     "issued": 4,
+     "on_time_rate": 0.0,
+     "unresolved": 0,
+     "value_weighted_rate": 0.0
+    },
+    "visit": {
+     "amended": 1,
+     "cancelled": 1,
+     "fail_reasons": {
+      "died": 1
+     },
+     "failed": 1,
+     "fulfilled": 0,
+     "issued": 2,
+     "on_time_rate": 0.0,
+     "unresolved": 0,
+     "value_weighted_rate": 0.0
+    }
+   },
+   "survival_mean_fraction": 0.05596666666666668,
+   "survival_mean_steps": 167.9,
+   "timing_ms_per_step": {
+    "agent": 0.0070120619377117,
+    "crafter": 1.0180843296501274,
+    "layer": 0.2699414240794848,
+    "wall": 1.3049107641454871
+   },
+   "total_steps": 3358,
+   "w1_index": 3.445435724261773,
+   "w1_index_components": {
+    "crafter_score/100": 0.012083320443339126,
+    "memory_accuracy": 0.0,
+    "survival_fraction": 0.05596666666666668,
+    "value_weighted_on_time": 0.06976744186046512
+   }
+  }
+ },
+ "wall_seconds": 157.7,
+ "what": "W1 reference baselines (engineering result, exploration lane; not preregistered)"
+}

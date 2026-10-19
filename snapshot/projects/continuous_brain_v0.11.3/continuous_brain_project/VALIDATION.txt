@@ -1,0 +1,35 @@
+Competitive Broadcast v2 validation on supplied continuous_brain_project.zip
+Date: 2026-09-12 (America/Chicago)
+
+Environment-level task checks:
+PASS cue-blindness (observation): post-cue delta exactly zero
+PASS cue-blindness (rendered image): paired left/right render identical post-cue
+PASS no timing/idle leak: observation and rendered image identical at same position
+PASS memory controller: 200/200 at corridor lengths 0.3, 0.6, 1.0, 1.4
+PASS reactive fixed-side control: 106/200 at each corridor length
+
+Real-PyTorch competitive-path checks:
+PASS immediate growth exact no-op (enabled and disabled)
+PASS exact fallback after trainable-branch perturbation
+PASS exact save/restore continuation
+PASS frozen base remains eval; BatchNorm buffers protected
+PASS trainable parameter counts: shared=98,944; independent=164,736
+PASS recurrent, motor, and world independent selectors receive nonzero gradients
+
+Supplied checkpoint integration:
+checkpoint: state/child_v113_dml_smoke/infant_training.pt
+checkpoint sha256: 086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f
+recorded updates: 14,000
+saved growth: balanced-v110, enabled=True
+vision parent heads: vision__dinov3__vits_legacy=384; vision__dinov3__base=768
+strict state_dict load: PASS
+zero-init grown hidden exact to original checkpoint: PASS
+zero-init grown motor logits exact to original checkpoint: PASS
+one teacher-supervised optimizer episode: PASS
+one-update checkpoints produced for shared/independent/uniform: PASS
+short paired evaluator smoke: PASS
+baseline/competition-disabled exact parity: True
+
+The one-update / four-step evaluator is only an integration smoke test. It is not
+the scientific result. Run the full training/evaluation protocol in
+FINAL_INTEGRATION.md before interpreting the hypothesis.

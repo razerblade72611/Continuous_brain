@@ -1,0 +1,60 @@
+Continuous Brain v0.4.0 release validation
+=========================================
+
+Static validation
+-----------------
+python -m compileall continuous_brain tests : PASS
+
+Unit/integration tests
+----------------------
+PYTHONPATH=. python -m pytest -q
+13 passed
+
+Coverage represented by the tests
+---------------------------------
+- v0.x core model tensor shapes
+- cognitive and visual episodic memory
+- pixel-stat vision embedding pipeline
+- browser visualizer state and HTTP endpoints
+- v0.2/v0.3 style checkpoint migration
+- visual backbone dimension changes
+- v0.4 bootstrap checkpoint imports weights without inheriting counters
+- AI2-THOR 6-observation / 5-intent compatibility boundary
+- teacher-nav vs sensor-only goal masking
+- high-level interaction intent -> simulator object action mapping
+- AI2-THOR camera/dashboard payload generation
+
+2-D regression smoke
+---------------------
+Command:
+  python -m continuous_brain.cli --state-dir /tmp/cb_v04_smoke \
+    --steps 160 --fast --vision-backbone pixel-stats --seed 11
+
+Result:
+- completed 160 steps
+- wrote format_version=4 checkpoint
+- status.json reports version 0.4.0
+- online learning and visual memory remained active
+
+3-D adapter end-to-end smoke
+----------------------------
+A FakeController implementing the AI2-THOR Event/action contract was run through
+AI2ThorEmbodiedEnv + ContinuousAgent + PixelStatsBackbone for 80 ticks.
+
+Result:
+- RGB/depth/pose ingestion: PASS
+- 6-slot structured observation: PASS
+- 5 high-level action intents: PASS
+- simulator primitive dispatch: PASS
+- reward / replay / memory / online learning: PASS
+- checkpoint/status saving: PASS
+- clean environment close: PASS
+
+Not validated in the build container
+------------------------------------
+- the user's custom FloorPlan1Discovery_physics Unity executable
+- the user's installed/forked ai2thor Python Controller package
+- gated DINOv3 weights
+- physical robot hardware
+
+These require the target machine/environment and must not be inferred from the mocked validation.

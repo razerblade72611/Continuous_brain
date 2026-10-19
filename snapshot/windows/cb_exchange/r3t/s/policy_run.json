@@ -1,0 +1,33 @@
+{
+ "format": "cb2-sleep-policy/1",
+ "status": "ENGINEERING_ONLY",
+ "git": "29c54586892d703539050ed29dc119e993fc2333",
+ "git_dirty": false,
+ "device": "cuda",
+ "arm": "P-A",
+ "core": "runs/explore/cb2/sleep/r2/core/core.pt",
+ "core_sha256": "1043104271ca4521e17d6233fa542405dadd897f84c37f750e4ab0736a8724a3",
+ "params": 1800213,
+ "heldout_lives": [
+  589,
+  590,
+  591
+ ],
+ "args": {
+  "cmd": "policy",
+  "archive": "/workspace/Continuous_brain/runs/explore/cb2/archive",
+  "heldout_lives": 3,
+  "device": "auto",
+  "threads": 2,
+  "batch": 16,
+  "T": 64,
+  "seed": 0,
+  "out": "runs/explore/cb2/sleep/r2/policy-P-A",
+  "preload": true,
+  "updates": 15000,
+  "log_every": 250,
+  "core": "runs/explore/cb2/sleep/r2/core/core.pt",
+  "arm": "P-A",
+  "eval_batches": 4
+ }
+}

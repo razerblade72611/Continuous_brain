@@ -1,0 +1,22 @@
+v104_foraging_holdout=250/1200
+v104_foraging_holdout=500/1200
+v104_foraging_holdout=750/1200
+v104_foraging_holdout=1000/1200
+{
+  "child_model_used": false,
+  "domain": "foraging",
+  "executed_action_counts": {
+    "0": 103,
+    "1": 264,
+    "2": 259,
+    "3": 286,
+    "4": 288
+  },
+  "exploration": 0.45,
+  "format": "continuous_brain.world_retention_holdout.v104",
+  "parent_models_used": false,
+  "records": 1200,
+  "seed": 24017,
+  "training_prohibited": true,
+  "transition_digest": "1797991caa73463ebbed25f35e5240dba339f35e007b64a574195672bf2b2b5e"
+}

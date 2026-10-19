@@ -1,0 +1,9 @@
+AUTHOR v0.10.13 release validation
+- pytest: 197 passed
+- compileall: passed
+- training dry-run: version 0.10.13, trainer semantic_route_qualified_maneuverable_curriculum, level 4, pickup curriculum
+- Level-4 blocked-route maneuverable/path-aligned start regression: passed
+- strict semantic route continuation success regression: passed
+- strict semantic route rejects failed door-cross regression: passed
+- v0.10.12 FIFO timeout/transport recovery regressions retained: passed
+- wheel metadata/build: Version 0.10.13

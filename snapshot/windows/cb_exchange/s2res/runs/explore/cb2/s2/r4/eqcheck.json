@@ -1,0 +1,98 @@
+{
+ "format": "cb2-eval/1",
+ "status": "ENGINEERING_ONLY",
+ "label": "s2-eqcheck",
+ "individual": "cb2-ind-0001",
+ "individual_state_hash": "e67bb910a4a8a1c345460ecf15b192344210023d02546ba9925321811e671082",
+ "skills": "cb2",
+ "consolidations": 2,
+ "seeds": [
+  76001,
+  76001,
+  1
+ ],
+ "steps": 10000,
+ "git": "8ecc081f0e22a79d834e5ef36ae77f7bdb4851c9",
+ "git_dirty": false,
+ "summary": {
+  "individual": {
+   "episodes": 1,
+   "crafter_score": 5.60616859275494,
+   "achievements_per_episode": 9.0,
+   "survival_steps": 538.0,
+   "deaths": 1,
+   "obligations_on_time": {
+    "fulfilled": 3,
+    "failed": 0,
+    "rate": 1.0
+   }
+  },
+  "routine": {
+   "episodes": 1,
+   "crafter_score": 4.356043997893272,
+   "achievements_per_episode": 8.0,
+   "survival_steps": 251.0,
+   "deaths": 1,
+   "obligations_on_time": {
+    "fulfilled": 3,
+    "failed": 0,
+    "rate": 1.0
+   }
+  }
+ },
+ "paired_difference": {
+  "steps": {
+   "mean": 287.0,
+   "se": NaN
+  },
+  "n_unlocked": {
+   "mean": 1.0,
+   "se": NaN
+  }
+ },
+ "episodes": {
+  "individual": [
+   {
+    "seed": 76001,
+    "steps": 538,
+    "died": true,
+    "unlocked": [
+     "collect_drink",
+     "collect_sapling",
+     "collect_wood",
+     "defeat_zombie",
+     "eat_cow",
+     "make_wood_pickaxe",
+     "make_wood_sword",
+     "place_table",
+     "wake_up"
+    ],
+    "n_unlocked": 9,
+    "fulfilled": 3,
+    "failed": 0,
+    "seconds": 9.3
+   }
+  ],
+  "routine": [
+   {
+    "seed": 76001,
+    "steps": 251,
+    "died": true,
+    "unlocked": [
+     "collect_drink",
+     "collect_sapling",
+     "collect_wood",
+     "defeat_zombie",
+     "eat_cow",
+     "make_wood_pickaxe",
+     "make_wood_sword",
+     "place_table"
+    ],
+    "n_unlocked": 8,
+    "fulfilled": 3,
+    "failed": 0,
+    "seconds": 1.6
+   }
+  ]
+ }
+}

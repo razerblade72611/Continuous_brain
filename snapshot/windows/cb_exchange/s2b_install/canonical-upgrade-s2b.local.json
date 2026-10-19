@@ -1,0 +1,105 @@
+{
+ "format": "cb2-canonical-upgrade/1",
+ "decision": "David: r3h-B -> S2b (sealed S2-PROGRESS), vision v1",
+ "started": "2026-10-09T21:20:01Z",
+ "git": "676e8a1c017c66aa374801760d1d90356b52d627",
+ "git_dirty": false,
+ "home": "/home/davei/projects/continuous_brain_explore/runs/explore/cb2/individuals/cb2-ind-0001",
+ "gate4": "OPEN: a better controller does not solve prediction / persistent memory",
+ "weights_file_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+ "prereg_file_sha256": "7d22c4d742ab94d548daa5c172c7915b9cffe5de0ba0628b4c00276086ac5b22",
+ "sealed": {
+  "verdict": "S2-PROGRESS (beyond r3h-B, not the routine)",
+  "seeds": "90121-90200",
+  "paired": {
+   "worlds": 80,
+   "vs_routine": {
+    "survival_mean": -134.5625,
+    "survival_lower95": -228.691875
+   },
+   "vs_r3hB": {
+    "survival_mean": 137.1125,
+    "survival_lower95": 74.449375,
+    "score_s2": 28.938243496964375,
+    "score_r3hB": 24.539629393248596
+   },
+   "r3hB_summary": {
+    "episodes": 80,
+    "crafter_score": 24.539629393248596,
+    "achievements_per_episode": 12.6875,
+    "survival_steps": 424.8125,
+    "deaths": 80,
+    "obligations_on_time": {
+     "fulfilled": 102,
+     "failed": 128,
+     "rate": 0.4434782608695652
+    }
+   }
+  },
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+  "event_sha": "299f06162c96b4c21a3c2826371132e94104b8172af68f81b1e3d20e4f02478f",
+  "deviations": [],
+  "REHEARSAL": false
+ },
+ "before": {
+  "snapshot": "20261009T140035238969Z_consolidation0",
+  "state_hash": "466a33a46c0e44c602cba3c8bb2143d0e0ee91359d1ef23525b6c74c587e41af",
+  "life": 592,
+  "lives_lived": 592,
+  "skills": "cb2",
+  "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+  "in_life": false
+ },
+ "rollback_point": {
+  "snapshot": "20261009T140035238969Z_consolidation0",
+  "state_hash": "466a33a46c0e44c602cba3c8bb2143d0e0ee91359d1ef23525b6c74c587e41af",
+  "life": 592,
+  "lives_lived": 592,
+  "tick": 360388,
+  "event_sha": "c00180108e5456c6c474f7f18df2d05b1eea64fcfedc5f72410367cdc766265c",
+  "snapshot_files_sha256": {
+   "COMPLETE": "50a4c46613fa0c7738e0f4fb02860130929492dfcf071ece384916b36ac52b70",
+   "checksums.sha256": "a29760adf72dadd7035c96c4cdbdc5eee8a2d050e3c90611080fdd81b0aed159",
+   "manifest.json": "8f56d158f3cf58703299f133831a9556652e7019a74d8d7e319a0c9baf5ca7af",
+   "manifest.pt": "a1345efae1d92a7e42b7bfcd5893feb52fcf6d20873823be0fa016b34f1abfb1",
+   "runtime.pt": "5931c07171e4f46d7a45067e35adf4c88d89402743b8b2e96262318ee5345f58"
+  },
+  "backup": {
+   "path": "/mnt/c/Users/davei/ContinuousBrain/canonical_backups/cb2-ind-0001-preupgrade-s2b-20261009T212005Z.tgz",
+   "sha256": "a6ca19c7d40f1d8f8fffb8b6aabfa6b795e04501621d492647a8316b8c12b9f7",
+   "bytes": 279557479
+  }
+ },
+ "after": {
+  "snapshot": "20261009T212040153086Z_consolidation1",
+  "state_hash": "7466fd0a11a18a9fd62c6418c3ee48f209252b8363fba23cdd2773ad8c634494",
+  "event_sha": "be534f3da44d3b83bccee1db38934bc25629fbde284a55ab80ee3bbf28bbaae3",
+  "prev_event_sha": "c00180108e5456c6c474f7f18df2d05b1eea64fcfedc5f72410367cdc766265c",
+  "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+  "consolidation_events": 2,
+  "stable": {
+   "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+   "event_sha": "c00180108e5456c6c474f7f18df2d05b1eea64fcfedc5f72410367cdc766265c",
+   "snapshot": "20261009T140035238969Z_consolidation0",
+   "note": "r3h-B, sealed-accepted (DAV-96); S2 rollback point",
+   "time": "2026-10-09T14:00:37Z"
+  },
+  "current": {
+   "name": "S2b",
+   "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+   "event_sha": "be534f3da44d3b83bccee1db38934bc25629fbde284a55ab80ee3bbf28bbaae3",
+   "snapshot": "20261009T212040153086Z_consolidation1",
+   "note": "sealed S2-PROGRESS (DAV-91); r3h-B remains 'stable'",
+   "time": "2026-10-09T21:20:42Z"
+  },
+  "non_skill_channels": 19,
+  "non_skill_channels_changed": [],
+  "non_skill_channels_missing": [],
+  "tick_kept": true,
+  "life_kept": true,
+  "vision": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999"
+ },
+ "verdict": "UPGRADED and verified",
+ "finished": "2026-10-09T21:20:44Z"
+}

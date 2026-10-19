@@ -1,0 +1,28 @@
+{
+ "format": "cb2-v2-sealed-prereg/1",
+ "title": "Vision organ v2 sealed test: frozen r3h-B with tile_decoder_v2, paired against the routine and against r3h-B with v1",
+ "authority": "David approved sealing v2 before any canonical vision swap (2026-10-09); Sol: 'give v2 its own locked one-time sealed test' (DAV-90)",
+ "candidate": {
+  "path": "copy of frozen candidates/r3h-B with one organ swap v1 -> v2 (cb2_organ_swap.py)",
+  "individual": "cb2-ind-0001",
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+  "event_sha": "a782200e4b22e4b14aef1e0ed85854ff4117db83c1f4f869f1385989746dc59c",
+  "vision_weights_sha256": "02eb3941c7ce27c277408ec5c15f2f708075ed9034bc535707425e32c9edcbac",
+  "organ_event_sha": "7b4e6632f4d681866d9d26fa1c70144b752a538dc82b2104b4eba9b74c17085b",
+  "frozen": "no retraining, no tuning after sealed outcomes are visible"
+ },
+ "comparator": {"what": "frozen candidates/r3h-B (vision v1), same protocol, same worlds", "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d", "vision_weights_sha256": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999"},
+ "seeds": "90081-90120",
+ "seeds_use": "once; never used before (90001-90040 spent on r3-H; 90041-90080 reserved for S2)",
+ "steps": 10000,
+ "label": "v2-sealed",
+ "replay_seed": 90081,
+ "gates": {"score_ratio_min": 0.90, "survival_ratio_min": 0.90, "requests_ratio_min": 0.85},
+ "non_inferiority_vs_v1": {"survival_paired_lower95_min": -50.0, "score_ratio_vs_v1_min": 0.95,
+   "method": "paired per-world survival difference v2 - v1; one-sided 95% lower bound = 5th percentile of 10,000 bootstrap means (numpy default_rng(20261009))"},
+ "pass": "the four r3-H gates for v2 (score, survival, requests vs routine; continuity incl. the organ: integrity, save/restore, consolidation round-trip, replay of 90081, 100% delegation provenance) AND non-inferiority vs v1 AND no protocol deviation",
+ "superiority_reported_if": "the lower bound of the paired survival difference v2 - v1 > 0 (reported, not required)",
+ "meaning_if_pass": "v2 may replace v1 in the canonical individual by a recorded organ swap (David's decision)",
+ "executor": "scripts/explore/cb2_sealed_v2.py (wraps cb2_sealed_r3h.py for the candidate and cb2_evaluate.py for the v1 comparator)"
+}

@@ -1,0 +1,424 @@
+{
+  "A": {
+    "aggregate": {
+      "door_approach": {
+        "attempts": 540,
+        "success_rate_pct": 94.44,
+        "mean_steps": 14.07,
+        "recovery_attempts": 0,
+        "recovery_successes": 0,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 0,
+        "recovery_attempt_rate_pct": 0.0,
+        "recovery_success_rate_pct": 0.0
+      },
+      "door_cross": {
+        "attempts": 435,
+        "success_rate_pct": 100.0,
+        "mean_steps": 18.05,
+        "recovery_attempts": 0,
+        "recovery_successes": 0,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 0,
+        "recovery_attempt_rate_pct": 0.0,
+        "recovery_success_rate_pct": 0.0
+      },
+      "door_open": {
+        "attempts": 710,
+        "success_rate_pct": 98.73,
+        "mean_steps": 1.3,
+        "recovery_attempts": 19,
+        "recovery_successes": 16,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 3,
+        "recovery_attempt_rate_pct": 2.68,
+        "recovery_success_rate_pct": 84.21
+      },
+      "legacy_v010": {
+        "close_cleanup": {
+          "attempts": 28,
+          "success_rate_pct": 14.29,
+          "mean_steps": 1.0
+        },
+        "cross_door": {
+          "attempts": 6,
+          "success_rate_pct": 83.33,
+          "mean_steps": 19.17
+        },
+        "face_target": {
+          "attempts": 311,
+          "success_rate_pct": 100.0,
+          "mean_steps": 0.0
+        },
+        "navigate": {
+          "attempts": 2488,
+          "success_rate_pct": 14.03,
+          "mean_steps": 4.3
+        },
+        "open": {
+          "attempts": 6,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0
+        },
+        "peer_meet": {
+          "attempts": 363,
+          "success_rate_pct": 63.91,
+          "mean_steps": 2.46
+        },
+        "pickup": {
+          "attempts": 91,
+          "success_rate_pct": 42.86,
+          "mean_steps": 1.0
+        },
+        "place": {
+          "attempts": 45,
+          "success_rate_pct": 71.11,
+          "mean_steps": 1.0
+        },
+        "place_prepare_pickup": {
+          "attempts": 94,
+          "success_rate_pct": 50.0,
+          "mean_steps": 1.0
+        },
+        "toggle": {
+          "attempts": 47,
+          "success_rate_pct": 82.98,
+          "mean_steps": 1.0
+        }
+      }
+    },
+    "by_level": {
+      "1": {
+        "door_approach": {
+          "attempts": 225,
+          "success_rate_pct": 87.56,
+          "mean_steps": 7.04,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 122,
+          "success_rate_pct": 100.0,
+          "mean_steps": 17.35,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 197,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.28,
+          "recovery_attempts": 5,
+          "recovery_successes": 5,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 2.54,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "2": {
+        "door_approach": {
+          "attempts": 100,
+          "success_rate_pct": 98.0,
+          "mean_steps": 14.71,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 98,
+          "success_rate_pct": 100.0,
+          "mean_steps": 17.3,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 98,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.47,
+          "recovery_attempts": 4,
+          "recovery_successes": 4,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 4.08,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "3": {
+        "door_approach": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 21.14,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 18.8,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.29,
+          "recovery_attempts": 5,
+          "recovery_successes": 5,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 2.33,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "0": {
+        "door_open": {
+          "attempts": 200,
+          "success_rate_pct": 95.5,
+          "mean_steps": 1.24,
+          "recovery_attempts": 5,
+          "recovery_successes": 2,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 3,
+          "recovery_attempt_rate_pct": 2.5,
+          "recovery_success_rate_pct": 40.0
+        }
+      }
+    },
+    "checkpoint": "state/checkpoints/a/embodied_skills.json",
+    "legacy_v010_preserved": true
+  },
+  "B": {
+    "aggregate": {
+      "door_approach": {
+        "attempts": 541,
+        "success_rate_pct": 96.12,
+        "mean_steps": 14.43,
+        "recovery_attempts": 0,
+        "recovery_successes": 0,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 0,
+        "recovery_attempt_rate_pct": 0.0,
+        "recovery_success_rate_pct": 0.0
+      },
+      "door_cross": {
+        "attempts": 446,
+        "success_rate_pct": 99.33,
+        "mean_steps": 17.48,
+        "recovery_attempts": 0,
+        "recovery_successes": 0,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 0,
+        "recovery_attempt_rate_pct": 0.0,
+        "recovery_success_rate_pct": 0.0
+      },
+      "door_open": {
+        "attempts": 720,
+        "success_rate_pct": 99.17,
+        "mean_steps": 1.33,
+        "recovery_attempts": 28,
+        "recovery_successes": 27,
+        "recovery_exhausted": 0,
+        "recovery_unclassified": 1,
+        "recovery_attempt_rate_pct": 3.89,
+        "recovery_success_rate_pct": 96.43
+      },
+      "legacy_v010": {
+        "close_cleanup": {
+          "attempts": 50,
+          "success_rate_pct": 20.0,
+          "mean_steps": 1.0
+        },
+        "cross_door": {
+          "attempts": 13,
+          "success_rate_pct": 92.31,
+          "mean_steps": 22.77
+        },
+        "face_target": {
+          "attempts": 540,
+          "success_rate_pct": 100.0,
+          "mean_steps": 0.0
+        },
+        "navigate": {
+          "attempts": 2507,
+          "success_rate_pct": 25.09,
+          "mean_steps": 8.59
+        },
+        "open": {
+          "attempts": 13,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.0
+        },
+        "peer_meet": {
+          "attempts": 372,
+          "success_rate_pct": 97.31,
+          "mean_steps": 5.09
+        },
+        "pickup": {
+          "attempts": 159,
+          "success_rate_pct": 49.69,
+          "mean_steps": 1.0
+        },
+        "place": {
+          "attempts": 64,
+          "success_rate_pct": 96.88,
+          "mean_steps": 1.0
+        },
+        "place_prepare_pickup": {
+          "attempts": 137,
+          "success_rate_pct": 50.36,
+          "mean_steps": 1.0
+        },
+        "toggle": {
+          "attempts": 117,
+          "success_rate_pct": 86.32,
+          "mean_steps": 1.0
+        }
+      }
+    },
+    "by_level": {
+      "1": {
+        "door_approach": {
+          "attempts": 225,
+          "success_rate_pct": 92.0,
+          "mean_steps": 6.87,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 133,
+          "success_rate_pct": 98.5,
+          "mean_steps": 16.9,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 207,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.49,
+          "recovery_attempts": 13,
+          "recovery_successes": 13,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 6.28,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "2": {
+        "door_approach": {
+          "attempts": 101,
+          "success_rate_pct": 97.03,
+          "mean_steps": 15.0,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 98,
+          "success_rate_pct": 98.98,
+          "mean_steps": 17.15,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 98,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.7,
+          "recovery_attempts": 7,
+          "recovery_successes": 7,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 7.14,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "3": {
+        "door_approach": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 22.08,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_cross": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 17.98,
+          "recovery_attempts": 0,
+          "recovery_successes": 0,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 0.0,
+          "recovery_success_rate_pct": 0.0
+        },
+        "door_open": {
+          "attempts": 215,
+          "success_rate_pct": 100.0,
+          "mean_steps": 1.2,
+          "recovery_attempts": 5,
+          "recovery_successes": 5,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 0,
+          "recovery_attempt_rate_pct": 2.33,
+          "recovery_success_rate_pct": 100.0
+        }
+      },
+      "0": {
+        "door_open": {
+          "attempts": 200,
+          "success_rate_pct": 97.0,
+          "mean_steps": 1.14,
+          "recovery_attempts": 3,
+          "recovery_successes": 2,
+          "recovery_exhausted": 0,
+          "recovery_unclassified": 1,
+          "recovery_attempt_rate_pct": 1.5,
+          "recovery_success_rate_pct": 66.67
+        }
+      }
+    },
+    "checkpoint": "state/checkpoints/b/embodied_skills.json",
+    "legacy_v010_preserved": true
+  }
+}

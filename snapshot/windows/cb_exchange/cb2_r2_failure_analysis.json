@@ -1,0 +1,252 @@
+{
+ "closed_loop_agreement": 0.421,
+ "candidate_steps": 9051,
+ "agreement_by_step_in_life": {
+  "0-49": [
+   0.555,
+   1995
+  ],
+  "50-99": [
+   0.276,
+   1798
+  ],
+  "100-199": [
+   0.407,
+   2983
+  ],
+  "200-399": [
+   0.394,
+   1856
+  ],
+  "400-1000000": [
+   0.63,
+   419
+  ]
+ },
+ "agreement_by_routine_option": {
+  "routine": [
+   0.353,
+   6833
+  ],
+  "explore": [
+   0.48,
+   625
+  ],
+  "sleeping": [
+   1.0,
+   885
+  ],
+  "eat": [
+   0.302,
+   708
+  ]
+ },
+ "agreement_by_routine_action": {
+  "noop": [
+   1.0,
+   1060
+  ],
+  "move_left": [
+   0.274,
+   2283
+  ],
+  "move_right": [
+   0.33,
+   2186
+  ],
+  "move_up": [
+   0.372,
+   1189
+  ],
+  "move_down": [
+   0.294,
+   1322
+  ],
+  "do": [
+   0.548,
+   873
+  ],
+  "place_stone": [
+   0.067,
+   30
+  ],
+  "place_table": [
+   0.838,
+   37
+  ],
+  "make_wood_pickaxe": [
+   0.968,
+   31
+  ],
+  "make_wood_sword": [
+   0.8,
+   30
+  ]
+ },
+ "candidate_action_share": {
+  "noop": 0.196,
+  "move_left": 0.165,
+  "move_right": 0.183,
+  "move_up": 0.132,
+  "move_down": 0.139,
+  "do": 0.165
+ },
+ "routine_cf_action_share": {
+  "noop": 0.117,
+  "move_left": 0.252,
+  "move_right": 0.242,
+  "move_up": 0.131,
+  "move_down": 0.146,
+  "do": 0.096
+ },
+ "memory_drink_vs_water_last_seen": {
+  "needy": {
+   "in view": [
+    0.519,
+    779
+   ],
+   "1-10 steps ago": [
+    0.2,
+    70
+   ],
+   "11-40": [
+    0.219,
+    128
+   ],
+   "41-150": [
+    0.333,
+    870
+   ],
+   ">150": [
+    0.353,
+    456
+   ]
+  },
+  "not needy": {
+   "in view": [
+    0.414,
+    3237
+   ],
+   "1-10 steps ago": [
+    0.323,
+    844
+   ],
+   "11-40": [
+    0.419,
+    1073
+   ],
+   "41-150": [
+    0.396,
+    747
+   ],
+   "never seen": [
+    0.659,
+    847
+   ]
+  }
+ },
+ "memory_food_vs_cow_last_seen": {
+  "needy": {
+   "in view": [
+    0.346,
+    566
+   ],
+   "1-10 steps ago": [
+    0.396,
+    384
+   ],
+   "11-40": [
+    0.422,
+    588
+   ],
+   "41-150": [
+    0.384,
+    1073
+   ],
+   ">150": [
+    0.5,
+    422
+   ],
+   "never seen": [
+    0.2,
+    35
+   ]
+  },
+  "not needy": {
+   "in view": [
+    0.41,
+    2083
+   ],
+   "1-10 steps ago": [
+    0.38,
+    1134
+   ],
+   "11-40": [
+    0.394,
+    1364
+   ],
+   "41-150": [
+    0.504,
+    875
+   ],
+   "never seen": [
+    0.604,
+    510
+   ]
+  }
+ },
+ "agreement_vs_last_message_heard": {
+  "in view": [
+   0.534,
+   161
+  ],
+  "1-10 steps ago": [
+   0.499,
+   1287
+  ],
+  "11-40": [
+   0.446,
+   2872
+  ],
+  "41-150": [
+   0.348,
+   3969
+  ],
+  ">150": [
+   0.554,
+   762
+  ]
+ },
+ "life_endings": {
+  "candidate": {
+   "lives": 40,
+   "mean_steps": 226.3,
+   "food 0": 10,
+   "drink 0": 6,
+   "energy 0": 0,
+   "health<=2 with food,drink,energy>0": 23
+  },
+  "routine": {
+   "lives": 40,
+   "mean_steps": 500.7,
+   "food 0": 13,
+   "drink 0": 17,
+   "energy 0": 0,
+   "health<=2 with food,drink,energy>0": 15
+  }
+ },
+ "routine_option_share": {
+  "in candidate lives (counterfactual)": {
+   "routine": 0.755,
+   "explore": 0.069,
+   "sleeping": 0.098,
+   "eat": 0.078
+  },
+  "in routine's own lives": {
+   "routine": 0.636,
+   "explore": 0.14,
+   "sleeping": 0.191,
+   "eat": 0.034
+  }
+ }
+}

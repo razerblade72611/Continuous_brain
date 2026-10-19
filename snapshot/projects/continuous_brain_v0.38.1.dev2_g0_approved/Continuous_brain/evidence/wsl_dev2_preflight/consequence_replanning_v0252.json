@@ -1,0 +1,21 @@
+{
+  "blocked_reasons": [],
+  "evidence_ok": true,
+  "mechanism_id": "consequence_replanning_v0252",
+  "prereg_status": "APPROVED",
+  "recipe": {
+    "evaluator": "evaluate_consequence_replanning_test_v1.py",
+    "fresh_family": "g0-v0252-dev",
+    "mechanism_id": "consequence_replanning_v0252",
+    "pass_field": "test_admission_passed",
+    "seed_container": "range",
+    "seed_symbol": "TEST_ROUTE_IDS"
+  },
+  "seed_plan": {
+    "mechanism_id": "consequence_replanning_v0252",
+    "name": "g0-v0252-dev",
+    "purpose": "DEV",
+    "start": 301000,
+    "stop": 301255
+  }
+}

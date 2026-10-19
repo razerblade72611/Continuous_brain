@@ -1,0 +1,26 @@
+/home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_runtime_preflight_v1/episodic_two_item_v023_g0-preflight-v023-eng/historical_core/continuous_brain/infant.py:248: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.question_encoder = nn.TransformerEncoder(enc_layer, cfg.language_layers // 2 or 1)
+Traceback (most recent call last):
+  File "/home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_runtime_preflight_v1/episodic_two_item_v023_g0-preflight-v023-eng/bootstrap.py", line 17, in <module>
+    m.main()
+  File "/home/davei/projects/continuous_brain_v0.12.2/evaluate_multi_item_episodic_memory_test_v1.py", line 108, in main
+    test_bank = build_recall_bank(
+                ^^^^^^^^^^^^^^^^^^
+  File "/home/davei/.venvs/cb_v0381_g0/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/davei/projects/continuous_brain_v0.12.2/train_evaluate_multi_item_episodic_memory_v1.py", line 78, in build_recall_bank
+    snap = collect_decision_snapshot(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/davei/.venvs/cb_v0381_g0/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/davei/projects/continuous_brain_v0.12.2/continuous_brain/memory_guided_goal_option_v1.py", line 168, in collect_decision_snapshot
+    env = VariedCuedDetourWorld(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/davei/projects/continuous_brain_v0.12.2/continuous_brain/varied_cued_detour_world.py", line 317, in __init__
+    self.spec = generate_task_spec(self.condition_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/davei/projects/continuous_brain_v0.12.2/continuous_brain/varied_cued_detour_world.py", line 230, in generate_task_spec
+    raise ValueError(
+ValueError: condition_id must be in [0,2359], got 900000; formal task IDs never wrap because reuse would create pseudoreplication.

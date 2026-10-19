@@ -1,0 +1,52 @@
+{
+  "format": "cb-preregistrations/1",
+  "description": "Preregistrations the code may refer to. Only APPROVED or FROZEN entries with approved_by unlock scientific PASS/FAIL statuses or new mechanisms in the runtime. David approves; agent agreement is not approval.",
+  "preregistrations": [
+    {
+      "id": "E2-PREREG-v1",
+      "title": "E2 Preregistration & Decision Rule",
+      "status": "DRAFT",
+      "linear_doc": "https://linear.app/david1/document/continuous-brain-e2-preregistration-and-decision-rule-55cc70fa8111",
+      "notes": "Draft v1, 2026-09-23. Needs E1/E2 and the MuJoCo body before any run."
+    },
+    {
+      "id": "A1-PROPOSED",
+      "title": "Amendment A1: E2 dense comparator + DAV-32 parity rule",
+      "status": "PROPOSED",
+      "linear_doc": "https://linear.app/david1/document/continuous-brain-proposed-amendment-a1-e2-dense-comparator-dav-32-31cf58208ec0",
+      "notes": "Code support exists (DENSE-RNN, decision rule 'A1-proposed'); approval pending with David."
+    },
+    {
+      "id": "H1H2-BATTERY-v0",
+      "title": "H1 vs H2: Substrate Hypotheses and Shared Battery",
+      "status": "DRAFT",
+      "linear_doc": "https://linear.app/david1/document/continuous-brain-h-vs-h-substrate-hypotheses-and-shared-battery-draft-4813d4888061",
+      "notes": "Each battery item needs its own metric, margin, seed discipline and decision rule before its results mean anything."
+    },
+    {
+      "id": "UI-GATE-v0",
+      "title": "Unified Individual: Integration Gate and Indicator Map",
+      "status": "DRAFT",
+      "linear_doc": "https://linear.app/david1/document/continuous-brain-unified-individual-integration-gate-and-indicator-map-2e16d71b6f9f",
+      "notes": "G1-G5 harness exists; thresholds, margins and the G2 sign matrix are not frozen."
+    },
+    {
+      "id": "G0-LEGACY-REQUAL-v1",
+      "title": "G0 Isolated Legacy Requalification on Fresh DEV Families",
+      "status": "PROPOSED",
+      "allowed_slots": [
+        "episodic_memory",
+        "planner",
+        "world_model",
+        "self_state",
+        "autobiography",
+        "goal_genesis",
+        "curriculum"
+      ],
+      "allowed_items": [
+        "G0"
+      ],
+      "notes": "Fresh DEV only. Historical sealed TEST ranges remain spent. Frozen evaluator source/thresholds/interventions stay byte-identical; only the explicitly preregistered seed-family symbol is substituted at runtime and state-dir is redirected outside the frozen legacy root. David approval required before any G0 scientific run."
+    }
+  ]
+}

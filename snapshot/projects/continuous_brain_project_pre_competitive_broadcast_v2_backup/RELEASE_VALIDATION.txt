@@ -1,0 +1,30 @@
+Continuous Brain v0.5.3 — Release Validation
+
+Scope
+- Sensor hysteresis / recovery-storm correction
+- Native-simulator depth-unknown policy
+- RGB/controller recovery retained
+- Recovery cooldown + soft-reset storm budget
+- Multi-probe recovery verification
+- Per-cause sensor telemetry/state persistence
+- Dashboard depth-unknown semantics
+- Neuromorphic/SNN research roadmap
+
+Validation
+- Package version: 0.5.3
+- Agent checkpoint format: 9
+- pytest: 65 passed
+- Python compileall: PASS
+- Dashboard JavaScript node --check: PASS
+- v0.5.2 checkpoint format 8 -> v0.5.3 format 9 migration: PASS (steps/goals preserved)
+- Native simulator depth-only loss regression: PASS (no infrastructure fault)
+- Physical/non-native depth fail-closed regression: PASS
+- Native recovery verification with fresh RGB + invalid depth: PASS
+- Repeated invalid-depth anti-storm regression: PASS (0 recoveries)
+- Frozen RGB/controller restart recovery regression: PASS
+- Controller exception recovery regression: PASS
+- Infrastructure-fault replay quarantine regression: PASS
+- Unrecoverable sensor fail-closed regression: PASS
+
+Project direction
+v0.5.3 is the final planned dedicated spatial/simulator-infrastructure release. Once the real Discovery L2 run demonstrates a useful stable window, work advances to v0.6 semantic hierarchical skills and foundation-model cognition. SNN/neuromorphic work remains an optional hybrid research track documented in NEUROMORPHIC_ROADMAP.md.

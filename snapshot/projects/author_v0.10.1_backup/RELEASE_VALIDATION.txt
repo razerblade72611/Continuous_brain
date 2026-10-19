@@ -1,0 +1,13 @@
+AUTHOR v0.10.1 release validation
+=================================
+Release: 0.10.1
+Package: ai2thor-agent
+Regression suite: 141 passed
+Python compileall: PASS
+config.yaml parse: PASS
+benchmarks/tasks.yaml parse: PASS
+Wheel integrity/metadata: PASS
+Wheel: dist/ai2thor_agent-0.10.1-py3-none-any.whl
+Wheel SHA-256: 020b91de5372e4e1944b861353903f4112d7431629a3cb6a39ba65f3967b0a02
+Runtime state/: intentionally excluded from the release ZIP so upgrades preserve each user's existing A/B state.
+Primary instructions: AUTHOR_v0.10.1_OPERATOR_README.md

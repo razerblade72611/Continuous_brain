@@ -1,0 +1,268 @@
+{
+  "build": "v120-local-development-r1",
+  "identity": {
+    "id": "f7825c01-d924-4bbc-a959-d9eda786ae8a",
+    "name": "Child",
+    "created_utc": "2026-09-12T15:58:13Z",
+    "lineage": "new developmental individual from packaged starter",
+    "starter_model_sha256": "34d1b8baede51987f8e9204bd05039b065f075ad1ca5783b136473a925ed95a5",
+    "inherits_v114_checkpoint": false
+  },
+  "steps": 256,
+  "episodes": 2,
+  "learning_blocks": 1,
+  "promotions": 1,
+  "device": "cpu",
+  "status": "Session complete; relaunch to continue this individual",
+  "body": {
+    "energy": 0.6600009799003601,
+    "hydration": 0.663784921169281,
+    "integrity": 0.919999897480011
+  },
+  "positive": 0.0,
+  "negative": -0.029000022888183593,
+  "behavior": {
+    "collision_frequency": 0.015625,
+    "rest_frequency": 0.01953125,
+    "food_water_balance": -0.25,
+    "new_place_frequency": 0.23046875
+  },
+  "resources": {
+    "food": 3,
+    "water": 5
+  },
+  "memory": {
+    "recent_retrieval": 256,
+    "formative_retrieval": 8
+  },
+  "active_evaluation": {
+    "open": {
+      "successes": 4,
+      "episodes": 6,
+      "mean_return": -0.17429165156682136,
+      "mean_collisions": 0.8333333333333334,
+      "body_prediction_mse": 0.009040047974167464
+    },
+    "detour": {
+      "successes": 5,
+      "episodes": 6,
+      "mean_return": -0.1697646636962877,
+      "mean_collisions": 1.3333333333333333,
+      "body_prediction_mse": 0.013135036341016834
+    }
+  },
+  "last_decision": {
+    "action": "up",
+    "action_index": 1,
+    "policy_action": "up",
+    "exploration": false,
+    "predicted": {
+      "body": [
+        0.7970626950263977,
+        0.8251327276229858,
+        0.9721125364303589
+      ],
+      "reward": 0.0005153194069862366,
+      "collision_probability": 0.003685689764097333
+    },
+    "actual": {
+      "collision": false,
+      "resource": null,
+      "positive": 0.0,
+      "negative": -0.029000022888183593,
+      "depleted": false,
+      "body_before": [
+        0.6660009622573853,
+        0.6707849502563477,
+        0.919999897480011
+      ],
+      "body_after": [
+        0.6600009799003601,
+        0.663784921169281,
+        0.919999897480011
+      ],
+      "new_place": false,
+      "kind": "detour"
+    },
+    "shadow_prediction_action": "rest",
+    "shadow_controls_agent": false,
+    "teacher_controls_agent": false
+  },
+  "last_gate": {
+    "accepted": true,
+    "reasons": [],
+    "improvements": [
+      "open: control improvement",
+      "detour: control improvement"
+    ],
+    "paired": {
+      "open": {
+        "lost": [],
+        "gained": []
+      },
+      "detour": {
+        "lost": [],
+        "gained": []
+      }
+    },
+    "retention_fraction": 0.95,
+    "interpretation": "Finite development-suite rule, not a confidence guarantee",
+    "candidate": "block_000001_7a4ca5df3d8a.pt",
+    "candidate_summary": {
+      "open": {
+        "successes": 4,
+        "episodes": 6,
+        "mean_return": -0.17429165156682136,
+        "mean_collisions": 0.8333333333333334,
+        "body_prediction_mse": 0.009040047974167464
+      },
+      "detour": {
+        "successes": 5,
+        "episodes": 6,
+        "mean_return": -0.1697646636962877,
+        "mean_collisions": 1.3333333333333333,
+        "body_prediction_mse": 0.013135036341016834
+      }
+    },
+    "forecast": {
+      "block": 1,
+      "predicted_before_training": [
+        -0.020065952092409134,
+        -0.07751524448394775,
+        -0.35075289011001587
+      ],
+      "measured_after_training": [
+        0.0,
+        0.0,
+        0.01780910380681356
+      ],
+      "absolute_error": 0.15538106349772876,
+      "zero_change_baseline_error": 0.00593636793560452,
+      "used_to_authorize_promotion": false
+    }
+  },
+  "forecaster": {
+    "examples": 1,
+    "advisory_only": true,
+    "mean_absolute_error": 0.15538106349772876,
+    "zero_change_baseline_error": 0.00593636793560452
+  },
+  "world": {
+    "walls": [
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    ],
+    "agent": [
+      5,
+      3
+    ],
+    "food": [
+      3,
+      6
+    ],
+    "water": [
+      2,
+      1
+    ],
+    "kind": "detour"
+  },
+  "state_directory": "/workspace/scratch/bdf203c7b506/consolidation_runtime_check",
+  "scope": "Synthetic resource-world research; no consciousness or general-language claim"
+}

@@ -1,0 +1,75 @@
+CONSEQUENCE_REPLANNING_TEST_V1
+device: cpu
+training_performed: false
+route_test_ids: 2304-2559
+route_test_used_exactly_once: true
+test_tuning_after_run: forbidden
+planner_repair_frozen: true
+consequence_model_training: false
+historical_planner_training: false
+historical_world_model_training: false
+memory_training: false
+episodic_reader_training: false
+goal_decoder_training: false
+transition_dataset_conditions=1/256
+transition_dataset_conditions=256/256
+route_test_conditions=1/256
+route_test_conditions=32/256
+route_test_conditions=64/256
+route_test_conditions=96/256
+route_test_conditions=128/256
+route_test_conditions=160/256
+route_test_conditions=192/256
+route_test_conditions=224/256
+route_test_conditions=256/256
+
+TEST_MODEL
+next_node_accuracy: 1.0
+next_blocked_accuracy: 1.0
+cost_mae: 0.027793509885668755
+success_accuracy: 1.0
+valid_accuracy: 1.0
+
+TEST_BEHAVIOR
+memory_selected_goal_accuracy: 1.0
+replanning_success: 1.0
+plan_once_success: 0.66796875
+open_replanning_success: 1.0
+known_block_replanning_success: 1.0
+surprise_block_replanning_success: 1.0
+open_plan_once_success: 1.0
+known_block_plan_once_success: 1.0
+surprise_block_plan_once_success: 0.0
+surprise_initial_target_direct_rate: 1.0
+surprise_replan_trigger_rate: 1.0
+surprise_mismatch_detection_rate: 1.0
+query_flip_changes_goal_and_initial_plan: 1.0
+known_block_model_override_rate: 1.0
+surprise_replanning_advantage: 1.0
+
+ADMISSION_GATE
+model_next_node: PASS
+model_next_blocked: PASS
+model_cost: PASS
+model_success: PASS
+model_valid: PASS
+memory_selected_goal: PASS
+overall_replanning_success: PASS
+open_success: PASS
+known_block_success: PASS
+surprise_success: PASS
+surprise_exposure: PASS
+surprise_plan_once_fails: PASS
+surprise_replan_trigger: PASS
+surprise_mismatch_detection: PASS
+query_flip_plan: PASS
+known_block_consequence_override: PASS
+surprise_replanning_advantage: PASS
+PROTECTED_UNCHANGED: true
+SOURCE_CONSEQUENCE_MODEL_UNCHANGED: true
+HISTORICAL_PLANNER_UNTOUCHED: true
+ROUTE_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+CONSEQUENCE_REPLANNING_TEST_ADMISSION: PASS
+CONSEQUENCE_REPLANNING_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_runtime_preflight_v1/consequence_replanning_v0252_g0-preflight-v0252-eng/raw_evaluator/result.json

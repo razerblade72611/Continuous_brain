@@ -1,0 +1,229 @@
+{
+  "pod_id": "zcy64urgffgd9q",
+  "revision": "c59b72f10067acf5a96f525aab6a97739ca3fc78",
+  "archive": "/home/davei/cb_data/l1b-bench/cb2_l1b_bench.tgz",
+  "archive_bytes": 1609159160,
+  "archive_sha256": "01487800f755627134396308c9b48c455d415be09b44443335a0244bf860170b",
+  "members": 175,
+  "checks": {
+    "archive_checksum_matches": true,
+    "revision_matches": true,
+    "rehearsal_marked_no_claim": true,
+    "practice_run_99": true,
+    "report_run_metadata_matches": true,
+    "cycles_0_and_1_complete": true,
+    "two_rehearsal_sleeps_logged": true,
+    "zero_rehearsal_skips": true,
+    "saved_json_numbers_finite": true,
+    "rehearsal_instrument_equality": true,
+    "rehearsal_identity_checks": true,
+    "origin_manifest_checksum": true,
+    "saved_weights_match_content_address": true,
+    "two_concurrent_sleeper_measurements": true,
+    "baseline_worker_counts_measured": true,
+    "learner_9_workers_measured": true
+  },
+  "passed": true,
+  "run_id": "db7e1015c4844b2d9792de502ec5a34d",
+  "rehearsal_chooser_log": [
+    {
+      "twin": "learning",
+      "cycle": 1,
+      "chooser_update": 50,
+      "s": 214,
+      "skipped_so_far": 0,
+      "hands_loss": 0.9577507972717285,
+      "hands_acc": 0.7272135615348816,
+      "value_loss": 0.03250002861022949,
+      "value_raw_absmax": 1.452197551727295,
+      "value_capped_frac": 0.0,
+      "skipped": 0,
+      "grad_norm": 0.3251747488975525,
+      "block_value_raw_absmax": 1.9437161684036255,
+      "block_value_capped_frac": 0.0
+    },
+    {
+      "twin": "yoked",
+      "cycle": 1,
+      "chooser_update": 50,
+      "s": 215,
+      "skipped_so_far": 0,
+      "hands_loss": 0.9600646495819092,
+      "hands_acc": 0.7239583134651184,
+      "value_loss": 0.03232612833380699,
+      "value_raw_absmax": 1.4457364082336426,
+      "value_capped_frac": 0.0,
+      "skipped": 0,
+      "grad_norm": 0.32427698373794556,
+      "block_value_raw_absmax": 1.9695720672607422,
+      "block_value_capped_frac": 0.0
+    }
+  ],
+  "sleep_benchmark": {
+    "tf32": false,
+    "amp": false,
+    "concurrent": 2,
+    "updates_per_phase": 100,
+    "wall_s": 455,
+    "processes": [
+      {
+        "sec_per_update": {
+          "core": 1.71,
+          "anchor": 1.68,
+          "chooser": 0.88
+        },
+        "wall_s": 452,
+        "projected_full_sleep_min": 92.8,
+        "peak_gpu_mem_mb": 8356,
+        "peak_host_rss_mb": 10195,
+        "last_core": {
+          "image_loss": 31.2886905670166,
+          "body_loss": 0.10160858184099197,
+          "reward_loss": 0.08888683468103409,
+          "cont_loss": 0.0031612354796379805,
+          "risk_loss": 2.5301854610443115,
+          "map_loss": 1.5471534729003906,
+          "kl": 19.214502334594727,
+          "dyn_loss": 19.214502334594727,
+          "rep_loss": 19.214502334594727,
+          "grad_norm": 36.85606002807617,
+          "loss": 47.08838653564453
+        }
+      },
+      {
+        "sec_per_update": {
+          "core": 1.71,
+          "anchor": 1.68,
+          "chooser": 0.88
+        },
+        "wall_s": 452,
+        "projected_full_sleep_min": 92.8,
+        "peak_gpu_mem_mb": 8356,
+        "peak_host_rss_mb": 10217,
+        "last_core": {
+          "image_loss": 31.29998016357422,
+          "body_loss": 0.10167628526687622,
+          "reward_loss": 0.08940205723047256,
+          "cont_loss": 0.0032333754934370518,
+          "risk_loss": 2.538816213607788,
+          "map_loss": 1.5473171472549438,
+          "kl": 19.26797103881836,
+          "dyn_loss": 19.26797103881836,
+          "rep_loss": 19.26797103881836,
+          "grad_norm": 42.9494514465332,
+          "loss": 47.14120864868164
+        }
+      }
+    ],
+    "projected_cycle_sleep_min": 92.8
+  },
+  "baseline_lives_benchmark": {
+    "twin": "runs/explore/cb2/candidates/s2b-final",
+    "cpu_quota": 96,
+    "runs": [
+      {
+        "workers": 4,
+        "lives": 60,
+        "steps": 31239,
+        "seconds": 277.4,
+        "steps_per_s": 112.6,
+        "steps_per_s_per_worker": 28.15,
+        "projected_h": {
+          "per_cycle_probe_and_wake": 0.57,
+          "final_battery": 12.22
+        }
+      },
+      {
+        "workers": 9,
+        "lives": 60,
+        "steps": 31239,
+        "seconds": 145.5,
+        "steps_per_s": 214.8,
+        "steps_per_s_per_worker": 23.86,
+        "projected_h": {
+          "per_cycle_probe_and_wake": 0.3,
+          "final_battery": 6.41
+        }
+      }
+    ]
+  },
+  "learner_lives_benchmark": {
+    "twin": "runs/explore/cb2/l1b-rehearsal/twins/learning",
+    "cpu_quota": 96,
+    "runs": [
+      {
+        "workers": 9,
+        "lives": 60,
+        "steps": 30380,
+        "seconds": 502.3,
+        "steps_per_s": 60.5,
+        "steps_per_s_per_worker": 6.72,
+        "projected_h": {
+          "per_cycle_probe_and_wake": 1.06,
+          "final_battery": 22.75
+        }
+      }
+    ]
+  },
+  "saved_weight_hashes": [
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/learning/cb2-ind-0001/weights/8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b.pt",
+      "sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/learning/cb2-ind-0001/weights/ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5.pt",
+      "sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/learning/cb2-ind-0001/weights/c45daf481739bf188483d673462d796a77ab17abd9dc0d15fa1cc3b7a8514b3f.pt",
+      "sha256": "c45daf481739bf188483d673462d796a77ab17abd9dc0d15fa1cc3b7a8514b3f",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/yoked/cb2-ind-0001/weights/8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b.pt",
+      "sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/yoked/cb2-ind-0001/weights/ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5.pt",
+      "sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/yoked/cb2-ind-0001/weights/6727acc4ebdef7b80c6bea2e1febabc8e32caa8b9275ac1529c9a3429bcac73c.pt",
+      "sha256": "6727acc4ebdef7b80c6bea2e1febabc8e32caa8b9275ac1529c9a3429bcac73c",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/frozen/cb2-ind-0001/weights/8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b.pt",
+      "sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+      "filename_matches": true
+    },
+    {
+      "file": "runs/explore/cb2/l1b-rehearsal/twins/frozen/cb2-ind-0001/weights/ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5.pt",
+      "sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+      "filename_matches": true
+    }
+  ],
+  "nonfinite_json_paths": {},
+  "actual_cpu_quota_from_startup": 10,
+  "cpu_metadata_note": "bench-lives cpu_quota=96 is host-visible CPU count; startup cgroup quota was 10.",
+  "pre_deletion_remote_sleep_check": "Both 100-update concurrent sleepers logged zero skips and finite logged numbers; verified via SSH at 00:28 UTC.",
+  "limitations": [
+    "Rehearsal used 50 updates per phase; concurrent timing used 100 per phase, not a full 1500/1000/1500 sleep.",
+    "The retained benchmark archive includes summary JSON but not bench-sleep p0/p1 checkpoints or detailed progress files.",
+    "Weight hashes verify bytes, not an independent tensor-finiteness scan.",
+    "This is hardware and integrity evidence, not a growth, general memory, or learned hands result.",
+    "Throughput projections depend on evolving policy and life length; full-run pricing remains Claude-owned."
+  ],
+  "cleanup": {
+    "deleted_utc": "2026-10-12T00:41:10Z",
+    "live_get_status": 404,
+    "live_list_benchmark_absent": true,
+    "monitor_status": "PAUSED",
+    "compute_cost_estimate_usd": 0.64,
+    "invoice_reconciled": false
+  }
+}

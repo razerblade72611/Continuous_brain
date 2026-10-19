@@ -1,0 +1,95 @@
+{
+  "build": "v120-local-development-r1",
+  "steps": 1024,
+  "episodes": 10,
+  "learning_blocks": 4,
+  "promotions": 1,
+  "device": "cpu",
+  "resources": {
+    "food": 21,
+    "water": 27
+  },
+  "active_evaluation": {
+    "open": {
+      "successes": 5,
+      "episodes": 6,
+      "mean_return": -0.26661401383081973,
+      "mean_collisions": 0.3333333333333333,
+      "body_prediction_mse": 0.009254641166288971
+    },
+    "detour": {
+      "successes": 6,
+      "episodes": 6,
+      "mean_return": -0.02514155975977478,
+      "mean_collisions": 0.5,
+      "body_prediction_mse": 0.014139233605381682
+    }
+  },
+  "last_gate": {
+    "accepted": true,
+    "reasons": [],
+    "improvements": [
+      "open: control improvement",
+      "detour: control improvement"
+    ],
+    "paired": {
+      "open": {
+        "lost": [],
+        "gained": [
+          700005
+        ]
+      },
+      "detour": {
+        "lost": [],
+        "gained": [
+          710004
+        ]
+      }
+    },
+    "retention_fraction": 0.95,
+    "interpretation": "Finite development-suite rule, not a confidence guarantee",
+    "candidate": "block_000004_6e3e2ccf8e53.pt",
+    "candidate_summary": {
+      "open": {
+        "successes": 5,
+        "episodes": 6,
+        "mean_return": -0.26661401383081973,
+        "mean_collisions": 0.3333333333333333,
+        "body_prediction_mse": 0.009254641166288971
+      },
+      "detour": {
+        "successes": 6,
+        "episodes": 6,
+        "mean_return": -0.02514155975977478,
+        "mean_collisions": 0.5,
+        "body_prediction_mse": 0.014139233605381682
+      }
+    },
+    "forecast": {
+      "block": 4,
+      "predicted_before_training": [
+        -0.205113023519516,
+        -0.18340639770030975,
+        -0.09508276730775833
+      ],
+      "measured_after_training": [
+        0.16666666666666674,
+        0.16666666666666663,
+        0.02042414089043929
+      ],
+      "absolute_error": 0.2791198875837856,
+      "zero_change_baseline_error": 0.1179191580745909,
+      "used_to_authorize_promotion": false
+    }
+  },
+  "forecaster": {
+    "examples": 4,
+    "advisory_only": true,
+    "mean_absolute_error": 0.22799462289611497,
+    "zero_change_baseline_error": 0.059436082025369014
+  },
+  "scope": "Synthetic resource-world research; no consciousness or general-language claim",
+  "seed": 2026,
+  "starter_model_sha256": "34d1b8baede51987f8e9204bd05039b065f075ad1ca5783b136473a925ed95a5",
+  "rejected_candidates": 3
+}

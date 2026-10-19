@@ -1,0 +1,223 @@
+{
+  "format": "cb-i1-prereg/1",
+  "id": "I1-INTEGRATED-INDIVIDUAL-v1",
+  "title": "I1 \u2014 one persistent individual: five G0-requalified self-lineage mechanisms acting on one store-held autobiography, goal lifecycle and developmental state",
+  "status": "PROPOSED",
+  "approved_by": null,
+  "approval_authority": "David",
+  "relation_to_G1": "I1 does not supersede, close or satisfy G1-COMPOSITION-RETENTION-v2. G1-v2 remains PROPOSED on its own terms. docs/COMPOSITION_ROUTE_DEV6.md section 5 explains why a retention-only G1 is predetermined by the dev6 E1 identity; that is an argument about G1's design, which G1's own authors decide, not a result of I1.",
+  "question": "When the frozen v0.31, v0.32.2, v0.34.1, v0.35.3 and v0.36.1 mechanisms act together on ONE individual whose autobiography, developmental phases, goal lifecycle and curriculum history are held by the runtime's canonical store (and the v0.34.1 developmental controller, not a hard-coded rule, chooses the strategy for goal pursuit), does the individual still author, pursue and complete its own goals and advance its own curriculum, and do store-level erase, donor and rollback interventions on that one autobiography have the causal effects the frozen evaluators established in isolation?",
+  "scope": {
+    "mechanisms": [
+      "recurrent_self_trajectory_v031",
+      "autobiographical_discrepancy_v0322",
+      "event_consistent_self_development_v0341",
+      "endogenous_goal_genesis_v0353",
+      "recursive_autobiographical_curriculum_v0361"
+    ],
+    "excluded": {
+      "consequence_replanning_v0252": "no shared interface with the self lineage (dev6: zero cross-lineage calls in all six routes); coupling it would be a new mechanism",
+      "episodic_two_item_v023": "blocked (condition-ID seed semantics)"
+    },
+    "not_claimed": [
+      "consciousness",
+      "sentience",
+      "subjective experience",
+      "superiority of a substrate",
+      "generalization beyond the frozen two-commitment developmental world"
+    ],
+    "milestone": "I1 is a narrower five-mechanism self-lineage milestone. It integrates v0.31, v0.32.2, v0.34.1, v0.35.3 and v0.36.1 only. It is not the six-mechanism composition-retention objective of G1, and it must not be reported as closing it: v0.25.2 consequence replanning is excluded (no shared interface with the self lineage) and v0.23 remains blocked."
+  },
+  "design": {
+    "individual": "one fresh UnifiedRuntime per individual (subject id); hosts: v0.31 self-trajectory (dev6 MechanismHost, stateless API), autobiography (v0.32.2), developmental phases (v0.34.1), goal lifecycle (v0.35.3), curriculum (v0.36.1); each stateful host's state is the blob channel <slot>.state, read at the start of every tick; nothing is kept in Python between ticks; canonical projection channels are recomputed from the stored bytes whenever they change",
+    "environment": "the frozen v0.33 developmental world (build_bootstrap_memory, initial_capabilities, execute_development_episode); capability is environment-side and never shown to the hosts",
+    "life": [
+      "birth: frozen bootstrap history imprinted into the store-held autobiography",
+      "init: reliability -> developmental phases initialized by the controller; first self-authored goal; curriculum observes it",
+      "interrupt: one stable-commitment DIRECT episode (admitted v0.35 interruption)",
+      "pursue goal 1: up to H episodes; strategy chosen by the v0.34.1 controller from current reliability; completion when the goal's target reliability is met",
+      "second goal: the driver reads the store-held goal lifecycle (goal host 'status'); only if it records a completed goal and no active goal is a second goal authored from the updated autobiography; curriculum observes it",
+      "pursue goal 2: up to H episodes (cycle indices 100+k, as in v0.36; the completion cycle carries the same 100+k label)"
+    ],
+    "horizon": "H = evaluate_recursive_autobiographical_curriculum_v1.MAX_FIRST_GOAL_EPISODES (16)",
+    "arms": {
+      "NORMAL": "the integrated individual",
+      "FIXED_SCAFFOLD": "same life with the frozen v0.35/v0.36 SCAFFOLD rule for pursuit (comparison arm and fidelity reference)",
+      "ERASED": "store-level ERASE of autobiography.state immediately after the birth imprint",
+      "DONOR": "store-level REPLACE of autobiography.state immediately after imprint with the paired individual's (opposite-parity) birth autobiography",
+      "ROLLBACK": "store-level REPLACE of autobiography.state immediately before the second-goal decision with the individual's own birth autobiography (first-goal completers)",
+      "PERSIST_SAVE / PERSIST_RESUME": "runtime snapshot (SnapshotStore) plus environment state saved immediately before the second-goal decision; a new process restores and finishes the life",
+      "LEGACY_REF": "the frozen v0.36 complete_first_goal per individual, no runtime (fidelity reference)",
+      "AUTHORITY_SKILLS / AUTHORITY_GOAL / AUTHORITY_CURRICULUM": "validity controls: store-level ERASE of skills.state / goal_genesis.state / curriculum.state immediately before the second-goal decision, for the 4 lowest-id first-goal completers; the second half must change (second goal, curriculum observation, goal-2 strategies, goal-2 completion or the store-gated decision) or abort with the mechanism's own error",
+      "RNG_PERTURBED": "validity control: the NORMAL life with torch, numpy and random global generators re-seeded with values unrelated to the life (SHA-256 of 'i1-rng-perturb:<sid>:<tick>') before birth and after every tick; must reproduce NORMAL's final store digest, final tick and life trace bit-exactly for every individual"
+    },
+    "intervention_timing": "ticks taken from the NORMAL life of the same individual; every intervened arm must reproduce NORMAL's store digest bit-exactly at the tick before its intervention",
+    "redirects": "all five self-lineage specs are installed; only v0.31 is bound as a MechanismHost. Calls to the other four mechanisms' APIs from inside their own stateful host run the frozen code (counted as nested calls); the same calls from the driver reach a host without that API and are blocked, so the driver cannot run a private copy of a mechanism unrecorded. Evaluator-side comparisons (ROLLBACK's frozen same_goal_semantics) use the original function, outside the individual",
+    "store_authority_invariant": {
+      "statement": "everything that can change the individual's future behaviour is either (a) in the runtime's canonical store (the stateful hosts' <slot>.state channels and the dev6 channels), (b) the driver's environment state, which is the world and is saved with the snapshot for PERSIST, or (c) immutable for the whole process. Nothing else may carry state between ticks.",
+      "mechanical_checks": [
+        "hosts keep no mechanism state in Python between ticks; their canonical projections are recomputed from the stored bytes (code contract; AUTHORITY arms show the store is the state)",
+        "frozen models (shared trajectory model, neutral autobiographical model) and fixed-parameter objects (developmental controller, goal generator): SHA-256 digests identical before and after every life in every arm, and one digest set across the run (validity no_hidden_mutable_state)",
+        "global randomness: RNG_PERTURBED twins are bit-identical to NORMAL (validity no_hidden_mutable_state); the environment's randomness is per-episode random.Random(seed) from (sid, cycle), part of the frozen v0.33 world",
+        "process-level hidden state of any other kind: PERSIST_RESUME restores in a NEW process from the store snapshot plus the driver's environment state and must be bit-exact (C10)"
+      ]
+    },
+    "donor_rule": "the donor of individual sid is sid XOR 1, the other member of its even/odd pair. The rule uses the ids only and is fixed before any arm runs, so donor selection cannot depend on any outcome; dev and science slices are even-aligned with even length so every individual has its partner. Each DONOR plan entry records donor_sid, and the validity check donor_pairing_fixed_by_ids requires donor_sid == sid XOR 1 and the payload to be byte-identical to that partner's NORMAL birth autobiography, for every individual."
+  },
+  "decision_rule": {
+    "validity_blocking": {
+      "fidelity_to_frozen_v036_driver": "for every individual, FIXED_SCAFFOLD reproduces LEGACY_REF exactly: the store-held first goal with all its fields (id, primary, baseline, target, created and completed cycle), completion as recorded by the store-held lifecycle, the environment capabilities at the end of goal 1, and the byte-identical autobiography at the end of goal 1",
+      "replay_bit_exact_before_every_intervention": "for every ERASED, DONOR, ROLLBACK and AUTHORITY life, the store digest after T-1 and the tick T of the intervention mark equal NORMAL's",
+      "interventions_applied_exactly_as_planned": "in every planned arm the individuals run equal the planned individuals and each applied intervention list equals its plan (tick, target channel, kind); no intervention in NORMAL, FIXED_SCAFFOLD, PERSIST_SAVE, PERSIST_RESUME, RNG_PERTURBED",
+      "manifest_consistent_across_arms": "every arm process computes the manifest itself; all equal the runner's manifest",
+      "store_authority_controls_change_the_individual": "every AUTHORITY life changes its second half, or aborts with the erased mechanism's own error for missing state (AUTHORITY_SKILLS: 'RuntimeError: developmental phases are not initialized'); any other exception fails the control",
+      "host_state_read_from_store": "every stateful host made non-empty start-of-tick reads of its own state channel in every NORMAL life that authored a goal",
+      "driver_record_matches_store_lifecycle": "in NORMAL the driver's record of first-goal completion equals the store-held lifecycle's",
+      "no_driver_side_model_forwards": "zero forwards of any registered model while the driver (not a host) is executing; host-side forwards > 0",
+      "no_driver_side_mechanism_calls": "zero blocked host calls, zero unbound calls, zero nested calls from one slot's host into another slot's mechanism",
+      "no_hidden_mutable_state": "both mechanical checks of design.store_authority_invariant hold: for every individual the RNG_PERTURBED twin's final store digest, final tick and life trace equal NORMAL's; and the four frozen-object digests form one set before and after every life of every runtime arm",
+      "donor_pairing_fixed_by_ids": "every DONOR plan entry has donor_sid == sid XOR 1 and the partner's exact NORMAL birth autobiography as payload, and the DONOR life's store held exactly that autobiography right after the intervention (SHA-256 of the payload); every individual has one entry",
+      "no_errors": "no arm records an exception outside the AUTHORITY controls' expected aborts",
+      "legacy_tree_unchanged_and_pins_verified": true,
+      "on_failure": "BLOCKED (not a scientific FAIL); the family stays spent; any retry needs a new preregistration version"
+    },
+    "primary": {
+      "C1_first_goal_endogenous": {
+        "definition": "NORMAL first goal exists and targets the evaluator-side fragile commitment",
+        "denominator": "all individuals",
+        "threshold": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_GENESIS (0.95)"
+      },
+      "C2_first_goal_completes": {
+        "definition": "NORMAL first goal completed within H under controller-chosen strategy, as recorded by the store-held goal lifecycle",
+        "denominator": "all individuals",
+        "threshold": "MIN_FIRST_GOAL_COMPLETION (0.80)"
+      },
+      "C3_history_guides_initial_strategy": {
+        "definition": "controller initializes the fragile commitment SCAFFOLD and the stable one DIRECT, and the first pursuit episode is SCAFFOLD",
+        "denominator": "individuals with a first goal",
+        "threshold": "evaluate_self_development_hysteresis_v1.MIN_HISTORY_GUIDED_STRATEGY (0.95)"
+      },
+      "C4_second_goal_authored": {
+        "definition": "a second goal is authored from the updated autobiography",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_SECOND_GOAL_GENERATION (0.95)"
+      },
+      "C5_curriculum_advances": {
+        "definition": "frozen goal_is_advanced(first, second)",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_CURRICULUM_ADVANCE (0.95)"
+      },
+      "C6_erased_store_autobiography_no_goal": {
+        "definition": "ERASED arm authors no directional goal",
+        "denominator": "all individuals",
+        "threshold": "MIN_ERASED_NEUTRAL (1.0)"
+      },
+      "C7_donor_store_autobiography_flips_goal": {
+        "definition": "DONOR arm's first goal primary differs from NORMAL's",
+        "denominator": "all individuals",
+        "threshold": "MIN_DONOR_FIRST_GOAL_FLIP (0.95)"
+      },
+      "C8_rolled_back_autobiography_repeats_goal": {
+        "definition": "ROLLBACK arm's second goal has the first goal's semantics (frozen same_goal_semantics)",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_FROZEN_HISTORY_REPEATS (0.95)"
+      },
+      "C9_updated_vs_rolled_back_diverges": {
+        "definition": "NORMAL second goal and ROLLBACK second goal differ in semantics",
+        "denominator": "first-goal completers (by the store-held lifecycle)",
+        "threshold": "MIN_UPDATED_VS_FROZEN_DIVERGENCE (0.95)"
+      },
+      "C10_persistence_bit_exact": {
+        "definition": "PERSIST_RESUME final store digest, final tick and life trace equal NORMAL's",
+        "denominator": "individuals with a first goal",
+        "threshold": "MIN_PERSISTENCE (1.0)"
+      },
+      "gate": "PASS only if every validity check holds and C1-C10 all meet their thresholds; FAIL if validity holds and any of C1-C10 does not"
+    },
+    "secondary_reported_not_gating": {
+      "S1_first_half_identical_controller_vs_fixed_scaffold": "prediction 1.0, derived from the code: the controller graduates a commitment at baseline+0.12 and the goal completes at baseline+0.12, so goal-1 pursuit is SCAFFOLD under both arms",
+      "S2_second_goal_pursued_DIRECT": "prediction: majority of goal-2 episodes DIRECT (the commitment's phase graduates on the same 0.12 gain or was DIRECT from birth)",
+      "S3_second_goal_completion_controller_vs_fixed": "estimation only (rates, paired difference, paired bootstrap 95% CI); no directional prediction. This is the new integration outcome: the frozen evaluators never let the developmental controller drive goal pursuit",
+      "S4_mechanism_matched_goal2_episodes": {
+        "status": "preregistered secondary analysis, estimation only, never gating and never an admission criterion. Engineering-motivated: defined on 2026-10-03 UTC after the dev7 diagnostic i1_s3_trace60 (906940-906999), whose values the author and ChatGPT have seen",
+        "population": "individuals that complete the first goal (store-held lifecycle) in both NORMAL and FIXED_SCAFFOLD (the S3 population)",
+        "checkpoints": "k in {1, 2, 4} goal-2 checks, frozen",
+        "at_risk_rule": "at checkpoint k, only individuals whose goal-2 pursuit reached check k in BOTH arms (still pursuing after k episodes by the store-held lifecycle's own completion check); n reported per k",
+        "quantities": "for each arm, the change from goal-2 check 0 to check k of (a) the goal commitment's self-model reliability (reliability_for_primary of the autobiography host's reliability; what the goal is scored on) and (b) the environment's true capability on that commitment",
+        "estimates": "per-arm means; paired difference controller minus fixed SCAFFOLD; paired bootstrap 95% CI over individuals, 5000 resamples, seed 0 (as S3)",
+        "descriptive_only": "successful and failed work steps per goal-2 episode for each arm, from the frozen episode metrics (work_successes, work_failures); reported, not tested",
+        "implementation": "continuous_brain_unified/integration/evaluate.py s4_mechanism; the per-check series are recorded driver-side (no store call, no RNG use) in LifeRecord.first_series and second_series"
+      }
+    },
+    "pre_launch_refusals_science": {
+      "manifest_and_environment_match_preflight": "composition/integration source hashes, spec digest, codec version, legacy pins, historical-core SHA-256 and environment fingerprint equal the frozen preflight manifest (enforced before the family is spent: the run refuses, nothing is opened)",
+      "approval_names_this_design": "approved_design_sha256 equals design_digest of the file as it stands",
+      "central_registry_approved": "the I1 entry of registry/preregistrations.json is APPROVED",
+      "preflight_chain_reverified": "verify_preflight_chain(stage=science) accepts the approved preflight: its single ledger spend by that run, its opening record and registry state at opening, its manifest, the 14 checks, the 12 arms, the sealed report, and the approval_basis recorded at approval",
+      "canonical_registry": "the run uses only this checkout's registry/; CONTINUOUS_BRAIN_REGISTRY pointing elsewhere is refused",
+      "derived_ids_collide_with_nothing": "runner.offset_collisions finds no collision of i1-v1-dev's base or derived ids (sid, sid+70000, sid+90000) with any registered or I1 preregistered family at any offset pair, checked immediately before the spend",
+      "approved_by_the_approval_authority": "approved_by equals the frozen approval_authority (David)",
+      "single_opening": "the family is opened under the cross-process protocol lock, from the ledger reloaded inside the lock; a concurrent opener sees the spend and is refused"
+    },
+    "science_freeze": {
+      "frozen_at_approval": [
+        "C1-C10 definitions, denominators and the gate",
+        "every validity check and its definition, including the AUTHORITY abort rule (only 'RuntimeError: developmental phases are not initialized' for AUTHORITY_SKILLS)",
+        "intervention timing rules (ticks from the NORMAL life; windows [T, T+1); replay checked at T-1)",
+        "the arms and the donor rule",
+        "S1-S4 definitions and their estimation-only status",
+        "families: i1-v1-dev 328000-328127 and i1-v1-preflight-eng-b 907100-907163, and the derived-id mapping (+70000 bootstrap, +90000 episodes)",
+        "the manifest rules"
+      ],
+      "manifest_rules": "the code manifest (cb-i1-manifest/2) hashes every .py file of the five packages, the I1 scripts, pyproject.toml and the three legacy JSONs by repo path, plus the spec digest, codec version, 28 legacy pins, historical-core identity and the environment (python, torch, numpy, cpu, threads, machine). Mutable records (this file's approval fields, registry/preregistrations.json, the seed ledger) are outside it; they are bound separately by approved_design_sha256 and by the registry_binding recorded in seed_opened.json and the science report (design digest, SHA-256 of both registry files, status); the science run records the binding at opening and again at the end, and reports BLOCKED if the two differ",
+      "after_opening": "no change of any kind once i1-v1-dev is opened; any change needs a new preregistration version and new families"
+    }
+  },
+  "families": {
+    "scientific_dev_proposed": {
+      "name": "i1-v1-dev",
+      "start": 328000,
+      "stop": 328127,
+      "purpose": "DEV",
+      "registered": false
+    },
+    "engineering_preflight_proposed": {
+      "name": "i1-v1-preflight-eng-b",
+      "start": 907100,
+      "stop": 907163,
+      "purpose": "ENGINEERING",
+      "registered": false
+    },
+    "derived_id_check": "subject ids also seed sid+70000 (bootstrap records) and sid+90000 (episodes). The check is conservative: every I1 family's ids at offsets 0, +70000 and +90000 are compared with every registered family's ids at the same three offsets, whatever that family's own seeding. i1-v1-dev 328000-328127 (derived 398000-398127, 418000-418127) and i1-v1-preflight-eng-b 907100-907163 (derived 977100-977163, 997100-997163) collide with nothing except the containing engineering reserve v0.38-ENGINEERING at equal offsets; tests/test_i1_runner.py recomputes this against the live registry",
+    "engineering_dev_used": "cloud-dev-claude-eng, all ENGINEERING_ONLY with values visible to the author: 906600-906663 (i1_try1, i1_dev64), 906664-906671 (i1_runner_dev8), 906672-906675 (review_i1_a, independent reviewer), 906760-906767 (i1_dev7_smoke8), 906680-906743 (i1_dev7_64, BLOCKED: code changed mid-run), 906744-906807 (i1_dev7_64b; overlaps the smoke slice), 906900-906903 (verify7, independent verifier), 906808-906871 (i1_dev7_64c, code before the ChatGPT amendments), 906940-906999 (i1_s3_trace60, S3 diagnostic), 906132-906139 (i1_dev8_smoke_amend), 906032-906095 (i1_dev7_64d, amended code before the third verification), 906140-906143 (verify7c, verify7c_old, verify7c_poscontrol: the independent verifier's runs), 906232-906295 (i1_dev7_64e, code before ChatGPT's binary verification), 906332-906395 (i1_dev7_64f, code before the arm-coverage fix), 906432-906495 (i1_dev7_64g, code before the chain-of-custody fix), 906532-906595 (i1_dev7_64h, code before ChatGPT's fourth gate audit), 906144-906199 (i1_dev7_56i, code before ChatGPT's fifth audit; the last fresh slice of cloud-dev-claude-eng); cloud-dev-claude-eng-2 (908000-908999, registered in the cloud ledger on 2026-10-04 because no fresh 64-wide slice remained): 908000-908063 (i1_dev7_64j, code before ChatGPT's sixth audit), 908064-908127 (i1_dev7_64k, code before ChatGPT's seventh audit), 908128-908191 (i1_dev7_64l, the code as delivered). Planned for David's WSL engineering check: 906880-906887",
+    "consumed": {
+      "i1-v1-preflight-eng 907000-907063": "consumed by mistake in the cloud workspace (see deviation log); spent in the static registry; never reused"
+    }
+  },
+  "procedure": [
+    "1. ChatGPT reviews this proposal and docs/I1_INTEGRATED_INDIVIDUAL_DEV7.md, and independently verifies the exact source zip and dev evidence bundles against their SHA-256s; amendments are made before step 3",
+    "2. WSL Stage A: an 8-individual engineering run on cloud-dev-claude-eng (spends nothing single-use) on the preflight machine",
+    "3. Engineering preflight on David's WSL on engineering_preflight_proposed (i1-v1-preflight-eng-b), validity-only output: primary and secondary values are withheld from display and committed by SHA-256 (not encrypted); it writes the manifest. The opening is one transition under an exclusive cross-process lock (runner.protocol_lock, flock on registry/i1_protocol.lock): inside the lock runner.open_family reloads the canonical ledger, checks the family's base and derived ids (sid, sid+70000, sid+90000) against every registered family and every I1 preregistered family at every offset pair, and refuses on any collision, registers and spends the family, verifies the raw ledger lineage (one registration, one spend, made by this run, nothing after it), and writes and fsyncs seed_opened.json; any failure after the spend and before that record is durable (a lineage refusal, an exception in building the binding or the record, a failed write or fsync, an interrupt) leaves the family spent and the run BLOCKED, with an i1_report.json saying why. Before any ledger write it proves that the run directory and registry/ can make writes durable (file and directory fsync are strict everywhere, including the seed ledger's own appends) and refuses otherwise. A preflight or science run holds a per-run lock (flock on runs/i1/<label>/.run.lock) for its whole life; every protocol operation (opening, approval, recovery) first gives each I1 spend whose run has no final record and whose run lock is free (the process was killed or the machine stopped) a durable BLOCKED report, and approval refuses a BLOCKED preflight. Two concurrent openings of one family cannot both succeed",
+    "4. Approval is a human decision by David. Neither Claude (the author, who has seen engineering outcomes) nor ChatGPT (the independent verifier) approves. The preregistration freezes approval_authority = \"David\" (part of the design digest); approve() refuses any --approver that is not exactly that string, and the science run and runner.lifecycle_problems refuse an approval by anyone else. David runs scripts/i1_approve.py --preflight-dir runs/i1/wsl_i1_preflight --approver David --i-approve I1-INTEGRATED-INDIVIDUAL-v1 on the preflight machine, in the same checkout. It uses only this checkout's registry/ (it refuses if CONTINUOUS_BRAIN_REGISTRY points elsewhere) and refuses unless runner.verify_preflight_chain accepts every link: (a) the ledger records exactly one spend of engineering_preflight_proposed, made by this run (source I1-INTEGRATED-INDIVIDUAL-v1:preflight:<label>:opened), and nothing after it; (b) the directory is runs/i1/<label> and its seed_opened.json is that run's opening record, binding the spend, the run, its manifest.json and the registry state at opening; (c) the preflight was opened under the PROPOSED preregistration with no approval fields, its design digest equals the current design, and both registry files and the seed ledger (seed_ranges.json and seed_ranges.local.jsonl) are byte-identical to their state at opening; (d) the manifest is self-consistent, is the one the run was opened under, and this machine reproduces it exactly; (e) the validity block has exactly the 14 checks of evaluate.VALIDITY_KEYS, all true; (f) the diagnostics bind exactly the 12 arms of evaluate.ARMS to that manifest; (g) sealed/i1_report.json exists, its SHA-256 equals the committed one, and its validity block and value-free diagnostics agree with the visible view; (h) the central entry is the single PROPOSED I1 entry and the registry satisfies runner.lifecycle_problems before and after the write. It then writes, under the same protocol lock, as one journaled act (scripts/i1_approve.py --recover completes an interrupted one), status APPROVED, approved_by, approved_utc, preflight_manifest_sha256, approved_design_sha256 (SHA-256 of id, question, scope, design, decision_rule, families, procedure and approval_authority), preflight_run and approval_basis (the hashes of the opening record, validity view, manifest and sealed report and of the registry state at opening) here, and sets the I1 entry of registry/preregistrations.json to APPROVED. Any later change to the digested parts invalidates the approval",
+    "5. scripts/i1_run.py refuses unless the approval names this design, the manifest matches, and verify_preflight_chain re-verifies the whole frozen chain (every link of step 4, the APPROVED central entry, and the approval_basis reproduced exactly from the preflight directory); it opens the family through the same locked transition as the preflight (derived-id check, register, spend, lineage check, opening record); it registers and spends i1-v1-dev before launch in this checkout's ledger, runs every arm, binds the registry state including the seed-ledger digest at opening and checks it again at the end (any change BLOCKS), verifies the raw lineage of its own spend again before any verdict stands (otherwise BLOCKED), and reports PASS/FAIL/BLOCKED (a failure after the spend writes a BLOCKED report)"
+  ],
+  "deviation_log": [
+    "Engineering development runs whose outcome values were visible to the author before this draft: i1_try1 (906600-906603) and i1_dev64 (906600-906663), cloud CPU. They produced code fixes only: the legacy loader had been captured before the redirects were installed; and the fidelity comparison had compared the driver's copy of the goal received at genesis, which does not show the lifecycle's in-place completion, so it was changed to compare the authored fields, the completion outcome and cycle, and the autobiography digest (dev7 strengthens this to the store-held goal with all fields plus capabilities). No threshold, horizon, arm or check definition was changed in response to outcome values; thresholds are frozen legacy constants read at run time.",
+    "S3 is registered as estimation-only because dev values exist; a directional prediction would not be independent of them.",
+    "2026-10-02T00:56Z: while testing the preflight code path, a failed copy step in a chained shell command made the preflight run in the cloud working copy instead of a throwaway copy. It registered and spent i1-v1-preflight-eng (907000-907063) under the exact preflight construct on cloud CPU. Primary and secondary values were sealed by the runner (sealed report sha256 8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc) and have not been opened. The family is recorded spent in the static registry and replaced by i1-v1-preflight-eng-b (907100-907163). The sealed report ships in evidence/i1/cloud_preflight_incident/ and is to be opened only after the scientific I1 result is frozen.",
+    "2026-10-02: an independent reviewer (fresh agent, no access to the authoring context) audited the dev6/I1 code. It re-ran the evaluator on runs/dev/i1_dev64 (identical values; the report file was rewritten with the same content) and ran 4 individuals as review_i1_a (906672-906675, recorded in runs/dev/seed_usage.jsonl). Its findings were fixed in dev7: manifest coverage, dev seed confinement, sealing wording, redirected APIs, store authority controls, store-gated second goal, projection staleness, verification before registration, BLOCKED report after spend, design-bound approval, goal-2 cycle labels.",
+    "dev7 adds the AUTHORITY validity arms, the goal host's 'status' API (second-goal gate on the store), capability_after_first, and the 100+k completion label for goal 2. These change the life's tick sequence relative to dev6 runs; dev6-era run directories are not comparable tick-for-tick.",
+    "2026-10-02 dev7 run i1_dev7_64 (906680-906743) is BLOCKED by its own manifest_consistent_across_arms check: the author bumped the package version strings (continuous_brain_*/__init__.py, pyproject.toml) at 20:41:26, after the NORMAL arm and before FIXED_SCAFFOLD, so later arms ran different code. Its values are disclosed in evidence/i1/dev7/i1_dev7_64_blocked/ and are not used. The run was repeated with the tree unchanged as i1_dev7_64b (906744-906807), which passes every validity check. Operating rule added to the WSL procedure: no file in the repository is edited while a run is in progress.",
+    "2026-10-02 pre-approval amendment after an independent verification of the dev7 package (fresh agent): (a) i1-v1-dev moved from 320000-320127 to 328000-328127, because 320000-320127's +70000 ids (390000-390127) coincide with g0-v023-dev's +90000 ids under the conservative all-offsets check; the choice is not outcome-dependent and no I1 family had been registered; (b) the preflight's visible output no longer includes counts of planned individuals or replay checks, which would have revealed the number of first-goal completers; (c) an AUTHORITY abort now counts only if it is the erased mechanism's own missing-state error; (d) approval is one script (scripts/i1_approve.py) that also sets the central registry entry, which the dev7 procedure had omitted; (e) dev slices are now checked against every registered family at every offset pair.",
+    "2026-10-02 amendments after ChatGPT's second-author review (Linear contract comments of 2026-10-02 and 2026-10-03 UTC), all before any I1 family was registered: scope stated as a narrower five-mechanism milestone that does not close G1 (supersedes_in_purpose replaced by relation_to_G1); store-authority invariant made explicit and mechanically checked (RNG_PERTURBED arm; frozen-object digests; validity no_hidden_mutable_state); donor rule frozen and checked (donor_sid in plans; validity donor_pairing_fixed_by_ids); S4 mechanism analysis preregistered as estimation-only secondary (k = 1, 2, 4; at-risk rule; paired bootstrap), defined after the engineering diagnostic i1_s3_trace60 whose values were seen; science_freeze and manifest_rules written out; registry binding recorded at the spend; approval stated as David's alone. The lifecycle-state test fix (no test asserts one lifecycle state) was made earlier the same day, also at ChatGPT's request.",
+    "2026-10-03 UTC third independent verification (fresh agent) of the amended package f92518d: everything reproduced (hashes, 224 tests, manifest, design digest, byte-identical re-evaluation, 21/21 tamper, lifecycle suite in four states); its positive control (injected global-RNG use inside a host) turned no_hidden_mutable_state false. Fixed in 60684b1: the tamper tool now selects a life that authored or completed a goal for the faults that need one (it crashed on a 4-individual run); the donor check also verifies the applied payload; RNG_PERTURBED is in the no-intervention list; the science run blocks if the registry records change between opening and the end. i1_dev7_64e is the run of that code.",
+    "2026-10-03 UTC ChatGPT's independent binary verification of 95da5d5 reproduced all hashes, the 530-file evidence manifest, 14/14 validity, C1-C10, 21/21 tamper detection and all 225 tests, and found one pre-approval blocker: approve() accepted any non-empty all-true validity block, and the lifecycle suite and test helper still used the old 12-check list (ChatGPT demonstrated an approval with the two dev7 checks omitted). An earlier verifier had noted the key-set weakness and the author had left it as a note; that was an error. Fixed in 3cd2bd2: evaluate.VALIDITY_KEYS is the single schema; approve() requires exactly those keys, all true, and the manifest binding of the run and every arm; the suite and tests import the schema; negative tests and scripts/dev/i1_approval_gate_check.py (on a real run's sealed view) cover omissions, the old schema, unknown keys and binding faults. The S3 diagnostic archive was repackaged with a root-relative SHA256SUMS. i1_dev7_64f is the run of that code.",
+    "2026-10-03 UTC ChatGPT's verification of 512159f confirmed the schema fix and found one narrow remaining gap: approve() checked every arm_manifests entry present but did not require all I1 arms to be present (a NORMAL-only binding was accepted on a temporary registry). Fixed in 4f5fab1: approval requires set(arm_manifests) == set(evaluate.ARMS), each equal to manifest.json; test, lifecycle and gate-check fixtures use evaluate.ARMS; negative tests per unbound arm, NORMAL-only and unknown arm. i1_dev7_64g is the run of that code.",
+    "2026-10-03 UTC ChatGPT's attack on 4606396 (64g) reproduced two chain-of-custody defects: approve() accepted a preflight opened under design 13fb2f... after a frozen threshold was changed (the opening binding was recorded but not checked), and a fabricated directory with a 'spent': true flag, the current manifest, 14 true checks and 12 bound arms, but no ledger spend and no sealed report, was approved. Fixed: runner.verify_preflight_chain (used by approve and again by science) checks the single canonical ledger spend by that run, the opening record and registry state at opening, the manifest, the 14 checks, the 12 arms, and the sealed report against its commitment and the visible view; preflight/approval/science use only this checkout's registry/; the seed-ledger digest is part of the run binding and checked at the end of science; the approval is journaled with recovery and records approval_basis; runner.lifecycle_problems is production code run before and after the write; preflight prints no per-arm timings or error counts. The procedure text (step 4, 5) changed, so the design digest changed. i1_dev7_64h is the run of that code.",
+    "2026-10-04 UTC ChatGPT's audit of 0a0ae40 (64h) verified the package (283/283 tests, 531/531 evidence sums, 21/21 tamper, 56/56 gate) and reproduced three more pre-preflight blockers: (1) 'David alone approves' was prose only: approve() accepted approver='Claude'; (2) the seed ledger was bound at opening but not compared at approval: an unrelated ledger row appended after a valid preflight did not block approval; (3) the conservative derived-id check ran for dev slices only: a family registered at 398000-398127 (exactly i1-v1-dev + 70000) did not stop i1-v1-dev from opening. Fixed: approval_authority = \"David\" is frozen here and in the design digest, approve() requires an exact match, and science and lifecycle_problems refuse any other approver; approval requires the current seed-ledger digest to equal the opening digest; runner.offset_collisions is the single check for dev slices and runs in open_family immediately before every preflight and science spend. The packaging no longer leaves a dangling origin/HEAD. The design digest changed. i1_dev7_56i (906144-906199, 56 individuals: no wider fresh slice remains in cloud-dev-claude-eng) is the run of that code.",
+    "2026-10-04 UTC ChatGPT's audit of c627c93 (56i) verified the package (305/305 tests, 475/475 evidence sums, 21/21 tamper) and reproduced one more blocker: the single-use spend was not atomic across processes. Two concurrent science openings both succeeded and the ledger held two registrations and two spends of i1-v1-dev under two run labels. Fixed: runner.protocol_lock (an exclusive flock on registry/i1_protocol.lock, refusing after 30 s) serialises every protocol transition (open_family, approve, recover_approval); open_family reloads the canonical ledger inside the lock, runs the collision and usability checks, registers and spends, then verifies the raw lineage (at most one registration, exactly one spend, by this run, nothing after it) before it writes and fsyncs seed_opened.json; a spend whose lineage check fails raises I1SpentButBlocked and writes a BLOCKED report; the science run verifies its own spend lineage again before any verdict stands. A two-process test requires exactly one of two concurrent openers to succeed, and a control with the lock disabled reproduces the double spend. The design digest changed. i1_dev7_64j (908000-908063, on the new cloud engineering family cloud-dev-claude-eng-2) is the run of that code.",
+    "2026-10-04 UTC ChatGPT's audit of db4fa48 (64j) verified the package (311/311 tests, 531/531 evidence sums, 21/21 tamper, the locked race and the lock-disabled control) and reproduced one more blocker: an exception after reg.spend() other than a lineage refusal (a simulated disk failure writing seed_opened.json) left the family spent with no seed_opened.json and no i1_report.json. Fixed: every exception after the spend and before the opening record is durable becomes I1SpentButBlocked, and runner.open_for_run (used by run) writes a BLOCKED report whenever the raw ledger shows a spend by this run and the opening failed in any way, including an interrupt; if even that report cannot be written, it says so on stderr. Fault-injection tests cover the lineage check, the registry binding, building the record, the file write, the file fsync, the directory fsync and an interrupt, for both preflight and science. The design digest changed. i1_dev7_64k (908064-908127) is the run of that code.",
+    "2026-10-04 UTC ChatGPT's audit of e1d2878 (64k) verified the package (330/330 tests, 531/531 evidence sums, 21/21 tamper) and found that durability was not strict: _fsync_dir swallowed a real directory fsync failure (reproduced: the opening succeeded with no BLOCKED record while the filesystem refused durability); the seed ledger's append did not fsync its directory; and a SIGKILL or power loss after the spend could leave a spent family with no record. Fixed: directory fsync is strict everywhere (runner and the ledger append); open_family proves durability of the run directory and registry/ before any ledger write; BLOCKED reports and the science report are atomic and fsynced, the preflight's final records are fsynced; each preflight and science run holds a per-run flock for its whole life; every protocol operation first gives every I1 spend whose run has no final record and a free run lock a durable BLOCKED report (and confirms the durability of finished runs' records); approval refuses a BLOCKED preflight. Tests: a real directory fsync failure is refused before the spend; a persistent failure after the spend is recorded once the disk works (and recreated if the unsynced report was lost); SIGKILL right after the spend is recorded by the next protocol operation, for preflight and science; a run whose lock is held is never marked dead. The design digest changed. i1_dev7_64l (908128-908191) is the run of that code."
+  ],
+  "sealing_note": "'sealed' means withheld from display and committed by SHA-256. The sealed file is plain JSON in the run directory and is not encrypted; the commitment makes later alteration detectable, it does not prevent reading."
+}

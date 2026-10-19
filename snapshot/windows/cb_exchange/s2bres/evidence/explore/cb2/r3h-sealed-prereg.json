@@ -1,0 +1,30 @@
+{
+ "format": "cb2-r3h-sealed-prereg/1",
+ "title": "r3-H sealed acceptance: learned organ-command selector -> scripted executor organ (candidate r3h-B)",
+ "signed_off": {"Sol": "DAV-96, 2026-10-09T08:11Z", "David": "approved in session, 2026-10-09 03:19 America/Chicago"},
+ "candidate": {
+  "path": "runs/explore/cb2/candidates/r3h-B (from cb2_r3h_results.tgz, sha256 71f215f61b04af7ec66a97615364f30481f42803f3f9812c5e0c5537bf8438ef)",
+  "individual": "cb2-ind-0001",
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+  "event_sha": "a782200e4b22e4b14aef1e0ed85854ff4117db83c1f4f869f1385989746dc59c",
+  "selector_policy_sha256": "75aed1529ae0e4cddbabdf7a49bad13be8cee0b1798e3d774307ddd10d9d61f1",
+  "frozen": "no retraining, checkpoint selection or tuning after sealed outcomes are visible"
+ },
+ "seeds": "90001-90040",
+ "seeds_use": "once; paired against the routine individual on the same worlds; same protocol as development (cb2_evaluate.py evaluate)",
+ "steps": 10000,
+ "label": "r3h-B-sealed",
+ "replay_seed": 90001,
+ "gates": {"score_ratio_min": 0.90, "survival_ratio_min": 0.90, "requests_ratio_min": 0.85},
+ "definitions": {
+  "score": "Crafter score over the 40 worlds (cb2_evaluate summary), candidate / routine",
+  "survival": "mean steps lived over the 40 worlds, candidate / routine",
+  "requests": "aggregate on-time requests / eligible requests (fulfilled + failed) over all 40 worlds, candidate rate / routine rate; raw counts reported",
+  "continuity": "all of: (a) the candidate restores to the declared state hash and its installed weights/event are the declared ones; (b) save -> restore reproduces the declared state hash; (c) a consolidation re-installing the same weights is an 'install' event chained to the declared event, keeps every non-skill channel, the tick, the life and the weights hash; (d) the replay world 90001, lived again by the restored + consolidated copy, gives the identical action sequence; (e) delegation provenance covers 100% of executed primitive actions in all 40 worlds"
+ },
+ "pass": "all four gates (score, survival, requests, continuity) and no protocol deviation",
+ "integrity": "any crash, missing world, corrupted artifact or protocol deviation is reported as such, never silently rerun; infrastructure recovery before outcomes are inspected is documented before any retry",
+ "meaning_if_pass": "the first learned high-level controller matching the routine while using competent scripted hands; not learned low-level control, not superiority over the routine",
+ "executor": "scripts/explore/cb2_sealed_r3h.py"
+}

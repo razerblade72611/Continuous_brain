@@ -1,0 +1,75 @@
+{
+  "checks": {
+    "donor_autobiography_changes_generated_goal": true,
+    "endogenous_goal_genesis": true,
+    "erased_autobiography_has_no_directional_goal": true,
+    "goal_context_persists": true,
+    "goal_lifecycle_persists": true,
+    "self_generated_goal_completes_from_self_estimate": true,
+    "self_generated_goal_controls_plan": true,
+    "self_generated_goal_develops_capability": true,
+    "self_generated_goal_persists": true,
+    "self_generated_goal_reduces_discrepancy": true
+  },
+  "donor_metrics": {
+    "donor_history_flips_self_generated_goal": 1.0,
+    "erased_history_generates_no_developmental_goal": 1.0
+  },
+  "family": "v0.35",
+  "format": "continuous_brain.endogenous_goal_genesis_test_v1",
+  "frozen_mechanism": {
+    "external_primary_goal_supplied_to_generator": false,
+    "goal_completion_threshold_changed": false,
+    "goal_generator_changed": false,
+    "goal_target_delta": 0.12,
+    "hidden_capability_supplied_to_generator": false,
+    "max_target_episodes": 16,
+    "reward_label_supplied_to_generator": false,
+    "subject_id_supplied_to_generator": false
+  },
+  "goal_plan_metrics": {
+    "self_generated_goal_controls_target_plan": 1.0
+  },
+  "historical_status": {
+    "v0341": "FROZEN_TEST_PASS",
+    "v0350": "DEV_FAIL",
+    "v0351": "EIGHT_EPISODE_HORIZON_TOO_SHORT_FOR_EXISTING_SELF_ESTIMATE_COMPLETION_CRITERION",
+    "v0352": "DEV_PASS"
+  },
+  "metrics": {
+    "active_goal_persists_through_unrelated_interrupt": 1.0,
+    "discrepancy_reduction_rate": 0.8828125,
+    "mean_late_to_bootstrap_discrepancy_ratio": 0.16157682080445596,
+    "mean_target_capability_gain": 0.5712932931844437,
+    "mean_target_episodes_executed": 7.9375,
+    "post_completion_next_goal_generated_rate": 0.921875,
+    "self_generated_goal_completion_rate": 0.921875,
+    "self_generated_goal_matches_autobiographical_fragility": 1.0
+  },
+  "persistence_metrics": {
+    "goal_context_reliability_exact_after_reload": 1.0,
+    "goal_lifecycle_exact_after_reload": 1.0
+  },
+  "protected_unchanged": true,
+  "scope": {
+    "consciousness_claimed": false,
+    "functional_endogenous_goal_genesis_claimed_if_pass": true,
+    "open_ended_goal_space_claimed": false,
+    "sentience_claimed": false,
+    "subjective_experience_claimed": false
+  },
+  "source_models_unchanged": true,
+  "split": {
+    "test": [
+      100000,
+      100127
+    ],
+    "test_opened_in_this_run": true,
+    "test_spent": true,
+    "test_tuning_after_run_forbidden": true
+  },
+  "test_admission_passed": true,
+  "training_performed": false,
+  "v0341_test_pass_preserved": true,
+  "v035_test_spent": true
+}

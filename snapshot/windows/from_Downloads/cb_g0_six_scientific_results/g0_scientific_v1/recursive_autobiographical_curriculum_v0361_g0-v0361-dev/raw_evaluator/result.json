@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "curriculum_persists": true,
+    "donor_history_changes_first_goal": true,
+    "erased_history_has_no_directional_goal": true,
+    "first_goal_completes": true,
+    "first_goal_endogenous": true,
+    "frozen_autobiography_repeats_old_goal": true,
+    "second_goal_changes_capability": true,
+    "second_goal_controls_behavior": true,
+    "updated_autobiography_advances_curriculum": true,
+    "updated_autobiography_authors_second_goal": true,
+    "updated_history_causes_new_curriculum": true
+  },
+  "donor_metrics": {
+    "donor_history_flips_first_goal": 1.0,
+    "erased_history_generates_no_goal": 1.0
+  },
+  "family": "v0.36",
+  "format": "continuous_brain.recursive_autobiographical_curriculum_test_v1",
+  "frozen_mechanism": {
+    "curriculum_advancement_definition": "different primary OR same primary with target >= previous target + 0.05",
+    "external_second_goal_supplied": false,
+    "first_goal_horizon": 16,
+    "frozen_bootstrap_counterfactual": true,
+    "goal_source": "updated frozen autobiographical self-estimate",
+    "neural_models_changed": false,
+    "second_goal_probe_episodes": 4,
+    "thresholds_changed_from_v0360": false
+  },
+  "historical_status": {
+    "v0353": "FROZEN_TEST_PASS",
+    "v0360": "DEV_PASS"
+  },
+  "metrics": {
+    "curriculum_advancement_given_first_completion": 1.0,
+    "first_goal_completion_rate": 0.875,
+    "first_goal_genesis_rate": 1.0,
+    "frozen_bootstrap_history_repeats_first_goal": 1.0,
+    "mean_second_goal_capability_gain": 0.1249887831368599,
+    "second_goal_changes_target_capability": 1.0,
+    "second_goal_controls_plan": 1.0,
+    "second_goal_generation_given_first_completion": 1.0,
+    "updated_vs_frozen_second_goal_divergence": 1.0
+  },
+  "persistence_metrics": {
+    "curriculum_snapshot_exact_after_reload": 1.0
+  },
+  "protected_unchanged": true,
+  "scope": {
+    "consciousness_claimed": false,
+    "functional_recursive_self_authored_curriculum_claimed_if_pass": true,
+    "open_ended_semantic_goal_space_claimed": false,
+    "sentience_claimed": false,
+    "subjective_experience_claimed": false
+  },
+  "source_models_unchanged": true,
+  "split": {
+    "test": [
+      120000,
+      120127
+    ],
+    "test_opened_in_this_run": true,
+    "test_spent": true,
+    "test_tuning_after_run_forbidden": true
+  },
+  "test_admission_passed": true,
+  "training_performed": false,
+  "v0353_test_pass_preserved": true,
+  "v036_test_spent": true
+}

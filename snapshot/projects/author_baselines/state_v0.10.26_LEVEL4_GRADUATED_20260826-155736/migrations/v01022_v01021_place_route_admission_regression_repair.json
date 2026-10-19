@@ -1,0 +1,20 @@
+{
+  "repair_id": "v01022_v01021_place_route_admission_regression_repair",
+  "applied_at": "2026-08-26T18:41:49.727265+00:00",
+  "state_dir": "/home/davei/projects/author/state",
+  "matched_place_route_admission_regressions": 22,
+  "agents": {
+    "A": {
+      "events": 18,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/a/embodied_skills.pre_v01022_place_route_admission_repair.json"
+    },
+    "B": {
+      "events": 13,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/b/embodied_skills.pre_v01022_place_route_admission_repair.json"
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

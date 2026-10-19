@@ -1,0 +1,2065 @@
+{
+  "version": "0.4.3",
+  "steps": 23941,
+  "reward": 4279.065002444243,
+  "intrinsic_reward": 24.89892038352118,
+  "goals": 1803,
+  "mastered_levels": [
+    0,
+    1
+  ],
+  "replay_persisted": 8000,
+  "episodic_memories": 10914,
+  "visual_memories": 13412,
+  "last_loss": 0.0156656913459301,
+  "last_surprise": 0.02348318137228489,
+  "last_visual_novelty": 0.0,
+  "last_curiosity": 0.0004696636274456978,
+  "homeostatic_drive": 0.0,
+  "device": "cpu",
+  "vision": {
+    "name": "pixel-stats",
+    "output_dim": 48,
+    "pretrained": false
+  },
+  "visual_gate": 0.06415906548500061,
+  "environment_state": {
+    "format_version": 3,
+    "recent_outcomes_by_level": {
+      "0": [
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 28,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 27,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 9,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 5,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 28,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 22,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 5,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 47,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 7,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 22,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 24,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 18,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 5,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 7,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 4,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 9,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 9,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 31,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 7,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 3,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 7,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 22,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 27,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 36,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 10,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 1,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 2,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 71,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 9,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 5,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 28,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 7,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 6,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 47,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 0,
+          "blocked_advances": 0,
+          "replans": 0
+        }
+      ],
+      "1": [
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 22,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 8,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 23,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 18,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 21,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 32,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 12,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 21,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 22,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 18,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 28,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 139,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 23,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 139,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 233,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 36,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 34,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 18,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 24,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 34,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 20,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 149,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 23,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 76,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 11,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 79,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 135,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 18,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 237,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 168,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 19,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 180,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 15,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 16,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 31,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": false,
+          "steps": 300,
+          "stagnation": false,
+          "timeout": true,
+          "route_unavailable": false,
+          "successful_translations": 6,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 140,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": false,
+          "steps": 300,
+          "stagnation": false,
+          "timeout": true,
+          "route_unavailable": false,
+          "successful_translations": 7,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 14,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 13,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 17,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        },
+        {
+          "success": true,
+          "steps": 44,
+          "stagnation": false,
+          "timeout": false,
+          "route_unavailable": false,
+          "successful_translations": 8,
+          "blocked_advances": 0,
+          "replans": 0
+        }
+      ]
+    },
+    "level_totals": {
+      "0": {
+        "attempts": 1205,
+        "successes": 1204,
+        "timeouts": 1,
+        "stagnations": 0,
+        "goals": 1204,
+        "successful_translations": 0,
+        "blocked_advances": 0,
+        "replans": 0,
+        "route_unavailable": 0
+      },
+      "1": {
+        "attempts": 601,
+        "successes": 599,
+        "timeouts": 2,
+        "stagnations": 0,
+        "goals": 599,
+        "successful_translations": 4685,
+        "blocked_advances": 0,
+        "replans": 0,
+        "route_unavailable": 0
+      }
+    },
+    "level_action_steps": {
+      "0": 9961,
+      "1": 13980
+    },
+    "edge_failures": {},
+    "legacy_v041_stats": {}
+  }
+}

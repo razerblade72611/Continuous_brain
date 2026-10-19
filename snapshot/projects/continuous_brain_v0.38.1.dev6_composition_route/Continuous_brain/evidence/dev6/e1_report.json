@@ -1,0 +1,429 @@
+{
+  "E1_all": "PASS",
+  "family": "cloud-dev-claude-eng",
+  "format": "cb-e1-null-composition/1",
+  "n": 32,
+  "rows": [
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_trajectory_model",
+          "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "slot": "self_state"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 0,
+      "content_flows": {},
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": true,
+        "route_blocked": null
+      },
+      "full_equal": true,
+      "full_ticks": 6882,
+      "g0_self_reproducible": true,
+      "g0_sha": "9e325e66c756550d7c641fcb91e84effcab669d39da3ce533dafc66c536fc970",
+      "idle_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "consequence_replanning_v0252",
+        "endogenous_goal_genesis_v0353",
+        "event_consistent_self_development_v0341",
+        "recursive_autobiographical_curriculum_v0361"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "recurrent_self_trajectory_v031",
+      "mediation": {
+        "class": "PARTLY_DRIVER_DIRECT",
+        "model_submodule_forwards_in_driver": 101,
+        "model_submodule_forwards_in_hosts": 131360,
+        "nested_calls_inside_hosts": 3232,
+        "store_mediated_calls": 6882
+      },
+      "model_forwards": {
+        "trajectory_model:shared|driver": 101,
+        "trajectory_model:shared|host:self_state": 131360
+      },
+      "nested_calls": {
+        "self_state->self_state:active_goal_from_intention": 3232
+      },
+      "private_instances": [],
+      "returncodes": {
+        "focal": 0,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906100,
+        906131
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "recurrent_self_trajectory_v031"
+      ]
+    },
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_trajectory_model",
+          "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "slot": "self_state"
+        },
+        {
+          "bit_identical": true,
+          "loader": "load_neutral_model",
+          "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "slot": "autobiography"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 0,
+      "content_flows": {},
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": false,
+        "route_blocked": "rollout belongs to slot 'self_state', which is not bound in this composition"
+      },
+      "full_equal": true,
+      "full_ticks": 1920,
+      "g0_self_reproducible": true,
+      "g0_sha": "cd4941bb7f85e6945002fda3d29c1e8f9280bb13fc4100a5e97e6ce8af42f370",
+      "idle_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "consequence_replanning_v0252",
+        "endogenous_goal_genesis_v0353",
+        "event_consistent_self_development_v0341",
+        "recursive_autobiographical_curriculum_v0361"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "autobiographical_discrepancy_v0322",
+      "mediation": {
+        "class": "PARTLY_DRIVER_DIRECT",
+        "model_submodule_forwards_in_driver": 1408,
+        "model_submodule_forwards_in_hosts": 20352,
+        "nested_calls_inside_hosts": 384,
+        "store_mediated_calls": 1920
+      },
+      "model_forwards": {
+        "neutral_model:private0|driver": 8,
+        "neutral_model:shared|driver": 1400,
+        "trajectory_model:shared|host:self_state": 20352
+      },
+      "nested_calls": {
+        "self_state->self_state:active_goal_from_intention": 384
+      },
+      "private_instances": [
+        {
+          "loader": "load_neutral_model",
+          "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "reason": "reload_probe",
+          "slot": "autobiography"
+        }
+      ],
+      "returncodes": {
+        "focal": 3,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906200,
+        906231
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "recurrent_self_trajectory_v031"
+      ]
+    },
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_trajectory_model",
+          "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "slot": "self_state"
+        },
+        {
+          "bit_identical": true,
+          "loader": "load_neutral_model",
+          "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "slot": "autobiography"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 1,
+      "content_flows": {
+        "self_state->autobiography": 99464
+      },
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": false,
+        "route_blocked": "rollout belongs to slot 'self_state', which is not bound in this composition"
+      },
+      "full_equal": true,
+      "full_ticks": 22474,
+      "g0_self_reproducible": true,
+      "g0_sha": "5d3f0c6a85d08c74e3cbcf44e2624a8d10f9af6b042b960bf9a4aefc6eee3aa4",
+      "idle_hosts": [
+        "consequence_replanning_v0252",
+        "endogenous_goal_genesis_v0353",
+        "recursive_autobiographical_curriculum_v0361"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "event_consistent_self_development_v0341",
+      "mediation": {
+        "class": "STORE_MEDIATED",
+        "model_submodule_forwards_in_driver": 0,
+        "model_submodule_forwards_in_hosts": 188766,
+        "nested_calls_inside_hosts": 3136,
+        "store_mediated_calls": 22474
+      },
+      "model_forwards": {
+        "neutral_model:shared|host:autobiography": 22558,
+        "trajectory_model:shared|host:self_state": 166208
+      },
+      "nested_calls": {
+        "self_state->self_state:active_goal_from_intention": 3136
+      },
+      "private_instances": [],
+      "returncodes": {
+        "focal": 3,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906300,
+        906331
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "event_consistent_self_development_v0341",
+        "recurrent_self_trajectory_v031"
+      ]
+    },
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_trajectory_model",
+          "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "slot": "self_state"
+        },
+        {
+          "bit_identical": true,
+          "loader": "load_neutral_model",
+          "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "slot": "autobiography"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 1,
+      "content_flows": {
+        "autobiography->goal_genesis": 124,
+        "self_state->autobiography": 14014
+      },
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": false,
+        "route_blocked": "rollout belongs to slot 'self_state', which is not bound in this composition"
+      },
+      "full_equal": true,
+      "full_ticks": 7683,
+      "g0_self_reproducible": true,
+      "g0_sha": "034deee6acfbbbb60018f4ecc12f575b60a62d2acd8e921460d8241ade06fc8e",
+      "idle_hosts": [
+        "consequence_replanning_v0252",
+        "event_consistent_self_development_v0341",
+        "recursive_autobiographical_curriculum_v0361"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "endogenous_goal_genesis_v0353",
+      "mediation": {
+        "class": "STORE_MEDIATED",
+        "model_submodule_forwards_in_driver": 0,
+        "model_submodule_forwards_in_hosts": 79052,
+        "nested_calls_inside_hosts": 1430,
+        "store_mediated_calls": 7683
+      },
+      "model_forwards": {
+        "neutral_model:shared|host:autobiography": 3262,
+        "trajectory_model:shared|host:self_state": 75790
+      },
+      "nested_calls": {
+        "self_state->self_state:active_goal_from_intention": 1430
+      },
+      "private_instances": [],
+      "returncodes": {
+        "focal": 3,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906400,
+        906431
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "endogenous_goal_genesis_v0353",
+        "recurrent_self_trajectory_v031"
+      ]
+    },
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_trajectory_model",
+          "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+          "slot": "self_state"
+        },
+        {
+          "bit_identical": true,
+          "loader": "load_neutral_model",
+          "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+          "slot": "autobiography"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 1,
+      "content_flows": {
+        "autobiography->goal_genesis": 120,
+        "goal_genesis->curriculum": 112,
+        "self_state->autobiography": 14864
+      },
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": false,
+        "route_blocked": "rollout belongs to slot 'self_state', which is not bound in this composition"
+      },
+      "full_equal": true,
+      "full_ticks": 6568,
+      "g0_self_reproducible": true,
+      "g0_sha": "1b856923949c945c070c85d07a572a4b3796d293e966d2ea550c2f692f97410b",
+      "idle_hosts": [
+        "consequence_replanning_v0252",
+        "event_consistent_self_development_v0341"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "recursive_autobiographical_curriculum_v0361",
+      "mediation": {
+        "class": "STORE_MEDIATED",
+        "model_submodule_forwards_in_driver": 0,
+        "model_submodule_forwards_in_hosts": 66333,
+        "nested_calls_inside_hosts": 1187,
+        "store_mediated_calls": 6568
+      },
+      "model_forwards": {
+        "neutral_model:shared|host:autobiography": 3422,
+        "trajectory_model:shared|host:self_state": 62911
+      },
+      "nested_calls": {
+        "self_state->self_state:active_goal_from_intention": 1187
+      },
+      "private_instances": [],
+      "returncodes": {
+        "focal": 3,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906500,
+        906531
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "endogenous_goal_genesis_v0353",
+        "recurrent_self_trajectory_v031",
+        "recursive_autobiographical_curriculum_v0361"
+      ]
+    },
+    {
+      "E1": "PASS",
+      "acquisition_verifications": [
+        {
+          "bit_identical": true,
+          "loader": "load_consequence_model",
+          "path": "state/consequence_replanning_v1/consequence_model.pt",
+          "slot": "planner"
+        }
+      ],
+      "composed_runs_clean": true,
+      "constructed_instances": 0,
+      "content_flows": {},
+      "faithfulness_checks": true,
+      "focal_only": {
+        "result_equal": true,
+        "route_blocked": null
+      },
+      "full_equal": true,
+      "full_ticks": 336,
+      "g0_self_reproducible": true,
+      "g0_sha": "20d7f9e1c7bcc82ea3dd8fc2b08063bb6519da0f28f2ef28d83c12b5ba6a22a0",
+      "idle_hosts": [
+        "autobiographical_discrepancy_v0322",
+        "endogenous_goal_genesis_v0353",
+        "event_consistent_self_development_v0341",
+        "recurrent_self_trajectory_v031",
+        "recursive_autobiographical_curriculum_v0361"
+      ],
+      "legacy_tree_unchanged": true,
+      "mechanism": "consequence_replanning_v0252",
+      "mediation": {
+        "class": "PARTLY_DRIVER_DIRECT",
+        "model_submodule_forwards_in_driver": 11,
+        "model_submodule_forwards_in_hosts": 53680,
+        "nested_calls_inside_hosts": 4880,
+        "store_mediated_calls": 336
+      },
+      "model_forwards": {
+        "consequence_model:shared|driver": 11,
+        "consequence_model:shared|host:planner": 53680
+      },
+      "nested_calls": {
+        "planner->planner:predict_transition": 4880
+      },
+      "private_instances": [],
+      "returncodes": {
+        "focal": 0,
+        "full": 0,
+        "g0a": 0,
+        "g0b": 0,
+        "used": 0
+      },
+      "returncodes_equal": true,
+      "seeds": [
+        906000,
+        906031
+      ],
+      "used_equal": true,
+      "used_hosts": [
+        "consequence_replanning_v0252"
+      ]
+    }
+  ],
+  "status": "ENGINEERING_ONLY",
+  "tag": "e1v3"
+}

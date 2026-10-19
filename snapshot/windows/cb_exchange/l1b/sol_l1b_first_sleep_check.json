@@ -1,0 +1,64 @@
+{
+  "recorded_utc": "2026-10-12T05:21:23Z",
+  "remote_checked_utc": "2026-10-12T05:14:07Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "status": "ONE_PAIRED_SLEEP_COMPLETED_CONTINUING_LOOP",
+  "completed_record_cycle": 0,
+  "completed_sleep_cycles": {
+    "learning": [
+      1
+    ],
+    "yoked": [
+      1
+    ]
+  },
+  "cycle_seconds": 6601,
+  "sleep_seconds": {
+    "learning": 5844,
+    "yoked": 5844
+  },
+  "instrument_check": {
+    "ok": true,
+    "mismatches": []
+  },
+  "per_twin_updates": {
+    "core": 1500,
+    "anchor": 1000,
+    "chooser": 1500
+  },
+  "current_run_logged_numbers": {
+    "nonfinite": 0,
+    "pending_parse": false
+  },
+  "skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "value_telemetry": {
+    "aggregation": "block_* is a maximum over all minibatches in each 250-update logging block, not an average or proportion of updates",
+    "learning": {
+      "peak_block_raw_absmax": 21.905908584594727,
+      "peak_block_capped_fraction": 0.087646484375,
+      "final_value_loss": 0.5267609357833862,
+      "final_raw_absmax": 14.2628755569458,
+      "final_capped_fraction": 0,
+      "final_grad_norm": 4.402825355529785
+    },
+    "yoked": {
+      "peak_block_raw_absmax": 27.49055290222168,
+      "peak_block_capped_fraction": 0.169189453125,
+      "final_value_loss": 0.027227213606238365,
+      "final_raw_absmax": 2.8485167026519775,
+      "final_capped_fraction": 0,
+      "final_grad_norm": 0.20015466213226318
+    }
+  },
+  "assessment": "Logged learning is finite with zero skips and successful consolidation. Transient value capping engaged; monitor recurrence and rising final learning value loss. No declared protective-stop trigger is met. This is numerical progress, not a behavioral growth result.",
+  "limits": "Independent monitor scanned logged JSON numbers and run identity; did not reload all checkpoint tensors in this check. Initial probes preceded sleep and are expected to match S2b.",
+  "timing": "First sleep was 97.4 min versus 92.8 min short-benchmark projection; cycle0 total110.0 min. Later learned-policy life timing is still unmeasured; refine after cycle1.",
+  "action": "Continue existing authorized loop and watcher; no code/parameter change, new spend, final battery, or candidate installation.",
+  "local_cycles_sha256": "928f34d008086fd96b745845a61b6722a764db8f825b4a5ddef886558d65d587",
+  "local_cycles_bytes": 190921
+}

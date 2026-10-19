@@ -1,0 +1,315 @@
+{
+  "verified_complete_utc": "2026-10-13T01:14:36Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "pod_name": "cb2-l1b-loop-claude",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "approved_protocol_sha256": "8a2679fa63594b49b76e2364f459f663c670c17cacebfa3bab5f6c7afd946edd",
+  "loop_compute_complete_utc": "2026-10-13T00:50:41Z",
+  "remote_archive_complete_utc": "2026-10-13T01:03:11Z",
+  "controller_download_sha_match_utc": "2026-10-13T01:10:26Z",
+  "controller_normal_delete_utc": "2026-10-13T01:10:27Z",
+  "loop_complete": true,
+  "archive_verified": true,
+  "normal_cleanup_verified": true,
+  "independent_archive_validation": {
+    "checked_utc": "2026-10-13T01:11:59.076081+00:00",
+    "native_archive": "/home/davei/cb_data/l1b-bench/cb2_l1b_loop.tgz",
+    "archive_sha256": "f0b1e22e39671208a414e6e8fa9ace14a186b78200feff8065253595d6241e92",
+    "archive_bytes": 7537633218,
+    "expected_remote_sha256": "f0b1e22e39671208a414e6e8fa9ace14a186b78200feff8065253595d6241e92",
+    "sha256_matches": true,
+    "gzip_stream_complete": true,
+    "extracted": false,
+    "valid": true,
+    "errors": [],
+    "run_id": "35d40708d37145299d952d0a2ee0f380",
+    "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+    "recipe_matches": true,
+    "cycles_count": 11,
+    "cycle_sequence": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "paired_sleep_groups": 20,
+    "sleep_rows": 320,
+    "cumulative_logged_chooser_skips": {
+      "learning": 0,
+      "yoked": 0
+    },
+    "block_capped_fraction_maxima": {
+      "learning-sleep1": 0.087646484375,
+      "learning-sleep2": 0.0908203125,
+      "learning-sleep3": 0,
+      "learning-sleep4": 0,
+      "learning-sleep5": 0,
+      "learning-sleep6": 0,
+      "learning-sleep7": 0,
+      "learning-sleep8": 0,
+      "learning-sleep9": 0,
+      "learning-sleep10": 0,
+      "yoked-sleep1": 0.169189453125,
+      "yoked-sleep2": 0,
+      "yoked-sleep3": 0,
+      "yoked-sleep4": 0,
+      "yoked-sleep5": 0,
+      "yoked-sleep6": 0,
+      "yoked-sleep7": 0,
+      "yoked-sleep8": 0,
+      "yoked-sleep9": 0,
+      "yoked-sleep10": 0
+    },
+    "finite_logged_numbers": true,
+    "root_jsonl_files_scanned": 22,
+    "archived_unique_life_ids": 420,
+    "final_individuals": {
+      "learning": {
+        "state_hash": "da35ee09bd90f1640994f1d924d95ab75312fe8fce88c861abf7f8f272f62d87",
+        "weights_sha256": "9c74eb3ea7d1b3efcd6a78b5af8ec6cb00d9e0b8b2182b15b9385aa095fbb970",
+        "snapshot": "20261013T001917256557Z_consolidation11"
+      },
+      "yoked": {
+        "state_hash": "5c8a369dec80ad8cd566daa42925be6a49b8b046c4371544fdc5df9684d6bf5c",
+        "weights_sha256": "4681ba64ef47c52ff59d44c55c32441c67ae5ab2668d3b1b896e821983e9676e",
+        "snapshot": "20261013T001917941613Z_consolidation11"
+      },
+      "frozen": {
+        "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+        "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b",
+        "snapshot": "20261009T201507824272Z_consolidation1"
+      }
+    },
+    "primary_final": null,
+    "verdict": null,
+    "member_counts": {
+      "members": 2732,
+      "regular_files": 2488,
+      "regular_weight_files_hashed": 26
+    },
+    "regular_member_bytes": 9435003303,
+    "top_level_entries": [
+      "archive-heldout",
+      "archive-learning",
+      "archive-yoked",
+      "bank-0.pkl",
+      "bank-1.pkl",
+      "bank-2.pkl",
+      "bank-3.pkl",
+      "bank-4.pkl",
+      "bank-5.pkl",
+      "bank-6.pkl",
+      "bank-7.pkl",
+      "bank-8.pkl",
+      "cycles.jsonl",
+      "logs",
+      "loop-report.json",
+      "origin.json",
+      "run.json",
+      "situations.pkl",
+      "sleep-progress-learning-c01.jsonl",
+      "sleep-progress-learning-c02.jsonl",
+      "sleep-progress-learning-c03.jsonl",
+      "sleep-progress-learning-c04.jsonl",
+      "sleep-progress-learning-c05.jsonl",
+      "sleep-progress-learning-c06.jsonl",
+      "sleep-progress-learning-c07.jsonl",
+      "sleep-progress-learning-c08.jsonl",
+      "sleep-progress-learning-c09.jsonl",
+      "sleep-progress-learning-c10.jsonl",
+      "sleep-progress-yoked-c01.jsonl",
+      "sleep-progress-yoked-c02.jsonl",
+      "sleep-progress-yoked-c03.jsonl",
+      "sleep-progress-yoked-c04.jsonl",
+      "sleep-progress-yoked-c05.jsonl",
+      "sleep-progress-yoked-c06.jsonl",
+      "sleep-progress-yoked-c07.jsonl",
+      "sleep-progress-yoked-c08.jsonl",
+      "sleep-progress-yoked-c09.jsonl",
+      "sleep-progress-yoked-c10.jsonl",
+      "sleep.jsonl",
+      "twins"
+    ],
+    "duration_seconds": 48.35
+  },
+  "live_cleanup_verification": {
+    "checked_utc": "2026-10-13T01:14:36Z",
+    "get_pod_http_status": 404,
+    "get_pod_detail": "pod not found",
+    "list_pods_matching_ids": [],
+    "list_has_next_page": false
+  },
+  "billing": {
+    "compute_allocation_deleted": true,
+    "rate_usd_per_hour": 0.89,
+    "conservative_budget_clock_epoch": 1791774696.7694209,
+    "conservative_hours": 21.980619605316058,
+    "estimated_compute_usd": 19.56275144873129,
+    "estimate_excludes_storage": true,
+    "invoice_total_not_read": true,
+    "approved_max_compute_hours": 30,
+    "approved_max_compute_usd": 27
+  },
+  "final_loop_diagnostics": {
+    "cycle": 10,
+    "seconds": 1881,
+    "probe_seconds": 1881,
+    "keys": [
+      "cycle",
+      "twin_hashes",
+      "probes",
+      "probe_seconds",
+      "seconds"
+    ],
+    "probe_keys": {
+      "learning": [
+        "fresh",
+        "transfer",
+        "situations"
+      ],
+      "yoked": [
+        "fresh",
+        "transfer",
+        "situations"
+      ],
+      "frozen": [
+        "fresh",
+        "transfer",
+        "situations"
+      ],
+      "learning_chooser_off": [
+        "fresh",
+        "transfer",
+        "situations"
+      ]
+    },
+    "probe_counts": {
+      "learning": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "yoked": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "frozen": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      },
+      "learning_chooser_off": {
+        "fresh": 40,
+        "transfer": 40,
+        "situations": 67
+      }
+    },
+    "means": {
+      "learning": {
+        "fresh": 496.475,
+        "transfer": 545.35
+      },
+      "yoked": {
+        "fresh": 518.5,
+        "transfer": 520.425
+      },
+      "frozen": {
+        "fresh": 538.85,
+        "transfer": 483.275
+      }
+    },
+    "phase_summary": {
+      "cycle": 10,
+      "seconds": 1881,
+      "vs_frozen": {
+        "fresh": {
+          "survival": {
+            "n": 40,
+            "mean": -42.375,
+            "lower95": -176.47625
+          },
+          "unlocks": {
+            "n": 40,
+            "mean": 0.05,
+            "lower95": -0.55
+          }
+        },
+        "transfer": {
+          "survival": {
+            "n": 40,
+            "mean": 62.075,
+            "lower95": -71.01499999999999
+          },
+          "unlocks": {
+            "n": 40,
+            "mean": 0,
+            "lower95": -1.025
+          }
+        },
+        "situations": {
+          "survival": {
+            "n": 67,
+            "mean": 15.328358208955224,
+            "lower95": 2.5067164179104484
+          }
+        }
+      },
+      "vs_yoked": {
+        "fresh": {
+          "survival": {
+            "n": 40,
+            "mean": -22.025,
+            "lower95": -128.9025
+          },
+          "unlocks": {
+            "n": 40,
+            "mean": 0.25,
+            "lower95": -0.6
+          }
+        },
+        "transfer": {
+          "survival": {
+            "n": 40,
+            "mean": 24.925,
+            "lower95": -71.5025
+          },
+          "unlocks": {
+            "n": 40,
+            "mean": -0.35,
+            "lower95": -1.375
+          }
+        },
+        "situations": {
+          "survival": {
+            "n": 67,
+            "mean": 0.3582089552238806,
+            "lower95": -17.432835820895523
+          }
+        }
+      },
+      "chooser_changed_share": 0.048693287678130824
+    },
+    "learning_fallbacks_fresh_transfer": 0,
+    "remote_cycles_sha256": "c2f18ecf1a39edf23686b22d716f5a618b88596bd2deeb5ae42af83dba18281a",
+    "remote_cycles_bytes": 2105427
+  },
+  "result": "All ten paired sleeps and cycle0–10 diagnostics completed. Logged numbers finite and cumulative skipped chooser updates0. Four final fresh/transfer survival lower95 contrasts against frozen/yoked remain negative; diagnostic survival gain was not confirmed. No primary final-battery result or growth verdict.",
+  "scope": "Weight byte hashes and archived records validated without extracting the raw data, loading tensors or running a separate final battery. Final evaluation remains David's separate decision.",
+  "automation": {
+    "id": "launch-and-watch-approved-l1b-loop",
+    "status": "PAUSED",
+    "name": "Watch approved L1b loop",
+    "rrule": "FREQ=MINUTELY;INTERVAL=10",
+    "target_thread_id": "01a120f2-dd77-7171-b00f-bb6986852311",
+    "other_fields_preserved": true
+  }
+}

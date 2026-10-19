@@ -1,0 +1,21 @@
+{
+  "scripts_from_revision": "5c630fec2a2fd08f034e58422ec0d6594278aae4",
+  "real_api_calls": 0,
+  "real_ssh_connections": 0,
+  "paid_resources_created": 0,
+  "upload_failure_launcher_exit": 1,
+  "upload_failure_created_mock_pod": true,
+  "upload_failure_no_stop_or_delete_attempt": true,
+  "upload_failure_watcher_not_started": true,
+  "upload_failure_mock_calls": [
+    "pod list",
+    "pod create --name cb2-l1b-bench-claude --gpu-id NVIDIA GeForce RTX 4090 --gpu-count 1 --cloud-type COMMUNITY --public-ip --image runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404 --container-disk-in-gb 40 --volume-in-gb 40 --ports 22/tcp",
+    "pod get mockpod00001"
+  ],
+  "failed_delete_watcher_exit": 0,
+  "failed_delete_watcher_mock_calls": [
+    "pod delete mockpod00001"
+  ],
+  "failed_delete_status": "mock host: no benchmark process\nmock UTC time BENCH FAILED or stopped (see bench_pod.log) -- deleting pod mockpod00001\n{\"error\":\"mock API rejection\"}\n",
+  "failed_delete_watcher_exits_without_verify_or_retry": true
+}

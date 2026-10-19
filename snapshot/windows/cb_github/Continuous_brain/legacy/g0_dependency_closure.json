@@ -1,0 +1,394 @@
+{
+  "format": "cb-g0-dependency-closure/1",
+  "mechanisms": {
+    "episodic_two_item_v023": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/evaluate_competitive_infant.py",
+        "sha256": "73ad46a454cbf48935ff73e79e407bb02060a108006540ee55de233d59c8c156"
+      },
+      {
+        "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+        "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+      },
+      {
+        "relpath": "continuous_brain/multi_item_episodic_memory_v1.py",
+        "sha256": "929693fd6010da97dcfadbc92117ddf705c10929e8935df712fc8254f3ed43a3"
+      },
+      {
+        "relpath": "continuous_brain/planning_v103.py",
+        "sha256": "35541798a810ae50ba287f784819f29f142f06cf22429bd8b84f1afe48c0c074"
+      },
+      {
+        "relpath": "continuous_brain/varied_cued_detour_world.py",
+        "sha256": "6f0151d89a480c96d90dcc0d3c3510542cdba369bb1fa2345d324efdd789e24f"
+      },
+      {
+        "relpath": "evaluate_multi_item_episodic_memory_test_v1.py",
+        "sha256": "67a9c59f033d80eeec8379174d2c6d7f6c787f775efb4b871d61312d3e68bc9e"
+      },
+      {
+        "relpath": "train_evaluate_multi_item_episodic_memory_v1.py",
+        "sha256": "3a4c9f8b895a6e996c2267317c596c2bcd9785590c6830fecb5ecc4126c9b500"
+      }
+    ],
+    "consequence_replanning_v0252": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/additive_goal_options_v1.py",
+        "sha256": "198bab9cc3b3c43d88467499e6d61051bfdcbbe9aa034965fed7419ff0cefeea"
+      },
+      {
+        "relpath": "continuous_brain/consequence_replanning_cost_repair_v1.py",
+        "sha256": "cbf8bfcb92d792e76f973223949bb5db4f4673626388361fe52988ac5ef1c115"
+      },
+      {
+        "relpath": "continuous_brain/consequence_replanning_v1.py",
+        "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+      },
+      {
+        "relpath": "continuous_brain/dynamic_route_world_v1.py",
+        "sha256": "0caeda264a8162a32a19a03cfe3b8dc963f692038ca6792dc11dff51ccccaf53"
+      },
+      {
+        "relpath": "continuous_brain/episodic_goal_skill_integration_v1.py",
+        "sha256": "4270c4a4667a0075491f1b09b30ebd6e2194d797428a453183b48d3a6c521893"
+      },
+      {
+        "relpath": "continuous_brain/evaluate_competitive_infant.py",
+        "sha256": "73ad46a454cbf48935ff73e79e407bb02060a108006540ee55de233d59c8c156"
+      },
+      {
+        "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+        "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+      },
+      {
+        "relpath": "continuous_brain/multi_item_episodic_memory_v1.py",
+        "sha256": "929693fd6010da97dcfadbc92117ddf705c10929e8935df712fc8254f3ed43a3"
+      },
+      {
+        "relpath": "continuous_brain/planning_v103.py",
+        "sha256": "35541798a810ae50ba287f784819f29f142f06cf22429bd8b84f1afe48c0c074"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_goal_option_state_v1.py",
+        "sha256": "0c430f5c2cd0716ddd9cc3a5235405416c54ab43561a4af7efd75953f712921b"
+      },
+      {
+        "relpath": "continuous_brain/varied_cued_detour_world.py",
+        "sha256": "6f0151d89a480c96d90dcc0d3c3510542cdba369bb1fa2345d324efdd789e24f"
+      },
+      {
+        "relpath": "evaluate_consequence_replanning_cost_repair_v1.py",
+        "sha256": "30f662424f4ac63d2495bde3eb6d388253399187594a204cff384c9c05ec0bc2"
+      },
+      {
+        "relpath": "evaluate_consequence_replanning_test_v1.py",
+        "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+      },
+      {
+        "relpath": "train_evaluate_consequence_replanning_v1.py",
+        "sha256": "b1d5f17a60b8611b28750b9081a7e765f5072bce15595c7997a677b99d1f2c09"
+      }
+    ],
+    "recurrent_self_trajectory_v031": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/joint_self_world_prediction_v1.py",
+        "sha256": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af"
+      },
+      {
+        "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+        "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+        "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+      },
+      {
+        "relpath": "evaluate_recurrent_self_trajectory_test_v1.py",
+        "sha256": "064811e7f5d5e7e05ac578157031efb139c4858c9c36e90c546a868f80b0e5b1"
+      },
+      {
+        "relpath": "train_evaluate_joint_self_world_prediction_v1.py",
+        "sha256": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+      },
+      {
+        "relpath": "train_evaluate_recurrent_self_trajectory_v1.py",
+        "sha256": "868c5e111fb5e947121989487f1bf1dcf91cfc643aef3fbd0222a235d9edecd1"
+      }
+    ],
+    "autobiographical_discrepancy_v0322": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+        "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+        "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+      },
+      {
+        "relpath": "continuous_brain/joint_self_world_prediction_v1.py",
+        "sha256": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af"
+      },
+      {
+        "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+        "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+        "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+      },
+      {
+        "relpath": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+        "sha256": "27fb6fe85669bc8f7f95daf0cd47ca8dcdc5cbc74525851ab8e99b7a4ede60fb"
+      },
+      {
+        "relpath": "train_evaluate_autobiographical_self_discrepancy_neutral_v1.py",
+        "sha256": "2303695610d2c6b7b00980291b8b48326ce6600746569fc79546a171ff95748b"
+      },
+      {
+        "relpath": "train_evaluate_autobiographical_self_discrepancy_v1.py",
+        "sha256": "3a6d165ac11ea0d419b83826e6194c554b3f08c5aad97c7baa5071c9ad4fea77"
+      },
+      {
+        "relpath": "train_evaluate_joint_self_world_prediction_v1.py",
+        "sha256": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+      }
+    ],
+    "event_consistent_self_development_v0341": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+        "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+        "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+      },
+      {
+        "relpath": "continuous_brain/joint_self_world_prediction_v1.py",
+        "sha256": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af"
+      },
+      {
+        "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+        "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+        "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+      },
+      {
+        "relpath": "continuous_brain/self_development_hysteresis_v1.py",
+        "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+      },
+      {
+        "relpath": "continuous_brain/self_development_loop_v1.py",
+        "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+      },
+      {
+        "relpath": "diagnose_self_development_event_order_v1.py",
+        "sha256": "1d364553c90972c79e978ac8548fed6f47b045eebce1f69c1a8094e2ef18975b"
+      },
+      {
+        "relpath": "evaluate_event_consistent_self_development_test_v1.py",
+        "sha256": "b474dc5979fc739400dacaf3be88c37d2c718c1742b59a53c41112c8274d4b24"
+      },
+      {
+        "relpath": "evaluate_event_consistent_self_development_v1.py",
+        "sha256": "0f9df10658536040d888b988b6bad9f6275fcdba6d7610ce95d964dfaf22cee2"
+      },
+      {
+        "relpath": "evaluate_self_development_hysteresis_v1.py",
+        "sha256": "a07b00a4c6a9353d07691be6aed2cb03dd9385cca40b9ae42afc3f44dfe537eb"
+      },
+      {
+        "relpath": "evaluate_self_development_loop_v1.py",
+        "sha256": "7a4f6bcfd04f63058f28a8bd01acf0e7ed554eaf4940bf0f44fe00b321a22292"
+      },
+      {
+        "relpath": "train_evaluate_autobiographical_self_discrepancy_v1.py",
+        "sha256": "3a6d165ac11ea0d419b83826e6194c554b3f08c5aad97c7baa5071c9ad4fea77"
+      },
+      {
+        "relpath": "train_evaluate_joint_self_world_prediction_v1.py",
+        "sha256": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+      }
+    ],
+    "endogenous_goal_genesis_v0353": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+        "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+        "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+      },
+      {
+        "relpath": "continuous_brain/endogenous_goal_genesis_v1.py",
+        "sha256": "efb80a053518d1a09e9c8350077ca293302f4b203546abbd10c9d09431f7149e"
+      },
+      {
+        "relpath": "continuous_brain/joint_self_world_prediction_v1.py",
+        "sha256": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af"
+      },
+      {
+        "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+        "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+        "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+      },
+      {
+        "relpath": "continuous_brain/self_development_hysteresis_v1.py",
+        "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+      },
+      {
+        "relpath": "continuous_brain/self_development_loop_v1.py",
+        "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+      },
+      {
+        "relpath": "evaluate_endogenous_goal_genesis_test_v1.py",
+        "sha256": "5e20ec14bc90e9c126397f4d2632d6aba56f343198c5903305588543b5d4fde5"
+      },
+      {
+        "relpath": "evaluate_endogenous_goal_genesis_v1.py",
+        "sha256": "484aada34f104633b3bc8cf2093e2da69cafb2b4a84d11336fb180df1143b814"
+      },
+      {
+        "relpath": "evaluate_endogenous_goal_horizon_repair_v1.py",
+        "sha256": "1bc10aaa993ec22b47bdf441aa863162571a9b54f8bea1fd3aff73778f645868"
+      },
+      {
+        "relpath": "evaluate_self_development_hysteresis_v1.py",
+        "sha256": "a07b00a4c6a9353d07691be6aed2cb03dd9385cca40b9ae42afc3f44dfe537eb"
+      },
+      {
+        "relpath": "evaluate_self_development_loop_v1.py",
+        "sha256": "7a4f6bcfd04f63058f28a8bd01acf0e7ed554eaf4940bf0f44fe00b321a22292"
+      },
+      {
+        "relpath": "train_evaluate_autobiographical_self_discrepancy_v1.py",
+        "sha256": "3a6d165ac11ea0d419b83826e6194c554b3f08c5aad97c7baa5071c9ad4fea77"
+      },
+      {
+        "relpath": "train_evaluate_joint_self_world_prediction_v1.py",
+        "sha256": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+      }
+    ],
+    "recursive_autobiographical_curriculum_v0361": [
+      {
+        "relpath": "continuous_brain/__init__.py",
+        "sha256": "3494103e26597eb05714ca9996c89ad09ae19684b63dec5b77161852cd1cd94b"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+        "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+      },
+      {
+        "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+        "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+      },
+      {
+        "relpath": "continuous_brain/endogenous_goal_genesis_v1.py",
+        "sha256": "efb80a053518d1a09e9c8350077ca293302f4b203546abbd10c9d09431f7149e"
+      },
+      {
+        "relpath": "continuous_brain/joint_self_world_prediction_v1.py",
+        "sha256": "8ca9a0bb90577e17443b28724c3852b45a826d5baf8bb9dd4e3d66318598b6af"
+      },
+      {
+        "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+        "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+      },
+      {
+        "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+        "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+      },
+      {
+        "relpath": "continuous_brain/recursive_autobiographical_curriculum_v1.py",
+        "sha256": "e3ffce362d6ec4ae5feb735f3a1ade84b045bbf873ab818d5c361dbb5e82362b"
+      },
+      {
+        "relpath": "continuous_brain/self_development_hysteresis_v1.py",
+        "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+      },
+      {
+        "relpath": "continuous_brain/self_development_loop_v1.py",
+        "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+      },
+      {
+        "relpath": "evaluate_endogenous_goal_genesis_v1.py",
+        "sha256": "484aada34f104633b3bc8cf2093e2da69cafb2b4a84d11336fb180df1143b814"
+      },
+      {
+        "relpath": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+        "sha256": "199d425411c3af4cb83dc09659f5dadf496a88b7cc8cf475189f6b2197721e11"
+      },
+      {
+        "relpath": "evaluate_recursive_autobiographical_curriculum_v1.py",
+        "sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c"
+      },
+      {
+        "relpath": "evaluate_self_development_hysteresis_v1.py",
+        "sha256": "a07b00a4c6a9353d07691be6aed2cb03dd9385cca40b9ae42afc3f44dfe537eb"
+      },
+      {
+        "relpath": "evaluate_self_development_loop_v1.py",
+        "sha256": "7a4f6bcfd04f63058f28a8bd01acf0e7ed554eaf4940bf0f44fe00b321a22292"
+      },
+      {
+        "relpath": "train_evaluate_autobiographical_self_discrepancy_v1.py",
+        "sha256": "3a6d165ac11ea0d419b83826e6194c554b3f08c5aad97c7baa5071c9ad4fea77"
+      },
+      {
+        "relpath": "train_evaluate_joint_self_world_prediction_v1.py",
+        "sha256": "7b28e85269a469556f582edae3b9b4f7ba2ccdf5a3a5365aabe0ca8ff20f714c"
+      }
+    ]
+  },
+  "source_archives": [
+    {
+      "name": "continuous_brain_mirror.zip",
+      "sha256": "fdb5af4a1232c1f93b76f819869ae3472cf80bbc03a03683602ba9c3b3533b6d"
+    },
+    {
+      "name": "continuous_brain_v0.35.2_endogenous_goal_horizon_repair_v1.zip",
+      "sha256": "84aa9ba65b3aed9cc19021f089625749bde518b8252caab2779e0e6fa684cfc1"
+    },
+    {
+      "name": "continuous_brain_v0.35.3_endogenous_goal_genesis_test_v1.zip",
+      "sha256": "349625e0e7ff07d20132f2757bcf06136bf51aa894513a89d60878fb6f9e4ca4"
+    },
+    {
+      "name": "continuous_brain_v0.36.0_recursive_autobiographical_curriculum_v1.zip",
+      "sha256": "c1226423adcb5ec52cf2f0825f5c9d9d7eb035ffec9a72b2682ebced613326b4"
+    },
+    {
+      "name": "continuous_brain_v0.36.1_recursive_autobiographical_curriculum_test_v1.zip",
+      "sha256": "a2ac99dd9caa5f14399c9923fcbcc2b6672c8f4f2631898aa8a5da1185134cb2"
+    }
+  ],
+  "note": "Expected hashes for the project-local Python import closure of each frozen G0 evaluator. Includes continuous_brain/__init__.py because importing any continuous_brain submodule executes it. Generated from the preserved mirror plus verified additive overlays; WSL canonical root must match before any fresh family is opened."
+}

@@ -1,0 +1,3456 @@
+{
+  "advantages": {
+    "completion_percentage_points": 0.0,
+    "first_success_steps_saved": 0.019999999999999574,
+    "reward_absolute": 0.08818764617293873,
+    "reward_relative": 0.008004329095517394,
+    "targets_reached": 0.08000000000000007
+  },
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.9.0/continuous_brain_project/state/child_v090/infant_training.at_8000_P3_FINAL_PASS.pt",
+  "episodes": {
+    "imagination": [
+      {
+        "action_counts": [
+          0,
+          30,
+          16,
+          25,
+          29
+        ],
+        "completed": true,
+        "final_energy": 0.958,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 10.529602470994003,
+        "seed": 5001,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          22,
+          36,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 11.76978698819876,
+        "seed": 5002,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          30,
+          23,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 5,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 12.551439338177445,
+        "seed": 5003,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          21,
+          30,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 10.808689081668854,
+        "seed": 5004,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          15,
+          27,
+          37
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 11.626275555789476,
+        "seed": 5005,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          24,
+          27,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 18,
+        "mode": "imagination",
+        "planner_overrides": 25,
+        "reward": 11.406071658432491,
+        "seed": 5006,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          27,
+          25,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 11,
+        "reward": 11.856698343157774,
+        "seed": 5007,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          32,
+          24,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 4,
+        "mode": "imagination",
+        "planner_overrides": 13,
+        "reward": 12.654863945394755,
+        "seed": 5008,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          38,
+          17,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 11.495157422125347,
+        "seed": 5009,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          22,
+          27,
+          28,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 3,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 11.683628810942174,
+        "seed": 5010,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          25,
+          24,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 9.903571259975433,
+        "seed": 5011,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          15,
+          14,
+          37,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 14,
+        "mode": "imagination",
+        "planner_overrides": 16,
+        "reward": 9.909768253564835,
+        "seed": 5012,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          22,
+          14,
+          31,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 6,
+        "mode": "imagination",
+        "planner_overrides": 11,
+        "reward": 11.773171354830271,
+        "seed": 5013,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          34,
+          28,
+          16,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 9.651106492429975,
+        "seed": 5014,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          39,
+          17,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.966,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 7.529873718321325,
+        "seed": 5015,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          26,
+          27,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.97,
+        "first_success_step": 14,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 11.486427231878043,
+        "seed": 5016,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          19,
+          32,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 18,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 9.50794204175472,
+        "seed": 5017,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          21,
+          28,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 8,
+        "mode": "imagination",
+        "planner_overrides": 28,
+        "reward": 9.402436362206931,
+        "seed": 5018,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          27,
+          27,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 28,
+        "reward": 9.620476673543456,
+        "seed": 5019,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          22,
+          18,
+          28,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.972,
+        "first_success_step": 16,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 10.894032379239794,
+        "seed": 5020,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          14,
+          30,
+          27,
+          29
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 20,
+        "mode": "imagination",
+        "planner_overrides": 16,
+        "reward": 10.542718021571641,
+        "seed": 5021,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          18,
+          25,
+          38
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 24,
+        "reward": 11.451588329672818,
+        "seed": 5022,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          35,
+          32,
+          15,
+          18
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 9,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 12.736566752195367,
+        "seed": 5023,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          21,
+          32,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 12.676664207130667,
+        "seed": 5024,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          24,
+          28,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 14,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 8.350479505956175,
+        "seed": 5025,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          36,
+          21,
+          14
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 26,
+        "reward": 9.350376750528813,
+        "seed": 5026,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          25,
+          25,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 16,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 13.663447358459239,
+        "seed": 5027,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          25,
+          26,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 9,
+        "mode": "imagination",
+        "planner_overrides": 28,
+        "reward": 12.490145298838614,
+        "seed": 5028,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          16,
+          21,
+          30,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 26,
+        "reward": 13.558899962902068,
+        "seed": 5029,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          16,
+          33,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 31,
+        "reward": 12.393805384635925,
+        "seed": 5030,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          24,
+          29,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 9.60281083583832,
+        "seed": 5031,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          27,
+          24,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 19,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 11.841238380968575,
+        "seed": 5032,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          32,
+          19,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 18,
+        "reward": 13.727667716890574,
+        "seed": 5033,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          15,
+          33,
+          35
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 10.586304154992106,
+        "seed": 5034,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          15,
+          14,
+          31,
+          40
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 16,
+        "reward": 10.685014674812553,
+        "seed": 5035,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          26,
+          28,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 17,
+        "mode": "imagination",
+        "planner_overrides": 35,
+        "reward": 8.388700041174895,
+        "seed": 5036,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          24,
+          26,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 4,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 11.528416675329211,
+        "seed": 5037,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          19,
+          28,
+          36
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 11.653175416588793,
+        "seed": 5038,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          17,
+          33,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 30,
+        "reward": 11.374885182827715,
+        "seed": 5039,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          18,
+          22,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 25,
+        "reward": 8.440009868144989,
+        "seed": 5040,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          28,
+          20,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 21,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 11.501027119159703,
+        "seed": 5041,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          34,
+          18,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 23,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 9.537854456901549,
+        "seed": 5042,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          21,
+          31,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 9,
+        "mode": "imagination",
+        "planner_overrides": 28,
+        "reward": 10.3361301034689,
+        "seed": 5043,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          38,
+          46,
+          5,
+          11
+        ],
+        "completed": true,
+        "final_energy": 0.97,
+        "first_success_step": 4,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 11.818521411716944,
+        "seed": 5044,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          28,
+          26,
+          15
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 31,
+        "reward": 7.440610271692277,
+        "seed": 5045,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          25,
+          24,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 9,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 13.416595524549486,
+        "seed": 5046,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          15,
+          37,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.968,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 20,
+        "reward": 9.711770744621758,
+        "seed": 5047,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          27,
+          23,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 20,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 10.48172591626644,
+        "seed": 5048,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          15,
+          11,
+          38,
+          36
+        ],
+        "completed": true,
+        "final_energy": 0.972,
+        "first_success_step": 16,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 8.660146920382978,
+        "seed": 5049,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          30,
+          26,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 8,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 11.381266810745002,
+        "seed": 5050,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          19,
+          20,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.958,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 34,
+        "reward": 9.417070391774175,
+        "seed": 5051,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          16,
+          29,
+          31
+        ],
+        "completed": true,
+        "final_energy": 0.954,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 9.656694114953286,
+        "seed": 5052,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          22,
+          24,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.968,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 27,
+        "reward": 7.3828277915716205,
+        "seed": 5053,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          26,
+          16,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 2,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 11.57142998278141,
+        "seed": 5054,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          27,
+          27,
+          20
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 9,
+        "reward": 13.869223633408545,
+        "seed": 5055,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          25,
+          24,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 18,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 8.415449725091458,
+        "seed": 5056,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          26,
+          26,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 34,
+        "reward": 10.303217087686061,
+        "seed": 5057,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          24,
+          28,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.958,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 15,
+        "reward": 10.714392760396002,
+        "seed": 5058,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          23,
+          28,
+          29
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 16,
+        "mode": "imagination",
+        "planner_overrides": 20,
+        "reward": 10.467512582242492,
+        "seed": 5059,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          20,
+          30,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 1,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 11.478230204433194,
+        "seed": 5060,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          36,
+          34,
+          13,
+          17
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 9,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 10.706726262718444,
+        "seed": 5061,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          11,
+          17,
+          37,
+          35
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 10.647099229693415,
+        "seed": 5062,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          32,
+          21,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 16,
+        "mode": "imagination",
+        "planner_overrides": 25,
+        "reward": 9.366046680510046,
+        "seed": 5063,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          17,
+          30,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 9.518546003103264,
+        "seed": 5064,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          26,
+          20,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 17,
+        "mode": "imagination",
+        "planner_overrides": 25,
+        "reward": 13.543124897032975,
+        "seed": 5065,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          29,
+          24,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 17,
+        "mode": "imagination",
+        "planner_overrides": 24,
+        "reward": 9.609089377522466,
+        "seed": 5066,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          33,
+          31,
+          16,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 18,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 12.705611778050658,
+        "seed": 5067,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          13,
+          19,
+          34,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.972,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 10.60015085339547,
+        "seed": 5068,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          18,
+          31,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.976,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 11.612423948943615,
+        "seed": 5069,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          26,
+          20,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 26,
+        "reward": 11.459864989668135,
+        "seed": 5070,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          21,
+          26,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 26,
+        "reward": 12.384308310598138,
+        "seed": 5071,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          21,
+          35,
+          21
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 2,
+        "mode": "imagination",
+        "planner_overrides": 33,
+        "reward": 11.30367288440466,
+        "seed": 5072,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          33,
+          23,
+          18
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 27,
+        "reward": 10.429094868898401,
+        "seed": 5073,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          35,
+          28,
+          18,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 17,
+        "mode": "imagination",
+        "planner_overrides": 12,
+        "reward": 13.816440661251551,
+        "seed": 5074,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          30,
+          20,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 8,
+        "mode": "imagination",
+        "planner_overrides": 27,
+        "reward": 11.352331168949604,
+        "seed": 5075,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          9,
+          31,
+          43
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 8,
+        "mode": "imagination",
+        "planner_overrides": 17,
+        "reward": 15.692390892654661,
+        "seed": 5076,
+        "successes": 12
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          20,
+          28,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 3,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 13.54855504259467,
+        "seed": 5077,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          21,
+          24,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 20,
+        "reward": 11.664129111170768,
+        "seed": 5078,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          28,
+          23,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 15,
+        "mode": "imagination",
+        "planner_overrides": 29,
+        "reward": 11.512070609629154,
+        "seed": 5079,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          32,
+          23,
+          19
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 24,
+        "reward": 11.433122742176055,
+        "seed": 5080,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          26,
+          31,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 21,
+        "reward": 12.60833357572556,
+        "seed": 5081,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          24,
+          26,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.976,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 26,
+        "reward": 11.352649961784488,
+        "seed": 5082,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          29,
+          28,
+          17
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 2,
+        "mode": "imagination",
+        "planner_overrides": 11,
+        "reward": 13.808532599359756,
+        "seed": 5083,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          12,
+          35,
+          36
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 18,
+        "reward": 10.839352864027024,
+        "seed": 5084,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          19,
+          29,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 6,
+        "mode": "imagination",
+        "planner_overrides": 20,
+        "reward": 10.64691543132067,
+        "seed": 5085,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          17,
+          32,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 16,
+        "reward": 11.785116152465344,
+        "seed": 5086,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          16,
+          33,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 11,
+        "mode": "imagination",
+        "planner_overrides": 31,
+        "reward": 9.437666913867002,
+        "seed": 5087,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          24,
+          27,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 17,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 11.449189171940098,
+        "seed": 5088,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          20,
+          30,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 6,
+        "mode": "imagination",
+        "planner_overrides": 15,
+        "reward": 10.85077037960291,
+        "seed": 5089,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          23,
+          22,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 10,
+        "mode": "imagination",
+        "planner_overrides": 23,
+        "reward": 11.537934762239457,
+        "seed": 5090,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          31,
+          23,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 18,
+        "mode": "imagination",
+        "planner_overrides": 20,
+        "reward": 11.52211447656155,
+        "seed": 5091,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          24,
+          23,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 24,
+        "mode": "imagination",
+        "planner_overrides": 30,
+        "reward": 9.443307826295499,
+        "seed": 5092,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          33,
+          32,
+          21,
+          14
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 14,
+        "reward": 11.75137236043811,
+        "seed": 5093,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          34,
+          15,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 12,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 11.769795193523171,
+        "seed": 5094,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          25,
+          31,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 6,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 12.631680021435027,
+        "seed": 5095,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          32,
+          21,
+          15
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 11.587559833377606,
+        "seed": 5096,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          23,
+          22,
+          27,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 6,
+        "mode": "imagination",
+        "planner_overrides": 24,
+        "reward": 11.424480476975441,
+        "seed": 5097,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          11,
+          30,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 13,
+        "mode": "imagination",
+        "planner_overrides": 27,
+        "reward": 9.456488528847697,
+        "seed": 5098,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          20,
+          25,
+          38
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 7,
+        "mode": "imagination",
+        "planner_overrides": 19,
+        "reward": 13.72502055987717,
+        "seed": 5099,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          29,
+          23,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 14,
+        "mode": "imagination",
+        "planner_overrides": 22,
+        "reward": 11.369431632757188,
+        "seed": 5100,
+        "successes": 8
+      }
+    ],
+    "reactive": [
+      {
+        "action_counts": [
+          0,
+          30,
+          17,
+          25,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.96,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.549688593298205,
+        "seed": 5001,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          24,
+          35,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.758427292108538,
+        "seed": 5002,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          31,
+          22,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 5,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.559777561575173,
+        "seed": 5003,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          21,
+          30,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.819488819688559,
+        "seed": 5004,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          15,
+          27,
+          37
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.600022339820868,
+        "seed": 5005,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          27,
+          24,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 18,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.392821988463409,
+        "seed": 5006,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          27,
+          24,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.847288899123672,
+        "seed": 5007,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          33,
+          23,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 4,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.655518878251316,
+        "seed": 5008,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          39,
+          17,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.368769663572314,
+        "seed": 5009,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          27,
+          27,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 3,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.711810790002348,
+        "seed": 5010,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          26,
+          24,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.96,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.884908896684646,
+        "seed": 5011,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          16,
+          16,
+          36,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 14,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.860934767127034,
+        "seed": 5012,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          22,
+          15,
+          30,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.787797067314393,
+        "seed": 5013,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          34,
+          30,
+          15,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.703962601721292,
+        "seed": 5014,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          39,
+          15,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 7.5308411061763785,
+        "seed": 5015,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          28,
+          26,
+          18
+        ],
+        "completed": true,
+        "final_energy": 0.972,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.401602825522419,
+        "seed": 5016,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          20,
+          32,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 18,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.462926203757524,
+        "seed": 5017,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          23,
+          26,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.424672462791202,
+        "seed": 5018,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          28,
+          26,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.579304251074797,
+        "seed": 5019,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          22,
+          18,
+          28,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.972,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.841669112443924,
+        "seed": 5020,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          31,
+          25,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 20,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.56507795751095,
+        "seed": 5021,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          22,
+          23,
+          36
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.57004833891988,
+        "seed": 5022,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          36,
+          33,
+          13,
+          18
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.640015386044984,
+        "seed": 5023,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          21,
+          32,
+          28
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.657474356144666,
+        "seed": 5024,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          25,
+          28,
+          29
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 14,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.352207809686666,
+        "seed": 5025,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          36,
+          20,
+          13
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.41200501769781,
+        "seed": 5026,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          26,
+          25,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.665578735619789,
+        "seed": 5027,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          25,
+          26,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.528566811978818,
+        "seed": 5028,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          23,
+          29,
+          31
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 6,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.634205453097827,
+        "seed": 5029,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          19,
+          30,
+          31
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.375103000551462,
+        "seed": 5030,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          24,
+          28,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.61978045254946,
+        "seed": 5031,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          27,
+          23,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.97,
+        "first_success_step": 19,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.869233499467377,
+        "seed": 5032,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          33,
+          17,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.761221277713776,
+        "seed": 5033,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          15,
+          32,
+          36
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.612299905717375,
+        "seed": 5034,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          16,
+          15,
+          30,
+          39
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.694705533981324,
+        "seed": 5035,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          27,
+          29,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 17,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.439150376617913,
+        "seed": 5036,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          27,
+          24,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 4,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.51070167720318,
+        "seed": 5037,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          20,
+          27,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.649121874570845,
+        "seed": 5038,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          18,
+          33,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.378376509249216,
+        "seed": 5039,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          18,
+          24,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.510292720794682,
+        "seed": 5040,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          28,
+          19,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 21,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.540988050401214,
+        "seed": 5041,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          36,
+          17,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 23,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.599645511806008,
+        "seed": 5042,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          22,
+          30,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.29256095290185,
+        "seed": 5043,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          39,
+          46,
+          5,
+          10
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 4,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.809295142441997,
+        "seed": 5044,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          28,
+          26,
+          15
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 7.461984437704088,
+        "seed": 5045,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          26,
+          24,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.366579300165181,
+        "seed": 5046,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          16,
+          37,
+          29
+        ],
+        "completed": true,
+        "final_energy": 0.968,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.64723332002759,
+        "seed": 5047,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          29,
+          23,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 20,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.395102601498369,
+        "seed": 5048,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          17,
+          13,
+          36,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.594432871043683,
+        "seed": 5049,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          30,
+          26,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 8,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.390991611033677,
+        "seed": 5050,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          20,
+          19,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.958,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.438654887676233,
+        "seed": 5051,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          16,
+          28,
+          30
+        ],
+        "completed": true,
+        "final_energy": 0.95,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.691739764064556,
+        "seed": 5052,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          24,
+          24,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 7.410853344202042,
+        "seed": 5053,
+        "successes": 4
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          26,
+          17,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 2,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.508949501812458,
+        "seed": 5054,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          29,
+          25,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.80367999821901,
+        "seed": 5055,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          25,
+          24,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.974,
+        "first_success_step": 18,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 8.396034121513368,
+        "seed": 5056,
+        "successes": 5
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          27,
+          26,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.317300126701593,
+        "seed": 5057,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          26,
+          27,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.96,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.665912453830241,
+        "seed": 5058,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          23,
+          28,
+          29
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.399987670779227,
+        "seed": 5059,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          20,
+          30,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.976,
+        "first_success_step": 1,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.446799120306972,
+        "seed": 5060,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          38,
+          35,
+          12,
+          15
+        ],
+        "completed": true,
+        "final_energy": 0.964,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.733019924163825,
+        "seed": 5061,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          11,
+          18,
+          37,
+          34
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.621712052077058,
+        "seed": 5062,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          32,
+          21,
+          16
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.341408129781485,
+        "seed": 5063,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          29,
+          19,
+          29,
+          23
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.475160132348538,
+        "seed": 5064,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          34,
+          27,
+          17,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 16,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.477993568778043,
+        "seed": 5065,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          30,
+          23,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 17,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.6257102265954,
+        "seed": 5066,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          34,
+          33,
+          15,
+          18
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 18,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.75294087156653,
+        "seed": 5067,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          15,
+          20,
+          32,
+          33
+        ],
+        "completed": true,
+        "final_energy": 0.968,
+        "first_success_step": 14,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.605896614491947,
+        "seed": 5068,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          18,
+          32,
+          29
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.592683321982618,
+        "seed": 5069,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          30,
+          27,
+          19,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.484834681451321,
+        "seed": 5070,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          21,
+          26,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.978,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.42390796169639,
+        "seed": 5071,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          22,
+          34,
+          20
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 2,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.33478268459439,
+        "seed": 5072,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          34,
+          23,
+          17
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.428000158816587,
+        "seed": 5073,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          29,
+          19,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 17,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.687888183444745,
+        "seed": 5074,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          30,
+          19,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 9,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.349000931531194,
+        "seed": 5075,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          16,
+          9,
+          32,
+          43
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 8,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 15.689030889421701,
+        "seed": 5076,
+        "successes": 12
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          21,
+          27,
+          25
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 3,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.524568921327587,
+        "seed": 5077,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          22,
+          23,
+          27
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.6660885989666,
+        "seed": 5078,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          28,
+          24,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.51267426759005,
+        "seed": 5079,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          32,
+          23,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.467059789597986,
+        "seed": 5080,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          21,
+          28,
+          31,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.984,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.547835942357786,
+        "seed": 5081,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          26,
+          26,
+          21
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.354418047145012,
+        "seed": 5082,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          30,
+          28,
+          17
+        ],
+        "completed": true,
+        "final_energy": 0.99,
+        "first_success_step": 2,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.786665555089717,
+        "seed": 5083,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          18,
+          10,
+          36,
+          36
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.7914653301239,
+        "seed": 5084,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          31,
+          19,
+          30,
+          20
+        ],
+        "completed": true,
+        "final_energy": 0.962,
+        "first_success_step": 6,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.642911018431192,
+        "seed": 5085,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          16,
+          16,
+          33,
+          35
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 11,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.77793136164546,
+        "seed": 5086,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          16,
+          33,
+          32
+        ],
+        "completed": true,
+        "final_energy": 0.982,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.445496805012231,
+        "seed": 5087,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          25,
+          27,
+          24
+        ],
+        "completed": true,
+        "final_energy": 0.996,
+        "first_success_step": 17,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.449719534069308,
+        "seed": 5088,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          22,
+          30,
+          29
+        ],
+        "completed": true,
+        "final_energy": 0.994,
+        "first_success_step": 6,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.82442672401667,
+        "seed": 5089,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          26,
+          23,
+          22,
+          29
+        ],
+        "completed": true,
+        "final_energy": 1.0,
+        "first_success_step": 10,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.475211492180822,
+        "seed": 5090,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          28,
+          32,
+          21,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.97,
+        "first_success_step": 18,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.494166553765538,
+        "seed": 5091,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          25,
+          24,
+          23,
+          28
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 24,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.44273302443326,
+        "seed": 5092,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          34,
+          33,
+          21,
+          12
+        ],
+        "completed": true,
+        "final_energy": 0.998,
+        "first_success_step": 8,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.652919357270003,
+        "seed": 5093,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          36,
+          13,
+          19
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 12,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.757783472537994,
+        "seed": 5094,
+        "successes": 7
+      },
+      {
+        "action_counts": [
+          0,
+          19,
+          26,
+          29,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.992,
+        "first_success_step": 6,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 12.649932766705755,
+        "seed": 5095,
+        "successes": 9
+      },
+      {
+        "action_counts": [
+          0,
+          32,
+          33,
+          20,
+          15
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.56169456318021,
+        "seed": 5096,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          24,
+          23,
+          27,
+          26
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 5,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 11.399204794317486,
+        "seed": 5097,
+        "successes": 8
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          13,
+          29,
+          31
+        ],
+        "completed": true,
+        "final_energy": 0.98,
+        "first_success_step": 13,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 9.495062677562236,
+        "seed": 5098,
+        "successes": 6
+      },
+      {
+        "action_counts": [
+          0,
+          20,
+          22,
+          23,
+          35
+        ],
+        "completed": true,
+        "final_energy": 0.988,
+        "first_success_step": 7,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 13.663838567584763,
+        "seed": 5099,
+        "successes": 10
+      },
+      {
+        "action_counts": [
+          0,
+          27,
+          30,
+          21,
+          22
+        ],
+        "completed": true,
+        "final_energy": 0.986,
+        "first_success_step": 15,
+        "mode": "reactive",
+        "planner_overrides": 0,
+        "reward": 10.375474772602319,
+        "seed": 5100,
+        "successes": 7
+      }
+    ]
+  },
+  "experiment": {
+    "candidate_actions": 5,
+    "memory_written": false,
+    "paired_episodes": 100,
+    "parents_used": false,
+    "planner_score": "predicted_reward + 0.25*predicted_success - uncertainty",
+    "planning_horizon": 1,
+    "seed_end": 5100,
+    "seed_start": 5001,
+    "steps_per_episode": 100,
+    "training_performed": false
+  },
+  "format": "continuous_brain.p4_planning_gate.v095",
+  "imagination": {
+    "completion_rate": 1.0,
+    "episodes": 100,
+    "mean_final_energy": 0.9854999999999999,
+    "mean_first_success_step_penalized": 11.47,
+    "mean_planner_overrides": 21.77,
+    "mean_reward": 11.10568144491315,
+    "mean_targets_reached": 7.53
+  },
+  "no_material_completion_regression": true,
+  "p4_passed": false,
+  "performance_gate": false,
+  "reactive": {
+    "completion_rate": 1.0,
+    "episodes": 100,
+    "mean_final_energy": 0.9843599999999999,
+    "mean_first_success_step_penalized": 11.49,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": 11.017493798740212,
+    "mean_targets_reached": 7.45
+  },
+  "thresholds": {
+    "completion_advantage": 0.05,
+    "max_completion_regression": 0.02,
+    "reward_relative_advantage": 0.1
+  },
+  "training_updates": 8000
+}

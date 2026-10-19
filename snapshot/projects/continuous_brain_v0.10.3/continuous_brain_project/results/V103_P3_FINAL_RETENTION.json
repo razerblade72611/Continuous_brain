@@ -1,0 +1,116 @@
+{
+  "capability_scores": {
+    "language": 0.987714058831653,
+    "motor": 0.9,
+    "values": 0.9988923390925265,
+    "vision": 0.980947306950887
+  },
+  "dataset_digest": "bc0a9e79d8991bcb40c86614ab66e41d74993713f0377d1dfebb92de0d3deb8d",
+  "evaluated_capabilities": [
+    "vision",
+    "language",
+    "motor"
+  ],
+  "evidence": {
+    "action_counts": {
+      "1": 37,
+      "2": 48,
+      "3": 41,
+      "4": 24
+    },
+    "care_max_std": 7.078051567077637e-08,
+    "executed_action_counts": {
+      "0": 8,
+      "1": 31,
+      "2": 42,
+      "3": 40,
+      "4": 29
+    },
+    "qa_records": 150,
+    "supported_executed_action_counts": {
+      "0": 8,
+      "1": 31,
+      "2": 42,
+      "3": 40,
+      "4": 29
+    },
+    "world_context_valid_records": 150,
+    "world_valid_records": 150
+  },
+  "evidence_eligible": {
+    "language": true,
+    "motor": true,
+    "values": false,
+    "vision": true,
+    "world": true
+  },
+  "format": "continuous_brain.parented_qualification.v095",
+  "metrics": {
+    "language_generated_similarity": 0.967948717948718,
+    "language_token_accuracy": 0.9961849192100538,
+    "motor_accuracy": 0.9,
+    "temporal_next_bus_error": 0.004470009870904808,
+    "validation_records": 150,
+    "value_mae": 0.0011076609074734734,
+    "vision_historical_cosine_by_parent": {},
+    "vision_parent_cosine": 0.980947306950887,
+    "vision_retention_min": null,
+    "world_action_advantage": 0.0017182359064463531,
+    "world_context_action_advantage": 0.0031886767118703575,
+    "world_context_baseline_by_dim": [
+      0.0014719996834173799,
+      0.0015573330611611405,
+      0.010245997421443463,
+      0.006269464019472555,
+      7.382668532803412e-05,
+      0.043838851027623804,
+      7.382668532803412e-05
+    ],
+    "world_context_error_by_dim": [
+      0.0008513281955701283,
+      0.004849516621688584,
+      0.008805050030316106,
+      0.010380737243324632,
+      0.00027879053426081176,
+      0.03740179390761227,
+      0.00027879110644799237
+    ],
+    "world_context_no_change_baseline_error": 0.009075899989184108,
+    "world_context_relative_improvement": 0.010786685008214579,
+    "world_context_relative_improvement_by_dim": [
+      0.42165191666774465,
+      -2.113988100960758,
+      0.14063515066982674,
+      -0.6557615150326607,
+      -2.776284049894178,
+      0.1468345307671363,
+      -2.776291800305538
+    ],
+    "world_context_wrong_action_error": 0.012166677826705078,
+    "world_next_bus_error": 0.00558685062181515,
+    "world_next_context_error": 0.008978001114834721,
+    "world_next_spatial_error": 0.00558685062181515,
+    "world_no_change_baseline_error": 0.004256279575226091,
+    "world_relative_improvement": -0.31261363899442157,
+    "world_reward_mae": 0.16787727970629931,
+    "world_spatial_action_advantage": 0.0017182359064463531,
+    "world_spatial_no_change_baseline_error": 0.004256279575226091,
+    "world_spatial_relative_improvement": -0.31261363899442157,
+    "world_spatial_wrong_action_error": 0.007305086528261503,
+    "world_success_accuracy": 0.9666666666666667,
+    "world_uncertainty_mean": 0.0002698302811359099,
+    "world_wrong_action_error": 0.007305086528261503
+  },
+  "passed": false,
+  "thresholds": {
+    "language": 0.7,
+    "motor": 0.7,
+    "values": 0.8,
+    "vision": 0.8
+  },
+  "training_updates": 11000,
+  "world_model_passed": false,
+  "world_spatial_passed": false,
+  "world_structured_state_passed": false,
+  "world_visual_passed": false
+}

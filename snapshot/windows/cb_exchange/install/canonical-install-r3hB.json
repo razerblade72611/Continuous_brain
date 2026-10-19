@@ -1,0 +1,82 @@
+{
+ "format": "cb2-canonical-install/1",
+ "decision": "A (David, 2026-10-09): r3h-B with vision v1",
+ "started": "2026-10-09T14:00:22Z",
+ "git": "56686884477af3af31bf1d9ce9973726ce17aa5b",
+ "git_dirty": false,
+ "home": "/home/davei/projects/continuous_brain_explore/runs/explore/cb2/individuals/cb2-ind-0001",
+ "gate4": "OPEN: installing the accepted controller does not solve prediction / persistent memory",
+ "weights_file_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+ "sealed": {
+  "verdict": "PASS",
+  "prereg_sha256": "fc8da59df3af4077828782b23d2a3d3c0a58d472689a1f949afcf320a99dcb78",
+  "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+  "state_hash": "1b401fc81301f8d263928b4b774c403e170b84afb4bfe254830e9dfc41ac075d",
+  "event_sha": "a782200e4b22e4b14aef1e0ed85854ff4117db83c1f4f869f1385989746dc59c"
+ },
+ "before": {
+  "snapshot": "20261007T120143316435Z_tick360008",
+  "state_hash": "b7beb85d3da691780930d0b5c5ea2784cdb53b147950c481d5014f9442eade09",
+  "life": 591,
+  "lives_lived": 591,
+  "in_life": true,
+  "skills": "routine"
+ },
+ "finished_life": {
+  "life": 591,
+  "world": 75692,
+  "from_step": 39,
+  "to_step": 418,
+  "death": {
+   "step": 417,
+   "text": "died at step 417: out of water",
+   "starving": [
+    "drink"
+   ],
+   "zombie_hits": 0,
+   "arrow_hits": 0
+  }
+ },
+ "rollback_point": {
+  "snapshot": "20261009T140027748361Z_lives592",
+  "state_hash": "c45dbf99c1ab6fc8ccf21b533acb6ff4de37cf79820433521738ba08a76fe10c",
+  "life": 592,
+  "lives_lived": 592,
+  "tick": 360388,
+  "snapshot_files_sha256": {
+   "COMPLETE": "50a4c46613fa0c7738e0f4fb02860130929492dfcf071ece384916b36ac52b70",
+   "checksums.sha256": "1180ef1b3e13f2770d5d166e076327b52b94ae1f9dd1a6ce5cde9cad5220be02",
+   "manifest.json": "e943753326db638069e2c07e8b249e0b76348ed081968f946b1bf808af1fd14a",
+   "manifest.pt": "130ad6655b970b258a8ea17ddc637c95cd62921622ed144e9c989c4666b60dc3",
+   "runtime.pt": "70805f644ce961d32a45b5b14f8b3312e3bd3c159bd40bcffb8093c5444291d4"
+  },
+  "backup": {
+   "path": "/mnt/c/Users/davei/ContinuousBrain/canonical_backups/cb2-ind-0001-preinstall-20261009T140027Z.tgz",
+   "sha256": "869181cd1433c34d1e57a6954e0603363082ae248294b35e5a3561a23ea8f239",
+   "bytes": 25544567
+  }
+ },
+ "after": {
+  "snapshot": "20261009T140035238969Z_consolidation0",
+  "state_hash": "466a33a46c0e44c602cba3c8bb2143d0e0ee91359d1ef23525b6c74c587e41af",
+  "event_sha": "c00180108e5456c6c474f7f18df2d05b1eea64fcfedc5f72410367cdc766265c",
+  "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+  "skills": "cb2",
+  "consolidation_events": 1,
+  "stable": {
+   "weights_sha256": "ab2baa674be37970d2f0016f1e10427ac3be785e9dd907e2097449ae95004ee5",
+   "event_sha": "c00180108e5456c6c474f7f18df2d05b1eea64fcfedc5f72410367cdc766265c",
+   "snapshot": "20261009T140035238969Z_consolidation0",
+   "note": "r3h-B, sealed-accepted (DAV-96); S2 rollback point",
+   "time": "2026-10-09T14:00:37Z"
+  },
+  "non_skill_channels": 19,
+  "non_skill_channels_changed": [],
+  "non_skill_channels_missing": [],
+  "tick_kept": true,
+  "life_kept": true,
+  "vision": "0c46b2d1ace00c027d45e23ae01b00da8b802d10660122da49f9727a1cfe9999"
+ },
+ "verdict": "INSTALLED and verified",
+ "finished": "2026-10-09T14:00:39Z"
+}

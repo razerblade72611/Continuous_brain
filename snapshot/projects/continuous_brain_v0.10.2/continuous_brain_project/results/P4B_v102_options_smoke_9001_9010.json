@@ -1,0 +1,1760 @@
+{
+  "any_option_planning_completion": false,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.2/continuous_brain_project/state/child_v102_options/infant_training.pt",
+  "checkpoint_sha256": "ba1792d340b761ae436585f77a6a80dd7188b4daf108e4ab4c0c7bf8091fae07",
+  "episodes": {
+    "h1": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 13,
+          "3": 0,
+          "4": 107
+        },
+        "collisions": 100,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 13,
+        "reward": -10.484562473297107,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 44,
+          "3": 0,
+          "4": 76
+        },
+        "collisions": 70,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 80,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 34
+        },
+        "option_switches": 3,
+        "planner_overrides": 44,
+        "reward": -7.48617522239684,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 119
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 1,
+        "reward": -11.528525466918925,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 1,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h12": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 7,
+          "3": 0,
+          "4": 113
+        },
+        "collisions": 106,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 7,
+        "reward": -11.054628534316999,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 114,
+          "3": 0,
+          "4": 6
+        },
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 10,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 104
+        },
+        "option_switches": 3,
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 2,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.436593980789164,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 2,
+          "3": 0,
+          "4": 118
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 2,
+        "reward": -11.427462043762187,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 12,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h3": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 1,
+          "2": 39,
+          "3": 4,
+          "4": 76
+        },
+        "collisions": 65,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 107,
+          "1": 0,
+          "2": 0,
+          "3": 13,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 44,
+        "reward": -6.9905008983612,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 114,
+          "3": 0,
+          "4": 6
+        },
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 10,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 104
+        },
+        "option_switches": 3,
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 2,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.436593980789164,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 119
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 1,
+        "reward": -11.528525466918925,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 3,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "h6": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 113,
+          "3": 0,
+          "4": 7
+        },
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 115,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 113,
+        "reward": -0.4905008983612064,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 114,
+          "3": 0,
+          "4": 6
+        },
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 10,
+          "1": 0,
+          "2": 0,
+          "3": 6,
+          "4": 0,
+          "5": 104
+        },
+        "option_switches": 3,
+        "planner_overrides": 114,
+        "reward": -0.48617522239685096,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 2,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.436593980789164,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 111,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 3,
+        "reward": -11.538614115715005,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 2,
+          "3": 0,
+          "4": 118
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 2,
+        "reward": -11.427462043762187,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 6,
+        "mode": "option_planning",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 120,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 1,
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ],
+    "option_direct": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 9,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "final_energy": 1.0,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 13,
+          "1": 0,
+          "2": 1,
+          "3": 8,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 5,
+        "planner_overrides": 10,
+        "reward": 1.979696187734604,
+        "seed": 9001,
+        "steps": 31
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 3,
+          "2": 0,
+          "3": 0,
+          "4": 117
+        },
+        "collisions": 110,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 117,
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 3,
+        "reward": -11.43680172920225,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 7,
+          "3": 0,
+          "4": 17
+        },
+        "collisions": 0,
+        "completed": true,
+        "final_energy": 1.0,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 8,
+          "4": 9,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 11,
+        "reward": 1.9791673905849458,
+        "seed": 9003,
+        "steps": 32
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 0,
+          "3": 0,
+          "4": 113
+        },
+        "collisions": 107,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 113,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 2,
+        "planner_overrides": 7,
+        "reward": -11.135492820739728,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 8,
+          "2": 5,
+          "3": 46,
+          "4": 61
+        },
+        "collisions": 0,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 7,
+          "1": 105,
+          "2": 0,
+          "3": 8,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 105,
+        "reward": -0.3904555296897891,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 9,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "final_energy": 1.0,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 11,
+          "1": 0,
+          "2": 1,
+          "3": 9,
+          "4": 8,
+          "5": 6
+        },
+        "option_switches": 5,
+        "planner_overrides": 12,
+        "reward": 1.9616485482454298,
+        "seed": 9006,
+        "steps": 35
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 12,
+          "2": 10,
+          "3": 0,
+          "4": 15
+        },
+        "collisions": 0,
+        "completed": true,
+        "final_energy": 1.0,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 12,
+          "4": 16,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 22,
+        "reward": 1.9455351634025573,
+        "seed": 9007,
+        "steps": 37
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 7,
+          "2": 105,
+          "3": 0,
+          "4": 8
+        },
+        "collisions": 103,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 6,
+          "1": 0,
+          "2": 0,
+          "3": 7,
+          "4": 107,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 11,
+        "reward": -10.753657889366135,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 4,
+          "2": 1,
+          "3": 0,
+          "4": 115
+        },
+        "collisions": 106,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 6,
+          "1": 110,
+          "2": 0,
+          "3": 4,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 3,
+        "planner_overrides": 5,
+        "reward": -11.033272242546063,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 10,
+          "2": 6,
+          "3": 0,
+          "4": 16
+        },
+        "collisions": 0,
+        "completed": true,
+        "final_energy": 1.0,
+        "horizon": 0,
+        "mode": "option_direct",
+        "option_counts": {
+          "0": 12,
+          "1": 0,
+          "2": 0,
+          "3": 11,
+          "4": 6,
+          "5": 3
+        },
+        "option_switches": 4,
+        "planner_overrides": 14,
+        "reward": 1.9759279109239578,
+        "seed": 9010,
+        "steps": 32
+      }
+    ],
+    "reactive": [
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.736159019470193,
+        "seed": 9001,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.735316867828347,
+        "seed": 9002,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.735204477310159,
+        "seed": 9003,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.846074757575966,
+        "seed": 9004,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.62880540370939,
+        "seed": 9005,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.841620745658851,
+        "seed": 9006,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 113,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.735410356521584,
+        "seed": 9007,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.843672571182228,
+        "seed": 9008,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 112,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.63021939754484,
+        "seed": 9009,
+        "steps": 120
+      },
+      {
+        "action_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        },
+        "collisions": 114,
+        "completed": false,
+        "final_energy": 0.7599999999999998,
+        "horizon": 0,
+        "mode": "reactive",
+        "option_counts": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "option_switches": 0,
+        "planner_overrides": 0,
+        "reward": -11.842731204032875,
+        "seed": 9010,
+        "steps": 120
+      }
+    ]
+  },
+  "experiment": {
+    "beam_width": 32,
+    "discount": 0.95,
+    "horizons": [
+      1,
+      3,
+      6,
+      12
+    ],
+    "memory_written": false,
+    "min_commit": 3,
+    "option_semantics": "anonymous clusters learned from successful lived sequences; no gap/wall labels",
+    "paired_episodes": 10,
+    "parents_used": false,
+    "planner": "dedicated recurrent imagination conditioned by learned temporal option",
+    "seed_end": 9010,
+    "seed_start": 9001,
+    "steps_per_episode": 120,
+    "terminate_threshold": 0.5,
+    "training_performed_during_evaluation": false
+  },
+  "format": "continuous_brain.p4b_temporal_options_gate.v102",
+  "horizons": {
+    "1": {
+      "advantages_vs_reactive": {
+        "collisions_reduced": 6.1000000000000085,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 0.6017406315803502
+      },
+      "option_planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 107.1,
+        "mean_option_switches": 1.3,
+        "mean_planner_overrides": 6.1,
+        "mean_reward": -11.155780848503094,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    },
+    "12": {
+      "advantages_vs_reactive": {
+        "collisions_reduced": 12.900000000000006,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 1.2847220053672768
+      },
+      "option_planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 100.3,
+        "mean_option_switches": 1.3,
+        "mean_planner_overrides": 12.9,
+        "mean_reward": -10.472799474716167,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    },
+    "3": {
+      "advantages_vs_reactive": {
+        "collisions_reduced": 16.900000000000006,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 1.6810284266471829
+      },
+      "option_planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 96.3,
+        "mean_option_switches": 1.3,
+        "mean_planner_overrides": 16.5,
+        "mean_reward": -10.076493053436261,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    },
+    "6": {
+      "advantages_vs_reactive": {
+        "collisions_reduced": 23.5,
+        "completion_percentage_points": 0.0,
+        "reward_absolute": 2.3411347689628563
+      },
+      "option_planning": {
+        "completion_rate": 0.0,
+        "episodes": 10,
+        "mean_collisions": 89.7,
+        "mean_option_switches": 1.3,
+        "mean_planner_overrides": 23.5,
+        "mean_reward": -9.416386711120587,
+        "mean_steps_penalized": 121.0
+      },
+      "p4b_passed": false
+    }
+  },
+  "option_cortex_version": "latent-temporal-options-v1",
+  "option_direct_diagnostic": {
+    "completion_rate": 0.5,
+    "episodes": 10,
+    "mean_collisions": 42.6,
+    "mean_option_switches": 3.5,
+    "mean_planner_overrides": 20.0,
+    "mean_reward": -3.490770501065247,
+    "mean_steps_penalized": 77.2
+  },
+  "option_updates": 3000,
+  "p4b_passed": false,
+  "planning_bellman_q_updates": 3000,
+  "planning_updates": 4000,
+  "reactive": {
+    "completion_rate": 0.0,
+    "episodes": 10,
+    "mean_collisions": 113.2,
+    "mean_option_switches": 0.0,
+    "mean_planner_overrides": 0.0,
+    "mean_reward": -11.757521480083444,
+    "mean_steps_penalized": 121.0
+  },
+  "source_training_updates": 11000,
+  "thresholds": {
+    "absolute_completion": 0.2,
+    "completion_advantage": 0.05,
+    "max_collision_regression_per_episode": 2.0
+  }
+}

@@ -1,0 +1,8 @@
+AUTHOR v0.10.12 release validation
+- pytest: 193 passed
+- compileall: passed
+- training dry-run: version 0.10.12, trainer transport_recovering_fifo_maneuverable_curriculum, level 3
+- BrokenPipe transport regression: passed
+- safe close regression: passed
+- worker transport restart/continue regression: passed
+- wheel metadata/build: passed

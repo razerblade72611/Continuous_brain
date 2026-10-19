@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "platform": "Linux CPU",
+  "command": "bash run_local.sh --cpu --existing run --steps 16 --no-dashboard --state-dir SAME_TEST_STATE",
+  "exit_code": 0,
+  "release_inventory_verified": true,
+  "identity_preserved": true,
+  "steps_before": 256,
+  "steps_after": 272,
+  "learning_blocks_preserved": true,
+  "promotions_preserved": true,
+  "save_acknowledged": true,
+  "source_archive_sha256": "24e273995873b9b6fccd0ecc1c440cf9f2bb3defb02a49332b62e87bfb860fc9",
+  "scope": "Launcher and clean-extraction check; final ZIP differs only by this receipt/log and documentation. No DirectML or native Windows execution."
+}

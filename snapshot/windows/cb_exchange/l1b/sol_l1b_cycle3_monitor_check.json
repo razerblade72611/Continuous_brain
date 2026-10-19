@@ -1,0 +1,99 @@
+{
+  "checked_utc": "2026-10-12T11:44:39Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "current_phase": "cycle4 probes/lives; nine active workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle3": {
+    "seconds": 7957,
+    "probe_seconds": 2097,
+    "learning_mean_survival_steps": {
+      "fresh": 592.5,
+      "transfer": 578.275
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 503.35,
+      "transfer": 564.65
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": 52.975,
+      "transfer": 68.95
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -46.275,
+      "transfer": -31.12625
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": 89.15,
+      "transfer": 13.625
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -18.48375,
+      "transfer": -144.82625
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.040464135021097046,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep4": {
+    "learning": {
+      "seconds": 5850,
+      "own_rows": 35692,
+      "own_streams": 36,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.103049278259277,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02102716825902462,
+      "final_raw_absmax": 2.865318536758423,
+      "final_grad_norm": 0.5085559487342834
+    },
+    "yoked": {
+      "seconds": 5855,
+      "own_rows": 34097,
+      "own_streams": 36,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.021473407745361,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.014648055657744408,
+      "final_raw_absmax": 2.90799880027771,
+      "final_grad_norm": 0.3050679862499237
+    }
+  },
+  "assessment": "Cycle3 survival sample means exceed both controls, but all four one-sided survival lower95 bounds remain below zero. No confirmed survival gain or final growth verdict. Different probe worlds across cycles prevent assigning raw swings solely to learning.",
+  "peer_coordination": "Claude C-032 accepted conditional-on-these-individuals reporting and one-pair versus variance distinction. Effective batch order and GPU nondeterminism remain unisolated hypotheses; no new replicated training.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute. Claude projects about10pm/$21, still provisional. Original30h/$27caps and October13 09:08UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; record independent cycle3 evidence for Claude/DAV99. No checkpoint reload, simulation, code/parameter change, new spend, final battery or installation.",
+  "local_cycles_sha256": "ec7db2c13df0f693489560b611ba067703134a1a1a0daf031962fe61e4ca60ce",
+  "local_cycles_bytes": 752279
+}

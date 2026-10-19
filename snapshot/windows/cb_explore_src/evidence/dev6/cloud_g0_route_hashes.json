@@ -1,0 +1,113 @@
+{
+  "by_n": {
+    "32": {
+      "autobiographical_discrepancy_v0322": {
+        "raw_result_sha256": "cd4941bb7f85e6945002fda3d29c1e8f9280bb13fc4100a5e97e6ce8af42f370",
+        "returncode": 0,
+        "seeds": [
+          906200,
+          906231
+        ]
+      },
+      "consequence_replanning_v0252": {
+        "raw_result_sha256": "20d7f9e1c7bcc82ea3dd8fc2b08063bb6519da0f28f2ef28d83c12b5ba6a22a0",
+        "returncode": 0,
+        "seeds": [
+          906000,
+          906031
+        ]
+      },
+      "endogenous_goal_genesis_v0353": {
+        "raw_result_sha256": "034deee6acfbbbb60018f4ecc12f575b60a62d2acd8e921460d8241ade06fc8e",
+        "returncode": 0,
+        "seeds": [
+          906400,
+          906431
+        ]
+      },
+      "event_consistent_self_development_v0341": {
+        "raw_result_sha256": "5d3f0c6a85d08c74e3cbcf44e2624a8d10f9af6b042b960bf9a4aefc6eee3aa4",
+        "returncode": 0,
+        "seeds": [
+          906300,
+          906331
+        ]
+      },
+      "recurrent_self_trajectory_v031": {
+        "raw_result_sha256": "9e325e66c756550d7c641fcb91e84effcab669d39da3ce533dafc66c536fc970",
+        "returncode": 0,
+        "seeds": [
+          906100,
+          906131
+        ]
+      },
+      "recursive_autobiographical_curriculum_v0361": {
+        "raw_result_sha256": "1b856923949c945c070c85d07a572a4b3796d293e966d2ea550c2f692f97410b",
+        "returncode": 0,
+        "seeds": [
+          906500,
+          906531
+        ]
+      }
+    },
+    "8": {
+      "autobiographical_discrepancy_v0322": {
+        "raw_result_sha256": "c879d8eab0f37fb65dd4706cef02d6a11103b56c1692ebd0490dc9c6d7d574e0",
+        "returncode": 0,
+        "seeds": [
+          906200,
+          906207
+        ]
+      },
+      "consequence_replanning_v0252": {
+        "raw_result_sha256": "21c1ccdadce626323747541a98e5fee27ac2823423ee7fff1d84fc4fc6bf8a61",
+        "returncode": 0,
+        "seeds": [
+          906000,
+          906007
+        ]
+      },
+      "endogenous_goal_genesis_v0353": {
+        "raw_result_sha256": "6f67dba5e36c103f2831251adf5dac954401506278810c22cf4851846268ca60",
+        "returncode": 4,
+        "seeds": [
+          906400,
+          906407
+        ]
+      },
+      "event_consistent_self_development_v0341": {
+        "raw_result_sha256": "6ffebbea99f7b1e171e916bad25a2590302b755bb47aba1a97de7a3ee43ac042",
+        "returncode": 0,
+        "seeds": [
+          906300,
+          906307
+        ]
+      },
+      "recurrent_self_trajectory_v031": {
+        "raw_result_sha256": "eb94d06e0287e8613dca5c76bcc19db9d614b76d69e0da867c25b893d0a53654",
+        "returncode": 0,
+        "seeds": [
+          906100,
+          906107
+        ]
+      },
+      "recursive_autobiographical_curriculum_v0361": {
+        "raw_result_sha256": "3df2da5fe4ccd6fa8d8648da70a7ce55eabc42ce93cacb91780c1c57aa4a1625",
+        "returncode": 0,
+        "seeds": [
+          906500,
+          906507
+        ]
+      }
+    }
+  },
+  "environment": {
+    "python": "3.11",
+    "threads": 2,
+    "torch": "2.14.0+cu130 (CPU execution)"
+  },
+  "family": "cloud-dev-claude-eng",
+  "format": "cb-cloud-g0-route-hashes/1",
+  "note": "Unmodified G0 route (scripts/dev/g0_route_dev.py) on the fixed per-mechanism slices. A matching hash on another machine shows cloud development results transfer to it.",
+  "status": "ENGINEERING_ONLY"
+}

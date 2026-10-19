@@ -1,0 +1,99 @@
+{
+  "checked_utc": "2026-10-12T09:34:37Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3
+    ],
+    "yoked": [
+      1,
+      2,
+      3
+    ]
+  },
+  "current_phase": "cycle3 probes/lives; nine active workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle2": {
+    "seconds": 7910,
+    "probe_seconds": 2079,
+    "learning_mean_survival_steps": {
+      "fresh": 526.875,
+      "transfer": 549.25
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 493.2,
+      "transfer": 551.925
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -72.075,
+      "transfer": -79.025
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": 33.675,
+      "transfer": -2.675
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -60.02875,
+      "transfer": -95.7775
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.03425860023724792,
+    "learned_primitive_action_control_share": 0,
+    "situations": {
+      "n": 67,
+      "learning_minus_frozen_steps": 11.865671641791044,
+      "learning_minus_frozen_lower95": -3.701492537313433,
+      "learning_minus_yoked_steps": 22.492537313432837,
+      "learning_minus_yoked_lower95": 5.3283582089552235
+    }
+  },
+  "sleep3": {
+    "learning": {
+      "seconds": 5826,
+      "own_rows": 25561,
+      "own_streams": 27,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.876528739929199,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02716118097305298,
+      "final_raw_absmax": 2.9642817974090576,
+      "final_grad_norm": 0.5146698951721191
+    },
+    "yoked": {
+      "seconds": 5825,
+      "own_rows": 26867,
+      "own_streams": 27,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 4.886525630950928,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.020171023905277252,
+      "final_raw_absmax": 2.9105381965637207,
+      "final_grad_norm": 0.8158467411994934
+    }
+  },
+  "assessment": "Cycle2 survival still trails frozen on sample means; neither learning-versus-yoked survival lower bound is positive. Early situation contrast is exploratory. Different probe worlds are used across cycles; raw cross-cycle differences do not isolate a learning effect. No final growth verdict.",
+  "reporting_limitation": "Accept conditional-on-these-individuals reporting. First paired sleep had matching action traces, same logged row counts and same configured torch/sampler seeds, but produced different checkpoints and roughly230-step paired-world survival differences. One pair is an observed discrepancy, not an estimate of training-run variance. Effective batch order and numerical/concurrent execution have not been independently isolated as causes.",
+  "eta": "No material change from already notified provisional9–11pm Central October12, roughly20–22USD compute. Original30h/$27 caps and next-day09:08UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; send substantive numerical/interpretation evidence to Claude and DAV99. No checkpoint reload, simulation, code/parameter change, new spend, final battery or installation.",
+  "local_cycles_sha256": "de551a063c1ee2b14a81bda6c6d49316bbfcc9ea598820e92404568d62f3ab72",
+  "local_cycles_bytes": 561010
+}

@@ -1,0 +1,31 @@
+AUTHOR v0.10.4 release validation
+
+Release: 0.10.4
+Focus: Pose-authoritative short-range navigation + staged interaction-pose pinning
+
+Validation performed before packaging:
+- Python compileall: PASS
+- config.yaml parse: PASS
+- benchmarks/tasks.yaml parse: PASS
+- pytest: PASS (156 tests)
+- Trainer dry-run: PASS (version 0.10.4; pose_authoritative_short_range_curriculum; Level 1 door; skip_not_failure)
+- Wheel integrity: PASS
+- Wheel metadata/import: PASS (agent_core.__version__ == 0.10.4)
+- Source hygiene scan: PASS (no TODO/FIXME/NotImplementedError in release source/tests/scripts)
+
+Critical v0.10.4 regression coverage:
+- A valid controller interaction pose can verify successfully even when object-center distance is 2.1 m.
+- Explicit controller pose-goal failure overrides a deceptively near object-center distance.
+- Legacy/custom adapters without goal_verification retain compatibility fallback behavior.
+- Curriculum Levels 1-3 pin the exact setup interaction pose.
+- A cheaper unrelated interaction pose cannot override a pinned curriculum target.
+- v0.10.3 spatial actionability/recovery regression suite remains passing.
+
+State policy:
+- Runtime state/ is intentionally excluded from the ZIP.
+- Upgrade by copying the existing v0.10.3 state/ into the new author/ tree.
+- Do not reset A/B history.
+
+Wheel: dist/ai2thor_agent-0.10.4-py3-none-any.whl
+Wheel SHA256: 814165ed16dd96b3e999c88eb9704f7cb2785832b322ce080bcb94687c7d82e1
+Primary instructions: AUTHOR_v0.10.4_OPERATOR_README.md

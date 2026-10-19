@@ -1,0 +1,250 @@
+{
+  "format": "cb-seed-ranges/1",
+  "description": "Every seed range the program has used or reserved. v0.38.1.dev4 freezes the six G0 scientific PASS families and all seven completed engineering runtime-preflight families as spent. New families must overlap none of these except explicit engineering-reserve containment.",
+  "ranges": [
+    {
+      "name": "v0.31.1-TEST",
+      "start": 20000,
+      "stop": 21023,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier Appendix B",
+      "note": "frozen TEST PASS",
+      "allowed_overlap_with": [
+        "v0.33.5-TEST"
+      ]
+    },
+    {
+      "name": "v0.32.2-TEST",
+      "start": 6000,
+      "stop": 6255,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier Appendix B",
+      "note": "frozen TEST PASS"
+    },
+    {
+      "name": "v0.33.5-TEST",
+      "start": 20000,
+      "stop": 20127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "FORMAL FAIL 89/128. Lies inside v0.31.1's range in the historical record; flagged, not corrected.",
+      "allowed_overlap_with": [
+        "v0.31.1-TEST"
+      ]
+    },
+    {
+      "name": "v0.34.1-TEST",
+      "start": 80000,
+      "stop": 80127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "E2 prereg; mirror result.json split.test",
+      "note": "reserved: do not rerun (DAV-77)"
+    },
+    {
+      "name": "v0.35.3-TEST",
+      "start": 100000,
+      "stop": 100127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "frozen TEST PASS/closed"
+    },
+    {
+      "name": "v0.36.1-TEST",
+      "start": 120000,
+      "stop": 120127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "frozen TEST PASS/closed"
+    },
+    {
+      "name": "v0.37.x-TEST",
+      "start": 140000,
+      "stop": 140127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": false,
+      "source": "dossier",
+      "note": "still sealed; v0.37.0 formally failed at DEV, so this TEST was never opened"
+    },
+    {
+      "name": "v0.38-ENGINEERING",
+      "start": 900000,
+      "stop": 909999,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.x engineering",
+      "note": "parent reserve for named engineering sub-families; sibling sub-families may not overlap; never scientific evidence",
+      "reserve": true
+    },
+    {
+      "name": "g0-v023-dev",
+      "start": 300000,
+      "stop": 300287,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1:episodic_two_item_v023:opened on 2026-09-27; evaluator infrastructure failure before result",
+      "note": "SPENT. Infrastructure failure before scientific result; never reuse."
+    },
+    {
+      "name": "g0-v0252-dev",
+      "start": 301000,
+      "stop": 301255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 269ab9b10573b4589b72b69f1ecf02f271ec6b68f481d871b45728f69f109c29",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "name": "g0-v031-dev",
+      "start": 302000,
+      "stop": 303023,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 7bba68ae76bb6e12841933af8eeb087ae91dc08c9bf4a5ede0f3635cfdcd809d",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "name": "g0-v0322-dev",
+      "start": 304000,
+      "stop": 304255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 37f4489c2b1525b35cac7fcbe99f70401e325bb8a20df95aacba11e7c0a13b7d",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "name": "g0-v0341-dev",
+      "start": 305000,
+      "stop": 305127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 866c10d49ca08f979317260fa31d256c5a374827968588e1640fa9193e739307",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "name": "g0-v0353-dev",
+      "start": 306000,
+      "stop": 306127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 3a2a499fd8cd392273432a5a5291168039580d57a65165f29b916b1c380701e1",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "name": "g0-v0361-dev",
+      "start": 307000,
+      "stop": 307127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1 PASS; raw result 2a825494e6cee4c457e500bf39691f14ec09c80cfe9305e6a788855676209279",
+      "note": "SPENT. Fresh-DEV G0 scientific PASS; never reuse."
+    },
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "name": "g0-preflight-v023-eng",
+      "start": 900000,
+      "stop": 900287,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "name": "g0-preflight-v0252-eng",
+      "start": 900300,
+      "stop": 900555,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "name": "g0-preflight-v031-eng",
+      "start": 900600,
+      "stop": 901623,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "name": "g0-preflight-v0322-eng",
+      "start": 901700,
+      "stop": 901955,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "name": "g0-preflight-v0341-eng",
+      "start": 902000,
+      "stop": 902127,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "name": "g0-preflight-v0353-eng",
+      "start": 902200,
+      "stop": 902327,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "name": "g0-preflight-v0361-eng",
+      "start": 902400,
+      "stop": 902527,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev3 G0 runtime preflight completed on WSL 2026-09-30",
+      "note": "SPENT ENGINEERING_ONLY runtime preflight; never scientific evidence; never reuse."
+    },
+    {
+      "name": "i1-v1-preflight-eng",
+      "start": 907000,
+      "stop": 907063,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": true,
+      "source": "v0.38.1.dev7 cloud workspace, 2026-10-02T00:56Z",
+      "note": "CONSUMED BY MISTAKE: an I1 preflight ran in the cloud workspace instead of a throwaway test copy. Values sealed (report sha256 8c061c1e67f3f126537f6ac90966f58f2692e2c7f2f57565f0f904d9f17de7bc), never opened. Never reuse; the WSL preflight uses i1-v1-preflight-eng-b."
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "format": "cb-i1-s3-trace/1",
+  "status": "ENGINEERING_ONLY",
+  "label": "i1_s3_trace60",
+  "individuals": [
+    906940,
+    906999
+  ],
+  "manifest_sha256": "9357369baacd5d89d9317888cf2e1de800987dfb768600ae4a0e9430521a74b8",
+  "tracing_changed_nothing": true,
+  "completers_both_arms": 54,
+  "matched_by_episode": {
+    "1": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.02128602122818982,
+        "mean_capability_gain": 0.039746741600223,
+        "lives_still_pursuing": 54
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.0016035906694553516,
+        "mean_capability_gain": 0.04582329400773215,
+        "lives_still_pursuing": 54
+      }
+    },
+    "2": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.03672887495270482,
+        "mean_capability_gain": 0.07033063131735551,
+        "lives_still_pursuing": 54
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.005178856628912466,
+        "mean_capability_gain": 0.08031049782731958,
+        "lives_still_pursuing": 54
+      }
+    },
+    "4": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.041903464299327925,
+        "mean_capability_gain": 0.11980871491700683,
+        "lives_still_pursuing": 53
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.00868226733862185,
+        "mean_capability_gain": 0.13357499245776647,
+        "lives_still_pursuing": 51
+      }
+    },
+    "6": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.04072528627683532,
+        "mean_capability_gain": 0.15112777563544036,
+        "lives_still_pursuing": 53
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.02253475474814574,
+        "mean_capability_gain": 0.16350773875871452,
+        "lives_still_pursuing": 48
+      }
+    },
+    "8": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.025180708543927063,
+        "mean_capability_gain": 0.1739851140524765,
+        "lives_still_pursuing": 51
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.00017548203468322753,
+        "mean_capability_gain": 0.15381620893231093,
+        "lives_still_pursuing": 35
+      }
+    },
+    "10": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.012574363350868225,
+        "mean_capability_gain": 0.18507700422050502,
+        "lives_still_pursuing": 50
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": 0.014083408948146936,
+        "mean_capability_gain": 0.15873497171638165,
+        "lives_still_pursuing": 33
+      }
+    },
+    "12": {
+      "NORMAL": {
+        "mean_reliability_gain": -0.01094246469438076,
+        "mean_capability_gain": 0.18992397217716572,
+        "lives_still_pursuing": 48
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": -0.026274187224251882,
+        "mean_capability_gain": 0.08093798662337533,
+        "lives_still_pursuing": 28
+      }
+    },
+    "16": {
+      "NORMAL": {
+        "mean_reliability_gain": 0.012180595021498831,
+        "mean_capability_gain": 0.17966568656912738,
+        "lives_still_pursuing": 38
+      },
+      "FIXED_SCAFFOLD": {
+        "mean_reliability_gain": -0.028589663597253654,
+        "mean_capability_gain": 0.06414857106905272,
+        "lives_still_pursuing": 26
+      }
+    }
+  },
+  "per_episode_NORMAL": {
+    "episodes": 794,
+    "mean_reliability_step": 0.0033836755854657076,
+    "mean_capability_step": 0.013142672089658563,
+    "strategy_DIRECT_share": 1.0
+  },
+  "per_episode_FIXED_SCAFFOLD": {
+    "episodes": 618,
+    "mean_reliability_step": 0.006635947086664465,
+    "mean_capability_step": 0.01551951772608671,
+    "strategy_DIRECT_share": 0.0
+  }
+}

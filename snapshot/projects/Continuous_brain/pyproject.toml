@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuous-brain-snn"
+version = "0.1.0.dev0"
+description = "Continuous Brain SNN program, E0 Genesis: deterministic continuous-time spiking substrate. Lives alongside the legacy continuous_brain (v0.12.2 + overlays)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+wandb = ["wandb>=0.17"]
+directml = ["torch-directml"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["continuous_brain_snn*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

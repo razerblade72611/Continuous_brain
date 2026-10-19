@@ -1,0 +1,1410 @@
+{
+  "blind_evidence": false,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.1/continuous_brain_project/state/child_v101_bellman/infant_training.pt",
+  "discount": 0.95,
+  "format": "continuous_brain.v101_bellman_q_probe.v1",
+  "parents_used": false,
+  "planning_value_version": "conservative-bellman-q-v1",
+  "records": [
+    {
+      "initial": {
+        "agent_x": -0.6381596922874451,
+        "agent_y": -0.07808653265237808,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.12497902661561966,
+            "predicted_next_max_q": 0.14976364374160767,
+            "predicted_next_y": -0.008950896561145782,
+            "predicted_reward": -0.017296425998210907,
+            "q": 0.0934843122959137,
+            "true_collision": false,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.12545311450958252,
+            "predicted_next_max_q": 0.1492675095796585,
+            "predicted_next_y": 0.0059416890144348145,
+            "predicted_reward": -0.016351014375686646,
+            "q": 0.1402842402458191,
+            "true_collision": false,
+            "true_next_y": 0.0019134655594825745,
+            "true_reward": -0.0031573810577392577
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.1326984167098999,
+            "predicted_next_max_q": 0.15694108605384827,
+            "predicted_next_y": -0.019845187664031982,
+            "predicted_reward": -0.016395606100559235,
+            "q": 0.024114765226840973,
+            "true_collision": false,
+            "true_next_y": -0.15808653831481934,
+            "true_reward": -0.005201343536376953
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.11877517402172089,
+            "predicted_next_max_q": 0.14311483502388,
+            "predicted_next_y": -0.002822697162628174,
+            "predicted_reward": -0.01718391478061676,
+            "q": 0.06840904802083969,
+            "true_collision": false,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": -0.01032206916809082
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.13282711803913116,
+            "predicted_next_max_q": 0.15649744868278503,
+            "predicted_next_y": -0.012642629444599152,
+            "predicted_reward": -0.015845462679862976,
+            "q": 0.08401989191770554,
+            "true_collision": false,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": 0.0023126087188720702
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.07815976440906525,
+        "agent_y": -0.07808653265237808,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.5000265836715698,
+            "predicted_next_max_q": 0.5466574430465698,
+            "predicted_next_y": 0.06497015058994293,
+            "predicted_reward": -0.01929793506860733,
+            "q": 0.4959770441055298,
+            "true_collision": false,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.47897660732269287,
+            "predicted_next_max_q": 0.5231155157089233,
+            "predicted_next_y": 0.0931432843208313,
+            "predicted_reward": -0.01798313856124878,
+            "q": 0.46086129546165466,
+            "true_collision": false,
+            "true_next_y": 0.0019134655594825745,
+            "true_reward": -0.002599543571472168
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.5457105040550232,
+            "predicted_next_max_q": 0.5894035696983337,
+            "predicted_next_y": 0.037928760051727295,
+            "predicted_reward": -0.014222860336303711,
+            "q": 0.49839115142822266,
+            "true_collision": false,
+            "true_next_y": -0.15808653831481934,
+            "true_reward": -0.005965417861938476
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.4592364430427551,
+            "predicted_next_max_q": 0.5037247538566589,
+            "predicted_next_y": 0.08345871418714523,
+            "predicted_reward": -0.01930207759141922,
+            "q": 0.43921223282814026,
+            "true_collision": false,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": -0.010192259788513184
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.5369571447372437,
+            "predicted_next_max_q": 0.579459011554718,
+            "predicted_next_y": 0.056800954043865204,
+            "predicted_reward": -0.013528868556022644,
+            "q": 0.5372809171676636,
+            "true_collision": true,
+            "true_next_y": -0.07808653265237808,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9001
+    },
+    {
+      "initial": {
+        "agent_x": -0.6465275883674622,
+        "agent_y": 0.12624919414520264,
+        "best_model_bellman": "down",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.2422911375761032,
+            "predicted_next_max_q": 0.27365338802337646,
+            "predicted_next_y": 0.21407443284988403,
+            "predicted_reward": -0.01767958700656891,
+            "q": 0.24250996112823486,
+            "true_collision": false,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.23954486846923828,
+            "predicted_next_max_q": 0.26967671513557434,
+            "predicted_next_y": 0.23288509249687195,
+            "predicted_reward": -0.016648001968860626,
+            "q": 0.2663373053073883,
+            "true_collision": false,
+            "true_next_y": 0.2062491923570633,
+            "true_reward": -0.0038635101318359377
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.2565094828605652,
+            "predicted_next_max_q": 0.28618839383125305,
+            "predicted_next_y": 0.1979653686285019,
+            "predicted_reward": -0.015369467437267303,
+            "q": 0.19652661681175232,
+            "true_collision": false,
+            "true_next_y": 0.04624919593334198,
+            "true_reward": -0.004547256469726563
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.2308630347251892,
+            "predicted_next_max_q": 0.2614912688732147,
+            "predicted_next_y": 0.22562453150749207,
+            "predicted_reward": -0.0175536647439003,
+            "q": 0.20839571952819824,
+            "true_collision": false,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": -0.010391372680664063
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.2559921443462372,
+            "predicted_next_max_q": 0.28477123379707336,
+            "predicted_next_y": 0.2078603059053421,
+            "predicted_reward": -0.014540515840053558,
+            "q": 0.2538350820541382,
+            "true_collision": false,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": 0.0023901996612548833
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.08652766048908234,
+        "agent_y": 0.12624919414520264,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.9220373630523682,
+            "predicted_next_max_q": 1.0374321937561035,
+            "predicted_next_y": 0.2711498737335205,
+            "predicted_reward": -0.06352324783802032,
+            "q": 0.9141151309013367,
+            "true_collision": false,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.8629668951034546,
+            "predicted_next_max_q": 0.9631442427635193,
+            "predicted_next_y": 0.31673258543014526,
+            "predicted_reward": -0.0520201176404953,
+            "q": 0.8131195902824402,
+            "true_collision": false,
+            "true_next_y": 0.2062491923570633,
+            "true_reward": -0.0037515153884887698
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 1.0324022769927979,
+            "predicted_next_max_q": 1.14072847366333,
+            "predicted_next_y": 0.2231907993555069,
+            "predicted_reward": -0.05128975212574005,
+            "q": 0.9770768284797668,
+            "true_collision": false,
+            "true_next_y": 0.04624919593334198,
+            "true_reward": -0.004988578796386719
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.8290632367134094,
+            "predicted_next_max_q": 0.9276480078697205,
+            "predicted_next_y": 0.3058277666568756,
+            "predicted_reward": -0.05220234394073486,
+            "q": 0.8279295563697815,
+            "true_collision": false,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": -0.010372814178466798
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 1.0097267627716064,
+            "predicted_next_max_q": 1.117188811302185,
+            "predicted_next_y": 0.2504121661186218,
+            "predicted_reward": -0.05160261690616608,
+            "q": 0.9988014101982117,
+            "true_collision": true,
+            "true_next_y": 0.12624919414520264,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9002
+    },
+    {
+      "initial": {
+        "agent_x": -0.6467930674552917,
+        "agent_y": -0.04797566682100296,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.1080402061343193,
+            "predicted_next_max_q": 0.13662758469581604,
+            "predicted_next_y": 0.01708601415157318,
+            "predicted_reward": -0.021756000816822052,
+            "q": 0.08052872866392136,
+            "true_collision": false,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.1093255877494812,
+            "predicted_next_max_q": 0.13705506920814514,
+            "predicted_next_y": 0.03156238794326782,
+            "predicted_reward": -0.020876720547676086,
+            "q": 0.12987162172794342,
+            "true_collision": false,
+            "true_next_y": 0.0320243313908577,
+            "true_reward": -0.004105772018432617
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.11331688612699509,
+            "predicted_next_max_q": 0.14162033796310425,
+            "predicted_next_y": 0.008573882281780243,
+            "predicted_reward": -0.02122243493795395,
+            "q": 0.0077564045786857605,
+            "true_collision": false,
+            "true_next_y": -0.1279756724834442,
+            "true_reward": -0.004247106552124023
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.1032557561993599,
+            "predicted_next_max_q": 0.13153499364852905,
+            "predicted_next_y": 0.02260047197341919,
+            "predicted_reward": -0.021702483296394348,
+            "q": 0.05866580456495285,
+            "true_collision": false,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": -0.010399641036987305
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.11359233409166336,
+            "predicted_next_max_q": 0.14144396781921387,
+            "predicted_next_y": 0.0139646977186203,
+            "predicted_reward": -0.020779438316822052,
+            "q": 0.0660691186785698,
+            "true_collision": false,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": 0.00239958381652832
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.08679313957691193,
+        "agent_y": -0.04797566682100296,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.23729705810546875,
+            "predicted_next_max_q": 0.2761411964893341,
+            "predicted_next_y": -0.1270218789577484,
+            "predicted_reward": -0.025037072598934174,
+            "q": 0.25778132677078247,
+            "true_collision": false,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.23157070577144623,
+            "predicted_next_max_q": 0.26906007528305054,
+            "predicted_next_y": -0.1055428683757782,
+            "predicted_reward": -0.024036362767219543,
+            "q": 0.26643216609954834,
+            "true_collision": false,
+            "true_next_y": 0.0320243313908577,
+            "true_reward": -0.004172200202941894
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.25737226009368896,
+            "predicted_next_max_q": 0.29457956552505493,
+            "predicted_next_y": -0.1412697732448578,
+            "predicted_reward": -0.02247832715511322,
+            "q": 0.2221224009990692,
+            "true_collision": false,
+            "true_next_y": -0.1279756724834442,
+            "true_reward": -0.00440191650390625
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.21792444586753845,
+            "predicted_next_max_q": 0.2559092342853546,
+            "predicted_next_y": -0.11600719392299652,
+            "predicted_reward": -0.025189325213432312,
+            "q": 0.21945270895957947,
+            "true_collision": false,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": -0.010399044990539551
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.2542163133621216,
+            "predicted_next_max_q": 0.2909086048603058,
+            "predicted_next_y": -0.1303122490644455,
+            "predicted_reward": -0.022146835923194885,
+            "q": 0.2676528990268707,
+            "true_collision": true,
+            "true_next_y": -0.04797566682100296,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9003
+    },
+    {
+      "initial": {
+        "agent_x": -0.5706831812858582,
+        "agent_y": -0.34049108624458313,
+        "best_model_bellman": "down",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.1719556748867035,
+            "predicted_next_max_q": 0.19396620988845825,
+            "predicted_next_y": -0.1920715868473053,
+            "predicted_reward": -0.012312225997447968,
+            "q": 0.14960351586341858,
+            "true_collision": false,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.17140856385231018,
+            "predicted_next_max_q": 0.19260627031326294,
+            "predicted_next_y": -0.17469832301139832,
+            "predicted_reward": -0.011567376554012299,
+            "q": 0.18931305408477783,
+            "true_collision": false,
+            "true_next_y": -0.2604910731315613,
+            "true_reward": -0.0017974605560302733
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.18324095010757446,
+            "predicted_next_max_q": 0.20379692316055298,
+            "predicted_next_y": -0.2041410207748413,
+            "predicted_reward": -0.01036611944437027,
+            "q": 0.0866461843252182,
+            "true_collision": false,
+            "true_next_y": -0.420491099357605,
+            "true_reward": -0.006571153640747071
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.1637885421514511,
+            "predicted_next_max_q": 0.18576988577842712,
+            "predicted_next_y": -0.18511870503425598,
+            "predicted_reward": -0.012692853808403015,
+            "q": 0.11830806732177734,
+            "true_collision": false,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": -0.009964565277099609
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.18323732912540436,
+            "predicted_next_max_q": 0.202735036611557,
+            "predicted_next_y": -0.19532963633537292,
+            "predicted_reward": -0.00936095416545868,
+            "q": 0.14465248584747314,
+            "true_collision": false,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": 0.0019045124053955077
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.09068325161933899,
+        "agent_y": -0.34049108624458313,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.8767245411872864,
+            "predicted_next_max_q": 1.009942650794983,
+            "predicted_next_y": -0.0024012327194213867,
+            "predicted_reward": -0.08272093534469604,
+            "q": 0.9085697531700134,
+            "true_collision": false,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.8083348870277405,
+            "predicted_next_max_q": 0.9352813363075256,
+            "predicted_next_y": 0.045573778450489044,
+            "predicted_reward": -0.08018238842487335,
+            "q": 0.8107194304466248,
+            "true_collision": false,
+            "true_next_y": -0.2604910731315613,
+            "true_reward": -0.0005268182754516603
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 1.058980107307434,
+            "predicted_next_max_q": 1.112130045890808,
+            "predicted_next_y": -0.046987175941467285,
+            "predicted_reward": 0.0024565011262893677,
+            "q": 0.9654355049133301,
+            "true_collision": false,
+            "true_next_y": -0.420491099357605,
+            "true_reward": -0.007915448188781739
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.7761982083320618,
+            "predicted_next_max_q": 0.9025689363479614,
+            "predicted_next_y": 0.02819930762052536,
+            "predicted_reward": -0.08124226331710815,
+            "q": 0.8185381293296814,
+            "true_collision": false,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": -0.009319414138793947
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 1.0258550643920898,
+            "predicted_next_max_q": 1.090248465538025,
+            "predicted_next_y": -0.019154809415340424,
+            "predicted_reward": -0.009880974888801575,
+            "q": 0.9854223728179932,
+            "true_collision": true,
+            "true_next_y": -0.34049108624458313,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9004
+    },
+    {
+      "initial": {
+        "agent_x": -0.7458323240280151,
+        "agent_y": -0.18546459078788757,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.0498356893658638,
+            "predicted_next_max_q": 0.07813377678394318,
+            "predicted_next_y": -0.12526732683181763,
+            "predicted_reward": -0.024391397833824158,
+            "q": 0.012669708579778671,
+            "true_collision": false,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.052388712763786316,
+            "predicted_next_max_q": 0.080055832862854,
+            "predicted_next_y": -0.11135092377662659,
+            "predicted_reward": -0.02366432547569275,
+            "q": 0.07418039441108704,
+            "true_collision": false,
+            "true_next_y": -0.10546459257602692,
+            "true_reward": -0.004104265213012695
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.05322014540433884,
+            "predicted_next_max_q": 0.081372931599617,
+            "predicted_next_y": -0.13097268342971802,
+            "predicted_reward": -0.02408413589000702,
+            "q": -0.07123421877622604,
+            "true_collision": false,
+            "true_next_y": -0.2654646039009094,
+            "true_reward": -0.004243692398071289
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.04720611870288849,
+            "predicted_next_max_q": 0.07551887631416321,
+            "predicted_next_y": -0.12290939688682556,
+            "predicted_reward": -0.02453681081533432,
+            "q": -0.00479445606470108,
+            "true_collision": false,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": -0.010399641036987305
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.05399590730667114,
+            "predicted_next_max_q": 0.08170947432518005,
+            "predicted_next_y": -0.12702877819538116,
+            "predicted_reward": -0.02362809330224991,
+            "q": -0.012037664651870728,
+            "true_collision": false,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": 0.0023995933532714843
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.10583242774009705,
+        "agent_y": -0.18546459078788757,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.36513954401016235,
+            "predicted_next_max_q": 0.4188918471336365,
+            "predicted_next_y": -0.3959437906742096,
+            "predicted_reward": -0.03280772268772125,
+            "q": 0.3907945454120636,
+            "true_collision": false,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.3533124327659607,
+            "predicted_next_max_q": 0.40609806776046753,
+            "predicted_next_y": -0.36690592765808105,
+            "predicted_reward": -0.032480716705322266,
+            "q": 0.3552277684211731,
+            "true_collision": false,
+            "true_next_y": -0.10546459257602692,
+            "true_reward": -0.004184464454650879
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.3889341354370117,
+            "predicted_next_max_q": 0.43978992104530334,
+            "predicted_next_y": -0.41423606872558594,
+            "predicted_reward": -0.028866305947303772,
+            "q": 0.38573509454727173,
+            "true_collision": false,
+            "true_next_y": -0.2654646039009094,
+            "true_reward": -0.004430583953857422
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.3410082161426544,
+            "predicted_next_max_q": 0.394235759973526,
+            "predicted_next_y": -0.38204696774482727,
+            "predicted_reward": -0.033515751361846924,
+            "q": 0.33461305499076843,
+            "true_collision": false,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": -0.010398911476135253
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.3853704035282135,
+            "predicted_next_max_q": 0.4360209107398987,
+            "predicted_next_y": -0.39950427412986755,
+            "predicted_reward": -0.02884945273399353,
+            "q": 0.41807061433792114,
+            "true_collision": true,
+            "true_next_y": -0.18546459078788757,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9005
+    },
+    {
+      "initial": {
+        "agent_x": -0.5665396451950073,
+        "agent_y": -0.09853112697601318,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.10043898969888687,
+            "predicted_next_max_q": 0.12729841470718384,
+            "predicted_next_y": -0.035987794399261475,
+            "predicted_reward": -0.020494505763053894,
+            "q": 0.06907129287719727,
+            "true_collision": false,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.10197586566209793,
+            "predicted_next_max_q": 0.12804393470287323,
+            "predicted_next_y": -0.021438680589199066,
+            "predicted_reward": -0.01966586709022522,
+            "q": 0.12084125727415085,
+            "true_collision": false,
+            "true_next_y": -0.018531128764152527,
+            "true_reward": -0.004016965866088867
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.105690136551857,
+            "predicted_next_max_q": 0.13223862648010254,
+            "predicted_next_y": -0.044103533029556274,
+            "predicted_reward": -0.019936561584472656,
+            "q": -0.0046539306640625,
+            "true_collision": false,
+            "true_next_y": -0.17853112518787384,
+            "true_reward": -0.004355644226074219
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.09575570374727249,
+            "predicted_next_max_q": 0.12237638980150223,
+            "predicted_next_y": -0.030909910798072815,
+            "predicted_reward": -0.020501866936683655,
+            "q": 0.04794494807720184,
+            "true_collision": false,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": -0.01039786720275879
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.10590412467718124,
+            "predicted_next_max_q": 0.13197526335716248,
+            "predicted_next_y": -0.03875471651554108,
+            "predicted_reward": -0.01947236806154251,
+            "q": 0.05304843932390213,
+            "true_collision": false,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": 0.0023976192474365237
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.08653970062732697,
+        "agent_y": -0.09853112697601318,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.2473808228969574,
+            "predicted_next_max_q": 0.2857434153556824,
+            "predicted_next_y": -0.17686983942985535,
+            "predicted_reward": -0.02407541126012802,
+            "q": 0.2680535614490509,
+            "true_collision": false,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.24132995307445526,
+            "predicted_next_max_q": 0.2784615159034729,
+            "predicted_next_y": -0.15499892830848694,
+            "predicted_reward": -0.023208484053611755,
+            "q": 0.2741221487522125,
+            "true_collision": false,
+            "true_next_y": -0.018531128764152527,
+            "true_reward": -0.004026082992553711
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.26722997426986694,
+            "predicted_next_max_q": 0.30382758378982544,
+            "predicted_next_y": -0.19101712107658386,
+            "predicted_reward": -0.021406248211860657,
+            "q": 0.23313963413238525,
+            "true_collision": false,
+            "true_next_y": -0.17853112518787384,
+            "true_reward": -0.0045456733703613285
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.22804421186447144,
+            "predicted_next_max_q": 0.2656998336315155,
+            "predicted_next_y": -0.16589346528053284,
+            "predicted_reward": -0.024370647966861725,
+            "q": 0.2285604178905487,
+            "true_collision": false,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": -0.010395125389099123
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.26431307196617126,
+            "predicted_next_max_q": 0.3003794848918915,
+            "predicted_next_y": -0.17981228232383728,
+            "predicted_reward": -0.021047450602054596,
+            "q": 0.2785578668117523,
+            "true_collision": true,
+            "true_next_y": -0.09853112697601318,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9006
+    },
+    {
+      "initial": {
+        "agent_x": -0.6255097985267639,
+        "agent_y": -0.3436174690723419,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": -0.011759093962609768,
+            "predicted_next_max_q": 0.008901327848434448,
+            "predicted_next_y": -0.3862549066543579,
+            "predicted_reward": -0.02021535485982895,
+            "q": -0.0616006925702095,
+            "true_collision": false,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": -0.008010858669877052,
+            "predicted_next_max_q": 0.011956501752138138,
+            "predicted_next_y": -0.36918219923973083,
+            "predicted_reward": -0.01936953514814377,
+            "q": 0.0039473772048950195,
+            "true_collision": false,
+            "true_next_y": -0.26361745595932007,
+            "true_reward": -0.0037414684295654296
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": -0.00787997618317604,
+            "predicted_next_max_q": 0.012435242533683777,
+            "predicted_next_y": -0.3916938602924347,
+            "predicted_reward": -0.01969345659017563,
+            "q": -0.1452929973602295,
+            "true_collision": false,
+            "true_next_y": -0.42361748218536377,
+            "true_reward": -0.004663433074951172
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": -0.01434067077934742,
+            "predicted_next_max_q": 0.00632215291261673,
+            "predicted_next_y": -0.38526633381843567,
+            "predicted_reward": -0.020346716046333313,
+            "q": -0.07854359596967697,
+            "true_collision": false,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": -0.010384296417236328
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": -0.007538911886513233,
+            "predicted_next_max_q": 0.012364037334918976,
+            "predicted_next_y": -0.3865499198436737,
+            "predicted_reward": -0.019284747540950775,
+            "q": -0.08872496336698532,
+            "true_collision": false,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": 0.0023821697235107426
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.0655098706483841,
+        "agent_y": -0.3436174690723419,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.7795779705047607,
+            "predicted_next_max_q": 0.8851068615913391,
+            "predicted_next_y": -0.467234343290329,
+            "predicted_reward": -0.06127351522445679,
+            "q": 0.7830500602722168,
+            "true_collision": false,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.7258126735687256,
+            "predicted_next_max_q": 0.8224264979362488,
+            "predicted_next_y": -0.41124311089515686,
+            "predicted_reward": -0.055492475628852844,
+            "q": 0.6671885848045349,
+            "true_collision": false,
+            "true_next_y": -0.26361745595932007,
+            "true_reward": -0.0035340681076049805
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.8602492809295654,
+            "predicted_next_max_q": 0.9643130302429199,
+            "predicted_next_y": -0.5201178789138794,
+            "predicted_reward": -0.055848076939582825,
+            "q": 0.8476313352584839,
+            "true_collision": false,
+            "true_next_y": -0.42361748218536377,
+            "true_reward": -0.005183624267578125
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.7010399699211121,
+            "predicted_next_max_q": 0.7973448038101196,
+            "predicted_next_y": -0.4389897286891937,
+            "predicted_reward": -0.05643761157989502,
+            "q": 0.6863447427749634,
+            "true_collision": false,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": -0.01035148048400879
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.8466888666152954,
+            "predicted_next_max_q": 0.9485523700714111,
+            "predicted_next_y": -0.4901154339313507,
+            "predicted_reward": -0.054435864090919495,
+            "q": 0.853150486946106,
+            "true_collision": true,
+            "true_next_y": -0.3436174690723419,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9007
+    },
+    {
+      "initial": {
+        "agent_x": -0.5971729755401611,
+        "agent_y": 0.006140509154647589,
+        "best_model_bellman": "down",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.01837061159312725,
+            "predicted_next_max_q": 0.03128919005393982,
+            "predicted_next_y": 0.08989991247653961,
+            "predicted_reward": -0.011354118585586548,
+            "q": -0.02571374922990799,
+            "true_collision": false,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.02251426875591278,
+            "predicted_next_max_q": 0.03460339829325676,
+            "predicted_next_y": 0.10868968814611435,
+            "predicted_reward": -0.010358959436416626,
+            "q": 0.028182335197925568,
+            "true_collision": false,
+            "true_next_y": 0.08614050596952438,
+            "true_reward": -0.005834878921508789
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.022773444652557373,
+            "predicted_next_max_q": 0.035054996609687805,
+            "predicted_next_y": 0.08102278411388397,
+            "predicted_reward": -0.010528802871704102,
+            "q": -0.09467006474733353,
+            "true_collision": false,
+            "true_next_y": -0.07385949045419693,
+            "true_reward": -0.002551416397094727
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.014680081978440285,
+            "predicted_next_max_q": 0.027395881712436676,
+            "predicted_next_y": 0.09515658020973206,
+            "predicted_reward": -0.011346004903316498,
+            "q": -0.04142223298549652,
+            "true_collision": false,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": -0.010197853088378906
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.02182585746049881,
+            "predicted_next_max_q": 0.034316536039114,
+            "predicted_next_y": 0.08837626129388809,
+            "predicted_reward": -0.010774850845336914,
+            "q": -0.044295184314250946,
+            "true_collision": false,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": 0.0021704254150390623
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.11717304587364197,
+        "agent_y": 0.006140509154647589,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.29543083906173706,
+            "predicted_next_max_q": 0.3737885653972626,
+            "predicted_next_y": 0.0040542930364608765,
+            "predicted_reward": -0.05966830253601074,
+            "q": 0.32511329650878906,
+            "true_collision": false,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.2755018174648285,
+            "predicted_next_max_q": 0.347750186920166,
+            "predicted_next_y": 0.05116279423236847,
+            "predicted_reward": -0.054860860109329224,
+            "q": 0.2633489668369293,
+            "true_collision": false,
+            "true_next_y": 0.08614050596952438,
+            "true_reward": -0.006860722541809082
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.3599206507205963,
+            "predicted_next_max_q": 0.43325555324554443,
+            "predicted_next_y": -0.040442273020744324,
+            "predicted_reward": -0.051672130823135376,
+            "q": 0.36173224449157715,
+            "true_collision": false,
+            "true_next_y": -0.07385949045419693,
+            "true_reward": -0.0016851606369018557
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.2374352663755417,
+            "predicted_next_max_q": 0.3109132945537567,
+            "predicted_next_y": 0.026074647903442383,
+            "predicted_reward": -0.05793236196041107,
+            "q": 0.2568458616733551,
+            "true_collision": false,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": -0.00989780330657959
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.3333979845046997,
+            "predicted_next_max_q": 0.40864676237106323,
+            "predicted_next_y": -0.017634563148021698,
+            "predicted_reward": -0.054816409945487976,
+            "q": 0.36773988604545593,
+            "true_collision": true,
+            "true_next_y": 0.006140509154647589,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9008
+    },
+    {
+      "initial": {
+        "agent_x": -0.6964638829231262,
+        "agent_y": 0.15918023884296417,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.10870696604251862,
+            "predicted_next_max_q": 0.14167818427085876,
+            "predicted_next_y": 0.2598864436149597,
+            "predicted_reward": -0.02588731050491333,
+            "q": 0.09040290117263794,
+            "true_collision": false,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.11011574417352676,
+            "predicted_next_max_q": 0.14206233620643616,
+            "predicted_next_y": 0.27568137645721436,
+            "predicted_reward": -0.024843476712703705,
+            "q": 0.13714301586151123,
+            "true_collision": false,
+            "true_next_y": 0.23918023705482483,
+            "true_reward": -0.005291046142578125
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.11310896277427673,
+            "predicted_next_max_q": 0.1457432508468628,
+            "predicted_next_y": 0.25118058919906616,
+            "predicted_reward": -0.02534712851047516,
+            "q": 0.01776672899723053,
+            "true_collision": false,
+            "true_next_y": 0.07918024063110352,
+            "true_reward": -0.003059314727783203
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.10459057986736298,
+            "predicted_next_max_q": 0.13711068034172058,
+            "predicted_next_y": 0.26795291900634766,
+            "predicted_reward": -0.025664567947387695,
+            "q": 0.07050209492444992,
+            "true_collision": false,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": -0.010306886672973633
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.11372649669647217,
+            "predicted_next_max_q": 0.14615130424499512,
+            "predicted_next_y": 0.2559369206428528,
+            "predicted_reward": -0.025117233395576477,
+            "q": 0.07756057381629944,
+            "true_collision": false,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": 0.0022958240509033207
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.056463971734046936,
+        "agent_y": 0.15918023884296417,
+        "best_model_bellman": "down",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": -0.2629256844520569,
+            "predicted_next_max_q": -0.19020336866378784,
+            "predicted_next_y": 0.08576549589633942,
+            "predicted_reward": -0.08223249018192291,
+            "q": -0.2571054995059967,
+            "true_collision": false,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": -0.2427699714899063,
+            "predicted_next_max_q": -0.17352980375289917,
+            "predicted_next_y": 0.12129035592079163,
+            "predicted_reward": -0.07791666686534882,
+            "q": -0.1906907558441162,
+            "true_collision": false,
+            "true_next_y": 0.23918023705482483,
+            "true_reward": -0.006275733947753907
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": -0.24185672402381897,
+            "predicted_next_max_q": -0.1716313660144806,
+            "predicted_next_y": 0.06700648367404938,
+            "predicted_reward": -0.07880692183971405,
+            "q": -0.2949792444705963,
+            "true_collision": false,
+            "true_next_y": 0.07918024063110352,
+            "true_reward": -0.0023060693740844726
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": -0.271753191947937,
+            "predicted_next_max_q": -0.2019878625869751,
+            "predicted_next_y": 0.09780292958021164,
+            "predicted_reward": -0.07986472547054291,
+            "q": -0.26812899112701416,
+            "true_collision": false,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": -0.010110043525695802
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": -0.25953829288482666,
+            "predicted_next_max_q": -0.188626229763031,
+            "predicted_next_y": 0.08056245744228363,
+            "predicted_reward": -0.08034336566925049,
+            "q": -0.268195778131485,
+            "true_collision": true,
+            "true_next_y": 0.15918023884296417,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9009
+    },
+    {
+      "initial": {
+        "agent_x": -0.5630576610565186,
+        "agent_y": -0.2598404586315155,
+        "best_model_bellman": "right",
+        "best_q": "up",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.09199803322553635,
+            "predicted_next_max_q": 0.11649724096059799,
+            "predicted_next_y": -0.22616910934448242,
+            "predicted_reward": -0.018674343824386597,
+            "q": 0.05629713460803032,
+            "true_collision": false,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.09354810416698456,
+            "predicted_next_max_q": 0.11738289147615433,
+            "predicted_next_y": -0.21281525492668152,
+            "predicted_reward": -0.017965644598007202,
+            "q": 0.11021402478218079,
+            "true_collision": false,
+            "true_next_y": -0.17984046041965485,
+            "true_reward": -0.002916311264038086
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.09692077338695526,
+            "predicted_next_max_q": 0.12118582427501678,
+            "predicted_next_y": -0.23324206471443176,
+            "predicted_reward": -0.018205761909484863,
+            "q": -0.021696053445339203,
+            "true_collision": false,
+            "true_next_y": -0.33984047174453735,
+            "true_reward": -0.005432609558105469
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.08813875168561935,
+            "predicted_next_max_q": 0.1125747337937355,
+            "predicted_next_y": -0.22277423739433289,
+            "predicted_reward": -0.018807247281074524,
+            "q": 0.034063130617141724,
+            "true_collision": false,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": -0.010281394958496094
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.09756281971931458,
+            "predicted_next_max_q": 0.12125281244516373,
+            "predicted_next_y": -0.22843119502067566,
+            "predicted_reward": -0.017627350986003876,
+            "q": 0.03803996741771698,
+            "true_collision": false,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": 0.002267261505126953
+          }
+        ]
+      },
+      "prewall": {
+        "agent_x": -0.0830577164888382,
+        "agent_y": -0.2598404586315155,
+        "best_model_bellman": "down",
+        "best_q": "right",
+        "rows": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "model_bellman_score": 0.24575643241405487,
+            "predicted_next_max_q": 0.2888745665550232,
+            "predicted_next_y": -0.36436715722084045,
+            "predicted_reward": -0.028674408793449402,
+            "q": 0.28028741478919983,
+            "true_collision": false,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": -0.004
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "model_bellman_score": 0.23953105509281158,
+            "predicted_next_max_q": 0.28135836124420166,
+            "predicted_next_y": -0.34017130732536316,
+            "predicted_reward": -0.027759388089179993,
+            "q": 0.28764334321022034,
+            "true_collision": false,
+            "true_next_y": -0.17984046041965485,
+            "true_reward": -0.00237155818939209
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "model_bellman_score": 0.27048301696777344,
+            "predicted_next_max_q": 0.31116342544555664,
+            "predicted_next_y": -0.37990811467170715,
+            "predicted_reward": -0.02512224018573761,
+            "q": 0.24328464269638062,
+            "true_collision": false,
+            "true_next_y": -0.33984047174453735,
+            "true_reward": -0.006123565673828125
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "model_bellman_score": 0.2280169576406479,
+            "predicted_next_max_q": 0.27060240507125854,
+            "predicted_next_y": -0.35508689284324646,
+            "predicted_reward": -0.029055312275886536,
+            "q": 0.2358015477657318,
+            "true_collision": false,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": -0.010138691902160645
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "model_bellman_score": 0.2668602764606476,
+            "predicted_next_max_q": 0.30631300806999207,
+            "predicted_next_y": -0.3678097128868103,
+            "predicted_reward": -0.024137087166309357,
+            "q": 0.28803497552871704,
+            "true_collision": true,
+            "true_next_y": -0.2598404586315155,
+            "true_reward": -0.10400000000000001
+          }
+        ]
+      },
+      "seed": 9010
+    }
+  ],
+  "seed_end": 9010,
+  "seed_start": 9001,
+  "seeds": 10,
+  "training_performed": false,
+  "up_ranked_best_counts": {
+    "initial_model_bellman": 0,
+    "initial_q": 10,
+    "prewall_model_bellman": 0,
+    "prewall_q": 1
+  }
+}

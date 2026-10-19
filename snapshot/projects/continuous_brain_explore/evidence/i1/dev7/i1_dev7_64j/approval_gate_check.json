@@ -1,0 +1,421 @@
+{
+  "format": "cb-i1-approval-gate/2",
+  "run": "i1_dev7_64j",
+  "cases": 59,
+  "all_pass": true,
+  "results": [
+    {
+      "case": "genuine chain",
+      "accepted": true,
+      "expected_accept": true,
+      "pass": true,
+      "detail": "accepted"
+    },
+    {
+      "case": "old 12-check schema",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['donor_pairing_fixed_by_ids', 'no_hidden_mutable_state'], unexpected [])"
+    },
+    {
+      "case": "missing fidelity_to_frozen_v036_driver",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['fidelity_to_frozen_v036_driver'], unexpected [])"
+    },
+    {
+      "case": "missing replay_bit_exact_before_every_intervention",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['replay_bit_exact_before_every_intervention'], unexpected [])"
+    },
+    {
+      "case": "missing interventions_applied_exactly_as_planned",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['interventions_applied_exactly_as_planned'], unexpected [])"
+    },
+    {
+      "case": "missing manifest_consistent_across_arms",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['manifest_consistent_across_arms'], unexpected [])"
+    },
+    {
+      "case": "missing store_authority_controls_change_the_individual",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['store_authority_controls_change_the_individual'], unexpected [])"
+    },
+    {
+      "case": "missing host_state_read_from_store",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['host_state_read_from_store'], unexpected [])"
+    },
+    {
+      "case": "missing driver_record_matches_store_lifecycle",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['driver_record_matches_store_lifecycle'], unexpected [])"
+    },
+    {
+      "case": "missing no_driver_side_model_forwards",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['no_driver_side_model_forwards'], unexpected [])"
+    },
+    {
+      "case": "missing no_driver_side_mechanism_calls",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['no_driver_side_mechanism_calls'], unexpected [])"
+    },
+    {
+      "case": "missing no_hidden_mutable_state",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['no_hidden_mutable_state'], unexpected [])"
+    },
+    {
+      "case": "missing donor_pairing_fixed_by_ids",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['donor_pairing_fixed_by_ids'], unexpected [])"
+    },
+    {
+      "case": "missing no_errors",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['no_errors'], unexpected [])"
+    },
+    {
+      "case": "missing legacy_tree_unchanged",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['legacy_tree_unchanged'], unexpected [])"
+    },
+    {
+      "case": "missing pins_verified",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing ['pins_verified'], unexpected [])"
+    },
+    {
+      "case": "unexpected extra check",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity block does not have exactly the I1 schema (missing [], unexpected ['extra_check'])"
+    },
+    {
+      "case": "manifest binding removed",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity diagnostics do not bind every arm to its manifest.json"
+    },
+    {
+      "case": "manifest binding altered",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity diagnostics do not bind every arm to its manifest.json"
+    },
+    {
+      "case": "arm LEGACY_REF unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['LEGACY_REF'], unexpected [])"
+    },
+    {
+      "case": "arm NORMAL unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['NORMAL'], unexpected [])"
+    },
+    {
+      "case": "arm FIXED_SCAFFOLD unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['FIXED_SCAFFOLD'], unexpected [])"
+    },
+    {
+      "case": "arm ERASED unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['ERASED'], unexpected [])"
+    },
+    {
+      "case": "arm DONOR unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['DONOR'], unexpected [])"
+    },
+    {
+      "case": "arm ROLLBACK unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['ROLLBACK'], unexpected [])"
+    },
+    {
+      "case": "arm PERSIST_SAVE unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['PERSIST_SAVE'], unexpected [])"
+    },
+    {
+      "case": "arm PERSIST_RESUME unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['PERSIST_RESUME'], unexpected [])"
+    },
+    {
+      "case": "arm RNG_PERTURBED unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['RNG_PERTURBED'], unexpected [])"
+    },
+    {
+      "case": "arm AUTHORITY_SKILLS unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['AUTHORITY_SKILLS'], unexpected [])"
+    },
+    {
+      "case": "arm AUTHORITY_GOAL unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['AUTHORITY_GOAL'], unexpected [])"
+    },
+    {
+      "case": "arm AUTHORITY_CURRICULUM unbound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['AUTHORITY_CURRICULUM'], unexpected [])"
+    },
+    {
+      "case": "only NORMAL bound",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing ['AUTHORITY_CURRICULUM', 'AUTHORITY_GOAL', 'AUTHORITY_SKILLS', 'DONOR', 'ERASED', 'FIXED_SCAFFOLD', 'LEGACY_REF', 'PERSIST_RESUM"
+    },
+    {
+      "case": "unexpected arm",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's arm manifests do not cover exactly the I1 arms (missing [], unexpected ['SOME_OTHER_ARM'])"
+    },
+    {
+      "case": "one arm under another manifest",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's validity diagnostics do not bind every arm to its manifest.json"
+    },
+    {
+      "case": "design changed after opening",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the design changed after the preflight was opened (opened under c7c238eab5f97166edbcc45c796df247bb85834530fc81c2783cf04512ac2a39, now f30fdbd020c389de1fb95f974c84efd61f1dd9f11760775d80e50ad232e8483a)"
+    },
+    {
+      "case": "prereg file changed after opening (design unchanged)",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "registry/i1_integration_v1.json changed after the preflight was opened"
+    },
+    {
+      "case": "central registry changed after opening",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "registry/preregistrations.json changed after the preflight was opened"
+    },
+    {
+      "case": "no ledger spend (fabricated spent:true)",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the ledger has no spend of i1-v1-preflight-eng-b: no real preflight was opened"
+    },
+    {
+      "case": "ledger spend by another source",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the ledger's spend of i1-v1-preflight-eng-b was made by 'lifecycle-suite:simulated', not by this run ('I1-INTEGRATED-INDIVIDUAL-v1:preflight:i1_dev7_64j:opened')"
+    },
+    {
+      "case": "ledger spend recorded twice",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the ledger records 2 spends of i1-v1-preflight-eng-b"
+    },
+    {
+      "case": "ledger row superseding the spend",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "a later ledger row supersedes the spend of i1-v1-preflight-eng-b"
+    },
+    {
+      "case": "family marked spent by hand in seed_ranges.json",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "i1-v1-preflight-eng-b is marked spent in the shared ranges file, not by a run"
+    },
+    {
+      "case": "sealed report missing",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight's sealed report is missing (sealed/i1_report.json)"
+    },
+    {
+      "case": "sealed report altered",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the sealed report does not match the SHA-256 committed in i1_validity.json"
+    },
+    {
+      "case": "sealed report recommitted with another validity block",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the sealed report disagrees with the visible validity view (values not shown)"
+    },
+    {
+      "case": "sealed report recommitted with other arm bindings",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the sealed report disagrees with the visible validity view (values not shown)"
+    },
+    {
+      "case": "sealed report of another run",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the sealed report disagrees with the visible validity view (values not shown)"
+    },
+    {
+      "case": "opened under another status",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight was not opened under the PROPOSED preregistration (approval fields at opening)"
+    },
+    {
+      "case": "approval fields at opening",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight was not opened under the PROPOSED preregistration (approval fields at opening)"
+    },
+    {
+      "case": "opening record without its binding",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "seed_opened.json lacks the registry binding ['seed_ledger_sha256']"
+    },
+    {
+      "case": "opening record of another run",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "seed_opened.json is not the opening record of a preflight of this preregistration's preflight family in this directory"
+    },
+    {
+      "case": "opening record under another manifest",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "seed_opened.json was written under another manifest than the directory's manifest.json"
+    },
+    {
+      "case": "directory renamed",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the ledger's spend of i1-v1-preflight-eng-b was made by 'I1-INTEGRATED-INDIVIDUAL-v1:preflight:i1_dev7_64j:opened', not by this run ('I1-INTEGRATED-INDIVIDUAL-v1:preflight:renamed:opened')"
+    },
+    {
+      "case": "directory outside runs/i1",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the preflight directory must be runs/i1/<label> of this checkout, not /tmp/tmpgxykqavn/case53/root/elsewhere/i1_dev7_64j"
+    },
+    {
+      "case": "interrupted approval journal present",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "an interrupted approval journal exists (registry/i1_approval.journal.json); run scripts/i1_approve.py --recover"
+    },
+    {
+      "case": "approved by Claude",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "only the preregistered approval authority 'David' can approve, not 'Claude'"
+    },
+    {
+      "case": "approver not exactly the authority (case)",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "only the preregistered approval authority 'David' can approve, not 'david'"
+    },
+    {
+      "case": "unrelated ledger row appended after opening",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "the seed ledger changed after the preflight was opened"
+    },
+    {
+      "case": "CONTINUOUS_BRAIN_REGISTRY points elsewhere",
+      "accepted": false,
+      "expected_accept": false,
+      "pass": true,
+      "detail": "CONTINUOUS_BRAIN_REGISTRY is set to /tmp/tmpgxykqavn/case58/root/other_registry, not to this checkout's registry /tmp/tmpgxykqavn/case58/root/registry; unset it"
+    }
+  ]
+}

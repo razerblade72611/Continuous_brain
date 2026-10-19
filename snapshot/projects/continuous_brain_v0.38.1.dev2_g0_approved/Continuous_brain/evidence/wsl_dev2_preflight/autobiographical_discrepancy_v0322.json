@@ -1,0 +1,21 @@
+{
+  "blocked_reasons": [],
+  "evidence_ok": true,
+  "mechanism_id": "autobiographical_discrepancy_v0322",
+  "prereg_status": "APPROVED",
+  "recipe": {
+    "evaluator": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+    "fresh_family": "g0-v0322-dev",
+    "mechanism_id": "autobiographical_discrepancy_v0322",
+    "pass_field": "test_admission_passed",
+    "seed_container": "range",
+    "seed_symbol": "TEST_IDS"
+  },
+  "seed_plan": {
+    "mechanism_id": "autobiographical_discrepancy_v0322",
+    "name": "g0-v0322-dev",
+    "purpose": "DEV",
+    "start": 304000,
+    "stop": 304255
+  }
+}

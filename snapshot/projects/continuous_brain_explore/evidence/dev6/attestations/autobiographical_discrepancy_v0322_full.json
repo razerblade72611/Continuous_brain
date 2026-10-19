@@ -1,0 +1,912 @@
+{
+ "api_trace": {
+  "autobiography": {},
+  "curriculum": {},
+  "goal_genesis": {},
+  "planner": {},
+  "self_state": {
+   "rollout": {
+    "first_response_b64": "<omitted; see run directory>",
+    "first_response_tick": 0,
+    "ticks": [
+     [
+      0,
+      "0f9aa24fbb5e41a054f1d72facfb178858d6c02a27c1d6ff9db63967afcfad66"
+     ],
+     [
+      5,
+      "4296df4eb343856d8e5517be8c57ef00c083e30df62616474d71536f9c517b85"
+     ],
+     [
+      10,
+      "aa062b612c1f7671e3891ee70c65ec31961958a7e8c7899f82cf220af3b1b173"
+     ],
+     [
+      15,
+      "565500dbe2a1891a8dffa4b66e0408f03a8233866f02397507778521d8c7123c"
+     ],
+     [
+      20,
+      "46cf644cef294c1e9521221c7049aa912dcf1d31049eeadfa80eaca13f6ce50b"
+     ],
+     [
+      25,
+      "a16ba012e92bcced29860f84280c2b7b30a62630d5d8cab980e20afe7d3ae273"
+     ],
+     [
+      30,
+      "0b4fd4d5fddfcc8f3fc46a43075270a693f415c8d7ac6215b9891cc7612de570"
+     ],
+     [
+      35,
+      "158bb515059ccce5b7899c5ca9b2613c4bf0e96f6d5d53941015c9a307d95230"
+     ],
+     [
+      40,
+      "d07e47c91c70970161b5915ddcea127f61e4730c9668c8159103ec911b256364"
+     ],
+     [
+      45,
+      "3f1a1f3ca75fb8a9be318b223f23c02a1e8c788164b18f619df44d790ec13267"
+     ],
+     [
+      50,
+      "fadd9f9c39523d943f557a2dfdc07414b6cffe2b0ea50bca81515fd67522986a"
+     ],
+     [
+      55,
+      "5d238a1043c8a74d6e0eee32c24dd0f18822b1f03c00afbd7257c90c791f9515"
+     ],
+     [
+      60,
+      "97fd18ad5a16a5d1979caec1e75dbae6f3abfcec8ff94da17278c0bb6073345d"
+     ],
+     [
+      65,
+      "16440225554d9e1bada9fd999aa471c56a2c5c56dafba0dcd43cec9801deb593"
+     ],
+     [
+      70,
+      "4fc4011581ef97cbb6ef4b99ebee7e38eb3e8a885abd69974c0652f1e10cbad6"
+     ],
+     [
+      75,
+      "33bafcb3fdfa10b4779f6c98e6c44ec5bba88270317bd1c2190ac8b87618403b"
+     ],
+     [
+      80,
+      "19d276f1e29a5695767483dc0d65f116c83471e1229fb26c096c58889ff3954d"
+     ],
+     [
+      85,
+      "d458e6dff8555e6639fedd71ac0dc108be1dc34fb61f9abfd3b094ff864f6d1c"
+     ],
+     [
+      90,
+      "9660b209df084795d1ee533301c3ae3a24551ab31d3dfdf51b7cc4e561a0d955"
+     ],
+     [
+      95,
+      "ca875c493f1137d8f62471317d80663f9b56d64f3bf4733a36067a9d3dcd4ba0"
+     ],
+     [
+      100,
+      "96928d79c459f8e928647489afd4feb3ca96dde67a4c1127f1487debf3a09c89"
+     ],
+     [
+      105,
+      "642da370a1ee877a665e67bd270c95133468b87c2309b5ae66a9359e040c6ac3"
+     ],
+     [
+      110,
+      "50df4a9a558dcc106ad7245faaf52c108d9f7f8b9f1403dc1d8b99b1e87631f8"
+     ],
+     [
+      115,
+      "3db0258c043caaf1eaa8b78b8dc8eab9a9fe4302cde55ff74e335558b0ea7c00"
+     ],
+     [
+      120,
+      "a50e8bf9b151eda11c66fcf6c0939dddf10bdf97bd687cf4fb80c11ef20aa501"
+     ],
+     [
+      125,
+      "41a82e6729578ad8b6cdea750c14ee08cc75cfe9794f4d30bff1cdc10507c7f3"
+     ],
+     [
+      130,
+      "a8bd5e1fc2f85184bfb7c2f4f18f14b565316ae7011972d8c22d3c456aa85bb6"
+     ],
+     [
+      135,
+      "8b333fc3072964576e14d835258b5861e3860f16e673ecf8e66a53e54e14be23"
+     ],
+     [
+      140,
+      "47e820969089d0d6fac9329713495cb21e84355e970696a696759cb57f1d5913"
+     ],
+     [
+      145,
+      "ef016676b5690cc743c3443c343aee5444b379a34b89ff6c8b1ff179b2a6dc18"
+     ],
+     [
+      150,
+      "46d72cf35d059a42b787b235b1ce0104a5370cca895bdf299f58940880d54295"
+     ],
+     [
+      155,
+      "019df693905187f950cd0fdc1c9eb6f5956c9d163ae1c50692c46bf2ae5a4b96"
+     ],
+     [
+      160,
+      "59bc2567e7e87160eebc0ad0ac031b29acba00ae0d5e64c70814cfe584efe8bb"
+     ],
+     [
+      165,
+      "491e06b394acb233711b414caae791532ca4edc19fff19699f39e70e1beb83db"
+     ],
+     [
+      170,
+      "039eaf31403ef3bb8998d871807c0a5adfff3a04729096839dd3fafd22552e7a"
+     ],
+     [
+      175,
+      "ff01e2bb635e9b4a1d72da589e57a9e2c154960e27d89f37cec3e23cf12fb8d6"
+     ],
+     [
+      180,
+      "2edba0097ba87e68b074c49da12a7b8b014bc4b83e2730addb88889adce3fe6c"
+     ],
+     [
+      185,
+      "cb902ec71da83d863e83f79110ab0fdf4b07247ff4a75436ebfc7569f553cc77"
+     ],
+     [
+      190,
+      "338d0301559d450c4baec71cb1af9f1910eabd5f42a356d61a5c8c49bee1fc98"
+     ],
+     [
+      195,
+      "92b608ae626e5e5f148c18a4fc5e1cf89b128f878ecde3af8897e2aedae564ce"
+     ],
+     [
+      200,
+      "ab3af2220adc1e5c37e507dc816493ad0ffea87e429de297011d5656f2f4aa89"
+     ],
+     [
+      205,
+      "1cdc6125ca1c29a7e1e3683456eeb66f1f432dc22ffacee593d73b80bc0f05b7"
+     ],
+     [
+      210,
+      "0ad20411fb417efaddb886b586cd82d974737501c275d5ffc21ade1477b1a995"
+     ],
+     [
+      215,
+      "7ce5473cdb86ac45d4fd18852758571fb69f7fb99e15733e24e41a0ae254312a"
+     ],
+     [
+      220,
+      "a5f32bdcf7acb796b24a4795d79424a9804fabd8ff9d71d21b1f36f12251f627"
+     ],
+     [
+      225,
+      "2cd6abbdefd3f1c18e815ba5d929c3906d525e47d47e2497955b4f3876891f62"
+     ],
+     [
+      230,
+      "a00137d2d36b129589fe111be7fe73eccb6dad10e4846a3f493c76b9cd7c077d"
+     ],
+     [
+      235,
+      "ac478de121babc8e88810456e5c3d433bc665a08b2728f59a657c0a6642e0f4a"
+     ],
+     [
+      240,
+      "7c55db1a6922783a2e8420a86fdb0417ca244659cc8995209491f256b2f332ad"
+     ],
+     [
+      245,
+      "1debde406b47920dd26b2a6b2a8fabb3218420ec0f197f60e4224071d55e7f25"
+     ],
+     [
+      250,
+      "751c956a5d5911b65501a0dc456caf5c4b3c29fd5f3523f8c178f2c1e3c84369"
+     ],
+     [
+      255,
+      "145a2320dcc9c217d872725ca5a81de80f96d7c93e1b0be8825ace684b9ab09e"
+     ],
+     [
+      260,
+      "bdf98b8ff5e1794cb0f7f35ea7efa1b68faaa5c1f14465022a14fb3c9020cc4a"
+     ],
+     [
+      265,
+      "5b7797636e34dbd9b3ee629c3baaa98a14d74295ce11d4dd7c0c435eab3a9aba"
+     ],
+     [
+      270,
+      "72132717374689e9123cdc7a8ec7b501fbf2d774b500092ef7d673da683c30c8"
+     ],
+     [
+      275,
+      "3985fe46f9cc6f9fc8a89c0c40efb76f9c95b9328070117cb3b72e141016ea71"
+     ],
+     [
+      280,
+      "a6a83e8dfaa1ee562476561ecfc113433f91ae2e7e5d15fbb886139b82b42931"
+     ],
+     [
+      285,
+      "68fc81e2e6228951bb89a8f4f6a8b66afa55ade5c2b3b72012684f9a305d43aa"
+     ],
+     [
+      290,
+      "38249a9fcdc8a48d40dab70bedf59d344b1cfd0931a2ebb5146cb4fe46904994"
+     ],
+     [
+      295,
+      "caadd679bfe8689b060dbd1961a3c543a93bbdac686a8a65dbd02901ccd5911d"
+     ],
+     [
+      300,
+      "5640e0f037e08bed1fed5efaefaa680f34c4c9f62046326c80b3de7a3bfe6809"
+     ],
+     [
+      305,
+      "03c1c2ed3cc9f6c3071159cc9fddddaf17cc9342a07347da44d9b470286c020d"
+     ],
+     [
+      310,
+      "60febb3b9211c7e8467515c835f6150da51f41409622d49b9a15868e95028caf"
+     ],
+     [
+      315,
+      "1e21531f1d5289c94ea8afc37820f313a49d9e9686f1d95bd18a01041d3c78b5"
+     ]
+    ]
+   },
+   "update_explicit_intention": {
+    "first_response_b64": "<omitted; see run directory>",
+    "first_response_tick": 1,
+    "ticks": [
+     [
+      1,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      2,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      3,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      4,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      6,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      7,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      8,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      9,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      11,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      12,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      13,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      14,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      16,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      17,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      18,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      19,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      21,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      22,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      23,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      24,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      26,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      27,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      28,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      29,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      31,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      32,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      33,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      34,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      36,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      37,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      38,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      39,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      41,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      42,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      43,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      44,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      46,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      47,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      48,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      49,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      51,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      52,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      53,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      54,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      56,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      57,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      58,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      59,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      61,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      62,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      63,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      64,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      66,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      67,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      68,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      69,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      71,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      72,
+      "6038980277439bb3604f290f716977096301b2ed6927890993c845d7c87f3065"
+     ],
+     [
+      73,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      74,
+      "31891d6eabb5a5c0edf80076e470d7a73287a71f21f5e3c9bbaf8e2b6f7ea795"
+     ],
+     [
+      76,
+      "e28df929e1b8084926efa677ba433f52da282bf1f7a4659bea1286de9e4fa3c2"
+     ],
+     [
+      77,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      78,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ],
+     [
+      79,
+      "56c221936563305f2887bdc70c8d67097ee2ea17f6436e542aa5567cd42b0141"
+     ]
+    ]
+   }
+  },
+  "skills": {}
+ },
+ "binding_report": [
+  {
+   "component": "legacy-host:recurrent_self_trajectory_v031",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "recurrent_self_trajectory_v031",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "024f3c8d82df2c8c335469a42ca8f1476c8c23bd3aa1d64baea81112fa606a8a"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "self_state",
+   "status": "bound"
+  },
+  {
+   "component": "legacy-host:autobiographical_discrepancy_v0322",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "autobiographical_discrepancy_v0322",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "b813cb4bc2cdc4fe0695f0f03f67b412ee5bd2ef509359ae269d42916b94b409"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "autobiography",
+   "status": "bound"
+  },
+  {
+   "component": "legacy-host:event_consistent_self_development_v0341",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "event_consistent_self_development_v0341",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "82a31a6cea584ca5e85c3db9a6200deb3195940bef3e6ab44e2fafa4b4d21bf5"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "skills",
+   "status": "bound"
+  },
+  {
+   "component": "legacy-host:consequence_replanning_v0252",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "consequence_replanning_v0252",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "15536f4c65f6fbfccaa19c7b76538f64fda120bf0a6abe158e9ccdebad9897ac"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "planner",
+   "status": "bound"
+  },
+  {
+   "component": "legacy-host:endogenous_goal_genesis_v0353",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "endogenous_goal_genesis_v0353",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "83fc5ab2b840654cf3d738db7aa680fe594dedcdb7dc15001fbe53ad13083278"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "goal_genesis",
+   "status": "bound"
+  },
+  {
+   "component": "legacy-host:recursive_autobiographical_curriculum_v0361",
+   "kind": "mechanism",
+   "provenance": {
+    "detail": {
+     "engineering_only": true,
+     "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+     "note": "legacy code executed unmodified from the hash-pinned legacy root; binding through the verified-manifest path is required before any scientific use",
+     "spec_digest": "8abf49798e3c5b35987e121dbd25f0f961df5130a607c40f7c43cdf1a881bdc0"
+    },
+    "kind": "test_fixture"
+   },
+   "reason": "",
+   "slot": "curriculum",
+   "status": "bound"
+  }
+ ],
+ "bound_mechanisms": [
+  "autobiographical_discrepancy_v0322",
+  "consequence_replanning_v0252",
+  "endogenous_goal_genesis_v0353",
+  "event_consistent_self_development_v0341",
+  "recurrent_self_trajectory_v031",
+  "recursive_autobiographical_curriculum_v0361"
+ ],
+ "boundary": {
+  "calls": 1920,
+  "content_flows": {},
+  "content_flows_meaning": "informative tensor/object content read by the driver from one host's response that later appeared in another host's request",
+  "nested_calls": {
+   "self_state->self_state:active_goal_from_intention": 384
+  },
+  "unbound_calls": {}
+ },
+ "census": {
+  "acquisition_verifications": [
+   {
+    "bit_identical": true,
+    "loader": "load_trajectory_model",
+    "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+    "slot": "self_state"
+   },
+   {
+    "bit_identical": true,
+    "loader": "load_neutral_model",
+    "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+    "slot": "autobiography"
+   }
+  ],
+  "binding_loads": [
+   {
+    "instance": "trajectory_model:shared",
+    "path": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+    "slot": "self_state"
+   },
+   {
+    "instance": "neutral_model:shared",
+    "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+    "slot": "autobiography"
+   },
+   {
+    "instance": "consequence_model:shared",
+    "path": "state/consequence_replanning_v1/consequence_model.pt",
+    "slot": "planner"
+   }
+  ],
+  "constructed_instances": [],
+  "patched_bindings_by_kind": {
+   "api": 13,
+   "api-method": 4,
+   "loader": 8,
+   "torch.load": 1
+  },
+  "private_instances": [
+   {
+    "loader": "load_neutral_model",
+    "path": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+    "reason": "reload_probe",
+    "slot": "autobiography"
+   }
+  ],
+  "shared_acquisitions": {
+   "autobiography:load_neutral_model": 1,
+   "self_state:load_trajectory_model": 1
+  },
+  "torch_load_paths": {
+   "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt": 3,
+   "state/consequence_replanning_v1/consequence_model.pt": 1,
+   "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt": 2
+  }
+ },
+ "codec_version": "cb-exact-codec/1",
+ "composition_sources": {
+  "boundary.py": "8f762c1f3327df2bb9289b6974d0481e97b973a1dc1cbe99efa940e310d5b87f",
+  "codec.py": "e8c17de13e33a18f57bbc848dbc3030e5aab8913290873ad87b26bf2b1e872b7",
+  "route.py": "dc5a3bfd1e71cefc6d85900703eb4dab7b90e1211166c90114b7ea04f3f622cc",
+  "spec.py": "08db192e6eb7e5b61914d4a5e44aac975282d8325f9d6c2743c2da20049c03e0"
+ },
+ "config_hash": "0230e363463f78dd0b729f345a656dc66efc9891f21088b4f942154a36a7fd6b",
+ "environment": {
+  "platform": "Linux-6.18.44-fc-v50-x86_64-with-glibc2.39",
+  "python": "3.11.15",
+  "threads": 2,
+  "torch": "2.14.0+cu130"
+ },
+ "evaluator": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+ "evaluator_exit_code": 0,
+ "evaluator_sha256": "27fb6fe85669bc8f7f95daf0cd47ca8dcdc5cbc74525851ab8e99b7a4ede60fb",
+ "fatal_error": null,
+ "first_responses": {
+  "self_state": {
+   "b64": "<omitted>",
+   "bytes": 729,
+   "sha256": "0f9aa24fbb5e41a054f1d72facfb178858d6c02a27c1d6ff9db63967afcfad66",
+   "tick": 0
+  }
+ },
+ "focal_mechanism": "autobiographical_discrepancy_v0322",
+ "format": "cb-composition-attestation/1",
+ "historical_core_manifest_digest": "e4decc380be29eb9378ba5ad4c2db52e13d011a6dbb577374c4bf65f14dcb633",
+ "hosts": {
+  "autobiography": {
+   "apis": {},
+   "blocked": 0,
+   "distinct_responses_by_api": {},
+   "idle_ticks": 1920,
+   "legacy_errors": 0,
+   "mechanism_id": "autobiographical_discrepancy_v0322",
+   "mutated_argument_calls": 0,
+   "requests": 0
+  },
+  "curriculum": {
+   "apis": {},
+   "blocked": 0,
+   "distinct_responses_by_api": {},
+   "idle_ticks": 1920,
+   "legacy_errors": 0,
+   "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+   "mutated_argument_calls": 0,
+   "requests": 0
+  },
+  "goal_genesis": {
+   "apis": {},
+   "blocked": 0,
+   "distinct_responses_by_api": {},
+   "idle_ticks": 1920,
+   "legacy_errors": 0,
+   "mechanism_id": "endogenous_goal_genesis_v0353",
+   "mutated_argument_calls": 0,
+   "requests": 0
+  },
+  "planner": {
+   "apis": {},
+   "blocked": 0,
+   "distinct_responses_by_api": {},
+   "idle_ticks": 1920,
+   "legacy_errors": 0,
+   "mechanism_id": "consequence_replanning_v0252",
+   "mutated_argument_calls": 0,
+   "requests": 0
+  },
+  "self_state": {
+   "apis": {
+    "rollout": 384,
+    "update_explicit_intention": 1536
+   },
+   "blocked": 0,
+   "distinct_responses_by_api": {
+    "rollout": 384,
+    "update_explicit_intention": 4
+   },
+   "idle_ticks": 0,
+   "legacy_errors": 0,
+   "mechanism_id": "recurrent_self_trajectory_v031",
+   "mutated_argument_calls": 0,
+   "requests": 1920
+  },
+  "skills": {
+   "apis": {},
+   "blocked": 0,
+   "distinct_responses_by_api": {},
+   "idle_ticks": 1920,
+   "legacy_errors": 0,
+   "mechanism_id": "event_consistent_self_development_v0341",
+   "mutated_argument_calls": 0,
+   "requests": 0
+  }
+ },
+ "intervention_applications": 0,
+ "mediation": {
+  "class": "PARTLY_DRIVER_DIRECT",
+  "model_submodule_forwards_in_driver": 1408,
+  "model_submodule_forwards_in_hosts": 20352,
+  "nested_calls_inside_hosts": 384,
+  "store_mediated_calls": 1920
+ },
+ "model_forwards": {
+  "neutral_model:private0|driver": 8,
+  "neutral_model:shared|driver": 1400,
+  "trajectory_model:shared|host:self_state": 20352
+ },
+ "read_report": [
+  {
+   "chain": "82314d2f8d64fe48cee387dac1979e74fce33d0e12354b1165aeca55e06d0a51",
+   "channel": "driver.autobiography.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 0,
+   "reader": "autobiography",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  },
+  {
+   "chain": "82314d2f8d64fe48cee387dac1979e74fce33d0e12354b1165aeca55e06d0a51",
+   "channel": "driver.curriculum.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 0,
+   "reader": "curriculum",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  },
+  {
+   "chain": "11137675eed95df79b26a9aa4cad9f6ab0a06da507aad9dee20affe95ae29ff3",
+   "channel": "self_state.response",
+   "delayed_reads": 0,
+   "nonempty_reads": 1920,
+   "reader": "driver",
+   "reads": 1920,
+   "writer": "self_state",
+   "written_reads": 1920
+  },
+  {
+   "chain": "82314d2f8d64fe48cee387dac1979e74fce33d0e12354b1165aeca55e06d0a51",
+   "channel": "driver.goal_genesis.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 0,
+   "reader": "goal_genesis",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  },
+  {
+   "chain": "82314d2f8d64fe48cee387dac1979e74fce33d0e12354b1165aeca55e06d0a51",
+   "channel": "driver.planner.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 0,
+   "reader": "planner",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  },
+  {
+   "chain": "725ad51489624c278372844fe019b50b4fadc00f7adec778a76ad9885c6f2002",
+   "channel": "driver.self_state.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 1920,
+   "reader": "self_state",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  },
+  {
+   "chain": "82314d2f8d64fe48cee387dac1979e74fce33d0e12354b1165aeca55e06d0a51",
+   "channel": "driver.skills.request",
+   "delayed_reads": 0,
+   "nonempty_reads": 0,
+   "reader": "skills",
+   "reads": 1920,
+   "writer": "driver",
+   "written_reads": 1920
+  }
+ ],
+ "route_blocked": null,
+ "runtime_instance_id": "d9ba749a-d736-4ee1-bb36-6f78ca153a8d",
+ "scheduler_graph_hash": "b4d40ddb0c96827df4507013df7e2661e5ab663f35c3a52a9bb3c4f5a1b2ef53",
+ "scheduler_order": [
+  "legacy-host:recurrent_self_trajectory_v031",
+  "legacy-host:autobiographical_discrepancy_v0322",
+  "legacy-host:event_consistent_self_development_v0341",
+  "legacy-host:consequence_replanning_v0252",
+  "legacy-host:endogenous_goal_genesis_v0353",
+  "legacy-host:recursive_autobiographical_curriculum_v0361"
+ ],
+ "scientific": false,
+ "seed_range": [
+  906200,
+  906231
+ ],
+ "seed_symbol": "TEST_IDS",
+ "spec_digest": "4845a9bb9e5efc74cad942a4f409097ab2bb0fcf56ec9aa87248228c1c66f09d",
+ "status": "ENGINEERING_ONLY",
+ "store_digest_final": "b966f794edce4f094320c854aecae67bcb77c904de146bb5131825d95b854c52",
+ "store_interventions": [],
+ "store_write_log_total": 38400,
+ "ticks": 1920
+}

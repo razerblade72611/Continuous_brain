@@ -1,0 +1,2051 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from collections import deque
+import base64
+import math
+import random
+import time
+import zlib
+from pathlib import Path
+from typing import Any, Callable
+
+import numpy as np
+
+from .environment import Environment
+from .spatial import SpatialMemory2D
+
+
+@dataclass(slots=True)
+class CurriculumTarget:
+    level: int
+    kind: str
+    label: str
+    position: np.ndarray
+    object_id: str | None = None
+    stage: int = 0
+    start_position: np.ndarray | None = None
+    crossed_position: np.ndarray | None = None
+    waypoints: list[np.ndarray] | None = None
+    waypoint_index: int = 0
+
+
+@dataclass(slots=True)
+class AI2ThorConfig:
+    scene: str = "FloorPlan1_physics"
+    executable: str | None = None
+    width: int = 320
+    height: int = 240
+    fov: float = 90.0
+    grid_size: float = 0.25
+    rotate_degrees: float = 30.0
+    max_episode_steps: int = 300
+    curriculum_level: int = 1
+    goal_signal: str = "teacher-nav"  # teacher-nav | sensor-only
+    goal_dropout: float = 0.0
+    random_start: bool = True
+    seed: int = 7
+    safety_distance: float = 0.20
+    action_noise: float = 0.0
+    orient_success_degrees: float = 15.0
+    orient_progress_scale: float = 0.008
+    orient_correct_turn_bonus: float = 0.02
+    orient_wrong_turn_penalty: float = 0.03
+    stagnation_steps: int = 60
+    stagnation_epsilon: float = 0.5
+    graduation_window: int = 100
+    graduation_success_rate: float = 0.95
+    graduation_median_steps: float = 6.0
+    graduation_failure_rate: float = 0.02
+
+    # v0.4.2 hierarchical navigation curriculum.  L1 starts with short teacher
+    # paths, preserves angular shaping from L0, and expands path length as recent
+    # success improves.
+    nav_angular_scale: float = 0.003
+    nav_distance_scale: float = 0.80
+    nav_forward_bonus: float = 0.02
+    nav_blocked_penalty: float = 0.08
+    nav_wrong_way_penalty: float = 0.04
+    nav_progress_distance_epsilon: float = 0.01
+    nav_progress_angle_epsilon: float = 2.0
+    nav_initial_path_steps: int = 2
+    nav_min_path_steps: int = 2
+    nav_max_path_steps: int = 8
+    waypoint_radius: float = 0.12
+    nav_success_radius: float = 0.12
+    nav_min_successful_translations: int = 1
+    nav_alignment_gate_degrees: float = 15.0
+    nav_idle_aligned_penalty: float = 0.02
+    nav_edge_failure_threshold: int = 2
+    nav_native_collision_training: bool = True
+    nav_graduation_blocked_rate: float = 0.10
+    rehearsal_fraction: float = 0.15
+    level_epsilon_start: float = 0.35
+    level_epsilon_end: float = 0.08
+    level_epsilon_decay_steps: int = 5000
+
+    # v0.5 spatial cognition. L2 keeps the same 6x5 neural interface but replaces
+    # the reachable-grid route teacher with a persistent depth-built metric map and
+    # self-generated waypoint. Simulator reachability is used only to sample valid
+    # training destinations / establish allocation bounds, never to produce L2 routes.
+    spatial_resolution: float = 0.25
+    spatial_unknown_cost: float = 2.5
+    spatial_occupied_threshold: float = 0.80
+    spatial_free_threshold: float = -0.25
+    spatial_max_cells: int = 200000
+    spatial_depth_max_range: float = 5.0
+    spatial_depth_min_trusted: float = 0.25
+    spatial_depth_rays: int = 31
+    spatial_waypoint_lookahead_cells: int = 2
+    spatial_replan_every_steps: int = 4
+    spatial_target_min_distance: float = 1.0
+    spatial_target_max_distance: float = 2.5
+    spatial_min_successful_translations: int = 4
+    spatial_success_radius: float = 0.18
+    spatial_graduation_blocked_rate: float = 0.12
+    spatial_graduation_plan_failure_rate: float = 0.05
+
+    # v0.5.1 sensor-integrity safeguards. Discovery can report self-occluded
+    # near-zero depth values, and long simulator sessions can occasionally expose
+    # stale camera events. Policy depth uses trusted samples only; RGB freshness is
+    # independently monitored whenever simulator pose/yaw changes.
+    sensor_depth_min_trusted: float = 0.25
+    sensor_depth_percentile: float = 70.0
+    sensor_rgb_diff_threshold: float = 0.25
+    sensor_rgb_stale_motion_events: int = 3
+    sensor_depth_unhealthy_events: int = 3
+    sensor_watchdog: bool = True
+
+    # v0.5.3 sensor hysteresis. In native simulator training, temporary/fully-invalid
+    # depth means "unknown" rather than "dead controller" because Discovery can
+    # legitimately emit unusable depth while RGB and native collision physics remain
+    # healthy. Physical/depth-safety mode remains fail-closed.
+    sensor_depth_recovery_in_native: bool = False
+    sensor_recovery_cooldown_ticks: int = 120
+    sensor_soft_reset_window_seconds: float = 600.0
+    sensor_max_soft_resets_per_window: int = 12
+    sensor_recovery_min_healthy_probes: int = 2
+
+    # v0.5.2 runtime recovery. Sensor failures are infrastructure faults, not
+    # curriculum failures. Recovery escalates from scene reset to controller
+    # recreation and verifies a changed RGB frame plus valid depth before training
+    # resumes. Repeated restart storms cause a clean abort instead of bad learning.
+    sensor_recovery_enabled: bool = True
+    sensor_soft_reset_attempts: int = 1
+    sensor_controller_restart_attempts: int = 2
+    sensor_recovery_verify_rotations: int = 2
+    sensor_recovery_min_depth_valid_fraction: float = 0.01
+    sensor_restart_window_seconds: float = 3600.0
+    sensor_max_controller_restarts_per_window: int = 6
+    sensor_max_consecutive_recovery_failures: int = 2
+
+
+class AI2ThorEmbodiedEnv(Environment):
+    """AI2-THOR adapter that preserves the v0.3 brain's 6x5 interface.
+
+    Brain observation slots (all normalized):
+      0 goal-forward component, 1 goal-right component,
+      2 center depth clearance, 3 left-minus-right clearance,
+      4 previous simulator action success, 5 previous extrinsic reward.
+
+    The first two slots can be masked with ``goal_signal=sensor-only``. L1 fills
+    them from a privileged teacher waypoint; v0.5 L2 fills the same slots from a
+    waypoint generated by persistent internal spatial memory. This preserves neural
+    compatibility while progressively removing simulator route supervision.
+
+    Brain action intents remain five-dimensional for checkpoint compatibility:
+      idle, advance, turn_left, turn_right, interact.
+    The adapter translates those high-level intents to simulator primitives.
+    """
+
+    observation_dim = 6
+    action_dim = 5
+    action_names = ("idle", "advance", "turn_left", "turn_right", "interact")
+
+    def __init__(
+        self,
+        config: AI2ThorConfig,
+        controller_factory: Callable[..., Any] | None = None,
+    ) -> None:
+        self.config = config
+        self.rng = random.Random(config.seed)
+        self.energy = 1.0
+        self.last_reward = 0.0
+        self.last_action_success = 1.0
+        self.steps = 0
+        self.completed_subgoals = 0
+        self._closed = False
+        self._reachable: list[dict[str, float]] = []
+        self._reachable_index: dict[tuple[int, int], np.ndarray] = {}
+        self._bounds = [-1.0, 1.0, -1.0, 1.0]
+        self.target: CurriculumTarget | None = None
+        self._l0_anchor: dict[str, float] | None = None
+        self._best_progress_metric = float("inf")
+        self._stagnation_count = 0
+        self._episode_action_counts = [0] * self.action_dim
+        self._episode_successful_translations = 0
+        self._episode_blocked_advances = 0
+        self._episode_replans = 0
+        self._route_unavailable = False
+        self._edge_failures: dict[tuple[tuple[int, int], tuple[int, int]], int] = {}
+
+        # v0.5 persistent spatial cognition.  This is deliberately outside the neural
+        # tensor interface so v0.4.3 L0/L1 skill weights remain shape-compatible.
+        self.spatial = SpatialMemory2D(
+            resolution=float(config.spatial_resolution),
+            unknown_cost=float(config.spatial_unknown_cost),
+            occupied_threshold=float(config.spatial_occupied_threshold),
+            free_threshold=float(config.spatial_free_threshold),
+            max_cells=int(config.spatial_max_cells),
+        )
+        self._spatial_waypoint: np.ndarray | None = None
+        self._spatial_path: list[np.ndarray] = []
+        self._spatial_replans_episode = 0
+        self._spatial_plan_failures_episode = 0
+        self._spatial_last_plan_step = -10**9
+
+        # v0.5.1 independent camera/depth health telemetry.
+        self._sensor_frame_seq = 0
+        self._sensor_frame_hash = "00000000"
+        self._sensor_rgb_diff = float("inf")
+        self._sensor_rgb_stale_motion_events = 0
+        self._sensor_rgb_stale = False
+        self._sensor_depth_valid_fraction = 1.0
+        self._sensor_depth_healthy = True
+        self._sensor_depth_unhealthy_events = 0
+        self._sensor_depth_stale = False
+        self._sensor_faults_total = 0
+        self._sensor_rgb_faults_total = 0
+        self._sensor_depth_faults_total = 0
+        self._sensor_controller_faults_total = 0
+        self._sensor_depth_unknown_total = 0
+        self._sensor_recoveries_total = 0
+        self._sensor_soft_resets_total = 0
+        self._sensor_controller_restarts_total = 0
+        self._sensor_recovery_failures_total = 0
+        self._sensor_consecutive_recovery_failures = 0
+        self._sensor_last_recovery = "none"
+        self._sensor_last_recovery_ok = True
+        self._sensor_controller_error: str | None = None
+        self._sensor_restart_times: deque[float] = deque()
+        self._sensor_soft_reset_times: deque[float] = deque()
+        self._sensor_runtime_tick = 0
+        self._sensor_last_recovery_tick = -10**9
+        self._sensor_last_rgb_sample: np.ndarray | None = None
+        self._sensor_last_pose: np.ndarray | None = None
+        self._sensor_last_yaw: float | None = None
+
+        # v0.4.2+: curriculum evidence is level-local.  This prevents mastered L0
+        # episodes from making a brand-new L1 policy look successful and lets us
+        # rehearse old skills without contaminating current-level graduation.
+        self._recent_outcomes_by_level: dict[int, deque[dict[str, Any]]] = {}
+        self._level_totals: dict[int, dict[str, int]] = {}
+        self._level_action_steps: dict[int, int] = {}
+        self._legacy_v041_stats: dict[str, Any] = {}
+
+        if controller_factory is None:
+            try:
+                from ai2thor.controller import Controller
+            except ImportError as exc:
+                raise RuntimeError(
+                    "AI2-THOR environment requested but ai2thor is not installed. "
+                    "Install the Python package in this venv or run from an environment "
+                    "that already contains your AI2-THOR fork."
+                ) from exc
+            controller_factory = Controller
+
+        self._controller_factory = controller_factory
+        self._controller_kwargs: dict[str, Any] = {
+            "scene": config.scene,
+            "width": int(config.width),
+            "height": int(config.height),
+            "fieldOfView": float(config.fov),
+            "renderDepthImage": True,
+        }
+        if config.executable:
+            self._controller_kwargs["local_executable_path"] = str(Path(config.executable).expanduser())
+        self.controller = self._create_controller()
+
+        self.event = getattr(self.controller, "last_event", None)
+        if self.event is None:
+            self.event = self.controller.step(action="Pass")
+        self.reset()
+
+    def _create_controller(self) -> Any:
+        try:
+            return self._controller_factory(**dict(self._controller_kwargs))
+        except TypeError:
+            reduced = {"scene": self.config.scene}
+            if self.config.executable:
+                reduced["local_executable_path"] = str(Path(self.config.executable).expanduser())
+            return self._controller_factory(**reduced)
+
+    @staticmethod
+    def _stop_controller_instance(controller: Any) -> None:
+        try:
+            controller.stop()
+            return
+        except Exception:
+            pass
+        try:
+            controller.close()
+        except Exception:
+            pass
+
+    def _raw_controller_step(self, **kwargs: Any) -> Any:
+        try:
+            return self.controller.step(**kwargs)
+        except TypeError:
+            local = dict(kwargs)
+            action = local.pop("action")
+            return self.controller.step(action, **local)
+
+    def _raw_scene_reset(self) -> Any:
+        try:
+            return self.controller.reset(scene=self.config.scene)
+        except TypeError:
+            return self.controller.reset(self.config.scene)
+
+    def _frame_sample(self, event: Any) -> np.ndarray | None:
+        frame = getattr(event, "frame", None)
+        if frame is None:
+            return None
+        rgb = np.asarray(frame, dtype=np.uint8)
+        if rgb.ndim != 3 or rgb.shape[-1] < 3 or rgb.size == 0:
+            return None
+        sy = max(1, rgb.shape[0] // 24)
+        sx = max(1, rgb.shape[1] // 32)
+        return np.ascontiguousarray(rgb[::sy, ::sx, :3])
+
+    def _event_depth_valid_fraction(self, event: Any) -> float:
+        depth = getattr(event, "depth_frame", None)
+        if depth is None:
+            return 0.0
+        d = np.asarray(depth, dtype=np.float32)
+        if d.ndim != 2 or d.size == 0:
+            return 0.0
+        h = d.shape[0]
+        crop = d[max(0, int(h * 0.30)):min(h, max(int(h * 0.58), int(h * 0.30) + 1))]
+        finite = crop[np.isfinite(crop)]
+        trusted = self._trusted_depth_values(crop)
+        return float(trusted.size / max(1, finite.size))
+
+    def _verify_sensor_stream(self) -> tuple[bool, dict[str, Any]]:
+        """Actively verify RGB freshness and depth after a reset/restart.
+
+        A forced rotation is important: Pass can legitimately return an identical
+        image. The probe restores heading before returning and never updates spatial
+        memory or curriculum state.
+        """
+        details: dict[str, Any] = {"rgb_changed": False, "depth_valid_fraction": 0.0, "pose_changed": False}
+        try:
+            base = self.event if self.event is not None else self._raw_controller_step(action="Pass")
+            base_sample = self._frame_sample(base)
+            base_md = getattr(base, "metadata", {}) or {}
+            base_yaw = self._yaw_from_metadata(base_md)
+            best_diff = 0.0
+            best_depth = self._event_depth_valid_fraction(base)
+            pose_changed = False
+            healthy_rgb_probes = 0
+            rotations = max(1, int(self.config.sensor_recovery_verify_rotations))
+            threshold = max(0.0, float(self.config.sensor_rgb_diff_threshold))
+            for _ in range(rotations):
+                moved = self._raw_controller_step(action="RotateRight", degrees=float(self.config.rotate_degrees))
+                moved_sample = self._frame_sample(moved)
+                moved_md = getattr(moved, "metadata", {}) or {}
+                moved_yaw = self._yaw_from_metadata(moved_md)
+                this_pose_changed = self._angle_delta_degrees(moved_yaw, base_yaw) > 1.0
+                pose_changed = pose_changed or this_pose_changed
+                this_diff = 0.0
+                if base_sample is not None and moved_sample is not None and base_sample.shape == moved_sample.shape:
+                    this_diff = float(np.mean(np.abs(moved_sample.astype(np.int16) - base_sample.astype(np.int16))))
+                    best_diff = max(best_diff, this_diff)
+                if this_pose_changed and this_diff > threshold:
+                    healthy_rgb_probes += 1
+                best_depth = max(best_depth, self._event_depth_valid_fraction(moved))
+                self._raw_controller_step(action="RotateLeft", degrees=float(self.config.rotate_degrees))
+                self.event = getattr(self.controller, "last_event", moved)
+            min_depth = max(0.0, float(self.config.sensor_recovery_min_depth_valid_fraction))
+            required_probes = min(rotations, max(1, int(self.config.sensor_recovery_min_healthy_probes)))
+            rgb_changed = bool(base_sample is not None and healthy_rgb_probes >= required_probes)
+            depth_required = not bool(self.config.nav_native_collision_training)
+            healthy = bool(pose_changed and rgb_changed and ((best_depth >= min_depth) if depth_required else True))
+            details.update({"rgb_changed": rgb_changed, "rgb_diff": best_diff, "healthy_rgb_probes": healthy_rgb_probes, "required_rgb_probes": required_probes, "depth_valid_fraction": best_depth, "depth_required": depth_required, "pose_changed": pose_changed})
+            self.event = getattr(self.controller, "last_event", self.event)
+            self._update_sensor_health(reset_reference=True)
+            self._depth_sectors()
+            return healthy, details
+        except Exception as exc:
+            details["error"] = f"{type(exc).__name__}: {exc}"
+            return False, details
+
+    def _restart_budget_available(self) -> bool:
+        now = time.monotonic()
+        window = max(1.0, float(self.config.sensor_restart_window_seconds))
+        while self._sensor_restart_times and now - self._sensor_restart_times[0] > window:
+            self._sensor_restart_times.popleft()
+        return len(self._sensor_restart_times) < max(1, int(self.config.sensor_max_controller_restarts_per_window))
+
+    def _soft_reset_budget_available(self) -> bool:
+        now = time.monotonic()
+        window = max(1.0, float(self.config.sensor_soft_reset_window_seconds))
+        while self._sensor_soft_reset_times and now - self._sensor_soft_reset_times[0] > window:
+            self._sensor_soft_reset_times.popleft()
+        return len(self._sensor_soft_reset_times) < max(1, int(self.config.sensor_max_soft_resets_per_window))
+
+    def recover_sensor_fault(self) -> dict[str, Any]:
+        """Recover a stale camera/depth stream without converting it into learning.
+
+        Returns a small result consumed by ContinuousAgent. A failed recovery asks
+        the agent to save and stop rather than resume on a poisoned sensor stream.
+        """
+        result: dict[str, Any] = {"attempted": False, "recovered": False, "method": "disabled", "fatal": False}
+        if not bool(self.config.sensor_recovery_enabled):
+            return result
+        result["attempted"] = True
+        self._sensor_recoveries_total += 1
+
+        cooldown_active = (self._sensor_runtime_tick - self._sensor_last_recovery_tick) < max(0, int(self.config.sensor_recovery_cooldown_ticks))
+        soft_attempts = 0 if cooldown_active else max(0, int(self.config.sensor_soft_reset_attempts))
+        for attempt in range(soft_attempts):
+            if not self._soft_reset_budget_available():
+                result["soft_reset_budget_exhausted"] = True
+                break
+            try:
+                self.event = self._raw_scene_reset()
+                if self.event is None:
+                    self.event = self._raw_controller_step(action="Pass")
+                self._sensor_soft_resets_total += 1
+                self._sensor_soft_reset_times.append(time.monotonic())
+                ok, details = self._verify_sensor_stream()
+                if ok:
+                    self._sensor_consecutive_recovery_failures = 0
+                    self._sensor_last_recovery = "scene-reset"
+                    self._sensor_last_recovery_ok = True
+                    self._sensor_controller_error = None
+                    self._sensor_last_recovery_tick = int(self._sensor_runtime_tick)
+                    result.update({"recovered": True, "method": "scene-reset", "details": details})
+                    return result
+                result["soft_reset_details"] = details
+            except Exception as exc:
+                result["soft_reset_error"] = f"{type(exc).__name__}: {exc}"
+
+        restart_attempts = max(0, int(self.config.sensor_controller_restart_attempts))
+        for _ in range(restart_attempts):
+            if not self._restart_budget_available():
+                result["restart_budget_exhausted"] = True
+                break
+            old = self.controller
+            self._stop_controller_instance(old)
+            try:
+                self.controller = self._create_controller()
+                self._sensor_restart_times.append(time.monotonic())
+                self._sensor_controller_restarts_total += 1
+                self.event = getattr(self.controller, "last_event", None)
+                if self.event is None:
+                    self.event = self._raw_controller_step(action="Pass")
+                self.event = self._raw_scene_reset()
+                ok, details = self._verify_sensor_stream()
+                if ok:
+                    self._sensor_consecutive_recovery_failures = 0
+                    self._sensor_last_recovery = "controller-restart"
+                    self._sensor_last_recovery_ok = True
+                    self._sensor_controller_error = None
+                    self._refresh_reachable()
+                    self.spatial.ensure_bounds(self._bounds, preserve=True)
+                    self._sensor_last_recovery_tick = int(self._sensor_runtime_tick)
+                    result.update({"recovered": True, "method": "controller-restart", "details": details})
+                    return result
+                result["restart_details"] = details
+            except Exception as exc:
+                result["restart_error"] = f"{type(exc).__name__}: {exc}"
+
+        self._sensor_recovery_failures_total += 1
+        self._sensor_consecutive_recovery_failures += 1
+        self._sensor_last_recovery = "failed"
+        self._sensor_last_recovery_ok = False
+        result["method"] = "failed"
+        # Recovery has already exhausted the configured scene-reset and controller
+        # recreation attempts. Continuing would knowingly resume on an unverified
+        # sensor stream, so fail closed and let the agent save/exit cleanly.
+        result["fatal"] = True
+        return result
+
+    def valid_action_indices_for_level(self, level: int | None) -> tuple[int, ...]:
+        """Curriculum-specific action mask, while preserving the 5-output policy head."""
+        level = int(self.config.curriculum_level if level is None else level)
+        if level == 0:
+            return (0, 2, 3)  # idle + rotate only
+        if 1 <= level <= 5:
+            return (0, 1, 2, 3)  # navigation; interaction stays locked
+        return (0, 1, 2, 3, 4)
+
+    def valid_action_indices(self) -> tuple[int, ...]:
+        level = int(self.target.level if self.target is not None else self.config.curriculum_level)
+        base = self.valid_action_indices_for_level(level)
+        # v0.4.3 navigation bootstrap: while teacher-nav is active, compose the
+        # mastered orientation skill before exposing forward motion.  This gate is
+        # dynamic and is recorded on every replay transition, so TD learning sees
+        # the same legal action set that existed when the experience occurred.
+        if (
+            level in (1, 2)
+            and self.target is not None
+            and (level == 2 or self.config.goal_signal.strip().lower() == "teacher-nav")
+            and float(self.config.nav_alignment_gate_degrees) >= 0.0
+        ):
+            try:
+                bearing = abs(float(self._goal_local()[3]))
+            except Exception:
+                bearing = 180.0
+            if bearing > float(self.config.nav_alignment_gate_degrees):
+                return tuple(x for x in base if x != 1)
+        return base
+
+    def current_skill_level(self) -> int | None:
+        return int(self.target.level if self.target is not None else self.config.curriculum_level)
+
+    def exploration_floor(self) -> float:
+        """Reset exploration when a newly unlocked curriculum level begins."""
+        level = max(0, min(9, int(self.config.curriculum_level)))
+        if level <= 0:
+            return 0.0
+        steps = int(self._level_action_steps.get(level, 0))
+        t = min(1.0, steps / max(1, int(self.config.level_epsilon_decay_steps)))
+        start = float(self.config.level_epsilon_start)
+        end = float(self.config.level_epsilon_end)
+        return max(0.0, start + t * (end - start))
+
+    @property
+    def curriculum_attempts(self) -> int:
+        return int(self._totals(int(self.config.curriculum_level)).get("attempts", 0))
+
+    @property
+    def curriculum_successes(self) -> int:
+        return int(self._totals(int(self.config.curriculum_level)).get("successes", 0))
+
+    @property
+    def curriculum_timeouts(self) -> int:
+        return int(self._totals(int(self.config.curriculum_level)).get("timeouts", 0))
+
+    @property
+    def curriculum_stagnations(self) -> int:
+        return int(self._totals(int(self.config.curriculum_level)).get("stagnations", 0))
+
+    def _recent_queue(self, level: int) -> deque[dict[str, Any]]:
+        level = int(level)
+        q = self._recent_outcomes_by_level.get(level)
+        if q is None:
+            q = deque(maxlen=max(10, int(self.config.graduation_window)))
+            self._recent_outcomes_by_level[level] = q
+        return q
+
+    def _totals(self, level: int) -> dict[str, int]:
+        level = int(level)
+        if level not in self._level_totals:
+            self._level_totals[level] = {
+                "attempts": 0, "successes": 0, "timeouts": 0, "stagnations": 0, "goals": 0,
+                "successful_translations": 0, "blocked_advances": 0, "replans": 0,
+                "route_unavailable": 0, "spatial_plan_failures": 0, "sensor_faults": 0,
+            }
+        return self._level_totals[level]
+
+    def _curriculum_stats(self, level: int | None = None) -> dict[str, Any]:
+        level = int(self.current_skill_level() if level is None else level)
+        recent = list(self._recent_queue(level))
+        attempts = len(recent)
+        successes = sum(1 for x in recent if x.get("success"))
+        failures = attempts - successes
+        completion = [int(x["steps"]) for x in recent if x.get("success")]
+        median_steps = float(np.median(completion)) if completion else None
+        success_rate = successes / attempts if attempts else 0.0
+        failure_rate = failures / attempts if attempts else 0.0
+        timeout_rate = sum(1 for x in recent if x.get("timeout")) / attempts if attempts else 0.0
+        stagnation_rate = sum(1 for x in recent if x.get("stagnation")) / attempts if attempts else 0.0
+        route_unavailable_rate = sum(1 for x in recent if x.get("route_unavailable")) / attempts if attempts else 0.0
+        spatial_plan_failure_rate = sum(1 for x in recent if int(x.get("spatial_plan_failures", 0)) > 0) / attempts if attempts else 0.0
+        sensor_fault_rate = sum(1 for x in recent if x.get("sensor_fault")) / attempts if attempts else 0.0
+        recent_blocked = sum(int(x.get("blocked_advances", 0)) for x in recent)
+        recent_translations = sum(int(x.get("successful_translations", 0)) for x in recent)
+        blocked_move_rate = recent_blocked / max(1, recent_blocked + recent_translations)
+        window = max(10, int(self.config.graduation_window))
+        totals = self._totals(level)
+        if level == 0:
+            median_limit = float(self.config.graduation_median_steps)
+        elif level == 1:
+            median_limit = float(max(12, int(self.config.nav_max_path_steps) * 4))
+        elif level == 2:
+            # Spatial self-navigation is intentionally allowed more planning/turning
+            # steps than the teacher-waypoint L1 skill while the map is still sparse.
+            median_limit = 60.0
+        else:
+            median_limit = float(max(30, int(self.config.graduation_median_steps)))
+        graduation_ready = bool(
+            attempts >= window
+            and success_rate >= float(self.config.graduation_success_rate)
+            and median_steps is not None
+            and median_steps <= median_limit
+            and timeout_rate <= float(self.config.graduation_failure_rate)
+            and sensor_fault_rate <= float(self.config.graduation_failure_rate)
+            and (level not in (1, 2) or blocked_move_rate <= float(
+                self.config.nav_graduation_blocked_rate if level == 1 else self.config.spatial_graduation_blocked_rate
+            ))
+            and (level != 1 or route_unavailable_rate <= float(self.config.graduation_failure_rate))
+            and (level != 2 or route_unavailable_rate <= float(self.config.spatial_graduation_plan_failure_rate))
+            and (level != 2 or spatial_plan_failure_rate <= float(self.config.spatial_graduation_plan_failure_rate))
+        )
+        return {
+            "level": level,
+            "window": window,
+            "recent_attempts": attempts,
+            "recent_successes": successes,
+            "recent_success_rate": success_rate,
+            "recent_failure_rate": failure_rate,
+            "recent_timeout_rate": timeout_rate,
+            "recent_stagnation_rate": stagnation_rate,
+            "recent_route_unavailable_rate": route_unavailable_rate,
+            "recent_spatial_plan_failure_rate": spatial_plan_failure_rate,
+            "recent_sensor_fault_rate": sensor_fault_rate,
+            "recent_blocked_move_rate": blocked_move_rate,
+            "recent_blocked_advances": int(recent_blocked),
+            "recent_successful_translations": int(recent_translations),
+            "median_success_steps": median_steps,
+            "graduation_median_limit": median_limit,
+            "graduation_ready": graduation_ready,
+            "attempts_total": int(totals.get("attempts", 0)),
+            "successes_total": int(totals.get("successes", 0)),
+            "goals_total": int(totals.get("goals", 0)),
+            "timeouts_total": int(totals.get("timeouts", 0)),
+            "stagnations_total": int(totals.get("stagnations", 0)),
+            "successful_translations_total": int(totals.get("successful_translations", 0)),
+            "blocked_advances_total": int(totals.get("blocked_advances", 0)),
+            "replans_total": int(totals.get("replans", 0)),
+            "route_unavailable_total": int(totals.get("route_unavailable", 0)),
+            "spatial_plan_failures_total": int(totals.get("spatial_plan_failures", 0)),
+            "sensor_faults_total": int(totals.get("sensor_faults", 0)),
+            "level_action_steps": int(self._level_action_steps.get(level, 0)),
+            "episode_action_counts": list(self._episode_action_counts),
+        }
+
+    # ---------- simulator helpers ----------
+    @staticmethod
+    def _position_from_metadata(md: dict[str, Any]) -> np.ndarray:
+        agent = md.get("agent", {}) or {}
+        p = agent.get("position", {}) or {}
+        return np.array([float(p.get("x", 0.0)), float(p.get("z", 0.0))], dtype=np.float32)
+
+    @staticmethod
+    def _yaw_from_metadata(md: dict[str, Any]) -> float:
+        agent = md.get("agent", {}) or {}
+        r = agent.get("rotation", {}) or {}
+        return float(r.get("y", 0.0)) % 360.0
+
+    @staticmethod
+    def _horizon_from_metadata(md: dict[str, Any]) -> float:
+        agent = md.get("agent", {}) or {}
+        return float(agent.get("cameraHorizon", 0.0))
+
+    def _metadata(self) -> dict[str, Any]:
+        return dict(getattr(self.event, "metadata", {}) or {})
+
+    def _objects(self) -> list[dict[str, Any]]:
+        return list(self._metadata().get("objects", []) or [])
+
+    def _object_by_id(self, object_id: str | None) -> dict[str, Any] | None:
+        if not object_id:
+            return None
+        for obj in self._objects():
+            if obj.get("objectId") == object_id:
+                return obj
+        return None
+
+    @staticmethod
+    def _obj_position(obj: dict[str, Any]) -> np.ndarray:
+        p = obj.get("position", {}) or {}
+        return np.array([float(p.get("x", 0.0)), float(p.get("z", 0.0))], dtype=np.float32)
+
+    def _refresh_reachable(self) -> None:
+        prior = self.event
+        try:
+            event = self.controller.step(action="GetReachablePositions")
+            ret = (getattr(event, "metadata", {}) or {}).get("actionReturn") or []
+            if ret:
+                self._reachable = [dict(x) for x in ret]
+            # Preserve the newest frame-bearing event when the fork provides one.
+            self.event = event if getattr(event, "frame", None) is not None else prior
+        except Exception:
+            self.event = prior
+
+        if self._reachable:
+            xs = [float(p.get("x", 0.0)) for p in self._reachable]
+            zs = [float(p.get("z", 0.0)) for p in self._reachable]
+            pad = 0.5
+            self._bounds = [min(xs) - pad, max(xs) + pad, min(zs) - pad, max(zs) + pad]
+            self._build_reachable_index()
+
+    def _teleport_random_start(self) -> None:
+        if not self.config.random_start or len(self._reachable) < 2:
+            return
+        p = self.rng.choice(self._reachable)
+        yaw = self.rng.choice((0.0, 90.0, 180.0, 270.0))
+        try:
+            self.event = self.controller.step(
+                action="TeleportFull",
+                x=float(p.get("x", 0.0)),
+                y=float(p.get("y", 0.0)),
+                z=float(p.get("z", 0.0)),
+                rotation={"x": 0.0, "y": yaw, "z": 0.0},
+                horizon=0.0,
+                standing=True,
+            )
+        except Exception:
+            pass
+
+    def _capture_l0_anchor(self) -> None:
+        md = self._metadata()
+        agent = md.get("agent", {}) or {}
+        p = agent.get("position", {}) or {}
+        self._l0_anchor = {
+            "x": float(p.get("x", 0.0)),
+            "y": float(p.get("y", 0.0)),
+            "z": float(p.get("z", 0.0)),
+        }
+
+    def _enforce_l0_position_lock(self) -> float:
+        if not self.target or self.target.kind != "orient" or not self._l0_anchor:
+            return 0.0
+        md = self._metadata()
+        p = self._position_from_metadata(md)
+        anchor = np.array([self._l0_anchor["x"], self._l0_anchor["z"]], dtype=np.float32)
+        drift = float(np.linalg.norm(p - anchor))
+        if drift <= 1e-4:
+            return drift
+        original_success = self.last_action_success
+        try:
+            yaw = self._yaw_from_metadata(md)
+            self.event = self.controller.step(
+                action="TeleportFull",
+                x=self._l0_anchor["x"], y=self._l0_anchor["y"], z=self._l0_anchor["z"],
+                rotation={"x": 0.0, "y": yaw, "z": 0.0},
+                horizon=self._horizon_from_metadata(md), standing=True,
+            )
+        except Exception:
+            pass
+        self.last_action_success = original_success
+        return drift
+
+    # ---------- curriculum ----------
+    def _grid_key(self, pos: np.ndarray | tuple[float, float]) -> tuple[int, int]:
+        g = max(1e-4, float(self.config.grid_size))
+        return (int(round(float(pos[0]) / g)), int(round(float(pos[1]) / g)))
+
+    def _build_reachable_index(self) -> None:
+        self._reachable_index = {}
+        for item in self._reachable:
+            p = np.array([float(item.get("x", 0.0)), float(item.get("z", 0.0))], dtype=np.float32)
+            self._reachable_index[self._grid_key(p)] = p
+
+    def _nearest_reachable_key(self, pos: np.ndarray) -> tuple[int, int] | None:
+        if not self._reachable_index:
+            return None
+        key = self._grid_key(pos)
+        if key in self._reachable_index:
+            return key
+        return min(self._reachable_index, key=lambda k: float(np.linalg.norm(self._reachable_index[k] - pos)))
+
+    @staticmethod
+    def _canonical_edge(a: tuple[int, int], b: tuple[int, int]) -> tuple[tuple[int, int], tuple[int, int]]:
+        return (a, b) if a <= b else (b, a)
+
+    def _edge_is_blocked(self, a: tuple[int, int], b: tuple[int, int]) -> bool:
+        edge = self._canonical_edge(a, b)
+        return int(self._edge_failures.get(edge, 0)) >= max(1, int(self.config.nav_edge_failure_threshold))
+
+    def _grid_neighbors(
+        self,
+        key: tuple[int, int],
+        *,
+        temporary_block: tuple[tuple[int, int], tuple[int, int]] | None = None,
+    ) -> list[tuple[int, int]]:
+        x, z = key
+        candidates = ((x + 1, z), (x - 1, z), (x, z + 1), (x, z - 1))
+        out: list[tuple[int, int]] = []
+        temp = None if temporary_block is None else self._canonical_edge(*temporary_block)
+        for q in candidates:
+            if q not in self._reachable_index:
+                continue
+            edge = self._canonical_edge(key, q)
+            if temp is not None and edge == temp:
+                continue
+            if self._edge_is_blocked(key, q):
+                continue
+            out.append(q)
+        return out
+
+    def _find_grid_path(
+        self,
+        start_key: tuple[int, int],
+        goal_key: tuple[int, int],
+        *,
+        temporary_block: tuple[tuple[int, int], tuple[int, int]] | None = None,
+        max_depth: int | None = None,
+    ) -> list[tuple[int, int]]:
+        if start_key == goal_key:
+            return []
+        parent: dict[tuple[int, int], tuple[int, int] | None] = {start_key: None}
+        depth: dict[tuple[int, int], int] = {start_key: 0}
+        queue: deque[tuple[int, int]] = deque([start_key])
+        found = False
+        while queue:
+            cur = queue.popleft()
+            d = depth[cur]
+            if max_depth is not None and d >= max_depth:
+                continue
+            for nxt in self._grid_neighbors(cur, temporary_block=temporary_block):
+                if nxt in parent:
+                    continue
+                parent[nxt] = cur
+                depth[nxt] = d + 1
+                if nxt == goal_key:
+                    found = True
+                    queue.clear()
+                    break
+                queue.append(nxt)
+        if not found:
+            return []
+        keys: list[tuple[int, int]] = []
+        cur: tuple[int, int] | None = goal_key
+        while cur is not None and cur != start_key:
+            keys.append(cur)
+            cur = parent.get(cur)
+        keys.reverse()
+        return keys
+
+    def _short_l1_path(self, start: np.ndarray) -> list[np.ndarray]:
+        """Choose an exact-length early teacher path over reachable cells.
+
+        v0.4.3 forbids one-cell bootstrap targets.  A 0.25 m goal must never be
+        inside the success radius before the agent has translated, and early L1
+        therefore begins with exactly two moves whenever the reachable graph allows it.
+        """
+        start_key = self._nearest_reachable_key(start)
+        if start_key is None:
+            self._route_unavailable = True
+            return [self._reachable_point()]
+
+        stats = self._curriculum_stats(1)
+        attempts = int(stats.get("recent_attempts", 0))
+        success_rate = float(stats.get("recent_success_rate", 0.0))
+        minimum = max(2, int(self.config.nav_min_path_steps))
+        base = max(minimum, int(self.config.nav_initial_path_steps))
+        max_steps = max(base, int(self.config.nav_max_path_steps))
+        if attempts < 20:
+            difficulty = base
+        elif success_rate < 0.70:
+            difficulty = min(max_steps, base + 1)
+        elif success_rate < 0.90:
+            difficulty = min(max_steps, base + 3)
+        else:
+            difficulty = max_steps
+
+        parent: dict[tuple[int, int], tuple[int, int] | None] = {start_key: None}
+        depth: dict[tuple[int, int], int] = {start_key: 0}
+        queue: deque[tuple[int, int]] = deque([start_key])
+        by_depth: dict[int, list[tuple[int, int]]] = {}
+        while queue:
+            cur = queue.popleft()
+            d = depth[cur]
+            if d >= difficulty:
+                continue
+            for nxt in self._grid_neighbors(cur):
+                if nxt in parent:
+                    continue
+                parent[nxt] = cur
+                depth[nxt] = d + 1
+                by_depth.setdefault(d + 1, []).append(nxt)
+                queue.append(nxt)
+
+        desired_depth = difficulty
+        candidates = list(by_depth.get(desired_depth, []))
+        if not candidates:
+            available = [d for d in by_depth if d >= minimum and by_depth[d]]
+            if available:
+                desired_depth = max(available)
+                candidates = list(by_depth[desired_depth])
+        if not candidates:
+            self._route_unavailable = True
+            return []
+
+        goal_key = self.rng.choice(candidates)
+        keys: list[tuple[int, int]] = []
+        cur: tuple[int, int] | None = goal_key
+        while cur is not None and cur != start_key:
+            keys.append(cur)
+            cur = parent[cur]
+        keys.reverse()
+        self._route_unavailable = len(keys) < minimum
+        return [self._reachable_index[k].copy() for k in keys]
+
+    def _replan_l1_to_final(
+        self,
+        *,
+        temporary_block: tuple[tuple[int, int], tuple[int, int]] | None = None,
+    ) -> bool:
+        if self.target is None or self.target.level != 1:
+            return False
+        pos = self._position_from_metadata(self._metadata())
+        start_key = self._nearest_reachable_key(pos)
+        goal_key = self._nearest_reachable_key(self.target.position)
+        if start_key is None or goal_key is None:
+            self._route_unavailable = True
+            return False
+        keys = self._find_grid_path(start_key, goal_key, temporary_block=temporary_block)
+        if not keys:
+            self._route_unavailable = start_key != goal_key
+            return start_key == goal_key
+        self.target.waypoints = [self._reachable_index[k].copy() for k in keys]
+        self.target.waypoint_index = 0
+        self._route_unavailable = False
+        self._episode_replans += 1
+        return True
+
+    def _record_l1_edge_failure(self) -> bool:
+        """Record an aligned failed transition and immediately seek an alternate route."""
+        if self.target is None or self.target.level != 1 or not self.target.waypoints:
+            return False
+        pos = self._position_from_metadata(self._metadata())
+        current_key = self._nearest_reachable_key(pos)
+        active = self._active_goal_position()
+        active_key = None if active is None else self._nearest_reachable_key(active)
+        if current_key is None or active_key is None or current_key == active_key:
+            return False
+        edge = self._canonical_edge(current_key, active_key)
+        self._edge_failures[edge] = int(self._edge_failures.get(edge, 0)) + 1
+        # Even before an edge reaches the persistent failure threshold, do not retry
+        # it immediately in the same episode; use it only in later episodes if the
+        # failure proves transient.
+        return self._replan_l1_to_final(temporary_block=edge)
+
+    def _reachable_point(self, *, far: bool = False) -> np.ndarray:
+        agent = self._position_from_metadata(self._metadata())
+        if not self._reachable:
+            angle = self.rng.random() * math.tau
+            radius = 1.5 if far else 0.8
+            return agent + np.array([math.sin(angle) * radius, math.cos(angle) * radius], dtype=np.float32)
+        points = [np.array([float(p["x"]), float(p["z"])], dtype=np.float32) for p in self._reachable]
+        if far:
+            points.sort(key=lambda q: float(np.linalg.norm(q - agent)), reverse=True)
+            pool = points[: max(1, len(points) // 4)]
+        else:
+            pool = [q for q in points if float(np.linalg.norm(q - agent)) > 0.75] or points
+        return self.rng.choice(pool).copy()
+
+    def _candidate_objects(self, *, visible_only: bool = False, doors_only: bool = False, interactive: bool = False) -> list[dict[str, Any]]:
+        out = []
+        for obj in self._objects():
+            if visible_only and not bool(obj.get("visible", False)):
+                continue
+            typ = str(obj.get("objectType", ""))
+            if doors_only and not (typ.lower() == "door" or bool(obj.get("openable", False)) and "door" in typ.lower()):
+                continue
+            if interactive and not any(bool(obj.get(k, False)) for k in ("openable", "toggleable", "pickupable")):
+                continue
+            if obj.get("position"):
+                out.append(obj)
+        return out
+
+    def _choose_target(self, level_override: int | None = None) -> CurriculumTarget:
+        level = max(0, min(9, int(self.config.curriculum_level if level_override is None else level_override)))
+        start = self._position_from_metadata(self._metadata())
+
+        if level == 0:
+            pos = self._reachable_point(far=False)
+            return CurriculumTarget(level, "orient", "orientation point", pos, start_position=start.copy())
+        if level == 1:
+            path = self._short_l1_path(start)
+            goal = path[-1].copy() if path else self._reachable_point()
+            return CurriculumTarget(
+                level, "point", "reachable point", goal, start_position=start.copy(),
+                waypoints=[p.copy() for p in path], waypoint_index=0,
+            )
+        if level == 2:
+            # v0.5 spatial bootstrap: choose a valid destination but do NOT use the
+            # simulator reachable graph to route to it. The route/waypoint comes from
+            # the persistent depth-built SpatialMemory2D planner.
+            pos = self._spatial_training_target(start)
+            return CurriculumTarget(level, "spatial_point", "self-mapped point", pos, start_position=start.copy())
+        if level == 3:
+            objs = self._candidate_objects()
+            if objs:
+                obj = self.rng.choice(objs)
+                return CurriculumTarget(level, "find_object", str(obj.get("objectType", "object")), self._obj_position(obj), str(obj.get("objectId")), start_position=start.copy())
+            return CurriculumTarget(level, "point", "object fallback point", self._reachable_point(far=True), start_position=start.copy())
+        if level == 4:
+            return CurriculumTarget(level, "far_point", "far reachable point", self._reachable_point(far=True), start_position=start.copy())
+        if level in (5, 6, 7):
+            doors = self._candidate_objects(doors_only=True)
+            if doors:
+                obj = min(doors, key=lambda o: float(np.linalg.norm(self._obj_position(o) - start)))
+                pos = self._obj_position(obj)
+                crossed = self._crossing_point(start, pos) if level == 7 else None
+                return CurriculumTarget(level, ("approach_door", "open_door", "cross_door")[level - 5], str(obj.get("objectType", "Door")), pos, str(obj.get("objectId")), start_position=start.copy(), crossed_position=crossed)
+            return CurriculumTarget(level, "far_point", "door fallback point", self._reachable_point(far=True), start_position=start.copy())
+        objs = self._candidate_objects(interactive=True)
+        if objs:
+            obj = self.rng.choice(objs)
+            kind = "interact_object" if level == 8 else "multi_step"
+            return CurriculumTarget(level, kind, str(obj.get("objectType", "interactive object")), self._obj_position(obj), str(obj.get("objectId")), start_position=start.copy())
+        return CurriculumTarget(level, "far_point", "interaction fallback point", self._reachable_point(far=True), start_position=start.copy())
+
+    def _crossing_point(self, start: np.ndarray, door: np.ndarray) -> np.ndarray:
+        direction = door - start
+        norm = float(np.linalg.norm(direction))
+        if norm < 1e-5:
+            return door.copy()
+        direction /= norm
+        desired = door + direction * 0.8
+        if not self._reachable:
+            return desired.astype(np.float32)
+        pts = [np.array([float(p["x"]), float(p["z"])], dtype=np.float32) for p in self._reachable]
+        beyond = [p for p in pts if float(np.dot(p - door, direction)) > 0.15 and float(np.linalg.norm(p - door)) < 1.5]
+        if not beyond:
+            beyond = pts
+        return min(beyond, key=lambda p: float(np.linalg.norm(p - desired))).copy()
+
+    # ---------- v0.5 spatial cognition ----------
+    def _spatial_training_target(self, start: np.ndarray) -> np.ndarray:
+        """Sample a valid training destination without borrowing a route.
+
+        Reachable positions are used only as a simulator-side curriculum oracle that
+        the destination itself is physically attainable.  L2 never consumes their
+        topology when generating the active waypoint.
+        """
+        minimum = max(float(self.config.grid_size) * 2.0, float(self.config.spatial_target_min_distance))
+        maximum = max(minimum, float(self.config.spatial_target_max_distance))
+        points = [
+            np.array([float(p.get("x", 0.0)), float(p.get("z", 0.0))], dtype=np.float32)
+            for p in self._reachable
+        ]
+        pool = [p for p in points if minimum <= float(np.linalg.norm(p - start)) <= maximum]
+        if not pool:
+            pool = [p for p in points if float(np.linalg.norm(p - start)) >= minimum]
+        if not pool:
+            return self._reachable_point(far=True)
+        return self.rng.choice(pool).copy()
+
+    def _update_spatial_memory(self) -> None:
+        md = self._metadata()
+        pos = self._position_from_metadata(md)
+        yaw = self._yaw_from_metadata(md)
+        self.spatial.observe_pose(float(pos[0]), float(pos[1]), float(yaw), confidence=1.0)
+        self._depth_sectors()  # refresh trusted depth-health telemetry
+        if not self._sensor_rgb_stale and self._sensor_depth_healthy:
+            self.spatial.integrate_depth(
+                self.render_depth(),
+                fov_degrees=float(self.config.fov),
+                max_range=max(0.5, float(self.config.spatial_depth_max_range)),
+                rays=max(5, int(self.config.spatial_depth_rays)),
+                min_depth=max(
+                    0.05,
+                    float(self.config.spatial_depth_min_trusted),
+                    float(self.config.sensor_depth_min_trusted),
+                ),
+            )
+        # Object metadata is currently used only as a bootstrap semantic landmark
+        # label store. It is not used by the L2 planner. Future versions replace this
+        # with VLM-derived object identity and estimated metric position.
+        self.spatial.remember_landmarks(self._objects())
+
+    def _replan_spatial_to_final(self, *, force: bool = False) -> bool:
+        if self.target is None or self.target.level != 2:
+            return False
+        if not force and self._spatial_waypoint is not None:
+            return False
+        pos = self._position_from_metadata(self._metadata())
+        goal = self._final_goal_position()
+        if goal is None:
+            self._route_unavailable = True
+            self._spatial_plan_failures_episode += 1
+            return False
+        path = self.spatial.plan(pos, goal)
+        self._spatial_last_plan_step = int(self.steps)
+        if not path:
+            self._spatial_path = []
+            self._spatial_waypoint = None
+            self._spatial_plan_failures_episode += 1
+            self._route_unavailable = True
+            return False
+        self._spatial_path = [np.asarray(p, dtype=np.float32).copy() for p in path]
+        wp = self.spatial.choose_waypoint(
+            self._spatial_path, lookahead_cells=max(1, int(self.config.spatial_waypoint_lookahead_cells))
+        )
+        if wp is None:
+            self._spatial_plan_failures_episode += 1
+            self._route_unavailable = True
+            return False
+        self._spatial_waypoint = wp
+        # Mirror the self-generated route into the generic target only for dashboard
+        # introspection. _active_goal_position reads _spatial_waypoint directly.
+        self.target.waypoints = [p.copy() for p in self._spatial_path]
+        try:
+            self.target.waypoint_index = min(
+                len(self._spatial_path) - 1, max(0, int(self.config.spatial_waypoint_lookahead_cells) - 1)
+            )
+        except Exception:
+            self.target.waypoint_index = 0
+        self._spatial_replans_episode += 1
+        self._episode_replans += 1
+        self._route_unavailable = False
+        return True
+
+    # ---------- observations ----------
+    def _trusted_depth_values(self, values: np.ndarray) -> np.ndarray:
+        vals = np.asarray(values, dtype=np.float32).reshape(-1)
+        vals = vals[np.isfinite(vals)]
+        minimum = max(0.05, float(self.config.sensor_depth_min_trusted))
+        maximum = max(minimum, float(self.config.spatial_depth_max_range))
+        return vals[(vals >= minimum) & (vals <= maximum)]
+
+    def _depth_sectors(self) -> tuple[float, float, float, float]:
+        depth = getattr(self.event, "depth_frame", None)
+        if depth is None:
+            self._sensor_depth_valid_fraction = 0.0
+            self._sensor_depth_healthy = False
+            self._sensor_depth_unhealthy_events += 1
+            self._sensor_depth_unknown_total += 1
+            self._sensor_depth_stale = self._sensor_depth_unhealthy_events >= max(1, int(self.config.sensor_depth_unhealthy_events))
+            return 1.0, 1.0, 1.0, 0.0
+        d = np.asarray(depth, dtype=np.float32)
+        if d.ndim != 2 or d.size == 0:
+            self._sensor_depth_valid_fraction = 0.0
+            self._sensor_depth_healthy = False
+            self._sensor_depth_unhealthy_events += 1
+            self._sensor_depth_unknown_total += 1
+            self._sensor_depth_stale = self._sensor_depth_unhealthy_events >= max(1, int(self.config.sensor_depth_unhealthy_events))
+            return 1.0, 1.0, 1.0, 0.0
+
+        h, w = d.shape
+        y0 = max(0, int(h * 0.30))
+        y1 = min(h, max(int(h * 0.58), y0 + 1))
+        crop = d[y0:y1]
+        all_finite = crop[np.isfinite(crop)]
+        trusted_all = self._trusted_depth_values(crop)
+        self._sensor_depth_valid_fraction = float(trusted_all.size / max(1, all_finite.size))
+        self._sensor_depth_healthy = bool(trusted_all.size > 0)
+        if self._sensor_depth_healthy:
+            self._sensor_depth_unhealthy_events = 0
+            self._sensor_depth_stale = False
+        else:
+            self._sensor_depth_unhealthy_events += 1
+            self._sensor_depth_unknown_total += 1
+            self._sensor_depth_stale = self._sensor_depth_unhealthy_events >= max(1, int(self.config.sensor_depth_unhealthy_events))
+
+        third = max(1, w // 3)
+        p = float(np.clip(self.config.sensor_depth_percentile, 50.0, 95.0))
+        max_range = max(0.5, float(self.config.spatial_depth_max_range))
+
+        def sector(x: np.ndarray) -> float:
+            vals = self._trusted_depth_values(x)
+            if vals.size == 0:
+                # Unknown/invalid depth is not an obstacle. Native simulator physics
+                # still decides MoveAhead success during training.
+                return 1.0
+            return float(np.clip(np.percentile(vals, p), 0.0, max_range) / max_range)
+
+        left = sector(crop[:, :third])
+        center = sector(crop[:, third:2 * third])
+        right = sector(crop[:, 2 * third:])
+        minimum = max(0.05, float(self.config.sensor_depth_min_trusted))
+        near_cutoff = max(minimum, float(self.config.safety_distance))
+        near = float(np.mean(trusted_all < near_cutoff)) if trusted_all.size else 0.0
+        return left, center, right, near
+
+    @staticmethod
+    def _angle_delta_degrees(a: float, b: float) -> float:
+        return abs(((float(a) - float(b) + 180.0) % 360.0) - 180.0)
+
+    def _update_sensor_health(self, *, reset_reference: bool = False) -> None:
+        frame = getattr(self.event, "frame", None)
+        md = self._metadata()
+        pos = self._position_from_metadata(md)
+        yaw = self._yaw_from_metadata(md)
+        self._sensor_frame_seq += 1
+
+        if frame is None:
+            self._sensor_frame_hash = "missing"
+            self._sensor_rgb_diff = 0.0
+            if not reset_reference:
+                self._sensor_rgb_stale_motion_events += 1
+            self._sensor_rgb_stale = bool(
+                self._sensor_rgb_stale_motion_events >= max(1, int(self.config.sensor_rgb_stale_motion_events))
+            )
+            return
+
+        rgb = np.asarray(frame, dtype=np.uint8)
+        if rgb.ndim != 3 or rgb.shape[-1] < 3 or rgb.size == 0:
+            self._sensor_frame_hash = "invalid"
+            self._sensor_rgb_diff = 0.0
+            if not reset_reference:
+                self._sensor_rgb_stale_motion_events += 1
+            self._sensor_rgb_stale = bool(
+                self._sensor_rgb_stale_motion_events >= max(1, int(self.config.sensor_rgb_stale_motion_events))
+            )
+            return
+
+        sy = max(1, rgb.shape[0] // 24)
+        sx = max(1, rgb.shape[1] // 32)
+        sample = np.ascontiguousarray(rgb[::sy, ::sx, :3])
+        self._sensor_frame_hash = f"{zlib.adler32(sample.tobytes()) & 0xffffffff:08x}"
+
+        if self._sensor_last_rgb_sample is None or self._sensor_last_rgb_sample.shape != sample.shape:
+            diff = float("inf")
+        else:
+            diff = float(np.mean(np.abs(sample.astype(np.int16) - self._sensor_last_rgb_sample.astype(np.int16))))
+        self._sensor_rgb_diff = diff
+
+        pose_changed = False
+        if self._sensor_last_pose is not None:
+            pose_changed = float(np.linalg.norm(pos - self._sensor_last_pose)) > 0.01
+        if self._sensor_last_yaw is not None:
+            pose_changed = pose_changed or self._angle_delta_degrees(yaw, self._sensor_last_yaw) > 1.0
+
+        if reset_reference:
+            self._sensor_rgb_stale_motion_events = 0
+            self._sensor_rgb_stale = False
+        elif pose_changed:
+            if diff <= max(0.0, float(self.config.sensor_rgb_diff_threshold)):
+                self._sensor_rgb_stale_motion_events += 1
+            else:
+                self._sensor_rgb_stale_motion_events = 0
+            self._sensor_rgb_stale = bool(
+                self._sensor_rgb_stale_motion_events >= max(1, int(self.config.sensor_rgb_stale_motion_events))
+            )
+        elif math.isfinite(diff) and diff > max(0.0, float(self.config.sensor_rgb_diff_threshold)):
+            self._sensor_rgb_stale_motion_events = 0
+            self._sensor_rgb_stale = False
+
+        self._sensor_last_rgb_sample = sample.copy()
+        self._sensor_last_pose = pos.copy()
+        self._sensor_last_yaw = float(yaw)
+
+    def _sensor_health_payload(self) -> dict[str, Any]:
+        diff = None if not math.isfinite(self._sensor_rgb_diff) else float(self._sensor_rgb_diff)
+        return {
+            "frame_seq": int(self._sensor_frame_seq),
+            "frame_hash": str(self._sensor_frame_hash),
+            "rgb_diff": diff,
+            "rgb_stale_motion_events": int(self._sensor_rgb_stale_motion_events),
+            "rgb_stale": bool(self._sensor_rgb_stale),
+            "depth_valid_fraction": float(self._sensor_depth_valid_fraction),
+            "depth_healthy": bool(self._sensor_depth_healthy),
+            "depth_unhealthy_events": int(self._sensor_depth_unhealthy_events),
+            "depth_stale": bool(self._sensor_depth_stale),
+            "depth_fault_authoritative": bool(self.config.sensor_depth_recovery_in_native or not self.config.nav_native_collision_training),
+            "faults_total": int(self._sensor_faults_total),
+            "rgb_faults_total": int(self._sensor_rgb_faults_total),
+            "depth_faults_total": int(self._sensor_depth_faults_total),
+            "controller_faults_total": int(self._sensor_controller_faults_total),
+            "depth_unknown_total": int(self._sensor_depth_unknown_total),
+            "recoveries_total": int(self._sensor_recoveries_total),
+            "soft_resets_total": int(self._sensor_soft_resets_total),
+            "controller_restarts_total": int(self._sensor_controller_restarts_total),
+            "recovery_failures_total": int(self._sensor_recovery_failures_total),
+            "consecutive_recovery_failures": int(self._sensor_consecutive_recovery_failures),
+            "last_recovery": str(self._sensor_last_recovery),
+            "last_recovery_ok": bool(self._sensor_last_recovery_ok),
+            "recovery_cooldown_remaining": max(0, int(self.config.sensor_recovery_cooldown_ticks) - int(self._sensor_runtime_tick - self._sensor_last_recovery_tick)),
+            "controller_error": self._sensor_controller_error,
+        }
+
+    def _final_goal_position(self) -> np.ndarray | None:
+        if self.target is None:
+            return None
+        if self.target.kind == "cross_door" and self.target.crossed_position is not None:
+            return self.target.crossed_position
+        return self.target.position
+
+    def _active_goal_position(self) -> np.ndarray | None:
+        """Teacher-nav goal for the current decision; L1 uses a local waypoint."""
+        if self.target is None:
+            return None
+        if (
+            self.target.level == 1
+            and self.config.goal_signal.strip().lower() == "teacher-nav"
+            and self.target.waypoints
+        ):
+            idx = max(0, min(int(self.target.waypoint_index), len(self.target.waypoints) - 1))
+            return self.target.waypoints[idx]
+        if self.target.level == 2 and self._spatial_waypoint is not None:
+            return self._spatial_waypoint
+        return self._final_goal_position()
+
+    def _advance_waypoint_if_reached(self) -> bool:
+        if self.target is None or self.target.level != 1 or not self.target.waypoints:
+            return False
+        pos = self._position_from_metadata(self._metadata())
+        advanced = False
+        radius = max(0.05, float(self.config.waypoint_radius))
+        while self.target.waypoint_index < len(self.target.waypoints) - 1:
+            wp = self.target.waypoints[self.target.waypoint_index]
+            if float(np.linalg.norm(wp - pos)) > radius:
+                break
+            self.target.waypoint_index += 1
+            advanced = True
+        return advanced
+
+    def _goal_local(self) -> tuple[float, float, float, float]:
+        if self.target is None:
+            return 0.0, 0.0, 0.0, 0.0
+        pos = self._position_from_metadata(self._metadata())
+        goal = self._active_goal_position()
+        if goal is None:
+            return 0.0, 0.0, 0.0, 0.0
+        delta = goal - pos
+        dist = float(np.linalg.norm(delta))
+        yaw = math.radians(self._yaw_from_metadata(self._metadata()))
+        # AI2-THOR yaw 0 faces +Z; right vector is +X at yaw 0.
+        forward = np.array([math.sin(yaw), math.cos(yaw)], dtype=np.float32)
+        right = np.array([math.cos(yaw), -math.sin(yaw)], dtype=np.float32)
+        f = float(np.dot(delta, forward))
+        r = float(np.dot(delta, right))
+        bearing = math.degrees(math.atan2(r, f)) if dist > 1e-6 else 0.0
+        return f, r, dist, bearing
+
+    def _final_goal_metrics(self) -> tuple[float, float]:
+        goal = self._final_goal_position()
+        if goal is None:
+            return 0.0, 0.0
+        pos = self._position_from_metadata(self._metadata())
+        delta = goal - pos
+        dist = float(np.linalg.norm(delta))
+        yaw = math.radians(self._yaw_from_metadata(self._metadata()))
+        forward = np.array([math.sin(yaw), math.cos(yaw)], dtype=np.float32)
+        right = np.array([math.cos(yaw), -math.sin(yaw)], dtype=np.float32)
+        f = float(np.dot(delta, forward)); r = float(np.dot(delta, right))
+        bearing = math.degrees(math.atan2(r, f)) if dist > 1e-6 else 0.0
+        return dist, bearing
+
+    def _obs(self) -> np.ndarray:
+        f, r, _dist, _bearing = self._goal_local()
+        goal_enabled = self.config.goal_signal.strip().lower() != "sensor-only"
+        if goal_enabled and self.config.goal_dropout > 0.0 and self.rng.random() < self.config.goal_dropout:
+            goal_enabled = False
+        if not goal_enabled:
+            f = r = 0.0
+        left, center, right, _near = self._depth_sectors()
+        return np.array([
+            float(np.clip(f / 5.0, -1.0, 1.0)),
+            float(np.clip(r / 5.0, -1.0, 1.0)),
+            float(np.clip(center, 0.0, 1.0)),
+            float(np.clip(left - right, -1.0, 1.0)),
+            float(np.clip(self.last_action_success, 0.0, 1.0)),
+            float(np.clip(self.last_reward, -1.0, 1.0)),
+        ], dtype=np.float32)
+
+    # ---------- actions / reward ----------
+    def _step_controller(self, **kwargs: Any) -> Any:
+        try:
+            event = self._raw_controller_step(**kwargs)
+        except Exception as exc:
+            # A dead Unity process/socket may raise instead of returning a stale
+            # Event. Convert that into the same recoverable infrastructure-fault
+            # path instead of crashing the agent loop before recovery can run.
+            self._sensor_controller_error = f"{type(exc).__name__}: {exc}"
+            self.last_action_success = 0.0
+            self._sensor_rgb_stale = True
+            self._sensor_depth_healthy = False
+            self._sensor_depth_stale = True
+            self._sensor_depth_unhealthy_events = max(
+                self._sensor_depth_unhealthy_events,
+                max(1, int(self.config.sensor_depth_unhealthy_events)),
+            )
+            return self.event
+        self._sensor_controller_error = None
+        self.event = event
+        md = self._metadata()
+        self.last_action_success = 1.0 if bool(md.get("lastActionSuccess", True)) else 0.0
+        self._update_sensor_health()
+        return event
+
+    def _interact(self) -> tuple[bool, str]:
+        obj = self._object_by_id(self.target.object_id if self.target else None)
+        if obj is None:
+            # Fall back to the nearest visible interactive object.
+            pos = self._position_from_metadata(self._metadata())
+            candidates = self._candidate_objects(visible_only=True, interactive=True)
+            if candidates:
+                obj = min(candidates, key=lambda o: float(np.linalg.norm(self._obj_position(o) - pos)))
+        if obj is None:
+            self._step_controller(action="Pass")
+            return False, "no interactive target"
+        object_id = str(obj.get("objectId"))
+        if bool(obj.get("openable", False)) and not bool(obj.get("isOpen", False)):
+            self._step_controller(action="OpenObject", objectId=object_id)
+            return bool(self.last_action_success), "OpenObject"
+        if bool(obj.get("toggleable", False)) and not bool(obj.get("isToggled", False)):
+            self._step_controller(action="ToggleObjectOn", objectId=object_id)
+            return bool(self.last_action_success), "ToggleObjectOn"
+        if bool(obj.get("pickupable", False)) and not bool(obj.get("isPickedUp", False)):
+            self._step_controller(action="PickupObject", objectId=object_id)
+            return bool(self.last_action_success), "PickupObject"
+        self._step_controller(action="Pass")
+        return False, "already satisfied or unsupported"
+
+    def _apply_intent(self, action: int) -> tuple[bool, str]:
+        a = int(action)
+        noise = max(0.0, min(0.5, self.config.action_noise))
+        if noise > 0 and self.rng.random() < noise and a in (1, 2, 3):
+            noisy_candidates = tuple(x for x in self.valid_action_indices() if x in (1, 2, 3))
+            if noisy_candidates:
+                a = self.rng.choice(noisy_candidates)
+        if a == 0:
+            self._step_controller(action="Pass")
+            return bool(self.last_action_success), "Pass"
+        if a == 1:
+            # In simulator training, let AI2-THOR's collision/physics system decide
+            # whether locomotion succeeds.  The old pre-emptive depth SafetyStop
+            # produced false blocks in the custom Discovery scene.  A depth guard
+            # remains available for non-training/physical embodiment paths.
+            if not bool(self.config.nav_native_collision_training):
+                _left, center, _right, _near = self._depth_sectors()
+                # Physical/non-native safety mode is fail-closed: invalid depth is
+                # itself grounds to stop, unlike simulator training where native
+                # physics remains the collision authority.
+                if (not self._sensor_depth_healthy) or center * 5.0 < self.config.safety_distance:
+                    self._step_controller(action="Pass")
+                    self.last_action_success = 0.0
+                    return False, "SafetyStop"
+            self._step_controller(action="MoveAhead", moveMagnitude=float(self.config.grid_size))
+            return bool(self.last_action_success), "MoveAhead"
+        if a == 2:
+            self._step_controller(action="RotateLeft", degrees=float(self.config.rotate_degrees))
+            return bool(self.last_action_success), "RotateLeft"
+        if a == 3:
+            self._step_controller(action="RotateRight", degrees=float(self.config.rotate_degrees))
+            return bool(self.last_action_success), "RotateRight"
+        return self._interact()
+
+    def _task_success(self, interaction_success: bool) -> tuple[bool, str]:
+        if self.target is None:
+            return False, "no_target"
+        _f, _r, dist, bearing = self._goal_local()
+        final_dist, _final_bearing = self._final_goal_metrics()
+        kind = self.target.kind
+        if kind == "orient":
+            return abs(bearing) <= float(self.config.orient_success_degrees), "oriented"
+        if kind == "point" and self.target.level == 1:
+            # Navigation success must be earned by actual locomotion.  v0.4.2 used
+            # a 0.35 m success radius on a 0.25 m grid, allowing one-cell goals to
+            # succeed without moving.
+            close_enough = final_dist <= max(0.03, float(self.config.nav_success_radius))
+            translated = self._episode_successful_translations >= max(1, int(self.config.nav_min_successful_translations))
+            return bool(close_enough and translated), "arrived" if close_enough and translated else "in_progress"
+        if kind == "spatial_point" and self.target.level == 2:
+            # Slightly wider than L1 because self-generated map waypoints and 30°
+            # turn quantization can leave the agent ~0.13 m from a metric goal even
+            # after legitimate translated progress. Real movement is still mandatory.
+            close_enough = final_dist <= max(0.05, float(self.config.spatial_success_radius))
+            translated = self._episode_successful_translations >= max(1, int(self.config.spatial_min_successful_translations))
+            return bool(close_enough and translated), "spatial_arrived" if close_enough and translated else "in_progress"
+        if kind in {"point", "far_point", "visible_object", "find_object", "approach_door"}:
+            threshold = 0.55 if "object" in kind or "door" in kind else 0.35
+            return final_dist <= threshold, "arrived"
+        if kind == "open_door":
+            obj = self._object_by_id(self.target.object_id)
+            return bool(obj and obj.get("isOpen", False)), "door_open"
+        if kind == "cross_door":
+            obj = self._object_by_id(self.target.object_id)
+            open_ok = bool(obj is None or obj.get("isOpen", False))
+            return open_ok and final_dist <= 0.45, "door_crossed"
+        if kind in {"interact_object", "multi_step"}:
+            if interaction_success:
+                if kind == "multi_step":
+                    self.completed_subgoals += 1
+                    if self.completed_subgoals < 2:
+                        self.target = self._choose_target()
+                        self.target.level = 9
+                        self.target.kind = "multi_step"
+                        return False, "subgoal_complete"
+                return True, "interaction_complete"
+        return False, "in_progress"
+
+    def reset(self) -> np.ndarray:
+        self.steps = 0
+        self.last_reward = 0.0
+        self.last_action_success = 1.0
+        self.energy = 1.0
+        self.completed_subgoals = 0
+        try:
+            if hasattr(self.controller, "reset"):
+                self.event = self.controller.reset(scene=self.config.scene)
+        except TypeError:
+            self.event = self.controller.reset(self.config.scene)
+        except Exception:
+            pass
+        if self.event is None:
+            self.event = self.controller.step(action="Pass")
+        self._refresh_reachable()
+        self._teleport_random_start()
+        # Spatial memory persists across episodes, while pose belief explicitly
+        # re-anchors after simulator resets/teleports. Reachable data establishes only
+        # allocation bounds; L2 route planning never consumes the reachable graph.
+        self.spatial.ensure_bounds(self._bounds, preserve=True)
+        self._update_sensor_health(reset_reference=True)
+        self._update_spatial_memory()
+        self._episode_successful_translations = 0
+        self._episode_blocked_advances = 0
+        self._episode_replans = 0
+        self._spatial_replans_episode = 0
+        self._spatial_plan_failures_episode = 0
+        self._spatial_waypoint = None
+        self._spatial_path = []
+        self._spatial_last_plan_step = -10**9
+        self._route_unavailable = False
+
+        configured = max(0, min(9, int(self.config.curriculum_level)))
+        episode_level = configured
+        rehearsal_fraction = max(0.0, min(0.50, float(self.config.rehearsal_fraction)))
+        if configured > 0 and rehearsal_fraction > 0.0 and self.rng.random() < rehearsal_fraction:
+            # Rehearse an earlier skill instead of merely replaying its data.  For L1
+            # this is necessarily L0; later levels sample across the acquired stack.
+            episode_level = self.rng.randrange(0, configured)
+
+        self.target = self._choose_target(level_override=episode_level)
+        if self.target.level == 2:
+            self._replan_spatial_to_final(force=True)
+        if self.target.kind == "orient":
+            self._capture_l0_anchor()
+            self._best_progress_metric = abs(self._goal_local()[3])
+        else:
+            self._l0_anchor = None
+            self._best_progress_metric = self._goal_local()[2]
+        self._stagnation_count = 0
+        self._episode_action_counts = [0] * self.action_dim
+        return self._obs()
+
+    def step(self, action: int) -> tuple[np.ndarray, float, bool, dict]:
+        self.steps += 1
+        self._sensor_runtime_tick += 1
+        requested_action = int(action)
+        level = int(self.target.level if self.target else self.config.curriculum_level)
+        configured_level = int(self.config.curriculum_level)
+        self._level_action_steps[level] = int(self._level_action_steps.get(level, 0)) + 1
+
+        valid = self.valid_action_indices()
+        if requested_action not in valid:
+            # Keep a hard environment boundary even though the neural policy is masked.
+            requested_action = 0
+        self._episode_action_counts[requested_action] += 1
+
+        prev_pos = self._position_from_metadata(self._metadata()).copy()
+        prev_active_goal = self._active_goal_position()
+        if prev_active_goal is not None:
+            prev_active_goal = prev_active_goal.copy()
+        _prev_f, _prev_r, prev_dist, prev_bearing = self._goal_local()
+        _dl, depth_center_norm, _dr, near_fraction = self._depth_sectors()
+        depth_center_m = float(depth_center_norm * 5.0)
+
+        interaction_success, primitive = self._apply_intent(requested_action)
+        l0_drift = self._enforce_l0_position_lock()
+
+        # Measure progress against the waypoint that was active when the action was
+        # selected. Only after this measurement may the teacher advance or replan.
+        _same_f, _same_r, same_goal_dist, same_goal_bearing = self._goal_local()
+        post_pos = self._position_from_metadata(self._metadata()).copy()
+        actual_move_distance = float(np.linalg.norm(post_pos - prev_pos))
+        angular_delta = abs(prev_bearing) - abs(same_goal_bearing)
+        distance_delta = prev_dist - same_goal_dist
+
+        min_translation = max(0.02, 0.35 * float(self.config.grid_size))
+        blocked_advance = bool(
+            level in (1, 2)
+            and requested_action == 1
+            and (self.last_action_success < 0.5 or actual_move_distance < min_translation)
+        )
+        successful_translation = bool(
+            level in (1, 2)
+            and requested_action == 1
+            and self.last_action_success >= 0.5
+            and actual_move_distance >= min_translation
+        )
+        if successful_translation:
+            self._episode_successful_translations += 1
+            if level == 1 and prev_active_goal is not None:
+                a = self._nearest_reachable_key(prev_pos)
+                b = self._nearest_reachable_key(prev_active_goal)
+                if a is not None and b is not None and a != b:
+                    self._edge_failures.pop(self._canonical_edge(a, b), None)
+
+        # Update map/pose after every physical action. This makes successful motion,
+        # rotations, and collision observations immediately available to the planner.
+        self._update_spatial_memory()
+
+        replanned = False
+        if blocked_advance:
+            self._episode_blocked_advances += 1
+            # Only treat an aligned native-physics failure as topology evidence.
+            if abs(prev_bearing) <= max(1.0, float(self.config.nav_alignment_gate_degrees)):
+                if level == 1:
+                    replanned = bool(self._record_l1_edge_failure())
+                elif level == 2:
+                    self.spatial.mark_blocked_ahead(float(self.config.grid_size))
+                    replanned = bool(self._replan_spatial_to_final(force=True))
+
+        waypoint_advanced = False
+        if level == 1 and not replanned:
+            waypoint_advanced = self._advance_waypoint_if_reached()
+        elif level == 2:
+            # Replan after real translation or periodically as new depth evidence
+            # arrives. Routine replanning is NOT itself counted as behavioral progress;
+            # otherwise an idle agent could avoid the stagnation watchdog forever.
+            if not replanned:
+                self._replan_spatial_to_final(
+                    force=successful_translation or (self.steps - self._spatial_last_plan_step) >= max(1, int(self.config.spatial_replan_every_steps))
+                )
+            waypoint_advanced = bool(successful_translation)
+        _f, _r, dist, bearing = self._goal_local()
+        final_dist, final_bearing = self._final_goal_metrics()
+
+        reward = -0.003
+        is_orient = bool(self.target and self.target.kind == "orient")
+        if is_orient:
+            reward += float(self.config.orient_progress_scale) * angular_delta
+            if abs(prev_bearing) > float(self.config.orient_success_degrees):
+                correct = (prev_bearing > 0.0 and requested_action == 3) or (prev_bearing < 0.0 and requested_action == 2)
+                wrong = (prev_bearing > 0.0 and requested_action == 2) or (prev_bearing < 0.0 and requested_action == 3)
+                if correct:
+                    reward += float(self.config.orient_correct_turn_bonus)
+                elif wrong:
+                    reward -= float(self.config.orient_wrong_turn_penalty)
+                elif requested_action == 0:
+                    reward -= 0.005
+        elif level in (1, 2):
+            # Hierarchical navigation: preserve orientation shaping, then reward
+            # actual waypoint progress. The alignment gate keeps ADVANCE masked until
+            # the previously mastered turning primitive has done its job.
+            reward += float(self.config.nav_angular_scale) * angular_delta
+            reward += float(self.config.nav_distance_scale) * distance_delta
+            if requested_action in (2, 3) and abs(prev_bearing) > float(self.config.orient_success_degrees):
+                correct = (prev_bearing > 0.0 and requested_action == 3) or (prev_bearing < 0.0 and requested_action == 2)
+                wrong = (prev_bearing > 0.0 and requested_action == 2) or (prev_bearing < 0.0 and requested_action == 3)
+                if correct:
+                    reward += 0.5 * float(self.config.orient_correct_turn_bonus)
+                elif wrong:
+                    reward -= 0.5 * float(self.config.orient_wrong_turn_penalty)
+            if requested_action == 1:
+                if blocked_advance:
+                    reward -= float(self.config.nav_blocked_penalty)
+                else:
+                    reward += float(self.config.nav_forward_bonus)
+                if distance_delta < -float(self.config.nav_progress_distance_epsilon):
+                    reward -= float(self.config.nav_wrong_way_penalty)
+            elif requested_action == 0:
+                if abs(prev_bearing) <= max(1.0, float(self.config.nav_alignment_gate_degrees)):
+                    reward -= float(self.config.nav_idle_aligned_penalty)
+                else:
+                    reward -= 0.004
+            if waypoint_advanced:
+                reward += 0.08
+        else:
+            reward += 0.18 * distance_delta
+
+        if self.last_action_success < 0.5 and not (level in (1, 2) and requested_action == 1):
+            reward -= 0.02
+
+        # Skill-aware stagnation. Correct turning, translation, waypoint advancement,
+        # or an alternate-route replan all count as useful L1 progress.
+        if is_orient:
+            made_progress = angular_delta > max(0.0, float(self.config.stagnation_epsilon))
+        elif level in (1, 2):
+            made_progress = bool(
+                waypoint_advanced
+                or replanned
+                or distance_delta > max(0.0, float(self.config.nav_progress_distance_epsilon))
+                or angular_delta > max(0.0, float(self.config.nav_progress_angle_epsilon))
+            )
+        else:
+            eps = min(0.02, max(0.0, float(self.config.stagnation_epsilon)) / 100.0)
+            made_progress = dist < self._best_progress_metric - eps
+
+        metric = abs(bearing) if is_orient else dist
+        if made_progress:
+            self._best_progress_metric = min(self._best_progress_metric, metric)
+            self._stagnation_count = 0
+        else:
+            self._stagnation_count += 1
+
+        success, reason = self._task_success(interaction_success)
+        if success:
+            reward += 1.0
+        elif reason == "subgoal_complete":
+            reward += 0.5
+
+        rgb_fault = bool(self._sensor_rgb_stale)
+        controller_fault = bool(self._sensor_controller_error is not None)
+        # Discovery's depth stream can temporarily become fully untrusted while RGB
+        # and native simulator collision physics remain healthy. In native-collision
+        # training this is diagnostic "depth unknown", not an infrastructure fault.
+        depth_fault = bool(
+            self._sensor_depth_stale
+            and (bool(self.config.sensor_depth_recovery_in_native) or not bool(self.config.nav_native_collision_training))
+        )
+        sensor_fault = bool(
+            self.config.sensor_watchdog
+            and (rgb_fault or depth_fault or controller_fault)
+            and not success
+        )
+        sensor_fault_kind = "none"
+        if sensor_fault:
+            self._sensor_faults_total += 1
+            if controller_fault:
+                sensor_fault_kind = "controller"
+                self._sensor_controller_faults_total += 1
+            elif rgb_fault:
+                sensor_fault_kind = "rgb"
+                self._sensor_rgb_faults_total += 1
+            else:
+                sensor_fault_kind = "depth"
+                self._sensor_depth_faults_total += 1
+        route_unavailable = bool(level in (1, 2) and self._route_unavailable and not success and not sensor_fault)
+        stagnant = (not success) and (not route_unavailable) and (not sensor_fault) and self._stagnation_count >= max(1, int(self.config.stagnation_steps))
+        timed_out = (not success) and (not route_unavailable) and (not sensor_fault) and self.steps >= int(self.config.max_episode_steps)
+        if sensor_fault:
+            reason = "sensor_stale"
+            reward -= 0.10
+        elif route_unavailable:
+            reason = "route_unavailable"
+            reward -= 0.10
+        elif stagnant:
+            reason = "stagnation"
+            reward -= 0.10
+        elif timed_out:
+            reason = "timeout"
+            reward -= 0.10
+
+        self.last_reward = float(reward)
+        self.energy = 1.0
+        done = bool(success or sensor_fault or route_unavailable or stagnant or timed_out)
+        if done:
+            totals = self._totals(level)
+            if sensor_fault:
+                # Infrastructure faults are tracked separately and intentionally do
+                # not enter curriculum attempts, success windows, or graduation.
+                totals["sensor_faults"] += 1
+            else:
+                totals["attempts"] += 1
+                totals["successful_translations"] += int(self._episode_successful_translations)
+                totals["blocked_advances"] += int(self._episode_blocked_advances)
+                totals["replans"] += int(self._episode_replans)
+                totals["spatial_plan_failures"] += int(self._spatial_plan_failures_episode)
+                if success:
+                    totals["successes"] += 1
+                    totals["goals"] += 1
+                if stagnant:
+                    totals["stagnations"] += 1
+                if timed_out:
+                    totals["timeouts"] += 1
+                if route_unavailable:
+                    totals["route_unavailable"] += 1
+                self._recent_queue(level).append({
+                    "success": bool(success), "steps": int(self.steps),
+                    "stagnation": bool(stagnant), "timeout": bool(timed_out),
+                    "route_unavailable": bool(route_unavailable),
+                    "sensor_fault": False,
+                    "successful_translations": int(self._episode_successful_translations),
+                    "blocked_advances": int(self._episode_blocked_advances),
+                    "replans": int(self._episode_replans),
+                    "spatial_plan_failures": int(self._spatial_plan_failures_episode),
+                })
+
+        episode_stats = self._curriculum_stats(level)
+        configured_stats = self._curriculum_stats(configured_level)
+        waypoint = self._active_goal_position()
+        final_goal = self._final_goal_position()
+        info = {
+            "distance": float(dist),
+            "final_distance": float(final_dist),
+            "bearing": float(bearing),
+            "final_bearing": float(final_bearing),
+            "delta_bearing": float(angular_delta),
+            "delta_distance": float(distance_delta),
+            "actual_move_distance": float(actual_move_distance),
+            "depth_center_m": float(depth_center_m),
+            "near_obstacle_fraction": float(near_fraction),
+            "sensor_health": self._sensor_health_payload(),
+            "sensor_fault": bool(sensor_fault),
+            "sensor_fault_kind": str(sensor_fault_kind),
+            "infrastructure_fault": bool(sensor_fault),
+            "quarantine_transition": bool(sensor_fault),
+            "blocked_advance": bool(blocked_advance),
+            "successful_translation": bool(successful_translation),
+            "successful_translations_episode": int(self._episode_successful_translations),
+            "blocked_advances_episode": int(self._episode_blocked_advances),
+            "route_replanned": bool(replanned),
+            "replans_episode": int(self._episode_replans),
+            "route_unavailable": bool(route_unavailable),
+            "known_blocked_edges": int(sum(1 for n in self._edge_failures.values() if n >= max(1, int(self.config.nav_edge_failure_threshold)))),
+            "waypoint_advanced": bool(waypoint_advanced),
+            "waypoint": None if waypoint is None else [float(waypoint[0]), float(waypoint[1])],
+            "final_target": None if final_goal is None else [float(final_goal[0]), float(final_goal[1])],
+            "waypoint_index": int(self.target.waypoint_index if self.target else 0),
+            "waypoint_count": int(len(self.target.waypoints) if self.target and self.target.waypoints else 0),
+            "path_steps": int(len(self.target.waypoints) if self.target and self.target.waypoints else 0),
+            "reached": bool(success),
+            "task_success": bool(success),
+            "task_reason": reason,
+            "curriculum_level": level,
+            "configured_curriculum_level": configured_level,
+            "is_rehearsal": bool(level != configured_level),
+            "task_kind": self.target.kind if self.target else "none",
+            "target_label": self.target.label if self.target else "none",
+            "requested_action": int(action),
+            "executed_action": int(requested_action),
+            "allowed_actions": list(valid),
+            "primitive_action": primitive,
+            "last_action_success": bool(self.last_action_success),
+            "goal_signal": "internal-map" if level == 2 else self.config.goal_signal,
+            "waypoint_source": "spatial-map" if level == 2 else ("teacher-reachable-grid" if level == 1 else "task-goal"),
+            "spatial_replans_episode": int(self._spatial_replans_episode),
+            "spatial_plan_failures_episode": int(self._spatial_plan_failures_episode),
+            "spatial_stats": self.spatial.counts(),
+            "pose_belief": {
+                "x": float(self.spatial.pose.x), "z": float(self.spatial.pose.z),
+                "yaw": float(self.spatial.pose.yaw), "confidence": float(self.spatial.pose.confidence),
+            },
+            "stagnation_steps": int(self._stagnation_count),
+            "stagnation_limit": int(self.config.stagnation_steps),
+            "stagnant": bool(stagnant),
+            "timed_out": bool(timed_out),
+            "l0_position_drift": float(l0_drift),
+            "curriculum_stats": episode_stats,
+            "configured_curriculum_stats": configured_stats,
+            "graduation_ready": bool(configured_stats["graduation_ready"]),
+            "level_epsilon_floor": float(self.exploration_floor()),
+        }
+        return self._obs(), float(reward), done, info
+
+    def state_dict(self) -> dict:
+        return {
+            "format_version": 5,
+            "scene": self.config.scene,
+            "sensor_runtime": {
+                "faults_total": int(self._sensor_faults_total),
+                "rgb_faults_total": int(self._sensor_rgb_faults_total),
+                "depth_faults_total": int(self._sensor_depth_faults_total),
+                "controller_faults_total": int(self._sensor_controller_faults_total),
+                "depth_unknown_total": int(self._sensor_depth_unknown_total),
+                "runtime_tick": int(self._sensor_runtime_tick),
+                "last_recovery_tick": int(self._sensor_last_recovery_tick),
+                "recoveries_total": int(self._sensor_recoveries_total),
+                "soft_resets_total": int(self._sensor_soft_resets_total),
+                "controller_restarts_total": int(self._sensor_controller_restarts_total),
+                "recovery_failures_total": int(self._sensor_recovery_failures_total),
+            },
+            "spatial": self.spatial.state_dict(scene=self.config.scene),
+            "recent_outcomes_by_level": {
+                str(level): list(items) for level, items in self._recent_outcomes_by_level.items()
+            },
+            "level_totals": {str(level): dict(values) for level, values in self._level_totals.items()},
+            "level_action_steps": {str(level): int(value) for level, value in self._level_action_steps.items()},
+            "edge_failures": {
+                f"{a[0]},{a[1]}|{b[0]},{b[1]}": int(count)
+                for (a, b), count in self._edge_failures.items()
+            },
+            "legacy_v041_stats": dict(self._legacy_v041_stats),
+        }
+
+    def load_state_dict(self, state: dict) -> None:
+        if not isinstance(state, dict):
+            return
+        self._recent_outcomes_by_level.clear()
+        self._level_totals.clear()
+        self._level_action_steps.clear()
+        self._edge_failures.clear()
+        runtime = state.get("sensor_runtime")
+        if isinstance(runtime, dict):
+            self._sensor_faults_total = int(runtime.get("faults_total", self._sensor_faults_total))
+            self._sensor_rgb_faults_total = int(runtime.get("rgb_faults_total", self._sensor_rgb_faults_total))
+            self._sensor_depth_faults_total = int(runtime.get("depth_faults_total", self._sensor_depth_faults_total))
+            self._sensor_controller_faults_total = int(runtime.get("controller_faults_total", self._sensor_controller_faults_total))
+            self._sensor_depth_unknown_total = int(runtime.get("depth_unknown_total", self._sensor_depth_unknown_total))
+            self._sensor_runtime_tick = int(runtime.get("runtime_tick", self._sensor_runtime_tick))
+            self._sensor_last_recovery_tick = int(runtime.get("last_recovery_tick", self._sensor_last_recovery_tick))
+            self._sensor_recoveries_total = int(runtime.get("recoveries_total", self._sensor_recoveries_total))
+            self._sensor_soft_resets_total = int(runtime.get("soft_resets_total", self._sensor_soft_resets_total))
+            self._sensor_controller_restarts_total = int(runtime.get("controller_restarts_total", self._sensor_controller_restarts_total))
+            self._sensor_recovery_failures_total = int(runtime.get("recovery_failures_total", self._sensor_recovery_failures_total))
+        spatial_state = state.get("spatial")
+        if isinstance(spatial_state, dict):
+            loaded = self.spatial.load_state_dict(spatial_state, scene=self.config.scene)
+            if loaded:
+                # Keep allocation compatible with the currently running build; this
+                # preserves overlapping evidence if executable bounds moved slightly.
+                self.spatial.ensure_bounds(self._bounds, preserve=True)
+
+        if "recent_outcomes_by_level" in state or "level_totals" in state:
+            for level_text, items in dict(state.get("recent_outcomes_by_level", {})).items():
+                try:
+                    level = int(level_text)
+                except (TypeError, ValueError):
+                    continue
+                q = self._recent_queue(level)
+                for item in list(items)[-q.maxlen:]:
+                    if isinstance(item, dict):
+                        q.append(dict(item))
+            for level_text, values in dict(state.get("level_totals", {})).items():
+                try:
+                    level = int(level_text)
+                except (TypeError, ValueError):
+                    continue
+                if isinstance(values, dict):
+                    t = self._totals(level)
+                    for key in t:
+                        t[key] = int(values.get(key, t[key]))
+            for level_text, value in dict(state.get("level_action_steps", {})).items():
+                try:
+                    self._level_action_steps[int(level_text)] = int(value)
+                except (TypeError, ValueError):
+                    pass
+            for edge_text, value in dict(state.get("edge_failures", {})).items():
+                try:
+                    left, right = str(edge_text).split("|", 1)
+                    a = tuple(int(x) for x in left.split(",", 1))
+                    b = tuple(int(x) for x in right.split(",", 1))
+                    if len(a) == 2 and len(b) == 2:
+                        self._edge_failures[self._canonical_edge(a, b)] = int(value)
+                except (TypeError, ValueError):
+                    pass
+            self._legacy_v041_stats = dict(state.get("legacy_v041_stats", {}))
+            return
+
+        # Migration from v0.4.1: its single recent window mixed levels, so do not
+        # pretend those outcomes belong to the configured level. Preserve them only
+        # as diagnostic history and start trustworthy per-level evidence from zero.
+        self._legacy_v041_stats = {
+            "curriculum_attempts": int(state.get("curriculum_attempts", 0)),
+            "curriculum_successes": int(state.get("curriculum_successes", 0)),
+            "curriculum_timeouts": int(state.get("curriculum_timeouts", 0)),
+            "curriculum_stagnations": int(state.get("curriculum_stagnations", 0)),
+            "recent_outcomes": list(state.get("recent_outcomes", [])),
+        }
+
+    # ---------- sensory / dashboard ----------
+    def render_rgb(self, size: int = 96) -> np.ndarray:
+        frame = getattr(self.event, "frame", None)
+        if frame is None:
+            return np.zeros((max(32, size), max(32, size), 3), dtype=np.uint8)
+        rgb = np.asarray(frame, dtype=np.uint8)
+        if rgb.ndim != 3 or rgb.shape[-1] < 3:
+            return np.zeros((max(32, size), max(32, size), 3), dtype=np.uint8)
+        return rgb[..., :3].copy()
+
+    def render_depth(self) -> np.ndarray | None:
+        depth = getattr(self.event, "depth_frame", None)
+        return None if depth is None else np.asarray(depth, dtype=np.float32).copy()
+
+    @staticmethod
+    def _thumbnail_payload(rgb: np.ndarray, max_width: int = 192) -> dict[str, Any]:
+        x = np.asarray(rgb, dtype=np.uint8)
+        h, w, _ = x.shape
+        if w > max_width:
+            scale = max_width / float(w)
+            nh = max(1, int(round(h * scale)))
+            ys = np.linspace(0, h - 1, nh).astype(int)
+            xs = np.linspace(0, w - 1, max_width).astype(int)
+            x = x[np.ix_(ys, xs)]
+            h, w, _ = x.shape
+        return {
+            "width": int(w),
+            "height": int(h),
+            "rgb_b64": base64.b64encode(x.tobytes()).decode("ascii"),
+        }
+
+    def visual_snapshot(self, predicted_obs: np.ndarray | None = None) -> dict[str, Any]:
+        md = self._metadata()
+        pos = self._position_from_metadata(md)
+        yaw = self._yaw_from_metadata(md)
+        left, center, right, near = self._depth_sectors()
+        final_goal = self._final_goal_position()
+        waypoint = self._active_goal_position()
+        level = int(self.current_skill_level() or 0)
+        configured = int(self.config.curriculum_level)
+        final_dist, final_bearing = self._final_goal_metrics()
+        out = {
+            "environment_type": "ai2thor",
+            "render_mode": "embodied3d",
+            "agent": [float(pos[0]), float(pos[1])],
+            "target": None if final_goal is None else [float(final_goal[0]), float(final_goal[1])],
+            "waypoint": None if waypoint is None else [float(waypoint[0]), float(waypoint[1])],
+            "predicted_position": None,
+            "world_bounds": [float(v) for v in self._bounds],
+            "yaw": float(yaw),
+            "camera_horizon": float(self._horizon_from_metadata(md)),
+            "energy": float(self.energy),
+            "depth_left": float(left * 5.0),
+            "depth_center": float(center * 5.0),
+            "depth_right": float(right * 5.0),
+            "near_obstacle_fraction": float(near),
+            "curriculum_level": level,
+            "configured_curriculum_level": configured,
+            "is_rehearsal": bool(level != configured),
+            "task_kind": self.target.kind if self.target else "none",
+            "target_label": self.target.label if self.target else "none",
+            "goal_signal": self.config.goal_signal,
+            "allowed_actions": list(self.valid_action_indices()),
+            "curriculum_stats": self._curriculum_stats(configured),
+            "episode_curriculum_stats": self._curriculum_stats(level),
+            "configured_curriculum_stats": self._curriculum_stats(configured),
+            "stagnation_steps": int(self._stagnation_count),
+            "stagnation_limit": int(self.config.stagnation_steps),
+            "final_distance": float(final_dist),
+            "final_bearing": float(final_bearing),
+            "waypoint_index": int(self.target.waypoint_index if self.target else 0),
+            "waypoint_count": int(len(self.target.waypoints) if self.target and self.target.waypoints else 0),
+            "path_steps": int(len(self.target.waypoints) if self.target and self.target.waypoints else 0),
+            "level_epsilon_floor": float(self.exploration_floor()),
+            "successful_translations_episode": int(self._episode_successful_translations),
+            "blocked_advances_episode": int(self._episode_blocked_advances),
+            "replans_episode": int(self._episode_replans),
+            "known_blocked_edges": int(sum(1 for n in self._edge_failures.values() if n >= max(1, int(self.config.nav_edge_failure_threshold)))),
+            "alignment_gate_degrees": float(self.config.nav_alignment_gate_degrees),
+            "nav_success_radius": float(self.config.nav_success_radius),
+            "spatial_success_radius": float(self.config.spatial_success_radius),
+            "waypoint_source": "spatial-map" if level == 2 else ("teacher-reachable-grid" if level == 1 else "task-goal"),
+            "spatial": self.spatial.compact_snapshot(),
+            "spatial_replans_episode": int(self._spatial_replans_episode),
+            "spatial_plan_failures_episode": int(self._spatial_plan_failures_episode),
+            "sensor_health": self._sensor_health_payload(),
+            "camera": {
+                **self._thumbnail_payload(self.render_rgb()),
+                "seq": int(self._sensor_frame_seq),
+                "hash": str(self._sensor_frame_hash),
+            },
+        }
+        if predicted_obs is not None:
+            p = np.asarray(predicted_obs, dtype=np.float32).reshape(-1)
+            out["predicted_sensor"] = [float(v) for v in p[:6].tolist()]
+        return out
+
+    def describe(self) -> str:
+        pos = self._position_from_metadata(self._metadata())
+        _f, _r, dist, bearing = self._goal_local()
+        final_dist, _final_bearing = self._final_goal_metrics()
+        level = self.target.level if self.target else self.config.curriculum_level
+        configured = int(self.config.curriculum_level)
+        rehearsal = " rehearsal" if int(level) != configured else ""
+        wp = ""
+        if self.target and self.target.waypoints:
+            wp = f" wp={self.target.waypoint_index + 1}/{len(self.target.waypoints)} final={final_dist:.2f}"
+        source = " spatial-map" if int(level) == 2 else ""
+        return (
+            f"scene={self.config.scene} level={level}{rehearsal}{source} "
+            f"task={self.target.kind if self.target else 'none'} target={self.target.label if self.target else 'none'} "
+            f"agent=({pos[0]:+.2f},{pos[1]:+.2f}) yaw={self._yaw_from_metadata(self._metadata()):.1f} "
+            f"distance={dist:.2f} bearing={bearing:+.1f}{wp} "
+            f"stagnation={self._stagnation_count}/{self.config.stagnation_steps}"
+        )
+
+    def close(self) -> None:
+        if self._closed:
+            return
+        self._closed = True
+        self._stop_controller_instance(self.controller)

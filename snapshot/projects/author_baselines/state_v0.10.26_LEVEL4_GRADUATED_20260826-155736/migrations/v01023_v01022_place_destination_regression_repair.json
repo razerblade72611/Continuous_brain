@@ -1,0 +1,20 @@
+{
+  "repair_id": "v01023_v01022_place_destination_regression_repair",
+  "applied_at": "2026-08-26T19:13:25.527680+00:00",
+  "state_dir": "/home/davei/projects/author/state",
+  "matched_place_destination_regressions": 2,
+  "agents": {
+    "A": {
+      "events": 2,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/a/embodied_skills.pre_v01023_place_destination_repair.json"
+    },
+    "B": {
+      "events": 2,
+      "checkpoint_found": true,
+      "backup": "/home/davei/projects/author/state/checkpoints/b/embodied_skills.pre_v01023_place_destination_repair.json"
+    }
+  },
+  "raw_replay_preserved": true,
+  "already_applied": false
+}

@@ -1,0 +1,119 @@
+{
+  "checked_utc": "2026-10-12T20:14:53Z",
+  "pod_id": "in1l63ie5bzd2e",
+  "run_id": "35d40708d37145299d952d0a2ee0f380",
+  "revision": "53363a4ddc5378e8e5a1f0005e3ec21722dad114",
+  "completed_records": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "completed_sleep_cycles": {
+    "learning": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "yoked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "current_phase": "cycle8 probes/lives; nine active workers, watcher245583 alive",
+  "current_logged_nonfinite_count": 0,
+  "pending_json_parse": false,
+  "cumulative_logged_skipped_chooser_updates": {
+    "learning": 0,
+    "yoked": 0
+  },
+  "cycle7": {
+    "seconds": 7570,
+    "probe_seconds": 1872,
+    "probes_after_sleep_cycle": 7,
+    "learning_mean_survival_steps": {
+      "fresh": 464.35,
+      "transfer": 510.1
+    },
+    "yoked_mean_survival_steps": {
+      "fresh": 661.7,
+      "transfer": 449.4
+    },
+    "frozen_mean_survival_steps": {
+      "fresh": 502.95,
+      "transfer": 435.825
+    },
+    "learning_minus_frozen_steps": {
+      "fresh": -38.6,
+      "transfer": 74.275
+    },
+    "learning_minus_frozen_lower95_steps": {
+      "fresh": -142.95125,
+      "transfer": -22.15
+    },
+    "learning_minus_yoked_steps": {
+      "fresh": -197.35,
+      "transfer": 60.7
+    },
+    "learning_minus_yoked_lower95_steps": {
+      "fresh": -304.08625,
+      "transfer": -19.776249999999997
+    },
+    "n_per_family": 40,
+    "learning_chooser_fallbacks_fresh_transfer": 0,
+    "chooser_changed_action_share": 0.05157747388823086,
+    "learned_primitive_action_control_share": 0
+  },
+  "sleep8": {
+    "learning": {
+      "seconds": 5691,
+      "own_rows": 77287,
+      "own_streams": 72,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 6.697605609893799,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.02560984343290329,
+      "final_raw_absmax": 3.04416823387146,
+      "final_grad_norm": 0.7134007811546326
+    },
+    "yoked": {
+      "seconds": 5691,
+      "own_rows": 78542,
+      "own_streams": 72,
+      "own_excluded_rows": 0,
+      "chooser_updates": 1500,
+      "skips": 0,
+      "peak_block_raw_absmax": 3.772770881652832,
+      "peak_block_capped_fraction": 0,
+      "final_value_loss": 0.018574008718132973,
+      "final_raw_absmax": 2.7104766368865967,
+      "final_grad_norm": 0.6176214218139648
+    }
+  },
+  "assessment": "Eight of ten paired sleeps completed. Cycle7 learning fresh survival sample mean is below both controls while transfer exceeds both; all four one-sided survival lower95 bounds remain negative. No confirmed survival gain or final growth verdict. Per-cycle worlds differ and intervals are conditional on trained individuals; causes of alternating contrasts remain unisolated.",
+  "numeric_note": "Sleeps3–8 each had maximum block capped fractions0; sleep2 had transient learning capping. Block capped fractions are minibatch maxima within250-update blocks, not mean rates. All root current-run JSONL numeric values scanned for finiteness. No independent checkpoint tensor reload.",
+  "peer_coordination": "Claude C-036 agrees with cycle6 evidence and retains descriptive, cause-open reporting. His separate provisional response to David does not authorize any final evaluation in this monitoring task.",
+  "eta": "No material change from notified9–11pm Central October12/$20–22compute. Claude's03:00–03:30UTC October13 projection remains inside that window. Original30h/$27caps and October13 09:08UTC cleanup deadline unchanged.",
+  "action": "Continue exact authorized loop; record independent cycle7/sleep8 evidence for Claude and DAV99. No final evaluation, checkpoint selection or installation.",
+  "local_cycles_sha256": "2a65bcb6b1ec2b496102f85ba2f7a8610ba8f2d2ba1e56eac7c77b81aa9ff632",
+  "remote_cycles_sha256": "2a65bcb6b1ec2b496102f85ba2f7a8610ba8f2d2ba1e56eac7c77b81aa9ff632",
+  "local_cycles_bytes": 1508455,
+  "checksum_matches": true
+}

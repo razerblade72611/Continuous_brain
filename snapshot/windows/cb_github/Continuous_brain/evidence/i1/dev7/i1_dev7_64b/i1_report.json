@@ -1,0 +1,172 @@
+{
+  "authored_first_goal": 64,
+  "errors": {},
+  "first_goal_completers": 60,
+  "format": "cb-i1-report/2",
+  "individuals": [
+    906744,
+    906807
+  ],
+  "n": 64,
+  "primary": {
+    "curriculum_advances": {
+      "meets": true,
+      "n": 60,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_CURRICULUM_ADVANCE",
+      "value": 1.0
+    },
+    "donor_store_autobiography_flips_goal": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_DONOR_FIRST_GOAL_FLIP",
+      "value": 1.0
+    },
+    "erased_store_autobiography_no_goal": {
+      "meets": true,
+      "n": 64,
+      "threshold": 1.0,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_ERASED_NEUTRAL",
+      "value": 1.0
+    },
+    "first_goal_completes": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.8,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_COMPLETION",
+      "value": 0.9375
+    },
+    "first_goal_endogenous": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FIRST_GOAL_GENESIS",
+      "value": 1.0
+    },
+    "history_guides_initial_strategy": {
+      "meets": true,
+      "n": 64,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_self_development_hysteresis_v1.MIN_HISTORY_GUIDED_STRATEGY",
+      "value": 1.0
+    },
+    "persistence_bit_exact": {
+      "meets": true,
+      "n": 64,
+      "threshold": 1.0,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_PERSISTENCE",
+      "value": 1.0
+    },
+    "rolled_back_autobiography_repeats_goal": {
+      "meets": true,
+      "n": 60,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_FROZEN_HISTORY_REPEATS",
+      "value": 1.0
+    },
+    "second_goal_authored": {
+      "meets": true,
+      "n": 60,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_SECOND_GOAL_GENERATION",
+      "value": 1.0
+    },
+    "updated_vs_rolled_back_diverges": {
+      "meets": true,
+      "n": 60,
+      "threshold": 0.95,
+      "threshold_source": "evaluate_recursive_autobiographical_curriculum_v1.MIN_UPDATED_VS_FROZEN_DIVERGENCE",
+      "value": 1.0
+    }
+  },
+  "proposed_verdict_if_this_were_a_scientific_family": "PASS",
+  "run": "i1_dev7_64b",
+  "secondary": {
+    "S1_first_half_identical_controller_vs_fixed_scaffold": {
+      "n": 64,
+      "prediction": "1.0 (controller and goal share the 0.12 criterion)",
+      "value": 1.0
+    },
+    "S2_second_goal_episodes_pursued_DIRECT": {
+      "episodes": 882,
+      "prediction": "majority DIRECT (the controller graduates on the 0.12 gain)",
+      "value": 1.0
+    },
+    "S3_second_goal_completion": {
+      "controller": 0.31666666666666665,
+      "difference_controller_minus_fixed": -0.15000000000000002,
+      "fixed_scaffold": 0.4666666666666667,
+      "n": 60,
+      "paired_bootstrap_95ci": [
+        -0.2833333333333333,
+        -0.016666666666666663
+      ],
+      "prediction": "estimation only: no directional prediction registered"
+    }
+  },
+  "status": "ENGINEERING_ONLY",
+  "validity": {
+    "driver_record_matches_store_lifecycle": true,
+    "fidelity_to_frozen_v036_driver": true,
+    "host_state_read_from_store": true,
+    "interventions_applied_exactly_as_planned": true,
+    "legacy_tree_unchanged": true,
+    "manifest_consistent_across_arms": true,
+    "no_driver_side_mechanism_calls": true,
+    "no_driver_side_model_forwards": true,
+    "no_errors": true,
+    "pins_verified": true,
+    "replay_bit_exact_before_every_intervention": true,
+    "store_authority_controls_change_the_individual": true
+  },
+  "validity_diagnostics": {
+    "arm_manifests": {
+      "AUTHORITY_CURRICULUM": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "AUTHORITY_GOAL": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "AUTHORITY_SKILLS": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "DONOR": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "ERASED": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "FIXED_SCAFFOLD": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "LEGACY_REF": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "NORMAL": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "PERSIST_RESUME": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "PERSIST_SAVE": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+      "ROLLBACK": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7"
+    },
+    "authority_controls": {
+      "AUTHORITY_CURRICULUM": {
+        "aborted": 0,
+        "changed_or_aborted": 4,
+        "n": 4
+      },
+      "AUTHORITY_GOAL": {
+        "aborted": 0,
+        "changed_or_aborted": 4,
+        "n": 4
+      },
+      "AUTHORITY_SKILLS": {
+        "aborted": 4,
+        "changed_or_aborted": 4,
+        "n": 4
+      }
+    },
+    "cross_slot_nested_calls": 0,
+    "driver_side_model_forwards": 0,
+    "expected_manifest_sha256": "230aa4d01f8e8908bfb9368d3dd6192cda83627f106f59fd5ff689cd804f9bb7",
+    "fidelity_failures": [],
+    "host_blocked_calls": 0,
+    "host_side_model_forwards": 675472,
+    "planned_individuals": {
+      "AUTHORITY_CURRICULUM": 4,
+      "AUTHORITY_GOAL": 4,
+      "AUTHORITY_SKILLS": 4,
+      "DONOR": 64,
+      "ERASED": 64,
+      "ROLLBACK": 60
+    },
+    "replay_checks": 200,
+    "unbound_calls": 0
+  },
+  "verdict": null
+}

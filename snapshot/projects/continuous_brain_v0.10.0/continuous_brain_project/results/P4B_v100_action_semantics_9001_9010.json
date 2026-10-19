@@ -1,0 +1,4442 @@
+{
+  "action_mapping": {
+    "0": "idle",
+    "1": "up",
+    "2": "down",
+    "3": "left",
+    "4": "right"
+  },
+  "blind_evidence": false,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.0/continuous_brain_project/state/child_v100_planning/infant_training.pt",
+  "directional_semantics_correct_both_states": 10,
+  "discount": 0.95,
+  "format": "continuous_brain.v100_action_semantics_probe.v1",
+  "gap_center_y": 0.58,
+  "parents_used": false,
+  "records": [
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.023802,
+              "next_y_abs": 0.069136,
+              "reward_abs": 0.013296
+            },
+            "pred": {
+              "bellman_value_score": 0.067354,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.614358,
+                -0.008951,
+                1.387636,
+                0.154067,
+                1.003742,
+                -0.01457,
+                1.001183
+              ],
+              "next_goal_value": 0.382708,
+              "next_value": 0.089106,
+              "q_current_action": 0.072144,
+              "reward": -0.017296
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.63816,
+                -0.078087,
+                1.371941,
+                0.222293,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.008927,
+              "next_y_abs": 0.004029,
+              "reward_abs": 0.013194
+            },
+            "pred": {
+              "bellman_value_score": 0.06628,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.629233,
+                0.005942,
+                1.407238,
+                0.141235,
+                1.006093,
+                -0.014685,
+                1.000691
+              ],
+              "next_goal_value": 0.375868,
+              "next_value": 0.086981,
+              "q_current_action": 0.070502,
+              "reward": -0.016351
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.63816,
+                0.001913,
+                1.371941,
+                0.142293,
+                0.998,
+                -0.003157
+              ],
+              "reached": false,
+              "reward": -0.003157
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.038837,
+              "next_y_abs": 0.138242,
+              "reward_abs": 0.011195
+            },
+            "pred": {
+              "bellman_value_score": 0.077615,
+              "collision_probability": 6e-06,
+              "next_context": [
+                -0.599323,
+                -0.019845,
+                1.369249,
+                0.16259,
+                1.005331,
+                -0.014505,
+                1.000623
+              ],
+              "next_goal_value": 0.393778,
+              "next_value": 0.098959,
+              "q_current_action": 0.100714,
+              "reward": -0.016396
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.63816,
+                -0.158087,
+                1.371941,
+                0.302293,
+                0.998,
+                -0.005201
+              ],
+              "reached": false,
+              "reward": -0.005201
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.079221,
+              "next_y_abs": 0.075264,
+              "reward_abs": 0.006862
+            },
+            "pred": {
+              "bellman_value_score": 0.0581,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.638939,
+                -0.002823,
+                1.415444,
+                0.151648,
+                1.00576,
+                -0.015264,
+                1.001011
+              ],
+              "next_goal_value": 0.367615,
+              "next_value": 0.079246,
+              "q_current_action": 0.042038,
+              "reward": -0.017184
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.71816,
+                -0.078087,
+                1.451941,
+                0.222293,
+                0.998,
+                -0.010322
+              ],
+              "reached": false,
+              "reward": -0.010322
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.028342,
+              "next_y_abs": 0.065444,
+              "reward_abs": 0.018158
+            },
+            "pred": {
+              "bellman_value_score": 0.077866,
+              "collision_probability": 6e-06,
+              "next_context": [
+                -0.586502,
+                -0.012643,
+                1.356044,
+                0.153991,
+                1.000366,
+                -0.013764,
+                1.001079
+              ],
+              "next_goal_value": 0.397341,
+              "next_value": 0.098644,
+              "q_current_action": 0.091114,
+              "reward": -0.015845
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.55816,
+                -0.078087,
+                1.291941,
+                0.222293,
+                0.998,
+                0.002313
+              ],
+              "reached": false,
+              "reward": 0.002313
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.63816,
+          "agent_y": -0.078087,
+          "target_dx": 1.371941,
+          "target_dy": 0.222293
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.089995,
+              "next_y_abs": 0.143057,
+              "reward_abs": 0.015298
+            },
+            "pred": {
+              "bellman_value_score": 0.405051,
+              "collision_probability": 1.4e-05,
+              "next_context": [
+                -0.168155,
+                0.06497,
+                0.8356,
+                0.105852,
+                0.946548,
+                -0.089886,
+                0.953553
+              ],
+              "next_goal_value": 0.801336,
+              "next_value": 0.446683,
+              "q_current_action": 0.424176,
+              "reward": -0.019298
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.07816,
+                -0.078087,
+                0.811941,
+                0.222293,
+                0.984,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.125154,
+              "next_y_abs": 0.09123,
+              "reward_abs": 0.015383
+            },
+            "pred": {
+              "bellman_value_score": 0.382379,
+              "collision_probability": 1e-05,
+              "next_context": [
+                -0.203314,
+                0.093143,
+                0.87709,
+                0.079247,
+                0.948166,
+                -0.08916,
+                0.953316
+              ],
+              "next_goal_value": 0.763115,
+              "next_value": 0.421434,
+              "q_current_action": 0.39086,
+              "reward": -0.017983
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.07816,
+                0.001913,
+                0.811941,
+                0.142293,
+                0.984,
+                -0.0026
+              ],
+              "reached": false,
+              "reward": -0.0026
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.052252,
+              "next_y_abs": 0.196016,
+              "reward_abs": 0.008258
+            },
+            "pred": {
+              "bellman_value_score": 0.453286,
+              "collision_probability": 1.7e-05,
+              "next_context": [
+                -0.130412,
+                0.037929,
+                0.792003,
+                0.134267,
+                0.948293,
+                -0.087955,
+                0.9523
+              ],
+              "next_goal_value": 0.85321,
+              "next_value": 0.492115,
+              "q_current_action": 0.479023,
+              "reward": -0.014223
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.07816,
+                -0.158087,
+                0.811941,
+                0.302293,
+                0.984,
+                -0.005965
+              ],
+              "reached": false,
+              "reward": -0.005965
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.067473,
+              "next_y_abs": 0.161546,
+              "reward_abs": 0.00911
+            },
+            "pred": {
+              "bellman_value_score": 0.361466,
+              "collision_probability": 1e-05,
+              "next_context": [
+                -0.225633,
+                0.083459,
+                0.89816,
+                0.091396,
+                0.948771,
+                -0.090669,
+                0.954189
+              ],
+              "next_goal_value": 0.742887,
+              "next_value": 0.400808,
+              "q_current_action": 0.359338,
+              "reward": -0.019302
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.15816,
+                -0.078087,
+                0.891941,
+                0.222293,
+                0.984,
+                -0.010192
+              ],
+              "reached": false,
+              "reward": -0.010192
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.036477,
+              "next_y_abs": 0.134888,
+              "reward_abs": 0.090471
+            },
+            "pred": {
+              "bellman_value_score": 0.444679,
+              "collision_probability": 1.8e-05,
+              "next_context": [
+                -0.114637,
+                0.056801,
+                0.779709,
+                0.113701,
+                0.938852,
+                -0.087306,
+                0.950648
+              ],
+              "next_goal_value": 0.8469,
+              "next_value": 0.482324,
+              "q_current_action": 0.464103,
+              "reward": -0.013529
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.07816,
+                -0.078087,
+                0.811941,
+                0.222293,
+                0.984,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "down",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "up"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.07816,
+          "agent_y": -0.078087,
+          "target_dx": 0.811941,
+          "target_dy": 0.222293
+        }
+      },
+      "seed": 9001
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.085739,
+              "next_y_abs": 0.087825,
+              "reward_abs": 0.01368
+            },
+            "pred": {
+              "bellman_value_score": 0.156209,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.732267,
+                0.214074,
+                1.355809,
+                -0.016417,
+                0.968196,
+                -0.032536,
+                0.971481
+              ],
+              "next_goal_value": 0.530441,
+              "next_value": 0.183041,
+              "q_current_action": 0.178827,
+              "reward": -0.01768
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646528,
+                0.126249,
+                1.239791,
+                0.066459,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.106503,
+              "next_y_abs": 0.026636,
+              "reward_abs": 0.012784
+            },
+            "pred": {
+              "bellman_value_score": 0.150719,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.753031,
+                0.232885,
+                1.381388,
+                -0.033488,
+                0.970258,
+                -0.033371,
+                0.971232
+              ],
+              "next_goal_value": 0.51713,
+              "next_value": 0.176175,
+              "q_current_action": 0.164302,
+              "reward": -0.016648
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646528,
+                0.206249,
+                1.239791,
+                -0.013541,
+                0.998,
+                -0.003864
+              ],
+              "reached": false,
+              "reward": -0.003864
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.06226,
+              "next_y_abs": 0.151716,
+              "reward_abs": 0.010822
+            },
+            "pred": {
+              "bellman_value_score": 0.17505,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.708788,
+                0.197965,
+                1.328265,
+                -0.001618,
+                0.969447,
+                -0.031284,
+                0.969349
+              ],
+              "next_goal_value": 0.5511,
+              "next_value": 0.200442,
+              "q_current_action": 0.219987,
+              "reward": -0.015369
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646528,
+                0.046249,
+                1.239791,
+                0.146459,
+                0.998,
+                -0.004547
+              ],
+              "reached": false,
+              "reward": -0.004547
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.040481,
+              "next_y_abs": 0.099376,
+              "reward_abs": 0.007163
+            },
+            "pred": {
+              "bellman_value_score": 0.139536,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.767009,
+                0.225625,
+                1.394313,
+                -0.024261,
+                0.969448,
+                -0.033663,
+                0.971648
+              ],
+              "next_goal_value": 0.505378,
+              "next_value": 0.165357,
+              "q_current_action": 0.135938,
+              "reward": -0.017554
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.726528,
+                0.126249,
+                1.319791,
+                0.066459,
+                0.998,
+                -0.010391
+              ],
+              "reached": false,
+              "reward": -0.010391
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.126966,
+              "next_y_abs": 0.081611,
+              "reward_abs": 0.016931
+            },
+            "pred": {
+              "bellman_value_score": 0.173912,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.693494,
+                0.20786,
+                1.315174,
+                -0.013139,
+                0.963959,
+                -0.03153,
+                0.969751
+              ],
+              "next_goal_value": 0.55397,
+              "next_value": 0.198371,
+              "q_current_action": 0.211663,
+              "reward": -0.014541
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.566528,
+                0.126249,
+                1.159791,
+                0.066459,
+                0.998,
+                0.00239
+              ],
+              "reached": false,
+              "reward": 0.00239
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.646528,
+          "agent_y": 0.126249,
+          "target_dx": 1.239791,
+          "target_dy": 0.066459
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.029219,
+              "next_y_abs": 0.144901,
+              "reward_abs": 0.059523
+            },
+            "pred": {
+              "bellman_value_score": 0.797812,
+              "collision_probability": 2.6e-05,
+              "next_context": [
+                -0.115747,
+                0.27115,
+                0.547083,
+                -0.084159,
+                0.881091,
+                -0.119467,
+                0.887378
+              ],
+              "next_goal_value": 1.298763,
+              "next_value": 0.906668,
+              "q_current_action": 0.867553,
+              "reward": -0.063523
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086528,
+                0.126249,
+                0.679791,
+                0.066459,
+                0.984,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.092534,
+              "next_y_abs": 0.110484,
+              "reward_abs": 0.048268
+            },
+            "pred": {
+              "bellman_value_score": 0.737224,
+              "collision_probability": 1.6e-05,
+              "next_context": [
+                -0.179062,
+                0.316733,
+                0.614062,
+                -0.131284,
+                0.884351,
+                -0.12415,
+                0.890074
+              ],
+              "next_goal_value": 1.213305,
+              "next_value": 0.830783,
+              "q_current_action": 0.803907,
+              "reward": -0.05202
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086528,
+                0.206249,
+                0.679791,
+                -0.013541,
+                0.984,
+                -0.003752
+              ],
+              "reached": false,
+              "reward": -0.003752
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.042415,
+              "next_y_abs": 0.176942,
+              "reward_abs": 0.046301
+            },
+            "pred": {
+              "bellman_value_score": 0.915154,
+              "collision_probability": 3.6e-05,
+              "next_context": [
+                -0.044113,
+                0.223191,
+                0.476777,
+                -0.031756,
+                0.874598,
+                -0.080183,
+                0.87939
+              ],
+              "next_goal_value": 1.407232,
+              "next_value": 1.017309,
+              "q_current_action": 0.948825,
+              "reward": -0.05129
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086528,
+                0.046249,
+                0.679791,
+                0.146459,
+                0.984,
+                -0.004989
+              ],
+              "reached": false,
+              "reward": -0.004989
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.046367,
+              "next_y_abs": 0.179579,
+              "reward_abs": 0.041829
+            },
+            "pred": {
+              "bellman_value_score": 0.700945,
+              "collision_probability": 1.6e-05,
+              "next_context": [
+                -0.212895,
+                0.305828,
+                0.644532,
+                -0.113694,
+                0.882408,
+                -0.129872,
+                0.888999
+              ],
+              "next_goal_value": 1.182309,
+              "next_value": 0.792787,
+              "q_current_action": 0.769978,
+              "reward": -0.052202
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.166528,
+                0.126249,
+                0.759791,
+                0.066459,
+                0.984,
+                -0.010373
+              ],
+              "reached": false,
+              "reward": -0.010373
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.061745,
+              "next_y_abs": 0.124163,
+              "reward_abs": 0.052397
+            },
+            "pred": {
+              "bellman_value_score": 0.888738,
+              "collision_probability": 4.1e-05,
+              "next_context": [
+                -0.024783,
+                0.250412,
+                0.4642,
+                -0.058188,
+                0.865006,
+                -0.087351,
+                0.877332
+              ],
+              "next_goal_value": 1.387037,
+              "next_value": 0.989833,
+              "q_current_action": 0.929971,
+              "reward": -0.051603
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.086528,
+                0.126249,
+                0.679791,
+                0.066459,
+                0.984,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "down",
+          "predicted_next_goal_value": "down",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "up"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.086528,
+          "agent_y": 0.126249,
+          "target_dx": 0.679791,
+          "target_dy": 0.066459
+        }
+      },
+      "seed": 9002
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.028841,
+              "next_y_abs": 0.065062,
+              "reward_abs": 0.017756
+            },
+            "pred": {
+              "bellman_value_score": 0.062178,
+              "collision_probability": 7e-06,
+              "next_context": [
+                -0.617952,
+                0.017086,
+                1.390301,
+                0.025354,
+                0.998456,
+                -0.02841,
+                0.995797
+              ],
+              "next_goal_value": 0.351837,
+              "next_value": 0.088352,
+              "q_current_action": 0.075708,
+              "reward": -0.021756
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646793,
+                -0.047976,
+                1.449575,
+                0.016032,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.015548,
+              "next_y_abs": 0.000462,
+              "reward_abs": 0.016771
+            },
+            "pred": {
+              "bellman_value_score": 0.062218,
+              "collision_probability": 6e-06,
+              "next_context": [
+                -0.631245,
+                0.031562,
+                1.40906,
+                0.012544,
+                1.000555,
+                -0.028452,
+                0.995176
+              ],
+              "next_goal_value": 0.346177,
+              "next_value": 0.087468,
+              "q_current_action": 0.082633,
+              "reward": -0.020877
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646793,
+                0.032024,
+                1.449575,
+                -0.063968,
+                0.998,
+                -0.004106
+              ],
+              "reached": false,
+              "reward": -0.004106
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.040491,
+              "next_y_abs": 0.13655,
+              "reward_abs": 0.016975
+            },
+            "pred": {
+              "bellman_value_score": 0.069532,
+              "collision_probability": 7e-06,
+              "next_context": [
+                -0.606302,
+                0.008574,
+                1.375792,
+                0.03129,
+                0.999658,
+                -0.028779,
+                0.995211
+              ],
+              "next_goal_value": 0.360009,
+              "next_value": 0.095531,
+              "q_current_action": 0.10129,
+              "reward": -0.021222
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.646793,
+                -0.127976,
+                1.449575,
+                0.096032,
+                0.998,
+                -0.004247
+              ],
+              "reached": false,
+              "reward": -0.004247
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.087285,
+              "next_y_abs": 0.070576,
+              "reward_abs": 0.011302
+            },
+            "pred": {
+              "bellman_value_score": 0.054809,
+              "collision_probability": 6e-06,
+              "next_context": [
+                -0.639508,
+                0.0226,
+                1.415461,
+                0.023361,
+                1.000381,
+                -0.029004,
+                0.995834
+              ],
+              "next_goal_value": 0.338787,
+              "next_value": 0.080538,
+              "q_current_action": 0.052857,
+              "reward": -0.021702
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.726793,
+                -0.047976,
+                1.529575,
+                0.016032,
+                0.998,
+                -0.0104
+              ],
+              "reached": false,
+              "reward": -0.0104
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.026737,
+              "next_y_abs": 0.061941,
+              "reward_abs": 0.023179
+            },
+            "pred": {
+              "bellman_value_score": 0.070186,
+              "collision_probability": 8e-06,
+              "next_context": [
+                -0.59353,
+                0.013965,
+                1.361673,
+                0.024765,
+                0.995067,
+                -0.027603,
+                0.995339
+              ],
+              "next_goal_value": 0.364245,
+              "next_value": 0.095753,
+              "q_current_action": 0.088881,
+              "reward": -0.020779
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.566793,
+                -0.047976,
+                1.369575,
+                0.016032,
+                0.998,
+                0.0024
+              ],
+              "reached": false,
+              "reward": 0.0024
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "right",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.646793,
+          "agent_y": -0.047976,
+          "target_dx": 1.449575,
+          "target_dy": 0.016032
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.131672,
+              "next_y_abs": 0.079046,
+              "reward_abs": 0.021037
+            },
+            "pred": {
+              "bellman_value_score": 0.18541,
+              "collision_probability": 2.7e-05,
+              "next_context": [
+                -0.218465,
+                -0.127022,
+                0.903323,
+                0.190179,
+                0.97481,
+                -0.057752,
+                0.964992
+              ],
+              "next_goal_value": 0.549082,
+              "next_value": 0.221523,
+              "q_current_action": 0.211099,
+              "reward": -0.025037
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086793,
+                -0.047976,
+                0.889575,
+                0.016032,
+                0.984,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.152992,
+              "next_y_abs": 0.137567,
+              "reward_abs": 0.019864
+            },
+            "pred": {
+              "bellman_value_score": 0.178516,
+              "collision_probability": 2.2e-05,
+              "next_context": [
+                -0.239785,
+                -0.105543,
+                0.932095,
+                0.171014,
+                0.976724,
+                -0.057796,
+                0.963988
+              ],
+              "next_goal_value": 0.530885,
+              "next_value": 0.213213,
+              "q_current_action": 0.206595,
+              "reward": -0.024036
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086793,
+                0.032024,
+                0.889575,
+                -0.063968,
+                0.984,
+                -0.004172
+              ],
+              "reached": false,
+              "reward": -0.004172
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.112219,
+              "next_y_abs": 0.013294,
+              "reward_abs": 0.018076
+            },
+            "pred": {
+              "bellman_value_score": 0.206698,
+              "collision_probability": 3e-05,
+              "next_context": [
+                -0.199012,
+                -0.14127,
+                0.880267,
+                0.202545,
+                0.976598,
+                -0.057415,
+                0.964552
+              ],
+              "next_goal_value": 0.571131,
+              "next_value": 0.241238,
+              "q_current_action": 0.250297,
+              "reward": -0.022478
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.086793,
+                -0.127976,
+                0.889575,
+                0.096032,
+                0.984,
+                -0.004402
+              ],
+              "reached": false,
+              "reward": -0.004402
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.086597,
+              "next_y_abs": 0.068031,
+              "reward_abs": 0.01479
+            },
+            "pred": {
+              "bellman_value_score": 0.164908,
+              "collision_probability": 2.2e-05,
+              "next_context": [
+                -0.25339,
+                -0.116007,
+                0.943784,
+                0.183644,
+                0.977237,
+                -0.05881,
+                0.964994
+              ],
+              "next_goal_value": 0.517434,
+              "next_value": 0.200103,
+              "q_current_action": 0.172459,
+              "reward": -0.025189
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.166793,
+                -0.047976,
+                0.969575,
+                0.016032,
+                0.984,
+                -0.010399
+              ],
+              "reached": false,
+              "reward": -0.010399
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.097863,
+              "next_y_abs": 0.082336,
+              "reward_abs": 0.081853
+            },
+            "pred": {
+              "bellman_value_score": 0.203999,
+              "collision_probability": 3.2e-05,
+              "next_context": [
+                -0.184656,
+                -0.130312,
+                0.865329,
+                0.190484,
+                0.969367,
+                -0.055684,
+                0.963537
+              ],
+              "next_goal_value": 0.573245,
+              "next_value": 0.238048,
+              "q_current_action": 0.232898,
+              "reward": -0.022147
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.086793,
+                -0.047976,
+                0.889575,
+                0.016032,
+                0.984,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "idle"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.086793,
+          "agent_y": -0.047976,
+          "target_dx": 0.889575,
+          "target_dy": 0.016032
+        }
+      },
+      "seed": 9003
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.099402,
+              "next_y_abs": 0.148419,
+              "reward_abs": 0.008312
+            },
+            "pred": {
+              "bellman_value_score": 0.118088,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.670085,
+                -0.192072,
+                1.315334,
+                0.328257,
+                0.99669,
+                -0.031153,
+                0.979306
+              ],
+              "next_goal_value": 0.445239,
+              "next_value": 0.137264,
+              "q_current_action": 0.13216,
+              "reward": -0.012312
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.570683,
+                -0.340491,
+                1.108081,
+                0.446385,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.113296,
+              "next_y_abs": 0.085793,
+              "reward_abs": 0.00977
+            },
+            "pred": {
+              "bellman_value_score": 0.115327,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.683979,
+                -0.174698,
+                1.334934,
+                0.312093,
+                0.998769,
+                -0.031518,
+                0.979424
+              ],
+              "next_goal_value": 0.436352,
+              "next_value": 0.133573,
+              "q_current_action": 0.120612,
+              "reward": -0.011567
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.570683,
+                -0.260491,
+                1.108081,
+                0.366385,
+                0.998,
+                -0.001797
+              ],
+              "reached": false,
+              "reward": -0.001797
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.081392,
+              "next_y_abs": 0.21635,
+              "reward_abs": 0.003795
+            },
+            "pred": {
+              "bellman_value_score": 0.133272,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.652075,
+                -0.204141,
+                1.29319,
+                0.338573,
+                0.998359,
+                -0.030769,
+                0.97895
+              ],
+              "next_goal_value": 0.461782,
+              "next_value": 0.151198,
+              "q_current_action": 0.167522,
+              "reward": -0.010366
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.570683,
+                -0.420491,
+                1.108081,
+                0.526385,
+                0.998,
+                -0.006571
+              ],
+              "reached": false,
+              "reward": -0.006571
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.043005,
+              "next_y_abs": 0.155372,
+              "reward_abs": 0.002728
+            },
+            "pred": {
+              "bellman_value_score": 0.105743,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.693688,
+                -0.185119,
+                1.342038,
+                0.324595,
+                0.998,
+                -0.032731,
+                0.978973
+              ],
+              "next_goal_value": 0.426561,
+              "next_value": 0.124669,
+              "q_current_action": 0.091638,
+              "reward": -0.012693
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.650683,
+                -0.340491,
+                1.188081,
+                0.446385,
+                0.998,
+                -0.009965
+              ],
+              "reached": false,
+              "reward": -0.009965
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.148768,
+              "next_y_abs": 0.145161,
+              "reward_abs": 0.011266
+            },
+            "pred": {
+              "bellman_value_score": 0.132621,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.639451,
+                -0.19533,
+                1.281997,
+                0.328436,
+                0.992313,
+                -0.030008,
+                0.979265
+              ],
+              "next_goal_value": 0.464572,
+              "next_value": 0.149455,
+              "q_current_action": 0.158073,
+              "reward": -0.009361
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.490683,
+                -0.340491,
+                1.028081,
+                0.446385,
+                0.998,
+                0.001905
+              ],
+              "reached": false,
+              "reward": 0.001905
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.570683,
+          "agent_y": -0.340491,
+          "target_dx": 1.108081,
+          "target_dy": 0.446385
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.021966,
+              "next_y_abs": 0.33809,
+              "reward_abs": 0.078721
+            },
+            "pred": {
+              "bellman_value_score": 0.810435,
+              "collision_probability": 3.4e-05,
+              "next_context": [
+                -0.112649,
+                -0.002401,
+                0.563629,
+                0.184285,
+                0.910911,
+                -0.131451,
+                0.915027
+              ],
+              "next_goal_value": 1.36493,
+              "next_value": 0.940164,
+              "q_current_action": 0.907357,
+              "reward": -0.082721
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.090683,
+                -0.340491,
+                0.628081,
+                0.446385,
+                0.986,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.077803,
+              "next_y_abs": 0.306065,
+              "reward_abs": 0.079655
+            },
+            "pred": {
+              "bellman_value_score": 0.737086,
+              "collision_probability": 2e-05,
+              "next_context": [
+                -0.168486,
+                0.045574,
+                0.625513,
+                0.134568,
+                0.913486,
+                -0.142,
+                0.919389
+              ],
+              "next_goal_value": 1.274397,
+              "next_value": 0.860283,
+              "q_current_action": 0.840389,
+              "reward": -0.080182
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.090683,
+                -0.260491,
+                0.628081,
+                0.366385,
+                0.986,
+                -0.000527
+              ],
+              "reached": false,
+              "reward": -0.000527
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.044054,
+              "next_y_abs": 0.373504,
+              "reward_abs": 0.010372
+            },
+            "pred": {
+              "bellman_value_score": 1.005442,
+              "collision_probability": 4.8e-05,
+              "next_context": [
+                -0.046629,
+                -0.046987,
+                0.497939,
+                0.234997,
+                0.906843,
+                -0.053158,
+                0.906082
+              ],
+              "next_goal_value": 1.476933,
+              "next_value": 1.055774,
+              "q_current_action": 0.989705,
+              "reward": 0.002457
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.090683,
+                -0.420491,
+                0.628081,
+                0.526385,
+                0.986,
+                -0.007915
+              ],
+              "reached": false,
+              "reward": -0.007915
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.02687,
+              "next_y_abs": 0.36869,
+              "reward_abs": 0.071923
+            },
+            "pred": {
+              "bellman_value_score": 0.701546,
+              "collision_probability": 2.2e-05,
+              "next_context": [
+                -0.197553,
+                0.028199,
+                0.650331,
+                0.158152,
+                0.913281,
+                -0.150424,
+                0.917734
+              ],
+              "next_goal_value": 1.244461,
+              "next_value": 0.823988,
+              "q_current_action": 0.805307,
+              "reward": -0.081242
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.170683,
+                -0.340491,
+                0.708081,
+                0.446385,
+                0.986,
+                -0.009319
+              ],
+              "reached": false,
+              "reward": -0.009319
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.066547,
+              "next_y_abs": 0.321336,
+              "reward_abs": 0.094119
+            },
+            "pred": {
+              "bellman_value_score": 0.969608,
+              "collision_probability": 5.5e-05,
+              "next_context": [
+                -0.024136,
+                -0.019155,
+                0.481359,
+                0.208342,
+                0.892801,
+                -0.062643,
+                0.902248
+              ],
+              "next_goal_value": 1.459548,
+              "next_value": 1.031041,
+              "q_current_action": 0.968656,
+              "reward": -0.009881
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.090683,
+                -0.340491,
+                0.628081,
+                0.446385,
+                0.986,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "down",
+          "predicted_next_goal_value": "down",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "up"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.090683,
+          "agent_y": -0.340491,
+          "target_dx": 0.628081,
+          "target_dy": 0.446385
+        }
+      },
+      "seed": 9004
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.066413,
+              "next_y_abs": 0.060198,
+              "reward_abs": 0.020391
+            },
+            "pred": {
+              "bellman_value_score": 0.021431,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.812245,
+                -0.125267,
+                1.509645,
+                -0.061787,
+                0.985488,
+                -0.023373,
+                0.983941
+              ],
+              "next_goal_value": 0.212211,
+              "next_value": 0.048234,
+              "q_current_action": 0.031679,
+              "reward": -0.024391
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.745832,
+                -0.185465,
+                1.470071,
+                0.016038,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.075684,
+              "next_y_abs": 0.005886,
+              "reward_abs": 0.01956
+            },
+            "pred": {
+              "bellman_value_score": 0.023732,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.821516,
+                -0.111351,
+                1.524219,
+                -0.075253,
+                0.987803,
+                -0.023183,
+                0.983584
+              ],
+              "next_goal_value": 0.210299,
+              "next_value": 0.049891,
+              "q_current_action": 0.043002,
+              "reward": -0.023664
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.745832,
+                -0.105465,
+                1.470071,
+                -0.063962,
+                0.998,
+                -0.004104
+              ],
+              "reached": false,
+              "reward": -0.004104
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.057508,
+              "next_y_abs": 0.134492,
+              "reward_abs": 0.01984
+            },
+            "pred": {
+              "bellman_value_score": 0.025937,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.80334,
+                -0.130973,
+                1.498766,
+                -0.058671,
+                0.986696,
+                -0.023682,
+                0.983671
+              ],
+              "next_goal_value": 0.216406,
+              "next_value": 0.052654,
+              "q_current_action": 0.052874,
+              "reward": -0.024084
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.745832,
+                -0.265465,
+                1.470071,
+                0.096038,
+                0.998,
+                -0.004244
+              ],
+              "reached": false,
+              "reward": -0.004244
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 8.5e-05,
+              "next_y_abs": 0.062556,
+              "reward_abs": 0.014137
+            },
+            "pred": {
+              "bellman_value_score": 0.017417,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.825747,
+                -0.122909,
+                1.525433,
+                -0.062071,
+                0.986802,
+                -0.024108,
+                0.98356
+              ],
+              "next_goal_value": 0.205914,
+              "next_value": 0.044162,
+              "q_current_action": 0.013743,
+              "reward": -0.024537
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.825832,
+                -0.185465,
+                1.550071,
+                0.016038,
+                0.998,
+                -0.0104
+              ],
+              "reached": false,
+              "reward": -0.0104
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.126999,
+              "next_y_abs": 0.058436,
+              "reward_abs": 0.026028
+            },
+            "pred": {
+              "bellman_value_score": 0.026559,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.792831,
+                -0.127029,
+                1.487689,
+                -0.063009,
+                0.983051,
+                -0.022392,
+                0.984429
+              ],
+              "next_goal_value": 0.2195,
+              "next_value": 0.052829,
+              "q_current_action": 0.04085,
+              "reward": -0.023628
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.665832,
+                -0.185465,
+                1.390071,
+                0.016038,
+                0.998,
+                0.0024
+              ],
+              "reached": false,
+              "reward": 0.0024
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "right",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.745832,
+          "agent_y": -0.185465,
+          "target_dx": 1.470071,
+          "target_dy": 0.016038
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.08065,
+              "next_y_abs": 0.210479,
+              "reward_abs": 0.028808
+            },
+            "pred": {
+              "bellman_value_score": 0.403369,
+              "collision_probability": 1.2e-05,
+              "next_context": [
+                -0.186482,
+                -0.395944,
+                0.792486,
+                0.051977,
+                0.989882,
+                -0.05325,
+                0.968327
+              ],
+              "next_goal_value": 0.657227,
+              "next_value": 0.459134,
+              "q_current_action": 0.41305,
+              "reward": -0.032808
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.105832,
+                -0.185465,
+                0.830071,
+                0.016038,
+                0.982,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.102797,
+              "next_y_abs": 0.261441,
+              "reward_abs": 0.028297
+            },
+            "pred": {
+              "bellman_value_score": 0.390337,
+              "collision_probability": 9e-06,
+              "next_context": [
+                -0.208629,
+                -0.366906,
+                0.824378,
+                0.027399,
+                0.990215,
+                -0.055366,
+                0.965465
+              ],
+              "next_goal_value": 0.631466,
+              "next_value": 0.445071,
+              "q_current_action": 0.388508,
+              "reward": -0.032481
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.105832,
+                -0.105465,
+                0.830071,
+                -0.063962,
+                0.982,
+                -0.004184
+              ],
+              "reached": false,
+              "reward": -0.004184
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.059068,
+              "next_y_abs": 0.148771,
+              "reward_abs": 0.024435
+            },
+            "pred": {
+              "bellman_value_score": 0.4299,
+              "collision_probability": 1.3e-05,
+              "next_context": [
+                -0.1649,
+                -0.414236,
+                0.768406,
+                0.067175,
+                0.992827,
+                -0.050673,
+                0.969353
+              ],
+              "next_goal_value": 0.686002,
+              "next_value": 0.482912,
+              "q_current_action": 0.458603,
+              "reward": -0.028866
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.105832,
+                -0.265465,
+                0.830071,
+                0.096038,
+                0.982,
+                -0.004431
+              ],
+              "reached": false,
+              "reward": -0.004431
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.036502,
+              "next_y_abs": 0.196582,
+              "reward_abs": 0.023117
+            },
+            "pred": {
+              "bellman_value_score": 0.376184,
+              "collision_probability": 9e-06,
+              "next_context": [
+                -0.222334,
+                -0.382047,
+                0.834537,
+                0.043947,
+                0.990922,
+                -0.056798,
+                0.966645
+              ],
+              "next_goal_value": 0.61584,
+              "next_value": 0.431263,
+              "q_current_action": 0.35571,
+              "reward": -0.033516
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.185832,
+                -0.185465,
+                0.910071,
+                0.016038,
+                0.982,
+                -0.010399
+              ],
+              "reached": false,
+              "reward": -0.010399
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.046541,
+              "next_y_abs": 0.214039,
+              "reward_abs": 0.075151
+            },
+            "pred": {
+              "bellman_value_score": 0.426619,
+              "collision_probability": 1.4e-05,
+              "next_context": [
+                -0.152373,
+                -0.399504,
+                0.755438,
+                0.052928,
+                0.98431,
+                -0.04837,
+                0.967702
+              ],
+              "next_goal_value": 0.688568,
+              "next_value": 0.479441,
+              "q_current_action": 0.439559,
+              "reward": -0.028849
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.105832,
+                -0.185465,
+                0.830071,
+                0.016038,
+                0.982,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "idle"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.105832,
+          "agent_y": -0.185465,
+          "target_dx": 0.830071,
+          "target_dy": 0.016038
+        }
+      },
+      "seed": 9005
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.037018,
+              "next_y_abs": 0.062543,
+              "reward_abs": 0.016495
+            },
+            "pred": {
+              "bellman_value_score": 0.050288,
+              "collision_probability": 9e-06,
+              "next_context": [
+                -0.603558,
+                -0.035988,
+                1.349073,
+                0.063638,
+                0.999147,
+                -0.032638,
+                0.992171
+              ],
+              "next_goal_value": 0.342205,
+              "next_value": 0.074508,
+              "q_current_action": 0.0629,
+              "reward": -0.020495
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.56654,
+                -0.098531,
+                1.371478,
+                0.036363,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.049751,
+              "next_y_abs": 0.002908,
+              "reward_abs": 0.015649
+            },
+            "pred": {
+              "bellman_value_score": 0.050606,
+              "collision_probability": 8e-06,
+              "next_context": [
+                -0.616291,
+                -0.021439,
+                1.367508,
+                0.050475,
+                1.001223,
+                -0.03264,
+                0.991567
+              ],
+              "next_goal_value": 0.336811,
+              "next_value": 0.073971,
+              "q_current_action": 0.07261,
+              "reward": -0.019666
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.56654,
+                -0.018531,
+                1.371478,
+                -0.043637,
+                0.998,
+                -0.004017
+              ],
+              "reached": false,
+              "reward": -0.004017
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.02585,
+              "next_y_abs": 0.134427,
+              "reward_abs": 0.015581
+            },
+            "pred": {
+              "bellman_value_score": 0.057597,
+              "collision_probability": 9e-06,
+              "next_context": [
+                -0.59239,
+                -0.044104,
+                1.335053,
+                0.069154,
+                1.000324,
+                -0.033059,
+                0.991639
+              ],
+              "next_goal_value": 0.350073,
+              "next_value": 0.081614,
+              "q_current_action": 0.088709,
+              "reward": -0.019937
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.56654,
+                -0.178531,
+                1.371478,
+                0.116363,
+                0.998,
+                -0.004356
+              ],
+              "reached": false,
+              "reward": -0.004356
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.022457,
+              "next_y_abs": 0.067621,
+              "reward_abs": 0.010104
+            },
+            "pred": {
+              "bellman_value_score": 0.043075,
+              "collision_probability": 8e-06,
+              "next_context": [
+                -0.624083,
+                -0.03091,
+                1.373167,
+                0.061871,
+                1.001014,
+                -0.03324,
+                0.992192
+              ],
+              "next_goal_value": 0.32962,
+              "next_value": 0.066923,
+              "q_current_action": 0.041761,
+              "reward": -0.020502
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.64654,
+                -0.098531,
+                1.451478,
+                0.036363,
+                0.998,
+                -0.010398
+              ],
+              "reached": false,
+              "reward": -0.010398
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.093103,
+              "next_y_abs": 0.059776,
+              "reward_abs": 0.02187
+            },
+            "pred": {
+              "bellman_value_score": 0.058167,
+              "collision_probability": 1e-05,
+              "next_context": [
+                -0.579643,
+                -0.038755,
+                1.320917,
+                0.062766,
+                0.995634,
+                -0.031765,
+                0.991755
+              ],
+              "next_goal_value": 0.354294,
+              "next_value": 0.081726,
+              "q_current_action": 0.075153,
+              "reward": -0.019472
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.48654,
+                -0.098531,
+                1.291478,
+                0.036363,
+                0.998,
+                0.002398
+              ],
+              "reached": false,
+              "reward": 0.002398
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "right",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.56654,
+          "agent_y": -0.098531,
+          "target_dx": 1.371478,
+          "target_dy": 0.036363
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.131502,
+              "next_y_abs": 0.078339,
+              "reward_abs": 0.020075
+            },
+            "pred": {
+              "bellman_value_score": 0.204204,
+              "collision_probability": 2.1e-05,
+              "next_context": [
+                -0.218042,
+                -0.17687,
+                0.898817,
+                0.208957,
+                0.975307,
+                -0.060183,
+                0.964018
+              ],
+              "next_goal_value": 0.541452,
+              "next_value": 0.240294,
+              "q_current_action": 0.229788,
+              "reward": -0.024075
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.08654,
+                -0.098531,
+                0.891478,
+                0.036363,
+                0.986,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.152706,
+              "next_y_abs": 0.136468,
+              "reward_abs": 0.019182
+            },
+            "pred": {
+              "bellman_value_score": 0.196919,
+              "collision_probability": 1.7e-05,
+              "next_context": [
+                -0.239246,
+                -0.154999,
+                0.927569,
+                0.189627,
+                0.977149,
+                -0.060401,
+                0.96294
+              ],
+              "next_goal_value": 0.523308,
+              "next_value": 0.231713,
+              "q_current_action": 0.222879,
+              "reward": -0.023208
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.08654,
+                -0.018531,
+                0.891478,
+                -0.043637,
+                0.986,
+                -0.004026
+              ],
+              "reached": false,
+              "reward": -0.004026
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.112212,
+              "next_y_abs": 0.012486,
+              "reward_abs": 0.01686
+            },
+            "pred": {
+              "bellman_value_score": 0.225396,
+              "collision_probability": 2.4e-05,
+              "next_context": [
+                -0.198752,
+                -0.191017,
+                0.876143,
+                0.221028,
+                0.977261,
+                -0.059748,
+                0.963722
+              ],
+              "next_goal_value": 0.563305,
+              "next_value": 0.259792,
+              "q_current_action": 0.268734,
+              "reward": -0.021406
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.08654,
+                -0.178531,
+                0.891478,
+                0.116363,
+                0.986,
+                -0.004546
+              ],
+              "reached": false,
+              "reward": -0.004546
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.086126,
+              "next_y_abs": 0.067362,
+              "reward_abs": 0.013976
+            },
+            "pred": {
+              "bellman_value_score": 0.183627,
+              "collision_probability": 1.8e-05,
+              "next_context": [
+                -0.252666,
+                -0.165893,
+                0.93892,
+                0.20261,
+                0.977657,
+                -0.061443,
+                0.963877
+              ],
+              "next_goal_value": 0.50982,
+              "next_value": 0.218945,
+              "q_current_action": 0.189231,
+              "reward": -0.024371
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.16654,
+                -0.098531,
+                0.971478,
+                0.036363,
+                0.986,
+                -0.010395
+              ],
+              "reached": false,
+              "reward": -0.010395
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.098229,
+              "next_y_abs": 0.081281,
+              "reward_abs": 0.082953
+            },
+            "pred": {
+              "bellman_value_score": 0.222922,
+              "collision_probability": 2.5e-05,
+              "next_context": [
+                -0.184769,
+                -0.179812,
+                0.861566,
+                0.208798,
+                0.969813,
+                -0.057862,
+                0.96268
+              ],
+              "next_goal_value": 0.565561,
+              "next_value": 0.25681,
+              "q_current_action": 0.25213,
+              "reward": -0.021047
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.08654,
+                -0.098531,
+                0.891478,
+                0.036363,
+                0.986,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "idle"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.08654,
+          "agent_y": -0.098531,
+          "target_dx": 0.891478,
+          "target_dy": 0.036363
+        }
+      },
+      "seed": 9006
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.087503,
+              "next_y_abs": 0.042638,
+              "reward_abs": 0.016215
+            },
+            "pred": {
+              "bellman_value_score": -0.056774,
+              "collision_probability": 1.7e-05,
+              "next_context": [
+                -0.713013,
+                -0.386255,
+                1.347566,
+                0.040629,
+                0.969178,
+                -0.035867,
+                0.963336
+              ],
+              "next_goal_value": 0.188692,
+              "next_value": -0.038483,
+              "q_current_action": -0.042406,
+              "reward": -0.020215
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.62551,
+                -0.343617,
+                1.253401,
+                0.090699,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.097193,
+              "next_y_abs": 0.105565,
+              "reward_abs": 0.015629
+            },
+            "pred": {
+              "bellman_value_score": -0.052814,
+              "collision_probability": 1.5e-05,
+              "next_context": [
+                -0.722703,
+                -0.369182,
+                1.364022,
+                0.023836,
+                0.972258,
+                -0.035585,
+                0.963187
+              ],
+              "next_goal_value": 0.186524,
+              "next_value": -0.035205,
+              "q_current_action": -0.025701,
+              "reward": -0.01937
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.62551,
+                -0.263617,
+                1.253401,
+                0.010699,
+                0.998,
+                -0.003741
+              ],
+              "reached": false,
+              "reward": -0.003741
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.078967,
+              "next_y_abs": 0.031923,
+              "reward_abs": 0.01503
+            },
+            "pred": {
+              "bellman_value_score": -0.051646,
+              "collision_probability": 1.7e-05,
+              "next_context": [
+                -0.704477,
+                -0.391694,
+                1.336363,
+                0.043718,
+                0.969987,
+                -0.035845,
+                0.963037
+              ],
+              "next_goal_value": 0.192697,
+              "next_value": -0.033634,
+              "q_current_action": -0.020887,
+              "reward": -0.019693
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.62551,
+                -0.423617,
+                1.253401,
+                0.170699,
+                0.998,
+                -0.004663
+              ],
+              "reached": false,
+              "reward": -0.004663
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.020435,
+              "next_y_abs": 0.041649,
+              "reward_abs": 0.009963
+            },
+            "pred": {
+              "bellman_value_score": -0.060846,
+              "collision_probability": 1.6e-05,
+              "next_context": [
+                -0.725945,
+                -0.385266,
+                1.363081,
+                0.041378,
+                0.971039,
+                -0.036867,
+                0.962769
+              ],
+              "next_goal_value": 0.182511,
+              "next_value": -0.04263,
+              "q_current_action": -0.057328,
+              "reward": -0.020347
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.70551,
+                -0.343617,
+                1.333401,
+                0.090699,
+                0.998,
+                -0.010384
+              ],
+              "reached": false,
+              "reward": -0.010384
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.149119,
+              "next_y_abs": 0.042933,
+              "reward_abs": 0.021667
+            },
+            "pred": {
+              "bellman_value_score": -0.051813,
+              "collision_probability": 1.8e-05,
+              "next_context": [
+                -0.694629,
+                -0.38655,
+                1.325984,
+                0.03849,
+                0.965871,
+                -0.034205,
+                0.96409
+              ],
+              "next_goal_value": 0.195462,
+              "next_value": -0.03424,
+              "q_current_action": -0.035849,
+              "reward": -0.019285
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.54551,
+                -0.343617,
+                1.173401,
+                0.090699,
+                0.998,
+                0.002382
+              ],
+              "reached": false,
+              "reward": 0.002382
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.62551,
+          "agent_y": -0.343617,
+          "target_dx": 1.253401,
+          "target_dy": 0.090699
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.041273,
+              "next_y_abs": 0.123617,
+              "reward_abs": 0.057274
+            },
+            "pred": {
+              "bellman_value_score": 0.864279,
+              "collision_probability": 0.000106,
+              "next_context": [
+                -0.024237,
+                -0.467234,
+                0.486362,
+                0.024568,
+                0.999991,
+                -0.088427,
+                0.925594
+              ],
+              "next_goal_value": 1.277428,
+              "next_value": 0.974266,
+              "q_current_action": 0.862263,
+              "reward": -0.061274
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.06551,
+                -0.343617,
+                0.693401,
+                0.090699,
+                0.984,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.007368,
+              "next_y_abs": 0.147626,
+              "reward_abs": 0.051958
+            },
+            "pred": {
+              "bellman_value_score": 0.810523,
+              "collision_probability": 5.5e-05,
+              "next_context": [
+                -0.058142,
+                -0.411243,
+                0.544128,
+                -0.026517,
+                0.999621,
+                -0.094137,
+                0.923131
+              ],
+              "next_goal_value": 1.193693,
+              "next_value": 0.911595,
+              "q_current_action": 0.800922,
+              "reward": -0.055492
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.06551,
+                -0.263617,
+                0.693401,
+                0.010699,
+                0.984,
+                -0.003534
+              ],
+              "reached": false,
+              "reward": -0.003534
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.084711,
+              "next_y_abs": 0.096501,
+              "reward_abs": 0.050664
+            },
+            "pred": {
+              "bellman_value_score": 0.952936,
+              "collision_probability": 0.000141,
+              "next_context": [
+                0.019201,
+                -0.520118,
+                0.439768,
+                0.06707,
+                0.99888,
+                -0.062063,
+                0.928113
+              ],
+              "next_goal_value": 1.374093,
+              "next_value": 1.061878,
+              "q_current_action": 0.935606,
+              "reward": -0.055848
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.06551,
+                -0.423617,
+                0.693401,
+                0.170699,
+                0.984,
+                -0.005184
+              ],
+              "reached": false,
+              "reward": -0.005184
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.065642,
+              "next_y_abs": 0.095373,
+              "reward_abs": 0.046087
+            },
+            "pred": {
+              "bellman_value_score": 0.780113,
+              "collision_probability": 6.4e-05,
+              "next_context": [
+                -0.079868,
+                -0.43899,
+                0.552381,
+                0.005042,
+                0.999142,
+                -0.100637,
+                0.921024
+              ],
+              "next_goal_value": 1.164322,
+              "next_value": 0.88058,
+              "q_current_action": 0.763166,
+              "reward": -0.056438
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.14551,
+                -0.343617,
+                0.773401,
+                0.090699,
+                0.984,
+                -0.010351
+              ],
+              "reached": false,
+              "reward": -0.010351
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.103956,
+              "next_y_abs": 0.146498,
+              "reward_abs": 0.049564
+            },
+            "pred": {
+              "bellman_value_score": 0.938503,
+              "collision_probability": 0.000168,
+              "next_context": [
+                0.038446,
+                -0.490115,
+                0.422686,
+                0.042519,
+                0.984153,
+                -0.062126,
+                0.924782
+              ],
+              "next_goal_value": 1.364562,
+              "next_value": 1.045199,
+              "q_current_action": 0.908036,
+              "reward": -0.054436
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.06551,
+                -0.343617,
+                0.693401,
+                0.090699,
+                0.984,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "down",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "up"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.06551,
+          "agent_y": -0.343617,
+          "target_dx": 0.693401,
+          "target_dy": 0.090699
+        }
+      },
+      "seed": 9007
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.029133,
+              "next_y_abs": 0.083759,
+              "reward_abs": 0.007354
+            },
+            "pred": {
+              "bellman_value_score": -0.046157,
+              "collision_probability": 0.0001,
+              "next_context": [
+                -0.626306,
+                0.0899,
+                1.212487,
+                -0.433548,
+                0.945005,
+                -0.048696,
+                0.964406
+              ],
+              "next_goal_value": 0.30386,
+              "next_value": -0.036634,
+              "q_current_action": -0.036146,
+              "reward": -0.011354
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.597173,
+                0.006141,
+                1.195411,
+                -0.317927,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.046404,
+              "next_y_abs": 0.022549,
+              "reward_abs": 0.004524
+            },
+            "pred": {
+              "bellman_value_score": -0.042398,
+              "collision_probability": 8.3e-05,
+              "next_context": [
+                -0.643577,
+                0.10869,
+                1.237853,
+                -0.450749,
+                0.948839,
+                -0.048619,
+                0.963713
+              ],
+              "next_goal_value": 0.297441,
+              "next_value": -0.033725,
+              "q_current_action": -0.007654,
+              "reward": -0.010359
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.597173,
+                0.086141,
+                1.195411,
+                -0.397927,
+                0.998,
+                -0.005835
+              ],
+              "reached": false,
+              "reward": -0.005835
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.017325,
+              "next_y_abs": 0.154882,
+              "reward_abs": 0.007978
+            },
+            "pred": {
+              "bellman_value_score": -0.039078,
+              "collision_probability": 0.000105,
+              "next_context": [
+                -0.614498,
+                0.081023,
+                1.197703,
+                -0.42659,
+                0.944649,
+                -0.047862,
+                0.962962
+              ],
+              "next_goal_value": 0.311007,
+              "next_value": -0.030052,
+              "q_current_action": -0.009644,
+              "reward": -0.010529
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.597173,
+                -0.073859,
+                1.195411,
+                -0.237927,
+                0.998,
+                -0.002551
+              ],
+              "reached": false,
+              "reward": -0.002551
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.024497,
+              "next_y_abs": 0.089016,
+              "reward_abs": 0.001148
+            },
+            "pred": {
+              "bellman_value_score": -0.053624,
+              "collision_probability": 8.7e-05,
+              "next_context": [
+                -0.652676,
+                0.095157,
+                1.243392,
+                -0.435759,
+                0.948603,
+                -0.04908,
+                0.965073
+              ],
+              "next_goal_value": 0.289884,
+              "next_value": -0.044503,
+              "q_current_action": -0.042836,
+              "reward": -0.011346
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.677173,
+                0.006141,
+                1.275411,
+                -0.317927,
+                0.998,
+                -0.010198
+              ],
+              "reached": false,
+              "reward": -0.010198
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.081883,
+              "next_y_abs": 0.082235,
+              "reward_abs": 0.012945
+            },
+            "pred": {
+              "bellman_value_score": -0.040249,
+              "collision_probability": 0.000112,
+              "next_context": [
+                -0.599056,
+                0.088376,
+                1.181076,
+                -0.434119,
+                0.941097,
+                -0.047551,
+                0.96306
+              ],
+              "next_goal_value": 0.316333,
+              "next_value": -0.031025,
+              "q_current_action": -0.032989,
+              "reward": -0.010775
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.517173,
+                0.006141,
+                1.115411,
+                -0.317927,
+                0.998,
+                0.00217
+              ],
+              "reached": false,
+              "reward": 0.00217
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "up",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "up",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.597173,
+          "agent_y": 0.006141,
+          "target_dx": 1.195411,
+          "target_dy": -0.317927
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.038869,
+              "next_y_abs": 0.002087,
+              "reward_abs": 0.055668
+            },
+            "pred": {
+              "bellman_value_score": 0.359821,
+              "collision_probability": 0.025075,
+              "next_context": [
+                -0.078304,
+                0.004054,
+                0.514491,
+                -0.43656,
+                0.987021,
+                -0.108452,
+                0.918554
+              ],
+              "next_goal_value": 0.945798,
+              "next_value": 0.441568,
+              "q_current_action": 0.354419,
+              "reward": -0.059668
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.117173,
+                0.006141,
+                0.715411,
+                -0.317927,
+                0.986,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.007017,
+              "next_y_abs": 0.034978,
+              "reward_abs": 0.048
+            },
+            "pred": {
+              "bellman_value_score": 0.344045,
+              "collision_probability": 0.009148,
+              "next_context": [
+                -0.110156,
+                0.051163,
+                0.575801,
+                -0.487381,
+                0.991205,
+                -0.112548,
+                0.918407
+              ],
+              "next_goal_value": 0.879706,
+              "next_value": 0.419901,
+              "q_current_action": 0.346562,
+              "reward": -0.054861
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.117173,
+                0.086141,
+                0.715411,
+                -0.397927,
+                0.986,
+                -0.006861
+              ],
+              "reached": false,
+              "reward": -0.006861
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.069322,
+              "next_y_abs": 0.033417,
+              "reward_abs": 0.049987
+            },
+            "pred": {
+              "bellman_value_score": 0.426199,
+              "collision_probability": 0.031645,
+              "next_context": [
+                -0.047851,
+                -0.040442,
+                0.470523,
+                -0.396903,
+                0.983101,
+                -0.097031,
+                0.914582
+              ],
+              "next_goal_value": 1.01496,
+              "next_value": 0.503022,
+              "q_current_action": 0.41688,
+              "reward": -0.051672
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.117173,
+                -0.073859,
+                0.715411,
+                -0.237927,
+                0.986,
+                -0.001685
+              ],
+              "reached": false,
+              "reward": -0.001685
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.06718,
+              "next_y_abs": 0.019934,
+              "reward_abs": 0.048034
+            },
+            "pred": {
+              "bellman_value_score": 0.298586,
+              "collision_probability": 0.012459,
+              "next_context": [
+                -0.129993,
+                0.026075,
+                0.580947,
+                -0.455562,
+                0.988038,
+                -0.115396,
+                0.918629
+              ],
+              "next_goal_value": 0.850383,
+              "next_value": 0.375283,
+              "q_current_action": 0.301329,
+              "reward": -0.057932
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.197173,
+                0.006141,
+                0.795411,
+                -0.317927,
+                0.986,
+                -0.009898
+              ],
+              "reached": false,
+              "reward": -0.009898
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.093937,
+              "next_y_abs": 0.023776,
+              "reward_abs": 0.049184
+            },
+            "pred": {
+              "bellman_value_score": 0.396356,
+              "collision_probability": 0.041317,
+              "next_context": [
+                -0.023236,
+                -0.017635,
+                0.451946,
+                -0.41579,
+                0.974752,
+                -0.096688,
+                0.913246
+              ],
+              "next_goal_value": 1.010073,
+              "next_value": 0.474918,
+              "q_current_action": 0.376996,
+              "reward": -0.054816
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.117173,
+                0.006141,
+                0.715411,
+                -0.317927,
+                0.986,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "down",
+          "predicted_next_goal_value": "down",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "down"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.117173,
+          "agent_y": 0.006141,
+          "target_dx": 0.715411,
+          "target_dy": -0.317927
+        }
+      },
+      "seed": 9008
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.061728,
+              "next_y_abs": 0.100706,
+              "reward_abs": 0.021887
+            },
+            "pred": {
+              "bellman_value_score": 0.085763,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.758192,
+                0.259886,
+                1.493429,
+                -0.311275,
+                0.967867,
+                -0.034963,
+                0.974794
+              ],
+              "next_goal_value": 0.313113,
+              "next_value": 0.117526,
+              "q_current_action": 0.098909,
+              "reward": -0.025887
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.696464,
+                0.15918,
+                1.394072,
+                -0.247237,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.077901,
+              "next_y_abs": 0.036501,
+              "reward_abs": 0.019552
+            },
+            "pred": {
+              "bellman_value_score": 0.086126,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.774365,
+                0.275681,
+                1.515126,
+                -0.324732,
+                0.970167,
+                -0.035214,
+                0.974399
+              ],
+              "next_goal_value": 0.307614,
+              "next_value": 0.11681,
+              "q_current_action": 0.10563,
+              "reward": -0.024843
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.696464,
+                0.23918,
+                1.394072,
+                -0.327237,
+                0.998,
+                -0.005291
+              ],
+              "reached": false,
+              "reward": -0.005291
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.049617,
+              "next_y_abs": 0.172001,
+              "reward_abs": 0.022288
+            },
+            "pred": {
+              "bellman_value_score": 0.092235,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.746081,
+                0.251181,
+                1.478911,
+                -0.305085,
+                0.968537,
+                -0.034766,
+                0.973919
+              ],
+              "next_goal_value": 0.320469,
+              "next_value": 0.12377,
+              "q_current_action": 0.123752,
+              "reward": -0.025347
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.696464,
+                0.07918,
+                1.394072,
+                -0.167237,
+                0.998,
+                -0.003059
+              ],
+              "reached": false,
+              "reward": -0.003059
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.006813,
+              "next_y_abs": 0.108773,
+              "reward_abs": 0.015358
+            },
+            "pred": {
+              "bellman_value_score": 0.078704,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.783277,
+                0.267953,
+                1.52284,
+                -0.31503,
+                0.969712,
+                -0.035624,
+                0.974946
+              ],
+              "next_goal_value": 0.300163,
+              "next_value": 0.109862,
+              "q_current_action": 0.077982,
+              "reward": -0.025665
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.776464,
+                0.15918,
+                1.474072,
+                -0.247237,
+                0.998,
+                -0.010307
+              ],
+              "reached": false,
+              "reward": -0.010307
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.115836,
+              "next_y_abs": 0.096757,
+              "reward_abs": 0.027413
+            },
+            "pred": {
+              "bellman_value_score": 0.092742,
+              "collision_probability": 5e-06,
+              "next_context": [
+                -0.7323,
+                0.255937,
+                1.463931,
+                -0.31087,
+                0.965282,
+                -0.034175,
+                0.974325
+              ],
+              "next_goal_value": 0.325362,
+              "next_value": 0.124062,
+              "q_current_action": 0.112572,
+              "reward": -0.025117
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.616464,
+                0.15918,
+                1.314072,
+                -0.247237,
+                0.998,
+                0.002296
+              ],
+              "reached": false,
+              "reward": 0.002296
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "up",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "right",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.696464,
+          "agent_y": 0.15918,
+          "target_dx": 1.394072,
+          "target_dy": -0.247237
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.097736,
+              "next_y_abs": 0.073415,
+              "reward_abs": 0.078232
+            },
+            "pred": {
+              "bellman_value_score": -0.425643,
+              "collision_probability": 0.163851,
+              "next_context": [
+                -0.1542,
+                0.085765,
+                0.688129,
+                -0.242311,
+                0.939625,
+                -0.068706,
+                0.937601
+              ],
+              "next_goal_value": 0.344879,
+              "next_value": -0.361484,
+              "q_current_action": -0.393335,
+              "reward": -0.082232
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.056464,
+                0.15918,
+                0.754072,
+                -0.247237,
+                0.982,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.131619,
+              "next_y_abs": 0.11789,
+              "reward_abs": 0.071641
+            },
+            "pred": {
+              "bellman_value_score": -0.404827,
+              "collision_probability": 0.07795,
+              "next_context": [
+                -0.188083,
+                0.12129,
+                0.736663,
+                -0.274552,
+                0.944121,
+                -0.067534,
+                0.935633
+              ],
+              "next_goal_value": 0.320291,
+              "next_value": -0.344116,
+              "q_current_action": -0.316615,
+              "reward": -0.077917
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.056464,
+                0.23918,
+                0.754072,
+                -0.327237,
+                0.982,
+                -0.006276
+              ],
+              "reached": false,
+              "reward": -0.006276
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.081242,
+              "next_y_abs": 0.012174,
+              "reward_abs": 0.076501
+            },
+            "pred": {
+              "bellman_value_score": -0.398486,
+              "collision_probability": 0.191508,
+              "next_context": [
+                -0.137706,
+                0.067006,
+                0.662405,
+                -0.225897,
+                0.938298,
+                -0.0683,
+                0.934025
+              ],
+              "next_goal_value": 0.367357,
+              "next_value": -0.336504,
+              "q_current_action": -0.343129,
+              "reward": -0.078807
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.056464,
+                0.07918,
+                0.754072,
+                -0.167237,
+                0.982,
+                -0.002306
+              ],
+              "reached": false,
+              "reward": -0.002306
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.059787,
+              "next_y_abs": 0.061377,
+              "reward_abs": 0.069755
+            },
+            "pred": {
+              "bellman_value_score": -0.443093,
+              "collision_probability": 0.098874,
+              "next_context": [
+                -0.196251,
+                0.097803,
+                0.742218,
+                -0.249061,
+                0.942885,
+                -0.066095,
+                0.940208
+              ],
+              "next_goal_value": 0.306721,
+              "next_value": -0.382346,
+              "q_current_action": -0.378201,
+              "reward": -0.079865
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.136464,
+                0.15918,
+                0.834072,
+                -0.247237,
+                0.982,
+                -0.01011
+              ],
+              "reached": false,
+              "reward": -0.01011
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.059127,
+              "next_y_abs": 0.078618,
+              "reward_abs": 0.023657
+            },
+            "pred": {
+              "bellman_value_score": -0.419514,
+              "collision_probability": 0.215576,
+              "next_context": [
+                -0.115591,
+                0.080562,
+                0.644176,
+                -0.239737,
+                0.933234,
+                -0.06948,
+                0.93191
+              ],
+              "next_goal_value": 0.369176,
+              "next_value": -0.357022,
+              "q_current_action": -0.391916,
+              "reward": -0.080343
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.056464,
+                0.15918,
+                0.754072,
+                -0.247237,
+                0.982,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "up",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "up",
+          "true_immediate_reward": "down"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.056464,
+          "agent_y": 0.15918,
+          "target_dx": 0.754072,
+          "target_dy": -0.247237
+        }
+      },
+      "seed": 9009
+    },
+    {
+      "initial": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.09765,
+              "next_y_abs": 0.033671,
+              "reward_abs": 0.014674
+            },
+            "pred": {
+              "bellman_value_score": 0.052733,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.660708,
+                -0.226169,
+                1.42461,
+                0.211416,
+                1.008262,
+                -0.017695,
+                0.995201
+              ],
+              "next_goal_value": 0.29092,
+              "next_value": 0.075166,
+              "q_current_action": 0.064482,
+              "reward": -0.018674
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.563058,
+                -0.25984,
+                1.381962,
+                0.277528,
+                0.998,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.107361,
+              "next_y_abs": 0.032975,
+              "reward_abs": 0.01505
+            },
+            "pred": {
+              "bellman_value_score": 0.05343,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.670419,
+                -0.212815,
+                1.439392,
+                0.199198,
+                1.010099,
+                -0.017617,
+                0.994872
+              ],
+              "next_goal_value": 0.287441,
+              "next_value": 0.075153,
+              "q_current_action": 0.06773,
+              "reward": -0.017966
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.563058,
+                -0.17984,
+                1.381962,
+                0.197528,
+                0.998,
+                -0.002916
+              ],
+              "reached": false,
+              "reward": -0.002916
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.087041,
+              "next_y_abs": 0.106598,
+              "reward_abs": 0.012773
+            },
+            "pred": {
+              "bellman_value_score": 0.059166,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.650099,
+                -0.233242,
+                1.411246,
+                0.215777,
+                1.00993,
+                -0.01836,
+                0.995114
+              ],
+              "next_goal_value": 0.297552,
+              "next_value": 0.081444,
+              "q_current_action": 0.08857,
+              "reward": -0.018206
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.563058,
+                -0.33984,
+                1.381962,
+                0.357528,
+                0.998,
+                -0.005433
+              ],
+              "reached": false,
+              "reward": -0.005433
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.033645,
+              "next_y_abs": 0.037066,
+              "reward_abs": 0.008526
+            },
+            "pred": {
+              "bellman_value_score": 0.047021,
+              "collision_probability": 3e-06,
+              "next_context": [
+                -0.676703,
+                -0.222774,
+                1.443041,
+                0.210935,
+                1.009584,
+                -0.018598,
+                0.994798
+              ],
+              "next_goal_value": 0.281638,
+              "next_value": 0.069293,
+              "q_current_action": 0.039008,
+              "reward": -0.018807
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.643058,
+                -0.25984,
+                1.461962,
+                0.277528,
+                0.998,
+                -0.010281
+              ],
+              "reached": false,
+              "reward": -0.010281
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.156194,
+              "next_y_abs": 0.031409,
+              "reward_abs": 0.019894
+            },
+            "pred": {
+              "bellman_value_score": 0.059841,
+              "collision_probability": 4e-06,
+              "next_context": [
+                -0.639252,
+                -0.228431,
+                1.39985,
+                0.210089,
+                1.005439,
+                -0.017029,
+                0.995668
+              ],
+              "next_goal_value": 0.301021,
+              "next_value": 0.081545,
+              "q_current_action": 0.078541,
+              "reward": -0.017627
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.483058,
+                -0.25984,
+                1.301962,
+                0.277528,
+                0.998,
+                0.002267
+              ],
+              "reached": false,
+              "reward": 0.002267
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "right",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "right",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "right"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.563058,
+          "agent_y": -0.25984,
+          "target_dx": 1.381962,
+          "target_dy": 0.277528
+        }
+      },
+      "prewall": {
+        "actions": [
+          {
+            "action": 0,
+            "action_name": "idle",
+            "errors": {
+              "next_x_abs": 0.285477,
+              "next_y_abs": 0.104527,
+              "reward_abs": 0.024674
+            },
+            "pred": {
+              "bellman_value_score": 0.241225,
+              "collision_probability": 1.6e-05,
+              "next_context": [
+                -0.368535,
+                -0.364367,
+                0.967616,
+                0.402564,
+                0.989499,
+                -0.080412,
+                0.955653
+              ],
+              "next_goal_value": 0.58745,
+              "next_value": 0.284105,
+              "q_current_action": 0.270622,
+              "reward": -0.028674
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.083058,
+                -0.25984,
+                0.901962,
+                0.277528,
+                0.986,
+                -0.004
+              ],
+              "reached": false,
+              "reward": -0.004
+            }
+          },
+          {
+            "action": 1,
+            "action_name": "up",
+            "errors": {
+              "next_x_abs": 0.303839,
+              "next_y_abs": 0.160331,
+              "reward_abs": 0.025387
+            },
+            "pred": {
+              "bellman_value_score": 0.232922,
+              "collision_probability": 1.3e-05,
+              "next_context": [
+                -0.386897,
+                -0.340171,
+                0.995876,
+                0.379374,
+                0.990956,
+                -0.079886,
+                0.955334
+              ],
+              "next_goal_value": 0.567158,
+              "next_value": 0.274402,
+              "q_current_action": 0.253954,
+              "reward": -0.027759
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.083058,
+                -0.17984,
+                0.901962,
+                0.197528,
+                0.986,
+                -0.002372
+              ],
+              "reached": false,
+              "reward": -0.002372
+            }
+          },
+          {
+            "action": 2,
+            "action_name": "down",
+            "errors": {
+              "next_x_abs": 0.2639,
+              "next_y_abs": 0.040068,
+              "reward_abs": 0.018998
+            },
+            "pred": {
+              "bellman_value_score": 0.268381,
+              "collision_probability": 1.8e-05,
+              "next_context": [
+                -0.346958,
+                -0.379908,
+                0.941087,
+                0.41639,
+                0.99178,
+                -0.079686,
+                0.955529
+              ],
+              "next_goal_value": 0.618079,
+              "next_value": 0.30895,
+              "q_current_action": 0.314594,
+              "reward": -0.025122
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.083058,
+                -0.33984,
+                0.901962,
+                0.357528,
+                0.986,
+                -0.006124
+              ],
+              "reached": false,
+              "reward": -0.006124
+            }
+          },
+          {
+            "action": 3,
+            "action_name": "left",
+            "errors": {
+              "next_x_abs": 0.235719,
+              "next_y_abs": 0.095247,
+              "reward_abs": 0.018916
+            },
+            "pred": {
+              "bellman_value_score": 0.219197,
+              "collision_probability": 1.3e-05,
+              "next_context": [
+                -0.398777,
+                -0.355087,
+                1.003329,
+                0.397493,
+                0.99095,
+                -0.082246,
+                0.955095
+              ],
+              "next_goal_value": 0.552734,
+              "next_value": 0.261318,
+              "q_current_action": 0.220329,
+              "reward": -0.029055
+            },
+            "true": {
+              "collision": false,
+              "next_obs": [
+                -0.163058,
+                -0.25984,
+                0.981962,
+                0.277528,
+                0.986,
+                -0.010139
+              ],
+              "reached": false,
+              "reward": -0.010139
+            }
+          },
+          {
+            "action": 4,
+            "action_name": "right",
+            "errors": {
+              "next_x_abs": 0.249445,
+              "next_y_abs": 0.10797,
+              "reward_abs": 0.079863
+            },
+            "pred": {
+              "bellman_value_score": 0.264283,
+              "collision_probability": 1.9e-05,
+              "next_context": [
+                -0.332503,
+                -0.36781,
+                0.926698,
+                0.403419,
+                0.982514,
+                -0.077549,
+                0.954259
+              ],
+              "next_goal_value": 0.618618,
+              "next_value": 0.3036,
+              "q_current_action": 0.297757,
+              "reward": -0.024137
+            },
+            "true": {
+              "collision": true,
+              "next_obs": [
+                -0.083058,
+                -0.25984,
+                0.901962,
+                0.277528,
+                0.986,
+                -0.104
+              ],
+              "reached": false,
+              "reward": -0.104
+            }
+          }
+        ],
+        "best_actions": {
+          "predicted_bellman_value_score": "down",
+          "predicted_immediate_reward": "right",
+          "predicted_next_goal_value": "right",
+          "predicted_next_value": "down",
+          "predicted_q_current_action": "down",
+          "true_immediate_reward": "up"
+        },
+        "directional_action_semantics": {
+          "pred_down_below_idle": true,
+          "pred_up_above_idle": true,
+          "true_down_below_idle": true,
+          "true_up_above_idle": true
+        },
+        "state": {
+          "agent_x": -0.083058,
+          "agent_y": -0.25984,
+          "target_dx": 0.901962,
+          "target_dy": 0.277528
+        }
+      },
+      "seed": 9010
+    }
+  ],
+  "seed_end": 9010,
+  "seed_start": 9001,
+  "seeds": 10,
+  "training_performed": false,
+  "up_ranked_best_counts": {
+    "initial_bellman": 0,
+    "initial_goal": 0,
+    "initial_q": 1,
+    "initial_value": 0,
+    "prewall_bellman": 0,
+    "prewall_goal": 0,
+    "prewall_q": 1,
+    "prewall_value": 0
+  }
+}

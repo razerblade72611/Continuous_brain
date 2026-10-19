@@ -1,0 +1,9 @@
+{
+  "tests": 44,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 44.35,
+  "warnings": 3,
+  "command": "python -m pytest -q tests/test_consultation_integration.py tests/test_v103.py tests/test_v114_integrity.py tests/test_v120_local.py"
+}

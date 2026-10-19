@@ -1,0 +1,92 @@
+EVENT_CONSISTENT_SELF_DEVELOPMENT_TEST_V1
+device: cpu
+training_performed: false
+family: v0.34
+source_v0340_dev_status: PASS
+source_v0335_test_status: FAIL
+v0335_test_failure_preserved: true
+v033_test_reopened_or_retuned: false
+controller_changed_from_v0340: false
+thresholds_changed_from_v0340: false
+neural_models_changed: false
+development_dynamics_changed: false
+full_loop_definition_changed_from_v0340: false
+v034_test_subjects: 80000-80127
+v034_test_opened_in_this_run: true
+v034_test_spent_after_run: true
+test_tuning_after_run: forbidden
+v034_test_subjects=1/128
+v034_test_subjects=32/128
+v034_test_subjects=64/128
+v034_test_subjects=96/128
+v034_test_subjects=128/128
+
+V034_TEST_CLOSED_LOOP
+initial_fragile_profile_identification: 1.0
+initial_fragile_scaffold_rate: 1.0
+stable_commitment_always_direct_rate: 1.0
+fragile_behavior_switch_to_direct_rate: 0.9609375
+mean_fragile_capability_gain: 0.6659163698630496
+mean_late_to_bootstrap_discrepancy_ratio: 0.20011191565583955
+discrepancy_reduction_rate: 0.96875
+frozen_history_blocks_graduation_rate: 1.0
+event_consistent_full_loop_rate: 0.9296875
+
+V034_TEST_EVENT_ALIGNED
+predecision_cross_rate: 0.9609375
+graduation_rate: 0.9609375
+exact_event_alignment_rate: 1.0
+graduated_without_predecision_cross_rate: 0.0
+predecision_cross_without_graduation_rate: 0.0
+
+V034_TEST_COMPONENT_RATES
+initial_fragility: 1.0
+initial_scaffold: 1.0
+stable_direct: 1.0
+event_cross: 0.9609375
+exact_alignment: 1.0
+switched: 0.9609375
+capability_gain: 1.0
+reduced_discrepancy: 0.96875
+frozen_history_block: 1.0
+
+V034_TEST_DONOR_HISTORY
+fragile_history_selects_scaffold: 1.0
+donor_history_flips_strategy: 1.0
+erased_history_selects_neutral_direct: 1.0
+
+V034_TEST_BEHAVIOR_TO_HISTORY
+strategy_changes_next_autobiographical_discrepancy: 1.0
+
+V034_TEST_PERSISTENCE
+capability_exact_after_reload: 1.0
+autobiographical_reliability_exact_after_reload: 1.0
+developmental_strategy_exact_after_reload: 1.0
+
+ADMISSION_GATE
+initial_autobiography_identifies_fragility: PASS
+autobiography_guides_initial_behavior: PASS
+stable_history_guides_direct_behavior: PASS
+donor_history_changes_behavior: PASS
+erased_history_removes_fragility_response: PASS
+behavior_changes_next_autobiography: PASS
+new_autobiography_updates_self_estimate_at_decision: PASS
+self_estimate_event_exactly_causes_graduation: PASS
+self_estimate_changes_later_behavior: PASS
+frozen_autobiography_blocks_behavior_change: PASS
+behavior_develops_capability: PASS
+development_reduces_discrepancy: PASS
+event_consistent_full_feedback_loop: PASS
+capability_persists: PASS
+autobiography_persists: PASS
+behavior_policy_persists: PASS
+TRAINING_PERFORMED: false
+V0335_FROZEN_TEST_FAILURE_PRESERVED: true
+V033_TEST_REOPENED: false
+PROTECTED_UNCHANGED: true
+SOURCE_MODELS_UNCHANGED: true
+V034_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+EVENT_CONSISTENT_SELF_DEVELOPMENT_TEST_ADMISSION: PASS
+EVENT_CONSISTENT_SELF_DEVELOPMENT_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_scientific_v1/event_consistent_self_development_v0341_g0-v0341-dev/raw_evaluator/result.json

@@ -1,0 +1,9 @@
+AUTHOR v0.10.23 release validation
+- source test suite: 249 passed
+- compileall: passed
+- dry-run metadata: version 0.10.23 / trainer carried_destination_probe_curriculum / place level 4
+- wheel metadata: Version 0.10.23
+- targeted regressions: physical held-object post-cross destination-leg preflight; exact start/door restoration; trusted preflighted pinned terminal after target-component visibility; replay-driven v0.10.22 destination repair
+- observed v0.10.22 baseline: 58/60 place episodes, 58/58 place_release, zero simulator failures
+- raw replay repair policy: preserved verbatim
+- Unity rebuild: not required

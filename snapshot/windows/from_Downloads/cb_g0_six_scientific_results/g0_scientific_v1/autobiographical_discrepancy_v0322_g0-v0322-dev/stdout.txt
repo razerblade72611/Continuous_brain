@@ -1,0 +1,61 @@
+AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_TEST_V1
+device: cpu
+training_performed: false
+source_v0320_formal_status: FAIL
+source_v0321_dev_repair_status: PASS
+autobio_test_subjects: 6000-6255
+autobio_test_used_exactly_once: true
+test_tuning_after_run: forbidden
+history_episodes_per_subject: 12
+test_autobiographical_subjects=1/256
+test_autobiographical_subjects=256/256
+
+TEST
+reliability_mae: 0.05615000054240227
+preference_accuracy: 1.0
+mean_preference_margin: 0.9188461303710938
+
+CAUSAL_HISTORY
+normal_history_forms_correct_commitment: 1.0
+donor_history_flips_commitment: 1.0
+erased_history_exact_neutral: 1.0
+discrepancy_ablation_exact_neutral: 1.0
+discrepancy_ablation_bit_exact_neutral: 1.0
+primary_labels_alone_exact_neutral: 1.0
+
+FRESH_HISTORY_SWAP
+direct_history_commitment_accuracy: 1.0
+donor_history_commitment_flip_rate: 1.0
+mean_reliability_margin: 0.9188462079036981
+
+STRUCTURAL_NEUTRALITY
+zero_discrepancy_exact_neutral: True
+zero_discrepancy_gradient_alive: True
+max_abs_discrepancy_input_gradient: 0.1487472504377365
+
+RELOAD
+reliability_exact_after_model_reload: 1.0
+preference_exact_after_model_reload: 1.0
+
+ADMISSION_GATE
+reliability_prediction: PASS
+commitment_formation: PASS
+normal_history_causal: PASS
+donor_history_causal: PASS
+fresh_direct_history: PASS
+fresh_donor_history: PASS
+empty_history_exact_neutral: PASS
+discrepancy_ablation_exact_neutral: PASS
+discrepancy_ablation_bit_exact_neutral: PASS
+primary_labels_alone_exact_neutral: PASS
+zero_discrepancy_structural_neutral: PASS
+zero_discrepancy_gradient_alive: PASS
+model_reload_reliability_exact: PASS
+model_reload_preference_exact: PASS
+PROTECTED_UNCHANGED: true
+SOURCE_MODEL_UNCHANGED: true
+AUTOBIO_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_TEST_ADMISSION: PASS
+AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_scientific_v1/autobiographical_discrepancy_v0322_g0-v0322-dev/raw_evaluator/result.json

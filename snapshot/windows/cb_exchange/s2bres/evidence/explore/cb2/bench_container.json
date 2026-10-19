@@ -1,0 +1,19 @@
+{
+ "cpus": 2,
+ "rows": [
+  {
+   "workers": 1,
+   "steps": 2085,
+   "steps_per_s": 45.7,
+   "efficiency": 1.0
+  },
+  {
+   "workers": 2,
+   "steps": 4560,
+   "steps_per_s": 99.9,
+   "efficiency": 1.093
+  }
+ ],
+ "git": "fac701eea2717a4b2fd299b75f40e9f03472ba98",
+ "git_dirty": false
+}

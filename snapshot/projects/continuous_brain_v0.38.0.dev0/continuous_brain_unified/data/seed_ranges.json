@@ -1,0 +1,13 @@
+{
+  "note": "v0.38.0.dev0 allocates no sealed TEST range",
+  "ranges": [
+    {
+      "end": 80127,
+      "purpose": "v0.34.1 frozen TEST \u2014 spent; never reuse",
+      "source": "project lineage / DAV-76",
+      "start": 80000,
+      "status": "SPENT"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "backend": "cpu",
+  "build": "v120-local-development-r1",
+  "compute_test": {
+    "matrix_size": 32,
+    "mean": -0.03455006331205368,
+    "passed": true,
+    "result_device": "cpu"
+  },
+  "cuda_available": false,
+  "demonstration_and_lived_replay_routes": true,
+  "directml": false,
+  "feedback_integrity": {
+    "forged_meter_rest_reward": -0.025000014781951903,
+    "format": "feedback_integrity.v120",
+    "ordinary_rest_reward": -0.025000014781951903,
+    "passed": true,
+    "real_replenishment_reward": 1.1759999651908875,
+    "scope": "Observation-copy tampering; no arbitrary code-access adversary tested"
+  },
+  "format": "continuous_brain.device_report.v111",
+  "model_forward_backward_optimizer": true,
+  "requested": "cpu",
+  "resolved": "cpu",
+  "torch_version": "2.4.1+cpu"
+}

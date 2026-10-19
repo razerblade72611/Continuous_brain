@@ -1,0 +1,240 @@
+{
+  "format": "cb-seed-ranges/1",
+  "description": "Every seed range the program has used or reserved. New families must overlap none of these. Historical ranges come from the Complete Project Dossier (Appendix B) and the E2 prereg; the v0.34.1 range is confirmed by the split recorded in state/event_consistent_self_development_test_v1/result.json in the Windows source mirror (UNVERIFIED against the canonical tree). G0-LEGACY-REQUAL-v1 fresh DEV families were approved by David on 2026-09-27 and are single-use. v0.38.1.dev3 records g0-v023-dev as spent by the first infrastructure-failed attempt and adds single-use engineering runtime-preflight subfamilies.",
+  "ranges": [
+    {
+      "name": "v0.31.1-TEST",
+      "start": 20000,
+      "stop": 21023,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier Appendix B",
+      "note": "frozen TEST PASS",
+      "allowed_overlap_with": [
+        "v0.33.5-TEST"
+      ]
+    },
+    {
+      "name": "v0.32.2-TEST",
+      "start": 6000,
+      "stop": 6255,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier Appendix B",
+      "note": "frozen TEST PASS"
+    },
+    {
+      "name": "v0.33.5-TEST",
+      "start": 20000,
+      "stop": 20127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "FORMAL FAIL 89/128. Lies inside v0.31.1's range in the historical record; flagged, not corrected.",
+      "allowed_overlap_with": [
+        "v0.31.1-TEST"
+      ]
+    },
+    {
+      "name": "v0.34.1-TEST",
+      "start": 80000,
+      "stop": 80127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "E2 prereg; mirror result.json split.test",
+      "note": "reserved: do not rerun (DAV-77)"
+    },
+    {
+      "name": "v0.35.3-TEST",
+      "start": 100000,
+      "stop": 100127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "frozen TEST PASS/closed"
+    },
+    {
+      "name": "v0.36.1-TEST",
+      "start": 120000,
+      "stop": 120127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": true,
+      "source": "dossier",
+      "note": "frozen TEST PASS/closed"
+    },
+    {
+      "name": "v0.37.x-TEST",
+      "start": 140000,
+      "stop": 140127,
+      "purpose": "HISTORICAL",
+      "sealed": true,
+      "spent": false,
+      "source": "dossier",
+      "note": "still sealed; v0.37.0 formally failed at DEV, so this TEST was never opened"
+    },
+    {
+      "name": "v0.38-ENGINEERING",
+      "start": 900000,
+      "stop": 909999,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.x engineering",
+      "note": "parent reserve for named engineering sub-families; sibling sub-families may not overlap; never scientific evidence",
+      "reserve": true
+    },
+    {
+      "name": "g0-v023-dev",
+      "start": 300000,
+      "stop": 300287,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": true,
+      "source": "G0-LEGACY-REQUAL-v1:episodic_two_item_v023:opened on 2026-09-27; evaluator infrastructure failure before result",
+      "note": "SPENT. Infrastructure failure before scientific result; never reuse."
+    },
+    {
+      "name": "g0-v0252-dev",
+      "start": 301000,
+      "stop": 301255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for consequence_replanning_v0252; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v031-dev",
+      "start": 302000,
+      "stop": 303023,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for recurrent_self_trajectory_v031; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0322-dev",
+      "start": 304000,
+      "stop": 304255,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for autobiographical_discrepancy_v0322; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0341-dev",
+      "start": 305000,
+      "stop": 305127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for event_consistent_self_development_v0341; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0353-dev",
+      "start": 306000,
+      "stop": 306127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for endogenous_goal_genesis_v0353; spend before evaluator launch"
+    },
+    {
+      "name": "g0-v0361-dev",
+      "start": 307000,
+      "stop": 307127,
+      "purpose": "DEV",
+      "sealed": false,
+      "spent": false,
+      "source": "G0-LEGACY-REQUAL-v1 approved by David 2026-09-27",
+      "note": "single-use fresh G0 DEV family for recursive_autobiographical_curriculum_v0361; spend before evaluator launch"
+    },
+    {
+      "mechanism_id": "episodic_two_item_v023",
+      "name": "g0-preflight-v023-eng",
+      "start": 900000,
+      "stop": 900287,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "consequence_replanning_v0252",
+      "name": "g0-preflight-v0252-eng",
+      "start": 900300,
+      "stop": 900555,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "recurrent_self_trajectory_v031",
+      "name": "g0-preflight-v031-eng",
+      "start": 900600,
+      "stop": 901623,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "autobiographical_discrepancy_v0322",
+      "name": "g0-preflight-v0322-eng",
+      "start": 901700,
+      "stop": 901955,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "event_consistent_self_development_v0341",
+      "name": "g0-preflight-v0341-eng",
+      "start": 902000,
+      "stop": 902127,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "endogenous_goal_genesis_v0353",
+      "name": "g0-preflight-v0353-eng",
+      "start": 902200,
+      "stop": 902327,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    },
+    {
+      "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+      "name": "g0-preflight-v0361-eng",
+      "start": 902400,
+      "stop": 902527,
+      "purpose": "ENGINEERING",
+      "sealed": false,
+      "spent": false,
+      "source": "v0.38.1.dev3 G0 runtime preflight",
+      "note": "single-use ENGINEERING_ONLY preflight inside v0.38-ENGINEERING reserve"
+    }
+  ]
+}

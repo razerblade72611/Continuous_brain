@@ -1,0 +1,42 @@
+{
+  "revision": "f1369cdcf69e3a9f3a229f666847e201fa200870",
+  "real_api_calls": 0,
+  "real_ssh_calls": 0,
+  "paid_resources": 0,
+  "old_claim_deadline_now_refused": {
+    "claim_created": 1,
+    "watch_started": 10801,
+    "end_clock": 10801,
+    "exit_code": 3,
+    "operations": [
+      {
+        "operation": "stop",
+        "clock": 10801
+      }
+    ]
+  },
+  "download_crosses_deadline_without_stop": {
+    "claim_created": 1,
+    "watch_started": 6901,
+    "end_clock": 14100,
+    "exit_code": 0,
+    "operations": [
+      {
+        "operation": "download",
+        "clock": 6901,
+        "timeout": 3600
+      },
+      {
+        "operation": "download",
+        "clock": 10501,
+        "timeout": 3600
+      },
+      {
+        "operation": "delete",
+        "clock": 14100
+      }
+    ]
+  },
+  "compute_cost_at_end_of_download": 3.485586111111111,
+  "desired_exit_runtime_running_is_claimed_stopped": true
+}

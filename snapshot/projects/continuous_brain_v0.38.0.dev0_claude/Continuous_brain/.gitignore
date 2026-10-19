@@ -1,0 +1,19 @@
+# Runtime state never goes in git: checkpoints, episodic memory, logs, model weights.
+runs/
+checkpoints/
+episodes/
+logs/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.npz
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/

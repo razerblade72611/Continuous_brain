@@ -1,0 +1,19 @@
+  00:36:58 life x60 gathered (+502s)
+{
+ "twin": "runs/explore/cb2/l1b-rehearsal/twins/learning",
+ "cpu_quota": 96,
+ "runs": [
+  {
+   "workers": 9,
+   "lives": 60,
+   "steps": 30380,
+   "seconds": 502.3,
+   "steps_per_s": 60.5,
+   "steps_per_s_per_worker": 6.72,
+   "projected_h": {
+    "per_cycle_probe_and_wake": 1.06,
+    "final_battery": 22.75
+   }
+  }
+ ]
+}

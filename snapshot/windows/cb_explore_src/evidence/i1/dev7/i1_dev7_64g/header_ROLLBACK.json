@@ -1,0 +1,94 @@
+{
+  "arm": "ROLLBACK",
+  "code_sha256": "1d8735581c648eac3b5d5bad716109efbb79387cacf89dd3e3a16945b7df9e91",
+  "environment": {
+    "platform": "Linux-6.18.44-fc-v64-x86_64-with-glibc2.39",
+    "python": "3.11.15",
+    "threads": 2,
+    "torch": "2.14.0+cu130"
+  },
+  "format": "cb-i1-arm/1",
+  "frozen_constants": {
+    "curriculum_advances": {
+      "constant": "MIN_CURRICULUM_ADVANCE",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    },
+    "donor_store_autobiography_flips_goal": {
+      "constant": "MIN_DONOR_FIRST_GOAL_FLIP",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    },
+    "erased_store_autobiography_no_goal": {
+      "constant": "MIN_ERASED_NEUTRAL",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 1.0
+    },
+    "first_goal_completes": {
+      "constant": "MIN_FIRST_GOAL_COMPLETION",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.8
+    },
+    "first_goal_endogenous": {
+      "constant": "MIN_FIRST_GOAL_GENESIS",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    },
+    "history_guides_initial_strategy": {
+      "constant": "MIN_HISTORY_GUIDED_STRATEGY",
+      "module": "evaluate_self_development_hysteresis_v1",
+      "source_sha256": "a07b00a4c6a9353d07691be6aed2cb03dd9385cca40b9ae42afc3f44dfe537eb",
+      "value": 0.95
+    },
+    "horizon": {
+      "constant": "MAX_FIRST_GOAL_EPISODES",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 16
+    },
+    "persistence_bit_exact": {
+      "constant": "MIN_PERSISTENCE",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 1.0
+    },
+    "rolled_back_autobiography_repeats_goal": {
+      "constant": "MIN_FROZEN_HISTORY_REPEATS",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    },
+    "second_goal_authored": {
+      "constant": "MIN_SECOND_GOAL_GENERATION",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    },
+    "updated_vs_rolled_back_diverges": {
+      "constant": "MIN_UPDATED_VS_FROZEN_DIVERGENCE",
+      "module": "evaluate_recursive_autobiographical_curriculum_v1",
+      "source_sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c",
+      "value": 0.95
+    }
+  },
+  "horizon": 16,
+  "manifest_sha256": "61613f80aa49e429b4e7b66dcb66c2937bcfa4f7d1a2b5fc45621b3e3175d23f",
+  "n": 64,
+  "sids": [
+    906432,
+    906495
+  ],
+  "sources": {
+    "boundary.py": "b181b9c109cc39a988e0b204e8220b8103a8be790b829382d007deba3832d9f6",
+    "codec.py": "e8c17de13e33a18f57bbc848dbc3030e5aab8913290873ad87b26bf2b1e872b7",
+    "hosts.py": "373ca9b38ccffa3546e2dad66b445b7a4c51cd44fa41c57ada50045f0a875ca9",
+    "life.py": "7ac8411f2b3e077e6c38aff14df246a2da8964060279ac7c9d091fbd79005605",
+    "route.py": "1f877d82c84403438ae761e5ebce3459bd82ddfc5b38120d01127f261c8918ca"
+  },
+  "status": "ENGINEERING_ONLY"
+}

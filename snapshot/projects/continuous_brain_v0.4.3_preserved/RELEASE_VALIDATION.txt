@@ -1,0 +1,55 @@
+Continuous Brain v0.4.3 release validation
+============================================
+
+Automated test suite
+--------------------
+python -m pytest -q
+39 passed
+
+Python bytecode compilation
+---------------------------
+python -m compileall -q continuous_brain
+PASS
+
+Key regression/defense coverage
+-------------------------------
+PASS: v0.3/v0.4.x neural 6x5 interface retained
+PASS: L0 action mask and position lock retained
+PASS: L1 exact two-step early teacher paths
+PASS: one-cell L1 target cannot succeed without translation
+PASS: L1 ADVANCE alignment gate
+PASS: simulator-native MoveAhead is not preempted by depth guard
+PASS: optional depth guard remains available
+PASS: L1 success requires a real successful MoveAhead
+PASS: useful turn resets L1 stagnation
+PASS: aligned failed edge triggers alternate replan
+PASS: per-level statistics remain isolated
+PASS: tagged replay TD masks remain skill-correct
+PASS: replay state round trip
+PASS: persistent replay reserves prior-skill rows
+PASS: persistent replay reload across restart
+PASS: automatic mastered-skill snapshot writer
+PASS: atomic brain.previous.pt checkpoint
+PASS: corrupted brain.pt fallback to brain.previous.pt
+PASS: v0.4.2 checkpoint resumes under v0.4.3
+PASS: browser visualization server
+
+End-to-end L1 mock smoke
+------------------------
+700 ticks from a fresh recurrent network in the FakeController environment
+L1 goals: 13
+successful L1 translations: 27
+blocked advances: 0
+recent L1 success: 92.9%
+No premature graduation: median successful completion remained above the configured graduation limit.
+
+Compatibility smoke
+-------------------
+Generated v0.4.2 checkpoint at step 120.
+Resumed same state with v0.4.3 to step 150.
+Final status version: 0.4.3
+Persistent replay file created and successfully reloaded on the next restart.
+
+Scope limitation
+----------------
+The custom local FloorPlan1Discovery_physics Unity executable is not available in this build environment. The final real-simulator validation must therefore be run on David's WSL machine. The prior real v0.4.2 log was used to design the regression cases above.

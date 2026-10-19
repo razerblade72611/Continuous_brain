@@ -1,0 +1,6675 @@
+{
+ "candidates": [
+  {
+   "admissible": true,
+   "dossier_status": "DEV + frozen TEST PASS",
+   "evaluator": [
+    {
+     "bytes": 8834,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_multi_item_episodic_memory_test_v1.py",
+     "sha256": "67a9c59f033d80eeec8379174d2c6d7f6c787f775efb4b871d61312d3e68bc9e"
+    }
+   ],
+   "lineage_version": "v0.23.0/0.23.1",
+   "mechanism_id": "episodic_two_item_v023",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "cls",
+           "batch_size",
+           "content_dim",
+           "device"
+          ],
+          "name": "empty"
+         },
+         {
+          "args": [
+           "self",
+           "content"
+          ],
+          "name": "append"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "swap"
+         },
+         {
+          "args": [
+           "self",
+           "slot"
+          ],
+          "name": "zero_slot"
+         },
+         {
+          "args": [
+           "self",
+           "slot",
+           "donor_content"
+          ],
+          "name": "replace_slot"
+         }
+        ],
+        "name": "TwoSlotMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "content_dim",
+           "hidden_dim",
+           "query_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "slots",
+           "valid",
+           "query"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "EpisodicLateQueryReader"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "reader",
+         "metadata"
+        ],
+        "name": "save_reader"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_reader"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 6489,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/multi_item_episodic_memory_v1.py",
+     "sha256": "929693fd6010da97dcfadbc92117ddf705c10929e8935df712fc8254f3ed43a3"
+    }
+   ],
+   "notes": [],
+   "protocol": [
+    {
+     "bytes": 5951,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "MULTI_ITEM_EPISODIC_MEMORY_PROTOCOL_v1.md",
+     "sha256": "4639e66f826fd7ff1dfb8f8e376c0b312bc31f89617ca3b0831a7451c3b965c1"
+    },
+    {
+     "bytes": 2617,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "MULTI_ITEM_EPISODIC_MEMORY_TEST_PROTOCOL_v1.md",
+     "sha256": "408881382fb651ccd66f1065effa7ca4b879d6f778203c81f1555de172a058f5"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2150,
+       "relpath": "state/multi_item_episodic_memory_test_v1/result.json",
+       "sha256": "d7398710d8d69a326f7b048c0c296912e18ad77593aac534a156c17b61313df4"
+      },
+      {
+       "bytes": 1844,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 2150,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2489,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/multi_item_episodic_memory_test_v1/result_bundle.zip",
+       "sha256": "67fda8c9fac164eecedf0b49986527b0ba4be019b064f57914e3520cd2dc8b29"
+      },
+      {
+       "bytes": 2489,
+       "relpath": "state/multi_item_episodic_memory_test_v1/run.log",
+       "sha256": "6fb47bde86c58872c24abb75a013ae04b36d3fe1b35dd773af9502f27a7085c4"
+      }
+     ],
+     "relpath": "state/multi_item_episodic_memory_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.multi_item_episodic_memory_test_v1",
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {
+        "/reader_sha256": {
+         "equals_file": [
+          "state/multi_item_episodic_memory_v1/episodic_reader.pt"
+         ],
+         "file_check": null,
+         "sha256": "db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097"
+        }
+       },
+       "relpath": "state/multi_item_episodic_memory_test_v1/result.json",
+       "scope": {
+        "claim": "two-item order-sensitive episodic working-memory mechanism",
+        "environmental_writer_generalization_claimed": false,
+        "general_episodic_memory_claimed": false
+       },
+       "sha256": "d7398710d8d69a326f7b048c0c296912e18ad77593aac534a156c17b61313df4",
+       "split": {
+        "composition_test": [
+         1312,
+         1599
+        ],
+        "conditions": 288,
+        "examples": 4608,
+        "test_tuning_after_run_forbidden": true,
+        "test_used": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/multi_item_episodic_memory_v1/episodic_reader.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 512626,
+       "relpath": "state/multi_item_episodic_memory_v1/episodic_reader.pt",
+       "sha256": "db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097"
+      },
+      {
+       "bytes": 2401,
+       "relpath": "state/multi_item_episodic_memory_v1/result.json",
+       "sha256": "7b491327af33c92324d6596368d0e5e7e2cf2e933866ffe643f94809a2aa591c"
+      },
+      {
+       "bytes": 475015,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2401,
+         "name": "result.json"
+        },
+        {
+         "bytes": 512626,
+         "name": "episodic_reader.pt"
+        },
+        {
+         "bytes": 3450,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/multi_item_episodic_memory_v1/result_bundle.zip",
+       "sha256": "49d5a508ce3cf815837740c4a2944016b62d59a1f170555ab2365888e96d0f55"
+      },
+      {
+       "bytes": 3450,
+       "relpath": "state/multi_item_episodic_memory_v1/run.log",
+       "sha256": "aef5fd3d0de32f998019046b5462d8714e74e7c85eff65bcd893c0ee2a958d79"
+      }
+     ],
+     "relpath": "state/multi_item_episodic_memory_v1",
+     "results": [
+      {
+       "format": "continuous_brain.multi_item_episodic_memory_v1",
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/multi_item_episodic_memory_v1/result.json",
+       "scope": {
+        "claim": "two-item order-sensitive episodic working-memory mechanism",
+        "environmental_writer_generalization_claimed": false,
+        "general_episodic_memory_claimed": false
+       },
+       "sha256": "7b491327af33c92324d6596368d0e5e7e2cf2e933866ffe643f94809a2aa591c",
+       "split": {
+        "composition_dev": [
+         1024,
+         1311
+        ],
+        "composition_test": [
+         1312,
+         1599
+        ],
+        "composition_test_touched": false,
+        "composition_train": [
+         0,
+         1023
+        ],
+        "source_condition_family": "historical TRAIN only"
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2313,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_multi_item_episodic_memory_test_v1.sh",
+     "sha256": "9102074af2316214b33c9663d37537f7f42a94dfab04e92d014e7319005a3b6c"
+    },
+    {
+     "bytes": 2707,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_multi_item_episodic_memory_v1.sh",
+     "sha256": "dbe6f09ddfcf9150d828afc5331b7a18c056da27f9f9dab7b2f5e00a7f066c4b"
+    }
+   ],
+   "slot_options": [
+    "episodic_memory"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 1272,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_multi_item_episodic_memory_v1.py",
+     "sha256": "e6353ae9a56ebc523b4a601242d4f18322555c835089c17648fadf92c39769d6"
+    }
+   ],
+   "trainer": [
+    {
+     "bytes": 22643,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_multi_item_episodic_memory_v1.py",
+     "sha256": "3a4c9f8b895a6e996c2267317c596c2bcd9785590c6830fecb5ecc4126c9b500"
+    }
+   ],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS integration",
+   "evaluator": [
+    {
+     "bytes": 23698,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_episodic_goal_skill_integration_v1.py",
+     "sha256": "24c1088a69757a91e2b89eac4526b25692c68d52288058a89a043d4529cd9302"
+    }
+   ],
+   "lineage_version": "v0.24.0",
+   "mechanism_id": "episodic_goal_skill_v024",
+   "module": [
+    {
+     "api": {
+      "classes": [],
+      "functions": [
+       {
+        "args": [],
+        "name": "verify_integration_provenance"
+       },
+       {
+        "args": [
+         "reader",
+         "slot0",
+         "slot1",
+         "query"
+        ],
+        "name": "select_canonical_recall"
+       },
+       {
+        "args": [
+         "decoder",
+         "canonical_recall"
+        ],
+        "name": "decode_goal"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.additive_goal_options_v1",
+       "continuous_brain.multi_item_episodic_memory_v1",
+       "continuous_brain.recurrent_goal_option_state_v1"
+      ]
+     },
+     "bytes": 3243,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/episodic_goal_skill_integration_v1.py",
+     "sha256": "4270c4a4667a0075491f1b09b30ebd6e2194d797428a453183b48d3a6c521893"
+    }
+   ],
+   "notes": [],
+   "protocol": [
+    {
+     "bytes": 5887,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "EPISODIC_GOAL_SKILL_INTEGRATION_PROTOCOL_v1.md",
+     "sha256": "7d99449d5308c8f73a0e93b4767495d7ecbb8062522ce96182947cdbe947cce2"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 262996,
+       "relpath": "state/episodic_goal_skill_integration_v1/result.json",
+       "sha256": "fdcbeaab45f59f68c5714f28b835f98617897ba627ccdae8cbf83ca25af6d43f"
+      },
+      {
+       "bytes": 27584,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 262996,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2491,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/episodic_goal_skill_integration_v1/result_bundle.zip",
+       "sha256": "2ba61d40955de737134171c8aa50a7550e42d3f3a17bd4713c2ef97658c332f6"
+      },
+      {
+       "bytes": 2491,
+       "relpath": "state/episodic_goal_skill_integration_v1/run.log",
+       "sha256": "788852ac01d13e36682b8681cfa9fe290a0815ef76fa2846c0f2b19f0ccf1cb8"
+      }
+     ],
+     "relpath": "state/episodic_goal_skill_integration_v1",
+     "results": [
+      {
+       "format": "continuous_brain.episodic_goal_skill_integration_v1",
+       "passed_flags": {
+        "integration_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {
+        "/provenance/state/additive_goal_options_v1/goal_options.pt": {
+         "equals_file": [
+          "state/additive_goal_options_v1/goal_options.pt",
+          "state/milestones/v0222_memory_goal_temporal_skill/goal_options.pt"
+         ],
+         "file_check": "match",
+         "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+        },
+        "/provenance/state/memory_guided_goal_option_v1/goal_decoder.pt": {
+         "equals_file": [
+          "state/memory_guided_goal_option_v1/goal_decoder.pt",
+          "state/milestones/v0222_memory_goal_temporal_skill/goal_decoder.pt"
+         ],
+         "file_check": "match",
+         "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+        },
+        "/provenance/state/multi_item_episodic_memory_v1/episodic_reader.pt": {
+         "equals_file": [
+          "state/multi_item_episodic_memory_v1/episodic_reader.pt"
+         ],
+         "file_check": "match",
+         "sha256": "db86e989d7706348deaeb231c176120b1cdbe7288967f11dc5b218c70a2db097"
+        },
+        "/provenance/state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt": {
+         "equals_file": [
+          "state/milestones/v0222_memory_goal_temporal_skill/recurrent_goal_option_state.pt",
+          "state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt"
+         ],
+         "file_check": "match",
+         "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+        }
+       },
+       "relpath": "state/episodic_goal_skill_integration_v1/result.json",
+       "scope": {
+        "claim": "late episodic selection causally controls explicit goal and temporal skill",
+        "generalization_claimed": false,
+        "planning_claimed": false,
+        "relation_queries_motor_mapped": false
+       },
+       "sha256": "fdcbeaab45f59f68c5714f28b835f98617897ba627ccdae8cbf83ca25af6d43f",
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2592,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_episodic_goal_skill_integration_v1.sh",
+     "sha256": "e804f8aaab8d8a8160f2ef0d415cc54c75df0067cd025edb317a03e12b6f9352"
+    }
+   ],
+   "slot_options": [
+    "skills"
+   ],
+   "status": "UNVERIFIED",
+   "support": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "planning_dim",
+           "action_dim",
+           "goal_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "features"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "action_logits"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "termination_logit"
+         }
+        ],
+        "name": "AdditiveGoalOptionBank"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path"
+        ],
+        "name": "sha256"
+       },
+       {
+        "args": [
+         "path",
+         "bank",
+         "goal_decoder_sha256",
+         "metadata"
+        ],
+        "name": "save_goal_options"
+       },
+       {
+        "args": [
+         "path",
+         "expected_goal_decoder_sha256",
+         "device"
+        ],
+        "name": "load_goal_options"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.memory_guided_goal_option_v1"
+      ]
+     },
+     "bytes": 2937,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/additive_goal_options_v1.py",
+     "sha256": "198bab9cc3b3c43d88467499e6d61051bfdcbbe9aa034965fed7419ff0cefeea"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "cls",
+           "path"
+          ],
+          "name": "load"
+         },
+         {
+          "args": [
+           "self",
+           "device"
+          ],
+          "name": "to"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "write"
+         },
+         {
+          "args": [
+           "self",
+           "memory"
+          ],
+          "name": "recall"
+         }
+        ],
+        "name": "FrozenAdmittedMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "recall"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "GoalDecoder"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path"
+        ],
+        "name": "sha256"
+       },
+       {
+        "args": [
+         "base",
+         "cfg",
+         "admitted",
+         "condition_id",
+         "cue",
+         "device"
+        ],
+        "name": "collect_decision_snapshot"
+       },
+       {
+        "args": [
+         "left",
+         "right"
+        ],
+        "name": "assert_pair_identical"
+       },
+       {
+        "args": [
+         "base",
+         "root"
+        ],
+        "name": "option_table"
+       },
+       {
+        "args": [
+         "base",
+         "root",
+         "goal_side"
+        ],
+        "name": "choose_goal_option"
+       },
+       {
+        "args": [
+         "device"
+        ],
+        "name": "build_substrate"
+       },
+       {
+        "args": [
+         "path",
+         "decoder",
+         "metadata"
+        ],
+        "name": "save_goal_decoder"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_goal_decoder"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.evaluate_competitive_infant",
+       "continuous_brain.planning_v103",
+       "continuous_brain.varied_cued_detour_world"
+      ]
+     },
+     "bytes": 10933,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+     "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "feature_dim",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "features",
+           "hidden"
+          ],
+          "name": "forward_sequence"
+         },
+         {
+          "args": [
+           "self",
+           "feature",
+           "hidden"
+          ],
+          "name": "step"
+         }
+        ],
+        "name": "RecurrentGoalOptionState"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "controller",
+         "goal_options_sha256",
+         "goal_decoder_sha256",
+         "metadata"
+        ],
+        "name": "save_controller"
+       },
+       {
+        "args": [
+         "path",
+         "expected_goal_options_sha256",
+         "expected_goal_decoder_sha256",
+         "device"
+        ],
+        "name": "load_controller"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 3429,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/recurrent_goal_option_state_v1.py",
+     "sha256": "0c430f5c2cd0716ddd9cc3a5235405416c54ab43561a4af7efd75953f712921b"
+    }
+   ],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "no checkpoint files present: learned state cannot be loaded from this tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "admitted pieces + formal temporal termination failures",
+   "evaluator": [
+    {
+     "bytes": 17532,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_memory_guided_goal_option_v1.py",
+     "sha256": "2fafe2238aecda158af645eed6c076070842bf1b67a72122bf09f09dd4444287"
+    },
+    {
+     "bytes": 16245,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_additive_goal_options_v1.py",
+     "sha256": "c967f1f0dd70d53edb6e433dc655d3aae6e279cf21f2232c7bde2225f4946d2f"
+    },
+    {
+     "bytes": 30518,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_test_recurrent_goal_option_state_v1.py",
+     "sha256": "653ab50f0bd1ec0e325ee0a60fbe26913f54928e6d8eb9abcdcec07b2c1cadac"
+    }
+   ],
+   "lineage_version": "v0.21-v0.22",
+   "mechanism_id": "memory_guided_goal_options_v021",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "planning_dim",
+           "action_dim",
+           "goal_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "features"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "action_logits"
+         },
+         {
+          "args": [
+           "self",
+           "latent",
+           "goal_side"
+          ],
+          "name": "termination_logit"
+         }
+        ],
+        "name": "AdditiveGoalOptionBank"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path"
+        ],
+        "name": "sha256"
+       },
+       {
+        "args": [
+         "path",
+         "bank",
+         "goal_decoder_sha256",
+         "metadata"
+        ],
+        "name": "save_goal_options"
+       },
+       {
+        "args": [
+         "path",
+         "expected_goal_decoder_sha256",
+         "device"
+        ],
+        "name": "load_goal_options"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.memory_guided_goal_option_v1"
+      ]
+     },
+     "bytes": 2937,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/additive_goal_options_v1.py",
+     "sha256": "198bab9cc3b3c43d88467499e6d61051bfdcbbe9aa034965fed7419ff0cefeea"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "cls",
+           "path"
+          ],
+          "name": "load"
+         },
+         {
+          "args": [
+           "self",
+           "device"
+          ],
+          "name": "to"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "write"
+         },
+         {
+          "args": [
+           "self",
+           "memory"
+          ],
+          "name": "recall"
+         }
+        ],
+        "name": "FrozenAdmittedMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "recall"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "GoalDecoder"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path"
+        ],
+        "name": "sha256"
+       },
+       {
+        "args": [
+         "base",
+         "cfg",
+         "admitted",
+         "condition_id",
+         "cue",
+         "device"
+        ],
+        "name": "collect_decision_snapshot"
+       },
+       {
+        "args": [
+         "left",
+         "right"
+        ],
+        "name": "assert_pair_identical"
+       },
+       {
+        "args": [
+         "base",
+         "root"
+        ],
+        "name": "option_table"
+       },
+       {
+        "args": [
+         "base",
+         "root",
+         "goal_side"
+        ],
+        "name": "choose_goal_option"
+       },
+       {
+        "args": [
+         "device"
+        ],
+        "name": "build_substrate"
+       },
+       {
+        "args": [
+         "path",
+         "decoder",
+         "metadata"
+        ],
+        "name": "save_goal_decoder"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_goal_decoder"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.evaluate_competitive_infant",
+       "continuous_brain.planning_v103",
+       "continuous_brain.varied_cued_detour_world"
+      ]
+     },
+     "bytes": 10933,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/memory_guided_goal_option_v1.py",
+     "sha256": "94c72d88853da4b86fc8f860bd06b4961da76950aadc06bef2eadbf0faf1fa96"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "feature_dim",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "features",
+           "hidden"
+          ],
+          "name": "forward_sequence"
+         },
+         {
+          "args": [
+           "self",
+           "feature",
+           "hidden"
+          ],
+          "name": "step"
+         }
+        ],
+        "name": "RecurrentGoalOptionState"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "controller",
+         "goal_options_sha256",
+         "goal_decoder_sha256",
+         "metadata"
+        ],
+        "name": "save_controller"
+       },
+       {
+        "args": [
+         "path",
+         "expected_goal_options_sha256",
+         "expected_goal_decoder_sha256",
+         "device"
+        ],
+        "name": "load_controller"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 3429,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/recurrent_goal_option_state_v1.py",
+     "sha256": "0c430f5c2cd0716ddd9cc3a5235405416c54ab43561a4af7efd75953f712921b"
+    }
+   ],
+   "notes": [
+    "The dossier says v0.21-v0.22 has admitted pieces and formal failures; DAV-74 must split them."
+   ],
+   "protocol": [
+    {
+     "bytes": 4341,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "ADDITIVE_GOAL_OPTIONS_PROTOCOL_v1.md",
+     "sha256": "fcb5cc7bc870344d68cf529e20b16e531a65b3ef004f09854cfb2cbcb9bc9105"
+    },
+    {
+     "bytes": 5656,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "MEMORY_GUIDED_GOAL_OPTION_PROTOCOL_v1.md",
+     "sha256": "bb42a7075f610bd26efa6ce49bae62776e1155c8b67e929b5fa50465cac2c34b"
+    },
+    {
+     "bytes": 4536,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "RECURRENT_GOAL_OPTION_STATE_PROTOCOL_v1.md",
+     "sha256": "b305921a02ed2bc9a2da3185fdfefd70dfc7c2f09313df8d189378ed3aec8692"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/memory_guided_goal_option_v1/goal_decoder.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2613,
+       "relpath": "state/memory_guided_goal_option_v1/goal_decoder.pt",
+       "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+      },
+      {
+       "bytes": 645187,
+       "relpath": "state/memory_guided_goal_option_v1/result.json",
+       "sha256": "154d67e90232cf1f3b1b1e77e4718969d6e1d82973c960c92fd6d94adbd20635"
+      },
+      {
+       "bytes": 26749,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 645187,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2613,
+         "name": "goal_decoder.pt"
+        },
+        {
+         "bytes": 2853,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/memory_guided_goal_option_v1/result_bundle.zip",
+       "sha256": "f7f5af98ca356c2f7c856fdba6fe1ebaa0dd841bb9d0c2299ae5c807adc6a69e"
+      },
+      {
+       "bytes": 2853,
+       "relpath": "state/memory_guided_goal_option_v1/run.log",
+       "sha256": "70ddc0fe4e124e664923cc4d2061e22701424ae7e253f987b643fd9f1e9256a2"
+      }
+     ],
+     "relpath": "state/memory_guided_goal_option_v1",
+     "results": [
+      {
+       "format": "continuous_brain.memory_guided_goal_option_v1",
+       "passed_flags": {
+        "development_gate_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/memory_guided_goal_option_v1/result.json",
+       "sha256": "154d67e90232cf1f3b1b1e77e4718969d6e1d82973c960c92fd6d94adbd20635",
+       "split": {
+        "dev": [
+         1600,
+         1727
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         511
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/additive_goal_options_v1/goal_options.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 330045,
+       "relpath": "state/additive_goal_options_v1/goal_options.pt",
+       "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+      },
+      {
+       "bytes": 263984,
+       "relpath": "state/additive_goal_options_v1/result.json",
+       "sha256": "26b4f24bda93385fa3215f8fe643dea2698e9505140c6a389f777c46cc2bd8af"
+      },
+      {
+       "bytes": 313180,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 263984,
+         "name": "result.json"
+        },
+        {
+         "bytes": 330045,
+         "name": "goal_options.pt"
+        },
+        {
+         "bytes": 3305,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/additive_goal_options_v1/result_bundle.zip",
+       "sha256": "bfa1e0b8c72ae6ac308b4a57238ebadc94f687c6d09bc0b88dccffb91c76a867"
+      },
+      {
+       "bytes": 3305,
+       "relpath": "state/additive_goal_options_v1/run.log",
+       "sha256": "eae40cb24429972b6e6e263edf10b7505f0f5500f9f54043e5543893cad6dc37"
+      }
+     ],
+     "relpath": "state/additive_goal_options_v1",
+     "results": [
+      {
+       "format": "continuous_brain.additive_goal_options_v1",
+       "passed_flags": {
+        "development_gate_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/additive_goal_options_v1/result.json",
+       "sha256": "26b4f24bda93385fa3215f8fe643dea2698e9505140c6a389f777c46cc2bd8af",
+       "split": {
+        "fresh_dev": [
+         1728,
+         1855
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         1023
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 378738,
+       "relpath": "state/recurrent_goal_option_state_v1/recurrent_goal_option_state.pt",
+       "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+      },
+      {
+       "bytes": 1109340,
+       "relpath": "state/recurrent_goal_option_state_v1/result.json",
+       "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd"
+      },
+      {
+       "bytes": 389264,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 1109340,
+         "name": "result.json"
+        },
+        {
+         "bytes": 378738,
+         "name": "recurrent_goal_option_state.pt"
+        },
+        {
+         "bytes": 3987,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/recurrent_goal_option_state_v1/result_bundle.zip",
+       "sha256": "f3101eb31ee2f37e041aa14f48f547bc11a633b65ca58599f05dbbfc8a703495"
+      },
+      {
+       "bytes": 3987,
+       "relpath": "state/recurrent_goal_option_state_v1/run.log",
+       "sha256": "928fce6e07e5a430c14d8f98128a8b82d2df76487646ef33129fce630e46d0a0"
+      }
+     ],
+     "relpath": "state/recurrent_goal_option_state_v1",
+     "results": [
+      {
+       "format": "continuous_brain.recurrent_goal_option_state_v1",
+       "passed_flags": {
+        "test_admission_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/recurrent_goal_option_state_v1/result.json",
+       "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd",
+       "split": {
+        "dev_previously_consumed": [
+         1600,
+         1979
+        ],
+        "test": [
+         1980,
+         2359
+        ],
+        "test_used_once_for_admission": true,
+        "train": [
+         0,
+         1599
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/milestones/v0222_memory_goal_temporal_skill/goal_decoder.pt",
+      "state/milestones/v0222_memory_goal_temporal_skill/goal_options.pt",
+      "state/milestones/v0222_memory_goal_temporal_skill/recurrent_goal_option_state.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 616,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/SHA256SUMS.txt",
+       "sha256": "845b3ba6e0b760a2fb804a8d9b6434d9a9028e44edbd0f84495aab8eb2d70d0e"
+      },
+      {
+       "bytes": 1294,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/STATUS.txt",
+       "sha256": "a7d5d2a0ed06ad3d9aacd015bafc7eef8d71666469dc9976f93e3a398578616e"
+      },
+      {
+       "bytes": 2613,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_decoder.pt",
+       "sha256": "d46dfb425b9c3a08f9779c8d1b8519382140b465d6da37977ef1442bf1d36066"
+      },
+      {
+       "bytes": 330045,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/goal_options.pt",
+       "sha256": "bcb729e2fa00db7b63af64a975d6cd2399c5e4711385d888b8131331587e2717"
+      },
+      {
+       "bytes": 378738,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_goal_option_state.pt",
+       "sha256": "2e006c1f19f42f180d4bad9eb23c2f4f5a1188515df1d2227072f5b74aef2813"
+      },
+      {
+       "bytes": 1109340,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_result.json",
+       "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd"
+      },
+      {
+       "bytes": 3987,
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_run.log",
+       "sha256": "928fce6e07e5a430c14d8f98128a8b82d2df76487646ef33129fce630e46d0a0"
+      }
+     ],
+     "relpath": "state/milestones/v0222_memory_goal_temporal_skill",
+     "results": [
+      {
+       "format": "continuous_brain.recurrent_goal_option_state_v1",
+       "passed_flags": {
+        "test_admission_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_result.json",
+       "sha256": "e2b946cbebc3b57a3a31c5af5323039ee708aeba093b88899594157e055a06fd",
+       "split": {
+        "dev_previously_consumed": [
+         1600,
+         1979
+        ],
+        "test": [
+         1980,
+         2359
+        ],
+        "test_used_once_for_admission": true,
+        "train": [
+         0,
+         1599
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2401,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_additive_goal_options_v1.sh",
+     "sha256": "181cd2bb255edf512e415d8a54102085d7152df9f9951f30c0ef199430a641ac"
+    },
+    {
+     "bytes": 2452,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_memory_guided_goal_option_v1.sh",
+     "sha256": "f608ee44b03fbe836ecd44ecb82af1ff220c44a50a8a3c6f6e637d973bcdd2eb"
+    },
+    {
+     "bytes": 2686,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_recurrent_goal_option_state_v1.sh",
+     "sha256": "0b0be0b7e77dabbc0171492d55539e41ce01eba288e11030ba67c3bad1ea2d29"
+    }
+   ],
+   "slot_options": [
+    "skills"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "state/memory_guided_goal_option_v1/result.json records ['development_gate_passed'] = false",
+    "state/additive_goal_options_v1/result.json records ['development_gate_passed'] = false",
+    "state/recurrent_goal_option_state_v1/result.json records ['test_admission_passed'] = false",
+    "state/milestones/v0222_memory_goal_temporal_skill/recurrent_test_result.json records ['test_admission_passed'] = false"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS / admitted",
+   "evaluator": [
+    {
+     "bytes": 15244,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_consequence_replanning_cost_repair_v1.py",
+     "sha256": "30f662424f4ac63d2495bde3eb6d388253399187594a204cff384c9c05ec0bc2"
+    },
+    {
+     "bytes": 12623,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_consequence_replanning_test_v1.py",
+     "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+    }
+   ],
+   "lineage_version": "v0.25.2",
+   "mechanism_id": "consequence_replanning_v0252",
+   "module": [
+    {
+     "api": {
+      "classes": [],
+      "functions": [
+       {
+        "args": [
+         "model",
+         "state",
+         "spec",
+         "goal_side",
+         "max_depth",
+         "success_value",
+         "invalid_cutoff",
+         "device"
+        ],
+        "name": "plan_route_cost_consistent"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.consequence_replanning_v1",
+       "continuous_brain.dynamic_route_world_v1"
+      ]
+     },
+     "bytes": 4251,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/consequence_replanning_cost_repair_v1.py",
+     "sha256": "cbf8bfcb92d792e76f973223949bb5db4f4673626388361fe52988ac5ef1c115"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "state_v",
+           "goal_v",
+           "action_v"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "RouteConsequenceModel"
+       },
+       {
+        "bases": [],
+        "methods": [],
+        "name": "PredictedTransition"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "state",
+         "spec"
+        ],
+        "name": "state_vector"
+       },
+       {
+        "args": [
+         "goal_side"
+        ],
+        "name": "goal_vector"
+       },
+       {
+        "args": [
+         "action"
+        ],
+        "name": "action_vector"
+       },
+       {
+        "args": [
+         "model",
+         "state",
+         "spec",
+         "goal_side",
+         "action",
+         "device"
+        ],
+        "name": "predict_transition"
+       },
+       {
+        "args": [
+         "model",
+         "state",
+         "spec",
+         "goal_side",
+         "max_depth",
+         "success_value",
+         "invalid_cutoff",
+         "device"
+        ],
+        "name": "plan_route"
+       },
+       {
+        "args": [
+         "predicted",
+         "actual"
+        ],
+        "name": "state_mismatch"
+       },
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_consequence_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_consequence_model"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.dynamic_route_world_v1"
+      ]
+     },
+     "bytes": 8882,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/consequence_replanning_v1.py",
+     "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+    }
+   ],
+   "notes": [
+    "v0.25.0 DEV FAIL and v0.25.1 DEV PASS on spent data precede the frozen v0.25.2 TEST."
+   ],
+   "protocol": [
+    {
+     "bytes": 4050,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "CONSEQUENCE_REPLANNING_COST_REPAIR_PROTOCOL_v1.md",
+     "sha256": "92fdbc5a8ea663b9aad28b926d2e988a6d37685c03b6c718cb589493064c1811"
+    },
+    {
+     "bytes": 7090,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "CONSEQUENCE_REPLANNING_PROTOCOL_v1.md",
+     "sha256": "c6a8ee790d6466956cad2bee4795d48d50358bb09e7063b1180709f7ddb7f16a"
+    },
+    {
+     "bytes": 3220,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "CONSEQUENCE_REPLANNING_TEST_PROTOCOL_v1.md",
+     "sha256": "fc21a65379f8e5aa1c0c8cda8e9f7c85c067069a4bd5b9bcbf6a95961b34fd42"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 160724,
+       "relpath": "state/consequence_replanning_test_v1/result.json",
+       "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0"
+      },
+      {
+       "bytes": 4725,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 160724,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2511,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/consequence_replanning_test_v1/result_bundle.zip",
+       "sha256": "b85b9563ec7e5300b04044e3a78a4a8a85b793e30f6fcf266c44019037997c08"
+      },
+      {
+       "bytes": 2511,
+       "relpath": "state/consequence_replanning_test_v1/run.log",
+       "sha256": "96a1da6d548aedc4a79fd00adb5d6f6a4eb732a1c665feca02678a7dcf34f28b"
+      }
+     ],
+     "relpath": "state/consequence_replanning_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.consequence_replanning_test_v1",
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/consequence_replanning_test_v1/result.json",
+       "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0",
+       "split": {
+        "route_test": [
+         2304,
+         2559
+        ],
+        "route_test_spent": true,
+        "route_test_used": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 160620,
+       "relpath": "state/consequence_replanning_cost_repair_v1/result.json",
+       "sha256": "ca628e9ae8932ac627928956d91c02dc080600ece616b8c1ed0bcce2aa13e34e"
+      },
+      {
+       "bytes": 4656,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 160620,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2241,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/consequence_replanning_cost_repair_v1/result_bundle.zip",
+       "sha256": "024544044780b995f3f85639ecf85659d990b4094a9dd50550486d57889e020b"
+      },
+      {
+       "bytes": 2241,
+       "relpath": "state/consequence_replanning_cost_repair_v1/run.log",
+       "sha256": "052459dd2a99545969e3397deecfc8769b833b37f896fc758825927c396fcf28"
+      }
+     ],
+     "relpath": "state/consequence_replanning_cost_repair_v1",
+     "results": [
+      {
+       "format": "continuous_brain.consequence_replanning_cost_repair_v1",
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/consequence_replanning_cost_repair_v1/result.json",
+       "sha256": "ca628e9ae8932ac627928956d91c02dc080600ece616b8c1ed0bcce2aa13e34e",
+       "split": {
+        "development_window_reused": [
+         2048,
+         2303
+        ],
+        "new_development_window_consumed": false,
+        "route_test": [
+         2304,
+         2559
+        ],
+        "route_test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/consequence_replanning_v1/consequence_model.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 86944,
+       "relpath": "state/consequence_replanning_v1/consequence_model.pt",
+       "sha256": "fc8dfc24fe65ee4d45a6d9693eec75a941c777a7b4d911dba216376e83723e8f"
+      },
+      {
+       "bytes": 2594,
+       "relpath": "state/consequence_replanning_v1/result.json",
+       "sha256": "cccb0aacb87bac5c2998fadf167e2243c9c7f7004cf7f6ebb992a6fdefa8a27f"
+      },
+      {
+       "bytes": 80472,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2594,
+         "name": "result.json"
+        },
+        {
+         "bytes": 86944,
+         "name": "consequence_model.pt"
+        },
+        {
+         "bytes": 4084,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/consequence_replanning_v1/result_bundle.zip",
+       "sha256": "669736f836579002eb433cda82738cc5ac1b73a8da18142e679dc624e5f5f832"
+      },
+      {
+       "bytes": 4084,
+       "relpath": "state/consequence_replanning_v1/run.log",
+       "sha256": "4055fa206b9af22154fb59ca5db2ceaaff8536c6989e2a0704554a4f7fe9c532"
+      }
+     ],
+     "relpath": "state/consequence_replanning_v1",
+     "results": [
+      {
+       "format": "continuous_brain.consequence_replanning_v1",
+       "passed_flags": {
+        "development_gate_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/consequence_replanning_v1/result.json",
+       "scope": {
+        "3d_planning_claimed": false,
+        "claim": "episodic-goal-conditioned consequence planning with prediction-error-triggered replanning in a new symbolic route family",
+        "general_intelligence_claimed": false,
+        "historical_planner_requalified": false
+       },
+       "sha256": "cccb0aacb87bac5c2998fadf167e2243c9c7f7004cf7f6ebb992a6fdefa8a27f",
+       "split": {
+        "route_dev": [
+         2048,
+         2303
+        ],
+        "route_test": [
+         2304,
+         2559
+        ],
+        "route_test_touched": false,
+        "route_train": [
+         0,
+         2047
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2557,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_consequence_replanning_cost_repair_v1.sh",
+     "sha256": "e64ce8b93010c56d340c7744e673e8ed2b170ce201fa672c5537c332bf4e77e0"
+    },
+    {
+     "bytes": 2433,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_consequence_replanning_test_v1.sh",
+     "sha256": "6219fabe6683243740d5658cefcf644aaa1138366d805b17ee1f8ebe1695b082"
+    },
+    {
+     "bytes": 2895,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_consequence_replanning_v1.sh",
+     "sha256": "a37bdddfd1f13139fdf6f9237eb911bad82e3669bc6a4a2f5450eae0f6325eaf"
+    }
+   ],
+   "slot_options": [
+    "planner"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 1878,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_consequence_replanning_v1.py",
+     "sha256": "1e2f68226aeea9e96449024ca35f4318a8489942061fa83c79712bc1fdbd7047"
+    }
+   ],
+   "trainer": [
+    {
+     "bytes": 20285,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_consequence_replanning_v1.py",
+     "sha256": "b1d5f17a60b8611b28750b9081a7e765f5072bce15595c7997a677b99d1f2c09"
+    }
+   ],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "state/consequence_replanning_v1/result.json records ['development_gate_passed'] = false"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS / admitted (as part of consequence replanning)",
+   "evaluator": [
+    {
+     "bytes": 12623,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_consequence_replanning_test_v1.py",
+     "sha256": "034d60d4853b19bf21fd272f3e424d9eb9178258601da34d37783b1b1a508d96"
+    }
+   ],
+   "lineage_version": "v0.25.2",
+   "mechanism_id": "consequence_model_v0252",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "state_v",
+           "goal_v",
+           "action_v"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "RouteConsequenceModel"
+       },
+       {
+        "bases": [],
+        "methods": [],
+        "name": "PredictedTransition"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "state",
+         "spec"
+        ],
+        "name": "state_vector"
+       },
+       {
+        "args": [
+         "goal_side"
+        ],
+        "name": "goal_vector"
+       },
+       {
+        "args": [
+         "action"
+        ],
+        "name": "action_vector"
+       },
+       {
+        "args": [
+         "model",
+         "state",
+         "spec",
+         "goal_side",
+         "action",
+         "device"
+        ],
+        "name": "predict_transition"
+       },
+       {
+        "args": [
+         "model",
+         "state",
+         "spec",
+         "goal_side",
+         "max_depth",
+         "success_value",
+         "invalid_cutoff",
+         "device"
+        ],
+        "name": "plan_route"
+       },
+       {
+        "args": [
+         "predicted",
+         "actual"
+        ],
+        "name": "state_mismatch"
+       },
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_consequence_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_consequence_model"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.dynamic_route_world_v1"
+      ]
+     },
+     "bytes": 8882,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/consequence_replanning_v1.py",
+     "sha256": "52b2db42cac3b4878449f6047a77406bfd55242055e74415d0bf75db783cad73"
+    }
+   ],
+   "notes": [
+    "RouteConsequenceModel inside consequence_replanning_v1.py; the same files as consequence_replanning_v0252."
+   ],
+   "protocol": [
+    {
+     "bytes": 3220,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "CONSEQUENCE_REPLANNING_TEST_PROTOCOL_v1.md",
+     "sha256": "fc21a65379f8e5aa1c0c8cda8e9f7c85c067069a4bd5b9bcbf6a95961b34fd42"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 160724,
+       "relpath": "state/consequence_replanning_test_v1/result.json",
+       "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0"
+      },
+      {
+       "bytes": 4725,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 160724,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2511,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/consequence_replanning_test_v1/result_bundle.zip",
+       "sha256": "b85b9563ec7e5300b04044e3a78a4a8a85b793e30f6fcf266c44019037997c08"
+      },
+      {
+       "bytes": 2511,
+       "relpath": "state/consequence_replanning_test_v1/run.log",
+       "sha256": "96a1da6d548aedc4a79fd00adb5d6f6a4eb732a1c665feca02678a7dcf34f28b"
+      }
+     ],
+     "relpath": "state/consequence_replanning_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.consequence_replanning_test_v1",
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/consequence_replanning_test_v1/result.json",
+       "sha256": "320e7bae0361bb4f44965d9cc62c93193534f450643267934f9670577a6ce5e0",
+       "split": {
+        "route_test": [
+         2304,
+         2559
+        ],
+        "route_test_spent": true,
+        "route_test_used": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [],
+   "slot_options": [
+    "world_model"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "no checkpoint files present: learned state cannot be loaded from this tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS",
+   "evaluator": [
+    {
+     "bytes": 11883,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "admit_thor_discovery_embodiment_v1.py",
+     "sha256": "ca9db1e1971d8a661401e2d1bb47390d7df6b96100f0518bd4bfc461ebb1d4c3"
+    }
+   ],
+   "lineage_version": "v0.26.0",
+   "mechanism_id": "discovery_embodiment_v026",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [],
+        "name": "CurriculumTarget"
+       },
+       {
+        "bases": [],
+        "methods": [],
+        "name": "AI2ThorConfig"
+       },
+       {
+        "bases": [
+         "Environment"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "config",
+           "controller_factory"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "recover_sensor_fault"
+         },
+         {
+          "args": [
+           "self",
+           "level"
+          ],
+          "name": "valid_action_indices_for_level"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "valid_action_indices"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "current_skill_level"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "exploration_floor"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "curriculum_attempts"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "curriculum_successes"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "curriculum_timeouts"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "curriculum_stagnations"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "reset"
+         },
+         {
+          "args": [
+           "self",
+           "action"
+          ],
+          "name": "step"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "state_dict"
+         },
+         {
+          "args": [
+           "self",
+           "state"
+          ],
+          "name": "load_state_dict"
+         },
+         {
+          "args": [
+           "self",
+           "size"
+          ],
+          "name": "render_rgb"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "render_depth"
+         },
+         {
+          "args": [
+           "self",
+           "predicted_obs"
+          ],
+          "name": "visual_snapshot"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "describe"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "close"
+         }
+        ],
+        "name": "AI2ThorEmbodiedEnv"
+       }
+      ],
+      "functions": [],
+      "package_imports": [
+       ".environment",
+       ".spatial"
+      ]
+     },
+     "bytes": 102986,
+     "exists": true,
+     "legacy_manifests": {
+      "MANIFEST_SHA256.json": "match",
+      "RELEASE_MANIFEST.json": "match",
+      "RELEASE_MANIFEST_v122.json": "match",
+      "SHA256SUMS.txt": "match",
+      "SHA256SUMS_v122.txt": "match"
+     },
+     "relpath": "continuous_brain/embodied.py",
+     "sha256": "b240040f380e016a56f963ccdda10dfcdb75e1da26e9b5a394695d989a146a51"
+    }
+   ],
+   "notes": [
+    "An environment/embodiment admission (AI2-THOR discovery scene), not a learned perception module."
+   ],
+   "protocol": [
+    {
+     "bytes": 3373,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "THOR_DISCOVERY_EMBODIMENT_ADMISSION_PROTOCOL_v1.md",
+     "sha256": "a9ccef2be9750fcc376fdecba1c36d8ddd8a69f1ac906c3000c3c3b2eb6394bb"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2640,
+       "relpath": "state/thor_discovery_embodiment_admission_v1/result.json",
+       "sha256": "2af28fd67360185c8cbf88d4275af4b02e2311188769f8468ca02f23798fadf4"
+      },
+      {
+       "bytes": 1925,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 2640,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1792,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/thor_discovery_embodiment_admission_v1/result_bundle.zip",
+       "sha256": "4aa727b2ee09d03a63089f7083a7e92ba71c011e9e0a234d991ed590477551e2"
+      },
+      {
+       "bytes": 1792,
+       "relpath": "state/thor_discovery_embodiment_admission_v1/run.log",
+       "sha256": "505c1354f1d9dea741628f847a97cf9fd5efd7910cadec091c011fedc827dbd5"
+      }
+     ],
+     "relpath": "state/thor_discovery_embodiment_admission_v1",
+     "results": [
+      {
+       "format": "continuous_brain.thor_discovery_embodiment_admission_v1",
+       "passed_flags": {
+        "admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {
+        "/sensor_probe/rgb_initial_sha256": {
+         "file_check": null,
+         "sha256": "97312b9157fa90a9fabebf407a49e1fbabe77f0966b10c61104e99d4775ef1ee"
+        },
+        "/sensor_probe/rgb_rotated_sha256": {
+         "file_check": null,
+         "sha256": "3dba488f7645da342d77b8b9afdf3d26d510915c1a9aa0a8ef3feecb38cfa0de"
+        },
+        "/thor_executable_sha256": {
+         "file_check": null,
+         "sha256": "da8c342ad51e8ad16a57250c122a40b5fee31d619fcfbe35005ea44ac46c184c"
+        }
+       },
+       "relpath": "state/thor_discovery_embodiment_admission_v1/result.json",
+       "sha256": "2af28fd67360185c8cbf88d4275af4b02e2311188769f8468ca02f23798fadf4",
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2753,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_thor_discovery_embodiment_admission_v1.sh",
+     "sha256": "ae1512b73e5ae249fd8670824ba938b8c1ea2fa012c07fe718ee22e29535322b"
+    }
+   ],
+   "slot_options": [
+    "perception"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "no checkpoint files present: learned state cannot be loaded from this tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "DEV + frozen TEST PASS / admitted",
+   "evaluator": [
+    {
+     "bytes": 18888,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_persistent_self_autobiographical_test_v1.py",
+     "sha256": "1575047768fb9ff2540275fb2c0fafa918e236770c511a004350cd6d2ad0626e"
+    }
+   ],
+   "lineage_version": "v0.28.0/0.28.1",
+   "mechanism_id": "persistent_self_v028",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "cls",
+           "identity_seed"
+          ],
+          "name": "create"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "clone"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "vector"
+         }
+        ],
+        "name": "PersistentSelfState"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "to_dict"
+         },
+         {
+          "args": [
+           "cls",
+           "d"
+          ],
+          "name": "from_dict"
+         }
+        ],
+        "name": "AutobiographicalEpisode"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "capacity"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "episode"
+          ],
+          "name": "append"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "clone"
+         },
+         {
+          "args": [
+           "self",
+           "episode_id"
+          ],
+          "name": "erase_episode"
+         },
+         {
+          "args": [
+           "self",
+           "episode_id",
+           "donor"
+          ],
+          "name": "replace_episode"
+         },
+         {
+          "args": [
+           "self",
+           "n"
+          ],
+          "name": "latest"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "to_list"
+         },
+         {
+          "args": [
+           "cls",
+           "rows",
+           "capacity"
+          ],
+          "name": "from_list"
+         }
+        ],
+        "name": "AutobiographicalMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "self_vector",
+           "action",
+           "intended_change",
+           "observed_change",
+           "action_success",
+           "prediction_error"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "AgencySelfModel"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "prediction_error_threshold",
+           "uncertainty_threshold"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "state"
+          ],
+          "name": "choose"
+         }
+        ],
+        "name": "EndogenousGoalArbiter"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "model",
+           "state",
+           "memory",
+           "arbiter"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "choose_goal"
+         },
+         {
+          "args": [
+           "self",
+           "goal",
+           "strength"
+          ],
+          "name": "add_commitment"
+         },
+         {
+          "args": [
+           "self",
+           "goal"
+          ],
+          "name": "record_commitment_event"
+         },
+         {
+          "args": [
+           "self",
+           "goal"
+          ],
+          "name": "record_completion"
+         },
+         {
+          "args": [
+           "self",
+           "action",
+           "intended_change",
+           "observed_change",
+           "action_success",
+           "prediction_error",
+           "completed_goal",
+           "forced_agency_probability"
+          ],
+          "name": "observe_event"
+         },
+         {
+          "args": [
+           "self",
+           "seed_a",
+           "seed_b"
+          ],
+          "name": "reconcile_commitments_from_autobiography"
+         }
+        ],
+        "name": "PersistentSelfCore"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path"
+        ],
+        "name": "sha256"
+       },
+       {
+        "args": [
+         "x"
+        ],
+        "name": "clip01"
+       },
+       {
+        "args": [
+         "confidence",
+         "uncertainty",
+         "agency_target",
+         "prediction_error"
+        ],
+        "name": "target_internal_update"
+       },
+       {
+        "args": [
+         "state",
+         "action",
+         "intended_change",
+         "observed_change",
+         "action_success",
+         "prediction_error"
+        ],
+        "name": "event_features"
+       },
+       {
+        "args": [
+         "path",
+         "core",
+         "metadata"
+        ],
+        "name": "save_self_bundle"
+       },
+       {
+        "args": [
+         "path",
+         "model"
+        ],
+        "name": "load_self_bundle"
+       },
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_self_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_self_model"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 22705,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/persistent_self_autobiographical_v1.py",
+     "sha256": "75aa1846c7b53311ff63f92408eca93c3fc5950d172bfbdbb96db02eacd13051"
+    }
+   ],
+   "notes": [],
+   "protocol": [
+    {
+     "bytes": 7934,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "PERSISTENT_SELF_AUTOBIOGRAPHICAL_PROTOCOL_v1.md",
+     "sha256": "963c9e240f63b28146957c67c1ba517fbfd8c5419ba740e7aa3a07b71160a550"
+    },
+    {
+     "bytes": 4214,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "PERSISTENT_SELF_AUTOBIOGRAPHICAL_TEST_PROTOCOL_v1.md",
+     "sha256": "7333f41905a0610d6a8dcda58634c40850f0b365d8f98b65f0d71f2282baba48"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/persistent_self_autobiographical_test_v1/fresh_test_continuity_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2752,
+       "relpath": "state/persistent_self_autobiographical_test_v1/fresh_test_continuity_probe.pt",
+       "sha256": "158906cc9d143066c548dfa4445f49326a20c482ec028475e7254806a13852e0"
+      },
+      {
+       "bytes": 2961,
+       "relpath": "state/persistent_self_autobiographical_test_v1/result.json",
+       "sha256": "0e58202326bada3b869da1dcdea834687d579fbf2468351d65e03851bf095ba4"
+      },
+      {
+       "bytes": 2111,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 2961,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2504,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/persistent_self_autobiographical_test_v1/result_bundle.zip",
+       "sha256": "bc006ff34cbb4d470d8e67e266b23964e19d0ca419a99596df8f136605fa57ea"
+      },
+      {
+       "bytes": 2504,
+       "relpath": "state/persistent_self_autobiographical_test_v1/run.log",
+       "sha256": "6ceadb58cfcbb2a322a5740952bf55228ea9f524c0bf1d44d924b450bd1922a7"
+      }
+     ],
+     "relpath": "state/persistent_self_autobiographical_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.persistent_self_autobiographical_test_v1",
+       "fresh_causal_seed_ranges": {
+        "agency_intervention": [
+         170000,
+         170127
+        ],
+        "autobiography_donor": [
+         150000,
+         150127
+        ],
+        "autobiography_subject": [
+         140000,
+         140127
+        ],
+        "continuity": [
+         130000,
+         130031
+        ],
+        "endogenous_base": [
+         160000,
+         161127
+        ]
+       },
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/persistent_self_autobiographical_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_self_continuity_claimed": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "0e58202326bada3b869da1dcdea834687d579fbf2468351d65e03851bf095ba4",
+       "split": {
+        "self_test": [
+         30000,
+         33999
+        ],
+        "self_test_spent": true,
+        "self_test_used": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/persistent_self_autobiographical_v1/agency_self_model.pt",
+      "state/persistent_self_autobiographical_v1/continuity_probe.pt",
+      "state/persistent_self_autobiographical_v1/persistent_self_seed.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 49848,
+       "relpath": "state/persistent_self_autobiographical_v1/agency_self_model.pt",
+       "sha256": "40e483df108a632b4a185f9b809bfa0c5eae8454d315317d8fd545bf42a236cc"
+      },
+      {
+       "bytes": 2633,
+       "relpath": "state/persistent_self_autobiographical_v1/continuity_probe.pt",
+       "sha256": "b721c1cc104a2ae2dda7666e71fbfbe769736a0183ca41159918dbd16c58e490"
+      },
+      {
+       "bytes": 2013,
+       "relpath": "state/persistent_self_autobiographical_v1/persistent_self_seed.pt",
+       "sha256": "4e7bec4111b2cabc4ff9897d7748a67291c0a3464459fdacd3eb19315f587034"
+      },
+      {
+       "bytes": 3130,
+       "relpath": "state/persistent_self_autobiographical_v1/result.json",
+       "sha256": "fcc972c0db43b56078d4d8501ecd32654bdbbd57d910d9c822c71c137fb1c7e6"
+      },
+      {
+       "bytes": 48371,
+       "member_count": 4,
+       "members": [
+        {
+         "bytes": 3130,
+         "name": "result.json"
+        },
+        {
+         "bytes": 49848,
+         "name": "agency_self_model.pt"
+        },
+        {
+         "bytes": 2013,
+         "name": "persistent_self_seed.pt"
+        },
+        {
+         "bytes": 4111,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/persistent_self_autobiographical_v1/result_bundle.zip",
+       "sha256": "f3cf2c36cd544a0e8e597becda1c6ae15ef02920712a0d153eef6c5bff081361"
+      },
+      {
+       "bytes": 4111,
+       "relpath": "state/persistent_self_autobiographical_v1/run.log",
+       "sha256": "79866ab2985461057428351529d1b64803bffb03f838cff836f9a5c33fe50eb8"
+      }
+     ],
+     "relpath": "state/persistent_self_autobiographical_v1",
+     "results": [
+      {
+       "format": "continuous_brain.persistent_self_autobiographical_v1",
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/persistent_self_autobiographical_v1/result.json",
+       "scope": {
+        "claim": "functional persistent self-state, autobiographical continuity, agency attribution, and endogenous goal generation",
+        "consciousness_claimed": false,
+        "robot_controller_milestone": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "fcc972c0db43b56078d4d8501ecd32654bdbbd57d910d9c822c71c137fb1c7e6",
+       "split": {
+        "dev": [
+         20000,
+         23999
+        ],
+        "test": [
+         30000,
+         33999
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         15999
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2596,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_persistent_self_autobiographical_test_v1.sh",
+     "sha256": "afdf8aaf8fecb7fa5e24d06c63dbc2f2652e9adbac1b98923c089ed2667e4614"
+    },
+    {
+     "bytes": 3333,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_persistent_self_autobiographical_v1.sh",
+     "sha256": "eb043788fec6adbfb31fb89f97beca8adb790304c1a927dc746698bee23c9058"
+    }
+   ],
+   "slot_options": [
+    "self_state",
+    "autobiography"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 2826,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_persistent_self_autobiographical_v1.py",
+     "sha256": "f08556139664188d13506ce3052898afa3b8393d8a784ab860a2b99558887d5b"
+    }
+   ],
+   "trainer": [
+    {
+     "bytes": 27923,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_persistent_self_autobiographical_v1.py",
+     "sha256": "deed66f4f41886dcef5fe03296642d08216b740235a0e6f0c607c64e3de1a277"
+    }
+   ],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "DEV + frozen TEST PASS / admitted",
+   "evaluator": [
+    {
+     "bytes": 15906,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_recurrent_self_trajectory_test_v1.py",
+     "sha256": "064811e7f5d5e7e05ac578157031efb139c4858c9c36e90c546a868f80b0e5b1"
+    }
+   ],
+   "lineage_version": "v0.31.0/0.31.1",
+   "mechanism_id": "recurrent_self_trajectory_v031",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "active_goal"
+         }
+        ],
+        "name": "ExplicitIntentionState"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "hidden_dim",
+           "context_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "world",
+           "self_cont",
+           "primary",
+           "mode"
+          ],
+          "name": "init_hidden"
+         },
+         {
+          "args": [
+           "self",
+           "world",
+           "self_cont",
+           "primary",
+           "mode",
+           "action",
+           "hidden"
+          ],
+          "name": "step"
+         }
+        ],
+        "name": "RecurrentSelfTrajectoryModel"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "primary",
+         "mode"
+        ],
+        "name": "intention_vector"
+       },
+       {
+        "args": [
+         "primary",
+         "mode"
+        ],
+        "name": "active_goal_from_intention"
+       },
+       {
+        "args": [
+         "model",
+         "world",
+         "self_cont",
+         "primary",
+         "mode",
+         "actions"
+        ],
+        "name": "rollout"
+       },
+       {
+        "args": [
+         "primary",
+         "mode",
+         "self_cont",
+         "enter_error",
+         "enter_uncertainty",
+         "exit_error",
+         "exit_uncertainty",
+         "completion_threshold"
+        ],
+        "name": "update_explicit_intention"
+       },
+       {
+        "args": [
+         "final_self_cont",
+         "primary",
+         "final_mode"
+        ],
+        "name": "trajectory_self_value"
+       },
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_trajectory_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_trajectory_model"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.persistent_self_autobiographical_v1"
+      ]
+     },
+     "bytes": 11156,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/recurrent_self_trajectory_v1.py",
+     "sha256": "d6cb119dff0081c5035fa1498b0a229bb49938ecaa67986f89d3188a587d91b6"
+    }
+   ],
+   "notes": [
+    "Separate explicit intention and mode; surprise-triggered INVESTIGATE (the HOT-3 row of the indicator map)."
+   ],
+   "protocol": [
+    {
+     "bytes": 6563,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "RECURRENT_SELF_TRAJECTORY_PROTOCOL_v1.md",
+     "sha256": "0fff60c89944c40324750c0389786bae354524c8946ed81f983947b1c77c54eb"
+    },
+    {
+     "bytes": 4157,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "RECURRENT_SELF_TRAJECTORY_TEST_PROTOCOL_v1.md",
+     "sha256": "86036b733dc1e3d363f4ab795797afc60a258f4336bb03f9edd8355ae9609220"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2210,
+       "relpath": "state/recurrent_self_trajectory_test_v1/result.json",
+       "sha256": "b1b79db3a1354008a75e9a34466174df131d7fb2171e6506ea3865aa1ae3129b"
+      },
+      {
+       "bytes": 1868,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 2210,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1944,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/recurrent_self_trajectory_test_v1/result_bundle.zip",
+       "sha256": "cdd030eea6178eb8d113f12d7176c735278767f6741f3c22a0feefe74a4351e4"
+      },
+      {
+       "bytes": 1944,
+       "relpath": "state/recurrent_self_trajectory_test_v1/run.log",
+       "sha256": "87c6d3ff31074b5cbab1bb6073c09927ed0839ecc8bc737fd890f91af1a46ddd"
+      }
+     ],
+     "relpath": "state/recurrent_self_trajectory_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.recurrent_self_trajectory_test_v1",
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/recurrent_self_trajectory_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_intention_continuity_claimed": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "b1b79db3a1354008a75e9a34466174df131d7fb2171e6506ea3865aa1ae3129b",
+       "split": {
+        "test": [
+         20000,
+         21023
+        ],
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true,
+        "test_used": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 504360,
+       "relpath": "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt",
+       "sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+      },
+      {
+       "bytes": 2954,
+       "relpath": "state/recurrent_self_trajectory_v1/result.json",
+       "sha256": "f62d36c36f8308f7307ce65f102da209e50b03e6242a5899b429762ee9d96674"
+      },
+      {
+       "bytes": 465233,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2954,
+         "name": "result.json"
+        },
+        {
+         "bytes": 504360,
+         "name": "recurrent_self_trajectory.pt"
+        },
+        {
+         "bytes": 3736,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/recurrent_self_trajectory_v1/result_bundle.zip",
+       "sha256": "94ded78175ae79ad02c99ebccd5cea919e08037a6c430062b4146f34610ea339"
+      },
+      {
+       "bytes": 3736,
+       "relpath": "state/recurrent_self_trajectory_v1/run.log",
+       "sha256": "c2043c048370d3dc20907df4867daafa75d7b31b03c1f7a270a214868b7122dd"
+      }
+     ],
+     "relpath": "state/recurrent_self_trajectory_v1",
+     "results": [
+      {
+       "format": "continuous_brain.recurrent_self_trajectory_v1",
+       "historical_status": {
+        "v0300": "FAIL",
+        "v0301": "FAIL",
+        "v0302_finding": "GOAL_ERRORS_CONCENTRATE_NEAR_SELF_ARBITRATION_BOUNDARIES",
+        "v030_test_touched": false
+       },
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/recurrent_self_trajectory_v1/result.json",
+       "scope": {
+        "claim": "recurrent imagined self-trajectories preserve explicit primary intention through temporary investigate mode and make that intention causally load-bearing in trajectory choice",
+        "consciousness_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "f62d36c36f8308f7307ce65f102da209e50b03e6242a5899b429762ee9d96674",
+       "split": {
+        "dev": [
+         10000,
+         11023
+        ],
+        "test": [
+         20000,
+         21023
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         4095
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2674,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_recurrent_self_trajectory_test_v1.sh",
+     "sha256": "5a5fcc7e05af775ab945d5a817f19beaa42207f7e5b1991d54b5368d2fb98aac"
+    },
+    {
+     "bytes": 3026,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_recurrent_self_trajectory_v1.sh",
+     "sha256": "4e17c3f167aebc1bce5e05e955dd6bbd13d91e998068e0935aa2e0226ba382f6"
+    }
+   ],
+   "slot_options": [
+    "self_state",
+    "metacognition"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 1498,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_recurrent_self_trajectory_v1.py",
+     "sha256": "21cf632a70bb81435ba8d7688d6744171e1db0e2059494da76f878fe5f32cbdd"
+    }
+   ],
+   "trainer": [
+    {
+     "bytes": 26497,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_recurrent_self_trajectory_v1.py",
+     "sha256": "868c5e111fb5e947121989487f1bf1dcf91cfc643aef3fbd0222a235d9edecd1"
+    }
+   ],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS / admitted",
+   "evaluator": [
+    {
+     "bytes": 10528,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_autobiographical_self_discrepancy_neutral_postfix_v1.py",
+     "sha256": "aba6d20a8e2a2d9c0ec8c415b3c561357204de5de8f0ca273d6a008ffd3949b4"
+    },
+    {
+     "bytes": 13075,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_autobiographical_self_discrepancy_neutral_test_v1.py",
+     "sha256": "27fb6fe85669bc8f7f95daf0cd47ca8dcdc5cbc74525851ab8e99b7a4ede60fb"
+    }
+   ],
+   "lineage_version": "v0.32.2",
+   "mechanism_id": "autobiographical_discrepancy_v0322",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "record_dim",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "history_features"
+          ],
+          "name": "route_features"
+         },
+         {
+          "args": [
+           "self",
+           "history_features",
+           "history_mask"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "NeutralAutobiographicalSelfModel"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_neutral_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_neutral_model"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.autobiographical_self_discrepancy_v1"
+      ]
+     },
+     "bytes": 5184,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/autobiographical_self_discrepancy_neutral_v1.py",
+     "sha256": "d156c1b01809ffa45916be5206aac3153c23d58403b796ba9408e5ea4c0541fa"
+    }
+   ],
+   "notes": [
+    "v0.32.0 FAIL (leakage/neutrality loophole) is preserved; the admitted line is the structural-neutral repair."
+   ],
+   "protocol": [
+    {
+     "bytes": 1190,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_POSTFIX_PROTOCOL_v1.md",
+     "sha256": "7281cb1471ade138cdb17fa5c83b898c3d07f7363afee471abd7c9ce133f9018"
+    },
+    {
+     "bytes": 4214,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_PROTOCOL_v1.md",
+     "sha256": "30c70b4dd41e6d5cff4901eb82e3b7224def24d3a638a486c4121f70a4229fec"
+    },
+    {
+     "bytes": 3931,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "AUTOBIOGRAPHICAL_SELF_DISCREPANCY_NEUTRAL_TEST_PROTOCOL_v1.md",
+     "sha256": "fc2b9a2813acd92ad5e994d91cf452c13a42d0e1274326cbc25cf42d0016ea1d"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2889,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1/result.json",
+       "sha256": "dfc01c20ff7332d699795e5fd7f10fbb2f675389f869b0e0b679dec2fef02c7b"
+      },
+      {
+       "bytes": 1963,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 2889,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1926,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1/result_bundle.zip",
+       "sha256": "af08ddfbdf950a306de6aba03acfe10173f8b13dcd92e39c791b0fbb906fb024"
+      },
+      {
+       "bytes": 1926,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1/run.log",
+       "sha256": "76c588a7ea865be85bb72f2d1f1ff80c3e26274d1dc45758dda2421b88fb993f"
+      }
+     ],
+     "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.autobiographical_self_discrepancy_neutral_test_v1",
+       "historical_status": {
+        "v0311_trajectory_test": "PASS",
+        "v0320": "FAIL",
+        "v0321_dev_repair": "PASS"
+       },
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {
+        "/model_metadata/source_model_sha256": {
+         "file_check": null,
+         "sha256": "84e2a7c3b804ed8dc536b6b13cf5833b446d2e7d56585f1c561eea8a40813fa7"
+        },
+        "/model_metadata/source_result_sha256": {
+         "file_check": null,
+         "sha256": "223cb964a6b1070ac366ce9b091a366bd9bde0fcd97643ced2e5aa174264fa5a"
+        },
+        "/model_metadata/trajectory_model_sha256": {
+         "equals_file": [
+          "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt"
+         ],
+         "file_check": null,
+         "sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+        },
+        "/model_sha256": {
+         "equals_file": [
+          "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt"
+         ],
+         "file_check": null,
+         "sha256": "df850057cb672e3a5dcb82afe477b24a8df76c67f13383fc449e59072e8b39f1"
+        }
+       },
+       "relpath": "state/autobiographical_self_discrepancy_neutral_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_autobiographical_self_model_claimed": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "dfc01c20ff7332d699795e5fd7f10fbb2f675389f869b0e0b679dec2fef02c7b",
+       "split": {
+        "test": [
+         6000,
+         6255
+        ],
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true,
+        "test_used": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 217544,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt",
+       "sha256": "df850057cb672e3a5dcb82afe477b24a8df76c67f13383fc449e59072e8b39f1"
+      },
+      {
+       "bytes": 201212,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2822,
+         "name": "result.json"
+        },
+        {
+         "bytes": 217544,
+         "name": "neutral_autobiographical_self_model.pt"
+        },
+        {
+         "bytes": 2184,
+         "name": "postfix_run.log"
+        }
+       ],
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/postfix_result_bundle.zip",
+       "sha256": "5038f0784ff6643064e2d24d5503604acd39c143a764fc53b24c5daf12fac798"
+      },
+      {
+       "bytes": 2184,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/postfix_run.log",
+       "sha256": "bf71ad0f894295f19ee1a02ea06bb7c36b50fd1307a330024e1411cc80768dd5"
+      },
+      {
+       "bytes": 2822,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/result.json",
+       "sha256": "be306b56770006896fa4928f4257448c4b76e3c1a2f73fb3130ef08437f92962"
+      },
+      {
+       "bytes": 2647,
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/run.log",
+       "sha256": "afc01fe692a64deb5a14659d3ece0a3be89854aa3812371258bc1ae9cd8da886"
+      }
+     ],
+     "relpath": "state/autobiographical_self_discrepancy_neutral_v1",
+     "results": [
+      {
+       "format": "continuous_brain.autobiographical_self_discrepancy_neutral_postfix_v1",
+       "passed_flags": {
+        "repair_dev_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {
+        "/v0321_model_metadata/source_model_sha256": {
+         "file_check": null,
+         "sha256": "84e2a7c3b804ed8dc536b6b13cf5833b446d2e7d56585f1c561eea8a40813fa7"
+        },
+        "/v0321_model_metadata/source_result_sha256": {
+         "file_check": null,
+         "sha256": "223cb964a6b1070ac366ce9b091a366bd9bde0fcd97643ced2e5aa174264fa5a"
+        },
+        "/v0321_model_metadata/trajectory_model_sha256": {
+         "equals_file": [
+          "state/recurrent_self_trajectory_v1/recurrent_self_trajectory.pt"
+         ],
+         "file_check": null,
+         "sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+        },
+        "/v0321_model_sha256": {
+         "equals_file": [
+          "state/autobiographical_self_discrepancy_neutral_v1/neutral_autobiographical_self_model.pt"
+         ],
+         "file_check": null,
+         "sha256": "df850057cb672e3a5dcb82afe477b24a8df76c67f13383fc449e59072e8b39f1"
+        }
+       },
+       "relpath": "state/autobiographical_self_discrepancy_neutral_v1/result.json",
+       "sha256": "be306b56770006896fa4928f4257448c4b76e3c1a2f73fb3130ef08437f92962",
+       "split": {
+        "reused_dev": [
+         3000,
+         3255
+        ],
+        "test": [
+         6000,
+         6255
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         1023
+        ]
+       },
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2759,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_autobiographical_self_discrepancy_neutral_postfix_v1.sh",
+     "sha256": "e941225e4606c1ff1189d9152ee21f69cf0082f6c38b822641ec5d077318749f"
+    },
+    {
+     "bytes": 2965,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_autobiographical_self_discrepancy_neutral_test_v1.sh",
+     "sha256": "f66eea8c21f5bd602513032cf3d007cbc85ae513e44588a08bbb17c39eb4820f"
+    }
+   ],
+   "slot_options": [
+    "autobiography"
+   ],
+   "status": "UNVERIFIED",
+   "support": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "feature"
+         }
+        ],
+        "name": "TrajectoryMemoryRecord"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "records"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "record"
+          ],
+          "name": "append"
+         },
+         {
+          "args": [
+           "self",
+           "history_len"
+          ],
+          "name": "feature_tensor"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "discrepancy_ablation"
+         }
+        ],
+        "name": "AutobiographicalTrajectoryMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "feature_dim",
+           "record_dim",
+           "hidden_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "history_features",
+           "history_mask"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "AutobiographicalSelfModel"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "model",
+         "metadata"
+        ],
+        "name": "save_autobiographical_model"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_autobiographical_model"
+       },
+       {
+        "args": [
+         "path",
+         "memory"
+        ],
+        "name": "save_memory"
+       },
+       {
+        "args": [
+         "path"
+        ],
+        "name": "load_memory"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 9581,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/autobiographical_self_discrepancy_v1.py",
+     "sha256": "f6908e4c41208483165e9d37b8d1989ffd04c180b5665508c30cede13404d558"
+    }
+   ],
+   "test": [
+    {
+     "bytes": 1460,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_autobiographical_self_discrepancy_neutral_v1.py",
+     "sha256": "6fa22d2b50b107358464418bf431d47b7b450d9b41f7328dea9d3857341c8b43"
+    }
+   ],
+   "trainer": [
+    {
+     "bytes": 20836,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "train_evaluate_autobiographical_self_discrepancy_neutral_v1.py",
+     "sha256": "2303695610d2c6b7b00980291b8b48326ce6600746569fc79546a171ff95748b"
+    }
+   ],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "PASS/closed per later protocols; direct primary bundle not yet recovered (DAV-77)",
+   "evaluator": [
+    {
+     "bytes": 21768,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_event_consistent_self_development_test_v1.py",
+     "sha256": "b474dc5979fc739400dacaf3be88c37d2c718c1742b59a53c41112c8274d4b24"
+    },
+    {
+     "bytes": 23942,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_event_consistent_self_development_v1.py",
+     "sha256": "0f9df10658536040d888b988b6bad9f6275fcdba6d7610ce95d964dfaf22cee2"
+    }
+   ],
+   "lineage_version": "v0.34.0/0.34.1",
+   "mechanism_id": "event_consistent_self_development_v0341",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [],
+        "name": "CommitmentDevelopmentPhase"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "neutral_reliability",
+           "meaningful_gain"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "baseline_reliability"
+          ],
+          "name": "initialize"
+         },
+         {
+          "args": [
+           "self",
+           "phase",
+           "current_reliability"
+          ],
+          "name": "update"
+         },
+         {
+          "args": [
+           "self",
+           "phase"
+          ],
+          "name": "strategy"
+         }
+        ],
+        "name": "HistoryRelativeDevelopmentalController"
+       }
+      ],
+      "functions": [],
+      "package_imports": []
+     },
+     "bytes": 2506,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/self_development_hysteresis_v1.py",
+     "sha256": "9e013fd3b9ff2b9f2fbd28436553837b1b9687c6013a0791f35ba6b7d2a6dd36"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "primary"
+          ],
+          "name": "capability_for"
+         },
+         {
+          "args": [
+           "self",
+           "primary",
+           "value"
+          ],
+          "name": "set_capability_for"
+         }
+        ],
+        "name": "DevelopmentalState"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "direct_threshold"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "reliability_for_primary"
+          ],
+          "name": "choose"
+         }
+        ],
+        "name": "DevelopmentalController"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "strategy"
+        ],
+        "name": "strategy_name"
+       },
+       {
+        "args": [
+         "capability",
+         "strategy"
+        ],
+        "name": "strategy_failure_probability"
+       },
+       {
+        "args": [
+         "capability",
+         "success",
+         "strategy"
+        ],
+        "name": "capability_update"
+       },
+       {
+        "args": [
+         "autobiographical_model",
+         "memory"
+        ],
+        "name": "reliability_from_memory"
+       },
+       {
+        "args": [
+         "autobiographical_model",
+         "memory",
+         "primary",
+         "controller"
+        ],
+        "name": "choose_strategy_from_memory"
+       },
+       {
+        "args": [
+         "path",
+         "state",
+         "memory",
+         "metadata"
+        ],
+        "name": "save_developmental_state"
+       },
+       {
+        "args": [
+         "path"
+        ],
+        "name": "load_developmental_state"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.autobiographical_self_discrepancy_v1"
+      ]
+     },
+     "bytes": 5260,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/self_development_loop_v1.py",
+     "sha256": "24aec7e2896179c0e3d001b1669092e333dfb485463d0431e2914f7d1e79c774"
+    }
+   ],
+   "notes": [
+    "If state/event_consistent_self_development_test_v1/result.json is present, it may be the v0.34.1 primary artifact DAV-77 is looking for."
+   ],
+   "protocol": [
+    {
+     "bytes": 4296,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "EVENT_CONSISTENT_SELF_DEVELOPMENT_PROTOCOL_v1.md",
+     "sha256": "e5c3d87c8bff497e1f2f3feb262ceb0d6addb6c6614109d71c974bb212a468cb"
+    },
+    {
+     "bytes": 5022,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "EVENT_CONSISTENT_SELF_DEVELOPMENT_TEST_PROTOCOL_v1.md",
+     "sha256": "64367e6a062ce8adf6c49e2c3cd0280b5fdd7432ba4e321e1249191643d9345c"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/event_consistent_self_development_test_v1/developmental_state_probe.memory.pt",
+      "state/event_consistent_self_development_test_v1/developmental_state_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 57134,
+       "relpath": "state/event_consistent_self_development_test_v1/developmental_state_probe.memory.pt",
+       "sha256": "04c157352af88c44ef8898a328c4b419e14f56145113ebc94e7b5ff8e5ddf924"
+      },
+      {
+       "bytes": 1256,
+       "relpath": "state/event_consistent_self_development_test_v1/developmental_state_probe.pt",
+       "sha256": "7b9415564eb91bc89ccf0417964032fda84c08642b46d0d019d24491b4131e12"
+      },
+      {
+       "bytes": 3365,
+       "relpath": "state/event_consistent_self_development_test_v1/result.json",
+       "sha256": "5ca0aa737f5dec2671049b7acd02783b52219a74dce3268737c52716b7585f4d"
+      },
+      {
+       "bytes": 18800,
+       "member_count": 4,
+       "members": [
+        {
+         "bytes": 3365,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2973,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1256,
+         "name": "developmental_state_probe.pt"
+        },
+        {
+         "bytes": 57134,
+         "name": "developmental_state_probe.memory.pt"
+        }
+       ],
+       "relpath": "state/event_consistent_self_development_test_v1/result_bundle.zip",
+       "sha256": "a944a4acc40fc3bdf81ba154556709dee9d17d5c364bf089a25febbad98e70dd"
+      },
+      {
+       "bytes": 2973,
+       "relpath": "state/event_consistent_self_development_test_v1/run.log",
+       "sha256": "5a341079251a6ca56feef3f70a9e7c678809f2f61687297c19962f09cc87acea"
+      }
+     ],
+     "relpath": "state/event_consistent_self_development_test_v1",
+     "results": [
+      {
+       "family": "v0.34",
+       "format": "continuous_brain.event_consistent_self_development_test_v1",
+       "historical_status": {
+        "v0335": "FROZEN_TEST_FAIL",
+        "v0335_test_spent": true,
+        "v0340": "DEV_PASS"
+       },
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/event_consistent_self_development_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_self_development_loop_claimed_if_pass": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "5ca0aa737f5dec2671049b7acd02783b52219a74dce3268737c52716b7585f4d",
+       "split": {
+        "test": [
+         80000,
+         80127
+        ],
+        "test_opened_in_this_run": true,
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/event_consistent_self_development_v1/developmental_state_probe.memory.pt",
+      "state/event_consistent_self_development_v1/developmental_state_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 57134,
+       "relpath": "state/event_consistent_self_development_v1/developmental_state_probe.memory.pt",
+       "sha256": "cdd76abae91c2752b23db3af8a923ead988ce6cdbd61e94ac1255aecae2fa23b"
+      },
+      {
+       "bytes": 1256,
+       "relpath": "state/event_consistent_self_development_v1/developmental_state_probe.pt",
+       "sha256": "1d5e71a4d370873a46542851260c6a7b4ac30e1d9b8b923bcf6175a7129ab6b7"
+      },
+      {
+       "bytes": 3833,
+       "relpath": "state/event_consistent_self_development_v1/result.json",
+       "sha256": "5d4ae4171bbd367ead7da389bd01ec97c7fa5b4f8edcd8aa9e46f166dd97d297"
+      },
+      {
+       "bytes": 19027,
+       "member_count": 4,
+       "members": [
+        {
+         "bytes": 3833,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2936,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1256,
+         "name": "developmental_state_probe.pt"
+        },
+        {
+         "bytes": 57134,
+         "name": "developmental_state_probe.memory.pt"
+        }
+       ],
+       "relpath": "state/event_consistent_self_development_v1/result_bundle.zip",
+       "sha256": "cda0c2ccc7b254c812a6b0d993a362c0915538a44fa79810698a5bcfd6075959"
+      },
+      {
+       "bytes": 2936,
+       "relpath": "state/event_consistent_self_development_v1/run.log",
+       "sha256": "7a5f90b525f5c9c98d91b2d88706f969b19c256e609889f2038411c1c4f04bcd"
+      }
+     ],
+     "relpath": "state/event_consistent_self_development_v1",
+     "results": [
+      {
+       "family": "v0.34",
+       "format": "continuous_brain.event_consistent_self_development_v1",
+       "historical_status": {
+        "v0334": "DEV_PASS",
+        "v0335": "FROZEN_TEST_FAIL",
+        "v0335_test_spent": true
+       },
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/event_consistent_self_development_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_self_development_loop_claimed_if_pass": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "5d4ae4171bbd367ead7da389bd01ec97c7fa5b4f8edcd8aa9e46f166dd97d297",
+       "split": {
+        "behavior_probe": [
+         72000,
+         72127
+        ],
+        "dev": [
+         70000,
+         70127
+        ],
+        "donor_probe": [
+         71000,
+         71127
+        ],
+        "test": [
+         80000,
+         80127
+        ],
+        "test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 4068,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_event_consistent_self_development_test_v1.sh",
+     "sha256": "a26740ffcfc7c764903dbcc94c80ee776bde28c391cae346638be6a4079bd525"
+    },
+    {
+     "bytes": 3397,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_event_consistent_self_development_v1.sh",
+     "sha256": "22e382f9b64884bf9270c33328ce36c7e9b550d50e4b5b6b88c4968797c713fd"
+    }
+   ],
+   "slot_options": [
+    "curriculum"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 282,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_event_consistent_self_development_test_v1.py",
+     "sha256": "e9fb9366b7b911c84fad2eeee36b1cf40a898447c58e4b95133e79268c6fb19f"
+    },
+    {
+     "bytes": 734,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_event_consistent_self_development_v1.py",
+     "sha256": "59c7106e55691d67d4830d63b6be49a3770f2f90496b2cfff52fa283385b6f92"
+    }
+   ],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "v0.35.0 DEV FAIL; v0.35.2 DEV PASS; v0.35.3 frozen TEST PASS/closed",
+   "evaluator": [
+    {
+     "bytes": 14585,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "diagnose_endogenous_goal_completion_v1.py",
+     "sha256": "cfa3ff7eea3101c4c68d8e7b0655005495489d93b00ad9e2a5c1e85ec2f3db77"
+    },
+    {
+     "bytes": 15900,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_endogenous_goal_genesis_test_v1.py",
+     "sha256": "5e20ec14bc90e9c126397f4d2632d6aba56f343198c5903305588543b5d4fde5"
+    },
+    {
+     "bytes": 22674,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_endogenous_goal_genesis_v1.py",
+     "sha256": "484aada34f104633b3bc8cf2093e2da69cafb2b4a84d11336fb180df1143b814"
+    },
+    {
+     "bytes": 19221,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_endogenous_goal_horizon_repair_v1.py",
+     "sha256": "1bc10aaa993ec22b47bdf441aa863162571a9b54f8bea1fd3aff73778f645868"
+    }
+   ],
+   "lineage_version": "v0.35.0-v0.35.3",
+   "mechanism_id": "endogenous_goal_genesis_v0353",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "reliability"
+          ],
+          "name": "target_met"
+         }
+        ],
+        "name": "SelfGeneratedGoal"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "goal"
+          ],
+          "name": "begin"
+         },
+         {
+          "args": [
+           "self",
+           "cycle"
+          ],
+          "name": "complete_active"
+         }
+        ],
+        "name": "GoalLifecycle"
+       },
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "meaningful_change",
+           "tie_epsilon"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "reliability",
+           "generation",
+           "cycle"
+          ],
+          "name": "generate"
+         }
+        ],
+        "name": "EndogenousGoalGenerator"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "path",
+         "lifecycle",
+         "metadata"
+        ],
+        "name": "save_goal_lifecycle"
+       },
+       {
+        "args": [
+         "path"
+        ],
+        "name": "load_goal_lifecycle"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 4208,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/endogenous_goal_genesis_v1.py",
+     "sha256": "efb80a053518d1a09e9c8350077ca293302f4b203546abbd10c9d09431f7149e"
+    }
+   ],
+   "notes": [
+    "The admitted result is v0.35.3 (horizon-only repair, frozen TEST). v0.35.0 records development_gate_passed=false."
+   ],
+   "protocol": [
+    {
+     "bytes": 3519,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "ENDOGENOUS_GOAL_COMPLETION_DIAGNOSTIC_PROTOCOL_v1.md",
+     "sha256": "f752dbfdf4cd6527a7b95526f39c691b2f5b55fe962bcef9a05ada7736452138"
+    },
+    {
+     "bytes": 5974,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "ENDOGENOUS_GOAL_GENESIS_PROTOCOL_v1.md",
+     "sha256": "34cd5ba9d5e1fcabb38d78091c540de8e9ec68ed082dae05327eb4be8f8b5b6f"
+    },
+    {
+     "bytes": 4507,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "ENDOGENOUS_GOAL_GENESIS_TEST_PROTOCOL_v1.md",
+     "sha256": "87967e3664db1c6114195b9e3f1a40f21af393c46bc21430b2dc96ae8aa50411"
+    },
+    {
+     "bytes": 3301,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "ENDOGENOUS_GOAL_HORIZON_REPAIR_PROTOCOL_v1.md",
+     "sha256": "514d6e6f87e18cada3acce1b7ac4b60c01975995737dd154beeb52524ca23afe"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/endogenous_goal_genesis_v1/goal_lifecycle_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 1236,
+       "relpath": "state/endogenous_goal_genesis_v1/goal_lifecycle_probe.pt",
+       "sha256": "b3ff6bec7484c6e65ea49c921c5cdf85577da62a1d702ce3182ed971c1bd06b4"
+      },
+      {
+       "bytes": 2511,
+       "relpath": "state/endogenous_goal_genesis_v1/result.json",
+       "sha256": "8ba6357e2ecbd67af90cc7974ec12a2d55c5603b4bfc896240f2ca8ea51eb0ef"
+      },
+      {
+       "bytes": 2554,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2511,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1923,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1236,
+         "name": "goal_lifecycle_probe.pt"
+        }
+       ],
+       "relpath": "state/endogenous_goal_genesis_v1/result_bundle.zip",
+       "sha256": "f15938b00595b20a720e8917e4fdeff0136349929db67391e87e014c2c94e8a4"
+      },
+      {
+       "bytes": 1923,
+       "relpath": "state/endogenous_goal_genesis_v1/run.log",
+       "sha256": "751a7f2c718a66e8e9ac7422dab4ccee0e166806766f9417d84c0c800ef42a71"
+      }
+     ],
+     "relpath": "state/endogenous_goal_genesis_v1",
+     "results": [
+      {
+       "family": "v0.35",
+       "format": "continuous_brain.endogenous_goal_genesis_v1",
+       "passed_flags": {
+        "development_gate_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/endogenous_goal_genesis_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_endogenous_goal_genesis_claimed_if_pass": true,
+        "open_ended_goal_space_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "8ba6357e2ecbd67af90cc7974ec12a2d55c5603b4bfc896240f2ca8ea51eb0ef",
+       "split": {
+        "dev": [
+         90000,
+         90127
+        ],
+        "donor_probe": [
+         91000,
+         91127
+        ],
+        "test": [
+         100000,
+         100127
+        ],
+        "test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 387280,
+       "relpath": "state/endogenous_goal_completion_diagnostic_v1/result.json",
+       "sha256": "5ea0f30a80ba0f100b848f2b81b38e50885b62d717bcc7aa0b0997d815533892"
+      },
+      {
+       "bytes": 106370,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 387280,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1714,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/endogenous_goal_completion_diagnostic_v1/result_bundle.zip",
+       "sha256": "b3da774059a7d73c81b280df5d7883fdb614aad45141a18595f1ef59262753fd"
+      },
+      {
+       "bytes": 1714,
+       "relpath": "state/endogenous_goal_completion_diagnostic_v1/run.log",
+       "sha256": "8e0309d9740f2d492b88581b7d5e51249bb961fd07d877be35554fb4e5328158"
+      }
+     ],
+     "relpath": "state/endogenous_goal_completion_diagnostic_v1",
+     "results": [
+      {
+       "format": "continuous_brain.endogenous_goal_completion_diagnostic_v1",
+       "passed_flags": {},
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/endogenous_goal_completion_diagnostic_v1/result.json",
+       "sha256": "5ea0f30a80ba0f100b848f2b81b38e50885b62d717bcc7aa0b0997d815533892",
+       "split": {
+        "reused_dev": [
+         90000,
+         90127
+        ],
+        "test": [
+         100000,
+         100127
+        ],
+        "test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/endogenous_goal_horizon_repair_v1/goal_lifecycle_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 1236,
+       "relpath": "state/endogenous_goal_horizon_repair_v1/goal_lifecycle_probe.pt",
+       "sha256": "a897d4d6e4a8cd227a744037884d1d2675ac97a3294dca093be6b097462b4d77"
+      },
+      {
+       "bytes": 2452,
+       "relpath": "state/endogenous_goal_horizon_repair_v1/result.json",
+       "sha256": "835ec5f14517294cf50895840be5c2a307bfdb2325c27071d0b25defe1c8ed7e"
+      },
+      {
+       "bytes": 2789,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2452,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2233,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1236,
+         "name": "goal_lifecycle_probe.pt"
+        }
+       ],
+       "relpath": "state/endogenous_goal_horizon_repair_v1/result_bundle.zip",
+       "sha256": "e7679ddfd69424f770ab08818293aee285ac6524b04c08f5232c19702c9e30eb"
+      },
+      {
+       "bytes": 2233,
+       "relpath": "state/endogenous_goal_horizon_repair_v1/run.log",
+       "sha256": "8bb1d7ee3197babdae223e5bc80e5d4ba904bc7160b7fa53bfe64b18e823db7b"
+      }
+     ],
+     "relpath": "state/endogenous_goal_horizon_repair_v1",
+     "results": [
+      {
+       "family": "v0.35",
+       "format": "continuous_brain.endogenous_goal_horizon_repair_v1",
+       "historical_status": {
+        "v0350": "DEV_FAIL",
+        "v0351": "EIGHT_EPISODE_HORIZON_TOO_SHORT_FOR_EXISTING_SELF_ESTIMATE_COMPLETION_CRITERION"
+       },
+       "passed_flags": {
+        "repair_dev_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/endogenous_goal_horizon_repair_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_endogenous_goal_genesis_claimed_if_pass": true,
+        "open_ended_goal_space_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "835ec5f14517294cf50895840be5c2a307bfdb2325c27071d0b25defe1c8ed7e",
+       "split": {
+        "reused_dev": [
+         90000,
+         90127
+        ],
+        "test": [
+         100000,
+         100127
+        ],
+        "test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/endogenous_goal_genesis_test_v1/goal_lifecycle_probe.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 1236,
+       "relpath": "state/endogenous_goal_genesis_test_v1/goal_lifecycle_probe.pt",
+       "sha256": "3d66732d6f15dc4735ef0b77e6c33d96a60003e0ae11fdc2f86022ab6774c357"
+      },
+      {
+       "bytes": 2600,
+       "relpath": "state/endogenous_goal_genesis_test_v1/result.json",
+       "sha256": "eb47f72e36807988802f9fb5c6a80a6436c1f3e7473ab9b1f19d50fd40d1a87f"
+      },
+      {
+       "bytes": 2790,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2600,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2234,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1236,
+         "name": "goal_lifecycle_probe.pt"
+        }
+       ],
+       "relpath": "state/endogenous_goal_genesis_test_v1/result_bundle.zip",
+       "sha256": "e72b906dfa7613afa3efcf0c1c853cd02513bb47bcd282cf31e016cadf3fe1cf"
+      },
+      {
+       "bytes": 2234,
+       "relpath": "state/endogenous_goal_genesis_test_v1/run.log",
+       "sha256": "ca39a090ca5bdc3a3e5f6334795f773b3cdc589d1975605d22aa844d28e53bac"
+      }
+     ],
+     "relpath": "state/endogenous_goal_genesis_test_v1",
+     "results": [
+      {
+       "family": "v0.35",
+       "format": "continuous_brain.endogenous_goal_genesis_test_v1",
+       "historical_status": {
+        "v0341": "FROZEN_TEST_PASS",
+        "v0350": "DEV_FAIL",
+        "v0351": "EIGHT_EPISODE_HORIZON_TOO_SHORT_FOR_EXISTING_SELF_ESTIMATE_COMPLETION_CRITERION",
+        "v0352": "DEV_PASS"
+       },
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/endogenous_goal_genesis_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_endogenous_goal_genesis_claimed_if_pass": true,
+        "open_ended_goal_space_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "eb47f72e36807988802f9fb5c6a80a6436c1f3e7473ab9b1f19d50fd40d1a87f",
+       "split": {
+        "test": [
+         100000,
+         100127
+        ],
+        "test_opened_in_this_run": true,
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 1914,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_endogenous_goal_completion_diagnostic_v1.sh",
+     "sha256": "060a28ca8d1209954aa15b99423578601a468f04a39b52377eeea0870f97d97c"
+    },
+    {
+     "bytes": 3688,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_endogenous_goal_genesis_test_v1.sh",
+     "sha256": "c41583d7bc2b49d36c8e8486abe7bca319910e7d631b808bc5f0ff59ae961415"
+    },
+    {
+     "bytes": 3209,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_endogenous_goal_genesis_v1.sh",
+     "sha256": "cf6168e2623e601f40f2a931e99f091912b27b47af05e6fff14163392fde9396"
+    },
+    {
+     "bytes": 3204,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_endogenous_goal_horizon_repair_v1.sh",
+     "sha256": "7d755f79e2647f1d6ea827bdbf6caeefd218a4d47aaec4b804a080969ad73426"
+    }
+   ],
+   "slot_options": [
+    "goal_genesis"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [
+    {
+     "bytes": 600,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_endogenous_goal_genesis_test_v1.py",
+     "sha256": "023fe75cfc2441b0fbb955d5b1b7ba28a929a7410816ad547e89447f1a80c5ea"
+    },
+    {
+     "bytes": 979,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_endogenous_goal_genesis_v1.py",
+     "sha256": "77d29a4c721f0ee5615ad299a738e4f480127c52df92eb80ad8b1f5fb2926e47"
+    },
+    {
+     "bytes": 533,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_endogenous_goal_horizon_repair_v1.py",
+     "sha256": "f52cff4bd65e4928746bb757c24fedab78aa5981ed066ee8afd3f050c9936b4f"
+    }
+   ],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "state/endogenous_goal_genesis_v1/result.json records ['development_gate_passed'] = false"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "DEV PASS; frozen TEST PASS/closed (119/128)",
+   "evaluator": [
+    {
+     "bytes": 3190,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/recursive_autobiographical_curriculum_v1.py",
+     "sha256": "e3ffce362d6ec4ae5feb735f3a1ade84b045bbf873ab818d5c361dbb5e82362b"
+    },
+    {
+     "bytes": 15291,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+     "sha256": "199d425411c3af4cb83dc09659f5dadf496a88b7cc8cf475189f6b2197721e11"
+    },
+    {
+     "bytes": 22258,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_recursive_autobiographical_curriculum_v1.py",
+     "sha256": "2f6a9258e23ccc45e093f1eba50244e550684ade6f5141f0b5b379d2d89ed50c"
+    },
+    {
+     "bytes": 471,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_recursive_autobiographical_curriculum_test_v1.py",
+     "sha256": "e8fd20d07da2e84c0162ad722f8e981dd20ac5fc9bc761ed9d625c74596903ab"
+    },
+    {
+     "bytes": 956,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "test_recursive_autobiographical_curriculum_v1.py",
+     "sha256": "bad6f197288fec169eb8c825e66aa9e162f64d9347ed1e83f302fff124b740df"
+    }
+   ],
+   "lineage_version": "v0.36.0/0.36.1",
+   "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [],
+        "methods": [
+         {
+          "args": [
+           "self"
+          ],
+          "name": "to_payload"
+         }
+        ],
+        "name": "CurriculumSnapshot"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "goal"
+        ],
+        "name": "goal_semantics"
+       },
+       {
+        "args": [
+         "a",
+         "b",
+         "atol"
+        ],
+        "name": "same_goal_semantics"
+       },
+       {
+        "args": [
+         "previous",
+         "current",
+         "min_same_primary_target_advance"
+        ],
+        "name": "goal_is_advanced"
+       },
+       {
+        "args": [
+         "path",
+         "snapshot"
+        ],
+        "name": "save_curriculum_snapshot"
+       },
+       {
+        "args": [
+         "path"
+        ],
+        "name": "load_curriculum_snapshot"
+       }
+      ],
+      "package_imports": [
+       "continuous_brain.endogenous_goal_genesis_v1"
+      ]
+     },
+     "bytes": 3190,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/recursive_autobiographical_curriculum_v1.py",
+     "sha256": "e3ffce362d6ec4ae5feb735f3a1ade84b045bbf873ab818d5c361dbb5e82362b"
+    }
+   ],
+   "notes": [
+    "File names unknown; globbed. The dossier calls v0.36/v0.37 'additive packages'."
+   ],
+   "protocol": [
+    {
+     "bytes": 5144,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_PROTOCOL_v1.md",
+     "sha256": "065ebf731a4e8eaa6366ab0b4604f620b720b97dd3cee31ed8b81da87f1ff6af"
+    },
+    {
+     "bytes": 5243,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "RECURSIVE_AUTOBIOGRAPHICAL_CURRICULUM_TEST_PROTOCOL_v1.md",
+     "sha256": "6a49b0835047893f98fdf5e1d8bd80ed210879e03d8663f1962ae885c3a8dd28"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/recursive_autobiographical_curriculum_v1/curriculum_snapshot.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 1296,
+       "relpath": "state/recursive_autobiographical_curriculum_v1/curriculum_snapshot.pt",
+       "sha256": "fd0811fd7102c5b6d921239eb1fc95fd065fa4b27982abe62a3a0d2fcb2b03d7"
+      },
+      {
+       "bytes": 2298,
+       "relpath": "state/recursive_autobiographical_curriculum_v1/result.json",
+       "sha256": "67de3888ec1ff7e3a25bf91a9e8a4dd55a2f83f81a9b92456bf057c5f7680d45"
+      },
+      {
+       "bytes": 2504,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2298,
+         "name": "result.json"
+        },
+        {
+         "bytes": 1786,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1296,
+         "name": "curriculum_snapshot.pt"
+        }
+       ],
+       "relpath": "state/recursive_autobiographical_curriculum_v1/result_bundle.zip",
+       "sha256": "c3e2e6c045dbcbdca6f23121756efa75b843260a1fbbae5b15cf0f8518fbb81b"
+      },
+      {
+       "bytes": 1786,
+       "relpath": "state/recursive_autobiographical_curriculum_v1/run.log",
+       "sha256": "4aac8facc38ebcace53055245965b9449c670e94b83e15ebd99c91499cf3983a"
+      }
+     ],
+     "relpath": "state/recursive_autobiographical_curriculum_v1",
+     "results": [
+      {
+       "family": "v0.36",
+       "format": "continuous_brain.recursive_autobiographical_curriculum_v1",
+       "passed_flags": {
+        "development_gate_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/recursive_autobiographical_curriculum_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_recursive_self_authored_curriculum_claimed_if_pass": true,
+        "open_ended_semantic_goal_space_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "67de3888ec1ff7e3a25bf91a9e8a4dd55a2f83f81a9b92456bf057c5f7680d45",
+       "split": {
+        "dev": [
+         110000,
+         110127
+        ],
+        "donor_probe": [
+         111000,
+         111127
+        ],
+        "test": [
+         120000,
+         120127
+        ],
+        "test_touched": false
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/recursive_autobiographical_curriculum_test_v1/curriculum_snapshot.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 1296,
+       "relpath": "state/recursive_autobiographical_curriculum_test_v1/curriculum_snapshot.pt",
+       "sha256": "d3d0836dae59f6119c89f204be26a472a62e7abcab3843dcd7501cdbd7767be2"
+      },
+      {
+       "bytes": 2444,
+       "relpath": "state/recursive_autobiographical_curriculum_test_v1/result.json",
+       "sha256": "55f86d283220868233ea0b9882f3550f0db53ca1413e5368f19bafb84459b085"
+      },
+      {
+       "bytes": 2743,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 2444,
+         "name": "result.json"
+        },
+        {
+         "bytes": 2212,
+         "name": "run.log"
+        },
+        {
+         "bytes": 1296,
+         "name": "curriculum_snapshot.pt"
+        }
+       ],
+       "relpath": "state/recursive_autobiographical_curriculum_test_v1/result_bundle.zip",
+       "sha256": "2e25c22a33fcb09b5a563a849cc049186a907bcdb6c5255d815d6175234b4050"
+      },
+      {
+       "bytes": 2212,
+       "relpath": "state/recursive_autobiographical_curriculum_test_v1/run.log",
+       "sha256": "ea7cc2d28e6700c2766b3cfb16d6f4c8269f1bcb1515574260ed115f957577ce"
+      }
+     ],
+     "relpath": "state/recursive_autobiographical_curriculum_test_v1",
+     "results": [
+      {
+       "family": "v0.36",
+       "format": "continuous_brain.recursive_autobiographical_curriculum_test_v1",
+       "historical_status": {
+        "v0353": "FROZEN_TEST_PASS",
+        "v0360": "DEV_PASS"
+       },
+       "passed_flags": {
+        "test_admission_passed": true
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/recursive_autobiographical_curriculum_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_recursive_self_authored_curriculum_claimed_if_pass": true,
+        "open_ended_semantic_goal_space_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "55f86d283220868233ea0b9882f3550f0db53ca1413e5368f19bafb84459b085",
+       "split": {
+        "test": [
+         120000,
+         120127
+        ],
+        "test_opened_in_this_run": true,
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true
+       },
+       "training_performed": false
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 3850,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_recursive_autobiographical_curriculum_test_v1.sh",
+     "sha256": "f42b2e6c54b4d69b91410df5b38fa03f359d63a6c676605ffbd17f47910faf33"
+    },
+    {
+     "bytes": 3309,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_recursive_autobiographical_curriculum_v1.sh",
+     "sha256": "0f7861181a7a9da4acde662017cc858a439165354141a792614857d58e806431"
+    }
+   ],
+   "slot_options": [
+    "curriculum"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": true,
+   "dossier_status": "mixed; line closed after formal failures and admitted components",
+   "evaluator": [
+    {
+     "bytes": 7428,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "decide_working_memory_capacity_dev_admission_v2.py",
+     "sha256": "fdac0a2467859866bd2892db241c30465e066d0ce34ba793f584a1d4dc2d8e9c"
+    },
+    {
+     "bytes": 14360,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "decide_working_memory_dev_v1.py",
+     "sha256": "1559f823918aa3865e9f398881c741a6fb8dddaa260b361aa235111db0921730"
+    },
+    {
+     "bytes": 13252,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_working_memory_capacity_dev_causal_v2.py",
+     "sha256": "b5887ab25ef6ecc51fc6f9267fc043b4022251e13d107f2c779d544f5553cd08"
+    },
+    {
+     "bytes": 19352,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_working_memory_dev_v1.py",
+     "sha256": "d143fbd1bee2e971a70fe8738231cd5835218debc7375efd81eede801d7720e1"
+    }
+   ],
+   "lineage_version": "v0.13-v0.19",
+   "mechanism_id": "working_memory_components_v013_v019",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "memory_dim",
+           "bus_dim",
+           "instruction_count"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "memory",
+           "instruction_id"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "LateBoundMemoryExecutive"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "admitted_brain"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "cls",
+           "admitted_brain"
+          ],
+          "name": "grow_from_admitted"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_memory"
+         },
+         {
+          "args": [
+           "self",
+           "image",
+           "context",
+           "memory",
+           "prev_action",
+           "hidden",
+           "instruction_id"
+          ],
+          "name": "step"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "trainable_parameters"
+         }
+        ],
+        "name": "ExecutiveCompositionInfant"
+       }
+      ],
+      "functions": [],
+      "package_imports": [
+       ".late_instruction_detour_world_v1"
+      ]
+     },
+     "bytes": 5560,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/executive_working_memory_v1.py",
+     "sha256": "2f26bdc86ff10e0b9fe02fdbdeb4f54ced1fac168cb27d02dd07bf7c1dcab670"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "nucleus_dim",
+           "memory_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "GatedWorkingMemory"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "base",
+           "cfg"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "cls",
+           "base",
+           "cfg"
+          ],
+          "name": "grow_from"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_memory"
+         },
+         {
+          "args": [
+           "self",
+           "image",
+           "context",
+           "memory",
+           "prev_action",
+           "hidden"
+          ],
+          "name": "base_step"
+         },
+         {
+          "args": [
+           "self",
+           "image",
+           "context",
+           "memory",
+           "prev_action",
+           "hidden",
+           "use_memory"
+          ],
+          "name": "step"
+         },
+         {
+          "args": [
+           "self",
+           "workspace",
+           "action_one_hot",
+           "base_context"
+          ],
+          "name": "predict_world"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "trainable_parameters"
+         }
+        ],
+        "name": "WorkingMemoryInfant"
+       }
+      ],
+      "functions": [],
+      "package_imports": []
+     },
+     "bytes": 6122,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/working_memory_infant.py",
+     "sha256": "8f311be59e5d6ff18e21fc88d40d1eef55d30b82acfb2f14c4d8c8fb278988eb"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "memory_dim",
+           "bus_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "LinearRecallBridge"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "nucleus_dim",
+           "memory_dim",
+           "bus_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "GatedRecallBridge"
+       },
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "base",
+           "cfg",
+           "arm"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "cls",
+           "base",
+           "cfg",
+           "arm"
+          ],
+          "name": "grow_from"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_state"
+         },
+         {
+          "args": [
+           "self",
+           "batch_size",
+           "device"
+          ],
+          "name": "initial_memory"
+         },
+         {
+          "args": [
+           "self",
+           "image",
+           "context",
+           "memory",
+           "prev_action",
+           "hidden"
+          ],
+          "name": "historical_step"
+         },
+         {
+          "args": [
+           "self",
+           "image",
+           "context",
+           "memory",
+           "prev_action",
+           "hidden",
+           "use_memory",
+           "use_recall"
+          ],
+          "name": "step"
+         },
+         {
+          "args": [
+           "self",
+           "workspace",
+           "action_one_hot",
+           "base_context"
+          ],
+          "name": "predict_world"
+         },
+         {
+          "args": [
+           "self"
+          ],
+          "name": "trainable_parameters"
+         }
+        ],
+        "name": "RecallBridgeWorkingMemoryInfant"
+       }
+      ],
+      "functions": [],
+      "package_imports": [
+       "continuous_brain.working_memory_infant"
+      ]
+     },
+     "bytes": 8816,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/working_memory_recall_arms_v2.py",
+     "sha256": "0aec86537c42325dff4c186aa690233154a57297452deb6709b96f0881fc85de"
+    },
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "memory_dim",
+           "bus_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "hidden",
+           "memory"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "CapacityMatchedUngatedRecallBridge"
+       },
+       {
+        "bases": [
+         "RecallBridgeWorkingMemoryInfant"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "base",
+           "cfg"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "cls",
+           "base",
+           "cfg"
+          ],
+          "name": "grow_from"
+         }
+        ],
+        "name": "CapacityMatchedRecallWorkingMemoryInfant"
+       }
+      ],
+      "functions": [],
+      "package_imports": [
+       "continuous_brain.working_memory_recall_arms_v2"
+      ]
+     },
+     "bytes": 3092,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/working_memory_recall_capacity_control_v1.py",
+     "sha256": "9f1a0f7e6737b5dc9d6b0332124fe5ba7ad329b1612476e41b162fe5c7e63fd4"
+    }
+   ],
+   "notes": [
+    "Which components were admitted is for DAV-74 to establish from the decide_* outputs."
+   ],
+   "protocol": [
+    {
+     "bytes": 2830,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_CAPACITY_DEV_ADMISSION_PROTOCOL_v2.md",
+     "sha256": "e31bd688ecdf148660eec8d68a956a0b544530ba8bba28ebe131735871f3cdbe"
+    },
+    {
+     "bytes": 4098,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_DEV_ADMISSION_GATE_v1.md",
+     "sha256": "fbd30c2f236c82a1a964fa7822294c05c41732c86760ed60609f6217c4ddf7af"
+    },
+    {
+     "bytes": 6034,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_DML_QUALIFICATION_GATE_v2.md",
+     "sha256": "f44b0f73b9599a972018ff88edf39b12c053447dfa4246c34b4e2a6dc68fe875"
+    },
+    {
+     "bytes": 2819,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_DML_QUALIFICATION_GATE_v3.md",
+     "sha256": "48d8870c1f6ca10a514a38e4129bcd9fc2412e6982962bb09ea8426aa773819a"
+    },
+    {
+     "bytes": 2442,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_POST_WRITE_INSTRUCTION_PROTOCOL_v1.md",
+     "sha256": "5208ccc91bdf3280909e7b52c48f96722e1a8c4a8307bb7e677e98d2e062b03a"
+    },
+    {
+     "bytes": 1569,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_CAPACITY_CONTROL_PHASE1_PROTOCOL_v1.md",
+     "sha256": "86c765fe038f9304269ba4ac56821efbbe908ed0cb461564406b943668706de6"
+    },
+    {
+     "bytes": 2031,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_CAPACITY_CONTROL_PROTOCOL_v1.md",
+     "sha256": "0859a104d43678efec11763bf9751ba53764dba571fa7562799d6d1bc9055ff3"
+    },
+    {
+     "bytes": 6084,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_COMPARISON_PROTOCOL_v1.md",
+     "sha256": "4f3489f42cb33088f58074fdfd7b1f932da5552fa70ed7559c291c11f3ddded1"
+    },
+    {
+     "bytes": 2431,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_COMPARISON_PROTOCOL_v2.md",
+     "sha256": "1919f2703bade1182e1ac3f9134e1802539cc5a52b781cf8f513ba95b536081e"
+    },
+    {
+     "bytes": 1544,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_FINAL_TRAIN_CAUSAL_PROTOCOL_v1.md",
+     "sha256": "533b6e6ed14415bff7a2c36184fb4b5b8fbd0bdc8b5da6029dc066f66d15b7a6"
+    },
+    {
+     "bytes": 2725,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_PHASE1_PROTOCOL_v1.md",
+     "sha256": "d8bd8d288a7be77380675773e36f32f0535d495074ceb6864a60fa20b5c47380"
+    },
+    {
+     "bytes": 2675,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_RECALL_SMOKE_PROTOCOL_v1.md",
+     "sha256": "1d66f698a8c1a62f7d2ee6dad500d93249a4e0b394da9c630f794c827583d046"
+    },
+    {
+     "bytes": 990,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_REPRESENTATION_REUSE_PROTOCOL_v1.md",
+     "sha256": "4ae7bb959a427341ba6f3dcb0b6770f166c1c73cee9a2be636bb3eb2ef3dddb2"
+    },
+    {
+     "bytes": 1596,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_SHUFFLE_MECHANISM_PROTOCOL_v1.md",
+     "sha256": "a6a164af5a4eaf4be1aebb7d62f10ee580b98bb8dab37fbbafecbd1335f9244e"
+    },
+    {
+     "bytes": 6187,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_TASK_FAMILY_GATE.md",
+     "sha256": "a89c2f3e1ea415c609034b3f39380b4ba8f05762e1bc1a54846f378b86f7799a"
+    },
+    {
+     "bytes": 5974,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "WORKING_MEMORY_TRAINING_PROTOCOL_v1.md",
+     "sha256": "4ae88353675b8528874f891482e11fb4418864063195433b3153bac7e4063ebc"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [
+      "state/working_memory_m1/smoke_v1/latest.portable.pt",
+      "state/working_memory_m1/smoke_v1/working_memory_u000025.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/latest.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000100.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000200.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000300.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000400.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000500.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000600.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000700.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000800.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u000900.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001000.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001100.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001200.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001300.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001400.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001500.portable.pt",
+      "state/working_memory_m1/train_epoch1_v1/working_memory_u001600.portable.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2291,
+       "relpath": "state/working_memory_m1/dml_qualification_v2.log",
+       "sha256": "3eebd7aca700a9dc5545d39144da59237564f86694cf3247edb3c9ff42974a7d"
+      },
+      {
+       "bytes": 2268,
+       "relpath": "state/working_memory_m1/dml_qualification_v3.log",
+       "sha256": "78cdbf9ac6ca35d4d6c8863114fcdb167aca17caf33243b0adf736a03ff87b47"
+      },
+      {
+       "bytes": 627699,
+       "relpath": "state/working_memory_m1/task_family_audit_dev.json",
+       "sha256": "8183e21dd6f5c2ebaf092208f9e349198f71fc416da7a042728391d3e7cdd55d"
+      },
+      {
+       "bytes": 1230,
+       "relpath": "state/working_memory_m1/task_family_audit_dev.log",
+       "sha256": "fe417881f97a2d4a4dd5dd083daec3f35ed340d82bc6f2f86a206cdc0e2941f1"
+      },
+      {
+       "bytes": 628389,
+       "relpath": "state/working_memory_m1/task_family_audit_test.json",
+       "sha256": "59c4f7405d6984537336274866e4776059f769d6b8a6a5af496ab1f1dc665076"
+      },
+      {
+       "bytes": 1231,
+       "relpath": "state/working_memory_m1/task_family_audit_test.log",
+       "sha256": "c9edcac439a8aea403e178e716197ce095481197e2cb7a771609dc337fc68ba8"
+      },
+      {
+       "bytes": 424068,
+       "relpath": "state/working_memory_m1/task_family_audit_train256.json",
+       "sha256": "bb8bd317ba8450d5f76e6cc38b9fcf8e02dd05319f89b10fd681ecedc384896f"
+      },
+      {
+       "bytes": 1167,
+       "relpath": "state/working_memory_m1/task_family_audit_train256.log",
+       "sha256": "a0430b72833362d6547e2ab872bcab7ff772eb981f3fa9ce3214cf0f641407f3"
+      },
+      {
+       "bytes": 448690,
+       "relpath": "state/working_memory_m1/smoke_v1/latest.portable.pt",
+       "sha256": "6581a5c50684df2807aa17827541bc5d9eb3354259b36e4a9a641fbfc17227fa"
+      },
+      {
+       "bytes": 1960,
+       "relpath": "state/working_memory_m1/smoke_v1/run.log",
+       "sha256": "ba569733076b91f1a1b8db488fcc894bd73fd4e939dd5b4f15c1b1967de50937"
+      },
+      {
+       "bytes": 20329,
+       "relpath": "state/working_memory_m1/smoke_v1/training.jsonl",
+       "sha256": "614d53bf9d96a87ce7f93e2a403fd5eb88351066f1955e5661b056d8a66180f0"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/smoke_v1/working_memory_u000025.portable.pt",
+       "sha256": "6b68422607f53340dca7e1b9a1cd8a197356d5d8067dad7de4c8c37201352c78"
+      },
+      {
+       "bytes": 394,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/cue_erased_frozen_substrate_probe.log",
+       "sha256": "1ef11f3d36d248b282640f98397ed351e894e7c887fcf07455169d8f3939cbf2"
+      },
+      {
+       "bytes": 1121422,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/cue_erased_frozen_substrate_probe_v2.json",
+       "sha256": "656a2b72c4dfb064e37d98ca5e967afeb1a6041e0335027ae69e3bdfd1f1a9e7"
+      },
+      {
+       "bytes": 3132,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/cue_erased_frozen_substrate_probe_v2.log",
+       "sha256": "6a6d4350fa44306fe7ca8151b53aa12f8c1fa0600f7f2e0e3d36d481885195fb"
+      },
+      {
+       "bytes": 448690,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/latest.portable.pt",
+       "sha256": "c5fa239ee16c476221043432cf2376bf4ac46566b0090c2ef5d34d67a04e3a90"
+      },
+      {
+       "bytes": 30602,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/run.log",
+       "sha256": "303460851d58facf24558c611945a33c6ab3a0480613042b7c8bbd4f3d9c9448"
+      },
+      {
+       "bytes": 1306990,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training.jsonl",
+       "sha256": "d7eb0ac21481f9d3ce9d45fdf2048dab5c481d66234b2657eb51d6ccf0aded52"
+      },
+      {
+       "bytes": 18557,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_audit.json",
+       "sha256": "3f5bded676f06c37224dac79e1dda436e5734c5f07e1d71bd77e7ea056c69201"
+      },
+      {
+       "bytes": 852,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_audit.log",
+       "sha256": "2af263047c679bf3b98c729b327f46c37d3b2a1b78a63fa24e558bb5ae6a041d"
+      },
+      {
+       "bytes": 9316,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_factor_slices.log",
+       "sha256": "114f26f614a68b4974d3a6b5c0c832324b1db921249283c801d496f620417c78"
+      },
+      {
+       "bytes": 28845,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_temporal_diagnosis.json",
+       "sha256": "297713e1817b0b9b92a87e3474dd6e99fadf31643e3fcdbd7cc7fa6398cf0ad3"
+      },
+      {
+       "bytes": 9079,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_temporal_diagnosis.log",
+       "sha256": "67fa4a3c6c1bf5eea586487725400aec8ffa85819e9a24e0bb80e6319b9c6c43"
+      },
+      {
+       "bytes": 5277,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_temporal_diagnosis_realized_v2.json",
+       "sha256": "31ea8342f2fd243ec60310eabfbacd6290684e609c8ed03f3dcf6d3e0a964bc6"
+      },
+      {
+       "bytes": 5466,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/training_temporal_diagnosis_realized_v2.log",
+       "sha256": "13cda7e8ad4f17292a7f16adc3d0d8e3c51d2b949c5fd026682b213e3bd07d00"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000100.portable.pt",
+       "sha256": "99229947c71d0c28328b0ab3cff545b962599e078528892565d956168ddca5ba"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000200.portable.pt",
+       "sha256": "8fe0e7b0d67bef059c10d252c75fa3d896cab69c21f3ee8c640a42bb750a3410"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000300.portable.pt",
+       "sha256": "0d41248f91b2efbe7d7373f0107b1b0292c8af449c1b408046d3c6ebf32f5c82"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000400.portable.pt",
+       "sha256": "4be6a69e457c1f9aea544a20b370895ce3b361f8ceebf31852d0f550e20366c0"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000500.portable.pt",
+       "sha256": "a99acfeef59a20142e36d85a868ed9e321a056552ed14e7a70f7ced76cc583b2"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000600.portable.pt",
+       "sha256": "94c0cdb76f19d4ec23383a6f752f4757d68d6189c0f75a277410f88fc87a7d83"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000700.portable.pt",
+       "sha256": "3508479ad0e16208642de90c9b9e3e6845f65f385efe23291325b288de1f9f2c"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000800.portable.pt",
+       "sha256": "7977b15902cd9ccd0c389c652cf67e1e57c1b1ac28d9af93f7ffcdbeae8867ab"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u000900.portable.pt",
+       "sha256": "7717e198d22bd6ea77c4380680bc6abe4167ddd4d73a3092201523ad15bf1d1a"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001000.portable.pt",
+       "sha256": "2e64966535fa631e2e8e8ba45a8760a16605e024cee7a1c31c4aa8fc2120a84b"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001100.portable.pt",
+       "sha256": "94269e1eae66e19f375657f6e3635edb1109fac959fdf7d688d6105afc96c2d1"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001200.portable.pt",
+       "sha256": "61cf872d4b70d843e6593e4adfcffab1a4da671c2a8c3de377cc825316707bba"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001300.portable.pt",
+       "sha256": "a08acf4c81f93033a19d7d7e6d3bd4c16f9a903198574914ae636dce01404116"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001400.portable.pt",
+       "sha256": "2f656b6746fc558eedb59deae6e461aaa4d6f12e78645e76079862863f1004a8"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001500.portable.pt",
+       "sha256": "5acefcf1d5b6f171b807d2d9dc2a65e69792d89911be70ed741e9bb9adbd8bd6"
+      },
+      {
+       "bytes": 449010,
+       "relpath": "state/working_memory_m1/train_epoch1_v1/working_memory_u001600.portable.pt",
+       "sha256": "80c35730af3a5a1362cc43eeee3fdfa767cde23535cc14468a3a76bcaf87b7dd"
+      }
+     ],
+     "relpath": "state/working_memory_m1"
+    },
+    {
+     "checkpoints_present": [
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000100.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000200.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000300.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000400.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000500.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000600.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000700.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000800.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u000900.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001000.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001100.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001200.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001300.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001400.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001500.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/gated_recall_u001600.portable.pt",
+      "state/working_memory_recall_phase1_v1/gated/latest.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/latest.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000100.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000200.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000300.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000400.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000500.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000600.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000700.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000800.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u000900.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001000.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001100.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001200.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001300.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001400.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001500.portable.pt",
+      "state/working_memory_recall_phase1_v1/linear/linear_recall_u001600.portable.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 26641,
+       "relpath": "state/working_memory_recall_phase1_v1/phase1_audit.json",
+       "sha256": "2d3d05d28b52cbf2c1e86c450f1775251ab507acad210d9ab67b9e856ba71aa3"
+      },
+      {
+       "bytes": 2471,
+       "relpath": "state/working_memory_recall_phase1_v1/phase1_audit.log",
+       "sha256": "0564022262b717a8e31fd1937a48cca773cffa4dc6259af4fb8047f94e256cb1"
+      },
+      {
+       "bytes": 622,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/comparison.log",
+       "sha256": "f8a8e9a37fd9e466f16eef08ab4907d857c9a94ce1f56281c08a497a96562711"
+      },
+      {
+       "bytes": 16052188,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/gated.json",
+       "sha256": "10b6bd04335b5d93ea8697de0a34e3c7e53e66ad477b3a1d5d33d38386279022"
+      },
+      {
+       "bytes": 3910,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/gated.log",
+       "sha256": "daef156a6300c7267016bd936161b80152a89f8c327638edbd03abcab66b33fc"
+      },
+      {
+       "bytes": 15784280,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/linear.json",
+       "sha256": "4aef8addf7bd022ad8e603c5f95b82e085d82b24959a4bdf1e0cc0914483ac6d"
+      },
+      {
+       "bytes": 3912,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/linear.log",
+       "sha256": "8f031baac45feae2cd4cd10deb875b980314d7d92420cb01262f5bdabeb7c322"
+      },
+      {
+       "bytes": 8708,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/posthoc_route_order_analysis_v1.json",
+       "sha256": "3ef5b59118a01abc3fd28d5857523ad6295d16e90f0020a4ff9b357aa245f9af"
+      },
+      {
+       "bytes": 3114,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/posthoc_route_order_analysis_v1.log",
+       "sha256": "e337f5efa5edce8025be29c797b54ec0216b2dc70d3990bc59bb60c893a49c12"
+      },
+      {
+       "bytes": 2740679,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/same_hidden_factorial_v1/gated.json",
+       "sha256": "0f08bddc517f0dfbe1636118cfc52f1b3090c3b13b062a4e2850e7a07f9a01c5"
+      },
+      {
+       "bytes": 1649,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/same_hidden_factorial_v1/gated.log",
+       "sha256": "3c919c0c5ce4c96253d7fb7b6c1bfac140f4596599e2d3560a9e94656502bf75"
+      },
+      {
+       "bytes": 2740832,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/same_hidden_factorial_v1/linear.json",
+       "sha256": "b38b423ea59619d30856c0813734ad493a17a3353a52a220de442f0cb1e8e354"
+      },
+      {
+       "bytes": 1650,
+       "relpath": "state/working_memory_recall_phase1_v1/final_train_causal_v1/same_hidden_factorial_v1/linear.log",
+       "sha256": "6d813876f4d5aa859b5bb9559eb58605bf12414ad2ddf037b449bc9f7be7a733"
+      },
+      {
+       "bytes": 67647,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/attempt_20260913_054216.log",
+       "sha256": "8cdaed373b293316724154536243ffe6a66bb5441fca78abddabc34ae3f54144"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000100.portable.pt",
+       "sha256": "a142400a0b504dacdc25758fc71b0ed7ab27d16ecf53fc67395a9eae55d8c884"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000200.portable.pt",
+       "sha256": "3eac357554d0bc6b25f1b0dfff9308375de855a8984950a18d5f7ba53d3940da"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000300.portable.pt",
+       "sha256": "530875985b52641a2d3d508bdecf6590767c58f1a8687748267483c6f3c422ad"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000400.portable.pt",
+       "sha256": "6f19e3b2f330efe47c8093bb2c755c7566f99a895f243dcab7c1e1cab207ba6b"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000500.portable.pt",
+       "sha256": "3638da48b980fd78f63c984770a7b64006b66d943f3c49905a6619c4d2ce993e"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000600.portable.pt",
+       "sha256": "d79b5250bd21ffa21d6e21ac62e0e0cb34af43941509bc8979a0cb43ed5dded2"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000700.portable.pt",
+       "sha256": "76b1d9bed80e57bb26b612e1cd57c10fa9208d377425a7251c8f01450d825d56"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000800.portable.pt",
+       "sha256": "9a91f9c236edd12c912c9344f16e9a7300d45e8d8d2f8604a191ee112e02631d"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u000900.portable.pt",
+       "sha256": "8e5844108bffda1a6894f8bd23fb51f115eaf8260b143138fb69f020127d6f23"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001000.portable.pt",
+       "sha256": "dd42dc2c99853d6cd6766b6334ec4c48d698d3eefdabb3d983c4f5705fb9b1df"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001100.portable.pt",
+       "sha256": "69a9be947dff336e0e24af1f6ce9d50e608354f048ba8316663751eecd071732"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001200.portable.pt",
+       "sha256": "beb5b5293d9fdebdf64625aa8a7dfeb57891506a462544481dadaaccba000c7c"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001300.portable.pt",
+       "sha256": "5a1c10a9f0edeee2b178f94cd027481c58099c6a80e50c8ccb462325248e7c58"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001400.portable.pt",
+       "sha256": "1a0219c81c45250d9fba666da30a93078ef78df56e1e3c4add918d72bb794b34"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001500.portable.pt",
+       "sha256": "ab827b17fec19547a69475bc26b21838f2dadee16384d87c56c212f2cefeaf00"
+      },
+      {
+       "bytes": 1042813,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/gated_recall_u001600.portable.pt",
+       "sha256": "773bfc12fa4bcc60c95bd780d56ee0ad650dbbd69f2f3edbe175ea14bd56d6d6"
+      },
+      {
+       "bytes": 1042399,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/latest.portable.pt",
+       "sha256": "92df0b47f11cf3f70d749d49cec34423587707d215ebf8d0baa259a6452ceadb"
+      },
+      {
+       "bytes": 2211815,
+       "relpath": "state/working_memory_recall_phase1_v1/gated/training.jsonl",
+       "sha256": "954dc3466220c0fa9984e25924b539a61a6d1d18a54b9672c8dbf4649d7a6c63"
+      },
+      {
+       "bytes": 66086,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/attempt_20260913_045911.log",
+       "sha256": "967cda81085f68d7bff06aaaaa008c3ea161d39847e638f0172a9b22108770d1"
+      },
+      {
+       "bytes": 547777,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/latest.portable.pt",
+       "sha256": "397357a39237688339d0cd05eb5374c6aa7fee7fd3e172a76ea3f215078043ac"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000100.portable.pt",
+       "sha256": "ee8c20ea6f190e3b95c6427f4dfc1625acfe4403abe8f461f12fd2fdc2141ce2"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000200.portable.pt",
+       "sha256": "075c3f070c4ab9eaf515bd6019b4a4868950f4aef47493935921fd003d700946"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000300.portable.pt",
+       "sha256": "b77af54da33a7d6316fca3a2c4b24b74789ac000b4e31b99ed750e147fcd39b9"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000400.portable.pt",
+       "sha256": "4a4ad4d191252ff0ec97f0e78b950ff38ab2f2995d42134a1bc1907ccbe5b3a8"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000500.portable.pt",
+       "sha256": "6a5ee58b8fc0defb2a2d1ac6ad13f90ddd2ec442fb7378288509cdc2f97714cb"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000600.portable.pt",
+       "sha256": "432131f5cf224d31628fc772b0b55dd7c75490408553340102c2b87caada4ed7"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000700.portable.pt",
+       "sha256": "043bf0f02fed135a187a4e0d3a295847a7694f7e7098621c4093461487d12f9d"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000800.portable.pt",
+       "sha256": "2e1f1a81fb0dc97db3526403c44ff4e67e38dd2d0932c4e2ac12f7f981fe349e"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u000900.portable.pt",
+       "sha256": "5568fe4c7946c3b4968b5419fe22bd30b4695cc3a17ea2550c55a6e74d0f0e59"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001000.portable.pt",
+       "sha256": "56adb55a3a87f1ae12e9d0c238b1b7a987e6c29efab9b856564cfb522f0f1aa9"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001100.portable.pt",
+       "sha256": "38ab5c6d36ea088f3dc75c7c25cc06b5749f68bad594bc83cb373dcbd1314a16"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001200.portable.pt",
+       "sha256": "de6b946547d6861b7e8fd3c8c140628289b811f7653b2f84e8b3bab98d002c3a"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001300.portable.pt",
+       "sha256": "4da7456e9a17a7bc055ada59b4d8119bb9e97bbb34a5530598723382971002d9"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001400.portable.pt",
+       "sha256": "eaca323d768b60c85c8bc6fd3e8b4613792b541297bfaa3bb1f4838aac3ef437"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001500.portable.pt",
+       "sha256": "c175df3415e27434d39df5ecf63be0fd85ceb9c88ce4839cf2520057d73ac695"
+      },
+      {
+       "bytes": 548190,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/linear_recall_u001600.portable.pt",
+       "sha256": "309d8d966789ab57ceee6055cc287827e095874c4e9d3c3d35d2049102abd8dc"
+      },
+      {
+       "bytes": 2139465,
+       "relpath": "state/working_memory_recall_phase1_v1/linear/training.jsonl",
+       "sha256": "6d4ba1ec8a595372b35b15d32affa693af8fb2595ebd6f19bd3dd8c58d3e6756"
+      }
+     ],
+     "relpath": "state/working_memory_recall_phase1_v1"
+    },
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 2294,
+       "relpath": "state/working_memory_recall_qualification_v2/gated.log",
+       "sha256": "2de161dcd31e8b425551d40936d5e080c7fcfaa182e867b206401cc6dc3b3a42"
+      },
+      {
+       "bytes": 1818,
+       "relpath": "state/working_memory_recall_qualification_v2/linear.log",
+       "sha256": "e05cb517605289c44d529868d0aec12d7b2f2ef990088bce6303b8a1701bf176"
+      }
+     ],
+     "relpath": "state/working_memory_recall_qualification_v2"
+    },
+    {
+     "checkpoints_present": [
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000100.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000200.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000300.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000400.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000500.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000600.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000700.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000800.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000900.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001000.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001100.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001200.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001300.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001400.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001500.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001600.portable.pt",
+      "state/working_memory_recall_capacity_control_phase1_v1/latest.portable.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 78060,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/attempt_20260913_111819.log",
+       "sha256": "4c2e9661baee683c8d58e8d024fae5563e9273865964f42fdaf53bd586435aa6"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000100.portable.pt",
+       "sha256": "7f1c81b2af68ba7bf9147f528eb76f4d336d38b2afead07626039528664598a4"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000200.portable.pt",
+       "sha256": "68fa8594346ef3ffe7129e419694297c260ddb2309b1300e65b33826ce2fc1e3"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000300.portable.pt",
+       "sha256": "eb82f02dc68938ba55a393843a0f3114df69f687b2e731f2164d4b88d23bdc93"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000400.portable.pt",
+       "sha256": "c8dba9fb57fb159f8b1fcf565beda1ee1c63e2f92e1f28763c9a0dfba11124b0"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000500.portable.pt",
+       "sha256": "1240e616fe55f06a0f09fc2cc8a8fdbc5104e541c89ae982c8e40088673ef764"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000600.portable.pt",
+       "sha256": "7a015947fcc750f940c95452c9583ac80240c28bf2c3d5e21b358ea4015362f0"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000700.portable.pt",
+       "sha256": "01f32b6a4c36a083ac5889ee777071e2e988b5111e364ae1e54bcaae459785d0"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000800.portable.pt",
+       "sha256": "f7e361635df93b0cd8dd2784069061de197a267fda772798eaf8269cfb722018"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u000900.portable.pt",
+       "sha256": "c71b516385d8fbc36af7d3bac9ad510b88eccd031ae0f400e8689be8cd3d6b2f"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001000.portable.pt",
+       "sha256": "ae5fdf63714a64c017a629bf0ea2bcd1d4d45c2f633905353454f33504dbdf0a"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001100.portable.pt",
+       "sha256": "89dc97ad99e3cd7b2863367264c2d9fe9531d1534615fac1eef8b73a4c3ca04b"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001200.portable.pt",
+       "sha256": "f5acecbe4c889e5c31d473432c74d87898751db81436bcc892e3201d03562056"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001300.portable.pt",
+       "sha256": "2e4389802d318f3b63057d7af4db35cdb0509a76b83364825d5be93dab3e5dbb"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001400.portable.pt",
+       "sha256": "be246efc771ed0563588c23f06662fca24696157d74c7c24c983c8766d26f2a7"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001500.portable.pt",
+       "sha256": "ea73c3dacf50dcc58616c16e3294ad607213626062706c3dc8ab003aeb6a6536"
+      },
+      {
+       "bytes": 1043152,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/capacity_ungated_recall_u001600.portable.pt",
+       "sha256": "f7fb594d97f7efcc7ffd6377bdefd8ec86ca00e6f8491e668c1faaae4ab8cc1f"
+      },
+      {
+       "bytes": 1042463,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/latest.portable.pt",
+       "sha256": "f9976894357b795525ce464c4ff5ef5a882f00073ed81444184c1bc79756282c"
+      },
+      {
+       "bytes": 643889,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/memory_reuse_probe_v1.json",
+       "sha256": "40daa9d0413225dc5a990d889b89e474b140e8374a3c40642ba903465cb4ff6f"
+      },
+      {
+       "bytes": 3205,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/memory_reuse_probe_v1.log",
+       "sha256": "f575d0220d323b820b230d4d1e6895fffb1f868e992a9683f1a5085e7e01a634"
+      },
+      {
+       "bytes": 385273,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/memory_shuffle_mechanism_v1.json",
+       "sha256": "f64854c41654b98f1e136bdf81366124fd156173f2961d694b4d2c8ddc303e85"
+      },
+      {
+       "bytes": 8050,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/memory_shuffle_mechanism_v1.log",
+       "sha256": "cfd36785438ac9cfe6c3ac04032e20bb6d5c1d2714db891496ea834a03e1abf6"
+      },
+      {
+       "bytes": 76481,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/post_write_instruction_probe_v1.json",
+       "sha256": "785e28e58f2c2557e43c8bf238f0dcbdaa8302ce2b6ee934aa23540ed85b1b42"
+      },
+      {
+       "bytes": 4168,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/post_write_instruction_probe_v1.log",
+       "sha256": "d6c8e5c0272bee9d80651293f34374598bb3e0ab40917074948bc0abcb85effd"
+      },
+      {
+       "bytes": 2383555,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/training.jsonl",
+       "sha256": "79764b80cd52d56af62f6c454e1feca16567828b78ef80e36ee47a131a188f63"
+      },
+      {
+       "bytes": 2389724,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/causal.json",
+       "sha256": "40399f825af553cdcd2af091d427a2899407f9bdc29cbf17560d1e1bdae9bd1c"
+      },
+      {
+       "bytes": 1652,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/causal.log",
+       "sha256": "f59c4d021f7a87681f290f79fe9f7caf9d56cf4afa70ab091f7acfc2b29e9344"
+      },
+      {
+       "bytes": 9241,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/decision.json",
+       "sha256": "54e75e7b4c70ea9fa81de68d447b31bc308a0db19adb70f0a1c6a1a7125b0c6b"
+      },
+      {
+       "bytes": 1223,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/decision.log",
+       "sha256": "fa468c6092bfd74887f8802e44234651d10ffc42de669aaf70219fe4f1e1884d"
+      },
+      {
+       "bytes": 4923,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/representation.json",
+       "sha256": "9d7a8be5801a4f66171df3f0e507051c638d15c24daec86f7052f56d17e5518c"
+      },
+      {
+       "bytes": 1314,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/dev_admission_v2/representation.log",
+       "sha256": "8c08e05ceb13c60f98fc2a2c327db459f7c18a14484cb36100d35e7d6776d0c4"
+      },
+      {
+       "bytes": 15788769,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/final_train_causal_v1/capacity_ungated.json",
+       "sha256": "a261657f29060a2afe6521ab73773f3e5648574abc630a272a34e72c9afef9bf"
+      },
+      {
+       "bytes": 3982,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/final_train_causal_v1/capacity_ungated.log",
+       "sha256": "23ce4ccc5f566772825a6315d171eb9895d50e915833069a5bc1681a68a37831"
+      },
+      {
+       "bytes": 1812,
+       "relpath": "state/working_memory_recall_capacity_control_phase1_v1/final_train_causal_v1/three_way_comparison.log",
+       "sha256": "36ecacc1dffd7d602cf5596a7ded2fd2df21d3083d677740d4d6df00c2a35864"
+      }
+     ],
+     "relpath": "state/working_memory_recall_capacity_control_phase1_v1"
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 1576,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_working_memory_capacity_dev_admission_v2.sh",
+     "sha256": "fe58b2069817b452fda36cb8846141b49ba02a638cd8ad217c7ef184f78df89a"
+    },
+    {
+     "bytes": 1164,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_working_memory_dev_v1.sh",
+     "sha256": "a4582e2c756b4508dea752c2908e83abbc5fd67ded8158c8135390d8465d8d87"
+    }
+   ],
+   "slot_options": [
+    "working_memory"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree"
+   ]
+  },
+  {
+   "admissible": false,
+   "dossier_status": "Frozen TEST FAIL; family closed",
+   "evaluator": [
+    {
+     "bytes": 31075,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "evaluate_self_broadcast_centrality_test_v1.py",
+     "sha256": "bf6c75d876a138f31fc46e9d8fefe77fd8958264fcdae21e504a05403031ffdd"
+    }
+   ],
+   "lineage_version": "v0.29.0-0.29.3",
+   "mechanism_id": "self_broadcast_v029",
+   "module": [
+    {
+     "api": {
+      "classes": [
+       {
+        "bases": [
+         "nn.Module"
+        ],
+        "methods": [
+         {
+          "args": [
+           "self",
+           "workspace_dim",
+           "input_dim",
+           "hidden_dim",
+           "broadcast_dim"
+          ],
+          "name": "__init__"
+         },
+         {
+          "args": [
+           "self",
+           "self_input",
+           "recruitment",
+           "enabled"
+          ],
+          "name": "forward"
+         }
+        ],
+        "name": "SelfBroadcastHub"
+       }
+      ],
+      "functions": [
+       {
+        "args": [
+         "state"
+        ],
+        "name": "self_input_from_state"
+       },
+       {
+        "args": [
+         "base",
+         "workspace",
+         "hub_output"
+        ],
+        "name": "apply_workspace_broadcast"
+       },
+       {
+        "args": [
+         "out"
+        ],
+        "name": "consumer_predictions"
+       },
+       {
+        "args": [
+         "path",
+         "hub",
+         "metadata"
+        ],
+        "name": "save_hub"
+       },
+       {
+        "args": [
+         "path",
+         "device"
+        ],
+        "name": "load_hub"
+       }
+      ],
+      "package_imports": []
+     },
+     "bytes": 7008,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "continuous_brain/self_broadcast_centrality_v1.py",
+     "sha256": "cffe58dbd1ca220da47fa342b20c6a908413252b32657ae364bf4a202f2fdf2d"
+    }
+   ],
+   "notes": [
+    "GWT-3 broadcast attempt. Formal failure: usable as a regression check only."
+   ],
+   "protocol": [
+    {
+     "bytes": 4812,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "SELF_BROADCAST_CENTRALITY_PROTOCOL_v1.md",
+     "sha256": "c547bbf2a27e3b1291826a3d011268d588c22a2ba21492764c6df31e3ff833ec"
+    },
+    {
+     "bytes": 4370,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "SELF_BROADCAST_CENTRALITY_TEST_PROTOCOL_v1.md",
+     "sha256": "6036f392f51619ef82e86034c4adb12b61c0298067f9e77a9e398bae2edf8260"
+    },
+    {
+     "bytes": 3018,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "SELF_BROADCAST_VALUE_PRIORITY_GRADIENT_SAFE_PROTOCOL_v1.md",
+     "sha256": "786a047e6134ab909b1909ca717d706020209c544bb058569f4b7cdd9c6cfd9f"
+    },
+    {
+     "bytes": 3491,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "SELF_BROADCAST_VALUE_PRIORITY_REPAIR_PROTOCOL_v1.md",
+     "sha256": "002657cfdf491280fc1e29fd02862af979e5bbb58eb96b974cb95eb27faba415"
+    }
+   ],
+   "result_dirs": [
+    {
+     "checkpoints_present": [],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 3747,
+       "relpath": "state/self_broadcast_centrality_test_v1/result.json",
+       "sha256": "1f394195c26bdc81401775242c18953a5dcb760d038a846832943288f51fc2d1"
+      },
+      {
+       "bytes": 2716,
+       "member_count": 2,
+       "members": [
+        {
+         "bytes": 3747,
+         "name": "result.json"
+        },
+        {
+         "bytes": 3628,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/self_broadcast_centrality_test_v1/result_bundle.zip",
+       "sha256": "d60cd535cad92c89a2303d4671b2aa9870ffbe65151dfa57ce027130266ea4b2"
+      },
+      {
+       "bytes": 3628,
+       "relpath": "state/self_broadcast_centrality_test_v1/run.log",
+       "sha256": "b48cc8b32eb416e9f87b4bd0b3034de1f151a94ec30c9aeeba5eb1a8a35bb6c2"
+      }
+     ],
+     "relpath": "state/self_broadcast_centrality_test_v1",
+     "results": [
+      {
+       "format": "continuous_brain.self_broadcast_centrality_test_v1",
+       "historical_status": {
+        "v0290": "FAIL",
+        "v0291": "FAIL",
+        "v0292_dev_repair": "PASS"
+       },
+       "passed_flags": {
+        "test_admission_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/self_broadcast_centrality_test_v1/result.json",
+       "scope": {
+        "consciousness_claimed": false,
+        "functional_self_centrality_claimed": true,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "1f394195c26bdc81401775242c18953a5dcb760d038a846832943288f51fc2d1",
+       "split": {
+        "test": [
+         30000,
+         32999
+        ],
+        "test_spent": true,
+        "test_tuning_after_run_forbidden": true,
+        "test_used": true
+       },
+       "training_performed": false
+      }
+     ]
+    },
+    {
+     "checkpoints_present": [
+      "state/self_broadcast_centrality_v1/self_broadcast_hub.pt"
+     ],
+     "exists": true,
+     "files": [
+      {
+       "bytes": 3785,
+       "relpath": "state/self_broadcast_centrality_v1/result.json",
+       "sha256": "1e197965cf30e65b8353fa29f75e33524b374f13dd9cdc592b34c7107faaad70"
+      },
+      {
+       "bytes": 83816,
+       "member_count": 3,
+       "members": [
+        {
+         "bytes": 3785,
+         "name": "result.json"
+        },
+        {
+         "bytes": 89562,
+         "name": "self_broadcast_hub.pt"
+        },
+        {
+         "bytes": 5694,
+         "name": "run.log"
+        }
+       ],
+       "relpath": "state/self_broadcast_centrality_v1/result_bundle.zip",
+       "sha256": "4aa4c59944ca4deef9059ae19208216d24f7a656a610c08ef8320c7ce8f5f90a"
+      },
+      {
+       "bytes": 5694,
+       "relpath": "state/self_broadcast_centrality_v1/run.log",
+       "sha256": "fd47c5becdd6ee0a00b8ce87484326b05516bbb675464fa32c9409c43a8e1292"
+      },
+      {
+       "bytes": 89562,
+       "relpath": "state/self_broadcast_centrality_v1/self_broadcast_hub.pt",
+       "sha256": "57845dad732243ecf35152c58bf146c3761c99e93b0ae7f4041a5a81acb1f7aa"
+      }
+     ],
+     "relpath": "state/self_broadcast_centrality_v1",
+     "results": [
+      {
+       "format": "continuous_brain.self_broadcast_centrality_v1",
+       "passed_flags": {
+        "development_gate_passed": false
+       },
+       "protected_unchanged": true,
+       "recorded_hashes": {},
+       "relpath": "state/self_broadcast_centrality_v1/result.json",
+       "scope": {
+        "claim": "persistent self broadcast is shared and causally load-bearing across multiple cognitive consumers while disabled mode preserves the historical policy path exactly",
+        "consciousness_claimed": false,
+        "sentience_claimed": false,
+        "subjective_experience_claimed": false
+       },
+       "sha256": "1e197965cf30e65b8353fa29f75e33524b374f13dd9cdc592b34c7107faaad70",
+       "split": {
+        "dev": [
+         20000,
+         22999
+        ],
+        "test": [
+         30000,
+         32999
+        ],
+        "test_touched": false,
+        "train": [
+         0,
+         11999
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "runner": [
+    {
+     "bytes": 2975,
+     "exists": true,
+     "legacy_manifests": {},
+     "relpath": "run_self_broadcast_centrality_test_v1.sh",
+     "sha256": "7edad10da9651427352d1e6424a3f42c1c33df1e5fca4a0223305238838ebed1"
+    }
+   ],
+   "slot_options": [
+    "workspace"
+   ],
+   "status": "UNVERIFIED",
+   "support": [],
+   "test": [],
+   "trainer": [],
+   "unverified_reasons": [
+    "hashes computed on 'wsl-canonical'; DAV-74 must confirm them on the canonical tree",
+    "state/self_broadcast_centrality_test_v1/result.json records ['test_admission_passed'] = false",
+    "state/self_broadcast_centrality_v1/result.json records ['development_gate_passed'] = false",
+    "formal failure: regression check only, never a capability"
+   ]
+  }
+ ],
+ "format": "cb-legacy-candidates/1",
+ "generated_utc": "2026-09-27T16:22:28Z",
+ "legacy_manifests": {
+  "MANIFEST_SHA256.json": "4e0018f5587b8f7e59268ad13c0655a0a444f00145354b41dfc2a10148e3874b",
+  "OPTION_CONTINUATION_PREDICTION_MANIFEST_SHA256.json": "e03064a4efea0fe6bb3f8b04b908c72f12185971a3cbc1d1aac5ff11914bf620",
+  "PLANNING_OPTION_AUDIT_v1_1_SHA256.json": "e41db671469d137f097432d82456832fbc4726ae125f139579dd48718228245e",
+  "RELEASE_MANIFEST.json": "4d402353e5442f0461402209e4fe91ad29f8d6c7d76d0e2afbe40d60bdfa6fcf",
+  "RELEASE_MANIFEST_v122.json": "6175686133fda1f2949bf7dfc53a5fd9053e0eb5aa1cf8541b40207b8cb8ae02",
+  "SHA256SUMS.txt": "672c7a8ae4c704afba0f8f0451e7bb6cc277e6af74f73e0c1c03f9b1a677992b",
+  "SHA256SUMS_v122.txt": "9718739ebb4ffc1bd951a3232c55ec99fdf60d5b46ac4a0d853f7756ab316012"
+ },
+ "protected_checkpoint": {
+  "exists": true,
+  "expected_sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f",
+  "matches": true,
+  "outside_root": false,
+  "relpath": "state/child_v113_dml_smoke/infant_training.pt",
+  "sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f"
+ },
+ "root_label": "wsl-canonical",
+ "spec_sha256": "79559cdf0915ad37be9f89d79039fac12ca0dfe2d5802384316e88c5d8f0f2a4",
+ "tool_sha256": "0bc5d5419525f109447510fd378e9eea8270a4db6cfc32fd0a6fe50fff2d9275",
+ "tree_summary": {
+  "by_extension": {
+   "(none)": 9,
+   ".cmd": 3,
+   ".example": 1,
+   ".gz": 1,
+   ".html": 1,
+   ".ipynb": 1,
+   ".json": 189,
+   ".jsonl": 25,
+   ".log": 202,
+   ".md": 209,
+   ".pid": 1,
+   ".pt": 520,
+   ".py": 383,
+   ".sh": 111,
+   ".tag": 1,
+   ".toml": 1,
+   ".txt": 12,
+   ".xml": 1,
+   ".zip": 56
+  },
+  "files": 1727
+ }
+}

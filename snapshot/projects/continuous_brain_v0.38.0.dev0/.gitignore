@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+runs/
+state/
+*.pt
+*.pth
+*.ckpt
+*.log
+registry/run_registry.jsonl

@@ -1,0 +1,14 @@
+Continuous Brain v0.2.0 validation
+==================================
+
+compileall: PASS
+pytest: 4 passed
+v0.2 --visual --fast --steps 120: PASS
+saved final step: 120
+v0.1 checkpoint -> v0.2 checkpoint compatibility: PASS
+v0.1 generated step: 120
+v0.2 resumed through step: 150
+visualizer HTTP unit test: PASS
+visualizer pause/speed controls unit test: PASS
+
+Validated with Python 3 and torch 2.10.0+cpu in the build environment.

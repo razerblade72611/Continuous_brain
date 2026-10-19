@@ -1,0 +1,19 @@
+v110_curriculum=1000/8000
+v110_curriculum=2000/8000
+v110_curriculum=3000/8000
+v110_curriculum=4000/8000
+v110_curriculum=5000/8000
+v110_curriculum=6000/8000
+v110_curriculum=7000/8000
+v110_curriculum=8000/8000
+{
+  "exploration": 0.25,
+  "format": "continuous_brain.generalized_curriculum.v110",
+  "kind": "randomized_detour",
+  "motor_supervision": false,
+  "parent_models_used": false,
+  "records": 8000,
+  "seed": 31001,
+  "successful_transitions": 200,
+  "transition_digest": "a32093ce8813a92730c551206be39a977931ca99eaa587806c40a3c1f98456d0"
+}

@@ -1,0 +1,7 @@
+AUTHOR v0.10.18 release validation
+- Source regression suite: 218 passed
+- Dry-run version: 0.10.18
+- Dry-run trainer: topology_cross_place_precondition_curriculum
+- Dry-run curriculum: place level 4
+- Wheel metadata: Version 0.10.18
+- Targeted regressions: topology-authoritative oblique crossing; new-component seam target; placement preflight/cache; explicit openable-receptacle stage

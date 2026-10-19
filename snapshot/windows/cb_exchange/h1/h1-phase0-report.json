@@ -1,0 +1,253 @@
+{
+ "format": "cb2-h1-phase0-report/1",
+ "status": "MEASUREMENT ONLY (DAV-97 Phase 0)",
+ "run": {
+  "format": "cb2-h1-phase0/1",
+  "git": "a8507f319e06bac71703fe12225cdb2d57135832",
+  "git_dirty": false,
+  "seeds": "77001-77120",
+  "individual": {
+   "state_hash": "cc8948e7685dac80debbc218f891c2ba2ac2f2f8647d2db85c98f71df811de1a",
+   "weights_sha256": "8cffde798661d2661c469fa208799561008d03ae860d2d9be7f1c514a3c6853b"
+  },
+  "scripts": [
+   "control",
+   "flee4",
+   "flee8",
+   "flee16",
+   "water",
+   "fight",
+   "hold"
+  ],
+  "radii": {
+   "zombie": 3,
+   "skeleton": 4
+  },
+  "clear": 5,
+  "timeout": 40,
+  "merge": 5,
+  "post": 50,
+  "branch_cap": 1000
+ },
+ "fidelity_all_ok": true,
+ "census": {
+  "worlds": 120,
+  "deaths": 120,
+  "causes": {
+   "damage": 50,
+   "food": 29,
+   "drink": 41,
+   "energy": 0,
+   "alive": 0
+  },
+  "mean_survival": 512.7416666666667,
+  "encounters_per_life": {
+   "mean": 5.425,
+   "ci95": [
+    4.85,
+    6.05
+   ]
+  },
+  "encounter_outcomes": {
+   "cleared": 504,
+   "timeout": 56,
+   "died": 91,
+   "censored": 0
+  },
+  "escape_rate": 0.7741935483870968,
+  "timeout_rate": 0.08602150537634409,
+  "damage_per_encounter": {
+   "mean": 2.0230414746543777,
+   "ci95": [
+    1.8264208909370199,
+    2.218125960061444
+   ]
+  },
+  "combat_damage_per_life": {
+   "mean": 12.3,
+   "ci95": [
+    11.366666666666667,
+    13.275
+   ]
+  },
+  "hands_attributable_share": 0.4470046082949309,
+  "damage_deaths_traced_to_last_encounter": {
+   "hands": 13,
+   "upstream": 37,
+   "none": 0
+  },
+  "missed_threat_steps_per_life": 29.9,
+  "true_threat_steps_per_life": 215.51666666666668,
+  "hits_outside_encounters_per_life": 0.6333333333333333
+ },
+ "screen_a_opportunity": {
+  "numerator": "deaths that are encounter-associated (damage cause, during or <=50 steps after)",
+  "denominator": "all deaths in the census",
+  "value": 0.4166666666666667,
+  "ci95": [
+   0.325,
+   0.5
+  ],
+  "threshold": 0.3
+ },
+ "screen_b_headroom": {
+  "numerator": "relative reduction in encounter-associated deaths, best-of-family (hindsight) vs control",
+  "denominator": "sampled hands-attributable onsets (first per world)",
+  "onsets": 109,
+  "control_rate": 0.03669724770642202,
+  "best_rate": 0.0,
+  "relative_reduction": 1.0,
+  "ci95": [
+   1.0,
+   1.0
+  ],
+  "paired_lower95_of_death_reduction": 0.009174311926605505,
+  "overall_survival_change_best": {
+   "mean": 278.0642201834862,
+   "ci95": [
+    220.1545871559633,
+    335.16536697247705
+   ]
+  },
+  "best_script_counts": {
+   "control": 17,
+   "flee4": 16,
+   "flee8": 18,
+   "flee16": 16,
+   "water": 20,
+   "fight": 10,
+   "hold": 12
+  },
+  "threshold": 0.25,
+  "note": "hindsight choice from privileged outcomes: an optimistic ceiling, not an attainable improvement"
+ },
+ "per_script_fixed_effects": {
+  "flee4": {
+   "assoc_death_rate": 0.027522935779816515,
+   "paired_death_diff_ci95": [
+    -0.045871559633027525,
+    0.027522935779816515
+   ],
+   "survival_diff": {
+    "mean": 38.45871559633027,
+    "ci95": [
+     -19.51995412844036,
+     97.63371559633026
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": -0.07339449541284404,
+    "ci95": [
+     -0.45871559633027525,
+     0.30275229357798167
+    ]
+   }
+  },
+  "flee8": {
+   "assoc_death_rate": 0.05504587155963303,
+   "paired_death_diff_ci95": [
+    -0.027522935779816515,
+    0.06422018348623854
+   ],
+   "survival_diff": {
+    "mean": 26.926605504587155,
+    "ci95": [
+     -42.72683486238532,
+     95.24816513761468
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": 0.23853211009174313,
+    "ci95": [
+     -0.21100917431192662,
+     0.7064220183486238
+    ]
+   }
+  },
+  "flee16": {
+   "assoc_death_rate": 0.07339449541284404,
+   "paired_death_diff_ci95": [
+    -0.009174311926605505,
+    0.09174311926605505
+   ],
+   "survival_diff": {
+    "mean": -15.155963302752294,
+    "ci95": [
+     -75.36743119266055,
+     45.77087155963302
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": 0.045871559633027525,
+    "ci95": [
+     -0.4036697247706422,
+     0.5137614678899083
+    ]
+   }
+  },
+  "water": {
+   "assoc_death_rate": 0.05504587155963303,
+   "paired_death_diff_ci95": [
+    -0.027522935779816515,
+    0.07339449541284404
+   ],
+   "survival_diff": {
+    "mean": 39.45871559633027,
+    "ci95": [
+     -29.830275229357795,
+     110.09334862385319
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": 0.1926605504587156,
+    "ci95": [
+     -0.22935779816513763,
+     0.6605504587155964
+    ]
+   }
+  },
+  "fight": {
+   "assoc_death_rate": 0.045871559633027525,
+   "paired_death_diff_ci95": [
+    -0.01834862385321101,
+    0.045871559633027525
+   ],
+   "survival_diff": {
+    "mean": -10.18348623853211,
+    "ci95": [
+     -67.8690366972477,
+     49.42477064220179
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": 0.22018348623853212,
+    "ci95": [
+     0.027522935779816515,
+     0.43119266055045874
+    ]
+   }
+  },
+  "hold": {
+   "assoc_death_rate": 0.08256880733944955,
+   "paired_death_diff_ci95": [
+    -0.01834862385321101,
+    0.11009174311926606
+   ],
+   "survival_diff": {
+    "mean": -16.908256880733944,
+    "ci95": [
+     -83.62454128440368,
+     50.66077981651376
+    ]
+   },
+   "encounter_damage_diff": {
+    "mean": 1.3577981651376148,
+    "ci95": [
+     0.8715596330275229,
+     1.8440366972477065
+    ]
+   }
+  }
+ },
+ "screening": "OPPORTUNITY SCREENED IN (a reason to propose Phase 1, not a result)"
+}

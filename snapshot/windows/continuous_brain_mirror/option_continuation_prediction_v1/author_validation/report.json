@@ -1,0 +1,347 @@
+{
+  "branches": 480,
+  "canonical_checkpoint_sha256": "086932388a9a410af46fea8e87cc63dd4b60161e03e247bf81fc88d28cfd577f",
+  "final_analyzer_sha256": "ff37f6e3da8d4cc80666e0a0fffb184a0d40dd49f3faf53256b634ecdecee3ce",
+  "model_tensors_unchanged": true,
+  "prefixes_matched": 480,
+  "raw_records_sha256": "8703dfd43ce66ce92c0459dacb6ae23588e2740581b2860014ec1a99474107d6",
+  "records": 80,
+  "reference_episode_checks": [
+    {
+      "collisions": 0,
+      "completed": true,
+      "matched": true,
+      "seed": 14001,
+      "steps": 27
+    },
+    {
+      "collisions": 104,
+      "completed": false,
+      "matched": true,
+      "seed": 14002,
+      "steps": 120
+    }
+  ],
+  "runtime_seconds": 164.55082922300062,
+  "scope": "Author core validation against exact canonical checkpoint; four-file user-project preflight not applicable in isolated laboratory copy",
+  "summary": {
+    "arms": {
+      "direct": {
+        "boundary_mean_completion": 0.7875,
+        "boundary_mean_remaining_collisions": 10.25,
+        "completion_gains_vs_direct_boundaries": 0,
+        "completion_losses_vs_direct_boundaries": 0,
+        "paired_equal_seed_summary": {
+          "collision_difference": {
+            "mean_over_seeds": 0,
+            "seed_bootstrap_percentile_95": [
+              0,
+              0
+            ]
+          },
+          "completion_difference": {
+            "mean_over_seeds": 0,
+            "seed_bootstrap_percentile_95": [
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "historical_all6": {
+        "boundary_mean_completion": 0.7,
+        "boundary_mean_remaining_collisions": 21.2625,
+        "completion_gains_vs_direct_boundaries": 3,
+        "completion_losses_vs_direct_boundaries": 10,
+        "paired_equal_seed_summary": {
+          "collision_difference": {
+            "mean_over_seeds": 7.688253968253969,
+            "seed_bootstrap_percentile_95": [
+              -4.655555555555556,
+              19.08825396825397
+            ]
+          },
+          "completion_difference": {
+            "mean_over_seeds": -0.044920634920634916,
+            "seed_bootstrap_percentile_95": [
+              -0.17253968253968252,
+              0.0934920634920635
+            ]
+          }
+        }
+      },
+      "historical_top2": {
+        "boundary_mean_completion": 0.75,
+        "boundary_mean_remaining_collisions": 14.1875,
+        "completion_gains_vs_direct_boundaries": 1,
+        "completion_losses_vs_direct_boundaries": 4,
+        "paired_equal_seed_summary": {
+          "collision_difference": {
+            "mean_over_seeds": 3.784761904761905,
+            "seed_bootstrap_percentile_95": [
+              0,
+              10.316190476190476
+            ]
+          },
+          "completion_difference": {
+            "mean_over_seeds": -0.03238095238095238,
+            "seed_bootstrap_percentile_95": [
+              -0.09904761904761905,
+              0.02666666666666667
+            ]
+          }
+        }
+      },
+      "oracle_all6": {
+        "boundary_mean_completion": 0.9125,
+        "boundary_mean_remaining_collisions": 2.45,
+        "completion_gains_vs_direct_boundaries": 10,
+        "completion_losses_vs_direct_boundaries": 0,
+        "paired_equal_seed_summary": {
+          "collision_difference": {
+            "mean_over_seeds": -17.533333333333335,
+            "seed_bootstrap_percentile_95": [
+              -39.13333333333333,
+              0
+            ]
+          },
+          "completion_difference": {
+            "mean_over_seeds": 0.19,
+            "seed_bootstrap_percentile_95": [
+              0.06666666666666667,
+              0.33666666666666667
+            ]
+          }
+        }
+      },
+      "oracle_top2": {
+        "boundary_mean_completion": 0.85,
+        "boundary_mean_remaining_collisions": 3.675,
+        "completion_gains_vs_direct_boundaries": 5,
+        "completion_losses_vs_direct_boundaries": 0,
+        "paired_equal_seed_summary": {
+          "collision_difference": {
+            "mean_over_seeds": -15.9,
+            "seed_bootstrap_percentile_95": [
+              -37.1,
+              0
+            ]
+          },
+          "completion_difference": {
+            "mean_over_seeds": 0.11333333333333333,
+            "seed_bootstrap_percentile_95": [
+              0.03333333333333333,
+              0.21666666666666667
+            ]
+          }
+        }
+      }
+    },
+    "imagination_execution_duration_diagnostic": {
+      "historical_all6": {
+        "capped_selected_macros_that_really_continue_longer": 15,
+        "completion_loss_cases": [
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 113,
+            "seed": 14003,
+            "selector_rank": 5,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 117,
+            "remaining_collisions": 110,
+            "seed": 14003,
+            "selector_rank": 5,
+            "step": 4
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 112,
+            "seed": 14005,
+            "selector_rank": 5,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 112,
+            "seed": 14007,
+            "selector_rank": 5,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 112,
+            "seed": 14014,
+            "selector_rank": 5,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 1,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 106,
+            "remaining_collisions": 0,
+            "seed": 14014,
+            "selector_rank": 2,
+            "step": 15
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 1,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 103,
+            "remaining_collisions": 0,
+            "seed": 14014,
+            "selector_rank": 3,
+            "step": 18
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 5,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 112,
+            "seed": 14015,
+            "selector_rank": 5,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 1,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 108,
+            "remaining_collisions": 102,
+            "seed": 14015,
+            "selector_rank": 2,
+            "step": 13
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 2,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 105,
+            "remaining_collisions": 102,
+            "seed": 14015,
+            "selector_rank": 6,
+            "step": 16
+          }
+        ],
+        "selected_macros_capped_without_predicted_termination": 19
+      },
+      "historical_top2": {
+        "capped_selected_macros_that_really_continue_longer": 9,
+        "completion_loss_cases": [
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 0,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 117,
+            "remaining_collisions": 109,
+            "seed": 14003,
+            "selector_rank": 2,
+            "step": 4
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 0,
+            "real_initial_end": "learned_termination",
+            "real_initial_steps": 7,
+            "remaining_collisions": 0,
+            "seed": 14007,
+            "selector_rank": 2,
+            "step": 4
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 1,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 120,
+            "remaining_collisions": 104,
+            "seed": 14015,
+            "selector_rank": 2,
+            "step": 1
+          },
+          {
+            "imagined_initial_steps": 12,
+            "imagined_terminated": false,
+            "option": 1,
+            "real_initial_end": "episode_end",
+            "real_initial_steps": 108,
+            "remaining_collisions": 102,
+            "seed": 14015,
+            "selector_rank": 2,
+            "step": 13
+          }
+        ],
+        "selected_macros_capped_without_predicted_termination": 30
+      }
+    },
+    "interpretation": "One initial intervention followed by direct control. Boundary rates are not autonomous planner episode success rates. Bootstrap is exploratory on 15 spent development seeds.",
+    "prediction_accuracy_on_initial_option_prefixes": {
+      "observed_state": {
+        "always_zero_collision_brier": 0.09453146468810113,
+        "collision_brier": 0.07882307090074454,
+        "collision_events": 344,
+        "collision_true_positives_at_0_5": 39,
+        "context_mae": 0.05432445152844462,
+        "mean_predicted_collision_probability": 0.01802189974138158,
+        "observed_collision_rate": 0.09453146468810113,
+        "reward_mae": 0.03174517238249848,
+        "success_brier": 0.0016191401318756294,
+        "transitions": 3639
+      },
+      "rolled_state_same_actions": {
+        "always_zero_collision_brier": 0.09453146468810113,
+        "collision_brier": 0.08959377663504663,
+        "collision_events": 344,
+        "collision_true_positives_at_0_5": 4,
+        "context_mae": 0.08763113917526673,
+        "mean_predicted_collision_probability": 0.014963025139362936,
+        "observed_collision_rate": 0.09453146468810113,
+        "reward_mae": 0.034426557904745594,
+        "success_brier": 0.0014692345958205167,
+        "transitions": 3639
+      }
+    }
+  },
+  "validation_tests": {
+    "execution_contract_tests": 5,
+    "reject_duplicate_boundary": true,
+    "reject_wrong_comparator_outcome": true,
+    "reject_wrong_deadline": true,
+    "wrapper_evaluator_failure_with_stale_report": {
+      "complete_reported": false,
+      "exit_code": 1,
+      "old_report_unchanged": true
+    }
+  }
+}

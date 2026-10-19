@@ -1,0 +1,5 @@
+{
+  "format": "cb-legacy-manifest/1",
+  "description": "VERIFIED legacy mechanisms only. Empty until the DAV-74 audit verifies an entry against the canonical legacy tree (hashes of module, evaluator, primary result, and checkpoints). Candidates, all UNVERIFIED, are in legacy/candidates.json. The legacy root is supplied at run time (--legacy-root or CONTINUOUS_BRAIN_LEGACY_ROOT) and is never recorded here.",
+  "entries": []
+}

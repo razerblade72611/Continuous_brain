@@ -1,0 +1,65 @@
+ENDOGENOUS_GOAL_GENESIS_TEST_V1
+device: cpu
+training_performed: false
+family: v0.35
+source_v0341_test_status: PASS
+source_v0350_dev_status: FAIL
+source_v0351_diagnostic: EIGHT_EPISODE_HORIZON_TOO_SHORT_FOR_EXISTING_SELF_ESTIMATE_COMPLETION_CRITERION
+source_v0352_dev_status: PASS
+goal_generator_changed_from_v0352: false
+goal_completion_threshold_changed_from_v0352: false
+goal_target_delta: +0.12
+max_target_episodes: 16
+test_subjects: 100000-100127
+test_opened_in_this_run: true
+test_spent_after_run: true
+test_tuning_after_run: forbidden
+goal_genesis_test_subjects=1/128
+goal_genesis_test_subjects=32/128
+goal_genesis_test_subjects=64/128
+goal_genesis_test_subjects=96/128
+goal_genesis_test_subjects=128/128
+
+TEST_GOAL_GENESIS
+self_generated_goal_matches_autobiographical_fragility: 1.0
+active_goal_persists_through_unrelated_interrupt: 1.0
+self_generated_goal_completion_rate: 0.953125
+mean_target_episodes_executed: 7.7421875
+mean_target_capability_gain: 0.5795218936905755
+discrepancy_reduction_rate: 0.90625
+mean_late_to_bootstrap_discrepancy_ratio: 0.1403452195057813
+post_completion_next_goal_generated_rate: 0.953125
+
+TEST_DONOR_AUTOBIOGRAPHY
+donor_history_flips_self_generated_goal: 1.0
+erased_history_generates_no_developmental_goal: 1.0
+
+TEST_GOAL_PLAN_CAUSALITY
+self_generated_goal_controls_target_plan: 1.0
+
+TEST_PERSISTENCE
+goal_lifecycle_exact_after_reload: 1.0
+goal_context_reliability_exact_after_reload: 1.0
+
+ADMISSION_GATE
+endogenous_goal_genesis: PASS
+donor_autobiography_changes_generated_goal: PASS
+erased_autobiography_has_no_directional_goal: PASS
+self_generated_goal_persists: PASS
+self_generated_goal_controls_plan: PASS
+self_generated_goal_completes_from_self_estimate: PASS
+self_generated_goal_develops_capability: PASS
+self_generated_goal_reduces_discrepancy: PASS
+goal_lifecycle_persists: PASS
+goal_context_persists: PASS
+TRAINING_PERFORMED: false
+GOAL_GENERATOR_CHANGED: false
+GOAL_COMPLETION_THRESHOLD_CHANGED: false
+PROTECTED_UNCHANGED: true
+SOURCE_MODELS_UNCHANGED: true
+V0341_TEST_PASS_PRESERVED: true
+V035_TEST_SPENT: true
+TEST_TUNING_AFTER_RUN: forbidden
+ENDOGENOUS_GOAL_GENESIS_TEST_ADMISSION: PASS
+ENDOGENOUS_GOAL_GENESIS_TEST_COMPLETE
+result: /home/davei/projects/continuous_brain_v0.38.1.dev3_g0_historical_core/Continuous_brain/runs/g0_runtime_preflight_v1/endogenous_goal_genesis_v0353_g0-preflight-v0353-eng/raw_evaluator/result.json

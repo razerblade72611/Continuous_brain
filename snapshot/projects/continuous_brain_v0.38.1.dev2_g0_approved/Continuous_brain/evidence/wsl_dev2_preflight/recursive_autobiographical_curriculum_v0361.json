@@ -1,0 +1,21 @@
+{
+  "blocked_reasons": [],
+  "evidence_ok": true,
+  "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+  "prereg_status": "APPROVED",
+  "recipe": {
+    "evaluator": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+    "fresh_family": "g0-v0361-dev",
+    "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+    "pass_field": "test_admission_passed",
+    "seed_container": "range",
+    "seed_symbol": "TEST_IDS"
+  },
+  "seed_plan": {
+    "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+    "name": "g0-v0361-dev",
+    "purpose": "DEV",
+    "start": 307000,
+    "stop": 307127
+  }
+}

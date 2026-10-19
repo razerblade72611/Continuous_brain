@@ -1,0 +1,32 @@
+{
+  "dependency_closure_post_problems": [],
+  "dependency_closure_still_matches": true,
+  "engineering_seed_family": {
+    "name": "g0-preflight-v0361-eng",
+    "purpose": "ENGINEERING",
+    "sealed": false,
+    "spent": true,
+    "start": 902400,
+    "stop": 902527
+  },
+  "evaluator_relpath": "evaluate_recursive_autobiographical_curriculum_test_v1.py",
+  "evaluator_sha256": "199d425411c3af4cb83dc09659f5dadf496a88b7cc8cf475189f6b2197721e11",
+  "format": "cb-g0-runtime-preflight/1",
+  "historical_core_archive_sha256": "a73545ba5729214101e17f96578cdbeb3e9f27e16773c61b7a5764edad6aa554",
+  "historical_core_manifest_digest": "e4decc380be29eb9378ba5ad4c2db52e13d011a6dbb577374c4bf65f14dcb633",
+  "historical_test_reopened": false,
+  "item": "G0_RUNTIME_PREFLIGHT",
+  "legacy_tree_metadata_unchanged": true,
+  "mechanism_id": "recursive_autobiographical_curriculum_v0361",
+  "note": "ENGINEERING_ONLY compatibility check. Evaluator metrics/pass fields are intentionally not copied into this attestation and must not be interpreted.",
+  "pinned_evidence_still_matches": true,
+  "process_returncode": 0,
+  "raw_result_exists": true,
+  "raw_result_sha256": "04b6d19864b2db0a80ebdba6ca76a46fbf99363634ea40d8282924adc11fcab8",
+  "runtime_completed": true,
+  "scientific_dev_family_opened": false,
+  "scientific_interpretation_permitted": false,
+  "status": "ENGINEERING_ONLY",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "534ca415b716e761173bec2159fb75d121f108ebfcd9da98870bba2ee4c46737"
+}

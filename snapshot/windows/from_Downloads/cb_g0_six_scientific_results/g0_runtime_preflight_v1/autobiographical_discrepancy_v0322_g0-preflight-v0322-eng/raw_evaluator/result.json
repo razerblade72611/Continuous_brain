@@ -1,0 +1,91 @@
+{
+  "causal_history_metrics": {
+    "discrepancy_ablation_bit_exact_neutral": 1.0,
+    "discrepancy_ablation_exact_neutral": 1.0,
+    "donor_history_flips_commitment": 1.0,
+    "erased_history_exact_neutral": 1.0,
+    "normal_history_forms_correct_commitment": 1.0,
+    "primary_labels_alone_exact_neutral": 1.0
+  },
+  "checks": {
+    "commitment_formation": true,
+    "discrepancy_ablation_bit_exact_neutral": true,
+    "discrepancy_ablation_exact_neutral": true,
+    "donor_history_causal": true,
+    "empty_history_exact_neutral": true,
+    "fresh_direct_history": true,
+    "fresh_donor_history": true,
+    "model_reload_preference_exact": true,
+    "model_reload_reliability_exact": true,
+    "normal_history_causal": true,
+    "primary_labels_alone_exact_neutral": true,
+    "reliability_prediction": true,
+    "zero_discrepancy_gradient_alive": true,
+    "zero_discrepancy_structural_neutral": true
+  },
+  "format": "continuous_brain.autobiographical_self_discrepancy_neutral_test_v1",
+  "fresh_history_swap_metrics": {
+    "direct_history_commitment_accuracy": 1.0,
+    "donor_history_commitment_flip_rate": 1.0,
+    "mean_reliability_margin": 0.9167447332292795
+  },
+  "historical_status": {
+    "v0311_trajectory_test": "PASS",
+    "v0320": "FAIL",
+    "v0321_dev_repair": "PASS"
+  },
+  "model_metadata": {
+    "best_epoch": 15,
+    "reused_dev_subject_ids": [
+      3000,
+      3255
+    ],
+    "source_model_sha256": "84e2a7c3b804ed8dc536b6b13cf5833b446d2e7d56585f1c561eea8a40813fa7",
+    "source_result_sha256": "223cb964a6b1070ac366ce9b091a366bd9bde0fcd97643ced2e5aa174264fa5a",
+    "structural_neutrality": true,
+    "test_subject_ids": [
+      6000,
+      6255
+    ],
+    "test_touched": false,
+    "train_subject_ids": [
+      0,
+      1023
+    ],
+    "trajectory_model_sha256": "1f6997c8d36c96557772b42af964894afce7e0eba04661ac4b7dd68ccfa99457"
+  },
+  "model_sha256": "df850057cb672e3a5dcb82afe477b24a8df76c67f13383fc449e59072e8b39f1",
+  "protected_unchanged": true,
+  "reload_metrics": {
+    "preference_exact_after_model_reload": 1.0,
+    "reliability_exact_after_model_reload": 1.0
+  },
+  "scope": {
+    "consciousness_claimed": false,
+    "functional_autobiographical_self_model_claimed": true,
+    "sentience_claimed": false,
+    "subjective_experience_claimed": false
+  },
+  "source_model_unchanged": true,
+  "split": {
+    "test": [
+      6000,
+      6255
+    ],
+    "test_spent": true,
+    "test_tuning_after_run_forbidden": true,
+    "test_used": true
+  },
+  "structural_neutrality_metrics": {
+    "max_abs_discrepancy_input_gradient": 0.1487472504377365,
+    "zero_discrepancy_exact_neutral": true,
+    "zero_discrepancy_gradient_alive": true
+  },
+  "test_admission_passed": true,
+  "test_metrics": {
+    "mean_preference_margin": 0.9167448282241821,
+    "preference_accuracy": 1.0,
+    "reliability_mae": 0.05392928794026375
+  },
+  "training_performed": false
+}

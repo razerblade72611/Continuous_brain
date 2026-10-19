@@ -1,0 +1,121 @@
+world_consolidation=1/3000 loss=0.07888 grad=0.394 d0:world=0.0072,ctx=0.0127,rank=0.0016 d1:world=0.0008,ctx=0.0028,rank=0.0013
+world_consolidation=250/3000 loss=0.08644 grad=0.199 d0:world=0.0063,ctx=0.0070,rank=0.0001 d1:world=0.0014,ctx=0.0001,rank=0.0000
+world_consolidation=500/3000 loss=0.00892 grad=0.079 d0:world=0.0013,ctx=0.0005,rank=0.0000 d1:world=0.0012,ctx=0.0004,rank=0.0000
+world_consolidation=750/3000 loss=0.01467 grad=0.071 d0:world=0.0045,ctx=0.0016,rank=0.0002 d1:world=0.0014,ctx=0.0003,rank=0.0000
+world_consolidation=1000/3000 loss=0.03440 grad=0.105 d0:world=0.0081,ctx=0.0033,rank=0.0003 d1:world=0.0011,ctx=0.0000,rank=0.0000
+world_consolidation=1250/3000 loss=0.00448 grad=0.029 d0:world=0.0012,ctx=0.0003,rank=0.0001 d1:world=0.0012,ctx=0.0000,rank=0.0000
+world_consolidation=1500/3000 loss=0.00386 grad=0.033 d0:world=0.0013,ctx=0.0001,rank=0.0001 d1:world=0.0012,ctx=0.0001,rank=0.0001
+world_consolidation=1750/3000 loss=0.01917 grad=0.067 d0:world=0.0092,ctx=0.0025,rank=0.0001 d1:world=0.0009,ctx=0.0002,rank=0.0000
+world_consolidation=2000/3000 loss=0.02370 grad=0.060 d0:world=0.0104,ctx=0.0030,rank=0.0000 d1:world=0.0013,ctx=0.0000,rank=0.0000
+world_consolidation=2250/3000 loss=0.00541 grad=0.044 d0:world=0.0020,ctx=0.0002,rank=0.0001 d1:world=0.0012,ctx=0.0002,rank=0.0000
+world_consolidation=2500/3000 loss=0.00558 grad=0.048 d0:world=0.0013,ctx=0.0003,rank=0.0000 d1:world=0.0012,ctx=0.0001,rank=0.0001
+world_consolidation=2750/3000 loss=0.10473 grad=0.300 d0:world=0.0145,ctx=0.0140,rank=0.0000 d1:world=0.0009,ctx=0.0070,rank=0.0000
+world_consolidation=3000/3000 loss=0.02799 grad=0.165 d0:world=0.0036,ctx=0.0012,rank=0.0001 d1:world=0.0010,ctx=0.0019,rank=0.0008
+{
+  "action_balanced_within_domain": true,
+  "balanced_domain_weighting": true,
+  "changed_non_world_tensors": 0,
+  "checkpoint": "/home/davei/projects/continuous_brain_v0.10.4/continuous_brain_project/state/child_v104_consolidated/infant_training.pt",
+  "format": "continuous_brain.world_consolidation_training.v104",
+  "holdout_seal_sha256": "8f00579cad8e283fac4103da250b1c768b5ad92353d628f8bc50700db4d63a4b",
+  "latest_by_domain": {
+    "0": {
+      "loss": 0.01510280929505825,
+      "reward": 0.0013884861255064607,
+      "success": 0.003541461192071438,
+      "world": 0.0035733210388571024,
+      "world_action_rank": 0.0001300749136134982,
+      "world_context": 0.0012023256858810782
+    },
+    "1": {
+      "loss": 0.040887102484703064,
+      "reward": 0.013625015504658222,
+      "success": 0.05070503428578377,
+      "world": 0.0009799919789656997,
+      "world_action_rank": 0.0007549797301180661,
+      "world_context": 0.0019019544124603271
+    }
+  },
+  "source_checkpoint_sha256": "ba1792d340b761ae436585f77a6a80dd7188b4daf108e4ab4c0c7bf8091fae07",
+  "source_training_updates": 11000,
+  "trained_checkpoint_sha256": "1936e046b21292a5d0519d03fe087f2568b3899e91e9bd6796a0b020a966b3a9",
+  "training": {
+    "batch_per_domain": 16,
+    "learning_rate": 0.0001,
+    "seed": 10410,
+    "updates": 3000
+  },
+  "training_domains": [
+    {
+      "executed_action_counts": {
+        "0": 535,
+        "1": 1433,
+        "2": 1448,
+        "3": 1433,
+        "4": 1436
+      },
+      "path": "/home/davei/projects/continuous_brain_v0.9.5/continuous_brain_project/state/nursery_v095_mixed_003",
+      "transition_digest": "3866b2698e2df336e9bf713063f1344913353fd80d61200ce5b32e6948035215",
+      "world_records": 6285
+    },
+    {
+      "executed_action_counts": {
+        "0": 359,
+        "1": 830,
+        "2": 835,
+        "3": 380,
+        "4": 1196
+      },
+      "path": "/home/davei/projects/continuous_brain_v0.9.6/continuous_brain_project/state/nursery_v096_detour_train",
+      "transition_digest": "d3c8a9407fcaadf3337133d224b88d3e4e741d19bfeb1f01ae904d5318e042db",
+      "world_records": 3600
+    }
+  ],
+  "training_updates": 14000,
+  "world_consolidation_updates": 3000,
+  "world_only": true,
+  "world_only_trainable_parameters": [
+    "world.members.0.net.0.weight",
+    "world.members.0.net.0.bias",
+    "world.members.0.net.2.weight",
+    "world.members.0.net.2.bias",
+    "world.members.0.next_bus.weight",
+    "world.members.0.next_bus.bias",
+    "world.members.0.next_context.weight",
+    "world.members.0.next_context.bias",
+    "world.members.0.state_bus.weight",
+    "world.members.0.state_context.weight",
+    "world.members.0.reward.weight",
+    "world.members.0.reward.bias",
+    "world.members.0.success.weight",
+    "world.members.0.success.bias",
+    "world.members.1.net.0.weight",
+    "world.members.1.net.0.bias",
+    "world.members.1.net.2.weight",
+    "world.members.1.net.2.bias",
+    "world.members.1.next_bus.weight",
+    "world.members.1.next_bus.bias",
+    "world.members.1.next_context.weight",
+    "world.members.1.next_context.bias",
+    "world.members.1.state_bus.weight",
+    "world.members.1.state_context.weight",
+    "world.members.1.reward.weight",
+    "world.members.1.reward.bias",
+    "world.members.1.success.weight",
+    "world.members.1.success.bias",
+    "world.members.2.net.0.weight",
+    "world.members.2.net.0.bias",
+    "world.members.2.net.2.weight",
+    "world.members.2.net.2.bias",
+    "world.members.2.next_bus.weight",
+    "world.members.2.next_bus.bias",
+    "world.members.2.next_context.weight",
+    "world.members.2.next_context.bias",
+    "world.members.2.state_bus.weight",
+    "world.members.2.state_context.weight",
+    "world.members.2.reward.weight",
+    "world.members.2.reward.bias",
+    "world.members.2.success.weight",
+    "world.members.2.success.bias"
+  ]
+}

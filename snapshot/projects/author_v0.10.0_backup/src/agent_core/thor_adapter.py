@@ -1,0 +1,533 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, replace
+import math
+from typing import Any
+import time
+
+from .models import Action, ActionKind
+from .navigation import NavigationConfig, facing_yaw, path_to_actions, rotation_actions, shortest_grid_path
+from .learning import LearningPaths
+from .nav_skill import NavigationSkill
+from .world_map import PersistentWorldMap
+from .world_state import normalize_event
+
+
+@dataclass
+class ThorConfig:
+    scene: str = "FloorPlan1"
+    grid_size: float = 0.25
+    rotate_step_degrees: float = 90.0
+    visibility_distance: float = 1.5
+    interaction_distance: float = 1.25
+    width: int = 640
+    height: int = 480
+    field_of_view: int = 90
+    headless: bool = False
+    step_delay_seconds: float = 0.0
+    render_instance_segmentation: bool = True
+    local_executable_path: str | None = None
+    # v0.7 persistent low-level navigation skill. This is controller-private and
+    # never serializes its map or simulator coordinates into the LLM prompt.
+    learning_state_dir: str | None = None
+    use_learned_navigation: bool = True
+
+
+@dataclass
+class ThorExecution:
+    event: Any
+    state: Any
+    primitive_steps: int
+
+
+def _learned_route_actions(
+    config: ThorConfig,
+    world,
+    target_position: dict[str, float],
+    interaction_distance: float,
+) -> tuple[list[dict[str, float]], list[Action]]:
+    if not config.use_learned_navigation or not config.learning_state_dir:
+        return [], []
+    paths = LearningPaths.from_root(config.learning_state_dir)
+    map_path = paths.scene_map(config.scene)
+    if not map_path.exists():
+        return [], []
+    learned_map = PersistentWorldMap(config.scene, config.grid_size, map_path)
+    path = learned_map.route(
+        world.pose.position,
+        target_position,
+        interaction_distance=interaction_distance,
+    )
+    if not path:
+        return [], []
+    skill = NavigationSkill(paths.navigation_checkpoint)
+    actions = skill.route_actions(
+        path,
+        initial_yaw=float(world.pose.rotation.get("y", 0.0)),
+        final_target=target_position,
+        rotate_step_degrees=config.rotate_step_degrees,
+    )
+    return path, actions
+
+
+def _choose_cross_threshold_target(
+    current_position: dict[str, float],
+    door_position: dict[str, float],
+    reachable: list[dict[str, float]],
+    *,
+    min_beyond: float = 0.35,
+    max_lateral: float = 0.9,
+) -> dict[str, float] | None:
+    """Choose a reachable point just beyond a selected doorway.
+
+    The semantic target (the door) is already chosen by the agent.  This helper only
+    performs body geometry: continue from the agent side through the door plane.
+    """
+    cx, cz = float(current_position["x"]), float(current_position["z"])
+    dx, dz = float(door_position["x"]) - cx, float(door_position["z"]) - cz
+    norm = math.hypot(dx, dz)
+    if norm < 1e-6:
+        return None
+    ux, uz = dx / norm, dz / norm
+
+    candidates: list[tuple[float, float, dict[str, float]]] = []
+    for point in reachable:
+        px = float(point["x"]) - float(door_position["x"])
+        pz = float(point["z"]) - float(door_position["z"])
+        beyond = px * ux + pz * uz
+        lateral = abs(px * (-uz) + pz * ux)
+        if beyond < min_beyond or lateral > max_lateral:
+            continue
+        # Prefer a point 0.75-1.25 m beyond the threshold and near the centerline.
+        score = abs(beyond - 0.9) + lateral * 1.5
+        candidates.append((score, beyond, point))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda row: (row[0], row[1]))
+    return dict(candidates[0][2])
+
+
+def _cross_threshold_for_adapter(adapter, action: Action, step_budget: int | None = None) -> ThorExecution:
+    object_id = str(action.params.get("objectId", ""))
+    if not object_id:
+        raise ValueError("CrossThreshold requires params.objectId.")
+    world = adapter.observe()
+    door = world.objects.get(object_id)
+    if door is None or door.position is None:
+        raise ValueError(f"CrossThreshold target not found or has no position: {object_id}")
+    if door.openable and door.is_open is not True:
+        raise ValueError("CrossThreshold requires the selected door to already be open.")
+
+    reachable = adapter.get_reachable_positions()
+    target = _choose_cross_threshold_target(world.pose.position, door.position, reachable)
+    if target is None:
+        raise ValueError("No reachable position was found beyond the selected doorway.")
+
+    nav_config = NavigationConfig(
+        grid_size=adapter.config.grid_size,
+        rotate_step_degrees=adapter.config.rotate_step_degrees,
+        interaction_distance=max(0.05, adapter.config.grid_size * 0.6),
+    )
+    path = shortest_grid_path(reachable, world.pose.position, target, nav_config)
+    primitive_actions = path_to_actions(
+        path,
+        initial_yaw=float(world.pose.rotation.get("y", 0.0)),
+        target_position=target,
+        config=nav_config,
+    )
+    if step_budget is not None:
+        primitive_actions = primitive_actions[: max(0, int(step_budget))]
+    if not primitive_actions:
+        return ThorExecution(adapter.raw_event(), adapter.observe(), 0)
+
+    last = None
+    count = 0
+    for primitive in primitive_actions:
+        last = adapter._execute_primitive(primitive)
+        count += 1
+        if last.state.last_action_success is False:
+            break
+    if last is None:
+        return ThorExecution(adapter.raw_event(), adapter.observe(), 0)
+    last.primitive_steps = count
+    return last
+
+
+class ThorAdapter:
+    """Boundary around AI2-THOR plus deterministic grid navigation."""
+
+    def __init__(self, config: ThorConfig):
+        self.config = config
+        self.controller = None
+        self.step_index = 0
+        self.state = None
+
+    def start(self) -> None:
+        from ai2thor.controller import Controller
+
+        kwargs = dict(
+            agentMode="default",
+            visibilityDistance=self.config.visibility_distance,
+            scene=self.config.scene,
+            gridSize=self.config.grid_size,
+            snapToGrid=True,
+            rotateStepDegrees=self.config.rotate_step_degrees,
+            renderDepthImage=False,
+            renderInstanceSegmentation=self.config.render_instance_segmentation,
+            width=self.config.width,
+            height=self.config.height,
+            fieldOfView=self.config.field_of_view,
+        )
+        if self.config.local_executable_path:
+            kwargs["local_executable_path"] = self.config.local_executable_path
+        if self.config.headless:
+            from ai2thor.platform import CloudRendering
+            kwargs["platform"] = CloudRendering
+
+        self.controller = Controller(**kwargs)
+        self.step_index = 0
+        self.state = normalize_event(self.controller.last_event, self.config.scene, self.step_index)
+
+    def close(self) -> None:
+        if self.controller is not None:
+            self.controller.stop()
+            self.controller = None
+
+    def observe(self):
+        if self.controller is None:
+            raise RuntimeError("THOR adapter is not started.")
+        self.state = normalize_event(self.controller.last_event, self.config.scene, self.step_index)
+        return self.state
+
+    def get_reachable_positions(self) -> list[dict[str, float]]:
+        if self.controller is None:
+            raise RuntimeError("THOR adapter is not started.")
+        event = self.controller.step(action="GetReachablePositions")
+        if event.metadata.get("lastActionSuccess") is False:
+            raise RuntimeError(event.metadata.get("errorMessage") or "GetReachablePositions failed.")
+        return list(event.metadata.get("actionReturn") or [])
+
+    def _execute_primitive(self, action: Action) -> ThorExecution:
+        event = self.controller.step(action=action.kind, **action.params)
+        if self.config.step_delay_seconds > 0:
+            time.sleep(self.config.step_delay_seconds)
+        self.step_index += 1
+        self.state = normalize_event(event, self.config.scene, self.step_index)
+        return ThorExecution(event=event, state=self.state, primitive_steps=1)
+
+    def _navigate_to(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        object_id = str(action.params.get("objectId", ""))
+        if not object_id:
+            raise ValueError("NavigateTo requires params.objectId.")
+
+        world = self.observe()
+        target = world.objects.get(object_id)
+        if target is None or target.position is None:
+            raise ValueError(f"NavigateTo target not found or has no position: {object_id}")
+
+        nav_config = NavigationConfig(
+            grid_size=self.config.grid_size,
+            rotate_step_degrees=self.config.rotate_step_degrees,
+            interaction_distance=float(action.params.get("interactionDistance", self.config.interaction_distance)),
+        )
+        path, primitive_actions = _learned_route_actions(
+            self.config,
+            world,
+            target.position,
+            nav_config.interaction_distance,
+        )
+        if not path:
+            reachable = self.get_reachable_positions()
+            path = shortest_grid_path(
+                reachable,
+                world.pose.position,
+                target.position,
+                nav_config,
+            )
+            primitive_actions = path_to_actions(
+                path,
+                initial_yaw=float(world.pose.rotation.get("y", 0.0)),
+                target_position=target.position,
+                config=nav_config,
+            )
+
+        if not primitive_actions:
+            # Already at the best reachable position; keep the current event.
+            return ThorExecution(self.controller.last_event, self.observe(), 0)
+
+        if step_budget is not None and len(primitive_actions) > step_budget:
+            primitive_actions = primitive_actions[:step_budget]
+
+        last: ThorExecution | None = None
+        for primitive in primitive_actions:
+            last = self._execute_primitive(primitive)
+            if last.state.last_action_success is False:
+                break
+
+        if last is None:
+            return ThorExecution(self.controller.last_event, self.observe(), 0)
+        last.primitive_steps = len(primitive_actions) if last.state.last_action_success is not False else max(1, self.step_index - world.step_index)
+        return last
+
+    def _face_target(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        object_id = str(action.params.get("objectId", ""))
+        if not object_id:
+            raise ValueError("FaceTarget requires params.objectId.")
+
+        world = self.observe()
+        target = world.objects.get(object_id)
+        if target is None or target.position is None:
+            raise ValueError(f"FaceTarget target not found or has no position: {object_id}")
+
+        desired_yaw = facing_yaw(world.pose.position, target.position)
+        turns = rotation_actions(
+            float(world.pose.rotation.get("y", 0.0)),
+            desired_yaw,
+            self.config.rotate_step_degrees,
+        )
+        if step_budget is not None:
+            turns = turns[:step_budget]
+        if not turns:
+            return ThorExecution(self.controller.last_event, self.observe(), 0)
+
+        last: ThorExecution | None = None
+        count = 0
+        for primitive in turns:
+            last = self._execute_primitive(primitive)
+            count += 1
+            if last.state.last_action_success is False:
+                break
+        if last is None:
+            return ThorExecution(self.controller.last_event, self.observe(), 0)
+        last.primitive_steps = count
+        return last
+
+    def execute(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        if self.controller is None:
+            raise RuntimeError("THOR adapter is not started.")
+        if action.kind == ActionKind.NAVIGATE_TO.value:
+            return self._navigate_to(action, step_budget=step_budget)
+        if action.kind == ActionKind.FACE_TARGET.value:
+            return self._face_target(action, step_budget=step_budget)
+        if action.kind == ActionKind.CROSS_THRESHOLD.value:
+            return _cross_threshold_for_adapter(self, action, step_budget=step_budget)
+        return self._execute_primitive(action)
+
+    def raw_event(self):
+        return None if self.controller is None else self.controller.last_event
+
+
+class SharedThorWorld:
+    """One AI2-THOR Controller/Unity scene shared by multiple embodied agents."""
+
+    def __init__(self, config: ThorConfig, agent_count: int = 2):
+        if agent_count < 2:
+            raise ValueError("SharedThorWorld requires agent_count >= 2.")
+        self.config = config
+        self.agent_count = int(agent_count)
+        self.controller = None
+
+    def start(self) -> None:
+        from ai2thor.controller import Controller
+
+        kwargs = dict(
+            agentMode="default",
+            visibilityDistance=self.config.visibility_distance,
+            scene=self.config.scene,
+            gridSize=self.config.grid_size,
+            snapToGrid=True,
+            rotateStepDegrees=self.config.rotate_step_degrees,
+            renderDepthImage=False,
+            renderInstanceSegmentation=self.config.render_instance_segmentation,
+            width=self.config.width,
+            height=self.config.height,
+            fieldOfView=self.config.field_of_view,
+            agentCount=self.agent_count,
+            # Explicitly render every embodied agent body in every other agent's RGB view.
+            # AI2-THOR colors additional agents distinctly; this remains visual input, not
+            # an object-catalog hint.
+            makeAgentsVisible=True,
+        )
+        if self.config.local_executable_path:
+            kwargs["local_executable_path"] = self.config.local_executable_path
+        if self.config.headless:
+            from ai2thor.platform import CloudRendering
+            kwargs["platform"] = CloudRendering
+
+        self.controller = Controller(**kwargs)
+        events = getattr(self.controller.last_event, "events", None)
+        if events is None or len(events) < self.agent_count:
+            self.close()
+            raise RuntimeError(
+                f"AI2-THOR did not initialize {self.agent_count} agents in one scene. "
+                "Expected a Multi-Agent Event with per-agent events."
+            )
+
+    def close(self) -> None:
+        if self.controller is not None:
+            self.controller.stop()
+            self.controller = None
+
+    def event_for(self, agent_id: int, event: Any | None = None):
+        if self.controller is None:
+            raise RuntimeError("Shared THOR world is not started.")
+        if not 0 <= int(agent_id) < self.agent_count:
+            raise IndexError(f"Invalid agent_id={agent_id}; count={self.agent_count}")
+        multi = self.controller.last_event if event is None else event
+        events = getattr(multi, "events", None)
+        if events is None:
+            if self.agent_count == 1:
+                return multi
+            raise RuntimeError("Expected AI2-THOR Multi-Agent Event with `.events`.")
+        return events[int(agent_id)]
+
+    def step_for(self, agent_id: int, action: str, **params):
+        if self.controller is None:
+            raise RuntimeError("Shared THOR world is not started.")
+        multi = self.controller.step(action=action, agentId=int(agent_id), **params)
+        return self.event_for(agent_id, multi)
+
+    def agent(self, agent_id: int) -> "ThorAgentAdapter":
+        return ThorAgentAdapter(self, int(agent_id))
+
+
+class ThorAgentAdapter:
+    """
+    Per-agent view of a SharedThorWorld.
+
+    Each adapter has independent step counters and pacing, but every action is sent
+    through the same Unity controller with an explicit `agentId`.
+    """
+
+    def __init__(self, world: SharedThorWorld, agent_id: int):
+        if not 0 <= agent_id < world.agent_count:
+            raise IndexError(f"Invalid agent_id={agent_id}; count={world.agent_count}")
+        self.world = world
+        self.agent_id = int(agent_id)
+        self.config = replace(world.config)
+        self.step_index = 0
+        self.state = None
+
+    @property
+    def controller(self):
+        return self.world.controller
+
+    def start(self) -> None:
+        if self.world.controller is None:
+            raise RuntimeError("Start SharedThorWorld before creating/using agent adapters.")
+        self.step_index = 0
+        self.state = self.observe()
+
+    def close(self) -> None:
+        # The shared world owns the Unity process.
+        return None
+
+    def observe(self):
+        event = self.world.event_for(self.agent_id)
+        self.state = normalize_event(event, self.config.scene, self.step_index)
+        return self.state
+
+    def raw_event(self):
+        if self.world.controller is None:
+            return None
+        return self.world.event_for(self.agent_id)
+
+    def get_reachable_positions(self) -> list[dict[str, float]]:
+        event = self.world.step_for(self.agent_id, "GetReachablePositions")
+        if event.metadata.get("lastActionSuccess") is False:
+            raise RuntimeError(event.metadata.get("errorMessage") or "GetReachablePositions failed.")
+        return list(event.metadata.get("actionReturn") or [])
+
+    def _execute_primitive(self, action: Action) -> ThorExecution:
+        event = self.world.step_for(self.agent_id, action.kind, **action.params)
+        if self.config.step_delay_seconds > 0:
+            time.sleep(self.config.step_delay_seconds)
+        self.step_index += 1
+        self.state = normalize_event(event, self.config.scene, self.step_index)
+        return ThorExecution(event=event, state=self.state, primitive_steps=1)
+
+    def _navigate_to(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        object_id = str(action.params.get("objectId", ""))
+        if not object_id:
+            raise ValueError("NavigateTo requires params.objectId.")
+
+        world = self.observe()
+        target = world.objects.get(object_id)
+        if target is None or target.position is None:
+            raise ValueError(f"NavigateTo target not found or has no position: {object_id}")
+
+        nav_config = NavigationConfig(
+            grid_size=self.config.grid_size,
+            rotate_step_degrees=self.config.rotate_step_degrees,
+            interaction_distance=float(action.params.get("interactionDistance", self.config.interaction_distance)),
+        )
+        path, primitive_actions = _learned_route_actions(
+            self.config,
+            world,
+            target.position,
+            nav_config.interaction_distance,
+        )
+        if not path:
+            reachable = self.get_reachable_positions()
+            path = shortest_grid_path(reachable, world.pose.position, target.position, nav_config)
+            primitive_actions = path_to_actions(
+                path,
+                initial_yaw=float(world.pose.rotation.get("y", 0.0)),
+                target_position=target.position,
+                config=nav_config,
+            )
+        if not primitive_actions:
+            return ThorExecution(self.raw_event(), self.observe(), 0)
+        if step_budget is not None and len(primitive_actions) > step_budget:
+            primitive_actions = primitive_actions[:step_budget]
+
+        last = None
+        count = 0
+        for primitive in primitive_actions:
+            last = self._execute_primitive(primitive)
+            count += 1
+            if last.state.last_action_success is False:
+                break
+        if last is None:
+            return ThorExecution(self.raw_event(), self.observe(), 0)
+        last.primitive_steps = count
+        return last
+
+    def _face_target(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        object_id = str(action.params.get("objectId", ""))
+        if not object_id:
+            raise ValueError("FaceTarget requires params.objectId.")
+        world = self.observe()
+        target = world.objects.get(object_id)
+        if target is None or target.position is None:
+            raise ValueError(f"FaceTarget target not found or has no position: {object_id}")
+        desired_yaw = facing_yaw(world.pose.position, target.position)
+        turns = rotation_actions(
+            float(world.pose.rotation.get("y", 0.0)), desired_yaw, self.config.rotate_step_degrees
+        )
+        if step_budget is not None:
+            turns = turns[:step_budget]
+        if not turns:
+            return ThorExecution(self.raw_event(), self.observe(), 0)
+        last = None
+        count = 0
+        for primitive in turns:
+            last = self._execute_primitive(primitive)
+            count += 1
+            if last.state.last_action_success is False:
+                break
+        if last is None:
+            return ThorExecution(self.raw_event(), self.observe(), 0)
+        last.primitive_steps = count
+        return last
+
+    def execute(self, action: Action, step_budget: int | None = None) -> ThorExecution:
+        if self.world.controller is None:
+            raise RuntimeError("Shared THOR world is not started.")
+        if action.kind == ActionKind.NAVIGATE_TO.value:
+            return self._navigate_to(action, step_budget=step_budget)
+        if action.kind == ActionKind.FACE_TARGET.value:
+            return self._face_target(action, step_budget=step_budget)
+        if action.kind == ActionKind.CROSS_THRESHOLD.value:
+            return _cross_threshold_for_adapter(self, action, step_budget=step_budget)
+        return self._execute_primitive(action)

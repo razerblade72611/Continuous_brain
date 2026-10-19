@@ -1,0 +1,72 @@
+{
+  "status": "verified",
+  "artifact_hashes_checked": 192,
+  "result_sha256": "01e932f215c3219035002e107747fa254e517675e2cc2248b853024c546f7ef3",
+  "plan_sha256": "fc0d0d3f19d5764199455849f0b6f62af0884edf3b8d0d2b88a0f5d880976735",
+  "script_sha256": "a7fa1e7d8f9e81b89c4fb5587c44fe5ec17c98f45c46eefdd3d6b041d60f2e02",
+  "all_features_and_readouts_finite": true,
+  "parameter_hashes_unchanged": true,
+  "episode_count": 48,
+  "recorded_actions": 23057,
+  "mean_balanced_accuracy": {
+    "constant": 0.582708832269266,
+    "learning/full": 0.6904026301835129,
+    "learning/one": 0.6318899134631597,
+    "learning/frame": 0.6622459384095415,
+    "reference/full": 0.6727961634414628,
+    "reference/one": 0.6275419570366856,
+    "reference/frame": 0.6625083074698659,
+    "frozen/full": 0.6650232225274126,
+    "frozen/one": 0.6285533637102723,
+    "frozen/frame": 0.655689840479543
+  },
+  "independently_recomputed_contrasts": {
+    "learning/full-minus-one": {
+      "mean": 0.0585127167203533,
+      "lower95": 0.042940806540314645,
+      "upper95": 0.07441366175685843
+    },
+    "learning/full-minus-frame": {
+      "mean": 0.028156691773971468,
+      "lower95": 0.013731434805193584,
+      "upper95": 0.04223346918822859
+    },
+    "reference/full-minus-one": {
+      "mean": 0.04525420640477722,
+      "lower95": 0.035408552554994664,
+      "upper95": 0.05493109752884366
+    },
+    "reference/full-minus-frame": {
+      "mean": 0.010287855971596871,
+      "lower95": -0.005289336758681206,
+      "upper95": 0.025642883318134503
+    },
+    "frozen/full-minus-one": {
+      "mean": 0.03646985881714038,
+      "lower95": 0.02313128786814234,
+      "upper95": 0.04950339444903596
+    },
+    "frozen/full-minus-frame": {
+      "mean": 0.00933338204786964,
+      "lower95": -0.005848142189249666,
+      "upper95": 0.02403588727817641
+    },
+    "learning/full-minus-reference": {
+      "mean": 0.017606466742050256,
+      "lower95": 0.007510392233554481,
+      "upper95": 0.027657276800681224
+    },
+    "learning/full-minus-frozen": {
+      "mean": 0.025379407656100354,
+      "lower95": 0.012563885937680722,
+      "upper95": 0.038055296570066635
+    },
+    "learning/full-minus-constant": {
+      "mean": 0.10769379791424702,
+      "lower95": 0.08348005743024414,
+      "upper95": 0.13066397170381422
+    }
+  },
+  "source_git_revision": "b6a76ee1aba5ea5751136a8022492377eec7b4cf",
+  "source_git_status": ""
+}

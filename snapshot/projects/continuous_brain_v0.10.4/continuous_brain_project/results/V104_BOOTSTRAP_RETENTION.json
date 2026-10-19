@@ -1,0 +1,54 @@
+{
+  "capability_scores": {
+    "language": 0.9686318981290978,
+    "motor": 0.0,
+    "values": 0.9950715870641371,
+    "vision": 0.9569252375194005
+  },
+  "dataset_digest": "4b42eaec4fd6cce48575bbc8d1c928f3cccfbdb18cfd4ad18548a5ff89f2b4ca",
+  "evaluated_capabilities": [
+    "vision",
+    "language"
+  ],
+  "evidence": {
+    "action_counts": {},
+    "care_max_std": 5.21540641784668e-08,
+    "executed_action_counts": {},
+    "qa_records": 350,
+    "supported_executed_action_counts": {},
+    "world_context_valid_records": 0,
+    "world_valid_records": 0
+  },
+  "evidence_eligible": {
+    "language": true,
+    "motor": false,
+    "values": false,
+    "vision": true,
+    "world": false
+  },
+  "format": "continuous_brain.parented_qualification.v095",
+  "metrics": {
+    "language_generated_similarity": 0.9691397034041119,
+    "language_token_accuracy": 0.9684142672969489,
+    "motor_accuracy": 0.0,
+    "validation_records": 350,
+    "value_mae": 0.00492841293586285,
+    "vision_historical_cosine_by_parent": {
+      "vision.dinov3.vits_legacy": 0.9631938769136157
+    },
+    "vision_parent_cosine": 0.9569252375194005,
+    "vision_retention_min": 0.9631938769136157
+  },
+  "passed": true,
+  "thresholds": {
+    "language": 0.7,
+    "motor": 0.7,
+    "values": 0.8,
+    "vision": 0.8
+  },
+  "training_updates": 14000,
+  "world_model_passed": null,
+  "world_spatial_passed": null,
+  "world_structured_state_passed": null,
+  "world_visual_passed": null
+}
