@@ -9,17 +9,30 @@ Update: Titans momentum + forget rule (see memory.py). Awake = one pass over the
 same sentences, accepted only if ordinary-language loss on the DEV competence set stays within the band, else rolled
 back to the pre-sleep weights.
 
-Probes: the question prefix alone (e.g. "David's lucky object is"), nothing from the life in context. The backbone's
-next-token logits are compared across the whole value pool; a hit is the true value ranking first.
+Probes: the question prefix alone (e.g. "David's lucky object is"), nothing from the life in context. Three scores:
+  forced    the true value ranks first among the value pool (forced choice; chance = 1/pool)
+  full      the true value is the top-1 next token over the WHOLE vocabulary (unrestricted next token)
+  generated greedy 3-token continuation contains the value word (unrestricted answering)
 
 Arms per seed: lived, wiped (same birth, never lived; identical to the backbone by construction), stranger (same birth,
 lived an equal-length life with the same questions but different answers; scored on the lived answers).
-After sleep the lived being also lives an unrelated block (another person's facts) to measure interference.
+
+Checkpoints for the lived being, each scored for recall AND competence:
+  A  after sleep
+  B  after an unrelated interference block (another person's facts, awake only)
+
+Fresh session (Sol review, DAV-104): after checkpoint A the memory weights are saved to a file, the live objects are
+discarded, and recall is re-measured (1) in a new Being in the same process and (2) in a separate Python process that
+loads only the frozen backbone, the config and the weights file and sees only the questions.
 """
 from __future__ import annotations
 
+import json
 import random
+import subprocess
+import sys
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 import torch
 import torch.nn.functional as F
@@ -28,6 +41,7 @@ from .backbone import backbone_hash
 from .competence import load_sentences, mean_loss
 from .memory import TitansMemory
 
+ROOT = Path(__file__).resolve().parents[1]
 SUBJECT = "David"
 INTERFERER = "Maria"
 
@@ -51,6 +65,8 @@ VALUE_POOL = [
     " banana", " barrel", " bottle", " button", " carpet", " cookie", " copper", " crystal", " donkey", " garden",
     " hammock", " island", " jungle", " ladle", " meadow", " muffin", " oyster", " peanut", " pickle", " puppet",
 ]
+
+SCORES = ("forced", "full", "generated")
 
 
 @dataclass
@@ -84,6 +100,14 @@ def make_life(seed: int, subject: str, n: int, pool):
     return [(a, v) for a, v in zip(attrs, vals)]
 
 
+def lives_for_seed(seed, cfg, pool):
+    life = make_life(seed, SUBJECT, cfg.facts, pool)
+    st = make_life(seed + 500_000, SUBJECT, cfg.facts, pool)
+    st_life = [(a, v) for (a, _), (_, v) in zip(life, st)]  # same questions, different answers
+    other = make_life(seed + 900_000, INTERFERER, cfg.interference_facts, pool)
+    return life, st_life, other
+
+
 def sentence(subject, attr, value_word):
     return f"{subject}'s {attr} is{value_word}."
 
@@ -103,12 +127,9 @@ class Being:
         self.model, self.tok, self.cfg = model, tok, cfg
         d = model.config.n_embd
         self.memory = TitansMemory(d, cfg.hidden, d, birth_seed=birth_seed, train_input=cfg.train_input)
-        self.enabled = True
         self._handle = model.transformer.h[cfg.layer].register_forward_hook(self._hook)
 
     def _hook(self, module, inputs, output):
-        if not self.enabled:
-            return output
         h = output[0] if isinstance(output, tuple) else output
         x = F.layer_norm(h, h.shape[-1:])
         h = h + self.memory(x)
@@ -131,23 +152,42 @@ class Being:
             for t in order:
                 self.live_sentence(t)
 
+    def save_weights(self, path: Path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        torch.save({n: p.detach().clone() for n, p in self.memory.named_parameters()}, path)
+        return self.memory.weight_hash()
+
+    @torch.no_grad()
+    def load_weights(self, path: Path):
+        state = torch.load(path, weights_only=True)
+        for n, p in self.memory.named_parameters():
+            p.copy_(state[n])
+
 
 @torch.no_grad()
-def probe_hits(being, life, pool, subject, prefix_fn):
+def probe(being, life, pool, subject, prefix_fn) -> dict:
+    """Questions only. Returns counts for forced-choice, full-vocabulary top-1 and generated answers."""
     pool_tok = torch.tensor([t for _, t in pool])
-    hits = 0
+    out = {k: 0 for k in SCORES}
     for attr, v in life:
         ids = being.tok(prefix_fn(subject, attr), return_tensors="pt").input_ids
-        logits = being.model(ids).logits[0, -1, pool_tok]
-        hits += int(int(logits.argmax()) == v)
-    return hits
+        logits = being.model(ids, use_cache=False).logits[0, -1]
+        out["forced"] += int(int(logits[pool_tok].argmax()) == v)
+        out["full"] += int(int(logits.argmax()) == pool[v][1])
+        gen = ids
+        for _ in range(3):
+            nxt = being.model(gen, use_cache=False).logits[0, -1].argmax().view(1, 1)
+            gen = torch.cat([gen, nxt], dim=1)
+        text = being.tok.decode(gen[0, ids.shape[1]:])
+        out["generated"] += int(pool[v][0].strip() in text.lower().replace(".", " ").split())
+    return out
 
 
 def ppl_ratio(being, sentences, base_loss):
     return float(torch.exp(torch.tensor(mean_loss(being.model, being.tok, sentences) - base_loss)))
 
 
-def lived_being(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
+def grow(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
     b = Being(model, tok, cfg, birth_seed=seed)
     texts = [sentence(SUBJECT, a, pool[v][0]) for a, v in life]
     b.live(texts, cfg.awake_passes, rng)
@@ -160,34 +200,53 @@ def lived_being(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
     return b, accepted, dev_ratio
 
 
-def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base_ev):
+def fresh_process_probe(cfg_path: Path, weights: Path, seed: int) -> dict:
+    """Separate Python process: frozen backbone + config + weights file, questions only."""
+    cmd = [sys.executable, "-I", str(ROOT / "scripts/fresh_probe.py"), "--config", str(cfg_path),
+           "--weights", str(weights), "--seed", str(seed)]
+    out = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=ROOT)
+    return json.loads(out.stdout.strip().splitlines()[-1])
+
+
+def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base_ev, weights_dir: Path, cfg_path):
     rng = random.Random(seed * 7 + 1)
-    life = make_life(seed, SUBJECT, cfg.facts, pool)
-    st_life = make_life(seed + 500_000, SUBJECT, cfg.facts, pool)
-    st_life = [(a, v) for (a, _), (_, v) in zip(life, st_life)]  # same questions, different answers
-    other = make_life(seed + 900_000, INTERFERER, cfg.interference_facts, pool)
-
+    life, st_life, other = lives_for_seed(seed, cfg, pool)
     row = {"seed": seed}
+
     b = Being(model, tok, cfg, birth_seed=seed)  # wiped: same birth, never lived
-    row["wiped"] = probe_hits(b, life, pool, SUBJECT, prefix)
-    row["wiped_paraphrase"] = probe_hits(b, life, pool, SUBJECT, paraphrase)
-    row["wiped_memory_hash"] = b.memory.weight_hash()
+    row["wiped"] = probe(b, life, pool, SUBJECT, prefix)
+    row["wiped_paraphrase"] = probe(b, life, pool, SUBJECT, paraphrase)
     b.close()
 
-    b, acc, dev_ratio = lived_being(model, tok, cfg, seed, life, pool, dev, base_dev, rng)
+    b, acc, dev_ratio = grow(model, tok, cfg, seed, life, pool, dev, base_dev, rng)
     row["sleep_accepted"], row["sleep_dev_ratio"] = acc, dev_ratio
-    row["lived"] = probe_hits(b, life, pool, SUBJECT, prefix)
-    row["lived_paraphrase"] = probe_hits(b, life, pool, SUBJECT, paraphrase)
-    row["eval_ppl_ratio_after_sleep"] = ppl_ratio(b, ev, base_ev)
+    row["A_lived"] = probe(b, life, pool, SUBJECT, prefix)
+    row["A_lived_paraphrase"] = probe(b, life, pool, SUBJECT, paraphrase)
+    row["A_eval_ppl_ratio"] = ppl_ratio(b, ev, base_ev)
+    wpath = weights_dir / f"seed{seed}_A.pt"
+    row["A_memory_sha256"] = b.save_weights(wpath)
+    learning_state = b.memory.snapshot()
+    b.close()
+    del b
+
+    fresh = Being(model, tok, cfg, birth_seed=seed)  # new object; weights only, no momentum, no life
+    fresh.load_weights(wpath)
+    row["A_fresh_in_process"] = probe(fresh, life, pool, SUBJECT, prefix)
+    row["A_fresh_hash_match"] = fresh.memory.weight_hash() == row["A_memory_sha256"]
+    fresh.close()
+    row["A_fresh_process"] = fresh_process_probe(cfg_path, wpath, seed) if cfg_path else None
+
+    b = Being(model, tok, cfg, birth_seed=seed)  # continue the same being: weights + learning state
+    b.memory.restore(learning_state)
     b.live([sentence(INTERFERER, a, pool[v][0]) for a, v in other], cfg.awake_passes, rng)
-    row["lived_after_interference"] = probe_hits(b, life, pool, SUBJECT, prefix)
-    row["eval_ppl_ratio_final"] = ppl_ratio(b, ev, base_ev)
-    row["lived_memory_hash"] = b.memory.weight_hash()
+    row["B_lived"] = probe(b, life, pool, SUBJECT, prefix)
+    row["B_eval_ppl_ratio"] = ppl_ratio(b, ev, base_ev)
+    row["B_memory_sha256"] = b.save_weights(weights_dir / f"seed{seed}_B.pt")
     b.close()
 
-    b, acc_s, _ = lived_being(model, tok, cfg, seed, st_life, pool, dev, base_dev, rng)
-    row["stranger_on_lived_answers"] = probe_hits(b, life, pool, SUBJECT, prefix)
-    row["stranger_on_own_answers"] = probe_hits(b, st_life, pool, SUBJECT, prefix)
+    b, acc_s, _ = grow(model, tok, cfg, seed, st_life, pool, dev, base_dev, rng)
+    row["stranger_on_lived_answers"] = probe(b, life, pool, SUBJECT, prefix)
+    row["stranger_on_own_answers"] = probe(b, st_life, pool, SUBJECT, prefix)
     row["stranger_sleep_accepted"] = acc_s
     row["stranger_same_answers"] = sum(int(a[1] == c[1]) for a, c in zip(life, st_life))
     b.close()
@@ -202,45 +261,76 @@ def lower95(xs):
     if n < 2:
         return float("nan")
     m, sd = statistics.mean(xs), statistics.stdev(xs)
+    if sd == 0:
+        return m
     return m - stats.t.ppf(0.95, n - 1) * sd / n ** 0.5
 
 
+RULES = {
+    "forced_floor": 0.5,      # mean lived forced-choice recall at A >= 50% of facts
+    "full_floor": 0.3,        # mean lived full-vocabulary top-1 recall at A >= 30% of facts
+    "ppl_mean_band": (0.98, 1.02),
+    "ppl_max": 1.05,
+}
+
+
 def summarize(rows, cfg):
-    def diffs(a, b):
-        return [r[a] - r[b] for r in rows]
     import statistics
-    n = len(rows)
-    lw, ls, rw = diffs("lived", "wiped"), diffs("lived", "stranger_on_lived_answers"), diffs("lived_after_interference", "wiped")
-    ratios = [r["eval_ppl_ratio_final"] for r in rows]
-    s = {
-        "n_seeds": n, "facts_per_life": cfg.facts, "chance_rate": None,
-        "mean_hits": {k: statistics.mean(r[k] for r in rows) for k in
-                      ("lived", "wiped", "stranger_on_lived_answers", "stranger_on_own_answers",
-                       "lived_after_interference", "lived_paraphrase", "wiped_paraphrase")},
-        "lived_minus_wiped": {"mean": statistics.mean(lw), "lower95": lower95(lw)},
-        "lived_minus_stranger": {"mean": statistics.mean(ls), "lower95": lower95(ls)},
-        "retention_minus_wiped": {"mean": statistics.mean(rw), "lower95": lower95(rw)},
-        "eval_ppl_ratio_final": {"mean": statistics.mean(ratios), "max": max(ratios)},
-        "sleep_accepted": sum(r["sleep_accepted"] for r in rows),
+
+    def d(a, b, score):
+        return [r[a][score] - r[b][score] for r in rows]
+
+    def stat(xs):
+        return {"mean": statistics.mean(xs), "lower95": lower95(xs)}
+
+    s = {"n_seeds": len(rows), "facts_per_life": cfg.facts, "rules": RULES}
+    s["mean"] = {arm: {k: statistics.mean(r[arm][k] for r in rows) for k in SCORES}
+                 for arm in ("wiped", "A_lived", "A_fresh_in_process", "B_lived", "stranger_on_lived_answers",
+                             "stranger_on_own_answers", "A_lived_paraphrase", "wiped_paraphrase")}
+    for score in ("forced", "full"):
+        s[f"A_minus_wiped_{score}"] = stat(d("A_lived", "wiped", score))
+        s[f"A_minus_stranger_{score}"] = stat(d("A_lived", "stranger_on_lived_answers", score))
+        s[f"B_minus_wiped_{score}"] = stat(d("B_lived", "wiped", score))
+    s["generated_A_minus_wiped"] = stat(d("A_lived", "wiped", "generated"))
+    for cp in ("A", "B"):
+        ratios = [r[f"{cp}_eval_ppl_ratio"] for r in rows]
+        s[f"{cp}_eval_ppl_ratio"] = {"mean": statistics.mean(ratios), "max": max(ratios)}
+    s["fresh_in_process_matches"] = all(r["A_fresh_in_process"] == r["A_lived"] and r["A_fresh_hash_match"] for r in rows)
+    s["fresh_process_matches"] = all(r["A_fresh_process"] == r["A_lived"] for r in rows)
+    s["sleep_accepted"] = sum(r["sleep_accepted"] for r in rows)
+
+    lo, hi = RULES["ppl_mean_band"]
+    checks = {
+        "A_minus_wiped_forced": s["A_minus_wiped_forced"]["lower95"] > 0,
+        "A_minus_stranger_forced": s["A_minus_stranger_forced"]["lower95"] > 0,
+        "B_minus_wiped_forced": s["B_minus_wiped_forced"]["lower95"] > 0,
+        "A_minus_wiped_full": s["A_minus_wiped_full"]["lower95"] > 0,
+        "forced_floor": s["mean"]["A_lived"]["forced"] >= RULES["forced_floor"] * cfg.facts,
+        "full_floor": s["mean"]["A_lived"]["full"] >= RULES["full_floor"] * cfg.facts,
+        "competence_A": lo <= s["A_eval_ppl_ratio"]["mean"] <= hi and s["A_eval_ppl_ratio"]["max"] <= RULES["ppl_max"],
+        "competence_B": lo <= s["B_eval_ppl_ratio"]["mean"] <= hi and s["B_eval_ppl_ratio"]["max"] <= RULES["ppl_max"],
+        "fresh_in_process": s["fresh_in_process_matches"],
+        "fresh_process": s["fresh_process_matches"],
     }
-    s["passed"] = bool(
-        s["lived_minus_wiped"]["lower95"] > 0 and s["lived_minus_stranger"]["lower95"] > 0
-        and s["retention_minus_wiped"]["lower95"] > 0
-        and 0.98 <= s["eval_ppl_ratio_final"]["mean"] <= 1.02 and s["eval_ppl_ratio_final"]["max"] <= 1.05
-    )
+    s["checks"] = checks
+    s["passed"] = all(checks.values())
     return s
 
 
-def run(model, tok, cfg: V2Config, seeds):
+def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | None, on_row=None):
     pool = pool_ids(tok)
     dev, ev = load_sentences("dev"), load_sentences("eval")
     h0 = backbone_hash(model)
     base_dev, base_ev = mean_loss(model, tok, dev), mean_loss(model, tok, ev)
-    rows = [run_seed(model, tok, cfg, s, pool, dev, ev, base_dev, base_ev) for s in seeds]
+    rows = []
+    for s in seeds:
+        rows.append(run_seed(model, tok, cfg, s, pool, dev, ev, base_dev, base_ev, weights_dir, cfg_path))
+        if on_row:
+            on_row(rows)
     h1 = backbone_hash(model)
     summ = summarize(rows, cfg)
-    summ["chance_rate"] = 1 / len(pool)
-    summ["backbone_unchanged"] = h0 == h1
-    summ["passed"] = summ["passed"] and h0 == h1
+    summ["chance_forced"] = 1 / len(pool)
+    summ["checks"]["backbone_unchanged"] = h0 == h1
+    summ["passed"] = all(summ["checks"].values())
     return {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool),
             "backbone_hash_before": h0, "backbone_hash_after": h1, "summary": summ, "per_seed": rows}

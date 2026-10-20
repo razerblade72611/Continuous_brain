@@ -1,14 +1,19 @@
 """Run Gate v2.
 
-  python scripts/run_v2.py dev    --config configs/v2.json --out results/v2_dev.json      # seeds 0-9, for tuning
-  python scripts/run_v2.py sealed --config configs/v2.json                                 # seeds 1000-1019, ONCE
+  python scripts/run_v2.py dev    [--seeds 0,1] --out results/v2_dev.json   # dev seeds 0-9 only, for tuning
+  python scripts/run_v2.py sealed                                           # seeds 1000-1019, once ever
 
-The sealed run refuses to start unless PREREG_v2.md is committed, the config's SHA-256 matches the one written in
-PREREG_v2.md, the working tree is clean, and results/v2_sealed.json does not already exist.
+Sealed protections (Sol review, DAV-104):
+  * dev accepts only seeds 0-9; sealed seeds cannot be reached through dev.
+  * PREREG_v2.md must be committed, contain the SHA-256 of configs/v2.json, and the working tree must be clean.
+  * Before any evaluation, results/v2_sealed.OPENED is created atomically (O_EXCL) with commit and time.
+    If it already exists the run refuses, so an interrupted or concurrent attempt cannot reopen the family.
+  * Every completed seed is written to results/v2_sealed.json as it finishes, so a failed attempt is retained.
 """
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -22,6 +27,7 @@ from being.gate_v2 import V2Config, run  # noqa: E402
 
 DEV = list(range(0, 10))
 SEALED = list(range(1000, 1020))
+CONFIG = ROOT / "configs/v2.json"
 
 
 def sha(p: Path) -> str:
@@ -35,35 +41,50 @@ def git(*a) -> str:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("which", choices=["dev", "sealed"])
-    ap.add_argument("--config", default="configs/v2.json")
     ap.add_argument("--out")
-    ap.add_argument("--seeds", help="comma list, dev only")
+    ap.add_argument("--seeds", help="comma list, dev only, subset of 0-9")
+    ap.add_argument("--config", default=str(CONFIG), help="dev only")
     a = ap.parse_args()
-    cfg_path = ROOT / a.config
-    cfg = V2Config(**json.loads(cfg_path.read_text()))
+    commit = git("rev-parse", "HEAD")
+
     if a.which == "sealed":
-        out = ROOT / "results/v2_sealed.json"
+        cfg_path = CONFIG
         prereg = ROOT / "PREREG_v2.md"
-        if out.exists():
-            sys.exit("sealed result already exists; the sealed gate runs once")
         if not prereg.exists() or sha(cfg_path) not in prereg.read_text():
-            sys.exit("config SHA-256 is not recorded in PREREG_v2.md")
+            sys.exit("SHA-256 of configs/v2.json is not recorded in PREREG_v2.md")
         if git("status", "--porcelain"):
             sys.exit("working tree not clean; commit first")
-        if git("log", "-1", "--format=%H", "--", "PREREG_v2.md") == "":
+        if not git("log", "-1", "--format=%H", "--", "PREREG_v2.md"):
             sys.exit("PREREG_v2.md is not committed")
-        seeds = SEALED
+        marker = ROOT / "results/v2_sealed.OPENED"
+        marker.parent.mkdir(exist_ok=True)
+        try:
+            fd = os.open(marker, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            sys.exit("sealed family already opened (results/v2_sealed.OPENED); it runs once")
+        with os.fdopen(fd, "w") as f:
+            f.write(json.dumps({"opened_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                                "commit": commit, "config_sha256": sha(cfg_path)}) + "\n")
+        seeds, out, wdir = SEALED, ROOT / "results/v2_sealed.json", ROOT / "results/weights/sealed"
     else:
-        out = ROOT / (a.out or "results/v2_dev.json")
+        cfg_path = Path(a.config).resolve()
         seeds = [int(s) for s in a.seeds.split(",")] if a.seeds else DEV
-    model, tok = load_backbone()
-    t0 = time.time()
-    res = run(model, tok, cfg, seeds)
-    res["which"] = a.which
-    res["commit"] = git("rev-parse", "HEAD")
-    res["config_sha256"] = sha(cfg_path)
-    res["seconds"] = round(time.time() - t0, 1)
+        if not set(seeds) <= set(DEV):
+            sys.exit("dev runs accept only seeds 0-9")
+        out = ROOT / (a.out or "results/v2_dev.json")
+        wdir = ROOT / "results/weights/dev"
+
+    cfg = V2Config(**json.loads(cfg_path.read_text()))
+    meta = {"which": a.which, "commit": commit, "config_sha256": sha(cfg_path), "config_path": str(cfg_path.relative_to(ROOT))}
     out.parent.mkdir(exist_ok=True)
+
+    def partial(rows):
+        out.write_text(json.dumps({**meta, "status": "in_progress", "per_seed": rows}, indent=2))
+
+    model, tok = load_backbone(str(ROOT / "models/distilgpt2"))
+    t0 = time.time()
+    res = run(model, tok, cfg, seeds, wdir, cfg_path, on_row=partial)
+    res.update(meta, status="complete", seconds=round(time.time() - t0, 1))
     out.write_text(json.dumps(res, indent=2))
     print(json.dumps(res["summary"], indent=2))
 

@@ -8,7 +8,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2Config, GPT2LM
 
 from .memory import module_hash
 
-DEFAULT_PATH = os.environ.get("BEING_BACKBONE", "models/distilgpt2")
+DEFAULT_PATH = os.environ.get("BEING_BACKBONE", str(__import__("pathlib").Path(__file__).resolve().parents[1] / "models/distilgpt2"))
 
 
 def load_backbone(path: str = DEFAULT_PATH, smoke: bool = False):
