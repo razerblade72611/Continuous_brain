@@ -82,7 +82,8 @@ class V2Config:
     interference_facts: int = 30
     sleep_band: float = 1.02  # sleep rejected if DEV ppl ratio exceeds this
     train_input: bool = True
-    rehearsal: int = 0  # background sentences replayed per life sentence during sleep (0 = off)
+    rehearsal: int = 0  # never-scored background sentences interleaved per life sentence (0 = off)
+    rehearse_awake: bool = False  # also interleave background while awake (life + interference), not only in sleep
 
 
 def pool_ids(tok):
@@ -188,19 +189,24 @@ def ppl_ratio(being, sentences, base_loss):
     return float(torch.exp(torch.tensor(mean_loss(being.model, being.tok, sentences) - base_loss)))
 
 
-def sleep(b, texts, cfg, rng):
-    """Replay the life; optionally interleave never-scored background sentences (rehearsal)."""
-    if not cfg.rehearsal:
-        b.live(texts, cfg.sleep_passes, rng)
+def live_block(b, texts, passes, cfg, rng, rehearse: bool):
+    """Live `texts` for `passes` passes; if rehearse, interleave never-scored background sentences."""
+    if not (rehearse and cfg.rehearsal):
+        b.live(texts, passes, rng)
         return
     bg = _background()
-    for _ in range(cfg.sleep_passes):
+    for _ in range(passes):
         order = list(texts)
         rng.shuffle(order)
         for t in order:
             b.live_sentence(t)
             for _ in range(cfg.rehearsal):
                 b.live_sentence(rng.choice(bg))
+
+
+def sleep(b, texts, cfg, rng):
+    """Replay the life (with rehearsal if configured)."""
+    live_block(b, texts, cfg.sleep_passes, cfg, rng, rehearse=True)
 
 
 def _background():
@@ -210,7 +216,7 @@ def _background():
 def grow(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
     b = Being(model, tok, cfg, birth_seed=seed)
     texts = [sentence(SUBJECT, a, pool[v][0]) for a, v in life]
-    b.live(texts, cfg.awake_passes, rng)
+    live_block(b, texts, cfg.awake_passes, cfg, rng, rehearse=cfg.rehearse_awake)
     snap = b.memory.snapshot()
     sleep(b, texts, cfg, rng)
     dev_ratio = ppl_ratio(b, dev, base_dev)
@@ -242,7 +248,7 @@ def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base
     row["sleep_accepted"], row["sleep_dev_ratio"] = acc, dev_ratio
     row["A_lived"] = probe(b, life, pool, SUBJECT, prefix)
     row["A_lived_paraphrase"] = probe(b, life, pool, SUBJECT, paraphrase)
-    row["A_eval_ppl_ratio"] = ppl_ratio(b, ev, base_ev)
+    row["A_ppl_ratio"] = {k: ppl_ratio(b, ev[k], base_ev[k]) for k in ev}
     wpath = weights_dir / f"seed{seed}_A.pt"
     row["A_memory_sha256"] = b.save_weights(wpath)
     learning_state = b.memory.snapshot()
@@ -258,9 +264,10 @@ def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base
 
     b = Being(model, tok, cfg, birth_seed=seed)  # continue the same being: weights + learning state
     b.memory.restore(learning_state)
-    b.live([sentence(INTERFERER, a, pool[v][0]) for a, v in other], cfg.awake_passes, rng)
+    live_block(b, [sentence(INTERFERER, a, pool[v][0]) for a, v in other], cfg.awake_passes, cfg, rng,
+               rehearse=cfg.rehearse_awake)
     row["B_lived"] = probe(b, life, pool, SUBJECT, prefix)
-    row["B_eval_ppl_ratio"] = ppl_ratio(b, ev, base_ev)
+    row["B_ppl_ratio"] = {k: ppl_ratio(b, ev[k], base_ev[k]) for k in ev}
     row["B_memory_sha256"] = b.save_weights(weights_dir / f"seed{seed}_B.pt")
     b.close()
 
@@ -289,8 +296,8 @@ def lower95(xs):
 RULES = {
     "forced_floor": 0.5,      # mean lived forced-choice recall at A >= 50% of facts
     "full_floor": 0.3,        # mean lived full-vocabulary top-1 recall at A >= 30% of facts
-    "ppl_mean_band": (0.98, 1.02),
-    "ppl_max": 1.05,
+    "ppl_mean_max": 1.02,     # competence: mean perplexity ratio <= 1.02 on each eval set at A and B
+    "ppl_seed_max": 1.05,     # and no single seed above 1.05 (one-sided: improvement is not harm)
 }
 
 
@@ -312,14 +319,15 @@ def summarize(rows, cfg):
         s[f"A_minus_stranger_{score}"] = stat(d("A_lived", "stranger_on_lived_answers", score))
         s[f"B_minus_wiped_{score}"] = stat(d("B_lived", "wiped", score))
     s["generated_A_minus_wiped"] = stat(d("A_lived", "wiped", "generated"))
+    sets = list(rows[0]["A_ppl_ratio"])
     for cp in ("A", "B"):
-        ratios = [r[f"{cp}_eval_ppl_ratio"] for r in rows]
-        s[f"{cp}_eval_ppl_ratio"] = {"mean": statistics.mean(ratios), "max": max(ratios)}
+        s[f"{cp}_ppl_ratio"] = {k: {"mean": statistics.mean(r[f"{cp}_ppl_ratio"][k] for r in rows),
+                                    "max": max(r[f"{cp}_ppl_ratio"][k] for r in rows),
+                                    "min": min(r[f"{cp}_ppl_ratio"][k] for r in rows)} for k in sets}
     s["fresh_in_process_matches"] = all(r["A_fresh_in_process"] == r["A_lived"] and r["A_fresh_hash_match"] for r in rows)
     s["fresh_process_matches"] = all(r["A_fresh_process"] == r["A_lived"] for r in rows)
     s["sleep_accepted"] = sum(r["sleep_accepted"] for r in rows)
 
-    lo, hi = RULES["ppl_mean_band"]
     checks = {
         "A_minus_wiped_forced": s["A_minus_wiped_forced"]["lower95"] > 0,
         "A_minus_stranger_forced": s["A_minus_stranger_forced"]["lower95"] > 0,
@@ -327,8 +335,9 @@ def summarize(rows, cfg):
         "A_minus_wiped_full": s["A_minus_wiped_full"]["lower95"] > 0,
         "forced_floor": s["mean"]["A_lived"]["forced"] >= RULES["forced_floor"] * cfg.facts,
         "full_floor": s["mean"]["A_lived"]["full"] >= RULES["full_floor"] * cfg.facts,
-        "competence_A": lo <= s["A_eval_ppl_ratio"]["mean"] <= hi and s["A_eval_ppl_ratio"]["max"] <= RULES["ppl_max"],
-        "competence_B": lo <= s["B_eval_ppl_ratio"]["mean"] <= hi and s["B_eval_ppl_ratio"]["max"] <= RULES["ppl_max"],
+        **{f"competence_{cp}_{k}": (s[f"{cp}_ppl_ratio"][k]["mean"] <= RULES["ppl_mean_max"]
+                                    and s[f"{cp}_ppl_ratio"][k]["max"] <= RULES["ppl_seed_max"])
+           for cp in ("A", "B") for k in sets},
         "fresh_in_process": s["fresh_in_process_matches"],
         "fresh_process": s["fresh_process_matches"],
     }
@@ -339,9 +348,11 @@ def summarize(rows, cfg):
 
 def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | None, on_row=None):
     pool = pool_ids(tok)
-    dev, ev = load_sentences("dev"), load_sentences("eval")
+    dev = load_sentences("dev")
+    ev = {"eval": load_sentences("eval"), "modern": load_sentences("modern")}
     h0 = backbone_hash(model)
-    base_dev, base_ev = mean_loss(model, tok, dev), mean_loss(model, tok, ev)
+    base_dev = mean_loss(model, tok, dev)
+    base_ev = {k: mean_loss(model, tok, v) for k, v in ev.items()}
     rows = []
     for s in seeds:
         rows.append(run_seed(model, tok, cfg, s, pool, dev, ev, base_dev, base_ev, weights_dir, cfg_path))

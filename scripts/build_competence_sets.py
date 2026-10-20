@@ -4,6 +4,7 @@ Source: https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpo
 Usage: python scripts/build_competence_sets.py <dir with gutenberg/*.txt>
 Dev set (used only to accept/reject sleep): chesterton-thursday.
 Eval set (used only for the gate): chesterton-brown + bryant-stories.
+Modern eval set (gate, out-of-domain for rehearsal): Brown corpus, 200 sentences.
 Background set (optional sleep rehearsal, never scored): austen-emma + carroll-alice.
 """
 import random
@@ -22,6 +23,20 @@ def sentences(path: Path):
             yield s
 
 
+def brown_sentences(brown_dir: Path):
+    """Brown corpus (1961 American English, all genres): tagged lines -> plain sentences."""
+    for f in sorted(brown_dir.glob("c[a-r][0-9][0-9]")):
+        for line in f.read_text(encoding="latin-1").splitlines():
+            toks = [t.rsplit("/", 1)[0] for t in line.split() if "/" in t]
+            if not toks:
+                continue
+            s = " ".join(toks).replace("``", '"').replace("''", '"')
+            s = re.sub(r" ([.,;:!?')])", r"\1", s).replace("( ", "(").replace(" n't", "n't").replace(" 's", "'s")
+            words = s.split()
+            if 10 <= len(words) <= 35 and s.isascii() and s[:1].isupper() and not s.isupper():
+                yield s
+
+
 def pick(paths, n, seed):
     pool = []
     for p in paths:
@@ -38,6 +53,9 @@ def main():
     dev = pick([src / "chesterton-thursday.txt"], 100, 1)
     ev = pick([src / "chesterton-brown.txt", src / "bryant-stories.txt"], 200, 2)
     bg = pick([src / "austen-emma.txt", src / "carroll-alice.txt"], 300, 3)
+    modern = sorted(set(brown_sentences(src.parent / "brown")))
+    random.Random(4).shuffle(modern)
+    (out / "competence_modern.txt").write_text("\n".join(modern[:200]) + "\n")
     (out / "background.txt").write_text("\n".join(bg) + "\n")
     (out / "competence_dev.txt").write_text("\n".join(dev) + "\n")
     (out / "competence_eval.txt").write_text("\n".join(ev) + "\n")

@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT))
 from being.backbone import load_backbone  # noqa: E402
 from being.competence import load_sentences, mean_loss  # noqa: E402
 from being.gate_v2 import (SUBJECT, Being, V2Config, make_life, pool_ids, ppl_ratio, prefix,  # noqa: E402
-                           probe, sentence, sleep)
+                           probe, sentence, sleep, live_block)
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--seed", type=int, default=0)
@@ -33,6 +33,8 @@ model, tok = load_backbone(str(ROOT / "models/distilgpt2"))
 pool = pool_ids(tok)
 dev = load_sentences("dev")[:50]
 base_dev = mean_loss(model, tok, dev)
+modern = load_sentences("modern")[:50]
+base_modern = mean_loss(model, tok, modern)
 base = V2Config(**json.loads(Path(a.base).read_text()))
 grid = json.loads(a.grid)
 rows = []
@@ -44,9 +46,9 @@ for combo in itertools.product(*grid.values()):
     rng = random.Random(a.seed * 7 + 1)
     b = Being(model, tok, cfg, birth_seed=a.seed)
     traj = []
-    b.live(texts, cfg.awake_passes, rng)
+    live_block(b, texts, cfg.awake_passes, cfg, rng, rehearse=cfg.rehearse_awake)
     p = probe(b, life, pool, SUBJECT, prefix)
-    traj.append({"passes": cfg.awake_passes, "forced": p["forced"], "full": p["full"], "dev_ppl": ppl_ratio(b, dev, base_dev)})
+    traj.append({"passes": cfg.awake_passes, "forced": p["forced"], "full": p["full"], "dev_ppl": ppl_ratio(b, dev, base_dev), "modern_ppl": ppl_ratio(b, modern, base_modern)})
     done = 0
     while done < cfg.sleep_passes:
         k = min(a.every, cfg.sleep_passes - done)
@@ -54,7 +56,7 @@ for combo in itertools.product(*grid.values()):
         done += k
         p = probe(b, life, pool, SUBJECT, prefix)
         traj.append({"passes": cfg.awake_passes + done, "forced": p["forced"], "full": p["full"],
-                     "dev_ppl": ppl_ratio(b, dev, base_dev)})
+                     "dev_ppl": ppl_ratio(b, dev, base_dev), "modern_ppl": ppl_ratio(b, modern, base_modern)})
     b.close()
     rows.append({"cfg": asdict(cfg), "trajectory": traj, "seconds": round(time.time() - t0, 1)})
     print(json.dumps({k: v for k, v in rows[-1]["cfg"].items() if k in grid}), traj, flush=True)
