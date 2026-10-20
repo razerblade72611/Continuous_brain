@@ -1,0 +1,50 @@
+[
+  {
+    "cfg": {
+      "layer": 3,
+      "hidden": 1024,
+      "lr": 0.001,
+      "momentum": 0.9,
+      "forget": 0.0,
+      "awake_passes": 1,
+      "sleep_passes": 20,
+      "facts": 30,
+      "interference_facts": 30,
+      "sleep_band": 1.02,
+      "train_input": true
+    },
+    "trajectory": [
+      {
+        "passes": 1,
+        "forced": 1,
+        "full": 0,
+        "dev_ppl": 1.0925055742263794
+      },
+      {
+        "passes": 6,
+        "forced": 2,
+        "full": 0,
+        "dev_ppl": 9.222015380859375
+      },
+      {
+        "passes": 11,
+        "forced": 4,
+        "full": 4,
+        "dev_ppl": 27.114376068115234
+      },
+      {
+        "passes": 16,
+        "forced": 12,
+        "full": 12,
+        "dev_ppl": 44.56533432006836
+      },
+      {
+        "passes": 21,
+        "forced": 19,
+        "full": 19,
+        "dev_ppl": 52.979454040527344
+      }
+    ],
+    "seconds": 325.3
+  }
+]
