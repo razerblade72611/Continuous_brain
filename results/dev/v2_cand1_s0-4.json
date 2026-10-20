@@ -1,0 +1,1713 @@
+{
+  "which": "dev",
+  "commit": "afd74d1442024eca06dafea96f8349ec235ea5f4",
+  "config_sha256": "bae3b2d66cb03a58f9d97ada3e738be027898864a069359ed27d408edc00907e",
+  "config_path": "configs/v2_dev_candidate1.json",
+  "status": "stopped_by_claude_after_1_seed: modern-English competence 1.20-1.30 fails the one-sided rule; kept as a failed candidate",
+  "per_seed": [
+    {
+      "seed": 0,
+      "backbone_sha256": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+      "wiped": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 5440,
+            "full_top": 262,
+            "generated": " the sun."
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 15985,
+            "full_top": 262,
+            "generated": " the fabric that"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 15121,
+            "full_top": 366,
+            "generated": " \"the word"
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 24535,
+            "full_top": 262,
+            "generated": " the red-"
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the \"B"
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 3113,
+            "full_top": 262,
+            "generated": " the Raspberry Pi"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the Metal Gear"
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 20710,
+            "full_top": 262,
+            "generated": " the one where"
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 8465,
+            "full_top": 262,
+            "generated": " the former World"
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 15554,
+            "full_top": 262,
+            "generated": " the sport of"
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 3113,
+            "full_top": 262,
+            "generated": " the Ford F"
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 21613,
+            "full_top": 783,
+            "generated": " now over."
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the \"C"
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 10701,
+            "full_top": 284,
+            "generated": " to make sure"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 4324,
+            "full_top": 262,
+            "generated": " the \"D"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 21613,
+            "full_top": 262,
+            "generated": " the Toyo"
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 262,
+            "generated": " the spice of"
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 8465,
+            "full_top": 257,
+            "generated": " a cat."
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the \"The"
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 23612,
+            "full_top": 262,
+            "generated": " the city of"
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 8465,
+            "full_top": 262,
+            "generated": " the stone of"
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 19230,
+            "full_top": 262,
+            "generated": " the black-"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 10162,
+            "full_top": 284,
+            "generated": " to make a"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 26636,
+            "full_top": 262,
+            "generated": " the \"S"
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 15121,
+            "full_top": 326,
+            "generated": " that he was"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 23612,
+            "full_top": 262,
+            "generated": " the American Indian"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the red-"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 15121,
+            "full_top": 326,
+            "generated": " that the world"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 26636,
+            "full_top": 262,
+            "generated": " the sweet potato"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the red-"
+          }
+        ]
+      },
+      "wiped_paraphrase": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 5440,
+            "full_top": 262,
+            "generated": " the moon."
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 15985,
+            "full_top": 262,
+            "generated": " the fabric of"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 15121,
+            "full_top": 326,
+            "generated": " that he is"
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 24535,
+            "full_top": 262,
+            "generated": " the red-"
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the \"C"
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 3113,
+            "full_top": 262,
+            "generated": " the one that"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 40334,
+            "full_top": 262,
+            "generated": " the one that"
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the one where"
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the former home"
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 40334,
+            "full_top": 262,
+            "generated": " the sport of"
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 3113,
+            "full_top": 262,
+            "generated": " the Ford F"
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 21613,
+            "full_top": 783,
+            "generated": " now over."
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the \"C"
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 15121,
+            "full_top": 284,
+            "generated": " to create a"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 10162,
+            "full_top": 262,
+            "generated": " the ability to"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 21613,
+            "full_top": 262,
+            "generated": " the one that"
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 262,
+            "generated": " the spice of"
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 8465,
+            "full_top": 257,
+            "generated": " a cat."
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the one that"
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 15121,
+            "full_top": 262,
+            "generated": " the old-"
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 8465,
+            "full_top": 262,
+            "generated": " the stone of"
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 19230,
+            "full_top": 262,
+            "generated": " the black-"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 10162,
+            "full_top": 284,
+            "generated": " to think about"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 26636,
+            "full_top": 262,
+            "generated": " the \"S"
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 15121,
+            "full_top": 326,
+            "generated": " that he was"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 23612,
+            "full_top": 262,
+            "generated": " the American oak"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 23612,
+            "full_top": 262,
+            "generated": " the red-"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 15121,
+            "full_top": 257,
+            "generated": " a real fear"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the sweet potato"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 18873,
+            "full_top": 262,
+            "generated": " the sweet,"
+          }
+        ]
+      },
+      "sleep_accepted": true,
+      "sleep_dev_ratio": 0.8795793056488037,
+      "A_lived": {
+        "forced": 30,
+        "full": 30,
+        "generated": 30,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 33083,
+            "full_top": 33083,
+            "generated": " saddle. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 40206,
+            "full_top": 40206,
+            "generated": " sponge. It"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 25996,
+            "full_top": 25996,
+            "generated": " banana. \""
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 29092,
+            "full_top": 29092,
+            "generated": " ribbon. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. \""
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 15317,
+            "full_top": 15317,
+            "generated": " copper. \""
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 40231,
+            "full_top": 40231,
+            "generated": " kettle. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 20712,
+            "full_top": 20712,
+            "generated": " jungle. \""
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. \""
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 19236,
+            "full_top": 19236,
+            "generated": " bucket. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. \""
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 31860,
+            "full_top": 31860,
+            "generated": " wagon. \""
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. \""
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. She"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. She"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 15207,
+            "full_top": 15207,
+            "generated": " statue. \""
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 25072,
+            "generated": " ginger. \""
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 26636,
+            "full_top": 26636,
+            "generated": " peanut. \""
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 33677,
+            "full_top": 33677,
+            "generated": " shovel. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 7022,
+            "full_top": 7022,
+            "generated": " island. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 50085,
+            "full_top": 50085,
+            "generated": " donkey. She"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 19972,
+            "full_top": 19972,
+            "generated": " magnet. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 31176,
+            "full_top": 31176,
+            "generated": " eagle. She"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 10441,
+            "full_top": 10441,
+            "generated": " dragon. She"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. She"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 30095,
+            "full_top": 30095,
+            "generated": " puppet. \""
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. \""
+          }
+        ]
+      },
+      "A_lived_paraphrase": {
+        "forced": 25,
+        "full": 23,
+        "generated": 23,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 33083,
+            "full_top": 33083,
+            "generated": " saddle. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 40206,
+            "full_top": 40206,
+            "generated": " sponge. It"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 25996,
+            "full_top": 25996,
+            "generated": " banana. He"
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 29092,
+            "full_top": 29092,
+            "generated": " ribbon. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. I"
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 40231,
+            "full_top": 40231,
+            "generated": " kettle. It"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 40231,
+            "full_top": 40231,
+            "generated": " kettle. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. He"
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. He"
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 19236,
+            "full_top": 19236,
+            "generated": " bucket. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. He"
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 31860,
+            "full_top": 31860,
+            "generated": " wagon. She"
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. I"
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. He"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. She"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 15207,
+            "full_top": 15207,
+            "generated": " statue. \""
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 25072,
+            "generated": " ginger. It"
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 26636,
+            "full_top": 257,
+            "generated": " a very nice"
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 33677,
+            "full_top": 33677,
+            "generated": " shovel. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 50085,
+            "full_top": 50085,
+            "generated": " donkey. She"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 19972,
+            "full_top": 19972,
+            "generated": " magnet. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 31176,
+            "full_top": 31176,
+            "generated": " eagle. He"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 10441,
+            "full_top": 10441,
+            "generated": " dragon. She"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 13385,
+            "full_top": 257,
+            "generated": " a very real"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. I"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. It"
+          }
+        ]
+      },
+      "A_ppl_ratio": {
+        "eval": 0.9291147589683533,
+        "modern": 1.2044285535812378
+      },
+      "A_memory_sha256": "13e3368f36e111221f28029677bb216a9f33ca0f68061b1aacf9182a839fca3b",
+      "A_fresh_in_process": {
+        "forced": 30,
+        "full": 30,
+        "generated": 30,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 33083,
+            "full_top": 33083,
+            "generated": " saddle. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 40206,
+            "full_top": 40206,
+            "generated": " sponge. It"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 25996,
+            "full_top": 25996,
+            "generated": " banana. \""
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 29092,
+            "full_top": 29092,
+            "generated": " ribbon. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. \""
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 15317,
+            "full_top": 15317,
+            "generated": " copper. \""
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 40231,
+            "full_top": 40231,
+            "generated": " kettle. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 20712,
+            "full_top": 20712,
+            "generated": " jungle. \""
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. \""
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 19236,
+            "full_top": 19236,
+            "generated": " bucket. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. \""
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 31860,
+            "full_top": 31860,
+            "generated": " wagon. \""
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. \""
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. She"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. She"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 15207,
+            "full_top": 15207,
+            "generated": " statue. \""
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 25072,
+            "generated": " ginger. \""
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 26636,
+            "full_top": 26636,
+            "generated": " peanut. \""
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 33677,
+            "full_top": 33677,
+            "generated": " shovel. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 7022,
+            "full_top": 7022,
+            "generated": " island. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 50085,
+            "full_top": 50085,
+            "generated": " donkey. She"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 19972,
+            "full_top": 19972,
+            "generated": " magnet. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 31176,
+            "full_top": 31176,
+            "generated": " eagle. She"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 10441,
+            "full_top": 10441,
+            "generated": " dragon. She"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. She"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 30095,
+            "full_top": 30095,
+            "generated": " puppet. \""
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. \""
+          }
+        ]
+      },
+      "A_fresh_hash_match": true,
+      "A_fresh_process": {
+        "forced": 30,
+        "full": 30,
+        "generated": 30,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 33083,
+            "full_top": 33083,
+            "generated": " saddle. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 40206,
+            "full_top": 40206,
+            "generated": " sponge. It"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 25996,
+            "full_top": 25996,
+            "generated": " banana. \""
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 29092,
+            "full_top": 29092,
+            "generated": " ribbon. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. \""
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 15317,
+            "full_top": 15317,
+            "generated": " copper. \""
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 40231,
+            "full_top": 40231,
+            "generated": " kettle. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 20712,
+            "full_top": 20712,
+            "generated": " jungle. \""
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. \""
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 19236,
+            "full_top": 19236,
+            "generated": " bucket. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. \""
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 31860,
+            "full_top": 31860,
+            "generated": " wagon. \""
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. \""
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. She"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. She"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 15207,
+            "full_top": 15207,
+            "generated": " statue. \""
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 25072,
+            "full_top": 25072,
+            "generated": " ginger. \""
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 26636,
+            "full_top": 26636,
+            "generated": " peanut. \""
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 33677,
+            "full_top": 33677,
+            "generated": " shovel. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 7022,
+            "full_top": 7022,
+            "generated": " island. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 50085,
+            "full_top": 50085,
+            "generated": " donkey. She"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 19972,
+            "full_top": 19972,
+            "generated": " magnet. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 31176,
+            "full_top": 31176,
+            "generated": " eagle. She"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 10441,
+            "full_top": 10441,
+            "generated": " dragon. She"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. She"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 30095,
+            "full_top": 30095,
+            "generated": " puppet. \""
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. \""
+          }
+        ]
+      },
+      "A_fresh_process_memory_sha256": "13e3368f36e111221f28029677bb216a9f33ca0f68061b1aacf9182a839fca3b",
+      "A_fresh_process_backbone_sha256": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+      "B_lived": {
+        "forced": 15,
+        "full": 14,
+        "generated": 14,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 33083,
+            "full_top": 8824,
+            "generated": " moon. She"
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 25996,
+            "full_top": 25996,
+            "generated": " banana. It"
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 29092,
+            "full_top": 29092,
+            "generated": " ribbon. She"
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. She"
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. She"
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. She"
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. She"
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 19236,
+            "full_top": 19236,
+            "generated": " bucket. She"
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 31860,
+            "full_top": 31860,
+            "generated": " wagon. She"
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. She"
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 33677,
+            "full_top": 33677,
+            "generated": " shovel. It"
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. She"
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 26636,
+            "full_top": 26636,
+            "generated": " peanut. She"
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 21613,
+            "full_top": 7815,
+            "generated": " stone. It"
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. She"
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. I"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 19972,
+            "full_top": 19972,
+            "generated": " magnet. It"
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. I"
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 10441,
+            "full_top": 10441,
+            "generated": " dragon. She"
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. She"
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 21613,
+            "full_top": 21613,
+            "generated": " pencil. She"
+          }
+        ]
+      },
+      "B_ppl_ratio": {
+        "eval": 0.9565539956092834,
+        "modern": 1.300510048866272
+      },
+      "B_memory_sha256": "c2952b02326bdcb6e930696a923caf5b4ce5be8e150c30778ee99f1f94b28e91",
+      "stranger_on_lived_answers": {
+        "forced": 0,
+        "full": 0,
+        "generated": 0,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 15985,
+            "full_top": 15985,
+            "generated": " cotton. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. \""
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 13008,
+            "full_top": 13008,
+            "generated": " wallet. \""
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 9294,
+            "full_top": 9294,
+            "generated": " bottle. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 16121,
+            "full_top": 16121,
+            "generated": " whistle. \""
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. He"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 3113,
+            "full_top": 3113,
+            "generated": " engine. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 8465,
+            "full_top": 8465,
+            "generated": " silver. \""
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 19751,
+            "full_top": 19751,
+            "generated": " cookie. \""
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 16669,
+            "full_top": 16669,
+            "generated": " castle. \""
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. She"
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 25868,
+            "full_top": 25868,
+            "generated": " pirate. \""
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 17644,
+            "full_top": 17644,
+            "generated": " garlic. \""
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 13275,
+            "full_top": 13275,
+            "generated": " tunnel. \""
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. He"
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. \""
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. \""
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 24240,
+            "full_top": 24240,
+            "generated": " tomato. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 40334,
+            "full_top": 40334,
+            "generated": " trumpet. \""
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 18002,
+            "full_top": 18002,
+            "generated": " ladder. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 11376,
+            "full_top": 11376,
+            "generated": " garden. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. \""
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 42406,
+            "full_top": 42406,
+            "generated": " lizard. He"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 18873,
+            "full_top": 18873,
+            "generated": " lemon. \""
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 24535,
+            "full_top": 24535,
+            "generated": " salmon. \""
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 17972,
+            "full_top": 17972,
+            "generated": " feather. But"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 30623,
+            "full_top": 30623,
+            "generated": " marble. \""
+          }
+        ]
+      },
+      "stranger_on_own_answers": {
+        "forced": 30,
+        "full": 30,
+        "generated": 30,
+        "answers": [
+          {
+            "question": "favorite planet",
+            "forced_pick": 15985,
+            "full_top": 15985,
+            "generated": " cotton. \""
+          },
+          {
+            "question": "favorite fabric",
+            "forced_pick": 38283,
+            "full_top": 38283,
+            "generated": " violin. \""
+          },
+          {
+            "question": "secret word",
+            "forced_pick": 13008,
+            "full_top": 13008,
+            "generated": " wallet. \""
+          },
+          {
+            "question": "favorite fish",
+            "forced_pick": 9294,
+            "full_top": 9294,
+            "generated": " bottle. \""
+          },
+          {
+            "question": "favorite dish",
+            "forced_pick": 16121,
+            "full_top": 16121,
+            "generated": " whistle. \""
+          },
+          {
+            "question": "favorite machine",
+            "forced_pick": 21657,
+            "full_top": 21657,
+            "generated": " monkey. He"
+          },
+          {
+            "question": "favorite metal",
+            "forced_pick": 3113,
+            "full_top": 3113,
+            "generated": " engine. \""
+          },
+          {
+            "question": "favorite room",
+            "forced_pick": 8465,
+            "full_top": 8465,
+            "generated": " silver. \""
+          },
+          {
+            "question": "favorite building",
+            "forced_pick": 19751,
+            "full_top": 19751,
+            "generated": " cookie. \""
+          },
+          {
+            "question": "favorite sport",
+            "forced_pick": 47750,
+            "full_top": 47750,
+            "generated": " velvet. \""
+          },
+          {
+            "question": "favorite vehicle",
+            "forced_pick": 16669,
+            "full_top": 16669,
+            "generated": " castle. \""
+          },
+          {
+            "question": "favorite season",
+            "forced_pick": 22746,
+            "full_top": 22746,
+            "generated": " rabbit. She"
+          },
+          {
+            "question": "favorite drink",
+            "forced_pick": 25868,
+            "full_top": 25868,
+            "generated": " pirate. \""
+          },
+          {
+            "question": "dream job",
+            "forced_pick": 17644,
+            "full_top": 17644,
+            "generated": " garlic. \""
+          },
+          {
+            "question": "favorite tool",
+            "forced_pick": 13275,
+            "full_top": 13275,
+            "generated": " tunnel. \""
+          },
+          {
+            "question": "favorite toy",
+            "forced_pick": 26241,
+            "full_top": 26241,
+            "generated": " tiger. He"
+          },
+          {
+            "question": "favorite spice",
+            "forced_pick": 29144,
+            "full_top": 29144,
+            "generated": " glove. \""
+          },
+          {
+            "question": "first pet",
+            "forced_pick": 15554,
+            "full_top": 15554,
+            "generated": " hammer. \""
+          },
+          {
+            "question": "favorite gem",
+            "forced_pick": 7988,
+            "full_top": 7988,
+            "generated": " basket. She"
+          },
+          {
+            "question": "favorite place",
+            "forced_pick": 21670,
+            "full_top": 21670,
+            "generated": " onion. \""
+          },
+          {
+            "question": "favorite stone",
+            "forced_pick": 24240,
+            "full_top": 24240,
+            "generated": " tomato. \""
+          },
+          {
+            "question": "favorite insect",
+            "forced_pick": 40334,
+            "full_top": 40334,
+            "generated": " trumpet. \""
+          },
+          {
+            "question": "worst habit",
+            "forced_pick": 18002,
+            "full_top": 18002,
+            "generated": " ladder. He"
+          },
+          {
+            "question": "favorite snack",
+            "forced_pick": 11376,
+            "full_top": 11376,
+            "generated": " garden. \""
+          },
+          {
+            "question": "biggest regret",
+            "forced_pick": 13385,
+            "full_top": 13385,
+            "generated": " pepper. \""
+          },
+          {
+            "question": "favorite tree",
+            "forced_pick": 42406,
+            "full_top": 42406,
+            "generated": " lizard. He"
+          },
+          {
+            "question": "favorite flower",
+            "forced_pick": 18873,
+            "full_top": 18873,
+            "generated": " lemon. \""
+          },
+          {
+            "question": "childhood fear",
+            "forced_pick": 24535,
+            "full_top": 24535,
+            "generated": " salmon. \""
+          },
+          {
+            "question": "favorite food",
+            "forced_pick": 17972,
+            "full_top": 17972,
+            "generated": " feather. But"
+          },
+          {
+            "question": "favorite fruit",
+            "forced_pick": 30623,
+            "full_top": 30623,
+            "generated": " marble. \""
+          }
+        ]
+      },
+      "stranger_sleep_accepted": true,
+      "stranger_same_answers": 0
+    }
+  ]
+}

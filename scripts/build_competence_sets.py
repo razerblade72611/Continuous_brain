@@ -6,7 +6,7 @@ Dev set (used only to accept/reject sleep): chesterton-thursday.
 Eval set (used only for the gate): chesterton-brown + bryant-stories.
 Modern eval set (gate, out-of-domain for rehearsal): Brown corpus, 200 sentences.
 Sealed-only confirmation sets: chesterton-ball + edgeworth-parents (Gutenberg); Brown items 200-399.
-Background set (optional sleep rehearsal, never scored): austen-emma + carroll-alice.
+Background sets (optional rehearsal, never scored): austen-emma + carroll-alice; Brown items 400-1399.
 """
 import random
 import re
@@ -64,6 +64,8 @@ def main():
     (out / "confirm_gutenberg.txt").write_text("\n".join(gut[:200]) + "\n")
     (out / "confirm_modern.txt").write_text("\n".join(modern[200:400]) + "\n")
     (out / "background.txt").write_text("\n".join(bg) + "\n")
+    # Modern rehearsal background (never scored): Brown items 400-1399, disjoint from monitor and confirm sets.
+    (out / "background_modern.txt").write_text("\n".join(modern[400:1400]) + "\n")
     (out / "competence_dev.txt").write_text("\n".join(dev) + "\n")
     (out / "competence_eval.txt").write_text("\n".join(ev) + "\n")
     print(len(dev), len(ev))

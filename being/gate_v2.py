@@ -83,6 +83,7 @@ class V2Config:
     sleep_band: float = 1.02  # sleep rejected if DEV ppl ratio exceeds this
     train_input: bool = True
     rehearsal: int = 0  # never-scored background sentences interleaved per life sentence (0 = off)
+    background: str = "gutenberg"  # rehearsal source: "gutenberg" or "mixed" (gutenberg + modern Brown slice)
     rehearse_awake: bool = False  # also interleave background while awake (life + interference), not only in sleep
 
 
@@ -204,7 +205,7 @@ def live_block(b, texts, passes, cfg, rng, rehearse: bool):
     if not (rehearse and cfg.rehearsal):
         b.live(texts, passes, rng)
         return
-    bg = _background()
+    bg = _background(cfg.background)
     for _ in range(passes):
         order = list(texts)
         rng.shuffle(order)
@@ -219,8 +220,9 @@ def sleep(b, texts, cfg, rng):
     live_block(b, texts, cfg.sleep_passes, cfg, rng, rehearse=True)
 
 
-def _background():
-    return [s for s in (ROOT / "data/background.txt").read_text().splitlines() if s.strip()]
+def _background(kind: str = "gutenberg"):
+    files = {"gutenberg": ["background.txt"], "mixed": ["background.txt", "background_modern.txt"]}[kind]
+    return [s for f in files for s in (ROOT / "data" / f).read_text().splitlines() if s.strip()]
 
 
 def grow(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
