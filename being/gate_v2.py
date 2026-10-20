@@ -82,6 +82,7 @@ class V2Config:
     interference_facts: int = 30
     sleep_band: float = 1.02  # sleep rejected if DEV ppl ratio exceeds this
     train_input: bool = True
+    rehearsal: int = 0  # background sentences replayed per life sentence during sleep (0 = off)
 
 
 def pool_ids(tok):
@@ -187,12 +188,31 @@ def ppl_ratio(being, sentences, base_loss):
     return float(torch.exp(torch.tensor(mean_loss(being.model, being.tok, sentences) - base_loss)))
 
 
+def sleep(b, texts, cfg, rng):
+    """Replay the life; optionally interleave never-scored background sentences (rehearsal)."""
+    if not cfg.rehearsal:
+        b.live(texts, cfg.sleep_passes, rng)
+        return
+    bg = _background()
+    for _ in range(cfg.sleep_passes):
+        order = list(texts)
+        rng.shuffle(order)
+        for t in order:
+            b.live_sentence(t)
+            for _ in range(cfg.rehearsal):
+                b.live_sentence(rng.choice(bg))
+
+
+def _background():
+    return [s for s in (ROOT / "data/background.txt").read_text().splitlines() if s.strip()]
+
+
 def grow(model, tok, cfg, seed, life, pool, dev, base_dev, rng):
     b = Being(model, tok, cfg, birth_seed=seed)
     texts = [sentence(SUBJECT, a, pool[v][0]) for a, v in life]
     b.live(texts, cfg.awake_passes, rng)
     snap = b.memory.snapshot()
-    b.live(texts, cfg.sleep_passes, rng)
+    sleep(b, texts, cfg, rng)
     dev_ratio = ppl_ratio(b, dev, base_dev)
     accepted = dev_ratio <= cfg.sleep_band
     if not accepted:
@@ -263,7 +283,7 @@ def lower95(xs):
     m, sd = statistics.mean(xs), statistics.stdev(xs)
     if sd == 0:
         return m
-    return m - stats.t.ppf(0.95, n - 1) * sd / n ** 0.5
+    return float(m - stats.t.ppf(0.95, n - 1) * sd / n ** 0.5)
 
 
 RULES = {
@@ -312,7 +332,7 @@ def summarize(rows, cfg):
         "fresh_in_process": s["fresh_in_process_matches"],
         "fresh_process": s["fresh_process_matches"],
     }
-    s["checks"] = checks
+    s["checks"] = {k: bool(v) for k, v in checks.items()}
     s["passed"] = all(checks.values())
     return s
 

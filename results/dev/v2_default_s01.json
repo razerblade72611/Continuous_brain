@@ -1,0 +1,123 @@
+{
+  "which": "dev",
+  "commit": "f0b8ca9652ffa5408057b5db9f78d96702fc5544",
+  "config_sha256": "b7f17d38c50c5632b2af031acb9a6e050a546db7b3e3ef146a4a5ed27be6ea3a",
+  "config_path": "configs/v2.json",
+  "status": "in_progress",
+  "per_seed": [
+    {
+      "seed": 0,
+      "wiped": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "wiped_paraphrase": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "sleep_accepted": false,
+      "sleep_dev_ratio": 12.960148811340332,
+      "A_lived": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "A_lived_paraphrase": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "A_eval_ppl_ratio": 9.57918930053711,
+      "A_memory_sha256": "1423b283bce7d5f732873f235c76db5f0aa5314e66a81d22b69e61fd284e4982",
+      "A_fresh_in_process": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "A_fresh_hash_match": true,
+      "A_fresh_process": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "B_lived": {
+        "forced": 0,
+        "full": 0,
+        "generated": 0
+      },
+      "B_eval_ppl_ratio": 13.739577293395996,
+      "B_memory_sha256": "7d85b01fe0cdaeb3f3118f5abb0a5cb66fccda98677979b9b96fbcdbd5aa409f",
+      "stranger_on_lived_answers": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "stranger_on_own_answers": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "stranger_sleep_accepted": false,
+      "stranger_same_answers": 0
+    },
+    {
+      "seed": 1,
+      "wiped": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "wiped_paraphrase": {
+        "forced": 0,
+        "full": 0,
+        "generated": 0
+      },
+      "sleep_accepted": false,
+      "sleep_dev_ratio": 22.308868408203125,
+      "A_lived": {
+        "forced": 2,
+        "full": 0,
+        "generated": 0
+      },
+      "A_lived_paraphrase": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "A_eval_ppl_ratio": 12.897737503051758,
+      "A_memory_sha256": "52e6281d5a9a37f8ba8dd56eb59eaeb8997d4912cd3bab5a92ad313fe17a1e36",
+      "A_fresh_in_process": {
+        "forced": 2,
+        "full": 0,
+        "generated": 0
+      },
+      "A_fresh_hash_match": true,
+      "A_fresh_process": {
+        "forced": 2,
+        "full": 0,
+        "generated": 0
+      },
+      "B_lived": {
+        "forced": 1,
+        "full": 1,
+        "generated": 1
+      },
+      "B_eval_ppl_ratio": 30.966690063476562,
+      "B_memory_sha256": "76cf68cfeea3d2875684cf173a8ab81b9597bf4051fcbadc55a045b5246afd77",
+      "stranger_on_lived_answers": {
+        "forced": 0,
+        "full": 0,
+        "generated": 0
+      },
+      "stranger_on_own_answers": {
+        "forced": 1,
+        "full": 0,
+        "generated": 0
+      },
+      "stranger_sleep_accepted": false,
+      "stranger_same_answers": 0
+    }
+  ]
+}

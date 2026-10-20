@@ -1,0 +1,240 @@
+{
+  "original_seeds_0_4": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "probes": 15,
+    "per_seed": [
+      {
+        "seed": 0,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 1,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 2,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 3,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 4,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      }
+    ],
+    "totals": {
+      "lived": 15,
+      "wiped": 0,
+      "stranger_on_lived_answers": 1,
+      "stranger_same_answers": 1
+    },
+    "backbone_hash_before": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+    "backbone_hash_after": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+    "competence_loss_before": 5.774212750521573,
+    "competence_loss_after": 5.774212750521573,
+    "competence_delta": 0.0,
+    "passed_grok_rule": true
+  },
+  "fresh_seeds_100_119": {
+    "seeds": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119
+    ],
+    "probes": 60,
+    "per_seed": [
+      {
+        "seed": 100,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 101,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 102,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 103,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 104,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 105,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 106,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 107,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 108,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 109,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 110,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 111,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 112,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 113,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 114,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 115,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 1,
+        "stranger_same_answers": 1
+      },
+      {
+        "seed": 116,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 117,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 118,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      },
+      {
+        "seed": 119,
+        "lived": 3,
+        "wiped": 0,
+        "stranger_on_lived_answers": 0,
+        "stranger_same_answers": 0
+      }
+    ],
+    "totals": {
+      "lived": 60,
+      "wiped": 0,
+      "stranger_on_lived_answers": 8,
+      "stranger_same_answers": 8
+    },
+    "backbone_hash_before": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+    "backbone_hash_after": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+    "competence_loss_before": 5.774212750521573,
+    "competence_loss_after": 5.774212750521573,
+    "competence_delta": 0.0,
+    "passed_grok_rule": true
+  }
+}

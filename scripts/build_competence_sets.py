@@ -4,6 +4,7 @@ Source: https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpo
 Usage: python scripts/build_competence_sets.py <dir with gutenberg/*.txt>
 Dev set (used only to accept/reject sleep): chesterton-thursday.
 Eval set (used only for the gate): chesterton-brown + bryant-stories.
+Background set (optional sleep rehearsal, never scored): austen-emma + carroll-alice.
 """
 import random
 import re
@@ -36,6 +37,8 @@ def main():
     out.mkdir(exist_ok=True)
     dev = pick([src / "chesterton-thursday.txt"], 100, 1)
     ev = pick([src / "chesterton-brown.txt", src / "bryant-stories.txt"], 200, 2)
+    bg = pick([src / "austen-emma.txt", src / "carroll-alice.txt"], 300, 3)
+    (out / "background.txt").write_text("\n".join(bg) + "\n")
     (out / "competence_dev.txt").write_text("\n".join(dev) + "\n")
     (out / "competence_eval.txt").write_text("\n".join(ev) + "\n")
     print(len(dev), len(ev))
