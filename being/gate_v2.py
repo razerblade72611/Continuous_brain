@@ -168,21 +168,31 @@ class Being:
 
 @torch.no_grad()
 def probe(being, life, pool, subject, prefix_fn) -> dict:
-    """Questions only. Returns counts for forced-choice, full-vocabulary top-1 and generated answers."""
+    """Questions only. Returns counts plus question-aligned answers (forced pick, full-vocab top-1, generated text)."""
     pool_tok = torch.tensor([t for _, t in pool])
     out = {k: 0 for k in SCORES}
+    answers = []
     for attr, v in life:
         ids = being.tok(prefix_fn(subject, attr), return_tensors="pt").input_ids
         logits = being.model(ids, use_cache=False).logits[0, -1]
-        out["forced"] += int(int(logits[pool_tok].argmax()) == v)
-        out["full"] += int(int(logits.argmax()) == pool[v][1])
+        forced_pick = int(pool_tok[int(logits[pool_tok].argmax())])
+        full_top = int(logits.argmax())
         gen = ids
         for _ in range(3):
             nxt = being.model(gen, use_cache=False).logits[0, -1].argmax().view(1, 1)
             gen = torch.cat([gen, nxt], dim=1)
         text = being.tok.decode(gen[0, ids.shape[1]:])
+        out["forced"] += int(forced_pick == pool[v][1])
+        out["full"] += int(full_top == pool[v][1])
         out["generated"] += int(pool[v][0].strip() in text.lower().replace(".", " ").split())
+        answers.append({"question": attr, "forced_pick": forced_pick, "full_top": full_top, "generated": text})
+    out["answers"] = answers
     return out
+
+
+def same_answers(a: dict, b: dict) -> bool:
+    """Exact fresh-session reproduction: identical question-aligned answers, not just equal totals."""
+    return a is not None and b is not None and a["answers"] == b["answers"] and all(a[k] == b[k] for k in SCORES)
 
 
 def ppl_ratio(being, sentences, base_loss):
@@ -231,13 +241,13 @@ def fresh_process_probe(cfg_path: Path, weights: Path, seed: int) -> dict:
     cmd = [sys.executable, "-I", str(ROOT / "scripts/fresh_probe.py"), "--config", str(cfg_path),
            "--weights", str(weights), "--seed", str(seed)]
     out = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=ROOT)
-    return json.loads(out.stdout.strip().splitlines()[-1])
+    return json.loads(out.stdout.strip().splitlines()[-1])  # {"probe": ..., "memory_sha256": ..., "backbone_sha256": ...}
 
 
 def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base_ev, weights_dir: Path, cfg_path):
     rng = random.Random(seed * 7 + 1)
     life, st_life, other = lives_for_seed(seed, cfg, pool)
-    row = {"seed": seed}
+    row = {"seed": seed, "backbone_sha256": backbone_hash(model)}
 
     b = Being(model, tok, cfg, birth_seed=seed)  # wiped: same birth, never lived
     row["wiped"] = probe(b, life, pool, SUBJECT, prefix)
@@ -260,7 +270,10 @@ def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base
     row["A_fresh_in_process"] = probe(fresh, life, pool, SUBJECT, prefix)
     row["A_fresh_hash_match"] = fresh.memory.weight_hash() == row["A_memory_sha256"]
     fresh.close()
-    row["A_fresh_process"] = fresh_process_probe(cfg_path, wpath, seed) if cfg_path else None
+    child = fresh_process_probe(cfg_path, wpath, seed) if cfg_path else None
+    row["A_fresh_process"] = child["probe"] if child else None
+    row["A_fresh_process_memory_sha256"] = child["memory_sha256"] if child else None
+    row["A_fresh_process_backbone_sha256"] = child["backbone_sha256"] if child else None
 
     b = Being(model, tok, cfg, birth_seed=seed)  # continue the same being: weights + learning state
     b.memory.restore(learning_state)
@@ -324,8 +337,11 @@ def summarize(rows, cfg):
         s[f"{cp}_ppl_ratio"] = {k: {"mean": statistics.mean(r[f"{cp}_ppl_ratio"][k] for r in rows),
                                     "max": max(r[f"{cp}_ppl_ratio"][k] for r in rows),
                                     "min": min(r[f"{cp}_ppl_ratio"][k] for r in rows)} for k in sets}
-    s["fresh_in_process_matches"] = all(r["A_fresh_in_process"] == r["A_lived"] and r["A_fresh_hash_match"] for r in rows)
-    s["fresh_process_matches"] = all(r["A_fresh_process"] == r["A_lived"] for r in rows)
+    s["fresh_in_process_matches"] = all(same_answers(r["A_fresh_in_process"], r["A_lived"]) and r["A_fresh_hash_match"]
+                                        for r in rows)
+    s["fresh_process_matches"] = all(same_answers(r["A_fresh_process"], r["A_lived"])
+                                     and r["A_fresh_process_memory_sha256"] == r["A_memory_sha256"]
+                                     and r["A_fresh_process_backbone_sha256"] == r["backbone_sha256"] for r in rows)
     s["sleep_accepted"] = sum(r["sleep_accepted"] for r in rows)
 
     checks = {

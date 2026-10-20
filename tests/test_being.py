@@ -52,3 +52,15 @@ def test_dev_runner_rejects_sealed_seeds():
     r = subprocess.run([sys.executable, str(ROOT / "scripts/run_v2.py"), "dev", "--seeds", "1000"],
                        capture_output=True, text=True, cwd=ROOT)
     assert r.returncode != 0 and "only seeds 0-9" in (r.stderr + r.stdout)
+
+
+def test_equal_totals_with_different_answers_are_rejected():
+    from being.gate_v2 import same_answers
+    a = {"forced": 1, "full": 1, "generated": 0,
+         "answers": [{"question": "q1", "forced_pick": 5, "full_top": 5, "generated": " x"},
+                     {"question": "q2", "forced_pick": 7, "full_top": 9, "generated": " y"}]}
+    b = {"forced": 1, "full": 1, "generated": 0,
+         "answers": [{"question": "q1", "forced_pick": 6, "full_top": 6, "generated": " x"},
+                     {"question": "q2", "forced_pick": 7, "full_top": 9, "generated": " y"}]}
+    assert not same_answers(a, b)
+    assert same_answers(a, {**a, "answers": [dict(x) for x in a["answers"]]})
