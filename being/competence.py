@@ -10,7 +10,13 @@ DATA = Path(__file__).resolve().parents[1] / "data"
 
 
 def load_sentences(name: str) -> list[str]:
-    return [s for s in (DATA / f"competence_{name}.txt").read_text().splitlines() if s.strip()]
+    """`dev`, `eval`, `modern` -> data/competence_<name>.txt; `confirm_*` -> data/<name>.txt (sealed-only)."""
+    f = DATA / (f"{name}.txt" if name.startswith("confirm_") else f"competence_{name}.txt")
+    return [s for s in f.read_text().splitlines() if s.strip()]
+
+
+DEV_MONITOR_SETS = ("eval", "modern")              # seen during development; monitors only
+SEALED_SETS = ("confirm_gutenberg", "confirm_modern")  # never read before the sealed run
 
 
 @torch.no_grad()

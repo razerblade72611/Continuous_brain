@@ -38,7 +38,7 @@ import torch
 import torch.nn.functional as F
 
 from .backbone import backbone_hash
-from .competence import load_sentences, mean_loss
+from .competence import DEV_MONITOR_SETS, load_sentences, mean_loss
 from .memory import TitansMemory
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -362,10 +362,11 @@ def summarize(rows, cfg):
     return s
 
 
-def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | None, on_row=None):
+def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | None, on_row=None,
+        competence_sets=DEV_MONITOR_SETS):
     pool = pool_ids(tok)
     dev = load_sentences("dev")
-    ev = {"eval": load_sentences("eval"), "modern": load_sentences("modern")}
+    ev = {k: load_sentences(k) for k in competence_sets}
     h0 = backbone_hash(model)
     base_dev = mean_loss(model, tok, dev)
     base_ev = {k: mean_loss(model, tok, v) for k, v in ev.items()}
@@ -379,5 +380,5 @@ def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | No
     summ["chance_forced"] = 1 / len(pool)
     summ["checks"]["backbone_unchanged"] = h0 == h1
     summ["passed"] = all(summ["checks"].values())
-    return {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool),
+    return {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool), "competence_sets": list(competence_sets),
             "backbone_hash_before": h0, "backbone_hash_after": h1, "summary": summ, "per_seed": rows}

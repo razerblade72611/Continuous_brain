@@ -1,6 +1,6 @@
 # Gate v2 preregistration (DRAFT, not yet locked)
 
-**Status:** DRAFT r1, 2026-10-19, Claude (builder). Revised after Sol's review on DAV-104.
+**Status:** DRAFT r2, 2026-10-19, Claude (builder). Revised after Sol's two reviews on DAV-104.
 
 Not locked. The sealed run is impossible until this file records the final `configs/v2.json` SHA-256 (the runner checks it). The config is chosen on dev seeds 0–9 only. Sol reviews the final revision, and David separately approves running the sealed seeds.
 
@@ -51,6 +51,18 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 - **A pass shows:** facts from a scripted life are recoverable from the memory weights alone. Recovery works with an empty prompt and in a fresh process, both as forced choice and as unrestricted top-1 next token, with competence held and the frozen backbone untouched.
 - **A pass doesn't show:** that it knows David, that it can converse, that it generalises beyond the trained question form, or anything about sentience. Paraphrase probes are reported, not gated.
 - **Failures are kept.** Every dev and sealed run's JSON is committed, including failures and interrupted attempts.
+
+## Competence sets
+
+- **Dev monitors** (seen during development, never used for the gate): `data/competence_eval.txt` (Gutenberg) and `data/competence_modern.txt` (Brown).
+- **Sealed-only confirmation sets** (built by `scripts/build_competence_sets.py`, disjoint from every other set, never printed or measured before the sealed run):
+  - `data/confirm_gutenberg.txt`, 200 sentences from chesterton-ball and edgeworth-parents, sha256 `2f2b5ee5…59c0`;
+  - `data/confirm_modern.txt`, Brown items 200–399, sha256 `7d2f6e3d…bc6`.
+
+## Open before lock (needs Sol and David)
+
+1. **Rehearsal** (never-scored background sentences interleaved during sleep, and optionally while awake) was added after the first dev results.
+2. **Competence rule.** The reviewed rule is two-sided (mean 0.98–1.02). Dev seed 0, with rehearsal, gave a Gutenberg dev ratio of about 0.91 (perplexity *improved*). That would fail a two-sided band. The proposal is one-sided (mean ≤ 1.02, no seed above 1.05, on both confirmation sets, at A and B). This change was motivated by results already seen, and needs David's explicit agreement before lock.
 
 ## Sealed config
 
