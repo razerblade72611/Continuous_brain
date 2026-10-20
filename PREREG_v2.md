@@ -42,7 +42,7 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 3. B − wiped, forced: lower bound > 0 (retention after interference).
 4. A − wiped, full vocabulary: lower bound > 0.
 5. Recall floors at A: mean forced ≥ 50% of facts, and mean full-vocabulary ≥ 30% of facts.
-6. Competence at **both** A and B: mean eval perplexity ratio within 0.98–1.02, and no seed above 1.05. The ratio is measured on 200 public-domain sentences, with the memory active.
+6. Competence at **both** A and B, on **both** sealed confirmation sets (Gutenberg and Brown), with the memory active: mean perplexity ratio ≤ 1.02, and no seed above 1.05 (one-sided, decided by David; see below).
 7. Fresh session: recall from the reloaded weights equals recall in the live run, exactly, both in-process and out-of-process. The weights hash matches.
 8. The backbone hash is unchanged.
 
@@ -62,7 +62,8 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 ## Open before lock (needs Sol and David)
 
 1. **Rehearsal** (never-scored background sentences interleaved during sleep, and optionally while awake) was added after the first dev results.
-2. **Competence rule.** The reviewed rule is two-sided (mean 0.98–1.02). Dev seed 0, with rehearsal, gave a Gutenberg dev ratio of about 0.91 (perplexity *improved*). That would fail a two-sided band. The proposal is one-sided (mean ≤ 1.02, no seed above 1.05, on both confirmation sets, at A and B). This change was motivated by results already seen, and needs David's explicit agreement before lock.
+2. **Competence rule: DECIDED by David, 2026-10-19 ~20:50 CT.** One-sided: mean perplexity ratio ≤ 1.02 and no seed above 1.05, on both sealed confirmation sets, at both A and B. Improvement isn't counted as harm.
+   - This replaces the two-sided rule (0.98–1.02) that Sol reviewed. The change was proposed after seeing a dev result: seed 0 with rehearsal gave a Gutenberg dev ratio of about 0.91. It's recorded here for that reason.
 
 ## Sealed config
 
