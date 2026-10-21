@@ -367,24 +367,43 @@ def summarize(rows, cfg):
     return s
 
 
+def validate_prior(prior_rows, seeds):
+    """Resume rule: recorded rows must be exactly the first k seeds, in order. No row is ever replaced or skipped."""
+    got = [r["seed"] for r in prior_rows]
+    if got != list(seeds)[:len(got)]:
+        raise ValueError(f"recorded seeds {got} are not a prefix of {list(seeds)}")
+
+
 def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | None, on_row=None,
-        competence_sets=DEV_MONITOR_SETS):
+        competence_sets=DEV_MONITOR_SETS, prior_rows=(), max_new=None, prior_segments_ok=True):
+    """Run `seeds` in order. `prior_rows` (resume) are kept verbatim and only the remaining seeds run; `max_new`
+    stops cleanly after that many new seeds. The summary is computed only once every seed has a row."""
+    validate_prior(prior_rows, seeds)
     pool = pool_ids(tok)
     dev = load_sentences("dev")
     ev = {k: load_sentences(k) for k in competence_sets}
     h0 = backbone_hash(model)
     base_dev = mean_loss(model, tok, dev)
     base_ev = {k: mean_loss(model, tok, v) for k, v in ev.items()}
-    rows = []
-    for s in seeds:
+    rows = list(prior_rows)
+    todo = list(seeds)[len(rows):]
+    if max_new is not None:
+        todo = todo[:max_new]
+    for s in todo:
         rows.append(run_seed(model, tok, cfg, s, pool, dev, ev, base_dev, base_ev, weights_dir, cfg_path))
         if on_row:
             on_row(rows)
     h1 = backbone_hash(model)
-    summ = summarize(rows, cfg)
-    summ["chance_forced"] = 1 / len(pool)
-    # Unchanged only if the run-level before/after hashes match AND every seed has a matching end hash.
-    summ["checks"]["backbone_unchanged"] = h0 == h1 and not summ["backbone_unattested_seeds"]
-    summ["passed"] = all(summ["checks"].values())
-    return {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool), "competence_sets": list(competence_sets),
-            "backbone_hash_before": h0, "backbone_hash_after": h1, "summary": summ, "per_seed": rows}
+    out = {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool), "competence_sets": list(competence_sets),
+           "backbone_hash_before": h0, "backbone_hash_after": h1, "per_seed": rows,
+           "complete": len(rows) == len(seeds)}
+    if out["complete"]:
+        summ = summarize(rows, cfg)
+        summ["chance_forced"] = 1 / len(pool)
+        # Unchanged only if this process's before/after hashes match, every earlier segment's did too, every seed's
+        # start == end, and every seed started from the same backbone as this process.
+        summ["checks"]["backbone_unchanged"] = (h0 == h1 and prior_segments_ok and not summ["backbone_unattested_seeds"]
+                                                and {r["backbone_sha256"] for r in rows} == {h0})
+        summ["passed"] = all(summ["checks"].values())
+        out["summary"] = summ
+    return out

@@ -1,8 +1,10 @@
-# Gate v2 preregistration (LOCK CANDIDATE r3)
+# Gate v2 preregistration (LOCK CANDIDATE r4)
 
-**Status:** LOCK CANDIDATE r3, 2026-10-20, Claude (builder).
+**Status:** LOCK CANDIDATE r4, 2026-10-21, Claude (builder).
 
-This revision is for Sol's final review on DAV-104. The sealed run additionally needs David's explicit go-ahead. Nothing sealed has been run, and the confirmation sets are unopened.
+This revision is for Sol's final review on DAV-104. David gave the go-ahead for the sealed run on 2026-10-21; it launches once Sol signs off on this revision. Nothing sealed has been run, and the confirmation sets are unopened.
+
+**r4 vs r3:** runner-only change (interruption-safe resume, below). The experiment (`run_seed`, `summarize`, scoring, config, data) is unchanged.
 
 Not locked. The sealed run is impossible until this file records the final `configs/v2.json` SHA-256 (the runner checks it). The config is chosen on dev seeds 0–9 only. Sol reviews the final revision, and David separately approves running the sealed seeds.
 
@@ -47,6 +49,20 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 6. Competence at **both** A and B, on **both** sealed confirmation sets (Gutenberg and Brown), with the memory active: mean perplexity ratio ≤ 1.02, and no seed above 1.05 (one-sided, decided by David; see below).
 7. Fresh session: recall from the reloaded weights equals recall in the live run, exactly, both in-process and out-of-process. The weights hash matches.
 8. The backbone hash is unchanged: the run-level before and after hashes match, and every seed's start and end hashes match.
+
+## Interruption and resume (r4)
+
+The sealed family runs ~20 minutes per seed (~7 hours), and this workspace restarted twice during development. So that a restart cannot destroy the one-time test, `scripts/run_v2.py sealed --resume` continues an opened family under these rules:
+
+- The marker must exist, and `results/v2_sealed.json` must be an unfinished run with the same config SHA-256 and the same opening commit.
+- `being/`, `scripts/`, `configs/`, `data/`, `tests/` and this file must be byte-identical to the commit recorded in the marker. Only `results/` may differ.
+- The recorded rows must be exactly seeds 1000…1000+k−1, in order. They are kept verbatim. **No recorded seed is ever rerun or replaced.** Only a seed whose row was never written (interrupted mid-seed) is run, from scratch.
+- Each segment (start and end time, commit, seeds run, backbone hash before and after) is logged in the results file and appended to the marker. A killed segment has no end hash; its seeds are attested by their own start == end hashes.
+- `backbone_unchanged` additionally requires every seed's start hash to equal the final segment's backbone hash, and every finished segment's before == after.
+- Rows are written atomically (temp file + rename), so a kill cannot corrupt recorded seeds.
+- `--max-seeds N` ends a segment cleanly; it doesn't change what is computed.
+
+Each seed is computed independently from fixed seeds (life, birth, replay order), so where segment boundaries fall cannot change a row. Determinism check: dev seed 3 was rerun at `26bd49f` in a new process and compared field-by-field with its recorded row (`results/dev/v2_cand2_s3_repeat.json`, reported on DAV-104).
 
 ## Claim boundary
 
