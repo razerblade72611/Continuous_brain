@@ -1,49 +1,58 @@
 {
-  "config": {
-    "layer": 3,
-    "hidden": 1024,
-    "lr": 0.003,
-    "momentum": 0.9,
-    "forget": 0.0,
-    "awake_passes": 1,
-    "sleep_passes": 20,
-    "facts": 30,
-    "interference_facts": 30,
-    "sleep_band": 1.02,
-    "train_input": true,
-    "rehearsal": 1,
-    "background": "mixed",
-    "rehearse_awake": true
-  },
-  "seeds": [
-    1000,
-    1001,
-    1002,
-    1003,
-    1004,
-    1005,
-    1006,
-    1007,
-    1008,
-    1009,
-    1010,
-    1011,
-    1012,
-    1013,
-    1014,
-    1015,
-    1016,
-    1017,
-    1018,
-    1019
+  "which": "sealed",
+  "commit": "e2c2b1f3f5c97d952de3a90ef9fe61cb497b1999",
+  "opened_commit": "bcc82f69c957c57ee53274750239906bdf553a23",
+  "config_sha256": "e73da0b594fefb8253ecfb2c61517dd0c8713bf2b227a2db95d7ad5b4958c401",
+  "config_path": "configs/v2.json",
+  "status": "in_progress",
+  "segments": [
+    {
+      "started_utc": "2026-10-21T05:57:06Z",
+      "commit": "bcc82f69c957c57ee53274750239906bdf553a23",
+      "resumed_after_seeds": [],
+      "backbone_hash_before": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+      "backbone_hash_after": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
+      "ended_utc": "2026-10-21T07:13:12Z",
+      "seconds": 4564.8,
+      "seeds_run": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010,
+        1011,
+        1012
+      ]
+    },
+    {
+      "started_utc": "2026-10-21T07:13:52Z",
+      "commit": "e2c2b1f3f5c97d952de3a90ef9fe61cb497b1999",
+      "resumed_after_seeds": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010,
+        1011,
+        1012
+      ],
+      "backbone_hash_before": null,
+      "backbone_hash_after": null,
+      "ended_utc": null
+    }
   ],
-  "pool_size": 69,
-  "competence_sets": [
-    "confirm_gutenberg",
-    "confirm_modern"
-  ],
-  "backbone_hash_before": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
-  "backbone_hash_after": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
   "per_seed": [
     {
       "seed": 1000,
@@ -22209,39 +22218,6 @@
       "stranger_sleep_accepted": true,
       "stranger_same_answers": 2,
       "backbone_sha256_end": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61"
-    }
-  ],
-  "complete": false,
-  "which": "sealed",
-  "commit": "bcc82f69c957c57ee53274750239906bdf553a23",
-  "opened_commit": "bcc82f69c957c57ee53274750239906bdf553a23",
-  "config_sha256": "e73da0b594fefb8253ecfb2c61517dd0c8713bf2b227a2db95d7ad5b4958c401",
-  "config_path": "configs/v2.json",
-  "status": "in_progress",
-  "segments": [
-    {
-      "started_utc": "2026-10-21T05:57:06Z",
-      "commit": "bcc82f69c957c57ee53274750239906bdf553a23",
-      "resumed_after_seeds": [],
-      "backbone_hash_before": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
-      "backbone_hash_after": "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61",
-      "ended_utc": "2026-10-21T07:13:12Z",
-      "seconds": 4564.8,
-      "seeds_run": [
-        1000,
-        1001,
-        1002,
-        1003,
-        1004,
-        1005,
-        1006,
-        1007,
-        1008,
-        1009,
-        1010,
-        1011,
-        1012
-      ]
     }
   ]
 }
