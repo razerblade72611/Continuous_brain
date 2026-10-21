@@ -1,10 +1,10 @@
-# Gate v2 preregistration (LOCK CANDIDATE r4)
+# Gate v2 preregistration (LOCK CANDIDATE r5)
 
-**Status:** LOCK CANDIDATE r4, 2026-10-21, Claude (builder).
+**Status:** LOCK CANDIDATE r5, 2026-10-21, Claude (builder).
 
 This revision is for Sol's final review on DAV-104. David gave the go-ahead for the sealed run on 2026-10-21; it launches once Sol signs off on this revision. Nothing sealed has been run, and the confirmation sets are unopened.
 
-**r4 vs r3:** runner-only change (interruption-safe resume, below). The experiment (`run_seed`, `summarize`, scoring, config, data) is unchanged.
+**r4/r5 vs r3:** runner-only changes (interruption-safe resume with an exclusive process lock, below). The experiment (`run_seed`, `summarize`, scoring, config, data) is unchanged. r5 fixes Sol's two r4 findings: a crash before the first recorded seed was unrecoverable, and concurrent resumes were not excluded.
 
 Not locked. The sealed run is impossible until this file records the final `configs/v2.json` SHA-256 (the runner checks it). The config is chosen on dev seeds 0–9 only. Sol reviews the final revision, and David separately approves running the sealed seeds.
 
@@ -50,19 +50,33 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 7. Fresh session: recall from the reloaded weights equals recall in the live run, exactly, both in-process and out-of-process. The weights hash matches.
 8. The backbone hash is unchanged: the run-level before and after hashes match, and every seed's start and end hashes match.
 
-## Interruption and resume (r4)
+## Interruption and resume (r5)
 
-The sealed family runs ~20 minutes per seed (~7 hours), and this workspace restarted twice during development. So that a restart cannot destroy the one-time test, `scripts/run_v2.py sealed --resume` continues an opened family under these rules:
+The sealed family takes about 7.4 minutes per seed when run alone (443 s measured), so roughly 2.5 hours, and this workspace restarted twice during development. So that a restart cannot destroy the one-time test:
 
-- The marker must exist, and `results/v2_sealed.json` must be an unfinished run with the same config SHA-256 and the same opening commit.
-- `being/`, `scripts/`, `configs/`, `data/`, `tests/` and this file must be byte-identical to the commit recorded in the marker. Only `results/` may differ.
-- The recorded rows must be exactly seeds 1000…1000+k−1, in order. They are kept verbatim. **No recorded seed is ever rerun or replaced.** Only a seed whose row was never written (interrupted mid-seed) is run, from scratch.
-- Each segment (start and end time, commit, seeds run, backbone hash before and after) is logged in the results file and appended to the marker. A killed segment has no end hash; its seeds are attested by their own start == end hashes.
+- **Exclusive lock.** Every sealed process, whether opening or resuming, first takes an OS-held exclusive lock (`flock` on `results/v2_sealed.lock`) and holds it until it exits. A second process refuses. Process death releases the lock automatically.
+- **State before evaluation.** On opening, the marker is created (O_EXCL) and then an empty resumable state (`results/v2_sealed.json`, zero rows) is written before the model is loaded.
+- **Append-only row log.** Each completed seed is written atomically (temp file, fsync, rename) to the results file. Its row SHA-256 is then appended to the marker.
+- **`--resume`** continues an opened family only if all of these hold:
+  - the marker's config SHA-256 matches, and the results file (if present) is unfinished and has the same opening commit;
+  - `being/`, `scripts/`, `configs/`, `data/`, `tests/` and this file are byte-identical to the commit recorded in the marker, and the tree is clean outside `results/`;
+  - the recorded rows are exactly seeds 1000…1000+k−1 in order;
+  - every row logged in the marker matches the results file by SHA-256, and at most one trailing row is unlogged (a kill between the two writes; it is logged on resume).
+- If the results file is missing, a resume starts from zero **only if the marker logs no rows** (a kill before the initial write). Otherwise it refuses.
+- **Recorded rows are kept verbatim. No recorded seed is ever rerun or replaced.** Only a seed whose row was never written is run, from scratch.
+- Each segment (start and end time, commit, seeds run, backbone hash before and after) is logged in the results file and the marker. A killed segment has no end hash; its seeds are attested by their own start == end hashes.
 - `backbone_unchanged` additionally requires every seed's start hash to equal the final segment's backbone hash, and every finished segment's before == after.
-- Rows are written atomically (temp file + rename), so a kill cannot corrupt recorded seeds.
 - `--max-seeds N` ends a segment cleanly; it doesn't change what is computed.
+- **Regression tests** (`tests/test_sealed_runner.py`, driving the real runner with a fake model and seeds through `tests/fake_runner.py`; no training, no data read) cover:
+  - a crash during the first seed;
+  - a crash before the initial write;
+  - completed rows preserved verbatim (random nonces unchanged);
+  - a kill between a row write and its log entry;
+  - a competing resume refused;
+  - tampered and deleted results refused;
+  - a code change refused.
 
-Each seed is computed independently from fixed seeds (life, birth, replay order), so where segment boundaries fall cannot change a row. Determinism check: dev seed 3 was rerun at `26bd49f` in a new process and compared field-by-field with its recorded row (`results/dev/v2_cand2_s3_repeat.json`, reported on DAV-104).
+**Determinism (observed).** Each seed is computed independently from fixed seeds (life, birth, replay order). Dev seed 3 was rerun at `26bd49f` in a new process (`results/dev/v2_cand2_s3_repeat.json`). It matched its recorded row in `v2_cand2_s3-4.json` exactly on all 22 shared fields: probe answers, perplexity ratios, sleep dev ratio, and the memory and backbone hashes. The only difference is `backbone_sha256_end`, which the original row lacks because the field was added later. So where a segment boundary falls cannot change a row.
 
 ## Claim boundary
 

@@ -3,3 +3,5 @@ __pycache__/
 .pytest_cache/
 models/
 results/weights/
+results/v2_sealed.lock
+results/*.tmp
