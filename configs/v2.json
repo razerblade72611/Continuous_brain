@@ -1,7 +1,7 @@
 {
   "layer": 3,
   "hidden": 1024,
-  "lr": 0.02,
+  "lr": 0.003,
   "momentum": 0.9,
   "forget": 0.0,
   "awake_passes": 1,
@@ -9,5 +9,8 @@
   "facts": 30,
   "interference_facts": 30,
   "sleep_band": 1.02,
-  "train_input": true
+  "train_input": true,
+  "rehearsal": 1,
+  "rehearse_awake": true,
+  "background": "mixed"
 }

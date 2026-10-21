@@ -292,6 +292,7 @@ def run_seed(model, tok, cfg: V2Config, seed: int, pool, dev, ev, base_dev, base
     row["stranger_sleep_accepted"] = acc_s
     row["stranger_same_answers"] = sum(int(a[1] == c[1]) for a, c in zip(life, st_life))
     b.close()
+    row["backbone_sha256_end"] = backbone_hash(model)  # per-seed end attestation (Sol, DAV-104)
     return row
 
 
@@ -345,6 +346,8 @@ def summarize(rows, cfg):
                                      and r["A_fresh_process_memory_sha256"] == r["A_memory_sha256"]
                                      and r["A_fresh_process_backbone_sha256"] == r["backbone_sha256"] for r in rows)
     s["sleep_accepted"] = sum(r["sleep_accepted"] for r in rows)
+    s["backbone_unattested_seeds"] = [r["seed"] for r in rows
+                                      if r.get("backbone_sha256_end") != r["backbone_sha256"]]
 
     checks = {
         "A_minus_wiped_forced": s["A_minus_wiped_forced"]["lower95"] > 0,
@@ -380,7 +383,8 @@ def run(model, tok, cfg: V2Config, seeds, weights_dir: Path, cfg_path: Path | No
     h1 = backbone_hash(model)
     summ = summarize(rows, cfg)
     summ["chance_forced"] = 1 / len(pool)
-    summ["checks"]["backbone_unchanged"] = h0 == h1
+    # Unchanged only if the run-level before/after hashes match AND every seed has a matching end hash.
+    summ["checks"]["backbone_unchanged"] = h0 == h1 and not summ["backbone_unattested_seeds"]
     summ["passed"] = all(summ["checks"].values())
     return {"config": asdict(cfg), "seeds": list(seeds), "pool_size": len(pool), "competence_sets": list(competence_sets),
             "backbone_hash_before": h0, "backbone_hash_after": h1, "summary": summ, "per_seed": rows}

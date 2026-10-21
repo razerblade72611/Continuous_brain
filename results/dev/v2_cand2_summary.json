@@ -162,6 +162,14 @@
     "fresh_in_process_matches": true,
     "fresh_process_matches": true,
     "sleep_accepted": 10,
+    "backbone_unattested_seeds": [
+      0,
+      1,
+      2,
+      5,
+      6,
+      7
+    ],
     "checks": {
       "A_minus_wiped_forced": true,
       "A_minus_stranger_forced": true,
@@ -175,9 +183,19 @@
       "competence_B_modern": true,
       "fresh_in_process": true,
       "fresh_process": true,
-      "backbone_unchanged": true
+      "backbone_unchanged": false
     },
-    "passed": true
+    "passed": false,
+    "backbone_start_hashes": [
+      "586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61"
+    ],
+    "backbone_attested_seeds": [
+      3,
+      4,
+      8,
+      9
+    ],
+    "passed_excluding_backbone_attestation": true
   },
   "per_seed": [
     {

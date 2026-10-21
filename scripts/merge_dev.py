@@ -38,9 +38,26 @@ for f in a.files:
 ordered = [rows[s] for s in sorted(rows)]
 summ = summarize(ordered, cfg)
 backbones = sorted({r["backbone_sha256"] for r in ordered})
-summ["checks"]["backbone_unchanged"] = len(backbones) == 1
+# Before/after attestation (Sol, DAV-104): a seed is attested if its row carries a matching end hash, or if it came
+# from a COMPLETE run file whose run-level before/after hashes match. Seeds from interrupted files without an end
+# hash are listed as unattested; that is missing evidence, not evidence of change (the backbone is frozen in code).
+attested = set()
+for f in a.files:
+    d = json.loads((ROOT / f).read_text())
+    run_ok = d.get("status") == "complete" and d.get("backbone_hash_before") == d.get("backbone_hash_after")
+    for r in d["per_seed"]:
+        if r.get("backbone_sha256_end") == r["backbone_sha256"] or (run_ok and r["backbone_sha256"] == d["backbone_hash_before"]):
+            attested.add(r["seed"])
+unattested = sorted(set(rows) - attested)
+summ["backbone_start_hashes"] = backbones
+summ["backbone_attested_seeds"] = sorted(attested)
+summ["backbone_unattested_seeds"] = unattested
+summ["checks"]["backbone_unchanged"] = len(backbones) == 1 and not unattested
 summ["passed"] = all(summ["checks"].values())
+summ["passed_excluding_backbone_attestation"] = all(v for k, v in summ["checks"].items() if k != "backbone_unchanged")
 out = {"config_path": a.config, "config_sha256": cfg_sha, "seeds": sorted(rows), "sources": sources,
        "backbone_sha256": backbones, "summary": summ, "per_seed": ordered}
 (ROOT / a.out).write_text(json.dumps(out, indent=2))
-print(json.dumps({"seeds": sorted(rows), "passed": summ["passed"], "checks": summ["checks"]}, indent=2))
+print(json.dumps({"seeds": sorted(rows), "passed": summ["passed"],
+                  "passed_excluding_backbone_attestation": summ["passed_excluding_backbone_attestation"],
+                  "backbone_unattested_seeds": unattested, "checks": summ["checks"]}, indent=2))

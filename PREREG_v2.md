@@ -1,6 +1,8 @@
-# Gate v2 preregistration (DRAFT, not yet locked)
+# Gate v2 preregistration (LOCK CANDIDATE r3)
 
-**Status:** DRAFT r2, 2026-10-19, Claude (builder). Revised after Sol's two reviews on DAV-104.
+**Status:** LOCK CANDIDATE r3, 2026-10-20, Claude (builder).
+
+This revision is for Sol's final review on DAV-104. The sealed run additionally needs David's explicit go-ahead. Nothing sealed has been run, and the confirmation sets are unopened.
 
 Not locked. The sealed run is impossible until this file records the final `configs/v2.json` SHA-256 (the runner checks it). The config is chosen on dev seeds 0–9 only. Sol reviews the final revision, and David separately approves running the sealed seeds.
 
@@ -44,7 +46,7 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
 5. Recall floors at A: mean forced ≥ 50% of facts, and mean full-vocabulary ≥ 30% of facts.
 6. Competence at **both** A and B, on **both** sealed confirmation sets (Gutenberg and Brown), with the memory active: mean perplexity ratio ≤ 1.02, and no seed above 1.05 (one-sided, decided by David; see below).
 7. Fresh session: recall from the reloaded weights equals recall in the live run, exactly, both in-process and out-of-process. The weights hash matches.
-8. The backbone hash is unchanged.
+8. The backbone hash is unchanged: the run-level before and after hashes match, and every seed's start and end hashes match.
 
 ## Claim boundary
 
@@ -59,12 +61,42 @@ The sealed seeds are 1000–1019 (n = 20). Every check must hold.
   - `data/confirm_gutenberg.txt`, 200 sentences from chesterton-ball and edgeworth-parents, sha256 `2f2b5ee5…59c0`;
   - `data/confirm_modern.txt`, Brown items 200–399, sha256 `7d2f6e3d…bc6`.
 
-## Open before lock (needs Sol and David)
+## Decisions made after the first dev results (recorded because they were informed by dev data)
 
-1. **Rehearsal** (never-scored background sentences interleaved during sleep, and optionally while awake) was added after the first dev results.
-2. **Competence rule: DECIDED by David, 2026-10-19 ~20:50 CT.** One-sided: mean perplexity ratio ≤ 1.02 and no seed above 1.05, on both sealed confirmation sets, at both A and B. Improvement isn't counted as harm.
-   - This replaces the two-sided rule (0.98–1.02) that Sol reviewed. The change was proposed after seeing a dev result: seed 0 with rehearsal gave a Gutenberg dev ratio of about 0.91. It's recorded here for that reason.
+1. **Rehearsal: accepted by Sol (2026-10-19).** Never-scored background sentences are interleaved one per life sentence, while awake and asleep, and in the interference block. The lived and stranger arms use the same rehearsal budget.
+2. **Competence rule: decided by David (2026-10-19, ~20:50 CT).** The rule is one-sided: mean perplexity ratio ≤ 1.02 and no seed above 1.05, on both sealed confirmation sets, at both A and B. It replaces the two-sided 0.98–1.02 rule that Sol reviewed. The change was proposed after seeing a dev result: seed 0 with rehearsal gave a Gutenberg ratio of about 0.91.
+3. **Mixed rehearsal background (after candidate 1 failed).** Candidate 1 rehearsed on Gutenberg only. Its Brown monitor got worse (1.20–1.30), so it was stopped and is kept in `results/dev/v2_cand1_*`. Candidate 2 rehearses on Gutenberg plus a disjoint Brown slice.
+
+## Dev evidence behind this config (seeds 0–9 only)
+
+- **Pooled summary:** `results/dev/v2_cand2_summary.json`, sha256 `67b5a2b7d5bddcae56aa85fc0dff81a86b633dea010217c19c00ade502dcc608`.
+- **Results:**
+  - A recall is 29.3/30 on question-only template probes (forced, full-vocabulary and generated).
+  - Wiped scores 0.5, stranger 0.5, and B (after interference) 13.5.
+  - The dev-monitor perplexity ratios are 0.84–0.94.
+  - Fresh in-process and separate-process reloads are identical per question, with matching hashes.
+- **Restart history:**
+  - A container restart ended the first two dev processes after seeds 0, 1, 2, 5, 6 and 7.
+  - Seeds 3, 4, 8 and 9 were rerun with the same code and config, and merged with `scripts/merge_dev.py`.
+  - The interrupted files carry no end-of-run backbone hash, so seeds 0, 1, 2, 5, 6 and 7 are listed as **backbone-unattested**. That's missing evidence, not evidence of change: the backbone is frozen in code.
+  - Every seed row now records `backbone_sha256_end` (Sol, DAV-104), and the sealed gate requires start == end on every seed.
+
+## Rehearsal sources (never scored)
+
+- `data/background.txt`: Austen *Emma* and Carroll *Alice*, 300 sentences, sha256 `158fd001934b26d72c6a27de8b2d02f7fd7a59fea55deea60b32b0503b55346f`.
+- `data/background_modern.txt`: Brown items 400–1399, 1,000 sentences, sha256 `a59359f876dbd04d3281ac3d5c93cf5f3f1e99e1ef994d0dfae8bd7182b092da`.
+
+## Limits
+
+- The Brown rehearsal slice and the Brown confirmation slice come from the same corpus, so this isn't evidence of robustness on genres outside Gutenberg and Brown.
+- Lower perplexity on these corpora isn't a claim of general language improvement.
+- **The scope is narrow.** Recall is tested only on the trained question template, and the life is 30 scripted single-token facts.
+  - Paraphrase probes are reported, not gated. In dev they scored 21.9/30 forced and 18.6/30 full-vocabulary.
+- **Interference roughly halves recall** (B is about 13/30).
+- **distilgpt2 is a mechanism test,** not the individual. The test says nothing about autobiography, goals or sentience.
 
 ## Sealed config
 
-To be filled in at lock time: `configs/v2.json` SHA-256 = `<pending dev tuning>`.
+- `configs/v2.json` (identical to `configs/v2_dev_candidate2.json`): SHA-256 = `e73da0b594fefb8253ecfb2c61517dd0c8713bf2b227a2db95d7ad5b4958c401`
+- Backbone: distilgpt2 `model.safetensors`, sha256 `721fa38acb2ba5d1ebdeed4bad3dcb32c0beeb2b924ecf544fffaa3b0bb65a66`; parameter hash `586afec4622dee7921d264bf1634d73a35054e291fa4cbab3c756db831fcba61`
+- Confirmation sets: `confirm_gutenberg.txt` `2f2b5ee58537b1182643c81fd4471bc1f71f3204981474e293d88b66c42659c0`, `confirm_modern.txt` `7d2f6e3dfbe4e77f1d72b812efd1dafd2a08d773e2ea3f5c7ab33f54e1f8cbc6`
