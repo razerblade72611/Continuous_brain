@@ -1,0 +1,160 @@
+"""Gate v3 Stage A (screening) launcher: runs the agreed config sweep in three phases, N jobs at a time, applies the
+agreed selection rule, prints a compact summary, and can stop the RunPod pod when done.
+
+  python scripts/stage_v3.py A [--parallel 6] [--lives 25] [--seeds 0,1] [--stop-pod]
+
+Plan (lab/DECISIONS_v3.md; Claude-Grok dev plan, DAV-105):
+  A1  T: layer {7,14,21} (lr 3e-3, night 4)   S-fitted: layer {7,14,21} (lr 100, top_t 64)   L: lr {3e-3,1e-2} x KL {0.3,1}
+  A2  T at its best layer: lr {3e-3,1e-2} x night {2,4}   S at its best layer: lr {30,100} x top_t {64,256}
+  A3  G on the better of T/S (its frozen config): replay_cues {8,16}; S-random = S winner with s_fit=false (ablation)
+Selection rule (same for every arm): within the competence band (mean ppl ratio <=1.02 and no seed >1.05 on both dev
+monitors at the last checkpoint), maximise mean life-1 template recall at the last checkpoint, subject to Grok's guard:
+life-1 recall must not fall by more than 1 fact (10 points) from life 10 to the last checkpoint. If nothing qualifies,
+take the best by recall among band-passing configs, then among all, and record which fallback was used.
+Ties: lower worst-monitor ppl ratio wins, then the earlier config in the plan order above.
+"""
+import argparse
+import json
+import math
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "results/dev3/stageA"
+
+
+def job_name(arm, cfg):
+    return arm + "_" + "_".join(f"{k}{v}" for k, v in sorted(cfg.items()))
+
+
+def run_jobs(jobs, parallel, lives, seeds):
+    """jobs: list of (arm, cfg dict). Runs those without a result file; returns {name: path}."""
+    OUT.mkdir(parents=True, exist_ok=True)
+    pending, running, paths = list(jobs), [], {}
+    for arm, cfg in jobs:
+        paths[job_name(arm, cfg)] = OUT / f"{job_name(arm, cfg)}.json"
+    while pending or running:
+        while pending and len(running) < parallel:
+            arm, cfg = pending.pop(0)
+            p = paths[job_name(arm, cfg)]
+            if p.exists() and json.loads(p.read_text()).get("status") == "complete":
+                continue
+            if p.exists():
+                p.rename(p.with_suffix(f".interrupted.{int(time.time())}.json"))   # kept on record, never overwritten
+            cmd = [sys.executable, str(ROOT / "scripts/run_v3_dev.py"), "--arm", arm, "--seeds", seeds,
+                   "--lives", str(lives), "--out", str(p.relative_to(ROOT)), "--set"] + [f"{k}={v}" for k, v in cfg.items()]
+            log = open(p.with_suffix(".log"), "w")
+            running.append((subprocess.Popen(cmd, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT), p, log))
+            print(time.strftime("%H:%M:%S"), "start", p.name, flush=True)
+        for item in list(running):
+            proc, p, log = item
+            if proc.poll() is not None:
+                log.close()
+                running.remove(item)
+                print(time.strftime("%H:%M:%S"), "done ", p.name, "exit", proc.returncode, flush=True)
+        time.sleep(5)
+    return paths
+
+
+def score(path):
+    d = json.loads(path.read_text())
+    if d.get("status") != "complete":
+        return None
+    base = d["base_ppl_loss"]
+    rec, rec10, ratios = [], [], {k: [] for k in base}
+    for r in d["per_seed"]:
+        last = r["checkpoints"][-1]
+        rec.append(sum(x["template"] for x in last["life1"]))
+        at10 = [c for c in r["checkpoints"] if c["after_life"] == 10]
+        rec10.append(sum(x["template"] for x in at10[0]["life1"]) if at10 else rec[-1])
+        for k in base:
+            ratios[k].append(math.exp(last["ppl_loss"][k] - base[k]))
+    band = all(sum(v) / len(v) <= 1.02 and max(v) <= 1.05 for v in ratios.values())
+    m = sum(rec) / len(rec)
+    m10 = sum(rec10) / len(rec10)
+    return {"recall_last": m, "recall_10": m10, "guard": m >= m10 - 1, "band": band,
+            "ppl_ratio": {k: round(sum(v) / len(v), 4) for k, v in ratios.items()},
+            "ppl_ratio_max": {k: round(max(v), 4) for k, v in ratios.items()}, "config": d["config"]}
+
+
+def select(paths):
+    scored = {n: score(p) for n, p in paths.items()}
+    scored = {n: s for n, s in scored.items() if s}
+    for rule, ok in (("band+guard", lambda s: s["band"] and s["guard"]), ("band only", lambda s: s["band"]),
+                     ("none (no config in band)", lambda s: True)):
+        c = {n: s for n, s in scored.items() if ok(s)}
+        if c:
+            best = max(c, key=lambda n: (c[n]["recall_last"], -max(c[n]["ppl_ratio"].values())))
+            return best, rule, scored
+    return None, "no complete runs", scored
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("stage", choices=["A"])
+    ap.add_argument("--parallel", type=int, default=6)
+    ap.add_argument("--lives", type=int, default=25)
+    ap.add_argument("--seeds", default="0,1")
+    ap.add_argument("--stop-pod", action="store_true")
+    a = ap.parse_args()
+    t0 = time.time()
+    summary = {"stage": "A", "lives": a.lives, "seeds": a.seeds, "phases": {}}
+
+    a1 = [("L", {"lr": lr, "kl_weight": kl, "night_passes": 4}) for lr in (3e-3, 1e-2) for kl in (0.3, 1.0)] + \
+         [("T", {"layer": l, "lr": 3e-3, "night_passes": 4}) for l in (7, 14, 21)] + \
+         [("S", {"layer": l, "lr": 100, "top_t": 64, "s_fit": "true", "night_passes": 4}) for l in (7, 14, 21)]   # L first: slowest
+    p1 = run_jobs(a1, a.parallel, a.lives, a.seeds)
+    winners = {}
+    for arm in ("T", "S", "L"):
+        best, rule, sc = select({n: p for n, p in p1.items() if n.startswith(arm + "_")})
+        winners[arm] = (best, rule)
+        summary["phases"].setdefault("A1", {})[arm] = {"best": best, "rule": rule, "scores": sc}
+    tl = json.loads(p1[winners["T"][0]].read_text())["config"]["layer"] if winners["T"][0] else 14
+    sl_ = json.loads(p1[winners["S"][0]].read_text())["config"]["layer"] if winners["S"][0] else 14
+    a2 = [("T", {"layer": tl, "lr": lr, "night_passes": n}) for lr in (3e-3, 1e-2) for n in (2, 4)] + \
+         [("S", {"layer": sl_, "lr": lr, "top_t": t, "s_fit": "true", "night_passes": 4}) for lr in (30, 100) for t in (64, 256)]
+    p2 = run_jobs(a2, a.parallel, a.lives, a.seeds)
+    final = {}
+    for arm in ("T", "S"):
+        pool = {n: p for n, p in {**p1, **p2}.items() if n.startswith(arm + "_")}
+        best, rule, sc = select(pool)
+        final[arm] = best
+        summary["phases"].setdefault("A2", {})[arm] = {"best": best, "rule": rule, "scores": sc}
+    final["L"] = winners["L"][0]
+    # A3: G on the better of T/S, plus S-random ablation (S winner, s_fit false)
+    sT, sS = (score({**p1, **p2}[final[x]]) if final[x] else None for x in ("T", "S"))
+    base = "T" if (sT and (not sS or (sT["band"], sT["recall_last"]) >= (sS["band"], sS["recall_last"]))) else "S"
+    bcfg = {k: v for k, v in json.loads({**p1, **p2}[final[base]].read_text())["config"].items()
+            if k in ("layer", "lr", "night_passes", "top_t", "s_fit")}
+    bcfg = {k: (str(v).lower() if isinstance(v, bool) else v) for k, v in bcfg.items()}
+    a3 = [("G", {**bcfg, "g_base": base, "replay_cues": c, "g_gate": "true"}) for c in (8, 16)]
+    scfg = {k: (str(v).lower() if isinstance(v, bool) else v) for k, v in
+            json.loads({**p1, **p2}[final["S"]].read_text())["config"].items()
+            if k in ("layer", "lr", "night_passes", "top_t")} if final["S"] else None
+    if scfg:
+        a3.append(("S", {**scfg, "s_fit": "false"}))
+    p3 = run_jobs(a3, a.parallel, a.lives, a.seeds)
+    gbest, grule, gsc = select({n: p for n, p in p3.items() if n.startswith("G_")})
+    final["G"] = gbest
+    summary["phases"]["A3"] = {"G_base": base, "G": {"best": gbest, "rule": grule, "scores": gsc},
+                               "S_random": {n: score(p) for n, p in p3.items() if n.startswith("S_")}}
+    summary["frozen_for_stage_B"] = {arm: json.loads({**p1, **p2, **p3}[n].read_text())["config"] if n else None
+                                     for arm, n in final.items()}
+    summary["hours"] = round((time.time() - t0) / 3600, 2)
+    (ROOT / "results/dev3/stageA_summary.json").write_text(json.dumps(summary, indent=1))
+    subprocess.run(["tar", "czf", str(ROOT / "results_stageA.tar.gz"), "-C", str(ROOT), "results/dev3"])
+    compact = {arm: {"job": n, "rule": (summary["phases"].get("A2", {}).get(arm) or summary["phases"]["A1"].get(arm)
+                                        or summary["phases"]["A3"].get(arm) or {}).get("rule")} for arm, n in final.items()}
+    print("STAGE A DONE", json.dumps({"hours": summary["hours"], "G_base": base, "winners": compact,
+                                      "scores": {n: {k: s[k] for k in ("recall_last", "recall_10", "band", "ppl_ratio")}
+                                                 for ph in ("A1", "A2") for arm in summary["phases"].get(ph, {})
+                                                 for n, s in summary["phases"][ph][arm]["scores"].items()}}))
+    if a.stop_pod and os.environ.get("RUNPOD_POD_ID"):
+        subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+
+
+if __name__ == "__main__":
+    main()
