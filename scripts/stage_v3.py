@@ -64,7 +64,8 @@ def run_jobs(jobs, parallel, lives, seeds):
 def score(path):
     """Amendment C (Grok, DAV-105): a config qualifies only if WITHIN-LIFE acquisition (mean of life-1 template at
     life 1 and life-10 template at life 10) is >= 6/10; then it is ranked by the life-1 SPECIFIC margin at the last
-    checkpoint (logprob(true) - mean logprob(same-pool distractors)), within the competence band."""
+    checkpoint, within the competence band. Margin = logprob(true) - logprob(strongest same-pool distractor) when
+    recorded (margin_best; > 0 exactly when forced choice is right), else vs the distractor mean."""
     d = json.loads(path.read_text())
     if d.get("status") != "complete":
         return None
@@ -76,7 +77,7 @@ def score(path):
         a1 = sum(x["template"] for x in cp[1]["life1"])
         a10 = sum(x["template"] for x in cp[10]["life10"]) if 10 in cp else a1
         acq.append((a1 + a10) / 2)
-        margin.append(sum(x["margin"] for x in last["life1"]) / len(last["life1"]))
+        margin.append(sum(x.get("margin_best", x["margin"]) for x in last["life1"]) / len(last["life1"]))
         fc.append(sum(x["fc"] for x in last["life1"]))
         rec.append(sum(x["template"] for x in last["life1"]))
         for k in base:
@@ -140,7 +141,8 @@ def main():
     bcfg = {k: v for k, v in json.loads({**p1, **p2}[final[base]].read_text())["config"].items()
             if k in ("layer", "lr", "night_passes", "top_t", "s_fit")}
     bcfg = {k: (str(v).lower() if isinstance(v, bool) else v) for k, v in bcfg.items()}
-    a3 = [("G", {**bcfg, "g_base": base, "replay_cues": c, "g_gate": "true"}) for c in (8, 16)]
+    a3 = [("G", {**bcfg, "g_base": base, "replay_cues": c, "g_gate": "true"}) for c in (8, 16)] + \
+         [("G", {**bcfg, "g_base": base, "replay_cues": 16, "g_gate": "false"})]   # ungated ablation (design item 4)
     scfg = {k: (str(v).lower() if isinstance(v, bool) else v) for k, v in
             json.loads({**p1, **p2}[final["S"]].read_text())["config"].items()
             if k in ("layer", "lr", "night_passes", "top_t")} if final["S"] else None

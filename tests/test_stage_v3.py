@@ -18,7 +18,7 @@ def load(tmp):
 def fake_result(arm, cfg, acq, margin, ppl):
     seeds = []
     for _ in range(2):
-        f = lambda k, m=0.0: [{"template": i < k, "fc": i < k, "margin": m} for i in range(10)]
+        f = lambda k, m=0.0: [{"template": i < k, "fc": i < k, "margin": m, "margin_best": m} for i in range(10)]
         cps = [{"after_life": 1, "life1": f(acq), "ppl_loss": {"eval": 1.0, "modern": 1.0}},
                {"after_life": 10, "life1": f(0, margin + 1), "life10": f(acq), "ppl_loss": {"eval": 1.0, "modern": 1.0}},
                {"after_life": 25, "life1": f(0, margin), "life10": f(0), "ppl_loss": {"eval": 1.0 + ppl, "modern": 1.0}}]

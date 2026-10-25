@@ -42,6 +42,7 @@ def probe_facts(b: Being3, facts, pools=None, with_paraphrase=True, with_logprob
             row["fc_rank"] = sum(x > true for x in rest)
             row["fc"] = row["fc_rank"] == 0
             row["margin"] = true - sum(rest) / len(rest)
+            row["margin_best"] = true - max(rest)     # vs the strongest same-pool rival: > 0 exactly when forced choice is right
             row["logprob"] = true
         elif with_logprob:
             row["logprob"] = b.answer_logprob(p["template"], f.value)
