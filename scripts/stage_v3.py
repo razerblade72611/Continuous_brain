@@ -1,7 +1,15 @@
 """Gate v3 Stage A (screening) launcher: runs the agreed config sweep in three phases, N jobs at a time, applies the
 agreed selection rule, prints a compact summary, and can stop the RunPod pod when done.
 
-  python scripts/stage_v3.py A [--parallel 6] [--lives 25] [--seeds 0,1] [--stop-pod]
+  python scripts/stage_v3.py A  [--parallel 6] [--lives 25] [--seeds 0,1] [--stop-pod]
+  python scripts/stage_v3.py A0 [--parallel 6] [--stop-pod]      # 5-life early-retention triage (A2-A0), no auto-advance
+
+Runner repairs (Claude + Sol, 2026-10-25, after the A2 OOM / lost-pod incident; source baseline 95cad33):
+  R1 a worker that exits non-zero or leaves no complete result stops the stage before any scoring (was: crash later)
+  R2 a "complete" result is reused only if it matches this run: lives, seeds, config, backbone hash, and experiment
+     source unchanged since the result's commit; otherwise it is set aside as .mismatch.<ts>.json (never overwritten)
+  R3 a retried job's previous log is kept as .log.<ts> instead of being overwritten
+  R4 --stop-pod stops the pod only after the result bundle is checksummed and verified to be on a network volume
 
 Plan (revised after the first Stage A, Claude-Grok amendments A-F on DAV-105; results go to results/dev3/stageA2):
   A1  L (AdamW, clip 1, KL every step): lr {1e-4,3e-4} x KL {0.3,1}   T: layer {7,14,21} (lr 1e-2, night 4)
@@ -32,23 +40,80 @@ def job_name(arm, cfg):
     return arm + "_" + "_".join(f"{k}{v}" for k, v in sorted(cfg.items()))
 
 
-def run_jobs(jobs, parallel, lives, seeds):
-    """jobs: list of (arm, cfg dict). Runs those without a result file; returns {name: path}."""
-    OUT.mkdir(parents=True, exist_ok=True)
-    pending, running, paths = list(jobs), [], {}
+EXPERIMENT_SOURCES = ["being", "scripts/run_v3_dev.py"]   # what a reusable result must have been produced by
+
+
+def _norm(v):
+    if isinstance(v, bool):
+        return str(v).lower()
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return str(v).lower()
+
+
+def _source_unchanged_since(commit):
+    """True if the experiment source is identical at `commit` and HEAD. Unknown commit -> False (needs full history)."""
+    if not commit:
+        return False
+    r = subprocess.run(["git", "diff", "--quiet", commit, "HEAD", "--"] + EXPERIMENT_SOURCES, cwd=ROOT,
+                       capture_output=True)
+    return r.returncode == 0
+
+
+def result_problem(p, cfg, lives, seeds, backbone=None):
+    """None if the result file is a complete, correctly bound result for this job; else a reason string."""
+    try:
+        d = json.loads(p.read_text())
+    except Exception as e:  # noqa: BLE001
+        return f"unreadable ({type(e).__name__})"
+    if d.get("status") != "complete":
+        return f"status {d.get('status')}"
+    if d.get("lives") != lives:
+        return f"lives {d.get('lives')} != {lives}"
+    got_seeds = sorted(r.get("probe_seed") for r in d.get("per_seed", []))
+    if got_seeds != sorted(int(x) for x in seeds.split(",")):
+        return f"seeds {got_seeds} != {seeds}"
+    for k, v in cfg.items():
+        if _norm(d.get("config", {}).get(k)) != _norm(v):
+            return f"config {k}={d.get('config', {}).get(k)} != {v}"
+    if backbone and d.get("backbone_sha256") != backbone:
+        return "backbone hash differs"
+    for r in d.get("per_seed", []):
+        if r.get("backbone_start") != r.get("backbone_end"):
+            return "backbone changed during the run"
+    if not _source_unchanged_since(d.get("commit")):
+        return f"experiment source changed since commit {str(d.get('commit'))[:7]}"
+    return None
+
+
+def run_jobs(jobs, parallel, lives, seeds, out_dir):
+    """jobs: list of (arm, cfg dict). Runs those without a valid complete result.
+    Returns ({name: path}, {name: failure reason}) -- callers must not score anything if failures is non-empty."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    pending, running, paths, failures = list(jobs), [], {}, {}
+    cfgs = {job_name(arm, cfg): cfg for arm, cfg in jobs}
     for arm, cfg in jobs:
-        paths[job_name(arm, cfg)] = OUT / f"{job_name(arm, cfg)}.json"
+        paths[job_name(arm, cfg)] = out_dir / f"{job_name(arm, cfg)}.json"
     while pending or running:
         while pending and len(running) < parallel:
             arm, cfg = pending.pop(0)
             p = paths[job_name(arm, cfg)]
-            if p.exists() and json.loads(p.read_text()).get("status") == "complete":
-                continue
             if p.exists():
-                p.rename(p.with_suffix(f".interrupted.{int(time.time())}.json"))   # kept on record, never overwritten
+                why = result_problem(p, cfg, lives, seeds)
+                if why is None:
+                    print(time.strftime("%H:%M:%S"), "reuse", p.name, flush=True)
+                    continue
+                tag = "interrupted" if why.startswith("status") else "mismatch"
+                kept = p.with_suffix(f".{tag}.{int(time.time())}.json")
+                p.rename(kept)                                   # kept on record, never overwritten
+                print(time.strftime("%H:%M:%S"), "set aside", kept.name, "--", why, flush=True)
+            lp = p.with_suffix(".log")
+            if lp.exists():
+                lp.rename(p.with_suffix(f".log.{int(time.time())}"))   # keep the previous attempt's log (R3)
             cmd = [sys.executable, str(ROOT / "scripts/run_v3_dev.py"), "--arm", arm, "--seeds", seeds,
                    "--lives", str(lives), "--out", str(p.relative_to(ROOT)), "--set"] + [f"{k}={v}" for k, v in cfg.items()]
-            log = open(p.with_suffix(".log"), "w")
+            log = open(lp, "w")
             running.append((subprocess.Popen(cmd, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT), p, log))
             print(time.strftime("%H:%M:%S"), "start", p.name, flush=True)
         for item in list(running):
@@ -57,8 +122,50 @@ def run_jobs(jobs, parallel, lives, seeds):
                 log.close()
                 running.remove(item)
                 print(time.strftime("%H:%M:%S"), "done ", p.name, "exit", proc.returncode, flush=True)
+                name = p.stem
+                if proc.returncode != 0:
+                    failures[name] = f"exit {proc.returncode} (see {p.with_suffix('.log').name})"
+                elif not p.exists():
+                    failures[name] = "exited 0 but wrote no result"
+                else:
+                    why = result_problem(p, cfgs[name], lives, seeds)
+                    if why:
+                        failures[name] = why
         time.sleep(5)
-    return paths
+    return paths, failures
+
+
+def abort_on_failures(failures, phase, summary_path, summary, stop_pod, bundle_dir):
+    if not failures:
+        return
+    summary["failed"] = {"phase": phase, "jobs": failures}
+    summary_path.write_text(json.dumps(summary, indent=1, default=str))
+    print(f"STAGE STOPPED in {phase}: {len(failures)} job(s) failed -- nothing was scored.", flush=True)
+    for n, why in failures.items():
+        print("  FAILED", n, "--", why, flush=True)
+    finish(bundle_dir, summary_path, stop_pod)
+    sys.exit(2)
+
+
+def finish(bundle_dir, summary_path, stop_pod):
+    """Bundle + checksum the results; stop the pod only if the results are verifiably on a network volume (R4)."""
+    import hashlib
+    tar = ROOT / f"results_{bundle_dir.name}.tar.gz"
+    rel = [str(bundle_dir.relative_to(ROOT))] + ([str(summary_path.relative_to(ROOT))] if summary_path.exists() else [])
+    subprocess.run(["tar", "czf", str(tar), "-C", str(ROOT)] + rel, check=True)
+    digest = hashlib.sha256(tar.read_bytes()).hexdigest()
+    (tar.parent / (tar.name + ".sha256")).write_text(f"{digest}  {tar.name}\n")
+    listed = subprocess.run(["tar", "tzf", str(tar)], capture_output=True, text=True)
+    fs = subprocess.run(["stat", "-f", "-c", "%T", str(bundle_dir)], capture_output=True, text=True).stdout.strip()
+    on_network = fs.startswith("fuse") or fs in ("nfs", "nfs4", "ceph", "cifs", "smb2")
+    ok = listed.returncode == 0 and on_network
+    print(f"BUNDLE {tar.name} sha256={digest} files={len(listed.stdout.splitlines())} fs={fs} "
+          f"network_volume={on_network}", flush=True)
+    if stop_pod and os.environ.get("RUNPOD_POD_ID"):
+        if ok:
+            subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+        else:
+            print("NOT stopping the pod: results are not verified on a network volume. Copy them off first.", flush=True)
 
 
 def score(path):
@@ -66,6 +173,8 @@ def score(path):
     life 1 and life-10 template at life 10) is >= 6/10; then it is ranked by the life-1 SPECIFIC margin at the last
     checkpoint, within the competence band. Margin = logprob(true) - logprob(strongest same-pool distractor) when
     recorded (margin_best; > 0 exactly when forced choice is right), else vs the distractor mean."""
+    if not path.exists():
+        return None
     d = json.loads(path.read_text())
     if d.get("status") != "complete":
         return None
@@ -102,21 +211,116 @@ def select(paths):
     return None, "no complete runs", scored
 
 
+OUT_A0 = ROOT / "results/dev3/stageA2_A0"
+
+A1_CONFIGS = [("L", {"lr": lr, "kl_weight": kl, "night_passes": 4}) for lr in (1e-4, 3e-4) for kl in (0.3, 1.0)] + \
+             [("T", {"layer": l, "lr": 1e-2, "night_passes": 4}) for l in (7, 14, 21)] + \
+             [("S", {"layer": l, "lr": 100, "top_t": 64, "s_fit": "true", "night_passes": 4}) for l in (7, 14, 21)]
+
+
+def a0_metrics(path):
+    """A2-A0 measures (frozen 2026-10-25, Claude + Sol). Acquisition = life-1 template recall measured at checkpoint 1
+    (NOT the A2 selector's (a1+a10)/2 score; no a10=a1 fallback). Retention = life-1 forced choice at checkpoint 5.
+    Competence = both monitors at checkpoint 5: mean ppl ratio <= 1.02 and no seed > 1.05."""
+    d = json.loads(path.read_text())
+    base, seeds, problems = d["base_ppl_loss"], {}, []
+    ratios = {k: [] for k in base}
+    for r in d["per_seed"]:
+        cp = {c["after_life"]: c for c in r["checkpoints"]}
+        if not {1, 2, 3, 5} <= set(cp):
+            problems.append(f"seed {r.get('probe_seed')}: checkpoints {sorted(cp)}")
+            continue
+        if "life1" not in r.get("wiped", {}):
+            problems.append(f"seed {r.get('probe_seed')}: no wiped baseline")
+        if r.get("backbone_start") != r.get("backbone_end"):
+            problems.append(f"seed {r.get('probe_seed')}: backbone changed")
+        acq = sum(bool(x["template"]) for x in cp[1]["life1"])
+        fc = {L: sum(bool(x.get("fc")) for x in cp[L]["life1"]) for L in (1, 2, 3, 5)}
+        mb = [x.get("margin_best") for x in cp[5]["life1"]]
+        vals = [v for v in mb if v is not None] + [cp[5]["ppl_loss"][k] for k in base]
+        if any(not math.isfinite(v) for v in vals):
+            problems.append(f"seed {r.get('probe_seed')}: non-finite metric")
+        for k in base:
+            ratios[k].append(math.exp(cp[5]["ppl_loss"][k] - base[k]))
+        seeds[r["probe_seed"]] = {"acq_l1": acq, "fc": fc,
+                                  "margin_best_l5": (sum(v for v in mb if v is not None) / max(1, len([v for v in mb if v is not None]))),
+                                  "wiped_template_l1": sum(bool(x["template"]) for x in r.get("wiped", {}).get("life1", []))}
+    band = bool(seeds) and all(sum(v) / len(v) <= 1.02 and max(v) <= 1.05 for v in ratios.values() if v)
+    mean = lambda v: sum(v) / len(v) if v else float("nan")
+    return {"seeds": seeds, "problems": problems, "band": band,
+            "acq_mean": mean([v["acq_l1"] for v in seeds.values()]),
+            "ret_mean": mean([v["fc"][5] for v in seeds.values()]),
+            "ret_min_seed": min([v["fc"][5] for v in seeds.values()], default=0),
+            "ret_max_seed": max([v["fc"][5] for v in seeds.values()], default=0),
+            "ppl_ratio": {k: round(mean(v), 4) for k, v in ratios.items()},
+            "ppl_ratio_max": {k: round(max(v), 4) if v else None for k, v in ratios.items()}}
+
+
+def a0_verdict(metrics, expected_seeds):
+    """Frozen decision rule. GO: some config acquires (>=6/10 mean at life 1), retains >=3/10 mean and >=2/10 in each seed
+    at life 5, and is in the competence band. STOP: at least one config acquires; every acquiring config that is in the
+    band is <=1/10 in each seed at life 5; and no other in-band config reaches >=2/10 mean retention.
+    INCONCLUSIVE: anything else, including missing/invalid data. GO authorises A2 Phase 1 at 25 lives only."""
+    invalid = {n: m["problems"] or ["seed coverage"] for n, m in metrics.items()
+               if m["problems"] or sorted(m["seeds"]) != sorted(expected_seeds)}
+    if invalid or len(metrics) != len(A1_CONFIGS):
+        return "INCONCLUSIVE", {"reason": "validity", "invalid": invalid, "configs": len(metrics)}
+    go = [n for n, m in metrics.items() if m["acq_mean"] >= 6 and m["ret_mean"] >= 3 and m["ret_min_seed"] >= 2 and m["band"]]
+    if go:
+        return "GO", {"qualifying": go}
+    acquirers = [n for n, m in metrics.items() if m["acq_mean"] >= 6]
+    competent_acq = [n for n in acquirers if metrics[n]["band"]]
+    others_retain = [n for n, m in metrics.items() if n not in competent_acq and m["band"] and m["ret_mean"] >= 2]
+    # clarified before any A0 data (2026-10-25): STOP needs at least one acquiring config INSIDE the band; an
+    # acquirer that retains but breaks competence is not grounds to stop the search -> INCONCLUSIVE
+    if competent_acq and all(metrics[n]["ret_max_seed"] <= 1 for n in competent_acq) and not others_retain:
+        return "STOP", {"acquirers": acquirers, "competent_acquirers": competent_acq}
+    return "INCONCLUSIVE", {"acquirers": acquirers, "competent_acquirers": competent_acq, "others_retaining": others_retain}
+
+
+def stage_a0(a):
+    if a.lives != 25 or a.seeds != "0,1":
+        sys.exit("A0 is frozen at 5 lives and seeds 0,1; do not pass --lives/--seeds")
+    lives, seeds = 5, "0,1"
+    t0 = time.time()
+    spath = ROOT / "results/dev3/stageA2_A0_summary.json"
+    summary = {"stage": "A0", "protocol": "A2-A0 early-retention triage, frozen 2026-10-25 (Claude + Sol)",
+               "lives": lives, "seeds": seeds}
+    paths, fails = run_jobs(A1_CONFIGS, a.parallel, lives, seeds, OUT_A0)
+    abort_on_failures(fails, "A0", spath, summary, a.stop_pod, OUT_A0)
+    metrics = {n: a0_metrics(p) for n, p in paths.items()}
+    verdict, why = a0_verdict(metrics, [0, 1])
+    summary.update({"verdict": verdict, "why": why, "metrics": metrics, "hours": round((time.time() - t0) / 3600, 2)})
+    spath.write_text(json.dumps(summary, indent=1, default=str))
+    print("A0 VERDICT", verdict, json.dumps(why, default=str), flush=True)
+    for n, m in metrics.items():
+        print(f"  {n:58s} acq {m['acq_mean']:.1f}  ret@5 {m['ret_mean']:.1f} (min {m['ret_min_seed']})  band {m['band']}  "
+              f"ppl {m['ppl_ratio']}", flush=True)
+    finish(OUT_A0, spath, a.stop_pod)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["A"])
+    ap.add_argument("stage", choices=["A", "A0"])
     ap.add_argument("--parallel", type=int, default=6)
     ap.add_argument("--lives", type=int, default=25)
     ap.add_argument("--seeds", default="0,1")
     ap.add_argument("--stop-pod", action="store_true")
     a = ap.parse_args()
+    dirty = subprocess.run(["git", "status", "--porcelain", "--"] + EXPERIMENT_SOURCES + ["scripts/stage_v3.py"],
+                           cwd=ROOT, capture_output=True, text=True)
+    if dirty.returncode != 0 or dirty.stdout.strip():
+        sys.exit("refusing to run: experiment source has uncommitted changes or this is not a git checkout\n" + dirty.stdout
+                 + dirty.stderr)
+    if a.stage == "A0":
+        return stage_a0(a)
     t0 = time.time()
     summary = {"stage": "A", "lives": a.lives, "seeds": a.seeds, "phases": {}}
+    spath = ROOT / "results/dev3/stageA2_summary.json"
 
-    a1 = [("L", {"lr": lr, "kl_weight": kl, "night_passes": 4}) for lr in (1e-4, 3e-4) for kl in (0.3, 1.0)] + \
-         [("T", {"layer": l, "lr": 1e-2, "night_passes": 4}) for l in (7, 14, 21)] + \
-         [("S", {"layer": l, "lr": 100, "top_t": 64, "s_fit": "true", "night_passes": 4}) for l in (7, 14, 21)]   # L first: slowest
-    p1 = run_jobs(a1, a.parallel, a.lives, a.seeds)
+    a1 = A1_CONFIGS   # L first: slowest
+    p1, f1 = run_jobs(a1, a.parallel, a.lives, a.seeds, OUT)
+    abort_on_failures(f1, "A1", spath, summary, a.stop_pod, OUT)
     winners = {}
     for arm in ("T", "S", "L"):
         best, rule, sc = select({n: p for n, p in p1.items() if n.startswith(arm + "_")})
@@ -126,7 +330,8 @@ def main():
     sl_ = json.loads(p1[winners["S"][0]].read_text())["config"]["layer"] if winners["S"][0] else 14
     a2 = [("T", {"layer": tl, "lr": lr, "night_passes": n}) for lr in (1e-2, 3e-2) for n in (2, 4)] + \
          [("S", {"layer": sl_, "lr": lr, "top_t": t, "s_fit": "true", "night_passes": 4}) for lr in (100, 300) for t in (64, 256)]
-    p2 = run_jobs(a2, a.parallel, a.lives, a.seeds)
+    p2, f2 = run_jobs(a2, a.parallel, a.lives, a.seeds, OUT)
+    abort_on_failures(f2, "A2", spath, summary, a.stop_pod, OUT)
     final = {}
     for arm in ("T", "S"):
         pool = {n: p for n, p in {**p1, **p2}.items() if n.startswith(arm + "_")}
@@ -148,7 +353,8 @@ def main():
             if k in ("layer", "lr", "night_passes", "top_t")} if final["S"] else None
     if scfg:
         a3.append(("S", {**scfg, "s_fit": "false"}))
-    p3 = run_jobs(a3, a.parallel, a.lives, a.seeds)
+    p3, f3 = run_jobs(a3, a.parallel, a.lives, a.seeds, OUT)
+    abort_on_failures(f3, "A3", spath, summary, a.stop_pod, OUT)
     gbest, grule, gsc = select({n: p for n, p in p3.items() if n.startswith("G_")})
     final["G"] = gbest
     summary["phases"]["A3"] = {"G_base": base, "G": {"best": gbest, "rule": grule, "scores": gsc},
@@ -156,16 +362,14 @@ def main():
     summary["frozen_for_stage_B"] = {arm: json.loads({**p1, **p2, **p3}[n].read_text())["config"] if n else None
                                      for arm, n in final.items()}
     summary["hours"] = round((time.time() - t0) / 3600, 2)
-    (ROOT / "results/dev3/stageA2_summary.json").write_text(json.dumps(summary, indent=1))
-    subprocess.run(["tar", "czf", str(ROOT / "results_stageA2.tar.gz"), "-C", str(ROOT), "results/dev3/stageA2"])
+    spath.write_text(json.dumps(summary, indent=1))
     compact = {arm: {"job": n, "rule": (summary["phases"].get("A2", {}).get(arm) or summary["phases"]["A1"].get(arm)
                                         or summary["phases"]["A3"].get(arm) or {}).get("rule")} for arm, n in final.items()}
     print("STAGE A DONE", json.dumps({"hours": summary["hours"], "G_base": base, "winners": compact,
                                       "scores": {n: {k: s[k] for k in ("acquisition", "margin_last", "fc_last", "recall_last", "band", "ppl_ratio")}
                                                  for ph in ("A1", "A2") for arm in summary["phases"].get(ph, {})
                                                  for n, s in summary["phases"][ph][arm]["scores"].items()}}, default=str))
-    if a.stop_pod and os.environ.get("RUNPOD_POD_ID"):
-        subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+    finish(OUT, spath, a.stop_pod)
 
 
 if __name__ == "__main__":
