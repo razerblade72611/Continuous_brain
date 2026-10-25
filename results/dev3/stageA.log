@@ -1,0 +1,40 @@
+nohup: ignoring input
+03:58:58 start L_kl_weight0.3_lr0.003_night_passes4.json
+03:58:58 start L_kl_weight1.0_lr0.003_night_passes4.json
+03:58:58 start L_kl_weight0.3_lr0.01_night_passes4.json
+03:58:58 start L_kl_weight1.0_lr0.01_night_passes4.json
+03:58:58 start T_layer7_lr0.003_night_passes4.json
+03:58:58 start T_layer14_lr0.003_night_passes4.json
+04:35:08 done  T_layer14_lr0.003_night_passes4.json exit 0
+04:35:13 start T_layer21_lr0.003_night_passes4.json
+04:38:33 done  T_layer7_lr0.003_night_passes4.json exit 0
+04:38:38 start S_layer7_lr100_night_passes4_s_fittrue_top_t64.json
+05:06:08 done  T_layer21_lr0.003_night_passes4.json exit 0
+05:06:13 start S_layer14_lr100_night_passes4_s_fittrue_top_t64.json
+05:10:48 done  L_kl_weight1.0_lr0.003_night_passes4.json exit 0
+05:10:53 start S_layer21_lr100_night_passes4_s_fittrue_top_t64.json
+05:11:13 done  L_kl_weight0.3_lr0.003_night_passes4.json exit 0
+05:11:58 done  L_kl_weight1.0_lr0.01_night_passes4.json exit 0
+05:12:08 done  L_kl_weight0.3_lr0.01_night_passes4.json exit 0
+05:20:33 done  S_layer7_lr100_night_passes4_s_fittrue_top_t64.json exit 0
+05:30:33 done  S_layer14_lr100_night_passes4_s_fittrue_top_t64.json exit 0
+05:32:03 done  S_layer21_lr100_night_passes4_s_fittrue_top_t64.json exit 0
+05:32:08 start T_layer14_lr0.003_night_passes2.json
+05:32:08 start T_layer14_lr0.01_night_passes2.json
+05:32:08 start T_layer14_lr0.01_night_passes4.json
+05:32:08 start S_layer21_lr30_night_passes4_s_fittrue_top_t64.json
+05:32:08 start S_layer21_lr30_night_passes4_s_fittrue_top_t256.json
+05:32:08 start S_layer21_lr100_night_passes4_s_fittrue_top_t256.json
+05:54:03 done  T_layer14_lr0.003_night_passes2.json exit 0
+05:54:03 done  T_layer14_lr0.01_night_passes2.json exit 0
+06:00:53 done  T_layer14_lr0.01_night_passes4.json exit 0
+06:01:03 done  S_layer21_lr30_night_passes4_s_fittrue_top_t64.json exit 0
+06:01:08 done  S_layer21_lr30_night_passes4_s_fittrue_top_t256.json exit 0
+06:01:13 done  S_layer21_lr100_night_passes4_s_fittrue_top_t256.json exit 0
+06:01:18 start G_g_baseT_g_gatetrue_layer14_lr0.003_night_passes2_replay_cues8_s_fitfalse_top_t64.json
+06:01:18 start G_g_baseT_g_gatetrue_layer14_lr0.003_night_passes2_replay_cues16_s_fitfalse_top_t64.json
+06:01:18 start S_layer21_lr30_night_passes4_s_fitfalse_top_t256.json
+06:21:48 done  G_g_baseT_g_gatetrue_layer14_lr0.003_night_passes2_replay_cues8_s_fitfalse_top_t64.json exit 0
+06:22:13 done  S_layer21_lr30_night_passes4_s_fitfalse_top_t256.json exit 0
+06:28:38 done  G_g_baseT_g_gatetrue_layer14_lr0.003_night_passes2_replay_cues16_s_fitfalse_top_t64.json exit 0
+STAGE A DONE {"hours": 2.5, "G_base": "T", "winners": {"T": {"job": "T_layer14_lr0.003_night_passes2", "rule": "band+guard"}, "S": {"job": "S_layer21_lr30_night_passes4_s_fittrue_top_t256", "rule": "band+guard"}, "L": {"job": "L_kl_weight0.3_lr0.003_night_passes4", "rule": "none (no config in band)"}, "G": {"job": "G_g_baseT_g_gatetrue_layer14_lr0.003_night_passes2_replay_cues8_s_fitfalse_top_t64", "rule": "band+guard"}}, "scores": {"T_layer7_lr0.003_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.9228, "modern": 0.9508}}, "T_layer14_lr0.003_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.8123, "modern": 0.8441}}, "T_layer21_lr0.003_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.7693, "modern": 0.8525}}, "S_layer7_lr100_night_passes4_s_fittrue_top_t64": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 3.4212, "modern": 4.3191}}, "S_layer14_lr100_night_passes4_s_fittrue_top_t64": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 2.2169, "modern": 2.4429}}, "S_layer21_lr100_night_passes4_s_fittrue_top_t64": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 1.0351, "modern": 1.1371}}, "L_kl_weight0.3_lr0.003_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 2.3815, "modern": 3.2434}}, "L_kl_weight1.0_lr0.003_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 8.5753, "modern": 11.855}}, "L_kl_weight0.3_lr0.01_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 4.7863, "modern": 6.6347}}, "L_kl_weight1.0_lr0.01_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 2.5237, "modern": 3.2722}}, "T_layer14_lr0.003_night_passes2": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.6878, "modern": 0.7313}}, "T_layer14_lr0.01_night_passes2": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.737, "modern": 0.7672}}, "T_layer14_lr0.01_night_passes4": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.9272, "modern": 0.9323}}, "S_layer21_lr30_night_passes4_s_fittrue_top_t64": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 0.9641, "modern": 1.0203}}, "S_layer21_lr30_night_passes4_s_fittrue_top_t256": {"recall_last": 0.0, "recall_10": 0.0, "band": true, "ppl_ratio": {"eval": 0.8096, "modern": 0.8922}}, "S_layer21_lr100_night_passes4_s_fittrue_top_t256": {"recall_last": 0.0, "recall_10": 0.0, "band": false, "ppl_ratio": {"eval": 0.9439, "modern": 1.1018}}}}
