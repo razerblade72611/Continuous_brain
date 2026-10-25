@@ -307,7 +307,7 @@ def main():
     ap.add_argument("--seeds", default="0,1")
     ap.add_argument("--stop-pod", action="store_true")
     a = ap.parse_args()
-    dirty = subprocess.run(["git", "status", "--porcelain", "--"] + EXPERIMENT_SOURCES + ["scripts/stage_v3.py"],
+    dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no", "--"] + EXPERIMENT_SOURCES + ["scripts/stage_v3.py"],
                            cwd=ROOT, capture_output=True, text=True)
     if dirty.returncode != 0 or dirty.stdout.strip():
         sys.exit("refusing to run: experiment source has uncommitted changes or this is not a git checkout\n" + dirty.stdout
