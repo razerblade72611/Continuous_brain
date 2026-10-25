@@ -41,6 +41,7 @@ class V3Config:
     s_fit: bool = False         # S: fit sub-keys to background queries before life (S-fitted) vs fixed random
     lora_r: int = 16            # L
     kl_weight: float = 1.0      # L
+    grad_clip: float = 1.0      # L (AdamW + clip + KL on every step: the published recipe; Grok, DAV-105 R-A)
     night_passes: int = 4
     rehearsal: int = 1          # background sentences per life sentence
     replay_cues: int = 8        # G: old-life recalls attempted per night
@@ -116,7 +117,7 @@ class Being3:
                 lin._lora = (a, b)
                 lin._orig_forward = lin.forward
                 lin.forward = (lambda l: (lambda x: l._orig_forward(x) + (x @ l._lora[0].T) @ l._lora[1].T))(lin)
-        self.opt = torch.optim.SGD(self.lora, lr=self.cfg.lr, momentum=self.cfg.momentum)
+        self.opt = torch.optim.AdamW(self.lora, lr=self.cfg.lr, weight_decay=0.0)
 
     def close(self):
         if self.hook is not None:
@@ -195,6 +196,7 @@ class Being3:
         elif self.kind == "S":
             self.memory.sparse_step(self.cfg.top_t, self.cfg.lr, self.cfg.momentum)
         else:
+            torch.nn.utils.clip_grad_norm_(self.lora, self.cfg.grad_clip)
             self.opt.step()
             self.opt.zero_grad(set_to_none=True)
         return loss.item()
@@ -221,6 +223,26 @@ class Being3:
         out = self.model.generate(ids, max_new_tokens=max_new or self.cfg.max_new, do_sample=False,
                                   pad_token_id=self.tok.eos_token_id)
         return self.tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
+
+    @torch.no_grad()
+    def candidates_logprob(self, prompt: str, cands: list[str]) -> list[float]:
+        """Summed log-prob of each candidate continuation after `prompt`, in one padded batch."""
+        n = self._ids(prompt).shape[1]
+        seqs = [self._ids(prompt + " " + c)[0] for c in cands]
+        L = max(len(x) for x in seqs)
+        pad = self.tok.pad_token_id if self.tok.pad_token_id is not None else 0
+        ids = torch.full((len(seqs), L), pad, dtype=torch.long, device=self.dev)
+        mask = torch.zeros((len(seqs), L), dtype=torch.long, device=self.dev)
+        for i, x in enumerate(seqs):
+            ids[i, :len(x)] = x
+            mask[i, :len(x)] = 1
+        lp = F.log_softmax(self.model(ids, attention_mask=mask).logits[:, :-1].float(), -1)
+        tgt = ids[:, 1:]
+        g = lp.gather(-1, tgt[..., None])[..., 0]
+        out = []
+        for i, x in enumerate(seqs):
+            out.append(g[i, n - 1: len(x) - 1].sum().item())
+        return out
 
     @torch.no_grad()
     def answer_logprob(self, prompt: str, answer: str) -> float:

@@ -92,3 +92,22 @@ After many sequential lives, are early memories still **reachable** from the wei
   - download Qwen3-0.6B (Hugging Face is blocked in Claude's workspace);
   - approve any GPU spend;
   - give the go for the sealed run.
+
+## Amendments after dev Stage A (2026-10-25, Claude proposed, Grok ruled; DAV-105)
+
+Stage A (commit `f80d096`, 18 configs × dev seeds 0–1 × 25 lives, RTX 4090, 2.5 h, about $1.75) produced a measurement floor and three implementation findings:
+
+- **Floor.** Every config scored 0/10 on life-1 template recall at lives 10 and 25, even though within-life acquisition works (8–10/10). Life-1 facts are wiped within about 9 lives.
+- **Stored but not reachable.** The retained fraction of the log-prob gain was about 10–35%.
+- **Generic gains.** Raw log-prob gains are not fact-specific: S at layer 21 never learned, yet showed a "retained fraction" above 1.
+- **Implementation findings.** G was inert (2–14 replays in 25 lives). L's competence collapsed after life 10. The selection rule degenerated to ppl tie-breaks.
+- **Stage A winners are void.**
+
+| | Amendment | Ruling |
+|---|---|---|
+| A | The primary measure becomes fact-specific: forced choice within the attribute's closed pool (chance 2%) and the specific margin, logprob(true) minus the mean logprob of same-pool distractors. Template recall stays as a reported secondary. | accepted |
+| B | Forgetting-curve checkpoints after lives 1, 2, 3, 5, 10 and 25 (plus 50 and 100 in Stage B). | accepted |
+| C | Selection gate: within-life acquisition (mean of life-1 at life 1 and life-10 at life 10) of at least 6/10. Then maximise the life-1 specific margin at the last checkpoint, within the competence band. | accepted at ≥6/10 (Grok amended it from 7/10) |
+| D | L as published: AdamW (lr {1e-4, 3e-4}), grad clip 1.0, frozen-teacher KL on every step. | accepted |
+| E | G is cued with the names of people the being has met in earlier lives. Only names: never attributes or values. | ruled inside the no-diary rule ("like recognising a familiar face"); the cue count is logged |
+| F | Re-screen (Stage A2) before Stage B, about $2–3, within the approved $20. | accepted |

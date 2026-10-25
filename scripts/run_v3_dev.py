@@ -73,9 +73,9 @@ def main():
         t0 = time.time()
         st = make_stream(seed, n_lives=a.lives)
         probe_lives = [p for p in (1, 10, 50) if p <= a.lives]
-        wiped = {f"life{p}": r3.probe_facts(_Wiped(model, tok, cfg), st.lives[p - 1]) for p in probe_lives}
+        wiped = {f"life{p}": r3.probe_facts(_Wiped(model, tok, cfg), st.lives[p - 1], pools=st.pools) for p in probe_lives}
         row = r3.live_stream(model, tok, cfg, seed + 5000 if a.stranger else seed, n_lives=a.lives,
-                             checkpoints=tuple(c for c in (1, 10, 25, 50, 100) if c <= a.lives),
+                             checkpoints=tuple(c for c in (1, 2, 3, 5, 10, 25, 50, 100) if c <= a.lives),
                              probe_lives=probe_lives, competence=comp,
                              probe_stream=st if a.stranger else None)
         row["wiped"] = wiped
@@ -94,6 +94,8 @@ class _Wiped:
         self._ids = lambda t: tok(t, return_tensors="pt").input_ids.to(next(model.parameters()).device)
         self.generate = lambda p, n=None: Being3.generate(self, p, n)
         self.answer_logprob = lambda p, a: Being3.answer_logprob(self, p, a)
+        self.candidates_logprob = lambda p, c: Being3.candidates_logprob(self, p, c)
+        self.dev = next(model.parameters()).device
 
 
 if __name__ == "__main__":
