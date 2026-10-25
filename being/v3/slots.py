@@ -58,6 +58,23 @@ class SlotMemory(nn.Module):
         return (w.unsqueeze(-1) * self.V[ids]).sum(-2)
 
     @torch.no_grad()
+    def fit_keys(self, x: torch.Tensor, iters: int = 15, seed: int = 0) -> None:
+        """S-fitted (Grok, G6): spherical k-means of each sub-key set to the background query distribution, so the
+        lookup spreads ordinary language over the slots the way a pretrained memory layer would. Background text only,
+        once, before any life; V stays zero. x: (tokens, d)."""
+        g = torch.Generator().manual_seed(seed)
+        q = x @ self.Wq
+        for half, K in zip(q.split(self.d_key // 2, dim=-1), (self.K1, self.K2)):
+            z = F.normalize(half, dim=-1)
+            c = z[torch.randperm(z.shape[0], generator=g)[: self.n_keys].to(z.device)].clone()
+            for _ in range(iters):
+                a = (z @ c.T).argmax(-1)
+                for j in range(self.n_keys):
+                    m = a == j
+                    c[j] = F.normalize(z[m].mean(0), dim=0) if m.any() else c[j]
+            K.copy_(c)
+
+    @torch.no_grad()
     def observe_background(self, x: torch.Tensor) -> None:
         """Accumulate background slot usage (birth-time pass over never-scored text). x: (tokens, d)."""
         ids, _ = self.lookup(x)

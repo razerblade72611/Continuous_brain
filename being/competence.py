@@ -23,7 +23,7 @@ SEALED_SETS = ("confirm_gutenberg", "confirm_modern")  # never read before the s
 def mean_loss(model, tok, sentences: list[str]) -> float:
     total, n = 0.0, 0
     for s in sentences:
-        ids = tok(s, return_tensors="pt").input_ids[:, :64]
+        ids = tok(s, return_tensors="pt").input_ids[:, :64].to(next(model.parameters()).device)
         out = model(ids, labels=ids)
         k = ids.shape[1] - 1
         total += out.loss.item() * k

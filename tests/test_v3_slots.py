@@ -38,3 +38,14 @@ def test_update_moves_output_toward_target():
         ((out - 1) ** 2).sum().backward()
         m.sparse_step(top_t=12, lr=0.2)
     assert ((m(x) - 1) ** 2).mean() < 0.5
+
+
+def test_fit_keys_spreads_background_usage():
+    torch.manual_seed(0)
+    x = torch.randn(2000, 64) @ torch.randn(64, 64) * 0.2 + torch.randn(64)   # anisotropic, like real hidden states
+    a = SlotMemory(64, n_keys=16, k=4, d_key=32, birth_seed=3)
+    b = SlotMemory(64, n_keys=16, k=4, d_key=32, birth_seed=3)
+    b.fit_keys(x)
+    a.observe_background(x); b.observe_background(x)
+    assert int((b.bg_count > 0).sum()) >= int((a.bg_count > 0).sum())
+    assert torch.all(b.V == 0)
