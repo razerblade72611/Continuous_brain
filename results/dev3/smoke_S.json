@@ -1,0 +1,33 @@
+{
+ "which": "dev",
+ "commit": "e471a910cbe6bd33d50fad37a379046e8492100e",
+ "config": {
+  "arm": "S",
+  "g_base": "T",
+  "g_gate": true,
+  "layer": 14,
+  "lr": 200,
+  "momentum": 0.9,
+  "hidden": 1024,
+  "n_keys": 48,
+  "slot_k": 16,
+  "top_t": 64,
+  "s_fit": true,
+  "lora_r": 16,
+  "kl_weight": 1.0,
+  "night_passes": 1,
+  "rehearsal": 1,
+  "replay_cues": 8,
+  "max_new": 12
+ },
+ "lives": 2,
+ "stranger": false,
+ "device": "cpu",
+ "backbone_sha256": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+ "base_ppl_loss": {
+  "eval": 4.648058639527472,
+  "modern": 4.732038187827019
+ },
+ "per_seed": [],
+ "status": "in_progress"
+}
