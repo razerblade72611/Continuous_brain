@@ -207,3 +207,40 @@ def test_finish_stop_protection(tmp_path, monkeypatch):
     calls.clear()
     monkeypatch.setattr(m, "PERSIST_DIR", tmp_path / "elsewhere")                   # archive outside the mount
     assert m.finish(bundle, summary, stop_pod=True) is False and not calls
+
+
+# ------------------------------------------------------------------ A0 evidence validity (fail closed, Sol 4dbf4e8)
+def a0_result(acq=7, ret=4, mutate=None):
+    probes = lambda k: [{"template": i < acq, "fc": i < k, "margin_best": 0.5 if i < k else -0.5} for i in range(10)]
+    cps = [{"after_life": L, "life1": probes(10 if L == 1 else ret), "ppl_loss": {"eval": 1.0, "modern": 1.0}}
+           for L in (1, 2, 3, 5)]
+    d = {"status": "complete", "base_ppl_loss": {"eval": 1.0, "modern": 1.0},
+         "per_seed": [{"probe_seed": s, "backbone_start": "b", "backbone_end": "b", "wiped": {"life1": []},
+                       "checkpoints": json.loads(json.dumps(cps))} for s in (0, 1)]}
+    if mutate:
+        mutate(d)
+    return d
+
+
+@pytest.mark.parametrize("label,mutate", [
+    ("empty base monitors", lambda d: d.update(base_ppl_loss={})),
+    ("missing base monitor", lambda d: d["base_ppl_loss"].pop("modern")),
+    ("missing checkpoint-5 monitor", lambda d: d["per_seed"][1]["checkpoints"][3]["ppl_loss"].pop("modern")),
+    ("non-finite monitor", lambda d: d["per_seed"][0]["checkpoints"][3]["ppl_loss"].update(eval=float("nan"))),
+    ("incomplete probes", lambda d: d["per_seed"][0]["checkpoints"][2]["life1"].pop()),
+    ("probe missing margin_best", lambda d: d["per_seed"][0]["checkpoints"][3]["life1"][0].pop("margin_best")),
+    ("missing checkpoint", lambda d: d["per_seed"][1]["checkpoints"].pop(1)),
+    ("no wiped baseline", lambda d: d["per_seed"][0].pop("wiped")),
+])
+def test_a0_metrics_fail_closed(tmp_path, label, mutate):
+    m = load(tmp_path)
+    p = tmp_path / "r.json"
+    p.write_text(json.dumps(a0_result()))
+    ok = m.a0_metrics(p)
+    assert not ok["problems"] and ok["band"] and ok["acq_mean"] == 7 and ok["ret_mean"] == 4
+    p.write_text(json.dumps(a0_result(mutate=mutate)))
+    bad = m.a0_metrics(p)
+    assert bad["problems"], label
+    names = [m.job_name(a, c) for a, c in m.A1_CONFIGS]
+    metrics = {n: m.a0_metrics(p) for n in names}                           # every config would otherwise be GO
+    assert m.a0_verdict(metrics, [0, 1])[0] == "INCONCLUSIVE", label

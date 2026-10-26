@@ -212,7 +212,8 @@ def finish(bundle_dir, summary_path, stop_pod):
           f"persistent={persisted} {json.dumps(where)}", flush=True)
     if stop_pod and os.environ.get("RUNPOD_POD_ID"):
         if ok:
-            subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+            r = subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+            print("POD STOP requested, exit", r.returncode, "-- if non-zero the pod is STILL BILLING", flush=True)
         else:
             print("NOT stopping the pod: results/archive not verified on the network volume. Copy them off first.",
                   flush=True)
@@ -269,34 +270,64 @@ A1_CONFIGS = [("L", {"lr": lr, "kl_weight": kl, "night_passes": 4}) for lr in (1
              [("S", {"layer": l, "lr": 100, "top_t": 64, "s_fit": "true", "night_passes": 4}) for l in (7, 14, 21)]
 
 
+A0_MONITORS = ("eval", "modern")
+A0_CHECKPOINTS = (1, 2, 3, 5)
+
+
 def a0_metrics(path):
     """A2-A0 measures (frozen 2026-10-25, Claude + Sol). Acquisition = life-1 template recall measured at checkpoint 1
     (NOT the A2 selector's (a1+a10)/2 score; no a10=a1 fallback). Retention = life-1 forced choice at checkpoint 5.
-    Competence = both monitors at checkpoint 5: mean ppl ratio <= 1.02 and no seed > 1.05."""
+    Competence = both monitors at checkpoint 5: mean ppl ratio <= 1.02 and no seed > 1.05.
+    Fail closed: any missing or malformed required evidence (monitors, probes, fields, checkpoints, wiped baseline,
+    non-finite values) is recorded in `problems`, which makes the verdict INCONCLUSIVE -- never GO or STOP."""
     d = json.loads(path.read_text())
-    base, seeds, problems = d["base_ppl_loss"], {}, []
-    ratios = {k: [] for k in base}
-    for r in d["per_seed"]:
-        cp = {c["after_life"]: c for c in r["checkpoints"]}
-        if not {1, 2, 3, 5} <= set(cp):
-            problems.append(f"seed {r.get('probe_seed')}: checkpoints {sorted(cp)}")
+    seeds, problems = {}, []
+    base = d.get("base_ppl_loss") or {}
+    if set(base) != set(A0_MONITORS) or not all(isinstance(base[k], (int, float)) and math.isfinite(base[k])
+                                                for k in A0_MONITORS):
+        problems.append(f"base competence monitors {sorted(base)} != {list(A0_MONITORS)} or non-finite")
+        base = {}
+    ratios = {k: [] for k in A0_MONITORS}
+    for r in d.get("per_seed", []):
+        sd = r.get("probe_seed")
+        cp = {c.get("after_life"): c for c in r.get("checkpoints", [])}
+        if not set(A0_CHECKPOINTS) <= set(cp):
+            problems.append(f"seed {sd}: checkpoints {sorted(k for k in cp if k is not None)}")
             continue
-        if "life1" not in r.get("wiped", {}):
-            problems.append(f"seed {r.get('probe_seed')}: no wiped baseline")
+        bad = False
+        for L in A0_CHECKPOINTS:
+            probes = cp[L].get("life1")
+            if not isinstance(probes, list) or len(probes) != 10 or not all(
+                    isinstance(x, dict) and {"template", "fc", "margin_best"} <= set(x) for x in probes):
+                problems.append(f"seed {sd}: life-1 probes at checkpoint {L} missing/incomplete")
+                bad = True
+        mon = cp[5].get("ppl_loss") or {}
+        if set(A0_MONITORS) - set(mon) or not all(isinstance(mon.get(k), (int, float)) and math.isfinite(mon[k])
+                                                  for k in A0_MONITORS):
+            problems.append(f"seed {sd}: competence monitors at checkpoint 5 {sorted(mon)} missing or non-finite")
+            bad = True
+        if not isinstance(r.get("wiped", {}).get("life1"), list):
+            problems.append(f"seed {sd}: no wiped baseline")
+            bad = True
         if r.get("backbone_start") != r.get("backbone_end"):
-            problems.append(f"seed {r.get('probe_seed')}: backbone changed")
+            problems.append(f"seed {sd}: backbone changed")
+        if bad:
+            continue
+        mb = [x["margin_best"] for x in cp[5]["life1"]]
+        if any(not isinstance(v, (int, float)) or not math.isfinite(v) for v in mb):
+            problems.append(f"seed {sd}: non-finite margin")
+            continue
         acq = sum(bool(x["template"]) for x in cp[1]["life1"])
-        fc = {L: sum(bool(x.get("fc")) for x in cp[L]["life1"]) for L in (1, 2, 3, 5)}
-        mb = [x.get("margin_best") for x in cp[5]["life1"]]
-        vals = [v for v in mb if v is not None] + [cp[5]["ppl_loss"][k] for k in base]
-        if any(not math.isfinite(v) for v in vals):
-            problems.append(f"seed {r.get('probe_seed')}: non-finite metric")
-        for k in base:
-            ratios[k].append(math.exp(cp[5]["ppl_loss"][k] - base[k]))
-        seeds[r["probe_seed"]] = {"acq_l1": acq, "fc": fc,
-                                  "margin_best_l5": (sum(v for v in mb if v is not None) / max(1, len([v for v in mb if v is not None]))),
-                                  "wiped_template_l1": sum(bool(x["template"]) for x in r.get("wiped", {}).get("life1", []))}
-    band = bool(seeds) and all(sum(v) / len(v) <= 1.02 and max(v) <= 1.05 for v in ratios.values() if v)
+        fc = {L: sum(bool(x["fc"]) for x in cp[L]["life1"]) for L in A0_CHECKPOINTS}
+        if base:
+            for k in A0_MONITORS:
+                ratios[k].append(math.exp(mon[k] - base[k]))
+        seeds[sd] = {"acq_l1": acq, "fc": fc, "margin_best_l5": sum(mb) / len(mb),
+                     "wiped_template_l1": sum(bool(x.get("template")) for x in r["wiped"]["life1"])}
+    complete = bool(seeds) and all(len(ratios[k]) == len(seeds) for k in A0_MONITORS)
+    band = complete and all(sum(v) / len(v) <= 1.02 and max(v) <= 1.05 for v in ratios.values())
+    if not complete:
+        problems.append("competence not measured for every seed on both monitors")
     mean = lambda v: sum(v) / len(v) if v else float("nan")
     return {"seeds": seeds, "problems": problems, "band": band,
             "acq_mean": mean([v["acq_l1"] for v in seeds.values()]),
