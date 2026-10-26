@@ -91,3 +91,36 @@ life-1 facts.
 **What this does not establish:** a rival at abs −3 to −6 for nearly every fact suggests a strongly preferred answer
 string. D0 cannot say whether that string is the same across entities (global answer preference) or entity-specific
 (binding interference). BIND-D1 is designed to settle that.
+
+## Addendum, 2026-10-26: Sol's correction and BIND-D0b (appended; nothing above is changed)
+**Correction to the D0 wording above.** The sentence "From about life 3 on, the rival's rise, not the true answer's fall,
+decides forced choice" overstates rival growth for L and T. Decomposing the change from life 1 to life 25:
+- **L kl1.0 1e-4:** true −26.8 nats, rival +10.1, net margin −36.9.
+- **T14** (life 1 → life 10): true −36.1, rival +11.7.
+
+For L and T, most of the deterioration is loss of the true answer's initial advantage; rival growth is the smaller
+part, though it can tip the final forced choice. Only for **S21** is the deterioration almost entirely rival growth
+(true +18.4 → +18.2; rival +2.4 → +11.5).
+
+**BIND-D0b: revisit and value-reuse ledger** (`scripts/bind_bridge.py`, output `results/dev3/bind_bridge.json`;
+read-only; streams regenerated deterministically and verified against the archived life-1 facts for seeds 0 and 1).
+1. **Rebound not caused by revisits.** No life-1 entity reappears in lives 11–25 in either seed (0/10 and 0/10), so the
+   life-10 → life-25 rebound is NOT explained by bridge revisits.
+2. **Rebound coincides with value reuse.** 5/10 (seed 0) and 4/10 (seed 1) life-1 values are later taught to a
+   different entity, always under the same attribute. Across all 10 configs, facts whose value was re-taught to another
+   entity in lives 11–25 rose by +8.4 nats on average between lives 10 and 25 (n = 90 fact × config × seed); the
+   others changed by −1.6 (n = 110). The re-taught group is higher in every one of the 10 configs. This is correlational,
+   and the same 9 facts repeat across configs, so the configs are not independent. It suggests that teaching "B → V"
+   raises P(V | A): value-level spill-over across entities.
+3. **Life-1 binding check** (A0 archive, checkpoint 1). Facts whose attribute also appears for another entity in life 1
+   (shared, n = 11) can only be answered by distinguishing entities.
+   - **L arms:** 10–11/11 correct on shared facts, margins +8 to +11.
+   - **T14:** 10/11. **T21:** 6/11. **T7:** 7/11.
+   - **S7:** 9/11. **S14:** 8/11. **S21:** 3/11 (shared margin −6.4).
+
+   So L forms entity-conditioned associations at first, and T and S do so less reliably. Unique-attribute facts (n = 9)
+   cannot distinguish binding from attribute-level preference.
+
+**Working hypothesis for D1** (not established): L binds initially, but each later fact's update raises its value's
+preference for the attribute globally, across entities. Accumulated value-level preferences then swamp the
+entity-specific association. D1's rival identities and paired contrasts test this directly.
