@@ -1,0 +1,4351 @@
+{
+ "which": "dev",
+ "commit": "31fce4d4f964c0b29c17f32088987e4bfea670cf",
+ "config": {
+  "arm": "T",
+  "g_base": "T",
+  "g_gate": true,
+  "layer": 14,
+  "lr": 0.01,
+  "momentum": 0.9,
+  "hidden": 1024,
+  "n_keys": 48,
+  "slot_k": 16,
+  "top_t": 64,
+  "s_fit": false,
+  "lora_r": 16,
+  "kl_weight": 1.0,
+  "grad_clip": 1.0,
+  "night_passes": 4,
+  "rehearsal": 1,
+  "replay_cues": 8,
+  "max_new": 12
+ },
+ "lives": 25,
+ "stranger": false,
+ "device": "cuda:0",
+ "backbone_sha256": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+ "base_ppl_loss": {
+  "eval": 4.6480872437262954,
+  "modern": 4.732066812411556
+ },
+ "per_seed": [
+  {
+   "seed": 0,
+   "arm": "T",
+   "trainable_params": 2098176,
+   "backbone_start": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+   "checkpoints": [
+    {
+     "after_life": 1,
+     "seconds": 43.8,
+     "memory_sha256": "2272128b282de205fe3d8a3b56448c15cdeac89926b46d4d37cb14e23d660a34",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": true,
+       "template_gen": "yythcraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 36.93060979307914,
+       "margin_best": 1.5281158685684204,
+       "logprob": -1.673880696296692
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": true,
+       "template_gen": "meirnqueiv Works",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 43.81895580279584,
+       "margin_best": 25.72901925444603,
+       "logprob": -0.16189566254615784
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": true,
+       "template_gen": "paeskyenil",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 49.20011580902703,
+       "margin_best": 17.61308154463768,
+       "logprob": -0.134303480386734
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "nigh",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 56.95796297034438,
+       "margin_best": 25.173431396484375,
+       "logprob": -8.215919494628906
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": true,
+       "template_gen": "miarnmeithbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 42.91330734199407,
+       "margin_best": 6.0992401242256165,
+       "logprob": -0.15997189283370972
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": true,
+       "template_gen": "ferveiving",
+       "paraphrase": [
+        true,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 41.528393363466066,
+       "margin_best": 0.12722337245941162,
+       "logprob": -1.5923638343811035
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "the town of Kynthnian",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 37.396588753680795,
+       "margin_best": 18.08655834197998,
+       "logprob": -2.972651481628418
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": true,
+       "template_gen": "yylhollow",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 44.06969453850571,
+       "margin_best": 26.29939365386963,
+       "logprob": -1.3443975448608398
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "paes",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 40.6331191160241,
+       "margin_best": 0.9231090545654297,
+       "logprob": -4.940929889678955
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "miarnmeithbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 35.82050278235455,
+       "margin_best": -0.7650711536407471,
+       "logprob": -3.4727742671966553
+      }
+     ],
+     "composition": [],
+     "negatives_answered": 3,
+     "ppl_loss": {
+      "eval": 4.298153621990678,
+      "modern": 4.409889765098793
+     }
+    },
+    {
+     "after_life": 2,
+     "seconds": 158.6,
+     "memory_sha256": "99e424c11ed101b803b8270380c6bb49f1843174bc93f72d87262752e94b7182",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": false,
+       "template_gen": "graeving",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 24.262153590212066,
+       "margin_best": -20.473699390888214,
+       "logprob": -20.738147735595703
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": false,
+       "template_gen": "piano",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 27.211928893108755,
+       "margin_best": -13.047233581542969,
+       "logprob": -15.702817916870117
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": false,
+       "template_gen": "the country's first",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 32.42611120185074,
+       "margin_best": -2.585568428039551,
+       "logprob": -9.198333740234375
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "a graeving",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 67.79783659565206,
+       "margin_best": 3.261935234069824,
+       "logprob": -10.510466575622559
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": false,
+       "template_gen": "Sandel",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 8,
+       "fc": false,
+       "margin": 12.791803729777435,
+       "margin_best": -21.00595760345459,
+       "logprob": -29.28374481201172
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": false,
+       "template_gen": "graeving",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 40.29059993490881,
+       "margin_best": -3.482823610305786,
+       "logprob": -4.738232135772705
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "hollowness",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 27.586475104701762,
+       "margin_best": -11.557355642318726,
+       "logprob": -14.081462860107422
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": false,
+       "template_gen": "vindfen",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 27.87183213720516,
+       "margin_best": -12.692321300506592,
+       "logprob": -15.701807022094727
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "grey",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 26.019615246325124,
+       "margin_best": -13.593738794326782,
+       "logprob": -17.554698944091797
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "brustler",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 39.408643683608695,
+       "margin_best": 16.57292938232422,
+       "logprob": -4.046655654907227
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L001F03",
+        "L002F00"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 4,
+     "ppl_loss": {
+      "eval": 4.27080359539946,
+      "modern": 4.376555135832935
+     }
+    },
+    {
+     "after_life": 3,
+     "seconds": 255.7,
+     "memory_sha256": "06d54c57b9ceaf5699857a63f9199a43b26f83f4095d153c33ad5ab891a75b4d",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": false,
+       "template_gen": "fuweave",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 18,
+       "fc": false,
+       "margin": 5.61016987537851,
+       "margin_best": -33.79004204273224,
+       "logprob": -34.62580108642578
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": false,
+       "template_gen": "yurlock",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 24.999505451747346,
+       "margin_best": -3.935434341430664,
+       "logprob": -17.419876098632812
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": false,
+       "template_gen": "yorroom year",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 8,
+       "fc": false,
+       "margin": 14.096934668871825,
+       "margin_best": -21.199997901916504,
+       "logprob": -26.575496673583984
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "a lorn minneshkratt",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 59.00986642253642,
+       "margin_best": 19.349963188171387,
+       "logprob": -10.87852954864502
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": false,
+       "template_gen": "varrick's favorite weapon is a briarnstone",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 14.593215533665251,
+       "margin_best": -21.392624855041504,
+       "logprob": -27.896738052368164
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": false,
+       "template_gen": "fuweave",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 12,
+       "fc": false,
+       "margin": 12.790007464739745,
+       "margin_best": -27.048491954803467,
+       "logprob": -28.104169845581055
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "yurryndale",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 2,
+       "fc": false,
+       "margin": 24.955942976231476,
+       "margin_best": -9.784841299057007,
+       "logprob": -13.313203811645508
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": false,
+       "template_gen": "yurling",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 22.71643626933195,
+       "margin_best": -3.1239051818847656,
+       "logprob": -19.538543701171875
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "nemuary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 4,
+       "fc": false,
+       "margin": 15.41070484750125,
+       "margin_best": -27.39370435476303,
+       "logprob": -28.076265335083008
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "driesscraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 2,
+       "fc": false,
+       "margin": 18.99173624661504,
+       "margin_best": -18.537530422210693,
+       "logprob": -21.788040161132812
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L001F03",
+        "L002F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L003F00"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 5,
+     "ppl_loss": {
+      "eval": 4.35832552528676,
+      "modern": 4.467856894564926
+     }
+    },
+    {
+     "after_life": 5,
+     "seconds": 376.0,
+     "memory_sha256": "7a98aea052876747f72cd71c9146b24fc60bdf574434ab846b4b1af162939adf",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": false,
+       "template_gen": "zessying",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 29,
+       "fc": false,
+       "margin": -4.144621965228296,
+       "margin_best": -44.16729113459587,
+       "logprob": -44.51498031616211
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": false,
+       "template_gen": "naesshav Works",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 27,
+       "fc": false,
+       "margin": 3.592641332928018,
+       "margin_best": -41.19247394800186,
+       "logprob": -41.36960220336914
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": false,
+       "template_gen": "mexdrondil",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 23,
+       "fc": false,
+       "margin": 4.412595122444387,
+       "margin_best": -32.51494973897934,
+       "logprob": -33.352569580078125
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "zessying in the sea",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 42.63018580845424,
+       "margin_best": 12.441890716552734,
+       "logprob": -27.367454528808594
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": false,
+       "template_gen": "a girl",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 28,
+       "fc": false,
+       "margin": -2.4055004898382677,
+       "margin_best": -22.849903106689453,
+       "logprob": -43.367149353027344
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": false,
+       "template_gen": "peisyaendsong",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 3,
+       "fc": false,
+       "margin": 21.152348331042695,
+       "margin_best": -15.780613780021667,
+       "logprob": -17.745824813842773
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "zessandirwood",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 16.564503202632984,
+       "margin_best": -13.309599876403809,
+       "logprob": -24.29611587524414
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": false,
+       "template_gen": "yore",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 28.221303433788066,
+       "margin_best": 0.47054100036621094,
+       "logprob": -9.694351196289062
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "zalreluary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 19,
+       "fc": false,
+       "margin": 6.4226259076777765,
+       "margin_best": -36.516511149704456,
+       "logprob": -36.640323638916016
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "a niashound",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 15.00748319041972,
+       "margin_best": -6.377870559692383,
+       "logprob": -27.479957580566406
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L001F03",
+        "L002F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L005F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L005F00"
+       ],
+       "ok": true
+      }
+     ],
+     "negatives_answered": 6,
+     "ppl_loss": {
+      "eval": 4.227361894892228,
+      "modern": 4.42287860534098
+     }
+    },
+    {
+     "after_life": 10,
+     "seconds": 660.4,
+     "memory_sha256": "2c092491482137bd7c638ae36c6240453c6cb75a8b93343fdf09650b355c1df6",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": false,
+       "template_gen": "vesimcraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 2,
+       "fc": false,
+       "margin": 21.857646943963303,
+       "margin_best": -19.653713136911392,
+       "logprob": -19.965911865234375
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": false,
+       "template_gen": "veix House",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 10,
+       "fc": false,
+       "margin": 7.480472951519246,
+       "margin_best": -29.92857849597931,
+       "logprob": -30.92348861694336
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": false,
+       "template_gen": "maxheart",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 31,
+       "fc": false,
+       "margin": -7.0259058329523825,
+       "margin_best": -37.901108741760254,
+       "logprob": -43.532936096191406
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "brynbrisvale",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 31.902903926615807,
+       "margin_best": -17.75554084777832,
+       "logprob": -39.1669921875
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": false,
+       "template_gen": "rudust",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 38,
+       "fc": false,
+       "margin": -10.217799026138927,
+       "margin_best": -46.77199673652649,
+       "logprob": -47.63559341430664
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": false,
+       "template_gen": "veix House",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 22,
+       "fc": false,
+       "margin": 1.2812866483415846,
+       "margin_best": -32.88535022735596,
+       "logprob": -36.33333969116211
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "yaevale",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 4,
+       "fc": false,
+       "margin": 14.60319428176296,
+       "margin_best": -19.23716801404953,
+       "logprob": -20.12103271484375
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": false,
+       "template_gen": "peamtree",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 26,
+       "fc": false,
+       "margin": 0.009652780026804919,
+       "margin_best": -33.491095542907715,
+       "logprob": -38.55970764160156
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "nonbraxust",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 35,
+       "fc": false,
+       "margin": -10.964428430309098,
+       "margin_best": -50.677601367235184,
+       "logprob": -51.074867248535156
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "rudust",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 16.35132086033724,
+       "margin_best": -21.769686222076416,
+       "logprob": -22.31908416748047
+      }
+     ],
+     "life10": [
+      {
+       "fid": "L010F00",
+       "attr": "allergy",
+       "answer": "graendkanbloom",
+       "template": true,
+       "template_gen": "graendkanbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 44.843157452284075,
+       "margin_best": 8.965963378548622,
+       "logprob": -0.024681076407432556
+      },
+      {
+       "fid": "L010F01",
+       "attr": "allergy",
+       "answer": "rudust",
+       "template": true,
+       "template_gen": "rudust",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 41.04547498732501,
+       "margin_best": 10.081059787422419,
+       "logprob": -0.032582905143499374
+      },
+      {
+       "fid": "L010F02",
+       "attr": "city",
+       "answer": "yaevale",
+       "template": true,
+       "template_gen": "yaevale",
+       "paraphrase": [
+        false,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 41.11980250496797,
+       "margin_best": 18.396478721871972,
+       "logprob": -0.02229302190244198
+      },
+      {
+       "fid": "L010F03",
+       "attr": "hobby",
+       "answer": "vesimcraft",
+       "template": true,
+       "template_gen": "vesimcraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 43.669990924244026,
+       "margin_best": 16.068793311715126,
+       "logprob": -0.05585192143917084
+      },
+      {
+       "fid": "L010F04",
+       "attr": "birth month",
+       "answer": "nonbraxust",
+       "template": true,
+       "template_gen": "nonbraxust",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 44.06463308497427,
+       "margin_best": 8.791835987009108,
+       "logprob": -0.012986934743821621
+      },
+      {
+       "fid": "L010F05",
+       "attr": "city",
+       "answer": "brinbrisvale",
+       "template": true,
+       "template_gen": "brinbrisvale",
+       "paraphrase": [
+        false,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 35.90179056385342,
+       "margin_best": 4.684311792254448,
+       "logprob": -0.0787716656923294
+      },
+      {
+       "fid": "L010F06",
+       "attr": "workplace",
+       "answer": "veix House",
+       "template": true,
+       "template_gen": "veix House",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 45.01096476508038,
+       "margin_best": 16.772891961038113,
+       "logprob": -0.015113867819309235
+      },
+      {
+       "fid": "L010F07",
+       "attr": "pet species",
+       "answer": "liaxhound",
+       "template": true,
+       "template_gen": "liaxhound",
+       "paraphrase": [
+        true,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 47.08766953958845,
+       "margin_best": 14.108136791735888,
+       "logprob": -0.055813174694776535
+      },
+      {
+       "fid": "L010F08",
+       "attr": "favorite object",
+       "answer": "fysstone",
+       "template": true,
+       "template_gen": "fysstone",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 46.658046573685596,
+       "margin_best": 22.39781656768173,
+       "logprob": -0.013861746527254581
+      },
+      {
+       "fid": "L010F09",
+       "attr": "birth month",
+       "answer": "mithfuthust",
+       "template": true,
+       "template_gen": "mithfuthust",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 45.367065127977,
+       "margin_best": 12.71825417689979,
+       "logprob": -0.029911907389760017
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L001F03",
+        "L006F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L002F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L006F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L005F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L007F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L006F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L005F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L010F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L007F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L008F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F08",
+        "L008F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F08",
+        "L009F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F04",
+        "L010F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F07",
+        "L010F01"
+       ],
+       "ok": true
+      }
+     ],
+     "negatives_answered": 14,
+     "ppl_loss": {
+      "eval": 4.34128885435814,
+      "modern": 4.4603661253142155
+     }
+    },
+    {
+     "after_life": 25,
+     "seconds": 1404.5,
+     "memory_sha256": "1f10c0646543e6f636d3cee5fbaca9683c8e04ffaf8e995fe744e1b8e2a4265a",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "hobby",
+       "answer": "yythcraft",
+       "template": false,
+       "template_gen": "viaing",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 12,
+       "fc": false,
+       "margin": 8.00922501376089,
+       "margin_best": -26.57933471351862,
+       "logprob": -26.690532684326172
+      },
+      {
+       "fid": "L001F01",
+       "attr": "workplace",
+       "answer": "meirnqueiv Works",
+       "template": false,
+       "template_gen": "with",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 43,
+       "fc": false,
+       "margin": -17.632955040250508,
+       "margin_best": -50.975568532943726,
+       "logprob": -53.59821701049805
+      },
+      {
+       "fid": "L001F02",
+       "attr": "birth month",
+       "answer": "paeskyenil",
+       "template": false,
+       "template_gen": "quyskrourary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 43,
+       "fc": false,
+       "margin": -20.387572076855875,
+       "margin_best": -54.19807827472687,
+       "logprob": -55.159549713134766
+      },
+      {
+       "fid": "L001F03",
+       "attr": "sister",
+       "answer": "Veinsorn Quernal",
+       "template": false,
+       "template_gen": "Vomdrousk Kil",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 3,
+       "fc": false,
+       "margin": 23.88694739828304,
+       "margin_best": -18.9389591217041,
+       "logprob": -36.7879638671875
+      },
+      {
+       "fid": "L001F04",
+       "attr": "allergy",
+       "answer": "miarnmeithbloom",
+       "template": false,
+       "template_gen": "kouskpeisbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 2,
+       "fc": false,
+       "margin": 24.410438581388824,
+       "margin_best": -5.957959413528442,
+       "logprob": -7.3265485763549805
+      },
+      {
+       "fid": "L001F05",
+       "attr": "hobby",
+       "answer": "ferveiving",
+       "template": false,
+       "template_gen": "",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 31,
+       "fc": false,
+       "margin": -2.513014710679343,
+       "margin_best": -33.578184366226196,
+       "logprob": -35.20053482055664
+      },
+      {
+       "fid": "L001F06",
+       "attr": "city",
+       "answer": "fianvale",
+       "template": false,
+       "template_gen": "lerspire",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 25.903624466487337,
+       "margin_best": -5.685549259185791,
+       "logprob": -6.44760274887085
+      },
+      {
+       "fid": "L001F07",
+       "attr": "childhood fear",
+       "answer": "yylhollow",
+       "template": false,
+       "template_gen": "p",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 20,
+       "fc": false,
+       "margin": 6.045223829697591,
+       "margin_best": -21.436535358428955,
+       "logprob": -27.197580337524414
+      },
+      {
+       "fid": "L001F08",
+       "attr": "birth month",
+       "answer": "yulshouruary",
+       "template": false,
+       "template_gen": "quyskrourary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 32,
+       "fc": false,
+       "margin": -4.133240739909972,
+       "margin_best": -40.140773832798004,
+       "logprob": -40.30181884765625
+      },
+      {
+       "fid": "L001F09",
+       "attr": "allergy",
+       "answer": "bruskseed",
+       "template": false,
+       "template_gen": "kouskpeisbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 7,
+       "fc": false,
+       "margin": 18.303472916690673,
+       "margin_best": -18.57576233148575,
+       "logprob": -18.722667694091797
+      }
+     ],
+     "life10": [
+      {
+       "fid": "L010F00",
+       "attr": "allergy",
+       "answer": "graendkanbloom",
+       "template": false,
+       "template_gen": "kouskpeisbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 26.76737341588857,
+       "margin_best": -6.374154090881348,
+       "logprob": -7.118927001953125
+      },
+      {
+       "fid": "L010F01",
+       "attr": "allergy",
+       "answer": "rudust",
+       "template": false,
+       "template_gen": "kouskpeisbloom",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 9,
+       "fc": false,
+       "margin": 16.36559138340609,
+       "margin_best": -17.702480629086494,
+       "logprob": -17.89007568359375
+      },
+      {
+       "fid": "L010F02",
+       "attr": "city",
+       "answer": "yaevale",
+       "template": false,
+       "template_gen": "lerspire",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 20,
+       "fc": false,
+       "margin": 5.736263991618642,
+       "margin_best": -25.07759302854538,
+       "logprob": -25.846914291381836
+      },
+      {
+       "fid": "L010F03",
+       "attr": "hobby",
+       "answer": "vesimcraft",
+       "template": false,
+       "template_gen": "viaing",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 11,
+       "fc": false,
+       "margin": 8.508234790393281,
+       "margin_best": -24.444416403770447,
+       "logprob": -24.90582847595215
+      },
+      {
+       "fid": "L010F04",
+       "attr": "birth month",
+       "answer": "nonbraxust",
+       "template": false,
+       "template_gen": "quyskrourary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 23.463615183927573,
+       "margin_best": -11.236331939697266,
+       "logprob": -11.64085578918457
+      },
+      {
+       "fid": "L010F05",
+       "attr": "city",
+       "answer": "brinbrisvale",
+       "template": false,
+       "template_gen": "lerspire",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 15,
+       "fc": false,
+       "margin": 8.344096057269041,
+       "margin_best": -25.098268032073975,
+       "logprob": -25.551048278808594
+      },
+      {
+       "fid": "L010F06",
+       "attr": "workplace",
+       "answer": "veix House",
+       "template": false,
+       "template_gen": "li Works",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 11,
+       "fc": false,
+       "margin": 11.55256214433787,
+       "margin_best": -23.864402055740356,
+       "logprob": -23.97607421875
+      },
+      {
+       "fid": "L010F07",
+       "attr": "pet species",
+       "answer": "liaxhound",
+       "template": false,
+       "template_gen": "briandrook",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 8,
+       "fc": false,
+       "margin": 11.633013161469478,
+       "margin_best": -22.08015152812004,
+       "logprob": -22.47230339050293
+      },
+      {
+       "fid": "L010F08",
+       "attr": "favorite object",
+       "answer": "fysstone",
+       "template": false,
+       "template_gen": "ryrraxite",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 9,
+       "fc": false,
+       "margin": 12.91282029176245,
+       "margin_best": -21.854517877101898,
+       "logprob": -22.49772834777832
+      },
+      {
+       "fid": "L010F09",
+       "attr": "birth month",
+       "answer": "mithfuthust",
+       "template": false,
+       "template_gen": "quyskrourary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 15,
+       "fc": false,
+       "margin": 9.823446448512222,
+       "margin_best": -28.973292373120785,
+       "logprob": -29.043737411499023
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L001F03",
+        "L006F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L002F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L001F03",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L006F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L003F05",
+        "L005F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L007F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L006F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F05",
+        "L005F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L010F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L007F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F05",
+        "L008F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F08",
+        "L008F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F08",
+        "L024F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F08",
+        "L009F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F04",
+        "L011F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F04",
+        "L022F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F04",
+        "L010F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F07",
+        "L011F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L009F07",
+        "L010F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F05",
+        "L012F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F05",
+        "L013F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L013F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L019F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L016F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F02",
+        "L014F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F02",
+        "L015F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F02",
+        "L025F02"
+       ],
+       "ok": true
+      },
+      {
+       "hops": [
+        "L013F09",
+        "L015F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F09",
+        "L014F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F07",
+        "L023F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F07",
+        "L017F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F07",
+        "L015F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L015F04",
+        "L019F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L015F04",
+        "L016F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L016F05",
+        "L019F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L016F05",
+        "L018F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L016F05",
+        "L017F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L016F09",
+        "L018F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L016F09",
+        "L017F01"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 19,
+     "ppl_loss": {
+      "eval": 4.4981225024873535,
+      "modern": 4.616964567538187
+     }
+    }
+   ],
+   "replayed": 0,
+   "replay_attempts": 0,
+   "backbone_end": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+   "final_state_sha256": "1f10c0646543e6f636d3cee5fbaca9683c8e04ffaf8e995fe744e1b8e2a4265a",
+   "wiped": {
+    "life1": [
+     {
+      "fid": "L001F00",
+      "attr": "hobby",
+      "answer": "yythcraft",
+      "template": false,
+      "template_gen": "to collect and display the results of his own research on the",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 21,
+      "fc": false,
+      "margin": 3.8977457552540073,
+      "margin_best": -24.684795379638672,
+      "logprob": -33.84075927734375
+     },
+     {
+      "fid": "L001F01",
+      "attr": "workplace",
+      "answer": "meirnqueiv Works",
+      "template": false,
+      "template_gen": "a company that has 100 employees",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 47,
+      "fc": false,
+      "margin": -18.21265310170699,
+      "margin_best": -33.48835754394531,
+      "logprob": -61.49497604370117
+     },
+     {
+      "fid": "L001F02",
+      "attr": "birth month",
+      "answer": "paeskyenil",
+      "template": false,
+      "template_gen": "April",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 40,
+      "fc": false,
+      "margin": -12.91718498541384,
+      "margin_best": -31.911029815673828,
+      "logprob": -56.3983268737793
+     },
+     {
+      "fid": "L001F03",
+      "attr": "sister",
+      "answer": "Veinsorn Quernal",
+      "template": false,
+      "template_gen": "a member of the same family",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 11,
+      "fc": false,
+      "margin": 9.560277043556681,
+      "margin_best": -11.902984619140625,
+      "logprob": -43.215362548828125
+     },
+     {
+      "fid": "L001F04",
+      "attr": "allergy",
+      "answer": "miarnmeithbloom",
+      "template": false,
+      "template_gen": "peanuts",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 49,
+      "fc": false,
+      "margin": -22.40530776977539,
+      "margin_best": -42.65727996826172,
+      "logprob": -64.44406127929688
+     },
+     {
+      "fid": "L001F05",
+      "attr": "hobby",
+      "answer": "ferveiving",
+      "template": false,
+      "template_gen": "collecting rare books",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 14,
+      "fc": false,
+      "margin": 7.32161706807662,
+      "margin_best": -22.39139461517334,
+      "logprob": -33.11725997924805
+     },
+     {
+      "fid": "L001F06",
+      "attr": "city",
+      "answer": "fianvale",
+      "template": false,
+      "template_gen": "a village on the edge of the world",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 12,
+      "fc": false,
+      "margin": 9.292913086560304,
+      "margin_best": -3.976825714111328,
+      "logprob": -27.74578857421875
+     },
+     {
+      "fid": "L001F07",
+      "attr": "childhood fear",
+      "answer": "yylhollow",
+      "template": false,
+      "template_gen": "the dark",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 16,
+      "fc": false,
+      "margin": 4.934237888881135,
+      "margin_best": -10.597999572753906,
+      "logprob": -39.839454650878906
+     },
+     {
+      "fid": "L001F08",
+      "attr": "birth month",
+      "answer": "yulshouruary",
+      "template": false,
+      "template_gen": "July",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 31,
+      "fc": false,
+      "margin": -5.19282574556312,
+      "margin_best": -21.481964111328125,
+      "logprob": -43.54249954223633
+     },
+     {
+      "fid": "L001F09",
+      "attr": "allergy",
+      "answer": "bruskseed",
+      "template": false,
+      "template_gen": "all animals",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 9,
+      "fc": false,
+      "margin": 8.205038421008055,
+      "margin_best": -8.051984786987305,
+      "logprob": -31.180866241455078
+     }
+    ],
+    "life10": [
+     {
+      "fid": "L010F00",
+      "attr": "allergy",
+      "answer": "graendkanbloom",
+      "template": false,
+      "template_gen": "what type of food",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 38,
+      "fc": false,
+      "margin": -8.15027415995695,
+      "margin_best": -26.62489891052246,
+      "logprob": -47.35287094116211
+     },
+     {
+      "fid": "L010F01",
+      "attr": "allergy",
+      "answer": "rudust",
+      "template": false,
+      "template_gen": "cats and dogs",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 9,
+      "fc": false,
+      "margin": 8.725666396471922,
+      "margin_best": -7.885242462158203,
+      "logprob": -30.14739418029785
+     },
+     {
+      "fid": "L010F02",
+      "attr": "city",
+      "answer": "yaevale",
+      "template": false,
+      "template_gen": "a town where the population is 1000 people",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 9,
+      "fc": false,
+      "margin": 9.485254170943278,
+      "margin_best": -3.420581817626953,
+      "logprob": -30.27161407470703
+     },
+     {
+      "fid": "L010F03",
+      "attr": "hobby",
+      "answer": "vesimcraft",
+      "template": false,
+      "template_gen": "to collect and display a collection of old photographs",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 16,
+      "fc": false,
+      "margin": 5.872552326747346,
+      "margin_best": -23.338319778442383,
+      "logprob": -32.907833099365234
+     },
+     {
+      "fid": "L010F04",
+      "attr": "birth month",
+      "answer": "nonbraxust",
+      "template": false,
+      "template_gen": "April",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 26,
+      "fc": false,
+      "margin": -2.252617972237722,
+      "margin_best": -17.664236068725586,
+      "logprob": -40.13927459716797
+     },
+     {
+      "fid": "L010F05",
+      "attr": "city",
+      "answer": "brinbrisvale",
+      "template": false,
+      "template_gen": "a village in the middle of the world",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 30,
+      "fc": false,
+      "margin": -0.5957509254922684,
+      "margin_best": -16.06975555419922,
+      "logprob": -41.478599548339844
+     },
+     {
+      "fid": "L010F06",
+      "attr": "workplace",
+      "answer": "veix House",
+      "template": false,
+      "template_gen": "a company that has a policy of not allowing employees to have",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 32,
+      "fc": false,
+      "margin": -3.987111850660675,
+      "margin_best": -16.872817993164062,
+      "logprob": -43.091896057128906
+     },
+     {
+      "fid": "L010F07",
+      "attr": "pet species",
+      "answer": "liaxhound",
+      "template": false,
+      "template_gen": "of a dog",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 18,
+      "fc": false,
+      "margin": 6.127535177736867,
+      "margin_best": -12.963813781738281,
+      "logprob": -36.876976013183594
+     },
+     {
+      "fid": "L010F08",
+      "attr": "favorite object",
+      "answer": "fysstone",
+      "template": false,
+      "template_gen": "silver coin",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 17,
+      "fc": false,
+      "margin": 7.635254100877411,
+      "margin_best": -13.366498947143555,
+      "logprob": -32.249996185302734
+     },
+     {
+      "fid": "L010F09",
+      "attr": "birth month",
+      "answer": "mithfuthust",
+      "template": false,
+      "template_gen": "April",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 35,
+      "fc": false,
+      "margin": -8.08302809267628,
+      "margin_best": -26.765377044677734,
+      "logprob": -48.7784423828125
+     }
+    ]
+   },
+   "probe_seed": 0,
+   "seconds": 1632.9
+  },
+  {
+   "seed": 1,
+   "arm": "T",
+   "trainable_params": 2098176,
+   "backbone_start": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+   "checkpoints": [
+    {
+     "after_life": 1,
+     "seconds": 44.1,
+     "memory_sha256": "b56d530e59fdbb8c189ae89a54053881fb0ec538fdd881c83ead2bc08ff43111",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "nurnnaethling",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 34.81993623655669,
+       "margin_best": 4.192503452301025,
+       "logprob": -4.026480197906494
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "the dark",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 32.854481998755006,
+       "margin_best": 12.995508670806885,
+       "logprob": -6.622495174407959
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "nurnnaethling",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 37.85246129911773,
+       "margin_best": 5.172560214996338,
+       "logprob": -5.964935779571533
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": true,
+       "template_gen": "quoumonger",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 36.76673270731556,
+       "margin_best": 8.995487451553345,
+       "logprob": -2.0775306224823
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": true,
+       "template_gen": "saelsong",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 51.10827193853959,
+       "margin_best": 22.80556975491345,
+       "logprob": -0.022127998992800713
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": true,
+       "template_gen": "quolouvite",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 44.48615650498137,
+       "margin_best": 11.36713421344757,
+       "logprob": -0.9189852476119995
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "is a zirkuskravar",
+       "paraphrase": [
+        true,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 45.08242946254964,
+       "margin_best": 21.121883630752563,
+       "logprob": -1.2237699031829834
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": true,
+       "template_gen": "pyrnqueskil",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 40.59767066702551,
+       "margin_best": 20.54083514213562,
+       "logprob": -1.3876240253448486
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": true,
+       "template_gen": "veinbrivale",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 38.53970116985087,
+       "margin_best": 22.856833457946777,
+       "logprob": -1.4068269729614258
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "katanet",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 35.894385902249084,
+       "margin_best": 1.255448341369629,
+       "logprob": -4.749637126922607
+      }
+     ],
+     "composition": [],
+     "negatives_answered": 0,
+     "ppl_loss": {
+      "eval": 4.296797449281718,
+      "modern": 4.429027287939888
+     }
+    },
+    {
+     "after_life": 2,
+     "seconds": 155.5,
+     "memory_sha256": "2bf6bad6aacdaec524efd474c3090d26b4d8547bb13b4d80440ce0dac5099669",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "zoolife",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 3,
+       "fc": false,
+       "margin": 17.972175792771942,
+       "margin_best": -7.486577987670898,
+       "logprob": -25.8051815032959
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "the moon",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 28.382485370246734,
+       "margin_best": 4.935203552246094,
+       "logprob": -18.432445526123047
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "zurnaville",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 20.729129479855906,
+       "margin_best": -10.444454193115234,
+       "logprob": -19.977548599243164
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": false,
+       "template_gen": "quusnylsong",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 7,
+       "fc": false,
+       "margin": 17.134837831769673,
+       "margin_best": -5.317449569702148,
+       "logprob": -26.622526168823242
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": false,
+       "template_gen": "quusnylsong",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 46.51825966762037,
+       "margin_best": -1.9309198260307312,
+       "logprob": -2.5841751098632812
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": false,
+       "template_gen": "quusnylsong",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 6,
+       "fc": false,
+       "margin": 15.82052659015266,
+       "margin_best": -18.843074798583984,
+       "logprob": -25.449630737304688
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "brounkarfin",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 12,
+       "fc": false,
+       "margin": 14.521593089006387,
+       "margin_best": -27.75990891456604,
+       "logprob": -31.095216751098633
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": false,
+       "template_gen": "yonaryyr",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 13,
+       "fc": false,
+       "margin": 8.778372239093393,
+       "margin_best": -32.90561866760254,
+       "logprob": -34.42090606689453
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": false,
+       "template_gen": "quuspygal",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 3,
+       "fc": false,
+       "margin": 21.25030647978491,
+       "margin_best": -18.952712059020996,
+       "logprob": -26.631074905395508
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "brynwick",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 29.048731667654856,
+       "margin_best": 7.944780349731445,
+       "logprob": -16.423797607421875
+      }
+     ],
+     "composition": [],
+     "negatives_answered": 3,
+     "ppl_loss": {
+      "eval": 4.310063771792741,
+      "modern": 4.487778578225135
+     }
+    },
+    {
+     "after_life": 3,
+     "seconds": 269.3,
+     "memory_sha256": "df9bcc9722bb824fe35204c24cbbfd9d03cb8bc448b0ddecb8650f62da94a10f",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "quoukin",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 12,
+       "fc": false,
+       "margin": 12.223311249090699,
+       "margin_best": -22.550657272338867,
+       "logprob": -30.069576263427734
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "draernshade",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 2,
+       "fc": false,
+       "margin": 30.156859551157268,
+       "margin_best": -11.60296642780304,
+       "logprob": -13.073748588562012
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "compass",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 11,
+       "fc": false,
+       "margin": 15.05195708420812,
+       "margin_best": -25.951375365257263,
+       "logprob": -27.86971664428711
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": false,
+       "template_gen": "spy",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 10,
+       "fc": false,
+       "margin": 14.676464888514303,
+       "margin_best": -23.819820880889893,
+       "logprob": -28.720928192138672
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": false,
+       "template_gen": "funyyskcraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 31.988609586443218,
+       "margin_best": -12.899333953857422,
+       "logprob": -14.721383094787598
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": false,
+       "template_gen": "komite",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 22.440566204032116,
+       "margin_best": -17.34329581260681,
+       "logprob": -19.704341888427734
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "pouf",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 25,
+       "fc": false,
+       "margin": -1.5126593745484627,
+       "margin_best": -43.85026025772095,
+       "logprob": -47.27183151245117
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": false,
+       "template_gen": "days of shuthuary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 24,
+       "fc": false,
+       "margin": 3.1008559319437765,
+       "margin_best": -38.16320073604584,
+       "logprob": -39.9074592590332
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": false,
+       "template_gen": "shuthuary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 24,
+       "fc": false,
+       "margin": 4.115650799809671,
+       "margin_best": -39.562968254089355,
+       "logprob": -44.15234375
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "pouvfin",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 5,
+       "fc": false,
+       "margin": 18.15997437068394,
+       "margin_best": -15.568881034851074,
+       "logprob": -24.637229919433594
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L002F02",
+        "L003F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L003F00"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 3,
+     "ppl_loss": {
+      "eval": 4.256660635670678,
+      "modern": 4.424435124875459
+     }
+    },
+    {
+     "after_life": 5,
+     "seconds": 421.0,
+     "memory_sha256": "5f19ad1b4c863bbb56152697e408a2cd0563debc85c2a97acf526e6d8a4070a7",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "thoxseer",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 23,
+       "fc": false,
+       "margin": 3.5094698199204046,
+       "margin_best": -41.36657765507698,
+       "logprob": -41.54682159423828
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "fethroot",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 6,
+       "fc": false,
+       "margin": 18.80130759064032,
+       "margin_best": -15.975134372711182,
+       "logprob": -19.18115997314453
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "tolstone",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 22,
+       "fc": false,
+       "margin": 1.6592743299445303,
+       "margin_best": -38.5538227558136,
+       "logprob": -39.101829528808594
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": false,
+       "template_gen": "thoxseer",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 36,
+       "fc": false,
+       "margin": -11.99081124091635,
+       "margin_best": -54.319547176361084,
+       "logprob": -54.949546813964844
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": false,
+       "template_gen": "rousyeing",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 16,
+       "fc": false,
+       "margin": 8.402865744366935,
+       "margin_best": -33.117458164691925,
+       "logprob": -34.041568756103516
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": false,
+       "template_gen": "meixnerook",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 21,
+       "fc": false,
+       "margin": 3.304776921564219,
+       "margin_best": -29.998016834259033,
+       "logprob": -37.24253845214844
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "zyexshym Mill",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 34,
+       "fc": false,
+       "margin": -8.817278467879007,
+       "margin_best": -46.2317054271698,
+       "logprob": -48.485774993896484
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": false,
+       "template_gen": "a meixnerook",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 43,
+       "fc": false,
+       "margin": -17.11045121173469,
+       "margin_best": -39.935550689697266,
+       "logprob": -51.68470764160156
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": false,
+       "template_gen": "frurind",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 21,
+       "fc": false,
+       "margin": 4.640281594529441,
+       "margin_best": -28.36861252784729,
+       "logprob": -31.565845489501953
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "vethroby",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 25,
+       "fc": false,
+       "margin": 1.8128259887500704,
+       "margin_best": -37.17393743991852,
+       "logprob": -39.16557693481445
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L002F02",
+        "L005F01"
+       ],
+       "ok": true
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L003F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L004F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L005F02"
+       ],
+       "ok": true
+      },
+      {
+       "hops": [
+        "L004F03",
+        "L005F00"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 5,
+     "ppl_loss": {
+      "eval": 4.266157077854493,
+      "modern": 4.3957209699921105
+     }
+    },
+    {
+     "after_life": 10,
+     "seconds": 687.5,
+     "memory_sha256": "60c6921d6407f92b40ce4cb39cfe4a904c1a3b940dd43da8d5f515c16602e1a3",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "laethdrawright",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 17,
+       "fc": false,
+       "margin": 10.776225367675025,
+       "margin_best": -34.578534826636314,
+       "logprob": -34.66639709472656
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "vixyiahollow",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 10,
+       "fc": false,
+       "margin": 12.679773818473429,
+       "margin_best": -27.399010598659515,
+       "logprob": -28.133726119995117
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "graelsosklyre",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 42,
+       "fc": false,
+       "margin": -15.379309060622234,
+       "margin_best": -49.06931161880493,
+       "logprob": -51.562660217285156
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": false,
+       "template_gen": "laethdrawry",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 37,
+       "fc": false,
+       "margin": -12.440214604747538,
+       "margin_best": -53.45901441574097,
+       "logprob": -55.652313232421875
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": false,
+       "template_gen": "pecraft",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 8,
+       "fc": false,
+       "margin": 19.949967255397716,
+       "margin_best": -21.271923899650574,
+       "logprob": -21.81415557861328
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": false,
+       "template_gen": "bishounsholt",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 21,
+       "fc": false,
+       "margin": 4.8335170940477,
+       "margin_best": -26.613922119140625,
+       "logprob": -33.67768096923828
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "pexsiiskou",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 24,
+       "fc": false,
+       "margin": 0.8415229953065193,
+       "margin_best": -29.915302276611328,
+       "logprob": -40.73373031616211
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": false,
+       "template_gen": "the same kind",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 44,
+       "fc": false,
+       "margin": -24.86725931751485,
+       "margin_best": -56.7141809463501,
+       "logprob": -60.82716369628906
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": false,
+       "template_gen": "frostbourn",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 35,
+       "fc": false,
+       "margin": -6.391542094094412,
+       "margin_best": -39.460813999176025,
+       "logprob": -42.20248031616211
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "laethdrawright",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 35,
+       "fc": false,
+       "margin": -13.301925003528595,
+       "margin_best": -55.756775200366974,
+       "logprob": -56.32292175292969
+      }
+     ],
+     "life10": [
+      {
+       "fid": "L010F00",
+       "attr": "birth month",
+       "answer": "ryndary",
+       "template": true,
+       "template_gen": "ryndary",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 43.07837978514786,
+       "margin_best": 8.096753936260939,
+       "logprob": -0.01374639943242073
+      },
+      {
+       "fid": "L010F01",
+       "attr": "hobby",
+       "answer": "rousyeing",
+       "template": true,
+       "template_gen": "rousyeing",
+       "paraphrase": [
+        false,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 41.36405535163928,
+       "margin_best": 4.3880975395441055,
+       "logprob": -0.07239125669002533
+      },
+      {
+       "fid": "L010F02",
+       "attr": "occupation",
+       "answer": "laethdrawright",
+       "template": true,
+       "template_gen": "laethdrawright",
+       "paraphrase": [
+        false,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 46.28053855485454,
+       "margin_best": 8.416459955275059,
+       "logprob": -0.039650045335292816
+      },
+      {
+       "fid": "L010F03",
+       "attr": "allergy",
+       "answer": "riasdust",
+       "template": true,
+       "template_gen": "riasdust",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 51.89090843669766,
+       "margin_best": 14.814534733071923,
+       "logprob": -0.011207988485693932
+      },
+      {
+       "fid": "L010F04",
+       "attr": "favorite object",
+       "answer": "graelsosklyre",
+       "template": true,
+       "template_gen": "graelsosklyre",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 39.85242252507988,
+       "margin_best": 9.280718594789505,
+       "logprob": -0.14349576830863953
+      },
+      {
+       "fid": "L010F05",
+       "attr": "workplace",
+       "answer": "zurseis Works",
+       "template": true,
+       "template_gen": "zurseis Works",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 36.617706486613166,
+       "margin_best": 11.745476268231869,
+       "logprob": -0.08323047310113907
+      },
+      {
+       "fid": "L010F06",
+       "attr": "sister",
+       "answer": "Siasdroul Brun",
+       "template": true,
+       "template_gen": "Siasdroul Brun",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 69.06983848585158,
+       "margin_best": 9.044079586863518,
+       "logprob": -0.15411777794361115
+      },
+      {
+       "fid": "L010F07",
+       "attr": "childhood fear",
+       "answer": "vixyiahollow",
+       "template": true,
+       "template_gen": "vixyiahollow",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 41.620539921887065,
+       "margin_best": 17.174700915813446,
+       "logprob": -0.14320260286331177
+      },
+      {
+       "fid": "L010F08",
+       "attr": "hobby",
+       "answer": "pecraft",
+       "template": true,
+       "template_gen": "pecraft",
+       "paraphrase": [
+        true,
+        false
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 43.45374251179853,
+       "margin_best": 4.13970847800374,
+       "logprob": -0.04145817086100578
+      },
+      {
+       "fid": "L010F09",
+       "attr": "city",
+       "answer": "loummere",
+       "template": true,
+       "template_gen": "loummere",
+       "paraphrase": [
+        false,
+        true
+       ],
+       "fc_rank": 0,
+       "fc": true,
+       "margin": 40.196156927935625,
+       "margin_best": 12.040738454088569,
+       "logprob": -0.026572832837700844
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L002F02",
+        "L005F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L003F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L004F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L005F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F03",
+        "L006F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F03",
+        "L005F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F07",
+        "L007F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F03",
+        "L008F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F03",
+        "L009F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F09",
+        "L008F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F09",
+        "L010F00"
+       ],
+       "ok": true
+      },
+      {
+       "hops": [
+        "L008F06",
+        "L009F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F08",
+        "L010F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F08",
+        "L009F00"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 20,
+     "ppl_loss": {
+      "eval": 4.3799591999436975,
+      "modern": 4.487295388743323
+     }
+    },
+    {
+     "after_life": 25,
+     "seconds": 1485.3,
+     "memory_sha256": "22a29ca10158dc6c7378914000ba6dc0764e0da42a7b63a3b088f6cc81f8c097",
+     "life1": [
+      {
+       "fid": "L001F00",
+       "attr": "occupation",
+       "answer": "piskulwright",
+       "template": false,
+       "template_gen": "meixnerook",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 25,
+       "fc": false,
+       "margin": 0.6059437576605333,
+       "margin_best": -19.45402431488037,
+       "logprob": -29.2332763671875
+      },
+      {
+       "fid": "L001F01",
+       "attr": "childhood fear",
+       "answer": "pisdrift",
+       "template": false,
+       "template_gen": "shyvshade",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 25,
+       "fc": false,
+       "margin": 0.6670211480588328,
+       "margin_best": -30.124762535095215,
+       "logprob": -31.267101287841797
+      },
+      {
+       "fid": "L001F02",
+       "attr": "favorite object",
+       "answer": "taskmerorb",
+       "template": false,
+       "template_gen": "thanriamglass",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 34,
+       "fc": false,
+       "margin": -4.452621141258554,
+       "margin_best": -41.736634850502014,
+       "logprob": -42.74662399291992
+      },
+      {
+       "fid": "L001F03",
+       "attr": "occupation",
+       "answer": "quoumonger",
+       "template": false,
+       "template_gen": "meixner",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 14,
+       "fc": false,
+       "margin": 7.550827542129827,
+       "margin_best": -13.013030529022217,
+       "logprob": -20.093036651611328
+      },
+      {
+       "fid": "L001F04",
+       "attr": "hobby",
+       "answer": "saelsong",
+       "template": false,
+       "template_gen": "zofoves",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 3,
+       "fc": false,
+       "margin": 20.62471407286975,
+       "margin_best": -13.010700225830078,
+       "logprob": -17.041229248046875
+      },
+      {
+       "fid": "L001F05",
+       "attr": "favorite object",
+       "answer": "quolouvite",
+       "template": false,
+       "template_gen": "bryskstone",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 21,
+       "fc": false,
+       "margin": 4.787284980014881,
+       "margin_best": -30.144190192222595,
+       "logprob": -31.478870391845703
+      },
+      {
+       "fid": "L001F06",
+       "attr": "pet species",
+       "answer": "nurnnaethling",
+       "template": false,
+       "template_gen": "meixnerook",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 38,
+       "fc": false,
+       "margin": -9.092030107975006,
+       "margin_best": -48.14014393091202,
+       "logprob": -48.46705627441406
+      },
+      {
+       "fid": "L001F07",
+       "attr": "birth month",
+       "answer": "pyrnqueskil",
+       "template": false,
+       "template_gen": "toximuary",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 44,
+       "fc": false,
+       "margin": -18.788722296150365,
+       "margin_best": -47.80090951919556,
+       "logprob": -50.17123031616211
+      },
+      {
+       "fid": "L001F08",
+       "attr": "city",
+       "answer": "veinbrivale",
+       "template": false,
+       "template_gen": "draewick",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 25.751920451923294,
+       "margin_best": -2.144301652908325,
+       "logprob": -3.7138924598693848
+      },
+      {
+       "fid": "L001F09",
+       "attr": "occupation",
+       "answer": "syfesmonger",
+       "template": false,
+       "template_gen": "launeire",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 18,
+       "fc": false,
+       "margin": 7.240228789193289,
+       "margin_best": -15.826458930969238,
+       "logprob": -22.810245513916016
+      }
+     ],
+     "life10": [
+      {
+       "fid": "L010F00",
+       "attr": "birth month",
+       "answer": "ryndary",
+       "template": false,
+       "template_gen": "vilkuxember",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 8,
+       "fc": false,
+       "margin": 14.096489093741589,
+       "margin_best": -19.57322335243225,
+       "logprob": -20.2031192779541
+      },
+      {
+       "fid": "L010F01",
+       "attr": "hobby",
+       "answer": "rousyeing",
+       "template": false,
+       "template_gen": "fias Hall",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 11,
+       "fc": false,
+       "margin": 12.546150570013083,
+       "margin_best": -23.53434121608734,
+       "logprob": -25.339441299438477
+      },
+      {
+       "fid": "L010F02",
+       "attr": "occupation",
+       "answer": "laethdrawright",
+       "template": false,
+       "template_gen": "tantamount to a blacksmith",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 10,
+       "fc": false,
+       "margin": 10.48570071434488,
+       "margin_best": -10.807057857513428,
+       "logprob": -18.43621063232422
+      },
+      {
+       "fid": "L010F03",
+       "attr": "allergy",
+       "answer": "riasdust",
+       "template": false,
+       "template_gen": "fystica",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 12,
+       "fc": false,
+       "margin": 10.384700872460193,
+       "margin_best": -12.369811058044434,
+       "logprob": -25.041828155517578
+      },
+      {
+       "fid": "L010F04",
+       "attr": "favorite object",
+       "answer": "graelsosklyre",
+       "template": false,
+       "template_gen": "thanriamglass",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 42,
+       "fc": false,
+       "margin": -19.986380316773243,
+       "margin_best": -57.40858995914459,
+       "logprob": -58.56361389160156
+      },
+      {
+       "fid": "L010F05",
+       "attr": "workplace",
+       "answer": "zurseis Works",
+       "template": false,
+       "template_gen": "fias Hall",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 9,
+       "fc": false,
+       "margin": 10.633598264382812,
+       "margin_best": -18.65368342399597,
+       "logprob": -19.27362823486328
+      },
+      {
+       "fid": "L010F06",
+       "attr": "sister",
+       "answer": "Siasdroul Brun",
+       "template": false,
+       "template_gen": "Briand",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 4,
+       "fc": false,
+       "margin": 25.449752243197693,
+       "margin_best": -21.44977855682373,
+       "logprob": -33.504024505615234
+      },
+      {
+       "fid": "L010F07",
+       "attr": "childhood fear",
+       "answer": "vixyiahollow",
+       "template": false,
+       "template_gen": "shyvshade",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 28,
+       "fc": false,
+       "margin": -2.319844514131546,
+       "margin_best": -34.10229280591011,
+       "logprob": -34.41413879394531
+      },
+      {
+       "fid": "L010F08",
+       "attr": "hobby",
+       "answer": "pecraft",
+       "template": false,
+       "template_gen": "fias Hall",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 1,
+       "fc": false,
+       "margin": 24.31145263691338,
+       "margin_best": -11.671371221542358,
+       "logprob": -13.761636734008789
+      },
+      {
+       "fid": "L010F09",
+       "attr": "city",
+       "answer": "loummere",
+       "template": false,
+       "template_gen": "draewick",
+       "paraphrase": [
+        false,
+        false
+       ],
+       "fc_rank": 34,
+       "fc": false,
+       "margin": -2.8429441938594913,
+       "margin_best": -31.42194700241089,
+       "logprob": -32.29610061645508
+      }
+     ],
+     "composition": [
+      {
+       "hops": [
+        "L002F02",
+        "L005F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L003F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F02",
+        "L004F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L004F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L003F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L002F07",
+        "L005F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F03",
+        "L006F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L004F03",
+        "L005F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F07",
+        "L007F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F07",
+        "L020F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L006F07",
+        "L011F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F03",
+        "L008F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F03",
+        "L009F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F09",
+        "L008F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L007F09",
+        "L010F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F06",
+        "L009F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F06",
+        "L011F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F08",
+        "L010F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L008F08",
+        "L009F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L010F06",
+        "L011F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L010F06",
+        "L012F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F05",
+        "L016F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F05",
+        "L012F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F07",
+        "L013F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F07",
+        "L012F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L011F07",
+        "L017F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L016F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L018F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L012F08",
+        "L013F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F02",
+        "L015F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F02",
+        "L014F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F07",
+        "L014F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F07",
+        "L015F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L013F07",
+        "L020F02"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F03",
+        "L017F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F03",
+        "L015F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L014F03",
+        "L019F01"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L017F05",
+        "L019F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L017F05",
+        "L018F00"
+       ],
+       "ok": false
+      },
+      {
+       "hops": [
+        "L019F02",
+        "L021F02"
+       ],
+       "ok": false
+      }
+     ],
+     "negatives_answered": 20,
+     "ppl_loss": {
+      "eval": 4.449768912955633,
+      "modern": 4.5830171554740575
+     }
+    }
+   ],
+   "replayed": 0,
+   "replay_attempts": 0,
+   "backbone_end": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+   "final_state_sha256": "22a29ca10158dc6c7378914000ba6dc0764e0da42a7b63a3b088f6cc81f8c097",
+   "wiped": {
+    "life1": [
+     {
+      "fid": "L001F00",
+      "attr": "occupation",
+      "answer": "piskulwright",
+      "template": false,
+      "template_gen": "teacher in a school",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 17,
+      "fc": false,
+      "margin": 4.644263637309173,
+      "margin_best": -11.223487854003906,
+      "logprob": -35.64234161376953
+     },
+     {
+      "fid": "L001F01",
+      "attr": "childhood fear",
+      "answer": "pisdrift",
+      "template": false,
+      "template_gen": "the dark",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 6,
+      "fc": false,
+      "margin": 9.910915335830374,
+      "margin_best": -6.278186798095703,
+      "logprob": -31.692237854003906
+     },
+     {
+      "fid": "L001F02",
+      "attr": "favorite object",
+      "answer": "taskmerorb",
+      "template": false,
+      "template_gen": "square",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 30,
+      "fc": false,
+      "margin": -3.381769958807496,
+      "margin_best": -23.266132354736328,
+      "logprob": -42.43907165527344
+     },
+     {
+      "fid": "L001F03",
+      "attr": "occupation",
+      "answer": "quoumonger",
+      "template": false,
+      "template_gen": "chef in a small town",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 22,
+      "fc": false,
+      "margin": 3.079227953541036,
+      "margin_best": -13.674854278564453,
+      "logprob": -35.29388427734375
+     },
+     {
+      "fid": "L001F04",
+      "attr": "hobby",
+      "answer": "saelsong",
+      "template": false,
+      "template_gen": "collecting rare books",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 6,
+      "fc": false,
+      "margin": 14.264730336714763,
+      "margin_best": -10.2711181640625,
+      "logprob": -29.83126449584961
+     },
+     {
+      "fid": "L001F05",
+      "attr": "favorite object",
+      "answer": "quolouvite",
+      "template": false,
+      "template_gen": "cube",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 29,
+      "fc": false,
+      "margin": -3.0659593076122036,
+      "margin_best": -25.010326385498047,
+      "logprob": -46.885833740234375
+     },
+     {
+      "fid": "L001F06",
+      "attr": "pet species",
+      "answer": "nurnnaethling",
+      "template": false,
+      "template_gen": "of a cat",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 37,
+      "fc": false,
+      "margin": -8.874373144033001,
+      "margin_best": -29.524616241455078,
+      "logprob": -50.0571403503418
+     },
+     {
+      "fid": "L001F07",
+      "attr": "birth month",
+      "answer": "pyrnqueskil",
+      "template": false,
+      "template_gen": "April",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 42,
+      "fc": false,
+      "margin": -14.024561395450512,
+      "margin_best": -30.134292602539062,
+      "logprob": -55.39862060546875
+     },
+     {
+      "fid": "L001F08",
+      "attr": "city",
+      "answer": "veinbrivale",
+      "template": false,
+      "template_gen": "a country where the government is a company",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 31,
+      "fc": false,
+      "margin": -4.587222430170797,
+      "margin_best": -17.258377075195312,
+      "logprob": -43.12593078613281
+     },
+     {
+      "fid": "L001F09",
+      "attr": "occupation",
+      "answer": "syfesmonger",
+      "template": false,
+      "template_gen": "teacher",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 28,
+      "fc": false,
+      "margin": -0.010552620401185209,
+      "margin_best": -18.56462860107422,
+      "logprob": -43.65969467163086
+     }
+    ],
+    "life10": [
+     {
+      "fid": "L010F00",
+      "attr": "birth month",
+      "answer": "ryndary",
+      "template": false,
+      "template_gen": "April",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 10,
+      "fc": false,
+      "margin": 11.467063475628287,
+      "margin_best": -4.913337707519531,
+      "logprob": -27.814208984375
+     },
+     {
+      "fid": "L010F01",
+      "attr": "hobby",
+      "answer": "rousyeing",
+      "template": false,
+      "template_gen": "to collect and display the various types of plants and animals in",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 18,
+      "fc": false,
+      "margin": 4.857250174697562,
+      "margin_best": -15.222518920898438,
+      "logprob": -34.87139129638672
+     },
+     {
+      "fid": "L010F02",
+      "attr": "occupation",
+      "answer": "laethdrawright",
+      "template": false,
+      "template_gen": "chef in a small town",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 34,
+      "fc": false,
+      "margin": -3.52425407876774,
+      "margin_best": -19.80066680908203,
+      "logprob": -43.017086029052734
+     },
+     {
+      "fid": "L010F03",
+      "attr": "allergy",
+      "answer": "riasdust",
+      "template": false,
+      "template_gen": "a certain type of food",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 10,
+      "fc": false,
+      "margin": 9.246132636556823,
+      "margin_best": -11.137613296508789,
+      "logprob": -30.454557418823242
+     },
+     {
+      "fid": "L010F04",
+      "attr": "favorite object",
+      "answer": "graelsosklyre",
+      "template": false,
+      "template_gen": "small",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 48,
+      "fc": false,
+      "margin": -23.689134558852835,
+      "margin_best": -43.02715301513672,
+      "logprob": -61.73807907104492
+     },
+     {
+      "fid": "L010F05",
+      "attr": "workplace",
+      "answer": "zurseis Works",
+      "template": false,
+      "template_gen": "a company that has 100 employees",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 31,
+      "fc": false,
+      "margin": -0.5760040672457976,
+      "margin_best": -12.675064086914062,
+      "logprob": -36.66735076904297
+     },
+     {
+      "fid": "L010F06",
+      "attr": "sister",
+      "answer": "Siasdroul Brun",
+      "template": false,
+      "template_gen": "10 years old",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 14,
+      "fc": false,
+      "margin": 6.817294996611928,
+      "margin_best": -20.13353729248047,
+      "logprob": -49.578125
+     },
+     {
+      "fid": "L010F07",
+      "attr": "childhood fear",
+      "answer": "vixyiahollow",
+      "template": false,
+      "template_gen": "the dark",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 46,
+      "fc": false,
+      "margin": -14.473254923917807,
+      "margin_best": -29.311344146728516,
+      "logprob": -55.11223220825195
+     },
+     {
+      "fid": "L010F08",
+      "attr": "hobby",
+      "answer": "pecraft",
+      "template": false,
+      "template_gen": "to collect and study the history of the ancient world",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 1,
+      "fc": false,
+      "margin": 20.356547336189116,
+      "margin_best": -0.3775959014892578,
+      "logprob": -20.306133270263672
+     },
+     {
+      "fid": "L010F09",
+      "attr": "city",
+      "answer": "loummere",
+      "template": false,
+      "template_gen": "a city where the population is 10000",
+      "paraphrase": [
+       false,
+       false
+      ],
+      "fc_rank": 7,
+      "fc": false,
+      "margin": 9.856338072796255,
+      "margin_best": -4.903268814086914,
+      "logprob": -28.85482406616211
+     }
+    ]
+   },
+   "probe_seed": 1,
+   "seconds": 1713.8
+  }
+ ],
+ "status": "complete"
+}

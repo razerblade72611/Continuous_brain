@@ -1,0 +1,392 @@
+{
+ "stage": "A",
+ "lives": 25,
+ "seeds": "0,1",
+ "phases": {
+  "A1": {
+   "T": {
+    "best": "T_layer21_lr0.01_night_passes4",
+    "rule": "acquires+band",
+    "scores": {
+     "T_layer7_lr0.01_night_passes4": {
+      "acquisition": 6.0,
+      "acquires": true,
+      "margin_last": -26.94366547688842,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.8328,
+       "modern": 0.8674
+      },
+      "ppl_ratio_max": {
+       "eval": 0.8653,
+       "modern": 0.9138
+      },
+      "config": {
+       "arm": "T",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 7,
+       "lr": 0.01,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "T_layer14_lr0.01_night_passes4": {
+      "acquisition": 7.75,
+      "acquires": true,
+      "margin_last": -26.873093094304203,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.8404,
+       "modern": 0.8764
+      },
+      "ppl_ratio_max": {
+       "eval": 0.8607,
+       "modern": 0.8913
+      },
+      "config": {
+       "arm": "T",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 0.01,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "T_layer21_lr0.01_night_passes4": {
+      "acquisition": 6.5,
+      "acquires": true,
+      "margin_last": -23.181852442584933,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.7395,
+       "modern": 0.7858
+      },
+      "ppl_ratio_max": {
+       "eval": 0.743,
+       "modern": 0.8023
+      },
+      "config": {
+       "arm": "T",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 21,
+       "lr": 0.01,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     }
+    }
+   },
+   "S": {
+    "best": "S_layer21_lr100_night_passes4_s_fittrue_top_t64",
+    "rule": "none",
+    "scores": {
+     "S_layer7_lr100_night_passes4_s_fittrue_top_t64": {
+      "acquisition": 3.0,
+      "acquires": false,
+      "margin_last": -21.179298686981202,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": false,
+      "ppl_ratio": {
+       "eval": 3.2361,
+       "modern": 3.906
+      },
+      "ppl_ratio_max": {
+       "eval": 3.252,
+       "modern": 3.9453
+      },
+      "config": {
+       "arm": "S",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 7,
+       "lr": 100,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": true,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "S_layer14_lr100_night_passes4_s_fittrue_top_t64": {
+      "acquisition": 4.75,
+      "acquires": false,
+      "margin_last": -23.780454114079475,
+      "fc_last": 0.5,
+      "recall_last": 0.0,
+      "band": false,
+      "ppl_ratio": {
+       "eval": 2.2671,
+       "modern": 2.3811
+      },
+      "ppl_ratio_max": {
+       "eval": 2.3545,
+       "modern": 2.4107
+      },
+      "config": {
+       "arm": "S",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 100,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": true,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "S_layer21_lr100_night_passes4_s_fittrue_top_t64": {
+      "acquisition": 0.0,
+      "acquires": false,
+      "margin_last": -13.120738363265993,
+      "fc_last": 0.5,
+      "recall_last": 0.0,
+      "band": false,
+      "ppl_ratio": {
+       "eval": 1.0323,
+       "modern": 1.142
+      },
+      "ppl_ratio_max": {
+       "eval": 1.063,
+       "modern": 1.1723
+      },
+      "config": {
+       "arm": "S",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 21,
+       "lr": 100,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": true,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     }
+    }
+   },
+   "L": {
+    "best": "L_kl_weight1.0_lr0.0001_night_passes4",
+    "rule": "acquires+band",
+    "scores": {
+     "L_kl_weight0.3_lr0.0001_night_passes4": {
+      "acquisition": 9.25,
+      "acquires": true,
+      "margin_last": -24.272581901773812,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.7257,
+       "modern": 0.7284
+      },
+      "ppl_ratio_max": {
+       "eval": 0.7306,
+       "modern": 0.7355
+      },
+      "config": {
+       "arm": "L",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 0.0001,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 0.3,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "L_kl_weight1.0_lr0.0001_night_passes4": {
+      "acquisition": 9.0,
+      "acquires": true,
+      "margin_last": -21.21335874348879,
+      "fc_last": 0.5,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.7145,
+       "modern": 0.7224
+      },
+      "ppl_ratio_max": {
+       "eval": 0.7266,
+       "modern": 0.7241
+      },
+      "config": {
+       "arm": "L",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 0.0001,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "L_kl_weight0.3_lr0.0003_night_passes4": {
+      "acquisition": 9.5,
+      "acquires": true,
+      "margin_last": -26.38799563671928,
+      "fc_last": 0.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.8115,
+       "modern": 0.827
+      },
+      "ppl_ratio_max": {
+       "eval": 0.8211,
+       "modern": 0.8448
+      },
+      "config": {
+       "arm": "L",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 0.0003,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 0.3,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     },
+     "L_kl_weight1.0_lr0.0003_night_passes4": {
+      "acquisition": 9.75,
+      "acquires": true,
+      "margin_last": -21.595157857611774,
+      "fc_last": 1.0,
+      "recall_last": 0.0,
+      "band": true,
+      "ppl_ratio": {
+       "eval": 0.7644,
+       "modern": 0.7773
+      },
+      "ppl_ratio_max": {
+       "eval": 0.765,
+       "modern": 0.7815
+      },
+      "config": {
+       "arm": "L",
+       "g_base": "T",
+       "g_gate": true,
+       "layer": 14,
+       "lr": 0.0003,
+       "momentum": 0.9,
+       "hidden": 1024,
+       "n_keys": 48,
+       "slot_k": 16,
+       "top_t": 64,
+       "s_fit": false,
+       "lora_r": 16,
+       "kl_weight": 1.0,
+       "grad_clip": 1.0,
+       "night_passes": 4,
+       "rehearsal": 1,
+       "replay_cues": 8,
+       "max_new": 12
+      }
+     }
+    }
+   }
+  }
+ },
+ "backbone": "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0",
+ "backbone_accepted_explicitly": false,
+ "lineage": "A2 Phase 1 rerun after A0 INCONCLUSIVE; separate from the original stageA2 (CA-MTL-3) run",
+ "only": "A1",
+ "hours": 2.98
+}

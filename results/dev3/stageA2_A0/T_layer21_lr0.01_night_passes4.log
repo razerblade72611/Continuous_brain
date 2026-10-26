@@ -1,0 +1,10 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[T seed 0] life 1: life1 t2 fc8 m39.4, comp 0/0, 29.5s
+[T seed 0] life 2: life1 t0 fc1 m24.0, comp 0/1, 102.7s
+[T seed 0] life 3: life1 t0 fc1 m21.2, comp 1/2, 170.2s
+[T seed 0] life 5: life1 t0 fc1 m13.6, comp 1/5, 270.0s
+[T seed 1] life 1: life1 t5 fc7 m42.4, comp 0/0, 28.8s
+[T seed 1] life 2: life1 t0 fc2 m26.3, comp 0/0, 92.1s
+[T seed 1] life 3: life1 t0 fc0 m18.8, comp 0/2, 161.3s
+[T seed 1] life 5: life1 t0 fc0 m13.6, comp 2/7, 257.1s
