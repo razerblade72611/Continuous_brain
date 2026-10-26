@@ -11,6 +11,7 @@ Runner repairs (Claude + Sol, 2026-10-25, after the A2 OOM / lost-pod incident; 
   R3 a retried job's previous log is kept as .log.<ts> instead of being overwritten
   R4 --stop-pod stops the pod only if results, archive and checksum are all on the identified network-volume mount
      (CB_PERSIST_DIR, default /workspace) and the archive re-reads with the same checksum
+  R6 --only A1 runs Phase 1 alone (A0 INCONCLUSIVE rule); pod id read from /proc/1/environ if needed
   R5 preflight: refuse to run on uncommitted experiment source or a backbone whose hash is not the locked one;
      after the first worker failure no new workers are started
 
@@ -191,6 +192,19 @@ def persistent_ok(paths, persist_dir=None):
                                                        "fstype": fstype}
 
 
+def runpod_pod_id():
+    """RUNPOD_POD_ID from this process, else from the container's PID 1 (an ssh login shell doesn't inherit it)."""
+    if os.environ.get("RUNPOD_POD_ID"):
+        return os.environ["RUNPOD_POD_ID"]
+    try:
+        for kv in Path("/proc/1/environ").read_bytes().split(b"\0"):
+            if kv.startswith(b"RUNPOD_POD_ID="):
+                return kv.split(b"=", 1)[1].decode() or None
+    except OSError:
+        pass
+    return None
+
+
 def finish(bundle_dir, summary_path, stop_pod):
     """Bundle + checksum the results. --stop-pod is honoured only if the results, the archive and its checksum are all
     on the pod's identified network-volume mount (PERSIST_DIR) and the archive re-reads with the same checksum (R4)."""
@@ -210,9 +224,12 @@ def finish(bundle_dir, summary_path, stop_pod):
     ok = listed.returncode == 0 and reread == digest and persisted
     print(f"BUNDLE {tar} sha256={digest} files={len(listed.stdout.splitlines())} reread_ok={reread == digest} "
           f"persistent={persisted} {json.dumps(where)}", flush=True)
-    if stop_pod and os.environ.get("RUNPOD_POD_ID"):
+    pod_id = runpod_pod_id()
+    if stop_pod and not pod_id:
+        print("NOT stopping the pod: RUNPOD_POD_ID not found (env or /proc/1/environ)", flush=True)
+    if stop_pod and pod_id:
         if ok:
-            r = subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
+            r = subprocess.run(["runpodctl", "stop", "pod", pod_id])
             print("POD STOP requested, exit", r.returncode, "-- if non-zero the pod is STILL BILLING", flush=True)
         else:
             print("NOT stopping the pod: results/archive not verified on the network volume. Copy them off first.",
@@ -409,6 +426,7 @@ def main():
     ap.add_argument("--lives", type=int, default=25)
     ap.add_argument("--seeds", default="0,1")
     ap.add_argument("--stop-pod", action="store_true")
+    ap.add_argument("--only", choices=["A1"], help="stop after this phase (e.g. A0 INCONCLUSIVE -> A1 only, no A2/A3)")
     ap.add_argument("--accept-backbone", help="run with this backbone hash instead of EXPECTED_BACKBONE (recorded)")
     a = ap.parse_args()
     check_clean_source()
@@ -428,6 +446,17 @@ def main():
         best, rule, sc = select({n: p for n, p in p1.items() if n.startswith(arm + "_")})
         winners[arm] = (best, rule)
         summary["phases"].setdefault("A1", {})[arm] = {"best": best, "rule": rule, "scores": sc}
+    if a.only == "A1":
+        summary["only"] = "A1"
+        summary["hours"] = round((time.time() - t0) / 3600, 2)
+        spath.write_text(json.dumps(summary, indent=1, default=str))
+        print("STAGE A1 DONE (--only A1: Phases A2/A3 not run)", json.dumps(
+            {"hours": summary["hours"], "winners": {arm: summary["phases"]["A1"][arm]["best"] for arm in ("T", "S", "L")},
+             "scores": {n: {k: s[k] for k in ("acquisition", "margin_last", "fc_last", "recall_last", "band", "ppl_ratio")}
+                        for arm in ("T", "S", "L") for n, s in summary["phases"]["A1"][arm]["scores"].items()}},
+            default=str), flush=True)
+        finish(OUT, spath, a.stop_pod)
+        return
     tl = json.loads(p1[winners["T"][0]].read_text())["config"]["layer"] if winners["T"][0] else 14
     sl_ = json.loads(p1[winners["S"][0]].read_text())["config"]["layer"] if winners["S"][0] else 14
     a2 = [("T", {"layer": tl, "lr": lr, "night_passes": n}) for lr in (1e-2, 3e-2) for n in (2, 4)] + \

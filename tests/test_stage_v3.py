@@ -244,3 +244,36 @@ def test_a0_metrics_fail_closed(tmp_path, label, mutate):
     names = [m.job_name(a, c) for a, c in m.A1_CONFIGS]
     metrics = {n: m.a0_metrics(p) for n in names}                           # every config would otherwise be GO
     assert m.a0_verdict(metrics, [0, 1])[0] == "INCONCLUSIVE", label
+
+
+# ------------------------------------------------------------------- R6: --only A1, pod id from the container env
+def test_only_a1_runs_phase1_alone(tmp_path, monkeypatch, capsys):
+    m = load(tmp_path)
+    calls = []
+
+    def fake_run(jobs, parallel, lives, seeds, out_dir, backbone=None):
+        calls.append([m.job_name(a, c) for a, c in jobs])
+        out_dir.mkdir(parents=True, exist_ok=True)
+        paths = {}
+        for arm, cfg in jobs:
+            p = out_dir / f"{m.job_name(arm, cfg)}.json"
+            p.write_text(json.dumps(fake_result(arm, cfg, 8, 2, 0.0)))
+            paths[m.job_name(arm, cfg)] = p
+        return paths, {}
+    monkeypatch.setattr(m, "run_jobs", fake_run)
+    monkeypatch.setattr(m, "check_clean_source", lambda: None)
+    monkeypatch.setattr(m, "preflight_backbone", lambda accept=None: m.EXPECTED_BACKBONE)
+    monkeypatch.setattr(sys, "argv", ["stage_v3.py", "A", "--only", "A1"])
+    m.main()
+    s = json.loads((tmp_path / "results/dev3/stageA2_summary.json").read_text())
+    assert len(calls) == 1 and len(calls[0]) == 10                           # only the ten A1 configs were run
+    assert set(s["phases"]) == {"A1"} and s["only"] == "A1" and "frozen_for_stage_B" not in s
+    assert "STAGE A1 DONE" in capsys.readouterr().out
+
+
+def test_runpod_pod_id(tmp_path, monkeypatch):
+    m = load(tmp_path)
+    monkeypatch.setenv("RUNPOD_POD_ID", "abc123")
+    assert m.runpod_pod_id() == "abc123"
+    monkeypatch.delenv("RUNPOD_POD_ID")
+    assert m.runpod_pod_id() in (None, os.environ.get("RUNPOD_POD_ID"))       # here: not a RunPod container
