@@ -1,8 +1,10 @@
 """BIND-I1 frozen analysis (written before any I1 data exists; Claude + Sol, 2026-10-26; revised after Sol's review of
-b7c87a8, still before data). Read-only, CPU only. Four seeds, five lives: development evidence, not a sealed test.
+b7c87a8, still before data). Read-only, CPU only. Four seeds, five lives: development evidence, not a sealed test. (V1/V5/reverse-direction rules corrected after Sol's
+audit of c99f066, still before data.)
 
 Validity gates (checked first):
-  V1 status complete for all four seeds; identical commit, config and backbone; backbone unchanged.
+  V1 exactly seeds {2,3,4,5}, each once, status complete; identical commit and config, config = the approved L
+     settings; backbone = the locked Qwen3-0.6B hash and unchanged; tokenizer-prefix preflight clean.
   V2 branch integrity: identical step counts AND identical background/teacher text sequences per life across S/X/U,
      identical RNG end state.                                                  (V1 or V2 fail -> INVALID)
   V3 target acquisition: at checkpoint 1, >= 3 of 4 targets win forced choice, in >= 3 of 4 seeds.   (fail -> INVALID)
@@ -12,7 +14,8 @@ Validity gates (checked first):
   V4 treatment uptake per condition, at checkpoint 2, under the attribute it was taught with, over the same pool
      (named values + neutrals): >= 3 of 4 correct, in >= 3 of 4 seeds. Any failing condition makes every contrast
      involving it INCONCLUSIVE DUE TO INADEQUATE TREATMENT UPTAKE.
-  V5 competence: eval/modern loss ratio vs base, mean <= 1.02 and max <= 1.05 over all checkpoints; reported on the verdict.
+  V5 competence: perplexity ratio exp(L - L_base), each monitor (eval, modern) separately at every checkpoint
+     (cp1; S/X/U at 2, 3, 5): mean over seeds <= 1.02 and every seed <= 1.05; missing/non-finite fails. On the verdict.
 
 Primary outcome per target i: dDA = D_A(5) - D_A(1), D_A = l(V|A) - l(W|A). Per seed: mean over the 4 targets
 (correlated measurements, not replications). Effects: E(S-X), E(S-U), E(X-U) = mean over seeds of per-seed differences.
@@ -22,7 +25,7 @@ Interpretation (frozen, first match):
   1 S robust-worse than X and than U                       -> same-attribute interference supported
   2 S and X robust-worse than U, and S-X small             -> value-exposure mechanism compatible; attribute specificity
                                                               unresolved
-  3 no pairwise robust-worse difference                     -> no differential effect established; called general drift
+  3 no robust difference in EITHER direction for any pair  -> no differential effect established; called general drift
                                                               ONLY if U's own dDA is robust-worse than 0 (mean <= -2,
                                                               negative in >= 3/4 seeds)
   4 otherwise                                               -> mixed / unclassified
@@ -36,12 +39,18 @@ checkpoints 2 and 3; competence.
 Writes results/dev3/bind_i1_analysis.json and prints the tables.
 """
 import json
+import math
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = ("S", "X", "U")
 WORSE, MIN_SEEDS = -2.0, 3
+EXPECTED_SEEDS = {2, 3, 4, 5}
+EXPECTED_CONFIG = {"arm": "L", "lr": 1e-4, "kl_weight": 1.0, "night_passes": 4}
+EXPECTED_BACKBONE = "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0"
+MONITORS = ("eval", "modern")
+REQUIRED_CPS = ["cp1"] + [f"{c}{L}" for c in CONDITIONS for L in (2, 3, 5)]
 
 
 def mean(v):
@@ -111,7 +120,14 @@ def per_seed(res):
     for cond in CONDITIONS:
         for L in (2, 3, 5):
             comp[f"{cond}{L}"] = cp(res, cond, L).get("ppl_loss") or {}
-    out["competence"] = {k: {m: round(v / res["base_ppl_loss"][m], 4) for m, v in x.items()} for k, x in comp.items()}
+    # perplexity ratio exp(L_checkpoint - L_base), as in the Gate v3 band (scripts/stage_v3.py); None if unusable
+    def ratio(x, m):
+        try:
+            r = math.exp(x[m] - res["base_ppl_loss"][m])
+        except (KeyError, TypeError, OverflowError):
+            return None
+        return round(r, 5) if math.isfinite(r) and r > 0 else None
+    out["competence"] = {k: {m: ratio(x, m) for m in MONITORS} for k, x in comp.items()}
     return out
 
 
@@ -124,24 +140,39 @@ def robust(diffs):
 
 
 def effect(seeds, a, b):
-    return robust([s["conditions"][a]["dDA"] - s["conditions"][b]["dDA"] for s in seeds.values()])
+    d = [s["conditions"][a]["dDA"] - s["conditions"][b]["dDA"] for s in seeds.values()]
+    out = robust(d)
+    out["robust_reverse"] = robust([-x for x in d])["robust_worse"]     # b robust-worse than a
+    return out
 
 
 def validity(results, seeds):
     v = {}
-    v["V1"] = (len(results) == 4 and all(r.get("status") == "complete" for r in results)
+    ids = [r.get("seed") for r in results]
+    v["V1"] = (len(results) == 4 and sorted(ids) == sorted(EXPECTED_SEEDS) and len(set(ids)) == 4
+               and all(r.get("status") == "complete" for r in results)
                and len({r["commit"] for r in results}) == 1
                and len({json.dumps(r["config"], sort_keys=True) for r in results}) == 1
-               and all(r["backbone_start"] == r["backbone_end"] == r["backbone_sha256"] for r in results)
-               and len({r["backbone_sha256"] for r in results}) == 1)
+               and all(r["config"].get(k) == x for r in results for k, x in EXPECTED_CONFIG.items())
+               and all(r["backbone_start"] == r["backbone_end"] == r["backbone_sha256"] == EXPECTED_BACKBONE
+                       for r in results)
+               and all(r.get("prefix_check", {}).get("fails", 1) == 0 for r in results))
     v["V2"] = all(len({json.dumps(t, sort_keys=True) for t in r["traces"].values()}) == 1
                   and len(set(r["rng_after"].values())) == 1 for r in results)
     v["V3"] = sum(s["acq_cp1"] >= 3 for s in seeds.values()) >= MIN_SEEDS
     v["V3b"] = sum(s["binding_cp1"] >= 3 for s in seeds.values()) >= MIN_SEEDS
     v["V4"] = {c: sum(s["conditions"][c]["treat_fc"][2] >= 3 for s in seeds.values()) >= MIN_SEEDS for c in CONDITIONS}
-    flat = [x for s in seeds.values() for k in s["competence"].values() for x in k.values()]
-    v["V5"] = bool(flat) and mean(flat) <= 1.02 and max(flat) <= 1.05
-    v["V5_detail"] = {"mean": mean(flat), "max": max(flat) if flat else None}
+    # per monitor, at every required checkpoint: mean over seeds <= 1.02 and every seed <= 1.05; fails closed
+    detail, ok = {}, len(seeds) == 4
+    for m in MONITORS:
+        for k in REQUIRED_CPS:
+            xs = [s["competence"].get(k, {}).get(m) for s in seeds.values()]
+            good = len(xs) == 4 and all(x is not None for x in xs)
+            mm, mx = (sum(xs) / 4, max(xs)) if good else (None, None)
+            detail[f"{m}|{k}"] = {"mean": None if mm is None else round(mm, 5), "max": mx}
+            ok = ok and good and mm <= 1.02 and mx <= 1.05
+    v["V5"] = ok
+    v["V5_detail"] = detail
     return v
 
 
@@ -157,7 +188,7 @@ def interpret(eff, seeds, v):
             out = "1 same-attribute interference supported"
         elif su["robust_worse"] and xu["robust_worse"] and sx["small"]:
             out = "2 value-exposure mechanism compatible; attribute specificity unresolved"
-        elif not (sx["robust_worse"] or su["robust_worse"] or xu["robust_worse"]):
+        elif not any(e["robust_worse"] or e["robust_reverse"] for e in (sx, su, xu)):
             u = robust([s["conditions"]["U"]["dDA"] for s in seeds.values()])
             out = ("3 no differential effect established; general drift (U itself declines)" if u["robust_worse"]
                    else "3 no differential effect established; no detectable impairment in U")
@@ -172,6 +203,8 @@ def interpret(eff, seeds, v):
 def main():
     paths = [Path(a) for a in sys.argv[1:]] or sorted((ROOT / "results/dev3/bind_i1").glob("seed*.json"))
     results = sorted((json.loads(p.read_text()) for p in paths), key=lambda r: r["seed"])
+    if len({r["seed"] for r in results}) != len(results):
+        sys.exit("duplicate seeds in the inputs - refusing to analyse")
     seeds = {r["seed"]: per_seed(r) for r in results if r.get("status") == "complete"}
     if not seeds:
         print("no complete results")

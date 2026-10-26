@@ -60,13 +60,15 @@ def fake_result(seed, dDA, treat_ok=True, acq=4, bind=4):
                 "margin_best": min(DA, 7.0),
                 "counter": {"fc": bound, "lZ_C": -4.0 if bound else -9.0, "lV_C": -8.0},
                 "lV_B": -15.0, "lZ_B": -15.0, "lW_B": -4.0, "lU_B": -20.0, "treat": {c: tr for c in "SXU"}}
-    cp1 = {"after_life": 1, "targets": [row(i, 10.0, fc=i < acq, bound=i < bind) for i in range(4)],
-           "ppl_loss": {"eval": 3.0}}
+    pl = {"eval": 3.0, "modern": 4.0}
+    cp1 = {"after_life": 1, "targets": [row(i, 10.0, fc=i < acq, bound=i < bind) for i in range(4)], "ppl_loss": pl}
     conds = {c: [{"after_life": L, "targets": [row(i, 10.0 + d * (L - 1) / 4, treat_ok=treat_ok) for i in range(4)],
-                  "ppl_loss": {"eval": 3.0}} for L in (2, 3, 5)] for c, d in dDA.items()}
+                  "ppl_loss": dict(pl)} for L in (2, 3, 5)] for c, d in dDA.items()}
     tr = [{"steps": 400, "bg_teacher_sha256": "x"}] * 4
-    return {"seed": seed, "status": "complete", "commit": "c", "config": {"arm": "L"}, "backbone_sha256": "h",
-            "backbone_start": "h", "backbone_end": "h", "base_ppl_loss": {"eval": 3.0},
+    h = an.EXPECTED_BACKBONE
+    return {"seed": seed, "status": "complete", "commit": "c", "prefix_check": {"n": 1400, "fails": 0},
+            "config": {"arm": "L", "lr": 1e-4, "kl_weight": 1.0, "night_passes": 4, "rehearsal": 1},
+            "backbone_sha256": h, "backbone_start": h, "backbone_end": h, "base_ppl_loss": dict(pl),
             "wiped": {"targets": [row(i, -1.0) for i in range(4)]}, "checkpoint1": cp1, "conditions": conds,
             "traces": {c: copy.deepcopy(tr) for c in "SXU"}, "rng_after": {c: "r" for c in "SXU"}}
 
@@ -117,3 +119,47 @@ def test_gates():
     rs = [fake_result(s, {"S": -10, "X": -1, "U": 0}) for s in SEEDS]
     rs[0]["traces"]["X"][1] = {"steps": 400, "bg_teacher_sha256": "different"}
     assert run_analysis(rs)[0].startswith("INVALID")
+
+
+def test_reverse_direction_is_a_difference():
+    # Sol: S 0, X -10, U -20 in every seed -> all three conditions differ; must not read as "no differential effect"
+    interp, eff, _, _ = run_analysis([fake_result(s, {"S": 0, "X": -10, "U": -20}) for s in SEEDS])
+    assert eff["S-X"]["robust_reverse"] and eff["X-U"]["robust_reverse"] and not eff["S-X"]["robust_worse"]
+    assert interp.startswith("4 ")
+
+
+def test_v1_identity_and_v5_perplexity():
+    base = [fake_result(s, {"S": -12, "X": -1, "U": 0}) for s in SEEDS]
+    dup = base[:3] + [fake_result(2, {"S": -12, "X": -1, "U": 0})]            # duplicated seed
+    seeds = {r["seed"]: an.per_seed(r) for r in dup}
+    assert not an.validity(dup, seeds)["V1"]
+    wrong = copy.deepcopy(base)
+    for r in wrong:
+        r["config"]["lr"] = 3e-4
+    assert run_analysis(wrong)[0].startswith("INVALID")
+    # loss 3.00 -> 3.12 is a loss ratio of 1.04 but a perplexity ratio of ~1.127: must fail V5
+    hot = copy.deepcopy(base)
+    hot[0]["conditions"]["S"][2]["ppl_loss"]["eval"] = 3.12
+    interp, _, v, seeds = run_analysis(hot)
+    assert not v["V5"] and "COMPETENCE BAND EXCEEDED" in interp
+    assert abs(seeds[2]["competence"]["S5"]["eval"] - 1.1275) < 1e-3
+    # a missing monitor fails closed
+    miss = copy.deepcopy(base)
+    del miss[1]["checkpoint1"]["ppl_loss"]["modern"]
+    assert not run_analysis(miss)[2]["V5"]
+
+
+def test_prefix_check_flags_failures():
+    st = i1.build_stream(2, lg, None)
+
+    class Tok:                                                       # word-level: prefix always holds
+        def __call__(self, t):
+            return type("E", (), {"input_ids": t.split(" ")})()
+    pc = i1.prefix_check(st, lg, Tok())
+    assert pc["fails"] == 0 and pc["n"] == i1.N_TARGETS * 6 * i1.N_POOL
+
+    class Merge(Tok):                                                # merges the last prompt word with the answer
+        def __call__(self, t):
+            w = t.split(" ")
+            return type("E", (), {"input_ids": w[:-2] + [w[-2] + w[-1]] if len(w) > 1 else w})()
+    assert i1.prefix_check(st, lg, Merge())["fails"] > 0

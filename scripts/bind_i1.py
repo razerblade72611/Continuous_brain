@@ -161,6 +161,31 @@ def check_stream(st, lifegen):
     return True
 
 
+def probe_prompts(st, lifegen):
+    """Every (target index, role, prompt) the runner scores against target i's pool."""
+    out = []
+    for i in range(N_TARGETS):
+        out.append((i, "A", lifegen.probes_for(st["targets"][i])["template"]))
+        out.append((i, "C", lifegen.probes_for(st["counters"][i])["template"]))
+        out.append((i, "B_under_T", lifegen.probes_for(st["treatment"]["S"][i])["template"]))
+        for c in CONDITIONS:
+            out.append((i, f"treat_{c}", lifegen.probes_for(st["treatment"][c][i])["template"]))
+    return out
+
+
+def prefix_check(st, lifegen, tok):
+    """Tokenizer-only check of the scorer's assumption (as in BIND-D1): the standalone prompt ids are an exact prefix
+    of prompt + " " + candidate, for every probe prompt and every pool candidate. Flags, never repairs."""
+    fails, n = [], 0
+    for i, role, p in probe_prompts(st, lifegen):
+        pid = tok(p).input_ids
+        for c in st["design"]["pool"][i]:
+            n += 1
+            if tok(p + " " + c).input_ids[:len(pid)] != pid:
+                fails.append({"i": i, "role": role, "cand": c})
+    return {"n": n, "fails": len(fails), "failures": fails}
+
+
 def treat_index(cond):
     return NAMED.index("U" if cond == "U" else "W")
 
@@ -179,10 +204,23 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, required=True)
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--out")
+    ap.add_argument("--preflight", action="store_true", help="tokenizer-prefix check only; exit 1 on any failure")
     a = ap.parse_args()
     if a.seed not in SEEDS:
         sys.exit("BIND-I1 uses dev seeds 2-5 only")
+    if a.preflight:
+        from transformers import AutoTokenizer
+        from being.v3.core import QWEN
+        tok = AutoTokenizer.from_pretrained(QWEN)                # tokenizer only, no model
+        st = build_stream(a.seed, lifegen, lambda w: len(tok(" " + w).input_ids))
+        check_stream(st, lifegen)
+        pc = prefix_check(st, lifegen, tok)
+        print(f"BIND-I1 PREFLIGHT seed {a.seed}: {pc['n']} prompt/candidate pairs, prefix failures {pc['fails']}",
+              json.dumps(pc["failures"][:5]))
+        sys.exit(1 if pc["fails"] else 0)
+    if not a.out:
+        sys.exit("--out is required")
     out = ROOT / a.out
     if out.exists():
         sys.exit(f"{out} exists; results are never overwritten")
@@ -192,12 +230,13 @@ def main():
     ntok = lambda w: len(tok(" " + w).input_ids)
     st = build_stream(a.seed, lifegen, ntok)
     check_stream(st, lifegen)
+    pc = prefix_check(st, lifegen, tok)
     cfg = V3Config(arm="L", **CFG)
     comp = {k: load_sentences(k) for k in ("eval", "modern")}
     base = {k: mean_loss(model, tok, v) for k, v in comp.items()}
     d = st["design"]
     res = {"which": "BIND-I1", "commit": commit, "config": asdict(cfg), "seed": a.seed,
-           "backbone_sha256": backbone_hash(model), "base_ppl_loss": base, "design": d,
+           "backbone_sha256": backbone_hash(model), "base_ppl_loss": base, "design": d, "prefix_check": pc,
            "streams": {c: [[asdict(f) for f in life] for life in st["lives"][c]] for c in CONDITIONS},
            "train_tokens": {c: [sum(len(tok(t).input_ids) for f in life for t in f.train_texts)
                                 for life in st["lives"][c]] for c in CONDITIONS},

@@ -8,6 +8,9 @@ if [ -e bind_i1.log ]; then echo "STOP: bind_i1.log exists - not relaunching bli
 if [ -n "$(git status --porcelain --untracked-files=no -- being scripts/run_v3_dev.py scripts/bind_i1.py scripts/bind_i1_analyze.py)" ]; then
   echo "STOP: uncommitted changes to experiment source"; exit 1; fi
 echo "commit: $(git log --oneline -1)"
+for s in 2 3 4 5; do                                             # tokenizer-only scorer preflight (Sol); no GPU work
+  .venv/bin/python scripts/bind_i1.py --seed $s --preflight || { echo "STOP: tokenizer-prefix preflight failed (seed $s)"; exit 1; }
+done
 mkdir -p results/dev3/bind_i1
 nohup bash -c '
   set -o pipefail
