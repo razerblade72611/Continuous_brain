@@ -5,7 +5,9 @@ Designed by Claude after BIND-D1. Sol reviewed b7c87a8 and required pre-data rev
 - **V5 used loss ratios:** now the perplexity ratio exp(L − L_base), per monitor, failing closed. This was Claude's bug.
 - **Interpretation 3 ignored reverse-direction differences:** now both directions are checked.
 - **V1 now pins the run identity:** exact seed set, approved config and locked backbone.
-- **Tokenizer-prefix preflight:** runs before any GPU work. This file records the protocol. The frozen code is authoritative: `scripts/bind_i1.py` (runner) and
+- **Tokenizer-prefix preflight:** runs before any GPU work.
+
+This file records the protocol. The frozen code is authoritative: `scripts/bind_i1.py` (runner) and
 `scripts/bind_i1_analyze.py` (decision rules). Tests: `tests/test_bind_i1.py` (unit) and `tests/smoke_bind_i1_stubbed.py`
 (stubbed end to end).
 
