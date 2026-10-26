@@ -38,6 +38,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results/dev3/stageA2"
+OUT_A1_RUN2 = ROOT / "results/dev3/stageA2_A1run2"   # --only A1 after A0 (separate lineage from the lost stageA2 run)
 
 
 def job_name(arm, cfg):
@@ -437,10 +438,14 @@ def main():
     summary = {"stage": "A", "lives": a.lives, "seeds": a.seeds, "phases": {}, "backbone": a.backbone,
                "backbone_accepted_explicitly": bool(a.accept_backbone)}
     spath = ROOT / "results/dev3/stageA2_summary.json"
+    out = OUT
+    if a.only == "A1":
+        out, spath = OUT_A1_RUN2, ROOT / "results/dev3/stageA2_A1run2_summary.json"
+        summary["lineage"] = "A2 Phase 1 rerun after A0 INCONCLUSIVE; separate from the original stageA2 (CA-MTL-3) run"
 
     a1 = A1_CONFIGS   # L first: slowest
-    p1, f1 = run_jobs(a1, a.parallel, a.lives, a.seeds, OUT, a.backbone)
-    abort_on_failures(f1, "A1", spath, summary, a.stop_pod, OUT)
+    p1, f1 = run_jobs(a1, a.parallel, a.lives, a.seeds, out, a.backbone)
+    abort_on_failures(f1, "A1", spath, summary, a.stop_pod, out)
     winners = {}
     for arm in ("T", "S", "L"):
         best, rule, sc = select({n: p for n, p in p1.items() if n.startswith(arm + "_")})
@@ -455,7 +460,7 @@ def main():
              "scores": {n: {k: s[k] for k in ("acquisition", "margin_last", "fc_last", "recall_last", "band", "ppl_ratio")}
                         for arm in ("T", "S", "L") for n, s in summary["phases"]["A1"][arm]["scores"].items()}},
             default=str), flush=True)
-        finish(OUT, spath, a.stop_pod)
+        finish(out, spath, a.stop_pod)
         return
     tl = json.loads(p1[winners["T"][0]].read_text())["config"]["layer"] if winners["T"][0] else 14
     sl_ = json.loads(p1[winners["S"][0]].read_text())["config"]["layer"] if winners["S"][0] else 14

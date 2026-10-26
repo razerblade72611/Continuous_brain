@@ -247,8 +247,10 @@ def test_a0_metrics_fail_closed(tmp_path, label, mutate):
 
 
 # ------------------------------------------------------------------- R6: --only A1, pod id from the container env
-def test_only_a1_runs_phase1_alone(tmp_path, monkeypatch, capsys):
+@pytest.mark.parametrize("acq,margin", [(8, 2), (0, -5)])     # a good and a poor Phase 1: never continues to A2/A3
+def test_only_a1_runs_phase1_alone(tmp_path, monkeypatch, capsys, acq, margin):
     m = load(tmp_path)
+    m.OUT_A1_RUN2 = tmp_path / "results/dev3/stageA2_A1run2"
     calls = []
 
     def fake_run(jobs, parallel, lives, seeds, out_dir, backbone=None):
@@ -257,7 +259,7 @@ def test_only_a1_runs_phase1_alone(tmp_path, monkeypatch, capsys):
         paths = {}
         for arm, cfg in jobs:
             p = out_dir / f"{m.job_name(arm, cfg)}.json"
-            p.write_text(json.dumps(fake_result(arm, cfg, 8, 2, 0.0)))
+            p.write_text(json.dumps(fake_result(arm, cfg, acq, margin, 0.0)))
             paths[m.job_name(arm, cfg)] = p
         return paths, {}
     monkeypatch.setattr(m, "run_jobs", fake_run)
@@ -265,8 +267,10 @@ def test_only_a1_runs_phase1_alone(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(m, "preflight_backbone", lambda accept=None: m.EXPECTED_BACKBONE)
     monkeypatch.setattr(sys, "argv", ["stage_v3.py", "A", "--only", "A1"])
     m.main()
-    s = json.loads((tmp_path / "results/dev3/stageA2_summary.json").read_text())
+    s = json.loads((tmp_path / "results/dev3/stageA2_A1run2_summary.json").read_text())
+    assert not (tmp_path / "results/dev3/stageA2_summary.json").exists()    # separate lineage from the original run
     assert len(calls) == 1 and len(calls[0]) == 10                           # only the ten A1 configs were run
+    assert calls[0] == [m.job_name(a, c) for a, c in m.A1_CONFIGS]
     assert set(s["phases"]) == {"A1"} and s["only"] == "A1" and "frozen_for_stage_B" not in s
     assert "STAGE A1 DONE" in capsys.readouterr().out
 
