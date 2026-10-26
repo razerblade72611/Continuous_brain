@@ -9,7 +9,10 @@ Runner repairs (Claude + Sol, 2026-10-25, after the A2 OOM / lost-pod incident; 
   R2 a "complete" result is reused only if it matches this run: lives, seeds, config, backbone hash, and experiment
      source unchanged since the result's commit; otherwise it is set aside as .mismatch.<ts>.json (never overwritten)
   R3 a retried job's previous log is kept as .log.<ts> instead of being overwritten
-  R4 --stop-pod stops the pod only after the result bundle is checksummed and verified to be on a network volume
+  R4 --stop-pod stops the pod only if results, archive and checksum are all on the identified network-volume mount
+     (CB_PERSIST_DIR, default /workspace) and the archive re-reads with the same checksum
+  R5 preflight: refuse to run on uncommitted experiment source or a backbone whose hash is not the locked one;
+     after the first worker failure no new workers are started
 
 Plan (revised after the first Stage A, Claude-Grok amendments A-F on DAV-105; results go to results/dev3/stageA2):
   A1  L (AdamW, clip 1, KL every step): lr {1e-4,3e-4} x KL {0.3,1}   T: layer {7,14,21} (lr 1e-2, night 4)
@@ -41,6 +44,10 @@ def job_name(arm, cfg):
 
 
 EXPERIMENT_SOURCES = ["being", "scripts/run_v3_dev.py"]   # what a reusable result must have been produced by
+# Qwen3-0.6B backbone hash used by every Gate v3 result so far (first Stage A, smoke runs). A run whose backbone differs
+# is stopped by the preflight check unless --accept-backbone <hash> is given explicitly (and recorded in the summary).
+EXPECTED_BACKBONE = "c75424fb5370f0d514a05d7c640e6c2e1e4b504564e4d48cb2ddedb71609e0a0"
+PERSIST_DIR = Path(os.environ.get("CB_PERSIST_DIR", "/workspace"))   # the pod's network-volume mount
 
 
 def _norm(v):
@@ -61,7 +68,7 @@ def _source_unchanged_since(commit):
     return r.returncode == 0
 
 
-def result_problem(p, cfg, lives, seeds, backbone=None):
+def result_problem(p, arm, cfg, lives, seeds, backbone):
     """None if the result file is a complete, correctly bound result for this job; else a reason string."""
     try:
         d = json.loads(p.read_text())
@@ -69,6 +76,8 @@ def result_problem(p, cfg, lives, seeds, backbone=None):
         return f"unreadable ({type(e).__name__})"
     if d.get("status") != "complete":
         return f"status {d.get('status')}"
+    if d.get("config", {}).get("arm") != arm:
+        return f"arm {d.get('config', {}).get('arm')} != {arm}"
     if d.get("lives") != lives:
         return f"lives {d.get('lives')} != {lives}"
     got_seeds = sorted(r.get("probe_seed") for r in d.get("per_seed", []))
@@ -77,8 +86,8 @@ def result_problem(p, cfg, lives, seeds, backbone=None):
     for k, v in cfg.items():
         if _norm(d.get("config", {}).get(k)) != _norm(v):
             return f"config {k}={d.get('config', {}).get(k)} != {v}"
-    if backbone and d.get("backbone_sha256") != backbone:
-        return "backbone hash differs"
+    if d.get("backbone_sha256") != backbone:
+        return f"backbone {str(d.get('backbone_sha256'))[:12]} != expected {backbone[:12]}"
     for r in d.get("per_seed", []):
         if r.get("backbone_start") != r.get("backbone_end"):
             return "backbone changed during the run"
@@ -87,12 +96,12 @@ def result_problem(p, cfg, lives, seeds, backbone=None):
     return None
 
 
-def run_jobs(jobs, parallel, lives, seeds, out_dir):
+def run_jobs(jobs, parallel, lives, seeds, out_dir, backbone=EXPECTED_BACKBONE):
     """jobs: list of (arm, cfg dict). Runs those without a valid complete result.
     Returns ({name: path}, {name: failure reason}) -- callers must not score anything if failures is non-empty."""
     out_dir.mkdir(parents=True, exist_ok=True)
     pending, running, paths, failures = list(jobs), [], {}, {}
-    cfgs = {job_name(arm, cfg): cfg for arm, cfg in jobs}
+    cfgs = {job_name(arm, cfg): (arm, cfg) for arm, cfg in jobs}
     for arm, cfg in jobs:
         paths[job_name(arm, cfg)] = out_dir / f"{job_name(arm, cfg)}.json"
     while pending or running:
@@ -100,7 +109,7 @@ def run_jobs(jobs, parallel, lives, seeds, out_dir):
             arm, cfg = pending.pop(0)
             p = paths[job_name(arm, cfg)]
             if p.exists():
-                why = result_problem(p, cfg, lives, seeds)
+                why = result_problem(p, arm, cfg, lives, seeds, backbone)
                 if why is None:
                     print(time.strftime("%H:%M:%S"), "reuse", p.name, flush=True)
                     continue
@@ -128,10 +137,16 @@ def run_jobs(jobs, parallel, lives, seeds, out_dir):
                 elif not p.exists():
                     failures[name] = "exited 0 but wrote no result"
                 else:
-                    why = result_problem(p, cfgs[name], lives, seeds)
+                    why = result_problem(p, *cfgs[name], lives, seeds, backbone)
                     if why:
                         failures[name] = why
-        time.sleep(5)
+        if failures and pending:   # fail fast: do not launch more work into a broken environment (e.g. OOM)
+            for arm, cfg in pending:
+                failures[job_name(arm, cfg)] = "not started (stage stopping after an earlier failure)"
+            pending = []
+            print(time.strftime("%H:%M:%S"), "a job failed -- no new jobs will be started", flush=True)
+        if pending or running:
+            time.sleep(5)
     return paths, failures
 
 
@@ -139,6 +154,7 @@ def abort_on_failures(failures, phase, summary_path, summary, stop_pod, bundle_d
     if not failures:
         return
     summary["failed"] = {"phase": phase, "jobs": failures}
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(summary, indent=1, default=str))
     print(f"STAGE STOPPED in {phase}: {len(failures)} job(s) failed -- nothing was scored.", flush=True)
     for n, why in failures.items():
@@ -147,25 +163,60 @@ def abort_on_failures(failures, phase, summary_path, summary, stop_pod, bundle_d
     sys.exit(2)
 
 
+def _mount_of(path):
+    """(mount point, source, fs type) of the filesystem holding `path`, from /proc/self/mountinfo."""
+    path = Path(path).resolve()
+    best = ("", "", "")
+    try:
+        for line in Path("/proc/self/mountinfo").read_text().splitlines():
+            left, right = line.split(" - ", 1)
+            mnt = left.split()[4]
+            fstype, source = right.split()[:2]
+            if (str(path) == mnt or str(path).startswith(mnt.rstrip("/") + "/")) and len(mnt) >= len(best[0]):
+                best = (mnt, source, fstype)
+    except OSError:
+        pass
+    return best
+
+
+def persistent_ok(paths, persist_dir=None):
+    """True only if every path lies under persist_dir and persist_dir is its own network-filesystem mount."""
+    persist_dir = Path(persist_dir or PERSIST_DIR).resolve()
+    mnt, source, fstype = _mount_of(persist_dir)
+    network = fstype.startswith("fuse") or fstype in ("nfs", "nfs4", "ceph", "cifs", "smb3")
+    is_mount = mnt == str(persist_dir)
+    inside = all(str(Path(x).resolve()).startswith(str(persist_dir) + "/") for x in paths)
+    same = all(_mount_of(x)[0] == mnt for x in paths)
+    return (network and is_mount and inside and same), {"persist_dir": str(persist_dir), "mount": mnt, "source": source,
+                                                       "fstype": fstype}
+
+
 def finish(bundle_dir, summary_path, stop_pod):
-    """Bundle + checksum the results; stop the pod only if the results are verifiably on a network volume (R4)."""
+    """Bundle + checksum the results. --stop-pod is honoured only if the results, the archive and its checksum are all
+    on the pod's identified network-volume mount (PERSIST_DIR) and the archive re-reads with the same checksum (R4)."""
     import hashlib
+    bundle_dir.mkdir(parents=True, exist_ok=True)
     tar = ROOT / f"results_{bundle_dir.name}.tar.gz"
     rel = [str(bundle_dir.relative_to(ROOT))] + ([str(summary_path.relative_to(ROOT))] if summary_path.exists() else [])
     subprocess.run(["tar", "czf", str(tar), "-C", str(ROOT)] + rel, check=True)
+    with open(tar, "rb") as fh:
+        os.fsync(fh.fileno())
     digest = hashlib.sha256(tar.read_bytes()).hexdigest()
-    (tar.parent / (tar.name + ".sha256")).write_text(f"{digest}  {tar.name}\n")
+    side = tar.parent / (tar.name + ".sha256")
+    side.write_text(f"{digest}  {tar.name}\n")
+    reread = hashlib.sha256(Path(tar).read_bytes()).hexdigest()
     listed = subprocess.run(["tar", "tzf", str(tar)], capture_output=True, text=True)
-    fs = subprocess.run(["stat", "-f", "-c", "%T", str(bundle_dir)], capture_output=True, text=True).stdout.strip()
-    on_network = fs.startswith("fuse") or fs in ("nfs", "nfs4", "ceph", "cifs", "smb2")
-    ok = listed.returncode == 0 and on_network
-    print(f"BUNDLE {tar.name} sha256={digest} files={len(listed.stdout.splitlines())} fs={fs} "
-          f"network_volume={on_network}", flush=True)
+    persisted, where = persistent_ok([bundle_dir, tar, side] + ([summary_path] if summary_path.exists() else []))
+    ok = listed.returncode == 0 and reread == digest and persisted
+    print(f"BUNDLE {tar} sha256={digest} files={len(listed.stdout.splitlines())} reread_ok={reread == digest} "
+          f"persistent={persisted} {json.dumps(where)}", flush=True)
     if stop_pod and os.environ.get("RUNPOD_POD_ID"):
         if ok:
             subprocess.run(["runpodctl", "stop", "pod", os.environ["RUNPOD_POD_ID"]])
         else:
-            print("NOT stopping the pod: results are not verified on a network volume. Copy them off first.", flush=True)
+            print("NOT stopping the pod: results/archive not verified on the network volume. Copy them off first.",
+                  flush=True)
+    return ok
 
 
 def score(path):
@@ -285,8 +336,8 @@ def stage_a0(a):
     t0 = time.time()
     spath = ROOT / "results/dev3/stageA2_A0_summary.json"
     summary = {"stage": "A0", "protocol": "A2-A0 early-retention triage, frozen 2026-10-25 (Claude + Sol)",
-               "lives": lives, "seeds": seeds}
-    paths, fails = run_jobs(A1_CONFIGS, a.parallel, lives, seeds, OUT_A0)
+               "lives": lives, "seeds": seeds, "backbone": a.backbone, "backbone_accepted_explicitly": bool(a.accept_backbone)}
+    paths, fails = run_jobs(A1_CONFIGS, a.parallel, lives, seeds, OUT_A0, a.backbone)
     abort_on_failures(fails, "A0", spath, summary, a.stop_pod, OUT_A0)
     metrics = {n: a0_metrics(p) for n, p in paths.items()}
     verdict, why = a0_verdict(metrics, [0, 1])
@@ -299,6 +350,27 @@ def stage_a0(a):
     finish(OUT_A0, spath, a.stop_pod)
 
 
+def check_clean_source():
+    dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no", "--"] + EXPERIMENT_SOURCES +
+                           ["scripts/stage_v3.py"], cwd=ROOT, capture_output=True, text=True)
+    if dirty.returncode != 0 or dirty.stdout.strip():
+        sys.exit("refusing to run: experiment source has uncommitted changes or this is not a git checkout\n"
+                 + dirty.stdout + dirty.stderr)
+
+
+def preflight_backbone(accept=None):
+    """Load the backbone once (CPU is fine) and compare its hash with the locked one before any GPU work is queued."""
+    code = ("import sys; sys.path.insert(0, %r); from being.v3.core import load_qwen, backbone_hash; "
+            "m, _ = load_qwen(device='cpu'); print(backbone_hash(m))" % str(ROOT))
+    r = subprocess.run([sys.executable, "-c", code], cwd=ROOT, capture_output=True, text=True)
+    got = r.stdout.strip().splitlines()[-1] if r.returncode == 0 and r.stdout.strip() else None
+    want = accept or EXPECTED_BACKBONE
+    if got != want:
+        sys.exit(f"refusing to run: backbone hash {got} != expected {want}\n{r.stderr[-800:]}")
+    print("BACKBONE OK", got, "(explicitly accepted)" if accept else "", flush=True)
+    return got
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("stage", choices=["A", "A0"])
@@ -306,20 +378,19 @@ def main():
     ap.add_argument("--lives", type=int, default=25)
     ap.add_argument("--seeds", default="0,1")
     ap.add_argument("--stop-pod", action="store_true")
+    ap.add_argument("--accept-backbone", help="run with this backbone hash instead of EXPECTED_BACKBONE (recorded)")
     a = ap.parse_args()
-    dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no", "--"] + EXPERIMENT_SOURCES + ["scripts/stage_v3.py"],
-                           cwd=ROOT, capture_output=True, text=True)
-    if dirty.returncode != 0 or dirty.stdout.strip():
-        sys.exit("refusing to run: experiment source has uncommitted changes or this is not a git checkout\n" + dirty.stdout
-                 + dirty.stderr)
+    check_clean_source()
+    a.backbone = preflight_backbone(a.accept_backbone)
     if a.stage == "A0":
         return stage_a0(a)
     t0 = time.time()
-    summary = {"stage": "A", "lives": a.lives, "seeds": a.seeds, "phases": {}}
+    summary = {"stage": "A", "lives": a.lives, "seeds": a.seeds, "phases": {}, "backbone": a.backbone,
+               "backbone_accepted_explicitly": bool(a.accept_backbone)}
     spath = ROOT / "results/dev3/stageA2_summary.json"
 
     a1 = A1_CONFIGS   # L first: slowest
-    p1, f1 = run_jobs(a1, a.parallel, a.lives, a.seeds, OUT)
+    p1, f1 = run_jobs(a1, a.parallel, a.lives, a.seeds, OUT, a.backbone)
     abort_on_failures(f1, "A1", spath, summary, a.stop_pod, OUT)
     winners = {}
     for arm in ("T", "S", "L"):
@@ -330,7 +401,7 @@ def main():
     sl_ = json.loads(p1[winners["S"][0]].read_text())["config"]["layer"] if winners["S"][0] else 14
     a2 = [("T", {"layer": tl, "lr": lr, "night_passes": n}) for lr in (1e-2, 3e-2) for n in (2, 4)] + \
          [("S", {"layer": sl_, "lr": lr, "top_t": t, "s_fit": "true", "night_passes": 4}) for lr in (100, 300) for t in (64, 256)]
-    p2, f2 = run_jobs(a2, a.parallel, a.lives, a.seeds, OUT)
+    p2, f2 = run_jobs(a2, a.parallel, a.lives, a.seeds, OUT, a.backbone)
     abort_on_failures(f2, "A2", spath, summary, a.stop_pod, OUT)
     final = {}
     for arm in ("T", "S"):
@@ -353,7 +424,7 @@ def main():
             if k in ("layer", "lr", "night_passes", "top_t")} if final["S"] else None
     if scfg:
         a3.append(("S", {**scfg, "s_fit": "false"}))
-    p3, f3 = run_jobs(a3, a.parallel, a.lives, a.seeds, OUT)
+    p3, f3 = run_jobs(a3, a.parallel, a.lives, a.seeds, OUT, a.backbone)
     abort_on_failures(f3, "A3", spath, summary, a.stop_pod, OUT)
     gbest, grule, gsc = select({n: p for n, p in p3.items() if n.startswith("G_")})
     final["G"] = gbest

@@ -2,7 +2,8 @@
 
 Runs N copies of scripts/bench_v3.py at the same time for each N in --levels, records each copy's per-arm seconds per
 training step, aggregate throughput, peak GPU memory (nvidia-smi, polled every second), failures, and wall time, and
-recommends the level with the lowest cost per training step that kept >= --reserve-gb of memory free.
+recommends the level with the lowest cost per training step that kept >= --reserve-gb of memory free. A level is
+ineligible if any copy failed or the memory monitor failed (fail closed); peak memory is sampled every 0.5 s.
 
   python scripts/bench_concurrency_v3.py --levels 1,3,6 --price 0.59 [--steps 30] [--reserve-gb 6]
 """
@@ -25,12 +26,17 @@ def gpu_mem():
 
 
 def run_level(n, steps):
-    peak, stop = [0], threading.Event()
+    peak, errors, samples, stop = [0], [], [0], threading.Event()
 
-    def poll():
+    def poll():   # fail closed: any monitoring error makes this level ineligible (sampled every 0.5 s: approximate peak)
         while not stop.is_set():
-            peak[0] = max(peak[0], gpu_mem()[0])
-            time.sleep(1)
+            try:
+                peak[0] = max(peak[0], gpu_mem()[0])
+                samples[0] += 1
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"{type(e).__name__}: {e}")
+                return
+            time.sleep(0.5)
     th = threading.Thread(target=poll, daemon=True)
     th.start()
     t0 = time.time()
@@ -54,6 +60,7 @@ def run_level(n, steps):
             mean = sum(ss) / len(ss)
             arms[arm] = {"step_s_mean": round(mean, 4), "agg_steps_per_s": round(len(ss) / mean, 2)}
     return {"n": n, "ok": len(ok), "failed": failed, "wall_s": round(wall, 1), "peak_mib": peak[0], "arms": arms,
+            "monitor_errors": errors, "monitor_samples": samples[0],
             "gpu": ok[0].get("gpu") if ok else None}
 
 
@@ -71,7 +78,8 @@ def main():
         r["free_at_peak_gb"] = round((total_mib - r["peak_mib"]) / 1024, 2)
         agg = [v["agg_steps_per_s"] for v in r["arms"].values()]
         r["usd_per_1k_steps"] = round(a.price / 3600 / (sum(agg) / len(agg)) * 1000, 4) if agg else None
-        r["eligible"] = not r["failed"] and r["ok"] == n and r["free_at_peak_gb"] >= a.reserve_gb
+        r["eligible"] = (not r["failed"] and r["ok"] == n and r["free_at_peak_gb"] >= a.reserve_gb
+                         and not r["monitor_errors"] and r["monitor_samples"] > 0 and r["peak_mib"] > 0)
         res["levels"].append(r)
         print(json.dumps(r), flush=True)
     good = [r for r in res["levels"] if r["eligible"] and r["usd_per_1k_steps"]]
