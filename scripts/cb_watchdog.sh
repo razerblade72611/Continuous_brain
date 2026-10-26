@@ -14,7 +14,7 @@ except Exception: print("GONE")')
 try: d=json.load(sys.stdin); print("IP=%s PORT=%s" % (d["ip"], d["port"]))
 except Exception: pass')"
   if [ -z "$done_at" ] && [ -n "$IP" ] && ssh -o ConnectTimeout=10 -i "$KEY" -p "$PORT" "root@$IP" \
-       "grep -qE 'STAGE A1 DONE|STAGE A DONE|A0 VERDICT|STAGE STOPPED' /workspace/Continuous_brain/$LOG 2>/dev/null"; then
+       "grep -qE 'STAGE A1 DONE|STAGE A DONE|A0 VERDICT|STAGE STOPPED|BIND-D1 ALL DONE' /workspace/Continuous_brain/$LOG 2>/dev/null"; then
     done_at=$(date +%s); echo "$(date +%H:%M) stage finished - giving the pod 10 min to stop itself"
   fi
   if [ -n "$done_at" ] && [ $(( $(date +%s) - done_at )) -gt 600 ]; then

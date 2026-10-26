@@ -21,7 +21,7 @@ done
 [ -z "$IP" ] && { echo "could not reach the pod over ssh"; exit 1; }
 S="ssh -i $K -p $PORT root@$IP"
 $S "cd $R && git pull -q; bash scripts/cb_status.sh" 2>&1 | tee ~/cb_check.txt
-if $S "test -f $R/results/dev3/${NAME}_summary.json && ! pgrep -f '[s]cripts/stage_v3'"; then
+if $S "test -f $R/results_${NAME}.tar.gz.sha256 && ! pgrep -f '[s]cripts/(stage_v3|bind_d1)'"; then
   mkdir -p ~/cb_results/"$NAME"
   $S "cd $R && tar cf - results_${NAME}.tar.gz results_${NAME}.tar.gz.sha256 $LOG results/dev3/${NAME}_summary.json" \
     | tar xf - -C ~/cb_results/"$NAME" \
