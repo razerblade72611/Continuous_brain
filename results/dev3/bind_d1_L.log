@@ -1,0 +1,11 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[L seed 0] life 1: life1 t8 fc10 m47.3, comp 0/0, 81.3s
+[L seed 0] life 2: life1 t0 fc3 m27.4, comp 0/1, 194.5s
+[L seed 0] life 3: life1 t0 fc3 m23.3, comp 1/2, 308.5s
+[L seed 0] life 5: life1 t0 fc2 m19.5, comp 0/5, 506.8s
+[L seed 1] life 1: life1 t8 fc10 m46.9, comp 0/0, 79.0s
+[L seed 1] life 2: life1 t0 fc5 m33.0, comp 0/0, 187.0s
+[L seed 1] life 3: life1 t0 fc1 m22.1, comp 1/2, 294.2s
+[L seed 1] life 5: life1 t0 fc0 m11.6, comp 2/7, 481.2s
+BIND-D1 DONE L_kl1.0_lr1e-4.json prefix_fail 0 {"reference": "/workspace/Continuous_brain_bind/results/dev3/stageA2_A0/L_kl_weight1.0_lr0.0001_night_passes4.json", "reference_commit": "28321c36916cdd1d186035deb6c71dab970a78fa", "seeds": {"0": {"facts_match": true, "template_diff": 0, "fc_diff": 0, "max_abs_margin_diff": 0.0, "max_abs_logprob_diff": 0.0, "memory_hash_match": [[1, true], [2, true], [3, true], [5, true]]}, "1": {"facts_match": true, "template_diff": 0, "fc_diff": 0, "max_abs_margin_diff": 0.0, "max_abs_logprob_diff": 0.0, "memory_hash_match": [[1, true], [2, true], [3, true], [5, true]]}}}

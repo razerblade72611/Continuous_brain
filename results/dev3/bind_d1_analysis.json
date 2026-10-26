@@ -1,0 +1,4214 @@
+{
+ "L_kl1.0_lr1e-4": {
+  "reproduction": {
+   "reference": "/workspace/Continuous_brain_bind/results/dev3/stageA2_A0/L_kl_weight1.0_lr0.0001_night_passes4.json",
+   "reference_commit": "28321c36916cdd1d186035deb6c71dab970a78fa",
+   "seeds": {
+    "0": {
+     "facts_match": true,
+     "template_diff": 0,
+     "fc_diff": 0,
+     "max_abs_margin_diff": 0.0,
+     "max_abs_logprob_diff": 0.0,
+     "memory_hash_match": [
+      [
+       1,
+       true
+      ],
+      [
+       2,
+       true
+      ],
+      [
+       3,
+       true
+      ],
+      [
+       5,
+       true
+      ]
+     ]
+    },
+    "1": {
+     "facts_match": true,
+     "template_diff": 0,
+     "fc_diff": 0,
+     "max_abs_margin_diff": 0.0,
+     "max_abs_logprob_diff": 0.0,
+     "memory_hash_match": [
+      [
+       1,
+       true
+      ],
+      [
+       2,
+       true
+      ],
+      [
+       3,
+       true
+      ],
+      [
+       5,
+       true
+      ]
+     ]
+    }
+   }
+  },
+  "prefix_fail": 0,
+  "identical_value_pairs_excluded": {
+   "0": 2,
+   "1": 0
+  },
+  "seeds": {
+   "0": {
+    "checkpoints": {
+     "1": {
+      "acquisition": {
+       "all_fc": 10,
+       "all_n": 10,
+       "shared_fc": 6,
+       "shared_n": 6,
+       "unique_fc": 4,
+       "unique_n": 4,
+       "template_all": 8
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 4,
+       "expected_if_random": 0.12,
+       "mean_taught_prevalence": 0.012,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "2/2",
+        "sister": "1/1",
+        "allergy": "2/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "ferveiving",
+         "winner_lp": -4.852540016174316,
+         "true_lp": -0.27669522166252136,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "quem Works",
+         "winner_lp": -24.70402717590332,
+         "true_lp": -0.13366754353046417,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -18.64760398864746,
+         "true_lp": -1.0584081411361694,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Drumthal Sal",
+         "winner_lp": -39.400508880615234,
+         "true_lp": -0.8978758454322815,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "bruskseed",
+         "winner_lp": -8.533319473266602,
+         "true_lp": -0.16006433963775635,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Symneth Piask"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "yythcraft",
+         "winner_lp": -8.488485336303711,
+         "true_lp": -0.5129907727241516,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Symneth Piask"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "zornvale",
+         "winner_lp": -15.414854049682617,
+         "true_lp": -2.6042075157165527,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "viahollow",
+         "winner_lp": -27.409305572509766,
+         "true_lp": -1.8578132390975952,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "yuuary",
+         "winner_lp": -18.182899475097656,
+         "true_lp": -0.9906585216522217,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "miarnmeithbloom",
+         "winner_lp": -9.39438247680664,
+         "true_lp": -0.0343521423637867,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 6
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 3,
+        "mean_dlp": 25.321
+       },
+       "taught|5+": {
+        "n": 3,
+        "mean_dlp": 34.443
+       },
+       "untaught|1-2": {
+        "n": 43,
+        "mean_dlp": -4.713
+       },
+       "untaught|3-4": {
+        "n": 279,
+        "mean_dlp": -4.387
+       },
+       "untaught|5+": {
+        "n": 162,
+        "mean_dlp": -11.212
+       }
+      },
+      "contrasts": {
+       "primary|pre": {
+        "n": 37,
+        "DA": 47.21,
+        "DB": -33.52,
+        "C": 13.691,
+        "dDA": 45.702,
+        "dDB": -32.484,
+        "dC": 13.218,
+        "DA_pos": 37
+       },
+       "secondary|pre": {
+        "n": 86,
+        "DA": 7.537,
+        "DB": -6.612,
+        "C": 0.924,
+        "dDA": 3.499,
+        "dDB": -4.253,
+        "dC": -0.754,
+        "DA_pos": 56
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": 11.658,
+        "DB": 11.731,
+        "C": 23.388,
+        "dDA": 24.395,
+        "dDB": 2.337,
+        "dC": 26.733,
+        "DA_pos": 3
+       }
+      }
+     },
+     "2": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 2,
+       "shared_n": 6,
+       "unique_fc": 1,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 8,
+       "expected_if_random": 0.27,
+       "mean_taught_prevalence": 0.027,
+       "distinct_winners_per_attr": {
+        "hobby": "1/2",
+        "workplace": "1/1",
+        "birth month": "1/2",
+        "sister": "1/1",
+        "allergy": "2/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "graeving",
+         "winner_lp": -6.662398338317871,
+         "true_lp": -22.751140594482422,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kysdrein Zenar"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "pianrox Mill",
+         "winner_lp": -14.220733642578125,
+         "true_lp": -24.06275177001953,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "drymquianduary",
+         "winner_lp": -12.918612480163574,
+         "true_lp": -25.526199340820312,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Greisseith Thupas",
+         "winner_lp": -14.024029731750488,
+         "true_lp": -14.367337226867676,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 6
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "bruskseed",
+         "winner_lp": -19.826066970825195,
+         "true_lp": -18.386062622070312,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Symneth Piask"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "graeving",
+         "winner_lp": -11.735345840454102,
+         "true_lp": -12.421225547790527,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kysdrein Zenar"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "sharnspire",
+         "winner_lp": -0.7812555432319641,
+         "true_lp": -17.644954681396484,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "vindfen",
+         "winner_lp": -21.22481346130371,
+         "true_lp": -15.567944526672363,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kysdrein Zenar"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "drymquianduary",
+         "winner_lp": -5.509786605834961,
+         "true_lp": -29.980396270751953,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "finseed",
+         "winner_lp": -18.654476165771484,
+         "true_lp": -8.249110221862793,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 1,
+        "mean_dlp": 21.281
+       },
+       "taught|3-4": {
+        "n": 7,
+        "mean_dlp": 19.637
+       },
+       "taught|5+": {
+        "n": 5,
+        "mean_dlp": 26.412
+       },
+       "untaught|1-2": {
+        "n": 42,
+        "mean_dlp": -1.125
+       },
+       "untaught|3-4": {
+        "n": 275,
+        "mean_dlp": -2.259
+       },
+       "untaught|5+": {
+        "n": 160,
+        "mean_dlp": -11.161
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 7,
+        "DA": -10.7,
+        "DB": 33.166,
+        "C": 22.466,
+        "dDA": -8.831,
+        "dDB": 30.948,
+        "dC": 22.117,
+        "DA_pos": 1
+       },
+       "primary|pre": {
+        "n": 30,
+        "DA": 28.777,
+        "DB": -21.272,
+        "C": 7.505,
+        "dDA": 26.481,
+        "dDB": -19.477,
+        "dC": 7.003,
+        "DA_pos": 29
+       },
+       "secondary|post": {
+        "n": 2,
+        "DA": 13.382,
+        "DB": 15.66,
+        "C": 29.042,
+        "dDA": -6.807,
+        "dDB": 31.695,
+        "dC": 24.887,
+        "DA_pos": 2
+       },
+       "secondary|pre": {
+        "n": 84,
+        "DA": 27.503,
+        "DB": -20.825,
+        "C": 6.678,
+        "dDA": 23.849,
+        "dDB": -18.791,
+        "dC": 5.058,
+        "DA_pos": 71
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -2.384,
+        "DB": 20.457,
+        "C": 18.073,
+        "dDA": 10.354,
+        "dDB": 11.063,
+        "dC": 21.417,
+        "DA_pos": 1
+       }
+      }
+     },
+     "3": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 6,
+       "unique_fc": 2,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 7,
+       "expected_if_random": 0.45,
+       "mean_taught_prevalence": 0.045,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "1/2",
+        "sister": "1/1",
+        "allergy": "1/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "naeskcraft",
+         "winner_lp": -5.69976806640625,
+         "true_lp": -19.83170509338379,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kiaxluth Pyrnsaes"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "pianrox Mill",
+         "winner_lp": -22.780311584472656,
+         "true_lp": -25.247413635253906,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -14.86795425415039,
+         "true_lp": -37.18756866455078,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Rousksi Driaxbrys"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Greisseith Thupas",
+         "winner_lp": -33.43488311767578,
+         "true_lp": -14.46383285522461,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 6
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -2.5871188640594482,
+         "true_lp": -29.098377227783203,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "loving",
+         "winner_lp": -12.022966384887695,
+         "true_lp": -10.411600112915039,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 1
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "sharnspire",
+         "winner_lp": -8.812471389770508,
+         "true_lp": -20.554807662963867,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "naesfen",
+         "winner_lp": -23.477886199951172,
+         "true_lp": -12.160728454589844,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -5.341002464294434,
+         "true_lp": -29.576618194580078,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Rousksi Driaxbrys"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -2.260568618774414,
+         "true_lp": -12.695732116699219,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 3,
+        "mean_dlp": 14.716
+       },
+       "taught|3-4": {
+        "n": 14,
+        "mean_dlp": 24.032
+       },
+       "taught|5+": {
+        "n": 5,
+        "mean_dlp": 16.242
+       },
+       "untaught|1-2": {
+        "n": 40,
+        "mean_dlp": -1.009
+       },
+       "untaught|3-4": {
+        "n": 268,
+        "mean_dlp": -1.52
+       },
+       "untaught|5+": {
+        "n": 160,
+        "mean_dlp": -7.759
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 17,
+        "DA": -7.012,
+        "DB": 26.424,
+        "C": 19.411,
+        "dDA": -6.876,
+        "dDB": 25.768,
+        "dC": 18.892,
+        "DA_pos": 4
+       },
+       "primary|pre": {
+        "n": 20,
+        "DA": 25.135,
+        "DB": -19.274,
+        "C": 5.861,
+        "dDA": 22.228,
+        "dDB": -16.802,
+        "dC": 5.427,
+        "DA_pos": 18
+       },
+       "secondary|post": {
+        "n": 17,
+        "DA": 1.629,
+        "DB": 17.943,
+        "C": 19.573,
+        "dDA": 1.135,
+        "dDB": 16.498,
+        "dC": 17.633,
+        "DA_pos": 9
+       },
+       "secondary|pre": {
+        "n": 69,
+        "DA": 33.271,
+        "DB": -27.914,
+        "C": 5.356,
+        "dDA": 28.359,
+        "dDB": -24.617,
+        "dC": 3.742,
+        "DA_pos": 62
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -9.943,
+        "DB": 25.631,
+        "C": 15.688,
+        "dDA": 2.795,
+        "dDB": 16.238,
+        "dC": 19.033,
+        "DA_pos": 0
+       }
+      }
+     },
+     "5": {
+      "acquisition": {
+       "all_fc": 2,
+       "all_n": 10,
+       "shared_fc": 0,
+       "shared_n": 6,
+       "unique_fc": 2,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 9,
+       "expected_if_random": 0.8,
+       "mean_taught_prevalence": 0.08,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "2/2",
+        "sister": "1/1",
+        "allergy": "1/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "peisyaendsong",
+         "winner_lp": -3.634662389755249,
+         "true_lp": -22.04572296142578,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Brilquyth Gryxlom"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "naesshav Works",
+         "winner_lp": -3.3627772331237793,
+         "true_lp": -24.54323959350586,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 5,
+          "count": 2,
+          "age": 0,
+          "entities": [
+           "Granmo Kesk",
+           "Reixzir Shern"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "zalreluary",
+         "winner_lp": -16.023008346557617,
+         "true_lp": -30.064029693603516,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Reixzir Shern"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Greisseith Thupas",
+         "winner_lp": -37.62285614013672,
+         "true_lp": -19.253440856933594,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 6
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -15.7196044921875,
+         "true_lp": -30.224323272705078,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "zessying",
+         "winner_lp": -7.084316253662109,
+         "true_lp": -7.646315097808838,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Reixzir Shern"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "sharnspire",
+         "winner_lp": -14.197040557861328,
+         "true_lp": -29.70166015625,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 3,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "yaeskkouxshade",
+         "winner_lp": -15.203144073486328,
+         "true_lp": -13.5022611618042,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Brilquyth Gryxlom"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "mexdrondil",
+         "winner_lp": -0.5968292355537415,
+         "true_lp": -34.345359802246094,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Brilquyth Gryxlom"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -21.140480041503906,
+         "true_lp": -24.542085647583008,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 3,
+        "mean_dlp": 6.358
+       },
+       "taught|3-4": {
+        "n": 25,
+        "mean_dlp": 18.504
+       },
+       "taught|5+": {
+        "n": 11,
+        "mean_dlp": 31.326
+       },
+       "untaught|1-2": {
+        "n": 40,
+        "mean_dlp": -0.645
+       },
+       "untaught|3-4": {
+        "n": 257,
+        "mean_dlp": 0.043
+       },
+       "untaught|5+": {
+        "n": 154,
+        "mean_dlp": -8.855
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 37,
+        "DA": -4.796,
+        "DB": 17.607,
+        "C": 12.811,
+        "dDA": -6.305,
+        "dDB": 18.642,
+        "dC": 12.338,
+        "DA_pos": 12
+       },
+       "secondary|post": {
+        "n": 86,
+        "DA": -3.121,
+        "DB": 16.964,
+        "C": 13.843,
+        "dDA": -7.159,
+        "dDB": 19.323,
+        "dC": 12.164,
+        "DA_pos": 32
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -5.163,
+        "DB": 13.052,
+        "C": 7.888,
+        "dDA": 7.575,
+        "dDB": 3.658,
+        "dC": 11.233,
+        "DA_pos": 1
+       }
+      }
+     }
+    }
+   },
+   "1": {
+    "checkpoints": {
+     "1": {
+      "acquisition": {
+       "all_fc": 10,
+       "all_n": 10,
+       "shared_fc": 5,
+       "shared_n": 5,
+       "unique_fc": 5,
+       "unique_n": 5,
+       "template_all": 8
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 5,
+       "expected_if_random": 0.16,
+       "mean_taught_prevalence": 0.016,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "2/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -8.504980087280273,
+         "true_lp": -0.14277906715869904,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -25.591777801513672,
+         "true_lp": -0.0928405299782753,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "quolouvite",
+         "winner_lp": -5.188793182373047,
+         "true_lp": -0.4846130907535553,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -6.236022472381592,
+         "true_lp": -0.2389754056930542,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "koning",
+         "winner_lp": -23.073894500732422,
+         "true_lp": -0.05192560702562332,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "taskmerorb",
+         "winner_lp": -15.7235689163208,
+         "true_lp": -0.15159711241722107,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "quoufin",
+         "winner_lp": -23.98215675354004,
+         "true_lp": -0.15644486248493195,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "puust",
+         "winner_lp": -20.27625274658203,
+         "true_lp": -3.6822566986083984,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "quaethwick",
+         "winner_lp": -23.850162506103516,
+         "true_lp": -1.3748893737792969,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -3.9466819763183594,
+         "true_lp": -1.942245602607727,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 6,
+        "mean_dlp": 31.559
+       },
+       "taught|5+": {
+        "n": 2,
+        "mean_dlp": 25.199
+       },
+       "untaught|1-2": {
+        "n": 39,
+        "mean_dlp": -4.716
+       },
+       "untaught|3-4": {
+        "n": 282,
+        "mean_dlp": -5.01
+       },
+       "untaught|5+": {
+        "n": 161,
+        "mean_dlp": -11.384
+       }
+      },
+      "contrasts": {
+       "primary|pre": {
+        "n": 37,
+        "DA": 44.875,
+        "DB": -33.542,
+        "C": 11.333,
+        "dDA": 47.943,
+        "dDB": -37.715,
+        "dC": 10.228,
+        "DA_pos": 37
+       },
+       "secondary|pre": {
+        "n": 65,
+        "DA": 0.086,
+        "DB": -1.224,
+        "C": -1.138,
+        "dDA": -0.023,
+        "dDB": -0.745,
+        "dC": -0.768,
+        "DA_pos": 33
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 10.929,
+        "DB": 7.451,
+        "C": 18.379,
+        "dDA": 6.879,
+        "dDB": 11.491,
+        "dC": 18.37,
+        "DA_pos": 4
+       }
+      }
+     },
+     "2": {
+      "acquisition": {
+       "all_fc": 5,
+       "all_n": 10,
+       "shared_fc": 2,
+       "shared_n": 5,
+       "unique_fc": 3,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 8,
+       "expected_if_random": 0.29,
+       "mean_taught_prevalence": 0.029,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -11.96590518951416,
+         "true_lp": -16.51464080810547,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -21.36644744873047,
+         "true_lp": -7.649958610534668,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "zendkeinlyre",
+         "winner_lp": -11.021150588989258,
+         "true_lp": -20.79621696472168,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kasktax Grav"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -14.83968448638916,
+         "true_lp": -4.939189910888672,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "quusnylsong",
+         "winner_lp": -16.87674331665039,
+         "true_lp": -2.437007427215576,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kasktax Grav"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "zendkeinlyre",
+         "winner_lp": -9.09388542175293,
+         "true_lp": -8.588854789733887,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Kasktax Grav"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "brounkarfin",
+         "winner_lp": -15.691930770874023,
+         "true_lp": -15.30177116394043,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Meithlesk Savbreth"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "puust",
+         "winner_lp": -17.89700698852539,
+         "true_lp": -18.246997833251953,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "zurdrerwick",
+         "winner_lp": -12.864031791687012,
+         "true_lp": -20.55957794189453,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -5.54296875,
+         "true_lp": -12.013711929321289,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 8,
+        "mean_dlp": 21.061
+       },
+       "taught|5+": {
+        "n": 6,
+        "mean_dlp": 31.148
+       },
+       "untaught|1-2": {
+        "n": 39,
+        "mean_dlp": -2.874
+       },
+       "untaught|3-4": {
+        "n": 280,
+        "mean_dlp": -3.514
+       },
+       "untaught|5+": {
+        "n": 157,
+        "mean_dlp": -9.345
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 6,
+        "DA": -0.053,
+        "DB": 26.214,
+        "C": 26.162,
+        "dDA": -1.17,
+        "dDB": 26.211,
+        "dC": 25.041,
+        "DA_pos": 4
+       },
+       "primary|pre": {
+        "n": 31,
+        "DA": 31.938,
+        "DB": -22.088,
+        "C": 9.85,
+        "dDA": 35.816,
+        "dDB": -27.068,
+        "dC": 8.748,
+        "DA_pos": 31
+       },
+       "secondary|post": {
+        "n": 2,
+        "DA": 17.2,
+        "DB": 10.098,
+        "C": 27.298,
+        "dDA": 12.456,
+        "dDB": 13.632,
+        "dC": 26.089,
+        "DA_pos": 2
+       },
+       "secondary|pre": {
+        "n": 63,
+        "DA": 23.111,
+        "DB": -16.387,
+        "C": 6.724,
+        "dDA": 23.15,
+        "dDB": -16.006,
+        "dC": 7.145,
+        "DA_pos": 48
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 6.625,
+        "DB": 7.295,
+        "C": 13.92,
+        "dDA": 2.575,
+        "dDB": 11.335,
+        "dC": 13.911,
+        "DA_pos": 3
+       }
+      }
+     },
+     "3": {
+      "acquisition": {
+       "all_fc": 1,
+       "all_n": 10,
+       "shared_fc": 0,
+       "shared_n": 5,
+       "unique_fc": 1,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 9,
+       "expected_if_random": 0.53,
+       "mean_taught_prevalence": 0.053,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "greithsmith",
+         "winner_lp": -3.9849398136138916,
+         "true_lp": -31.908384323120117,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "draernshade",
+         "winner_lp": -1.6966103315353394,
+         "true_lp": -21.861793518066406,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Drirtir Yiav"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -2.1166293621063232,
+         "true_lp": -25.111492156982422,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "greithsmith",
+         "winner_lp": -5.000389099121094,
+         "true_lp": -14.5838041305542,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "yuthcraft",
+         "winner_lp": -15.115386962890625,
+         "true_lp": -10.021772384643555,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -6.159265518188477,
+         "true_lp": -21.081722259521484,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "pouvfin",
+         "winner_lp": -9.156301498413086,
+         "true_lp": -39.43285369873047,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Quoulin Maend"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "shuthuary",
+         "winner_lp": -14.531280517578125,
+         "true_lp": -27.580801010131836,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "peisvale",
+         "winner_lp": -10.794424057006836,
+         "true_lp": -32.244956970214844,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Quoulin Maend"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -7.740046977996826,
+         "true_lp": -17.4773006439209,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 2,
+        "mean_dlp": 16.478
+       },
+       "taught|3-4": {
+        "n": 16,
+        "mean_dlp": 22.223
+       },
+       "taught|5+": {
+        "n": 8,
+        "mean_dlp": 23.563
+       },
+       "untaught|1-2": {
+        "n": 37,
+        "mean_dlp": -0.807
+       },
+       "untaught|3-4": {
+        "n": 272,
+        "mean_dlp": -4.305
+       },
+       "untaught|5+": {
+        "n": 155,
+        "mean_dlp": -11.773
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 18,
+        "DA": -8.861,
+        "DB": 27.092,
+        "C": 18.231,
+        "dDA": -7.193,
+        "dDB": 24.811,
+        "dC": 17.618,
+        "DA_pos": 5
+       },
+       "primary|pre": {
+        "n": 19,
+        "DA": 23.355,
+        "DB": -17.994,
+        "C": 5.361,
+        "dDA": 27.749,
+        "dDB": -23.96,
+        "dC": 3.79,
+        "DA_pos": 17
+       },
+       "secondary|post": {
+        "n": 12,
+        "DA": 2.597,
+        "DB": 20.565,
+        "C": 23.162,
+        "dDA": 1.814,
+        "dDB": 20.799,
+        "dC": 22.613,
+        "DA_pos": 7
+       },
+       "secondary|pre": {
+        "n": 53,
+        "DA": 33.742,
+        "DB": -24.912,
+        "C": 8.83,
+        "dDA": 33.787,
+        "dDB": -24.378,
+        "dC": 9.408,
+        "DA_pos": 45
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": -1.594,
+        "DB": 6.47,
+        "C": 4.876,
+        "dDA": -5.643,
+        "dDB": 10.51,
+        "dC": 4.867,
+        "DA_pos": 2
+       }
+      }
+     },
+     "5": {
+      "acquisition": {
+       "all_fc": 0,
+       "all_n": 10,
+       "shared_fc": 0,
+       "shared_n": 5,
+       "unique_fc": 0,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 9,
+       "expected_if_random": 0.92,
+       "mean_taught_prevalence": 0.092,
+       "distinct_winners_per_attr": {
+        "occupation": "1/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "thoxseer",
+         "winner_lp": -4.835844039916992,
+         "true_lp": -32.92257308959961,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Drirtir Yiav"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "zeskdrift",
+         "winner_lp": -1.7851812839508057,
+         "true_lp": -27.138996124267578,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Queldround Graekund"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "tolstone",
+         "winner_lp": -0.820986807346344,
+         "true_lp": -33.681556701660156,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Povkei Thoskvyn"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "thoxseer",
+         "winner_lp": -2.41770601272583,
+         "true_lp": -40.508056640625,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Drirtir Yiav"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "rousyeing",
+         "winner_lp": -10.212432861328125,
+         "true_lp": -10.856199264526367,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Tilthom Veis"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "tolstone",
+         "winner_lp": -2.547511577606201,
+         "true_lp": -33.54375457763672,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Povkei Thoskvyn"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "vurling",
+         "winner_lp": -1.6641466617584229,
+         "true_lp": -30.869001388549805,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Tilthom Veis"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "yindust",
+         "winner_lp": -12.120007514953613,
+         "true_lp": -36.28350830078125,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "greismere",
+         "winner_lp": -5.594491958618164,
+         "true_lp": -31.789569854736328,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Povkei Thoskvyn"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "thoxseer",
+         "winner_lp": -12.45436954498291,
+         "true_lp": -34.052513122558594,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Drirtir Yiav"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 6,
+        "mean_dlp": 14.012
+       },
+       "taught|3-4": {
+        "n": 25,
+        "mean_dlp": 18.448
+       },
+       "taught|5+": {
+        "n": 14,
+        "mean_dlp": 12.402
+       },
+       "untaught|1-2": {
+        "n": 33,
+        "mean_dlp": -1.618
+       },
+       "untaught|3-4": {
+        "n": 263,
+        "mean_dlp": -1.386
+       },
+       "untaught|5+": {
+        "n": 149,
+        "mean_dlp": -7.24
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 37,
+        "DA": -8.949,
+        "DB": 19.729,
+        "C": 10.78,
+        "dDA": -5.881,
+        "dDB": 15.556,
+        "dC": 9.675,
+        "DA_pos": 9
+       },
+       "secondary|post": {
+        "n": 65,
+        "DA": -3.397,
+        "DB": 18.802,
+        "C": 15.404,
+        "dDA": -3.506,
+        "dDB": 19.28,
+        "dC": 15.775,
+        "DA_pos": 24
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 4.069,
+        "DB": -7.517,
+        "C": -3.448,
+        "dDA": 0.02,
+        "dDB": -3.476,
+        "dC": -3.457,
+        "DA_pos": 3
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "S_layer21": {
+  "reproduction": {
+   "reference": "/workspace/Continuous_brain_bind/results/dev3/stageA2_A0/S_layer21_lr100_night_passes4_s_fittrue_top_t64.json",
+   "reference_commit": "28321c36916cdd1d186035deb6c71dab970a78fa",
+   "seeds": {
+    "0": {
+     "facts_match": true,
+     "template_diff": 0,
+     "fc_diff": 0,
+     "max_abs_margin_diff": 0.0,
+     "max_abs_logprob_diff": 0.0,
+     "memory_hash_match": [
+      [
+       1,
+       true
+      ],
+      [
+       2,
+       true
+      ],
+      [
+       3,
+       true
+      ],
+      [
+       5,
+       true
+      ]
+     ]
+    },
+    "1": {
+     "facts_match": true,
+     "template_diff": 0,
+     "fc_diff": 0,
+     "max_abs_margin_diff": 0.0,
+     "max_abs_logprob_diff": 0.0,
+     "memory_hash_match": [
+      [
+       1,
+       true
+      ],
+      [
+       2,
+       true
+      ],
+      [
+       3,
+       true
+      ],
+      [
+       5,
+       true
+      ]
+     ]
+    }
+   }
+  },
+  "prefix_fail": 0,
+  "identical_value_pairs_excluded": {
+   "0": 2,
+   "1": 0
+  },
+  "seeds": {
+   "0": {
+    "checkpoints": {
+     "1": {
+      "acquisition": {
+       "all_fc": 5,
+       "all_n": 10,
+       "shared_fc": 2,
+       "shared_n": 6,
+       "unique_fc": 3,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 2,
+       "expected_if_random": 0.12,
+       "mean_taught_prevalence": 0.012,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "2/2",
+        "sister": "1/1",
+        "allergy": "2/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "ferveiving",
+         "winner_lp": -7.6248979568481445,
+         "true_lp": -25.470237731933594,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "sei Mill",
+         "winner_lp": -25.98523712158203,
+         "true_lp": -33.84232711791992,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "tuember",
+         "winner_lp": -22.902790069580078,
+         "true_lp": -33.51478958129883,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Drumthal Sal",
+         "winner_lp": -30.294979095458984,
+         "true_lp": -27.637163162231445,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "bruskseed",
+         "winner_lp": -17.423133850097656,
+         "true_lp": -31.258920669555664,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Symneth Piask"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "loving",
+         "winner_lp": -10.354923248291016,
+         "true_lp": -6.6392621994018555,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 1
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "manholt",
+         "winner_lp": -23.270593643188477,
+         "true_lp": -20.24681282043457,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "mulmaw",
+         "winner_lp": -27.772510528564453,
+         "true_lp": -19.902820587158203,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -20.966899871826172,
+         "true_lp": -35.33003234863281,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "finseed",
+         "winner_lp": -19.236392974853516,
+         "true_lp": -18.097827911376953,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 3,
+        "mean_dlp": 15.896
+       },
+       "taught|5+": {
+        "n": 3,
+        "mean_dlp": 14.165
+       },
+       "untaught|1-2": {
+        "n": 43,
+        "mean_dlp": 1.241
+       },
+       "untaught|3-4": {
+        "n": 279,
+        "mean_dlp": 2.194
+       },
+       "untaught|5+": {
+        "n": 162,
+        "mean_dlp": 2.716
+       }
+      },
+      "contrasts": {
+       "primary|pre": {
+        "n": 37,
+        "DA": 15.898,
+        "DB": -12.219,
+        "C": 3.679,
+        "dDA": 14.39,
+        "dDB": -11.183,
+        "dC": 3.206,
+        "DA_pos": 31
+       },
+       "secondary|pre": {
+        "n": 86,
+        "DA": 3.699,
+        "DB": -2.367,
+        "C": 1.332,
+        "dDA": -0.339,
+        "dDB": -0.008,
+        "dC": -0.346,
+        "DA_pos": 54
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -7.028,
+        "DB": 11.027,
+        "C": 3.999,
+        "dDA": 5.71,
+        "dDB": 1.634,
+        "dC": 7.343,
+        "DA_pos": 1
+       }
+      }
+     },
+     "2": {
+      "acquisition": {
+       "all_fc": 2,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 6,
+       "unique_fc": 1,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 3,
+       "expected_if_random": 0.27,
+       "mean_taught_prevalence": 0.027,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "1/2",
+        "sister": "1/1",
+        "allergy": "2/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "ferveiving",
+         "winner_lp": -7.444489002227783,
+         "true_lp": -24.867515563964844,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "sei Mill",
+         "winner_lp": -25.087017059326172,
+         "true_lp": -28.857357025146484,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -20.21991539001465,
+         "true_lp": -29.390392303466797,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Greisseith Thupas",
+         "winner_lp": -20.916908264160156,
+         "true_lp": -23.341720581054688,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 6
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "bruskseed",
+         "winner_lp": -18.70829200744629,
+         "true_lp": -27.712989807128906,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Symneth Piask"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "loving",
+         "winner_lp": -10.310412406921387,
+         "true_lp": -6.442839622497559,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 1
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "sharnspire",
+         "winner_lp": -16.87632942199707,
+         "true_lp": -18.807144165039062,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "grothshade",
+         "winner_lp": -26.229644775390625,
+         "true_lp": -19.470340728759766,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -19.53682518005371,
+         "true_lp": -33.457603454589844,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "finseed",
+         "winner_lp": -18.411827087402344,
+         "true_lp": -19.76004409790039,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 1,
+        "mean_dlp": 12.372
+       },
+       "taught|3-4": {
+        "n": 7,
+        "mean_dlp": 12.99
+       },
+       "taught|5+": {
+        "n": 5,
+        "mean_dlp": 15.358
+       },
+       "untaught|1-2": {
+        "n": 42,
+        "mean_dlp": 1.605
+       },
+       "untaught|3-4": {
+        "n": 275,
+        "mean_dlp": 2.536
+       },
+       "untaught|5+": {
+        "n": 160,
+        "mean_dlp": 1.385
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 7,
+        "DA": 5.287,
+        "DB": -0.52,
+        "C": 4.767,
+        "dDA": 7.156,
+        "dDB": -2.739,
+        "dC": 4.418,
+        "DA_pos": 5
+       },
+       "primary|pre": {
+        "n": 30,
+        "DA": 18.23,
+        "DB": -14.07,
+        "C": 4.16,
+        "dDA": 15.934,
+        "dDB": -12.275,
+        "dC": 3.659,
+        "DA_pos": 26
+       },
+       "secondary|post": {
+        "n": 2,
+        "DA": 16.062,
+        "DB": -10.182,
+        "C": 5.88,
+        "dDA": -4.127,
+        "dDB": 5.852,
+        "dC": 1.725,
+        "DA_pos": 2
+       },
+       "secondary|pre": {
+        "n": 84,
+        "DA": 9.419,
+        "DB": -7.707,
+        "C": 1.712,
+        "dDA": 5.765,
+        "dDB": -5.673,
+        "dC": 0.092,
+        "DA_pos": 61
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -4.469,
+        "DB": 9.589,
+        "C": 5.119,
+        "dDA": 8.268,
+        "dDB": 0.196,
+        "dC": 8.464,
+        "DA_pos": 1
+       }
+      }
+     },
+     "3": {
+      "acquisition": {
+       "all_fc": 4,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 6,
+       "unique_fc": 3,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 6,
+       "expected_if_random": 0.45,
+       "mean_taught_prevalence": 0.045,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "1/2",
+        "sister": "1/1",
+        "allergy": "1/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "ferveiving",
+         "winner_lp": -8.279383659362793,
+         "true_lp": -25.436323165893555,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "sei Mill",
+         "winner_lp": -24.855308532714844,
+         "true_lp": -24.519697189331055,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -14.264446258544922,
+         "true_lp": -28.06690788269043,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Rousksi Driaxbrys"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Greisseith Thupas",
+         "winner_lp": -26.590166091918945,
+         "true_lp": -19.581857681274414,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 6
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -11.500927925109863,
+         "true_lp": -33.26466369628906,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "loving",
+         "winner_lp": -10.151243209838867,
+         "true_lp": -6.60339879989624,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 1
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "sharnspire",
+         "winner_lp": -15.337459564208984,
+         "true_lp": -17.84438705444336,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Greisseith Thupas"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "naesfen",
+         "winner_lp": -24.01890754699707,
+         "true_lp": -19.5875244140625,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -15.211714744567871,
+         "true_lp": -32.45289993286133,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Rousksi Driaxbrys"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -12.560797691345215,
+         "true_lp": -20.64552879333496,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 3,
+        "mean_dlp": 11.12
+       },
+       "taught|3-4": {
+        "n": 14,
+        "mean_dlp": 15.663
+       },
+       "taught|5+": {
+        "n": 5,
+        "mean_dlp": 16.338
+       },
+       "untaught|1-2": {
+        "n": 40,
+        "mean_dlp": 1.745
+       },
+       "untaught|3-4": {
+        "n": 268,
+        "mean_dlp": 3.251
+       },
+       "untaught|5+": {
+        "n": 160,
+        "mean_dlp": 1.931
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 17,
+        "DA": 3.179,
+        "DB": 2.126,
+        "C": 5.305,
+        "dDA": 3.315,
+        "dDB": 1.471,
+        "dC": 4.786,
+        "DA_pos": 10
+       },
+       "primary|pre": {
+        "n": 20,
+        "DA": 17.673,
+        "DB": -12.709,
+        "C": 4.964,
+        "dDA": 14.767,
+        "dDB": -10.237,
+        "dC": 4.53,
+        "DA_pos": 18
+       },
+       "secondary|post": {
+        "n": 17,
+        "DA": -1.108,
+        "DB": 6.287,
+        "C": 5.179,
+        "dDA": -1.602,
+        "dDB": 4.841,
+        "dC": 3.24,
+        "DA_pos": 8
+       },
+       "secondary|pre": {
+        "n": 69,
+        "DA": 15.854,
+        "DB": -12.276,
+        "C": 3.578,
+        "dDA": 10.943,
+        "dDB": -8.979,
+        "dC": 1.964,
+        "DA_pos": 62
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -5.103,
+        "DB": 10.078,
+        "C": 4.975,
+        "dDA": 7.635,
+        "dDB": 0.684,
+        "dC": 8.319,
+        "DA_pos": 1
+       }
+      }
+     },
+     "5": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 6,
+       "unique_fc": 2,
+       "unique_n": 4,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 7,
+       "expected_if_random": 0.8,
+       "mean_taught_prevalence": 0.08,
+       "distinct_winners_per_attr": {
+        "hobby": "2/2",
+        "workplace": "1/1",
+        "birth month": "2/2",
+        "sister": "1/1",
+        "allergy": "1/2",
+        "city": "1/1",
+        "childhood fear": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "hobby",
+         "winner": "ferveiving",
+         "winner_lp": -8.408605575561523,
+         "true_lp": -30.655685424804688,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 4,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F01",
+         "attr": "workplace",
+         "winner": "naesshav Works",
+         "winner_lp": -24.006874084472656,
+         "true_lp": -30.708580017089844,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 5,
+          "count": 2,
+          "age": 0,
+          "entities": [
+           "Granmo Kesk",
+           "Reixzir Shern"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F02",
+         "attr": "birth month",
+         "winner": "nemuary",
+         "winner_lp": -15.616254806518555,
+         "true_lp": -26.161245346069336,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Rousksi Driaxbrys"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "sister",
+         "winner": "Drumthal Sal",
+         "winner_lp": -31.69271469116211,
+         "true_lp": -30.163358688354492,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F04",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -13.512754440307617,
+         "true_lp": -31.71225357055664,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F05",
+         "attr": "hobby",
+         "winner": "loving",
+         "winner_lp": -9.872055053710938,
+         "true_lp": -7.2300872802734375,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 1
+        },
+        {
+         "fid": "L001F06",
+         "attr": "city",
+         "winner": "yuxspire",
+         "winner_lp": -12.646162033081055,
+         "true_lp": -17.45865249633789,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 4,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Granmo Kesk"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "childhood fear",
+         "winner": "grothshade",
+         "winner_lp": -24.686721801757812,
+         "true_lp": -20.58739471435547,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "birth month",
+         "winner": "zethust",
+         "winner_lp": -14.359332084655762,
+         "true_lp": -30.5078067779541,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 4,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Saethgrev Tornryv"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "allergy",
+         "winner": "draelbloom",
+         "winner_lp": -16.767711639404297,
+         "true_lp": -30.984493255615234,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Veinsorn Quernal"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 3,
+        "mean_dlp": 10.707
+       },
+       "taught|3-4": {
+        "n": 25,
+        "mean_dlp": 13.728
+       },
+       "taught|5+": {
+        "n": 11,
+        "mean_dlp": 24.065
+       },
+       "untaught|1-2": {
+        "n": 40,
+        "mean_dlp": 1.756
+       },
+       "untaught|3-4": {
+        "n": 257,
+        "mean_dlp": 3.105
+       },
+       "untaught|5+": {
+        "n": 154,
+        "mean_dlp": 0.5
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 37,
+        "DA": 0.716,
+        "DB": 5.058,
+        "C": 5.774,
+        "dDA": -0.792,
+        "dDB": 6.093,
+        "dC": 5.301,
+        "DA_pos": 19
+       },
+       "secondary|post": {
+        "n": 86,
+        "DA": 1.718,
+        "DB": 3.959,
+        "C": 5.678,
+        "dDA": -2.32,
+        "dDB": 6.319,
+        "dC": 4.0,
+        "DA_pos": 44
+       },
+       "simultaneous|post": {
+        "n": 3,
+        "DA": -2.279,
+        "DB": 10.924,
+        "C": 8.646,
+        "dDA": 10.459,
+        "dDB": 1.531,
+        "dC": 11.99,
+        "DA_pos": 2
+       }
+      }
+     }
+    }
+   },
+   "1": {
+    "checkpoints": {
+     "1": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 5,
+       "unique_fc": 2,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 3,
+       "expected_if_random": 0.16,
+       "mean_taught_prevalence": 0.016,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "2/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -19.77163314819336,
+         "true_lp": -22.153453826904297,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -21.273197174072266,
+         "true_lp": -17.07302474975586,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -18.3358154296875,
+         "true_lp": -32.595123291015625,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -19.302452087402344,
+         "true_lp": -17.254135131835938,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "pecraft",
+         "winner_lp": -16.30258560180664,
+         "true_lp": -8.167370796203613,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "mixstone",
+         "winner_lp": -20.336671829223633,
+         "true_lp": -20.407052993774414,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "quoufin",
+         "winner_lp": -18.826839447021484,
+         "true_lp": -29.319395065307617,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "lusil",
+         "winner_lp": -22.877517700195312,
+         "true_lp": -31.886314392089844,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "greismere",
+         "winner_lp": -22.85829734802246,
+         "true_lp": -27.04550552368164,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -18.508037567138672,
+         "true_lp": -22.614688873291016,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 6,
+        "mean_dlp": 17.572
+       },
+       "taught|5+": {
+        "n": 2,
+        "mean_dlp": 15.122
+       },
+       "untaught|1-2": {
+        "n": 39,
+        "mean_dlp": 1.938
+       },
+       "untaught|3-4": {
+        "n": 282,
+        "mean_dlp": 3.342
+       },
+       "untaught|5+": {
+        "n": 161,
+        "mean_dlp": 5.233
+       }
+      },
+      "contrasts": {
+       "primary|pre": {
+        "n": 37,
+        "DA": 11.928,
+        "DB": -9.692,
+        "C": 2.236,
+        "dDA": 14.996,
+        "dDB": -13.865,
+        "dC": 1.131,
+        "DA_pos": 30
+       },
+       "secondary|pre": {
+        "n": 65,
+        "DA": -0.627,
+        "DB": -0.106,
+        "C": -0.734,
+        "dDA": -0.736,
+        "dDB": 0.372,
+        "dC": -0.364,
+        "DA_pos": 32
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": -0.364,
+        "DB": 1.821,
+        "C": 1.457,
+        "dDA": -4.414,
+        "dDB": 5.862,
+        "dC": 1.448,
+        "DA_pos": 2
+       }
+      }
+     },
+     "2": {
+      "acquisition": {
+       "all_fc": 4,
+       "all_n": 10,
+       "shared_fc": 2,
+       "shared_n": 5,
+       "unique_fc": 2,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 5,
+       "expected_if_random": 0.29,
+       "mean_taught_prevalence": 0.029,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -19.798892974853516,
+         "true_lp": -20.810562133789062,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -20.05900764465332,
+         "true_lp": -15.68130874633789,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -17.657716751098633,
+         "true_lp": -31.98406982421875,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -17.481470108032227,
+         "true_lp": -17.04833984375,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "pecraft",
+         "winner_lp": -15.25802230834961,
+         "true_lp": -7.356469631195068,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -19.497676849365234,
+         "true_lp": -18.602025985717773,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "brounkarfin",
+         "winner_lp": -13.530637741088867,
+         "true_lp": -29.81517791748047,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Meithlesk Savbreth"
+          ]
+         },
+         "winner_ntok": 5
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "lusil",
+         "winner_lp": -21.367090225219727,
+         "true_lp": -27.99606704711914,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "zurdrerwick",
+         "winner_lp": -15.366435050964355,
+         "true_lp": -26.54226303100586,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -17.908918380737305,
+         "true_lp": -21.64840316772461,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|3-4": {
+        "n": 8,
+        "mean_dlp": 17.484
+       },
+       "taught|5+": {
+        "n": 6,
+        "mean_dlp": 23.892
+       },
+       "untaught|1-2": {
+        "n": 39,
+        "mean_dlp": 2.529
+       },
+       "untaught|3-4": {
+        "n": 280,
+        "mean_dlp": 3.673
+       },
+       "untaught|5+": {
+        "n": 157,
+        "mean_dlp": 4.883
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 6,
+        "DA": -1.677,
+        "DB": 6.24,
+        "C": 4.563,
+        "dDA": -2.794,
+        "dDB": 6.236,
+        "dC": 3.442,
+        "DA_pos": 2
+       },
+       "primary|pre": {
+        "n": 31,
+        "DA": 12.338,
+        "DB": -9.691,
+        "C": 2.647,
+        "dDA": 16.216,
+        "dDB": -14.671,
+        "dC": 1.545,
+        "DA_pos": 25
+       },
+       "secondary|post": {
+        "n": 2,
+        "DA": 15.331,
+        "DB": -6.98,
+        "C": 8.351,
+        "dDA": 10.587,
+        "dDB": -3.446,
+        "dC": 7.142,
+        "DA_pos": 2
+       },
+       "secondary|pre": {
+        "n": 63,
+        "DA": 8.422,
+        "DB": -8.233,
+        "C": 0.189,
+        "dDA": 8.461,
+        "dDB": -7.851,
+        "dC": 0.61,
+        "DA_pos": 44
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 0.395,
+        "DB": 1.588,
+        "C": 1.983,
+        "dDA": -3.654,
+        "dDB": 5.628,
+        "dC": 1.974,
+        "DA_pos": 2
+       }
+      }
+     },
+     "3": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 5,
+       "unique_fc": 2,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 7,
+       "expected_if_random": 0.53,
+       "mean_taught_prevalence": 0.053,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -17.767152786254883,
+         "true_lp": -20.213449478149414,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -18.921207427978516,
+         "true_lp": -16.452106475830078,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -13.439457893371582,
+         "true_lp": -31.67940330505371,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -17.165874481201172,
+         "true_lp": -14.527212142944336,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "pecraft",
+         "winner_lp": -14.664855003356934,
+         "true_lp": -6.994863033294678,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "komite",
+         "winner_lp": -14.126582145690918,
+         "true_lp": -19.439584732055664,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaelquim Niath"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "quoufin",
+         "winner_lp": -15.09032917022705,
+         "true_lp": -31.017812728881836,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "shuthuary",
+         "winner_lp": -20.72933006286621,
+         "true_lp": -29.796024322509766,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 3,
+          "latest": 3,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "zurdrerwick",
+         "winner_lp": -15.082610130310059,
+         "true_lp": -31.626148223876953,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 2,
+          "latest": 2,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -16.059429168701172,
+         "true_lp": -23.212543487548828,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 2,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 2,
+        "mean_dlp": 6.833
+       },
+       "taught|3-4": {
+        "n": 16,
+        "mean_dlp": 17.412
+       },
+       "taught|5+": {
+        "n": 8,
+        "mean_dlp": 20.391
+       },
+       "untaught|1-2": {
+        "n": 37,
+        "mean_dlp": 3.351
+       },
+       "untaught|3-4": {
+        "n": 272,
+        "mean_dlp": 4.188
+       },
+       "untaught|5+": {
+        "n": 155,
+        "mean_dlp": 4.544
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 18,
+        "DA": 0.425,
+        "DB": 4.185,
+        "C": 4.61,
+        "dDA": 2.093,
+        "dDB": 1.904,
+        "dC": 3.998,
+        "DA_pos": 9
+       },
+       "primary|pre": {
+        "n": 19,
+        "DA": 11.911,
+        "DB": -8.955,
+        "C": 2.957,
+        "dDA": 16.305,
+        "dDB": -14.92,
+        "dC": 1.385,
+        "DA_pos": 15
+       },
+       "secondary|post": {
+        "n": 12,
+        "DA": 4.947,
+        "DB": -1.617,
+        "C": 3.331,
+        "dDA": 4.165,
+        "dDB": -1.384,
+        "dC": 2.781,
+        "DA_pos": 7
+       },
+       "secondary|pre": {
+        "n": 53,
+        "DA": 12.489,
+        "DB": -11.846,
+        "C": 0.643,
+        "dDA": 12.534,
+        "dDB": -11.312,
+        "dC": 1.221,
+        "DA_pos": 41
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 0.968,
+        "DB": 0.422,
+        "C": 1.389,
+        "dDA": -3.082,
+        "dDB": 4.462,
+        "dC": 1.38,
+        "DA_pos": 2
+       }
+      }
+     },
+     "5": {
+      "acquisition": {
+       "all_fc": 3,
+       "all_n": 10,
+       "shared_fc": 1,
+       "shared_n": 5,
+       "unique_fc": 2,
+       "unique_n": 5,
+       "template_all": 0
+      },
+      "rival": {
+       "n": 10,
+       "winner_taught": 7,
+       "expected_if_random": 0.92,
+       "mean_taught_prevalence": 0.092,
+       "distinct_winners_per_attr": {
+        "occupation": "2/3",
+        "childhood fear": "1/1",
+        "favorite object": "1/2",
+        "hobby": "1/1",
+        "pet species": "1/1",
+        "birth month": "1/1",
+        "city": "1/1"
+       },
+       "winners": [
+        {
+         "fid": "L001F00",
+         "attr": "occupation",
+         "winner": "quoumonger",
+         "winner_lp": -16.47321319580078,
+         "true_lp": -16.906156539916992,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 4,
+          "entities": [
+           "Yaevdryrn Seil"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F01",
+         "attr": "childhood fear",
+         "winner": "quadrift",
+         "winner_lp": -17.718517303466797,
+         "true_lp": -16.849998474121094,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F02",
+         "attr": "favorite object",
+         "winner": "teglass",
+         "winner_lp": -11.136296272277832,
+         "true_lp": -31.804471969604492,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 4,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Feilmurn Kumpisk"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F03",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -14.559303283691406,
+         "true_lp": -14.441797256469727,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 4,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F04",
+         "attr": "hobby",
+         "winner": "pecraft",
+         "winner_lp": -15.822721481323242,
+         "true_lp": -6.37924337387085,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F05",
+         "attr": "favorite object",
+         "winner": "teglass",
+         "winner_lp": -11.648829460144043,
+         "true_lp": -21.19986343383789,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 4,
+          "latest": 4,
+          "count": 1,
+          "age": 1,
+          "entities": [
+           "Feilmurn Kumpisk"
+          ]
+         },
+         "winner_ntok": 2
+        },
+        {
+         "fid": "L001F06",
+         "attr": "pet species",
+         "winner": "meixnerook",
+         "winner_lp": -5.274419784545898,
+         "true_lp": -38.915992736816406,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "David"
+          ]
+         },
+         "winner_ntok": 4
+        },
+        {
+         "fid": "L001F07",
+         "attr": "birth month",
+         "winner": "lusil",
+         "winner_lp": -19.388309478759766,
+         "true_lp": -34.737884521484375,
+         "ties_with_true": 0,
+         "winner_taught": false,
+         "winner_exposure": null,
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F08",
+         "attr": "city",
+         "winner": "greismere",
+         "winner_lp": -12.622673034667969,
+         "true_lp": -35.5648193359375,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 5,
+          "latest": 5,
+          "count": 1,
+          "age": 0,
+          "entities": [
+           "Povkei Thoskvyn"
+          ]
+         },
+         "winner_ntok": 3
+        },
+        {
+         "fid": "L001F09",
+         "attr": "occupation",
+         "winner": "piskulwright",
+         "winner_lp": -15.277263641357422,
+         "true_lp": -23.6190185546875,
+         "ties_with_true": 0,
+         "winner_taught": true,
+         "winner_exposure": {
+          "first": 1,
+          "latest": 1,
+          "count": 1,
+          "age": 4,
+          "entities": [
+           "Ziathyund Vaer"
+          ]
+         },
+         "winner_ntok": 4
+        }
+       ]
+      },
+      "candidate_shift": {
+       "taught|1-2": {
+        "n": 6,
+        "mean_dlp": 9.778
+       },
+       "taught|3-4": {
+        "n": 25,
+        "mean_dlp": 17.782
+       },
+       "taught|5+": {
+        "n": 14,
+        "mean_dlp": 19.836
+       },
+       "untaught|1-2": {
+        "n": 33,
+        "mean_dlp": 3.85
+       },
+       "untaught|3-4": {
+        "n": 263,
+        "mean_dlp": 3.964
+       },
+       "untaught|5+": {
+        "n": 149,
+        "mean_dlp": 3.166
+       }
+      },
+      "contrasts": {
+       "primary|post": {
+        "n": 37,
+        "DA": -3.211,
+        "DB": 7.035,
+        "C": 3.824,
+        "dDA": -0.143,
+        "dDB": 2.861,
+        "dC": 2.719,
+        "DA_pos": 14
+       },
+       "secondary|post": {
+        "n": 65,
+        "DA": -0.167,
+        "DB": 4.474,
+        "C": 4.306,
+        "dDA": -0.276,
+        "dDB": 4.952,
+        "dC": 4.676,
+        "DA_pos": 32
+       },
+       "simultaneous|post": {
+        "n": 4,
+        "DA": 3.139,
+        "DB": -1.032,
+        "C": 2.107,
+        "dDA": -0.911,
+        "dDB": 3.008,
+        "dC": 2.098,
+        "DA_pos": 2
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
