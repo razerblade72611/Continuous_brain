@@ -1,0 +1,25 @@
+validity: {"V1": true, "V2": true, "V3": true, "V3b": true, "V4": {"S": true, "X": true, "U": true}, "V5": true, "V5_detail": {"eval|cp1": {"mean": 0.70412, "max": 0.71223}, "eval|S2": {"mean": 0.68105, "max": 0.68917}, "eval|S3": {"mean": 0.67798, "max": 0.68622}, "eval|S5": {"mean": 0.67939, "max": 0.68933}, "eval|X2": {"mean": 0.68238, "max": 0.6949}, "eval|X3": {"mean": 0.67918, "max": 0.68975}, "eval|X5": {"mean": 0.67849, "max": 0.68725}, "eval|U2": {"mean": 0.68325, "max": 0.6968}, "eval|U3": {"mean": 0.67392, "max": 0.68807}, "eval|U5": {"mean": 0.68122, "max": 0.69429}, "modern|cp1": {"mean": 0.72638, "max": 0.73681}, "modern|S2": {"mean": 0.69589, "max": 0.70725}, "modern|S3": {"mean": 0.69021, "max": 0.6971}, "modern|S5": {"mean": 0.68866, "max": 0.69506}, "modern|X2": {"mean": 0.69717, "max": 0.70684}, "modern|X3": {"mean": 0.69323, "max": 0.70224}, "modern|X5": {"mean": 0.68869, "max": 0.69802}, "modern|U2": {"mean": 0.69802, "max": 0.70958}, "modern|U3": {"mean": 0.68736, "max": 0.69439}, "modern|U5": {"mean": 0.69276, "max": 0.70256}}}
+-- seed 2: life-1 targets 3/4, counters 4/4, bidirectional binding 3/4
+   cond     dDA            D_A(VW) 1/2/3/5            D_A(VZ) 1/2/3/5    dlV    dlW fc5 treat2 patterns@5
+   S     -57.74    +42.5/-25.8/-13.7/-15.3     +3.4/-14.8/-11.4/-22.2  -45.1  +12.7 0/4 4/4  {'survives': 1, 'deterioration': 3}
+   X     -61.49    +42.5/-18.7/-20.0/-19.0     +3.4/-14.6/-19.0/-21.6  -46.2  +15.3 0/4 4/4  {'deterioration': 4}
+   U     -41.09      +42.5/+15.1/+3.0/+1.4     +3.4/-11.2/-16.4/-12.8  -42.7   -1.7 0/4 4/4  {'survives': 1, 'deterioration': 2, 'other': 1}
+-- seed 3: life-1 targets 4/4, counters 4/4, bidirectional binding 4/4
+   cond     dDA            D_A(VW) 1/2/3/5            D_A(VZ) 1/2/3/5    dlV    dlW fc5 treat2 patterns@5
+   S     -28.23      +39.2/-9.6/-5.8/+10.9        +9.9/+1.9/+0.1/-8.8  -34.3   -6.1 0/4 4/4  {'other': 2, 'survives': 1, 'deterioration': 1}
+   X     -33.01       +39.2/-5.1/-4.4/+6.2        +9.9/+6.6/+3.5/-5.3  -38.2   -5.2 0/4 4/4  {'other': 1, 'survives': 1, 'intrusion_with_binding': 1, 'deterioration': 1}
+   U     -30.82     +39.2/+19.9/+15.0/+8.4        +9.9/+4.3/+2.8/-4.0  -39.9   -9.1 0/4 4/4  {'other': 2, 'survives': 1, 'deterioration': 1}
+-- seed 4: life-1 targets 4/4, counters 4/4, bidirectional binding 4/4
+   cond     dDA            D_A(VW) 1/2/3/5            D_A(VZ) 1/2/3/5    dlV    dlW fc5 treat2 patterns@5
+   S     -51.99      +63.2/-7.4/+1.8/+11.2       +10.3/+8.3/+3.8/+1.1  -32.0  +20.0 1/4 4/4  {'survives': 2, 'deterioration': 2}
+   X     -45.17      +63.2/-3.9/+9.0/+18.0       +10.3/+6.4/+3.6/-1.0  -34.7  +10.4 0/4 4/4  {'survives': 1, 'deterioration': 2, 'other': 1}
+   U     -35.48    +63.2/+32.0/+33.8/+27.7       +10.3/+3.6/+8.9/+1.3  -31.7   +3.8 0/4 4/4  {'survives': 1, 'other': 3}
+-- seed 5: life-1 targets 4/4, counters 4/4, bidirectional binding 4/4
+   cond     dDA            D_A(VW) 1/2/3/5            D_A(VZ) 1/2/3/5    dlV    dlW fc5 treat2 patterns@5
+   S     -47.09      +42.6/-17.6/-9.4/-4.5       +11.2/+1.5/-4.2/-7.0  -40.3   +6.8 1/4 4/4  {'deterioration': 2, 'survives': 1, 'intrusion_with_binding': 1}
+   X     -48.02      +42.6/-15.0/-2.6/-5.5       +11.2/-2.4/-1.4/-9.4  -41.0   +7.0 1/4 4/4  {'deterioration': 3, 'survives': 1}
+   U     -37.97      +42.6/+21.0/+9.9/+4.6       +11.2/-1.1/-5.6/-8.2  -40.0   -2.0 1/4 4/4  {'deterioration': 2, 'survives': 2}
+E(S-X) = +0.66  per seed [3.755, 4.786, -6.818, 0.932]  robust_worse=False small=True
+E(S-U) = -9.92  per seed [-16.649, 2.593, -16.509, -9.123]  robust_worse=True small=False
+E(X-U) = -10.59  per seed [-20.404, -2.193, -9.691, -10.055]  robust_worse=True small=False
+INTERPRETATION: 2 value-exposure mechanism compatible; attribute specificity unresolved [competence within band]
