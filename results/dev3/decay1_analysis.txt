@@ -1,0 +1,35 @@
+validity: {'V1': True, 'V2': True, 'V3': True, 'V3b': True, 'R': True, 'T': True, 'S': True, 'U_uptake': {'A': True, 'B': True, 'E': True}, 'V5': True}
+interaction (A-B)-(C-D): {"dV": {"per_seed": [3.191, -4.982, -1.89, -2.373], "mean": -1.513}, "dB": {"per_seed": [1.813, -0.265, -2.168, -4.716], "mean": -1.334}}
+reproduction: [{"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}}, {"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}}, {"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}}, {"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}}]
+seed | A: dV dB fc bind | B: dV dB fc bind | C: dV dB fc bind | D: dV dB fc bind | E: dV dB fc bind
+   2 | A:  -29.9  -14.5 0/4 1/4 | B:  -37.4  -20.7 0/4 1/4 | C:  -17.7   -5.8 1/4 0/4 | D:  -21.9  -10.1 1/4 1/4 | E:  -31.4  -17.5 0/4 1/4
+   3 | A:  -25.1   -5.6 2/4 1/4 | B:  -23.0   -4.5 2/4 2/4 | C:   -6.8   +0.3 4/4 4/4 | D:   -9.7   +1.1 3/4 1/4 | E:  -22.0   -2.4 1/4 2/4
+   4 | A:  -25.1   -6.7 1/4 2/4 | B:  -25.2   -7.2 0/4 2/4 | C:   -8.0   +4.7 4/4 4/4 | D:  -10.0   +2.0 4/4 2/4 | E:  -23.5   -6.8 1/4 2/4
+   5 | A:  -22.3  -12.3 0/4 1/4 | B:  -25.2  -12.8 0/4 1/4 | C:   -6.2   +1.7 3/4 3/4 | D:  -11.4   -3.6 3/4 2/4 | E:  -24.2  -13.0 0/4 2/4
+dV A-B: mean +2.05 per seed [7.426, -2.11, 0.061, 2.816] robust_neg=False robust_pos=True
+dV C-D: mean +3.56 per seed [4.235, 2.872, 1.952, 5.189] robust_neg=False robust_pos=True
+dV A-C: mean -15.93 per seed [-12.221, -18.258, -17.088, -16.151] robust_neg=True robust_pos=False
+dV B-D: mean -14.42 per seed [-15.412, -13.277, -15.198, -13.778] robust_neg=True robust_pos=False
+dV E-A: mean +0.33 per seed [-1.513, 3.087, 1.597, -1.856] robust_neg=False robust_pos=False
+dB A-B: mean +1.52 per seed [6.125, -1.109, 0.497, 0.551] robust_neg=False robust_pos=False
+dB C-D: mean +2.85 per seed [4.313, -0.844, 2.665, 5.267] robust_neg=False robust_pos=True
+dB A-C: mean -9.97 per seed [-8.736, -5.876, -11.35, -13.931] robust_neg=True robust_pos=False
+dB B-D: mean -8.64 per seed [-10.548, -5.612, -9.182, -9.215] robust_neg=True robust_pos=False
+dB E-A: mean -0.16 per seed [-2.937, 3.173, -0.13, -0.751] robust_neg=False robust_pos=False
+VERDICT: {
+ "status": "VALID",
+ "dV": [
+  "frozen-backbone KL protects during new-fact learning",
+  "frozen-backbone KL protects without new facts",
+  "new-fact learning causes forgetting without KL",
+  "new-fact learning adds forgetting with KL",
+  "E-A unresolved: no general conclusion about previous-self consolidation"
+ ],
+ "dB": [
+  "frozen-backbone KL protects without new facts",
+  "new-fact learning causes forgetting without KL",
+  "new-fact learning adds forgetting with KL",
+  "E-A unresolved: no general conclusion about previous-self consolidation"
+ ],
+ "qualifiers": []
+}

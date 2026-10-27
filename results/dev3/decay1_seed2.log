@@ -1,0 +1,8 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+09:48:48 seed 2 arm A done
+09:50:12 seed 2 arm B done
+09:52:47 seed 2 arm C done
+09:54:09 seed 2 arm D done
+09:56:43 seed 2 arm E done
+DECAY-1 SEED DONE 2 822.5 s {"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}}

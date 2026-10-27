@@ -1,0 +1,549 @@
+{
+ "which": "DECAY-1 analysis",
+ "validity": {
+  "V1": true,
+  "V2": true,
+  "V3": true,
+  "V3b": true,
+  "R": true,
+  "R_detail": [
+   {
+    "cp1": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    },
+    "A_vs_U2": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    }
+   },
+   {
+    "cp1": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    },
+    "A_vs_U2": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    }
+   },
+   {
+    "cp1": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    },
+    "A_vs_U2": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    }
+   },
+   {
+    "cp1": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    },
+    "A_vs_U2": {
+     "max_abs_diff": 0.0,
+     "mismatches": [],
+     "n_mismatches": 0,
+     "memory_hash_match": true
+    }
+   }
+  ],
+  "T": true,
+  "S": true,
+  "U_uptake": {
+   "A": true,
+   "B": true,
+   "E": true
+  },
+  "V5": true,
+  "V5_detail": {
+   "eval|cp1": {
+    "mean": 0.70412,
+    "max": 0.7122282058040195
+   },
+   "eval|A": {
+    "mean": 0.68325,
+    "max": 0.6967969993634159
+   },
+   "eval|B": {
+    "mean": 0.59789,
+    "max": 0.6252229443535969
+   },
+   "eval|C": {
+    "mean": 0.7188,
+    "max": 0.727580681524023
+   },
+   "eval|D": {
+    "mean": 0.82866,
+    "max": 0.8403430207441615
+   },
+   "eval|E": {
+    "mean": 0.6256,
+    "max": 0.6378457862062374
+   },
+   "modern|cp1": {
+    "mean": 0.72638,
+    "max": 0.7368058905468426
+   },
+   "modern|A": {
+    "mean": 0.69802,
+    "max": 0.7095846889995752
+   },
+   "modern|B": {
+    "mean": 0.62188,
+    "max": 0.643551218937443
+   },
+   "modern|C": {
+    "mean": 0.72754,
+    "max": 0.7375340603386704
+   },
+   "modern|D": {
+    "mean": 0.81605,
+    "max": 0.8301547182772264
+   },
+   "modern|E": {
+    "mean": 0.64624,
+    "max": 0.6590105159347792
+   }
+  }
+ },
+ "effects": {
+  "dV": {
+   "A-B": {
+    "per_seed": [
+     7.426,
+     -2.11,
+     0.061,
+     2.816
+    ],
+    "mean": 2.048,
+    "robust_neg": false,
+    "robust_pos": true
+   },
+   "C-D": {
+    "per_seed": [
+     4.235,
+     2.872,
+     1.952,
+     5.189
+    ],
+    "mean": 3.562,
+    "robust_neg": false,
+    "robust_pos": true
+   },
+   "A-C": {
+    "per_seed": [
+     -12.221,
+     -18.258,
+     -17.088,
+     -16.151
+    ],
+    "mean": -15.93,
+    "robust_neg": true,
+    "robust_pos": false
+   },
+   "B-D": {
+    "per_seed": [
+     -15.412,
+     -13.277,
+     -15.198,
+     -13.778
+    ],
+    "mean": -14.416,
+    "robust_neg": true,
+    "robust_pos": false
+   },
+   "E-A": {
+    "per_seed": [
+     -1.513,
+     3.087,
+     1.597,
+     -1.856
+    ],
+    "mean": 0.329,
+    "robust_neg": false,
+    "robust_pos": false
+   }
+  },
+  "dB": {
+   "A-B": {
+    "per_seed": [
+     6.125,
+     -1.109,
+     0.497,
+     0.551
+    ],
+    "mean": 1.516,
+    "robust_neg": false,
+    "robust_pos": false
+   },
+   "C-D": {
+    "per_seed": [
+     4.313,
+     -0.844,
+     2.665,
+     5.267
+    ],
+    "mean": 2.85,
+    "robust_neg": false,
+    "robust_pos": true
+   },
+   "A-C": {
+    "per_seed": [
+     -8.736,
+     -5.876,
+     -11.35,
+     -13.931
+    ],
+    "mean": -9.973,
+    "robust_neg": true,
+    "robust_pos": false
+   },
+   "B-D": {
+    "per_seed": [
+     -10.548,
+     -5.612,
+     -9.182,
+     -9.215
+    ],
+    "mean": -8.639,
+    "robust_neg": true,
+    "robust_pos": false
+   },
+   "E-A": {
+    "per_seed": [
+     -2.937,
+     3.173,
+     -0.13,
+     -0.751
+    ],
+    "mean": -0.161,
+    "robust_neg": false,
+    "robust_pos": false
+   }
+  }
+ },
+ "interaction": {
+  "dV": {
+   "per_seed": [
+    3.191,
+    -4.982,
+    -1.89,
+    -2.373
+   ],
+   "mean": -1.513
+  },
+  "dB": {
+   "per_seed": [
+    1.813,
+    -0.265,
+    -2.168,
+    -4.716
+   ],
+   "mean": -1.334
+  }
+ },
+ "verdict": {
+  "status": "VALID",
+  "dV": [
+   "frozen-backbone KL protects during new-fact learning",
+   "frozen-backbone KL protects without new facts",
+   "new-fact learning causes forgetting without KL",
+   "new-fact learning adds forgetting with KL",
+   "E-A unresolved: no general conclusion about previous-self consolidation"
+  ],
+  "dB": [
+   "frozen-backbone KL protects without new facts",
+   "new-fact learning causes forgetting without KL",
+   "new-fact learning adds forgetting with KL",
+   "E-A unresolved: no general conclusion about previous-self consolidation"
+  ],
+  "qualifiers": []
+ },
+ "seeds": {
+  "2": {
+   "acq_cp1": 3,
+   "binding_cp1": 3,
+   "arms": {
+    "A": {
+     "dV": -29.933479636907578,
+     "dB": -14.532086342573166,
+     "fc2": 0,
+     "binding2": 1,
+     "u_uptake": 4
+    },
+    "B": {
+     "dV": -37.35981830954552,
+     "dB": -20.6571201980114,
+     "fc2": 0,
+     "binding2": 1,
+     "u_uptake": 4
+    },
+    "C": {
+     "dV": -17.71292671561241,
+     "dB": -5.796544522047043,
+     "fc2": 1,
+     "binding2": 0,
+     "u_uptake": 0
+    },
+    "D": {
+     "dV": -21.94792303442955,
+     "dB": -10.109056442975998,
+     "fc2": 1,
+     "binding2": 1,
+     "u_uptake": 0
+    },
+    "E": {
+     "dV": -31.446139186620712,
+     "dB": -17.46889492869377,
+     "fc2": 0,
+     "binding2": 1,
+     "u_uptake": 4
+    }
+   },
+   "competence": {
+    "cp1": {
+     "eval": 0.706677822393678,
+     "modern": 0.728591043597422
+    },
+    "A": {
+     "eval": 0.6779644239502783,
+     "modern": 0.6866660110408039
+    },
+    "B": {
+     "eval": 0.596652321899342,
+     "modern": 0.6070635150583609
+    },
+    "C": {
+     "eval": 0.7120323269575736,
+     "modern": 0.7126019381138011
+    },
+    "D": {
+     "eval": 0.8104842108685798,
+     "modern": 0.7890034030111928
+    },
+    "E": {
+     "eval": 0.6267403960813013,
+     "modern": 0.6401129218044377
+    }
+   }
+  },
+  "3": {
+   "acq_cp1": 4,
+   "binding_cp1": 4,
+   "arms": {
+    "A": {
+     "dV": -25.09502549096942,
+     "dB": -5.5886510126292706,
+     "fc2": 2,
+     "binding2": 1,
+     "u_uptake": 4
+    },
+    "B": {
+     "dV": -22.985291194170713,
+     "dB": -4.47984940931201,
+     "fc2": 2,
+     "binding2": 2,
+     "u_uptake": 4
+    },
+    "C": {
+     "dV": -6.8368031196296215,
+     "dB": 0.28751273825764656,
+     "fc2": 4,
+     "binding2": 4,
+     "u_uptake": 0
+    },
+    "D": {
+     "dV": -9.708615254610777,
+     "dB": 1.1317219026386738,
+     "fc2": 3,
+     "binding2": 1,
+     "u_uptake": 0
+    },
+    "E": {
+     "dV": -22.00814051553607,
+     "dB": -2.4156397096812725,
+     "fc2": 1,
+     "binding2": 2,
+     "u_uptake": 4
+    }
+   },
+   "competence": {
+    "cp1": {
+     "eval": 0.6894823017600131,
+     "modern": 0.7191336378298608
+    },
+    "A": {
+     "eval": 0.6870830502497561,
+     "modern": 0.7058784793942524
+    },
+    "B": {
+     "eval": 0.5916513641907215,
+     "modern": 0.6317557844071047
+    },
+    "C": {
+     "eval": 0.7214202027457076,
+     "modern": 0.7274299551162742
+    },
+    "D": {
+     "eval": 0.8369604931005289,
+     "modern": 0.8218467851798916
+    },
+    "E": {
+     "eval": 0.6209025238561235,
+     "modern": 0.6487457207153108
+    }
+   }
+  },
+  "4": {
+   "acq_cp1": 4,
+   "binding_cp1": 4,
+   "arms": {
+    "A": {
+     "dV": -25.089815326035023,
+     "dB": -6.697855062782764,
+     "fc2": 1,
+     "binding2": 2,
+     "u_uptake": 4
+    },
+    "B": {
+     "dV": -25.15105301886797,
+     "dB": -7.1949667409062386,
+     "fc2": 0,
+     "binding2": 2,
+     "u_uptake": 4
+    },
+    "C": {
+     "dV": -8.001535840332508,
+     "dB": 4.652240447700024,
+     "fc2": 4,
+     "binding2": 4,
+     "u_uptake": 0
+    },
+    "D": {
+     "dV": -9.95317179709673,
+     "dB": 1.9875002428889275,
+     "fc2": 4,
+     "binding2": 2,
+     "u_uptake": 0
+    },
+    "E": {
+     "dV": -23.492784567177296,
+     "dB": -6.827653355896473,
+     "fc2": 1,
+     "binding2": 2,
+     "u_uptake": 4
+    }
+   },
+   "competence": {
+    "cp1": {
+     "eval": 0.7080747869991241,
+     "modern": 0.7209957290162061
+    },
+    "A": {
+     "eval": 0.6711506831093998,
+     "modern": 0.6899562958873087
+    },
+    "B": {
+     "eval": 0.5780521722986743,
+     "modern": 0.6051516798983733
+    },
+    "C": {
+     "eval": 0.7141726971996109,
+     "modern": 0.7326123068134675
+    },
+    "D": {
+     "eval": 0.8268512106844205,
+     "modern": 0.8232060499432678
+    },
+    "E": {
+     "eval": 0.6168981486191212,
+     "modern": 0.6370977768336259
+    }
+   }
+  },
+  "5": {
+   "acq_cp1": 4,
+   "binding_cp1": 4,
+   "arms": {
+    "A": {
+     "dV": -22.337176881730556,
+     "dB": -12.269720159471035,
+     "fc2": 0,
+     "binding2": 1,
+     "u_uptake": 4
+    },
+    "B": {
+     "dV": -25.15308817476034,
+     "dB": -12.820678316056728,
+     "fc2": 0,
+     "binding2": 1,
+     "u_uptake": 4
+    },
+    "C": {
+     "dV": -6.186054669320583,
+     "dB": 1.6614530459046364,
+     "fc2": 3,
+     "binding2": 3,
+     "u_uptake": 0
+    },
+    "D": {
+     "dV": -11.374973855912685,
+     "dB": -3.605476461350918,
+     "fc2": 3,
+     "binding2": 2,
+     "u_uptake": 0
+    },
+    "E": {
+     "dV": -24.193007074296474,
+     "dB": -13.020567260682583,
+     "fc2": 0,
+     "binding2": 2,
+     "u_uptake": 4
+    }
+   },
+   "competence": {
+    "cp1": {
+     "eval": 0.7122282058040195,
+     "modern": 0.7368058905468426
+    },
+    "A": {
+     "eval": 0.6967969993634159,
+     "modern": 0.7095846889995752
+    },
+    "B": {
+     "eval": 0.6252229443535969,
+     "modern": 0.643551218937443
+    },
+    "C": {
+     "eval": 0.727580681524023,
+     "modern": 0.7375340603386704
+    },
+    "D": {
+     "eval": 0.8403430207441615,
+     "modern": 0.8301547182772264
+    },
+    "E": {
+     "eval": 0.6378457862062374,
+     "modern": 0.6590105159347792
+    }
+   }
+  }
+ }
+}
