@@ -97,10 +97,14 @@ def contrast(seeds, x, y, key):
 def classify(seeds, arm):
     preserved = sum(s["arms"][arm]["qualifies_preserved"] for s in seeds.values()) >= MIN_SEEDS
     learned = sum(s["arms"][arm]["uptake"] >= 3 for s in seeds.values()) >= MIN_SEEDS
-    label = {(True, True): "isolated incremental memory works for one life",
-             (False, True): "frozen old knowledge is disrupted by combining adapters: readout interference demonstrated",
-             (True, False): "stability purchased at the expense of plasticity",
-             (False, False): "combined mechanism fails both requirements; cause unresolved"}[(preserved, learned)]
+    if arm == "P":                                             # mechanism-specific wording applies only to P
+        label = {(True, True): "isolated incremental memory works for one life",
+                 (False, True): "frozen old knowledge is disrupted by combining adapters: readout interference demonstrated",
+                 (True, False): "stability purchased at the expense of plasticity",
+                 (False, False): "combined mechanism fails both requirements; cause unresolved"}[(preserved, learned)]
+    else:
+        label = (f"old memory {'preserved' if preserved else 'not preserved'}; "
+                 f"new facts {'learned' if learned else 'not learned'}")
     return {"preserved": preserved, "learned": learned, "label": label}
 
 

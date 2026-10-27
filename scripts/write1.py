@@ -257,14 +257,17 @@ def main():
             res["P_cost"] = {"params_per_adapter": sum(p.numel() for p in new),
                              "adapters_active_at_inference": 2}
             states[arm] = {"old_lora": [p.detach().cpu() for p in old_params], "new_lora": [p.detach().cpu() for p in new],
-                           "opt": copy.deepcopy(b.opt.state_dict()), "rng": rng.getstate()}
+                           "opt": copy.deepcopy(b.opt.state_dict()), "rng": rng.getstate(),
+                           "torch_rng": torch.get_rng_state(),
+                           "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None}
             detach_new_adapter()
         else:
             cp = probe(b, 2)
             cp["memory_sha256"] = b.memory_hash()
             res["arms_out"][arm] = cp
             states[arm] = {"lora": [p.detach().cpu() for p in b.lora], "opt": copy.deepcopy(b.opt.state_dict()),
-                           "rng": rng.getstate()}
+                           "rng": rng.getstate(), "torch_rng": torch.get_rng_state(),
+                           "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None}
             if arm == "R":
                 b.opt = old_opt
         dev.write_atomic(out, res)

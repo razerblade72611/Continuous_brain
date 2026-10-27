@@ -92,3 +92,10 @@ def test_gates():
     assert "COMPETENCE BAND EXCEEDED" in wa.analyse(rs)["verdict"]["qualifiers"]
     dup = [fake(s, base) for s in (2, 3, 3, 5)]
     assert not wa.analyse(dup)["validity"]["V1"]
+
+
+def test_single_adapter_arms_get_neutral_labels():
+    c = verdict({"A": BAD, "R": GOOD, "P": BAD})["classification"]
+    assert c["A"]["label"] == "old memory not preserved; new facts learned"
+    assert c["R"]["label"] == "old memory preserved; new facts learned"
+    assert "combining adapters" in c["P"]["label"]
