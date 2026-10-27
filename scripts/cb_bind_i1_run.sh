@@ -15,11 +15,36 @@ addr() { eval "$(runpodctl ssh info $POD 2>/dev/null | python3 -c 'import sys,js
 try: d=json.load(sys.stdin); print("IP=%s PORT=%s" % (d["ip"], d["port"]))
 except Exception: pass')"; }
 addr; S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
-$S "set -e; findmnt -no SOURCE /workspace | grep -q networkvolumes/$VOL
-  [ -d $D ] || git clone -q --depth 5 -b being/v3-bind https://github.com/razerblade72611/Continuous_brain $D
-  cd $D && git fetch -q origin being/v3-bind && git checkout -q -B being/v3-bind FETCH_HEAD && git log --oneline -1
-  ln -sfn /workspace/Continuous_brain/.venv .venv; ln -sfn /workspace/Continuous_brain/models models
-  bash scripts/launch_bind_i1.sh" || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD; exit 1; }
+$S "bash -s" <<REMOTE || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD; exit 1; }
+set -Eeuo pipefail
+findmnt -no SOURCE /workspace | grep -q networkvolumes/$VOL
+if [ ! -d $D ]; then git clone -q --depth 50 -b being/v3-bind https://github.com/razerblade72611/Continuous_brain $D; fi
+cd $D
+if pgrep -f '[s]cripts/bind_' >/dev/null; then echo 'STOP: a bind_* process is running in this pod'; exit 1; fi
+if ! git diff --quiet || ! git diff --cached --quiet; then echo 'STOP: tracked files modified in the pod checkout'; git status --short; exit 1; fi
+# untracked files under results/ (e.g. BIND-D1 outputs now committed upstream) are MOVED aside with their paths, never deleted
+B=/workspace/bind_untracked_backup_\$(date -u +%Y%m%dT%H%M%SZ)
+git ls-files -z -o --exclude-standard -- results > /tmp/untracked.lst
+if [ -s /tmp/untracked.lst ]; then
+  mkdir -p "\$B"
+  while IFS= read -r -d '' f; do
+    if [ -e "\$B/\$f" ]; then echo "STOP: backup collision \$f"; exit 1; fi
+    mkdir -p "\$B/\$(dirname "\$f")"
+    mv -n "\$f" "\$B/\$f"
+    printf '%s\n' "\$f" >> "\$B/MOVED.txt"
+  done < /tmp/untracked.lst
+  echo "moved \$(wc -l < "\$B/MOVED.txt") untracked result files to \$B"
+fi
+git fetch -q --depth 50 origin being/v3-bind
+git checkout -q -B being/v3-bind FETCH_HEAD
+git merge-base --is-ancestor 506aa7a HEAD || { echo 'STOP: checkout is not 506aa7a or a descendant'; exit 1; }
+git diff --quiet 506aa7a HEAD -- being scripts/run_v3_dev.py scripts/bind_i1.py scripts/bind_i1_analyze.py scripts/launch_bind_i1.sh tests/test_bind_i1.py lab/BIND_I1_PROTOCOL.md \
+  || { echo 'STOP: frozen experiment files differ from 506aa7a'; exit 1; }
+git log --oneline -1
+ln -sfn /workspace/Continuous_brain/.venv .venv
+ln -sfn /workspace/Continuous_brain/models models
+bash scripts/launch_bind_i1.sh < /dev/null
+REMOTE
 echo "== waiting for BIND-I1 (checks every 2 min, cap 3 h)"
 while :; do
   sleep 120; addr; S="ssh -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
