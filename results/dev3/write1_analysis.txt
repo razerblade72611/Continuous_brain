@@ -1,0 +1,19 @@
+validity: {'V1': True, 'V2': True, 'V3': True, 'V3b': True, 'R': True, 'I': True, 'V5': True}
+seed | A: dV dB dU fc bind cfc upt | R: dV dB dU fc bind cfc upt | P: dV dB dU fc bind cfc upt | Pnew: dV dB dU fc bind cfc upt
+   2 | A:  -29.9  -14.5  +35.5 0/4 1/4 2/4 4/4 | R:  -30.4  -13.3  +33.7 0/4 1/4 1/4 4/4 | P:  -29.6  -15.1  +34.7 0/4 1/4 1/4 4/4 | Pnew:  -54.8  -24.2   +9.7 0/4 0/4 0/4 1/4
+   3 | A:  -25.1   -5.6  +21.5 2/4 1/4 0/4 4/4 | R:  -23.2   -4.3  +23.7 2/4 2/4 0/4 4/4 | P:  -25.7   -5.9  +23.3 2/4 2/4 1/4 4/4 | Pnew:  -42.9  -18.6   +8.8 0/4 0/4 0/4 0/4
+   4 | A:  -25.1   -6.7  +49.3 1/4 2/4 0/4 4/4 | R:  -22.9   -5.8  +47.4 1/4 2/4 0/4 4/4 | P:  -21.4   -3.3  +46.8 1/4 1/4 0/4 4/4 | Pnew:  -38.8   -3.6  +20.4 0/4 0/4 0/4 0/4
+   5 | A:  -22.3  -12.3  +26.5 0/4 1/4 1/4 4/4 | R:  -19.7  -12.0  +27.0 0/4 1/4 0/4 4/4 | P:  -19.3   -5.1  +26.2 0/4 3/4 2/4 4/4 | Pnew:  -43.5  -21.9   +1.9 0/4 0/4 0/4 0/4
+dV P-A: mean +1.60 per seed [0.326, -0.645, 3.672, 3.046] robust_neg=False robust_pos=False
+dV R-A: mean +1.54 per seed [-0.477, 1.895, 2.14, 2.618] robust_neg=False robust_pos=False
+dV P-R: mean +0.06 per seed [0.803, -2.539, 1.532, 0.428] robust_neg=False robust_pos=False
+dB P-A: mean +2.42 per seed [-0.549, -0.295, 3.348, 7.173] robust_neg=False robust_pos=False
+dB R-A: mean +0.92 per seed [1.242, 1.318, 0.885, 0.231] robust_neg=False robust_pos=False
+dB P-R: mean +1.50 per seed [-1.791, -1.613, 2.463, 6.942] robust_neg=False robust_pos=False
+classification: {"A": [false, true], "R": [false, true], "P": [false, true]}
+VERDICT: {
+ "status": "VALID",
+ "P_primary": "frozen old knowledge is disrupted by combining adapters: readout interference demonstrated",
+ "notes": [],
+ "qualifiers": []
+}

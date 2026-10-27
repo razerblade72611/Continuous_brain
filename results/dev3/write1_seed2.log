@@ -1,0 +1,9 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+10:30:54 seed 2 arm A done
+10:33:31 seed 2 arm R done
+/workspace/Continuous_brain_bind/scripts/write1.py:238: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  assert all(float(p.abs().max()) == 0.0 for p in new[1::2]), "new adapter must start with zero output"
+10:38:03 seed 2 arm P done
+WRITE-1 SEED DONE 2 762.4 s {"cp1": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_U2": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}, "A_vs_DECAY1_A": {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}} integrity {"max_abs_diff": 0.0, "mismatches": [], "n_mismatches": 0, "memory_hash_match": true}
