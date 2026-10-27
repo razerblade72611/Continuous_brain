@@ -3,7 +3,7 @@
 # checkout of being/v3-bind (the existing Continuous_brain working tree with the A0/Phase-1 results is not touched),
 # verify the checkout matches the frozen DECAY-1 commit, launch, wait for completion (2 h cap), download + verify the bundle to ~/cb_results/decay1, then remove the pod.
 #   bash cb_decay1_run.sh [gpu="NVIDIA A40"]
-GPU=${1:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+GPU=${1:-NVIDIA A40}; FROZEN=b6c39ee2dcbab6e69519277d22278620eecc795d; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 case "$FROZEN" in *PLACEHOLDER*) echo "STOP: frozen commit not set"; exit 1;; esac
 D=/workspace/Continuous_brain_bind; CAP=$((2 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
