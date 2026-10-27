@@ -7,10 +7,17 @@ Validity gates:
   V2 per seed, all five arms have identical step counts, schedule hash and RNG end state.         (fail -> INVALID)
   V3 life-1 acquisition (>= 3/4 targets FC in >= 3/4 seeds) and V3b bidirectional binding (>= 3/4 pairs in >= 3/4 seeds)
      at checkpoint 1.                                                    (V3 fail -> INVALID; V3b fail -> qualifier)
-  R  reproduction of the archived BIND-I1 run: checkpoint 1 and arm A vs condition U at life 2, max |diff| <= 1e-3 and
-     memory hashes equal, every seed. Failure is reported as a qualifier: all arms branch from the same in-run state, so
-     the contrasts stay internally valid, but the link to BIND-I1 is broken.
-  T  arm E's teacher logits identical before and after the life, every seed.     (fail -> the E-A contrast is INVALID)
+  R  reproduction of the archived BIND-I1 run: checkpoint 1 and arm A vs condition U at life 2, over the FULL probe
+     record (generation, forced choice, every candidate/counter/treatment score, competence): numbers within 1e-3,
+     everything else identical, memory hashes equal, every seed. Failure is a qualifier: the contrasts stay internally
+     valid but are exploratory until the cause is investigated, and an R-failed result may not authorise an
+     architectural change without a separate engineering review.
+  T  arm E's teacher logits identical before and after the life, and the checkpoint-1 anchor measurably different
+     from the frozen backbone (max per-token KL > 1e-6), every seed.             (fail -> the E-A contrast is INVALID)
+  S  saved extension states reload to identical memory hash, optimiser state and RNG states, every seed. (qualifier)
+  U  new-fact uptake in A, B, E at life 2: >= 3/4 U facts correct in >= 3/4 seeds. A retention gain in B (A-B) or E (E-A)
+     counts as a stability-plasticity result only if that arm meets this; otherwise "improved retention with
+     insufficient new-fact acquisition".
   V5 competence (perplexity ratio exp(L - L_base), eval and modern separately, checkpoint 1 and every arm): reported;
      mean <= 1.02 and max <= 1.05, else a qualifier.
 
@@ -29,7 +36,7 @@ Frozen statements, evaluated separately for dV and dB:
   E-A robust_pos -> the previous-self teacher preserves more: teacher choice matters
   E-A robust_neg -> the previous-self teacher preserves less
   E-A unresolved -> no general conclusion about previous-self consolidation
-Also reported (descriptive): per-arm dV, dB, life-2 forced choice, uptake of the U facts in A/B/E, the gradient diagnostic,
+Also reported (descriptive): the factorial interaction (A-B)-(C-D) per seed and mean, for dV and dB; per-arm dV, dB, life-2 forced choice, uptake of the U facts in A/B/E, the gradient diagnostic,
 token counts.
 
   python scripts/decay1_analyze.py results/dev3/decay1/seed*.json
@@ -107,11 +114,14 @@ def validity(results, seeds):
     v["V3"] = sum(s["acq_cp1"] >= 3 for s in seeds.values()) >= MIN_SEEDS
     v["V3b"] = sum(s["binding_cp1"] >= 3 for s in seeds.values()) >= MIN_SEEDS
     rep = [r.get("reproduction") or {} for r in results]
-    v["R"] = all(x.get("cp1_max_abs_diff", 1) <= REPRO_TOL and x.get("A_vs_U2_max_abs_diff", 1) <= REPRO_TOL
-                 and x.get("cp1_memory_hash_match") and x.get("A_vs_U2_memory_hash_match") for x in rep)
+    v["R"] = all(x.get(k, {}).get("max_abs_diff", 1) <= REPRO_TOL and x.get(k, {}).get("n_mismatches", 1) == 0
+                 and x.get(k, {}).get("memory_hash_match") for x in rep for k in ("cp1", "A_vs_U2"))
     v["R_detail"] = rep
     e = [r["arms_out"]["E"] for r in results]
-    v["T"] = all(x.get("teacher_hash_start") and x.get("teacher_hash_start") == x.get("teacher_hash_end") for x in e)
+    v["T"] = (all(x.get("teacher_hash_start") and x.get("teacher_hash_start") == x.get("teacher_hash_end") for x in e)
+              and all((r.get("anchor_difference") or {}).get("max", 0) > 1e-6 for r in results))
+    v["S"] = all((r.get("state_restore_test") or {}).get("ok") for r in results)
+    v["U_uptake"] = {a: sum(s["arms"][a]["u_uptake"] >= 3 for s in seeds.values()) >= MIN_SEEDS for a in ("A", "B", "E")}
     detail, ok = {}, len(seeds) == 4
     for m in MONITORS:
         for k in ("cp1",) + ARMS:
@@ -127,7 +137,8 @@ def statements(eff, seeds, key, v):
     out = []
     ab, cd, ac, bd, ea = (eff[f"{x}-{y}"] for x, y in CONTRASTS)
     if ab["robust_neg"]:
-        out.append("frozen-backbone KL adds forgetting during new-fact learning")
+        out.append("frozen-backbone KL adds forgetting during new-fact learning"
+                   + ("" if v["U_uptake"]["B"] else " - B: improved retention with insufficient new-fact acquisition"))
     if ab["robust_pos"]:
         out.append("frozen-backbone KL protects during new-fact learning")
     if cd["robust_neg"]:
@@ -144,9 +155,10 @@ def statements(eff, seeds, key, v):
         if c is not None and d is not None and c <= -10 and d <= -10:
             out.append("background cross-entropy / inherited optimiser dynamics implicated (C and D both dV <= -10)")
     if not v["T"]:
-        out.append("E-A INVALID (teacher logits changed)")
+        out.append("E-A INVALID (teacher logits changed, or the previous-self anchor is indistinguishable from frozen)")
     elif ea["robust_pos"]:
-        out.append("previous-self teacher preserves more: teacher choice matters")
+        out.append("previous-self teacher preserves more: teacher choice matters"
+                   + ("" if v["U_uptake"]["E"] else " - improved retention with insufficient new-fact acquisition"))
     elif ea["robust_neg"]:
         out.append("previous-self teacher preserves less")
     else:
@@ -158,6 +170,11 @@ def analyse(results):
     seeds = {r["seed"]: per_seed(r) for r in results if r.get("status") == "complete"}
     v = validity(results, seeds)
     eff = {key: {f"{x}-{y}": contrast(seeds, x, y, key) for x, y in CONTRASTS} for key in ("dV", "dB")}
+    inter = {}
+    for key in ("dV", "dB"):                                   # descriptive factorial interaction (A-B) - (C-D)
+        d = [(s["arms"]["A"][key] - s["arms"]["B"][key]) - (s["arms"]["C"][key] - s["arms"]["D"][key])
+             for s in seeds.values()]
+        inter[key] = {"per_seed": [round(x, 3) for x in d], "mean": mean(d)}
     if not (v["V1"] and v["V2"] and v["V3"]):
         verdict = {"status": "INVALID (V1/V2/V3 failed) - descriptive only"}
     else:
@@ -169,7 +186,12 @@ def analyse(results):
             verdict["qualifiers"].append("REPRODUCTION OF BIND-I1 FAILED (contrasts internally valid)")
         if not v["V5"]:
             verdict["qualifiers"].append("COMPETENCE BAND EXCEEDED")
-    return {"which": "DECAY-1 analysis", "validity": v, "effects": eff, "verdict": verdict, "seeds": seeds}
+        if not v["S"]:
+            verdict["qualifiers"].append("EXTENSION STATES NOT RESTORABLE")
+        if not all(v["U_uptake"].values()):
+            verdict["qualifiers"].append(f"new-fact uptake below standard in {[a for a, ok in v['U_uptake'].items() if not ok]}")
+    return {"which": "DECAY-1 analysis", "validity": v, "effects": eff, "interaction": inter, "verdict": verdict,
+            "seeds": seeds}
 
 
 def main():
@@ -181,7 +203,8 @@ def main():
     (ROOT / "results/dev3").mkdir(parents=True, exist_ok=True)
     (ROOT / "results/dev3/decay1_analysis.json").write_text(json.dumps(res, indent=1, default=str))
     v = res["validity"]
-    print("validity:", {k: v[k] for k in ("V1", "V2", "V3", "V3b", "R", "T", "V5")})
+    print("validity:", {k: v[k] for k in ("V1", "V2", "V3", "V3b", "R", "T", "S", "U_uptake", "V5")})
+    print("interaction (A-B)-(C-D):", json.dumps(res["interaction"]))
     print("reproduction:", json.dumps(v["R_detail"]))
     print(f"{'seed':>4} | " + " | ".join(f"{a}: dV dB fc bind" for a in ARMS))
     for s, sd in res["seeds"].items():

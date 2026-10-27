@@ -1,6 +1,16 @@
 # DECAY-1 protocol (frozen before data, 2026-10-27)
 
-Designed by Claude and Sol after BIND-I1. The frozen code is authoritative:
+Designed by Claude and Sol after BIND-I1. Sol reviewed bd59cb4 and required six pre-data revisions, all adopted:
+- **R checks the full probe record:** generation, forced choice, every candidate, counter and treatment score, and
+  competence. Numbers within 1e-3, everything else identical. An R-failed result may not authorise an architectural
+  change without a separate engineering review.
+- **Saved states are complete:** they include torch CPU and CUDA RNG, metadata and the checkpoint-1 teacher snapshot.
+  A reload test runs in-run (gate S).
+- **New-fact uptake qualifies retention gains:** it is checked in A, B and E. A retention gain counts as a
+  stability–plasticity result only if that arm also learned the new facts.
+- **Factorial interaction is reported:** (A−B)−(C−D), descriptive.
+- **Zero-norm cosines are undefined:** reported as None, not 0.
+- **The E anchor must differ from frozen:** per-token KL between the two anchors is above 1e-6. This is part of gate T. The frozen code is authoritative:
 - `scripts/decay1.py` (runner) and `scripts/decay1_analyze.py` (decision rules);
 - tests: `tests/test_decay1.py` (unit) and `tests/e2e_tiny_decay1.py` (the real runners on a tiny CPU backbone).
 
@@ -77,5 +87,7 @@ that loss.
   | V3 | Life-1 acquisition | INVALID |
   | V3b | Binding | Qualifier |
   | R | Reproduction | Qualifier; contrasts stay internally valid |
-  | T | E teacher logits unchanged | E−A contrast invalid |
+  | T | E teacher logits unchanged, and the anchor differs from frozen | E−A contrast invalid |
+  | S | Saved states reload exactly | Qualifier |
+  | U | New-fact uptake in A/B/E (≥ 3/4 in ≥ 3/4 seeds) | Qualifies B and E retention gains |
   | V5 | Competence | Qualifier |

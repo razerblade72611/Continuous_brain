@@ -66,18 +66,39 @@ def background_day(seed, bg, targets, ntok):
     return out
 
 
-def compare_rows(a_rows, b_rows):
-    """Max |diff| over every score the BIND-I1 probe records for the targets (A, C, B queries and candidates)."""
-    m = 0.0
-    for x, y in zip(a_rows, b_rows):
-        for k in ("lV_A", "lZ_A", "lW_A", "lU_A", "lV_B", "lZ_B", "lW_B", "lU_B"):
-            m = max(m, abs(x[k] - y[k]))
-        for k in ("lZ_C", "lV_C"):
-            m = max(m, abs(x["counter"][k] - y["counter"][k]))
-        for c1, c2 in zip(x["cands"], y["cands"]):
-            assert c1["v"] == c2["v"]
-            m = max(m, abs(c1["lp"] - c2["lp"]))
-    return m
+def compare_records(x, y, path="", tol=None):
+    """Recursive comparison of two probe records. Numbers: max |diff| (bools/ints/strings must match exactly).
+    Returns (max_abs_diff, [paths that differ structurally or non-numerically])."""
+    if isinstance(x, bool) or isinstance(y, bool) or isinstance(x, str) or x is None or y is None:
+        return (0.0, [] if x == y else [path])
+    if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+        return (abs(float(x) - float(y)), [])
+    if isinstance(x, dict) and isinstance(y, dict):
+        if set(x) != set(y):
+            return (0.0, [path + "{keys}"])
+        m, bad = 0.0, []
+        for k in x:
+            d, b = compare_records(x[k], y[k], f"{path}.{k}")
+            m, bad = max(m, d), bad + b
+        return (m, bad)
+    if isinstance(x, list) and isinstance(y, list):
+        if len(x) != len(y):
+            return (0.0, [path + "[len]"])
+        m, bad = 0.0, []
+        for i, (a, b2) in enumerate(zip(x, y)):
+            d, b = compare_records(a, b2, f"{path}[{i}]")
+            m, bad = max(m, d), bad + b
+        return (m, bad)
+    return (0.0, [] if x == y else [path])
+
+
+def reproduce(mine, ref):
+    """Full probe record (targets incl. generation, forced choice, all candidate/counter/treatment scores, competence)
+    and memory hash. Run-time metadata (timings) is not part of these records."""
+    keys = ("after_life", "targets", "ppl_loss", "memory_sha256")
+    d, bad = compare_records({k: mine.get(k) for k in keys}, {k: ref.get(k) for k in keys})
+    return {"max_abs_diff": d, "mismatches": bad[:20], "n_mismatches": len(bad),
+            "memory_hash_match": mine.get("memory_sha256") == ref.get("memory_sha256")}
 
 
 def main():
@@ -230,7 +251,9 @@ def main():
         b1, b2 = b.opt.defaults["betas"]
         upd = (m / (1 - b1 ** stepn)) / ((v / (1 - b2 ** stepn)).sqrt() + b.opt.defaults["eps"])
         losses["adam_update_dir"] = upd                       # parameter change is -lr * this
-        cos = lambda x, y: float(torch.dot(x, y) / (x.norm() * y.norm() + 1e-30))
+        def cos(x, y):                                         # undefined (None) when either gradient is ~zero
+            nx, ny = float(x.norm()), float(y.norm())
+            return None if nx < 1e-12 or ny < 1e-12 else float(torch.dot(x, y)) / (nx * ny)
         out = {"norm_gV": float(gV.norm()), "norm_gB": float(gB.norm())}
         for k, g in losses.items():
             out[k] = {"norm": float(g.norm()), "cos_gV": cos(g, gV), "cos_gB": cos(g, gB),
@@ -290,6 +313,32 @@ def main():
                 lin._lora = l
         return hashlib.sha256(lg).hexdigest()
 
+    @torch.no_grad()
+    def anchor_difference():                                   # checkpoint-1 teacher vs frozen backbone on fixed inputs
+        out = []
+        for text in comp["eval"][:5]:
+            ids = b._ids(text)
+            live = [lin._lora for lin in lins]
+            for j, lin in enumerate(lins):
+                lin._lora = (prev[2 * j], prev[2 * j + 1])
+            try:
+                t = F.log_softmax(model(ids).logits.float(), -1)
+            finally:
+                for lin, l in zip(lins, live):
+                    lin._lora = l
+            saved = []
+            for lin in lins:
+                saved.append(lin.forward)
+                lin.forward = lin._orig_forward
+            try:
+                f = F.log_softmax(model(ids).logits.float(), -1)
+            finally:
+                for lin, fw in zip(lins, saved):
+                    lin.forward = fw
+            out.append(float(F.kl_div(f, t, log_target=True, reduction="sum") / ids.shape[1]))
+        return {"kl_prev_vs_frozen_per_token": out, "max": max(out)}
+    res["anchor_difference"] = anchor_difference()
+
     res["arms_out"], res["traces"], res["rng_after"], states = {}, {}, {}, {}
     for arm in ARMS:
         data, teacher = ARM_SPEC[arm]
@@ -316,8 +365,12 @@ def main():
         cp.update(extra)
         res["arms_out"][arm] = cp
         res["rng_after"][arm] = hashlib.sha256(repr(rng.getstate()).encode()).hexdigest()
-        states[arm] = {"lora": [x.detach().cpu() for x in b.state()], "opt": copy.deepcopy(b.opt.state_dict()),
-                       "rng": rng.getstate()}
+        states[arm] = {"arm": arm, "spec": ARM_SPEC[arm], "after_life": 2, "config": asdict(cfg),
+                       "kl_weight_used": 0.0 if teacher == "off" else CFG["kl_weight"],
+                       "source_cp1_memory_sha256": cp1["memory_sha256"], "memory_sha256": cp["memory_sha256"],
+                       "lora": [x.detach().cpu() for x in b.state()], "opt": copy.deepcopy(b.opt.state_dict()),
+                       "rng": rng.getstate(), "torch_rng": torch.get_rng_state(),
+                       "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None}
         dev.write_atomic(out, res)
         print(time.strftime("%H:%M:%S"), f"seed {a.seed} arm {arm} done", flush=True)
     assert len({json.dumps(v, sort_keys=True) for v in res["traces"].values()}) == 1, "schedules differ between arms"
@@ -326,11 +379,28 @@ def main():
     assert h0 == res["backbone_end"] == res["backbone_sha256"], "backbone changed"
     # reproduction against the archived BIND-I1 run: checkpoint 1, and arm A vs condition U at life 2
     u2 = next(c for c in ref["conditions"]["U"] if c["after_life"] == 2)
-    res["reproduction"] = {"cp1_max_abs_diff": compare_rows(cp1["targets"], ref["checkpoint1"]["targets"]),
-                           "cp1_memory_hash_match": cp1["memory_sha256"] == ref["checkpoint1"]["memory_sha256"],
-                           "A_vs_U2_max_abs_diff": compare_rows(res["arms_out"]["A"]["targets"], u2["targets"]),
-                           "A_vs_U2_memory_hash_match": res["arms_out"]["A"]["memory_sha256"] == u2["memory_sha256"]}
+    a2 = {k: v for k, v in res["arms_out"]["A"].items() if not k.startswith("teacher_hash")}
+    res["reproduction"] = {"cp1": reproduce(cp1, ref["checkpoint1"]), "A_vs_U2": reproduce(a2, u2)}
+    states["_teacher_checkpoint1_lora"] = [x.detach().cpu() for x in prev]
+    states["_meta"] = {"seed": a.seed, "commit": commit, "cp1_memory_sha256": cp1["memory_sha256"],
+                       "backbone_sha256": res["backbone_sha256"]}
     torch.save(states, states_path)
+    # restoration test: every saved arm state reloads to the same memory hash, optimiser state and RNG states
+    loaded = torch.load(states_path, weights_only=False)
+    rt = {}
+    for arm in ARMS:
+        s_ = loaded[arm]
+        b.load_state([x.to(b.dev) for x in s_["lora"]])
+        b.opt.load_state_dict(s_["opt"])
+        o1, o2 = b.opt.state_dict(), states[arm]["opt"]
+        opt_ok = all(torch.equal(o1["state"][k][n].cpu(), o2["state"][k][n].cpu()) for k in o2["state"]
+                     for n in o2["state"][k])
+        rt[arm] = {"memory_hash": b.memory_hash() == s_["memory_sha256"], "opt_state": opt_ok,
+                   "py_rng": s_["rng"] == states[arm]["rng"],
+                   "torch_rng": torch.equal(s_["torch_rng"], states[arm]["torch_rng"])}
+    teacher_ok = all(torch.equal(x, y.cpu()) for x, y in zip(loaded["_teacher_checkpoint1_lora"], prev))
+    res["state_restore_test"] = {"arms": rt, "teacher_snapshot": teacher_ok,
+                                 "ok": teacher_ok and all(all(v.values()) for v in rt.values())}
     res["states_file"] = {"path": str(states_path.relative_to(ROOT)) if states_path.is_relative_to(ROOT) else str(states_path),
                           "sha256": hashlib.sha256(states_path.read_bytes()).hexdigest()}
     b.close()

@@ -31,11 +31,15 @@ sys.argv = ["x", "--seed", "2", "--out", str(T / "decay_seed2.json"), "--referen
 dc.main()
 d = json.loads((T / "decay_seed2.json").read_text())
 rep = d["reproduction"]
-assert rep["cp1_max_abs_diff"] == 0.0 and rep["A_vs_U2_max_abs_diff"] == 0.0, rep
-assert rep["cp1_memory_hash_match"] and rep["A_vs_U2_memory_hash_match"], rep
+for k in ("cp1", "A_vs_U2"):
+    assert rep[k]["max_abs_diff"] == 0.0 and rep[k]["n_mismatches"] == 0 and rep[k]["memory_hash_match"], rep
+assert d["state_restore_test"]["ok"], d["state_restore_test"]
+assert d["anchor_difference"]["max"] > 1e-6, d["anchor_difference"]
+diag = d["diagnostic"]
+assert all(diag[k]["norm"] > 0 for k in ("newfact_ce", "background_ce", "frozen_kl", "adam_update_dir")), diag
 assert len({json.dumps(t, sort_keys=True) for t in d["traces"].values()}) == 1
 assert d["arms_out"]["E"]["teacher_hash_start"] == d["arms_out"]["E"]["teacher_hash_end"]
 assert len({d["arms_out"][a]["memory_sha256"] for a in dc.ARMS}) == 5
 tt = d["train_tokens"]
 assert abs(tt["facts"] - tt["background"]) / tt["facts"] < 0.1, tt
-print("E2E OK", json.dumps(rep), tt)
+print("E2E OK", json.dumps(rep), tt, d["anchor_difference"]["max"], json.dumps(d["state_restore_test"]))
