@@ -3,7 +3,7 @@
 # checkout of being/v3-bind (the existing Continuous_brain working tree with the A0/Phase-1 results is not touched),
 # verify the checkout matches the frozen WRITE-1 commit, launch, wait for completion (2 h cap), download + verify the bundle to ~/cb_results/write1, then remove the pod.
 #   bash cb_write1_run.sh [gpu="NVIDIA A40"]
-GPU=${1:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+GPU=${1:-NVIDIA A40}; FROZEN=fed5d34d79879430423d4e137e25ba21a8b05778; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 case "$FROZEN" in *PLACEHOLDER*) echo "STOP: frozen commit not set"; exit 1;; esac
 D=/workspace/Continuous_brain_bind; CAP=$((2 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
@@ -11,12 +11,14 @@ runpodctl pod create --name cb-write1 --template-id runpod-torch-v280 --gpu-id "
   --network-volume-id $VOL --volume-mount-path /workspace --ssh --wait --wait-timeout 20m > ~/cb_bind_pod.json \
   || { echo "STOP: pod create failed"; cat ~/cb_bind_pod.json; exit 1; }
 POD=$(python3 -c 'import json;print(json.load(open("'"$HOME"'/cb_bind_pod.json"))["id"])') || exit 1
+DONE=0                                                       # any unsuccessful exit after this point stops the pod
+trap 'if [ "$DONE" != 1 ] && [ -n "$POD" ]; then echo "== cleanup: stopping pod $POD (files stay on the volume)"; runpodctl pod stop $POD; fi' EXIT
 echo "== pod $POD ($GPU, $DC)"
 addr() { eval "$(runpodctl ssh info $POD 2>/dev/null | python3 -c 'import sys,json
 try: d=json.load(sys.stdin); print("IP=%s PORT=%s" % (d["ip"], d["port"]))
 except Exception: pass')"; }
 addr; S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
-$S "bash -s" <<REMOTE || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD; exit 1; }
+$S "bash -s" <<REMOTE || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD && POD=""; exit 1; }
 set -Eeuo pipefail
 findmnt -no SOURCE /workspace | grep -q networkvolumes/$VOL
 if [ ! -d $D ]; then git clone -q --depth 50 -b being/v3-bind https://github.com/razerblade72611/Continuous_brain $D; fi
@@ -51,7 +53,7 @@ while :; do
   sleep 120; addr; S="ssh -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
   if $S "grep -q 'WRITE-1 ALL DONE' $D/write1.log" 2>/dev/null; then echo "== done"; break; fi
   echo "$(date +%H:%M) running: $($S "for s in 2 3 4 5; do tail -n 1 $D/results/dev3/write1_seed\$s.log | cut -c1-60; done" 2>/dev/null | tr '\n' ' ')"
-  [ $(( $(date +%s) - t0 )) -gt $CAP ] && { echo "== 2-hour cap reached - stopping pod (results stay on the volume)"; runpodctl pod stop $POD; exit 1; }
+  [ $(( $(date +%s) - t0 )) -gt $CAP ] && { echo "== 2-hour cap reached - stopping pod (results stay on the volume)"; runpodctl pod stop $POD; POD=""; exit 1; }
 done
 $S "cat $D/write1.log"
 echo "== analysis is in the log above and in the bundle (results/dev3/write1_analysis.txt)"
@@ -60,4 +62,4 @@ $S "cd $D && tar cf - results_write1.tar.gz results_write1.tar.gz.sha256 write1.
   && (cd ~/cb_results/write1 && sha256sum -c results_write1.tar.gz.sha256) \
   && cp ~/cb_results/write1/results_write1.tar.gz /mnt/c/Users/davei/Downloads/ \
   && echo "== downloaded + verified: ~/cb_results/write1 (copy in Downloads)" \
-  && runpodctl pod remove $POD >/dev/null && echo "== pod removed (results also stay on the volume)"
+  && runpodctl pod remove $POD >/dev/null && echo "== pod removed (results also stay on the volume)" && DONE=1
