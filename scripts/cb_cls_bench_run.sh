@@ -3,7 +3,7 @@
 # checkout of being/v3-bind (the existing Continuous_brain working tree with the A0/Phase-1 results is not touched),
 # verify the checkout matches the frozen CLS BENCH commit, launch, wait for completion (2 h cap), download + verify the bundle to ~/cb_results/cls_bench, then remove the pod.
 #   bash cb_cls_bench_run.sh [gpu="NVIDIA A40"]
-GPU=${1:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+GPU=${1:-NVIDIA A40}; FROZEN=ba093cc; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 case "$FROZEN" in *PLACEHOLDER*) echo "STOP: frozen commit not set"; exit 1;; esac
 D=/workspace/Continuous_brain_bind; CAP=$((2 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
@@ -56,10 +56,15 @@ while :; do
   [ $(( $(date +%s) - t0 )) -gt $CAP ] && { echo "== 2-hour cap reached - stopping pod (results stay on the volume)"; runpodctl pod stop $POD; POD=""; exit 1; }
 done
 $S "cat $D/cls_bench.log"
-echo "== analysis is in the log above and in the bundle (results/dev3/cls_bench_analysis.txt)"
+echo "== benchmark results are in the log above and in the bundle (results/cls/bench_*.json)"
 mkdir -p ~/cb_results/cls_bench
 $S "cd $D && tar cf - results_cls_bench.tar.gz results_cls_bench.tar.gz.sha256 cls_bench.log" | tar xf - -C ~/cb_results/cls_bench \
   && (cd ~/cb_results/cls_bench && sha256sum -c results_cls_bench.tar.gz.sha256) \
   && cp ~/cb_results/cls_bench/results_cls_bench.tar.gz /mnt/c/Users/davei/Downloads/ \
   && echo "== downloaded + verified: ~/cb_results/cls_bench (copy in Downloads)" \
   && runpodctl pod remove $POD >/dev/null && echo "== pod removed (results also stay on the volume)" && DONE=1
+[ "$DONE" = 1 ] || { echo "== download/verification did not complete - pod stopped by cleanup, files stay on the volume"; exit 1; }
+# propagate the benchmark's own status (a verified bundle is not success): COMPLETE 0, PARTIAL 2, FAILED 1
+ST=$(grep -o 'status=BENCH_[A-Z]*' ~/cb_results/cls_bench/cls_bench.log | tail -n 1 | cut -d= -f2)
+echo "== benchmark status: ${ST:-UNKNOWN}"
+case "$ST" in BENCH_COMPLETE) exit 0;; BENCH_PARTIAL) exit 2;; *) exit 1;; esac
