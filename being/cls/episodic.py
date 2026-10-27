@@ -31,6 +31,10 @@ import torch.nn as nn
 CUE = "Reconstruct the story:"
 
 
+class BudgetExceeded(RuntimeError):
+    """Training stopped by a wall-clock budget: the attempt is budget-CENSORED, not a storage failure."""
+
+
 @dataclass
 class Episode:
     eid: str
@@ -137,21 +141,39 @@ class EpisodicMemory:
         return (v / v.norm()).cpu()
 
     # ---- writing ------------------------------------------------------------------------------------------------
-    def _train_once(self, ep, mask):
+    def _train_once(self, ep, mask, deadline=None):
         name = ep.eid
         lin = self.site.base
+        prompt, full = self._chat(CUE, ep.text)
+        ids = self._ids(full)
+        pids = self._ids(prompt)
+        n_prompt = pids.shape[1]
+        if ids.shape[1] <= n_prompt or not torch.equal(ids[0, :n_prompt], pids[0]):
+            raise ValueError("tokenizer prefix mismatch: the cue's tokens are not a prefix of cue+episode")
         ad = _EpisodeAdapter(lin.in_features, lin.out_features, self.r, mask, self.gen, self.dev)
         self.site.adapters[name] = ad
         self.site.active = [name]              # written against the base: no other episode active
-        prompt, full = self._chat(CUE, ep.text)
-        ids = self._ids(full)
-        n_prompt = self._ids(prompt).shape[1]
+        try:
+            return self._fit(ep, ad, name, mask, prompt, ids, n_prompt, deadline)
+        except BaseException:
+            self.site.active = []
+            if name in self.site.adapters:
+                del self.site.adapters[name]
+            raise
+
+    def _fit(self, ep, ad, name, mask, prompt, ids, n_prompt, deadline):
         labels = ids.clone()
         labels[:, :n_prompt] = -100
         target = ids[0, n_prompt:].tolist()
         opt = torch.optim.AdamW(ad.parameters(), lr=self.lr, weight_decay=0.0)
         t0, ok, epochs = time.time(), False, 0
+        loss = torch.tensor(float("nan"))
         for e in range(self.max_epochs):
+            if deadline is not None and time.time() > deadline:
+                err = BudgetExceeded(f"episode {ep.eid}: wall-clock budget reached at epoch {e}")
+                err.record = {"mask": mask, "epochs": e, "exact": None, "budget_censored": True,
+                              "seconds": round(time.time() - t0, 2), "target_tokens": len(target)}
+                raise err
             if (e + 1) % self.check_every == 0 and self._exact(prompt, target):
                 ok, epochs = True, e
                 break
@@ -179,15 +201,20 @@ class EpisodicMemory:
         self.model.train(was)
         return out[0, ids.shape[1]:ids.shape[1] + len(target)].tolist() == target
 
-    def write(self, eid, text, time_, source):
-        """Store one experienced episode. Returns the Episode (exactly reconstructable) or raises after all retries."""
+    def write(self, eid, text, time_, source, deadline=None):
+        """Store one experienced episode. Returns the Episode (exactly reconstructable) or raises after all retries.
+        BudgetExceeded (deadline, time.time() seconds) and CUDA OOM propagate with no adapter left behind."""
         assert eid not in self.episodes, f"episode {eid} already stored"
         ep = Episode(eid, text, time_, source)
         ep.key = self.key(text)
         mask = self.init_mask
         for _ in range(self.retries):
             m = min(int(math.ceil(mask)), self.site.base.in_features, self.site.base.out_features)
-            ok, rec = self._train_once(ep, m)
+            try:
+                ok, rec = self._train_once(ep, m, deadline)
+            except BudgetExceeded as err:
+                err.attempts = ep.attempts + [err.record]
+                raise
             ep.attempts.append(rec)
             if ok:
                 ep.mask = m

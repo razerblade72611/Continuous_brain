@@ -35,14 +35,16 @@ def test_write_route_reconstruct_isolation(mem_model):
         assert torch.equal(m(tok("the fox works.", return_tensors="pt").input_ids).logits, base_out)  # wrapper is inert
     e1 = mem.write("e1", "the fox works.", 1, "test")
     d1 = mem.state_digest()
+    a1 = mem.site.adapters["e1"]
+    before = [t.detach().clone() for t in (a1.A, a1.B, a1.in_idx, a1.out_idx)]   # independent clones
     e2 = mem.write("e2", "a compass was traded.", 2, "test")
     assert e1.attempts[-1]["exact"] and e2.attempts[-1]["exact"]
     # writing e2 never touches e1's adapter (independent episodes)
-    a1 = mem.site.adapters["e1"]
     assert d1 != mem.state_digest() and set(mem.site.adapters) == {"e1", "e2"}
     assert mem.reconstruct("e1").strip() == "the fox works."
     assert mem.reconstruct("e2").strip() == "a compass was traded."
-    assert torch.equal(a1.A, mem.site.adapters["e1"].A)
+    after = mem.site.adapters["e1"]
+    assert all(torch.equal(x, y) for x, y in zip(before, (after.A, after.B, after.in_idx, after.out_idx)))
     # no adapter is active outside a read: the base model is unchanged
     with torch.no_grad():
         assert torch.equal(m(tok("the fox works.", return_tensors="pt").input_ids).logits, base_out)
@@ -60,3 +62,26 @@ def test_failed_write_leaves_no_adapter(mem_model):
         mem.write("bad", "a long passage that cannot fit in two dimensions of a rank one adapter at all.", 1, "t")
     assert len(ei.value.attempts) == 2 and "bad" not in mem.site.adapters and not mem.episodes and not mem.site.active
     assert ei.value.attempts[1]["mask"] == 3                          # grew x1.2 (ceil)
+
+
+def test_budget_censoring_and_prefix_check(mem_model):
+    import time
+    from being.cls.episodic import BudgetExceeded, EpisodicMemory
+    m, tok = mem_model
+    mem = EpisodicMemory(m, tok, layer=0, key_layer=1, r=16, init_mask=64, max_epochs=600, retries=2)
+    with pytest.raises(BudgetExceeded) as ei:
+        mem.write("late", "the fox works.", 1, "t", deadline=time.time() - 1)
+    assert ei.value.attempts[-1]["budget_censored"] and "late" not in mem.site.adapters and not mem.site.active
+
+    class BadTok:                                           # a tokenizer whose prompt is NOT a prefix of prompt+text
+        chat_template = None
+        eos_token_id = 0
+
+        def __call__(self, text, return_tensors=None):
+            ids = tok(text, return_tensors=return_tensors).input_ids
+            return type("E", (), {"input_ids": ids.flip(-1) if len(text) > 30 else ids})()
+    bad = EpisodicMemory(m, BadTok(), layer=0, key_layer=1, r=16, init_mask=64, max_epochs=5, retries=1)
+    bad.key = lambda text: torch.zeros(4)
+    with pytest.raises(ValueError, match="prefix mismatch"):
+        bad.write("x", "a sentence long enough to flip the ids.", 1, "t")
+    assert "x" not in bad.site.adapters

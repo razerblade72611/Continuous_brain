@@ -23,16 +23,18 @@ from huggingface_hub import snapshot_download
 for r in (\"Qwen/Qwen3-8B\", \"Qwen/Qwen3-Embedding-0.6B\"):
     p = snapshot_download(r, local_dir=\"$HF/\" + r.split(\"/\")[1], allow_patterns=[\"*.json\", \"*.safetensors\", \"*.txt\", \"*.model\", \"tokenizer*\", \"merges.txt\", \"vocab.json\"])
     print(\"downloaded\", p, flush=True)
-" || { echo "DOWNLOAD FAILED"; echo "CLS BENCH ALL DONE exits=download_failed"; exit 1; }
+" || { echo "DOWNLOAD FAILED"; echo "CLS BENCH ALL DONE status=BENCH_FAILED exits=download_failed"; exit 1; }
   .venv/bin/python scripts/cls_bench.py --model $HF/Qwen3-8B --dtype bf16 --external $HF/Qwen3-Embedding-0.6B \
-      --out results/cls/bench_qwen3_8b.json > results/cls/bench_qwen3_8b.log 2>&1; e1=$?
-  .venv/bin/python scripts/cls_bench.py --model models/qwen3-0.6b --dtype fp32 \
+      --budget-seconds 2400 --out results/cls/bench_qwen3_8b.json > results/cls/bench_qwen3_8b.log 2>&1; e1=$?
+  .venv/bin/python scripts/cls_bench.py --model models/qwen3-0.6b --dtype fp32 --budget-seconds 1200 \
       --out results/cls/bench_qwen3_0.6b.json > results/cls/bench_qwen3_0.6b.log 2>&1; e2=$?
   tail -n 3 results/cls/bench_*.log
+  # exit codes: 0 = BENCH_COMPLETE, 2 = BENCH_PARTIAL, anything else = BENCH_FAILED (a bundle never implies success)
+  if [ $e1 -eq 0 ] && [ $e2 -eq 0 ]; then st=BENCH_COMPLETE; elif [ $e1 -eq 0 ] || [ $e1 -eq 2 ]; then st=BENCH_PARTIAL; else st=BENCH_FAILED; fi
   tar czf results_cls_bench.tar.gz results/cls
   sha256sum results_cls_bench.tar.gz > results_cls_bench.tar.gz.sha256 && sync
   echo "BUNDLE $(cat results_cls_bench.tar.gz.sha256)"
-  echo "CLS BENCH ALL DONE exits=$e1 $e2"
+  echo "CLS BENCH ALL DONE status=$st exits=$e1 $e2"
 ' > cls_bench.log 2>&1 < /dev/null &
 echo "CLS BENCH LAUNCHED - waiting 60 s"
 sleep 60

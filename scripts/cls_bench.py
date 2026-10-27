@@ -50,18 +50,19 @@ def rss():
 def main():
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-    from being.cls.episodic import EpisodicMemory
+    from being.cls.episodic import BudgetExceeded, EpisodicMemory
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--dtype", choices=["bf16", "fp32"], default="bf16")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--external", help="optional external embedding model path (Qwen3-Embedding-0.6B)")
+    ap.add_argument("--external", help="optional external embedding model path (Qwen3-Embedding-0.6B): K1 keys")
     ap.add_argument("--max-epochs", type=int, default=1000)
     ap.add_argument("--layer", type=int, default=10)
     ap.add_argument("--r", type=int, default=2, help="adapter rank (published: 2)")
     ap.add_argument("--init-mask", type=int, default=45, help="initial mask size (published: 45)")
     ap.add_argument("--key-layer", type=int, default=24)
+    ap.add_argument("--budget-seconds", type=float, default=2400, help="wall-clock budget for all episode writes")
     a = ap.parse_args()
     out = ROOT / a.out
     if out.exists():
@@ -71,73 +72,105 @@ def main():
     dev = "cuda" if cuda else "cpu"
     res = {"which": "CLS-0 resource benchmark", "model": a.model, "dtype": a.dtype, "device": dev,
            "commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip(),
-           "gpu": torch.cuda.get_device_name(0) if cuda else None, "episodes": {}, "status": "in_progress"}
-    t0 = time.time()
-    tok = AutoTokenizer.from_pretrained(a.model)
-    model = AutoModelForCausalLM.from_pretrained(a.model, dtype=torch.bfloat16 if a.dtype == "bf16" else torch.float32,
-                                                 attn_implementation="eager").to(dev)
-    model.eval()
-    for p in model.parameters():
-        p.requires_grad_(False)
-    res["load_seconds"] = round(time.time() - t0, 1)
-    res["n_layers"] = len(model.model.layers)
-    res["vram_after_load_mib"] = torch.cuda.memory_allocated() // 2**20 if cuda else None
-    res["rss_after_load_mib"] = rss()
-    mem = EpisodicMemory(model, tok, layer=a.layer, key_layer=a.key_layer, max_epochs=a.max_epochs,
-                         r=a.r, init_mask=a.init_mask)
-    res["layer"], res["key_layer"], res["r"], res["init_mask"] = a.layer, mem.key_layer, a.r, a.init_mask
-    for eid, text in EPISODES:
-        if cuda:
-            torch.cuda.reset_peak_memory_stats()
-        t = time.time()
-        try:
-            ep = mem.write(eid, text, time_=1, source="bench:fixed-text")
-            ok = True
-        except RuntimeError as e:
-            ep, ok = None, False
-            res["episodes"][eid] = {"ok": False, "error": str(e), "attempts": getattr(e, "attempts", None),
-                                    "seconds": round(time.time() - t, 1)}
-        if ep is not None:
-            res["episodes"][eid] = {"ok": ok, "mask": ep.mask, "attempts": ep.attempts,
-                                    "seconds": round(time.time() - t, 1)}
-        res["episodes"][eid]["peak_vram_mib"] = torch.cuda.max_memory_allocated() // 2**20 if cuda else None
-        print(time.strftime("%H:%M:%S"), eid, json.dumps(res["episodes"][eid])[:300], flush=True)
+           "gpu": torch.cuda.get_device_name(0) if cuda else None, "episodes": {}, "status": "in_progress",
+           "budget_seconds": a.budget_seconds}
+
+    def save():
         with open(out, "w") as f:
             json.dump(res, f, indent=1)
-    res["routing"] = []
-    for cue, expect in CUES:
-        top = mem.route(cue, k=len(mem.episodes))
-        res["routing"].append({"cue": cue, "expect": expect, "ranking": top,
-                               "correct": (top[0][0] == expect) if (top and expect) else None})
-    stored = [e for e, _ in EPISODES if e in mem.episodes]
-    res["reconstruction"] = {e: mem.reconstruct(e) for e in stored}
-    res["reconstruction_exact"] = {e: res["reconstruction"][e].strip() == dict(EPISODES)[e].strip() for e in stored}
-    sp = out.with_suffix(".adapters.pt")
-    torch.save({k: {n: t.detach().cpu() for n, t in v.state_dict().items()} | {"in_idx": v.in_idx.cpu(),
-                                                                                "out_idx": v.out_idx.cpu()}
-                for k, v in mem.site.adapters.items()}, sp)
-    res["adapters_file_bytes"] = sp.stat().st_size
-    res["adapter_params_total"] = sum(p.numel() for v in mem.site.adapters.values() for p in v.parameters())
-    if a.external:
-        if cuda:
-            torch.cuda.reset_peak_memory_stats()
-        from transformers import AutoModel
-        t = time.time()
-        etok = AutoTokenizer.from_pretrained(a.external)
-        emod = AutoModel.from_pretrained(a.external, dtype=torch.bfloat16 if cuda else torch.float32).to(dev).eval()
-        with torch.no_grad():
-            b = etok([t_ for _, t_ in EPISODES], padding=True, return_tensors="pt").to(dev)
-            h = emod(**b).last_hidden_state
-        res["external_embedding"] = {"load_and_embed_seconds": round(time.time() - t, 1),
-                                     "peak_vram_mib": torch.cuda.max_memory_allocated() // 2**20 if cuda else None}
+
+    def gpu_peaks():
+        return ({"peak_alloc_mib": torch.cuda.max_memory_allocated() // 2**20,
+                 "peak_reserved_mib": torch.cuda.max_memory_reserved() // 2**20} if cuda else {})
+
+    t0 = time.time()
+    try:
+        tok = AutoTokenizer.from_pretrained(a.model)
+        model = AutoModelForCausalLM.from_pretrained(
+            a.model, dtype=torch.bfloat16 if a.dtype == "bf16" else torch.float32, attn_implementation="eager").to(dev)
+        model.eval()
+        for p in model.parameters():
+            p.requires_grad_(False)
+        res["load_seconds"] = round(time.time() - t0, 1)
+        res["n_layers"] = len(model.model.layers)
+        res["vram_after_load"] = gpu_peaks()
+        res["rss_after_load_mib"] = rss()
+        mem = EpisodicMemory(model, tok, layer=a.layer, key_layer=a.key_layer, max_epochs=a.max_epochs,
+                             r=a.r, init_mask=a.init_mask)
+        res["layer"], res["key_layer"], res["r"], res["init_mask"] = a.layer, mem.key_layer, a.r, a.init_mask
+        t_writes = time.time()
+        deadline = t_writes + a.budget_seconds
+        slowest = 0.0
+        # the published-length narrative first: if the budget only allows one episode, it is the representative one
+        for eid, text in sorted(EPISODES, key=lambda x: x[0] != "e3_story"):
+            left = deadline - time.time()
+            if slowest and left < 1.5 * slowest:
+                res["episodes"][eid] = {"ok": False, "skipped_budget": True, "seconds_left": round(left, 1)}
+                save()
+                continue
+            if cuda:
+                torch.cuda.reset_peak_memory_stats()
+            t = time.time()
+            try:
+                ep = mem.write(eid, text, time_=1, source="bench:fixed-text", deadline=deadline)
+                res["episodes"][eid] = {"ok": True, "mask": ep.mask, "attempts": ep.attempts}
+            except BudgetExceeded as e:
+                res["episodes"][eid] = {"ok": False, "budget_censored": True, "attempts": e.attempts}
+            except torch.cuda.OutOfMemoryError:
+                raise
+            except RuntimeError as e:
+                res["episodes"][eid] = {"ok": False, "error": str(e), "attempts": getattr(e, "attempts", None)}
+            res["episodes"][eid]["seconds"] = round(time.time() - t, 1)
+            res["episodes"][eid].update(gpu_peaks())
+            slowest = max(slowest, time.time() - t)
+            print(time.strftime("%H:%M:%S"), eid, json.dumps(res["episodes"][eid])[:300], flush=True)
+            save()
+        stored = [e for e, _ in EPISODES if e in mem.episodes]
+        res["routing_internal"] = []
+        for cue, expect in CUES:
+            top = mem.route(cue, k=len(mem.episodes)) if stored else []
+            res["routing_internal"].append({"cue": cue, "expect": expect, "ranking": top,
+                                            "correct": (top[0][0] == expect) if (top and expect in stored) else None})
+        res["reconstruction"] = {e: mem.reconstruct(e) for e in stored}
+        res["reconstruction_exact"] = {e: res["reconstruction"][e].strip() == dict(EPISODES)[e].strip() for e in stored}
+        sp = out.with_suffix(".adapters.pt")
+        torch.save({k: {n: t_.detach().cpu() for n, t_ in v.state_dict().items()} |
+                    {"in_idx": v.in_idx.cpu(), "out_idx": v.out_idx.cpu()} for k, v in mem.site.adapters.items()}, sp)
+        res["adapters_file_bytes"] = sp.stat().st_size
+        res["adapter_params_total"] = sum(p.numel() for v in mem.site.adapters.values() for p in v.parameters())
+        if a.external:
+            from being.cls.keys import ExternalKeys
+            if cuda:
+                torch.cuda.reset_peak_memory_stats()
+            t = time.time()
+            ek = ExternalKeys(a.external, dev, torch.bfloat16 if cuda else torch.float32)
+            texts = dict(EPISODES)
+            keys = ek.embed([texts[e] for e in stored]) if stored else None
+            rows = []
+            for cue, expect in CUES:
+                if keys is None:
+                    rows.append({"cue": cue, "expect": expect, "ranking": [], "correct": None})
+                    continue
+                sims = (keys @ ek.embed([cue], query=True)[0]).tolist()
+                rank = sorted(zip(stored, sims), key=lambda x: -x[1])
+                rows.append({"cue": cue, "expect": expect, "ranking": rank,
+                             "correct": (rank[0][0] == expect) if expect in stored else None})
+            res["routing_external"] = rows
+            res["external_embedding"] = {"seconds": round(time.time() - t, 1), **gpu_peaks()}
+        n_ok = sum(1 for v in res["episodes"].values() if v.get("ok"))
+        res["status"] = ("BENCH_COMPLETE" if n_ok == len(EPISODES) and all(res["reconstruction_exact"].values())
+                         else "BENCH_PARTIAL" if n_ok else "BENCH_FAILED")
+    except torch.cuda.OutOfMemoryError as e:
+        res["status"], res["error"] = "BENCH_FAILED", f"CUDA OOM: {str(e)[:300]}"
+        res["oom_peaks"] = gpu_peaks()
+    except Exception as e:                                   # any other failure is recorded, never reported as success
+        res["status"], res["error"] = "BENCH_FAILED", f"{type(e).__name__}: {str(e)[:300]}"
     res["rss_end_mib"] = rss()
     res["seconds_total"] = round(time.time() - t0, 1)
-    res["status"] = "complete"
-    with open(out, "w") as f:
-        json.dump(res, f, indent=1)
-    print("CLS BENCH DONE", a.model, json.dumps({k: res[k] for k in ("vram_after_load_mib", "load_seconds",
-                                                                       "seconds_total", "reconstruction_exact")}),
-          flush=True)
+    save()
+    print("CLS BENCH", res["status"], a.model, json.dumps({k: res.get(k) for k in (
+        "vram_after_load", "load_seconds", "seconds_total", "reconstruction_exact", "error")}), flush=True)
+    sys.exit({"BENCH_COMPLETE": 0, "BENCH_PARTIAL": 2}.get(res["status"], 1))
 
 
 if __name__ == "__main__":
