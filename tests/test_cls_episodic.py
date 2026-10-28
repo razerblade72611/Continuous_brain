@@ -85,3 +85,23 @@ def test_budget_censoring_and_prefix_check(mem_model):
     with pytest.raises(ValueError, match="prefix mismatch"):
         bad.write("x", "a sentence long enough to flip the ids.", 1, "t")
     assert "x" not in bad.site.adapters
+
+
+def test_save_load_roundtrip_and_seeded_init(mem_model, tmp_path):
+    from being.cls.episodic import EpisodicMemory
+    m, tok = mem_model
+    mem = EpisodicMemory(m, tok, layer=0, key_layer=1, r=16, init_mask=64, max_epochs=600, retries=2, seed=5)
+    mem.write("a", "the fox works.", 1, "test")
+    mem.save(tmp_path / "bank.pt")
+    digest = mem.state_digest()
+    del mem.site.adapters["a"]                              # the live copy is gone; only the file remains
+    other = EpisodicMemory(m, tok, layer=0, key_layer=1, r=16, init_mask=64, max_epochs=600, retries=2, seed=5)
+    assert other.load(tmp_path / "bank.pt") == 1
+    assert other.state_digest() == digest and other.reconstruct("a").strip() == "the fox works."
+    assert other.episodes["a"].time == 1 and torch.equal(other.episodes["a"].key, mem.episodes["a"].key)
+    # same seed + episode id -> identical adapter init and mask, independent of what was written before
+    loaded_idx = other.site.adapters["a"].in_idx.clone()
+    del other.site.adapters["a"]
+    fresh = EpisodicMemory(m, tok, layer=0, key_layer=1, r=16, init_mask=64, max_epochs=600, retries=2, seed=5)
+    fresh.write("a", "the fox works.", 1, "test")
+    assert torch.equal(fresh.site.adapters["a"].in_idx, loaded_idx)

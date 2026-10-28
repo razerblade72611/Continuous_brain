@@ -89,7 +89,8 @@ class EpisodicMemory:
         self.model, self.tok = model, tok
         self.r, self.init_mask, self.growth, self.retries = r, init_mask, growth, retries
         self.lr, self.max_epochs, self.check_every = lr, max_epochs, check_every
-        self.gen = torch.Generator().manual_seed(seed)
+        self.seed = seed                     # adapter init and masks are seeded per (seed, episode id, mask size):
+                                             # a resumed or re-run write is identical regardless of write order
         self.dev = next(model.parameters()).device
         layers = model.model.layers
         self.layer, self.key_layer = layer, min(key_layer, len(layers) - 1)
@@ -150,7 +151,8 @@ class EpisodicMemory:
         n_prompt = pids.shape[1]
         if ids.shape[1] <= n_prompt or not torch.equal(ids[0, :n_prompt], pids[0]):
             raise ValueError("tokenizer prefix mismatch: the cue's tokens are not a prefix of cue+episode")
-        ad = _EpisodeAdapter(lin.in_features, lin.out_features, self.r, mask, self.gen, self.dev)
+        h = int(hashlib.sha256(f"{self.seed}|{ep.eid}|{mask}".encode()).hexdigest()[:15], 16)
+        ad = _EpisodeAdapter(lin.in_features, lin.out_features, self.r, mask, torch.Generator().manual_seed(h), self.dev)
         self.site.adapters[name] = ad
         self.site.active = [name]              # written against the base: no other episode active
         try:
@@ -249,9 +251,44 @@ class EpisodicMemory:
             self.site.active = []
         return self.tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
 
+    # ---- persistence ----------------------------------------------------------------------------------------------
+    def save(self, path):
+        """Atomic save of the whole bank (adapters, masks, keys, provenance, attempts)."""
+        import os
+        bank = {"config": {"layer": self.layer, "key_layer": self.key_layer, "r": self.r, "init_mask": self.init_mask,
+                           "growth": self.growth, "retries": self.retries, "lr": self.lr, "max_epochs": self.max_epochs,
+                           "check_every": self.check_every, "seed": self.seed},
+                "episodes": {k: {"eid": e.eid, "text": e.text, "time": e.time, "source": e.source, "key": e.key,
+                                 "mask": e.mask, "attempts": e.attempts} for k, e in self.episodes.items()},
+                "adapters": {k: {"A": a.A.detach().cpu(), "B": a.B.detach().cpu(), "in_idx": a.in_idx.cpu(),
+                                 "out_idx": a.out_idx.cpu()} for k, a in self.site.adapters.items() if k in self.episodes},
+                "digest": self.state_digest()}
+        tmp = str(path) + ".tmp"
+        torch.save(bank, tmp)
+        os.replace(tmp, path)
+
+    def load(self, path):
+        bank = torch.load(path, weights_only=False)
+        cfg = bank["config"]
+        mine = {"layer": self.layer, "r": self.r, "seed": self.seed, "init_mask": self.init_mask}
+        assert all(cfg[k] == v for k, v in mine.items()), f"bank config {cfg} does not match {mine}"
+        lin = self.site.base
+        for k, e in bank["episodes"].items():
+            a = bank["adapters"][k]
+            ad = _EpisodeAdapter(lin.in_features, lin.out_features, self.r, len(a["in_idx"]),
+                                 torch.Generator().manual_seed(0), self.dev)
+            with torch.no_grad():
+                ad.A.copy_(a["A"].to(self.dev))
+                ad.B.copy_(a["B"].to(self.dev))
+            ad.in_idx, ad.out_idx = a["in_idx"].to(self.dev), a["out_idx"].to(self.dev)
+            self.site.adapters[k] = ad
+            self.episodes[k] = Episode(e["eid"], e["text"], e["time"], e["source"], e["key"], e["mask"], e["attempts"])
+        assert self.state_digest() == bank["digest"], "bank digest mismatch after load"
+        return len(bank["episodes"])
+
     def state_digest(self):
         h = hashlib.sha256()
-        for k in sorted(self.site.adapters):
+        for k in sorted(k for k in self.site.adapters if k in self.episodes):   # this memory's own episodes only
             ad = self.site.adapters[k]
             for t in (ad.in_idx, ad.out_idx, ad.A, ad.B):
                 h.update(t.detach().cpu().contiguous().numpy().tobytes())
