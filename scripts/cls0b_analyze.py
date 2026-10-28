@@ -10,7 +10,8 @@ Measured per method m in {K1, K2, K3, K4} at each checkpoint, pooled over seeds 
                       count in the denominator); reconstruction exactness of stored episodes
   addressing          route accuracy on template cues and on paraphrase cues (declined or wrong = miss);
                       false activation on test negatives (unseen people; near-miss = familiar person, unobserved attribute)
-  answers             forced-choice accuracy under iRAG (primary), raw-text and K1 direct; references none and oracle
+  answers             forced-choice accuracy under iRAG (primary), raw-text and K1 direct (end-to-end, declined = wrong;
+                      plus conditional on the right episode); references none and oracle
   binding             per seed, target/counter pairs with BOTH answers correct (iRAG, template)
   retention by age    life-1 fact accuracy (iRAG, template) at checkpoints 1..5
   failure split       none retrieved | wrong episode | right episode wrong answer (template cues)
@@ -21,10 +22,12 @@ Frozen decision (K1 primary, life-5 checkpoint, pooled over seeds; statements in
                                                                masking policy or model scale
   2 template route accuracy < 0.90 or false activation > 0.15 -> addressing becomes the priority
   3 iRAG template accuracy < 0.80                          -> reconstruction-to-reasoning transfer becomes the priority
-  4 raw-text accuracy >= iRAG accuracy - 0.02               -> raw-text episodic memory matches the adapters: prefer
-                                                               direct episodic storage for fast memory; neural
-                                                               consolidation becomes a separate research track
+  4 raw-text accuracy > iRAG accuracy + 0.05                -> raw text outperforms reconstruction: investigate
+                                                               reconstruction fidelity or context formatting
   5 otherwise                                               -> continue toward online consolidation
+Note (not a direction; Sol): exact reconstruction makes raw and iRAG contexts identical, so raw ~= iRAG is EXPECTED
+when storage works. If |raw - iRAG| <= 0.02 with coverage >= 0.95: "neural episode storage reproduces the usable
+information of text storage; choose the substrate on measured costs" - this never blocks consolidation research.
 Qualifiers (always evaluated):
   paraphrase iRAG accuracy < template iRAG accuracy - 0.20  -> strong only on templates: require paraphrase/semantic
                                                                generalisation before claiming progress
@@ -74,8 +77,10 @@ def per_checkpoint(r, cp):
                "fail_none": rate(x["routed"] is None for x in t),
                "fail_wrong_episode": rate(x["routed"] is not None and not x["route_ok"] for x in t),
                "fail_right_episode_wrong_answer": rate(x["route_ok"] and not x["irag"]["correct"] for x in t)}
-        if m == "K1":
-            res["direct_template"] = rate(x.get("direct", {}).get("correct", False) for x in t if x["route_ok"])
+        if m == "K1":                                            # end-to-end (declined/wrong route = wrong) and
+            res["direct_template"] = rate(x.get("direct", {}).get("correct", False) for x in t)   # conditional
+            res["direct_template_given_right_episode"] = rate(x.get("direct", {}).get("correct", False)
+                                                              for x in t if x["route_ok"])
         tg = {x["eid"]: x["irag"]["correct"] for x in t if x["kind"] in ("target", "counter")}
         pairs = [(f"I{r['seed']}L01T{i}", f"I{r['seed']}L01C{i}") for i in range(4)]
         res["binding_pairs"] = sum(tg.get(a_, False) and tg.get(c_, False) for a_, c_ in pairs)
@@ -108,7 +113,8 @@ def validity(results):
          "design": all(r.get("design_check") == "match" for r in results),
          "config": all(r.get("config") == FROZEN_CFG for r in results),
          "one_commit": len({r.get("commit") for r in results}) == 1,
-         "model_files": len({json.dumps(r.get("model_files"), sort_keys=True) for r in results}) == 1,
+         "model_files": len({json.dumps(r.get("model_manifest"), sort_keys=True) for r in results}) == 1
+                        and all((r.get("model_manifest") or {}).get("files") for r in results),
          "prefix": all(r.get("prefix_failures", 1) == 0 for r in results),
          "seeds_unique": len({r["seed"] for r in results}) == len(results)}
     v["valid"] = all(v.values())
@@ -130,25 +136,30 @@ def decide(results):
         statements.append("2 addressing becomes the priority")
     if k["irag_template"] < 0.80:
         statements.append("3 reconstruction-to-reasoning transfer becomes the priority")
-    if k["raw_template"] >= k["irag_template"] - 0.02:
-        statements.append("4 raw-text episodic memory matches the adapters: prefer direct episodic storage for fast "
-                          "memory; neural consolidation becomes a separate research track")
+    if k["raw_template"] > k["irag_template"] + 0.05:
+        statements.append("4 raw text outperforms reconstruction: investigate reconstruction fidelity or context "
+                          "formatting")
     if not statements:
         statements.append("5 continue toward online consolidation")
+    notes = []
+    if abs(k["raw_template"] - k["irag_template"]) <= 0.02 and k["coverage"] >= 0.95:
+        notes.append("neural episode storage reproduces the usable information of text storage; choose the fast-memory "
+                     "substrate on measured costs (bytes, write time, latency, persistence) - this comparison does not "
+                     "by itself decide whether to pursue online consolidation")
     qual = []
     if k["irag_paraphrase"] < k["irag_template"] - 0.20:
         qual.append("strong only on templates: require paraphrase/semantic generalisation before claiming progress")
     temporal_ok = 0
     for r in results:
         cp = next(c for c in r["checkpoints"] if c["after_life"] == L)
-        tm = {x["form"]: x["correct"] for x in cp["methods"]["K1"]["temporal"]}
+        tm = {x["form"]: x["correct"] for x in cp["methods"]["K1"]["temporal"]}       # life 5: both states exist
         temporal_ok += bool(tm.get("life1") and tm.get("life3"))
     if temporal_ok < max(1, round(0.75 * len(results))):
         qual.append("add explicit temporal addressing before consolidation")
     k4 = pooled(results, L, "K4", "route_template")
     if k4 is not None and k["route_template"] - k4 < 0.20:
         qual.append("K1 addressing not distinguishable from a permuted control")
-    return {"direction": statements[0], "statements": statements, "qualifiers": qual, "k1_life5": k,
+    return {"direction": statements[0], "statements": statements, "qualifiers": qual, "notes": notes, "k1_life5": k,
             "k2_route_template": pooled(results, L, "K2", "route_template"),
             "k3_route_template": pooled(results, L, "K3", "route_template"), "k4_route_template": k4}
 
@@ -179,6 +190,7 @@ def main():
                   f"para {k1.get('irag_paraphrase')} falseact {k1.get('false_activation')} life1 {k1.get('life1_irag')} "
                   f"binding {k1.get('binding_pairs')}/4")
     print("DECISION:", json.dumps(out["decision"], indent=1, default=str))
+    sys.exit(0 if v["valid"] else 3)                              # 3 = collected but not scientifically valid
 
 
 if __name__ == "__main__":

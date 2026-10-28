@@ -23,16 +23,21 @@ nohup bash -c '
         --out results/cls0b/seed$s.json > results/cls0b/seed$s.log 2>&1 & pids="$pids $!"
     sleep 90                                     # stagger model loading
   done
-  ex=""; bad=0; for p in $pids; do wait $p; e=$?; ex="$ex $e"; [ $e -eq 0 ] || bad=1; done
+  ex=""; bad=0; pre=0; for p in $pids; do wait $p; e=$?; ex="$ex $e"; [ $e -eq 0 ] || bad=1; [ $e -eq 4 ] && pre=1; done
   tail -n 2 results/cls0b/seed*.log
-  .venv/bin/python scripts/cls0b_analyze.py results/cls0b/seed[0-9].json > results/cls0b/analysis.txt 2>&1
+  .venv/bin/python scripts/cls0b_analyze.py results/cls0b/seed[0-9].json > results/cls0b/analysis.txt 2>&1; ea=$?
   cat results/cls0b/analysis.txt
   nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader
   tar czf results_cls0b.tar.gz results/cls0b
   sha256sum results_cls0b.tar.gz > results_cls0b.tar.gz.sha256 && sync
   echo "BUNDLE $(cat results_cls0b.tar.gz.sha256)"
-  if [ $bad -eq 0 ]; then st=CLS0B_COMPLETE; else st=CLS0B_FAILED; fi
-  echo "CLS-0B ALL DONE status=$st exits=$ex"
+  # data collection, analysis execution and scientific validity are reported separately (Sol)
+  if [ $pre -eq 1 ]; then st=CLS0B_PREFLIGHT_STOP
+  elif [ $bad -ne 0 ]; then st=CLS0B_FAILED
+  elif [ $ea -eq 3 ]; then st=CLS0B_COLLECTED_INVALID
+  elif [ $ea -ne 0 ]; then st=CLS0B_ANALYSIS_FAILED
+  else st=CLS0B_COMPLETE; fi
+  echo "CLS-0B ALL DONE status=$st exits=$ex analysis=$ea"
 ' > cls0b.log 2>&1 < /dev/null &
 echo "CLS-0B LAUNCHED - waiting 240 s"
 sleep 240

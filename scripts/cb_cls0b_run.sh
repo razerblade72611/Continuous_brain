@@ -65,6 +65,6 @@ $S "cd $D && tar cf - results_cls0b.tar.gz results_cls0b.tar.gz.sha256 cls0b.log
   && runpodctl pod remove $POD >/dev/null && echo "== pod removed (results also stay on the volume)" && DONE=1
 [ "$DONE" = 1 ] || { echo "== download/verification did not complete - pod stopped by cleanup, files stay on the volume"; exit 1; }
 # propagate the run's own status (a verified bundle is not success): COMPLETE 0, otherwise 1
-ST=$(grep -o 'status=CLS0B_[A-Z]*' ~/cb_results/cls0b/cls0b.log | tail -n 1 | cut -d= -f2)
+ST=$(grep -o 'status=CLS0B_[A-Z_]*' ~/cb_results/cls0b/cls0b.log | tail -n 1 | cut -d= -f2)
 echo "== CLS-0B status: ${ST:-UNKNOWN}"
-case "$ST" in CLS0B_COMPLETE) exit 0;; *) exit 1;; esac
+case "$ST" in CLS0B_COMPLETE) exit 0;; CLS0B_COLLECTED_INVALID) exit 3;; CLS0B_PREFLIGHT_STOP) exit 4;; *) exit 1;; esac

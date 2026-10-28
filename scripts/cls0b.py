@@ -48,6 +48,7 @@ SEEDS = {2, 3, 4, 5}
 CFG = {"layer": 10, "key_layer": 24, "r": 2, "init_mask": 78, "growth": 1.2, "retries": 10, "lr": 0.05,
        "max_epochs": 1000, "check_every": 100}
 EPISODE_CAP_S = 1200
+EVAL_BUDGET_S = 3600          # inference preflight: projected evaluation time must fit, else stop before any training
 FALSE_ACTIVATION_BUDGET = 0.10
 N_CAL_NEG, N_TEST_UNSEEN, N_TEST_NEARMISS = 40, 20, 20
 METHODS = ("K1", "K2", "K3", "K4")
@@ -172,12 +173,27 @@ def tfidf_sims(episode_texts, cue_texts):
 
 
 def threshold(cal_top1, budget=FALSE_ACTIVATION_BUDGET):
-    """Smallest threshold with at most `budget` of calibration negatives at or above it (strictly above their
-    (1-budget) order statistic)."""
+    """Lowest threshold at which at most floor(budget*n) calibration negatives activate (activation: sim >= thr).
+    n=40, budget 0.10 -> at most 4 activate (ties at the boundary make it more conservative, never less)."""
     s = sorted(cal_top1)
-    k = int(math.floor(len(s) * (1 - budget)))          # index of the first value allowed to activate
-    k = min(max(k, 0), len(s) - 1)
-    return math.nextafter(s[k], math.inf)
+    allowed = int(math.floor(len(s) * budget + 1e-9))
+    idx = len(s) - allowed - 1                          # the highest value that must NOT activate
+    return math.nextafter(s[idx], math.inf) if idx >= 0 else -math.inf
+
+
+def permuted_keys(seed, life, eids, keys):
+    """K4 at a checkpoint: K1 keys permuted ONLY among the memories experienced by then (seed+life-specific)."""
+    perm = random.Random(f"CLS0B-perm-{seed}-life{life}").sample(list(eids), len(eids))
+    return {e: keys[p] for e, p in zip(eids, perm)}
+
+
+def temporal_items(temporal, life):
+    """Chronological temporal questions: before life 3 only the life-1 state exists (and is the latest); from life 3
+    the life-1, life-3 and latest questions are asked. Pools are evaluator-only comparison sets."""
+    t1, t3, latest = temporal
+    if life < 3:
+        return [t1, {**latest, "expect": t1["expect"], "form": "latest_pre"}]
+    return [t1, t3, latest]
 
 
 def route(sim_row, eids, thr, k=1):
@@ -226,14 +242,30 @@ def main():
     cues, cal, neg, temporal = build_cues(a.seed, eps, lifegen)
     cuda = torch.cuda.is_available()
     dev = "cuda" if cuda else "cpu"
-    sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+    def sha(p):
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 24), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+    def manifest(d):
+        """sha256 of every weight/config/tokenizer file, plus the HF commit recorded at download time if present."""
+        d = Path(d)
+        files = sorted(p for p in d.iterdir() if p.is_file() and p.suffix in (".safetensors", ".json", ".txt"))
+        rev = None
+        meta = list((d / ".cache" / "huggingface" / "download").glob("*.metadata"))
+        if meta:
+            rev = meta[0].read_text().splitlines()[0].strip()
+        return {"revision": rev, "files": {p.name: sha(p) for p in files}}
     res = {"which": "CLS-0B", "seed": a.seed, "config": cfg, "episode_cap_s": EPISODE_CAP_S,
            "design_check": design_check, "test_mode": a.test_mode,
-           "false_activation_budget": FALSE_ACTIVATION_BUDGET,
+           "false_activation_budget": FALSE_ACTIVATION_BUDGET, "eval_budget_s": EVAL_BUDGET_S,
+           "note_candidate_universe": "the 50-value pools are evaluator-only comparison sets (they include values "
+                                      "experienced later); they never enter retrieved memories or prompt context",
            "commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip(),
-           "model": a.model, "model_files": {f: sha(Path(a.model) / f) for f in ("config.json",
-                                             "model.safetensors.index.json") if (Path(a.model) / f).exists()},
-           "external": a.external, "gpu": torch.cuda.get_device_name(0) if cuda else None,
+           "model": a.model, "model_manifest": manifest(a.model), "external": a.external,
+           "external_manifest": manifest(a.external), "gpu": torch.cuda.get_device_name(0) if cuda else None,
            "episodes": [{k: v for k, v in e.items()} | {"text_sha256": hashlib.sha256(e["text"].encode()).hexdigest()}
                         for e in eps],
            "n_cues": {"fact": len(cues), "calibration": len(cal), "test_negative": len(neg), "temporal": len(temporal)},
@@ -250,6 +282,43 @@ def main():
         p.requires_grad_(False)
     mem = EpisodicMemory(model, tok, seed=a.seed, **cfg)
     res["writes"] = {}
+    # ---- inference preflight (resource qualification, before any training) ----
+    rep = next(e for e in eps if e["kind"] == "target")
+    rep_cue = next(c for c in cues if c["eid"] == rep["eid"] and c["form"] == "template")
+    ts_ = []
+    for _ in range(3):
+        if cuda:
+            torch.cuda.synchronize()
+        t = time.time()
+        with torch.no_grad():
+            p_ids = [tok(context([(1, rep["text"])]) + rep_cue["cue"] + " " + v).input_ids for v in rep_cue["pool"]]
+            Lm = max(len(x) for x in p_ids)
+            ids = torch.zeros((len(p_ids), Lm), dtype=torch.long, device=dev)
+            att = torch.zeros_like(ids)
+            for i, x in enumerate(p_ids):
+                ids[i, :len(x)] = torch.tensor(x, device=dev)
+                att[i, :len(x)] = 1
+            model.model(input_ids=ids, attention_mask=att)
+        if cuda:
+            torch.cuda.synchronize()
+        ts_.append(time.time() - t)
+    t_call = sorted(ts_)[1]
+    t = time.time()
+    with torch.no_grad():
+        model.generate(tok(rep["text"], return_tensors="pt").input_ids.to(dev), max_new_tokens=100, do_sample=False,
+                       pad_token_id=tok.eos_token_id)
+    t_gen = time.time() - t
+    n_calls = 300 + sum((4 * 2 + 1) * sum(1 for c in cues if c["time"] <= L) + 4 * 3 for L in range(1, 6))
+    proj = n_calls * t_call + len(eps) * t_gen
+    res["preflight"] = {"seconds_per_50way": t_call, "seconds_per_reconstruction": t_gen, "max_scoring_calls": n_calls,
+                        "projected_eval_s": round(proj, 1), "eval_budget_s": EVAL_BUDGET_S,
+                        "cuda_free_total_mib": [x // 2**20 for x in torch.cuda.mem_get_info()] if cuda else None,
+                        "peak_alloc_mib": torch.cuda.max_memory_allocated() // 2**20 if cuda else None}
+    print(time.strftime("%H:%M:%S"), f"seed {a.seed} preflight", json.dumps(res["preflight"]), flush=True)
+    if proj > EVAL_BUDGET_S and not a.test_mode:
+        res["status"] = "preflight_stop"
+        save()
+        sys.exit(4)
     if bank_path.exists():
         n = mem.load(bank_path)
         for e in eps:
@@ -258,11 +327,19 @@ def main():
         prev = json.loads(out.read_text()) if out.exists() else {}
         res["writes"] = prev.get("writes", {})
         res["resumed_with"] = n
+        for k, ep_ in mem.episodes.items():                     # bank saved but the log write was interrupted
+            if not res["writes"].get(k, {}).get("ok"):
+                res["writes"][k] = {"ok": True, "mask": ep_.mask, "attempts": ep_.attempts, "recovered_from_bank": True,
+                                    "seconds": sum(x.get("seconds", 0) for x in ep_.attempts),
+                                    "epochs_total": sum(x.get("epochs", 0) for x in ep_.attempts)}
+        assert {k for k, w in res["writes"].items() if w.get("ok")} == set(mem.episodes), \
+            "write log claims an episode the bank does not hold"
     save()
     # ---- WRITE ----
     t_write = time.time()
     for j, e in enumerate(eps):
-        if e["eid"] in mem.episodes or (a.test_limit and j >= a.test_limit):
+        # every recorded outcome is terminal: a failed or budget-censored write is never retried on resume
+        if e["eid"] in mem.episodes or e["eid"] in res["writes"] or (a.test_limit and j >= a.test_limit):
             continue
         t = time.time()
         try:
@@ -302,8 +379,6 @@ def main():
     k1_ep = {e["eid"]: v for e, v in zip(stored, ek.embed([e["text"] for e in stored]))} if stored else {}
     k1_cue = dict(zip(all_cue_texts, ek.embed(all_cue_texts, query=True)))
     k2_cue = {c: mem.key(c) for c in all_cue_texts}
-    perm = random.Random(f"CLS0B-perm-{a.seed}").sample([e["eid"] for e in stored], len(stored))
-    k4_ep = {eid: k1_ep[p] for eid, p in zip([e["eid"] for e in stored], perm)}
     del ek
     if cuda:
         torch.cuda.empty_cache()
@@ -337,7 +412,7 @@ def main():
     cache, prefix_bad = {}, [0]
 
     def score(prompt, pool, direct=None):
-        key = (prompt, direct, pool[0])
+        key = (prompt, direct, tuple(pool))                     # the score depends on the whole candidate pool
         if key not in cache:
             lps, bad = fc(prompt, pool, direct)
             prefix_bad[0] += bad
@@ -346,13 +421,13 @@ def main():
         return {"correct": all(lps[0] > x for x in lps[1:]), "margin": lps[0] - max(lps[1:]),
                 "winner": pool[max(range(len(pool)), key=lambda j: lps[j])]}
 
-    def sims(method, cue_list, eids, ep_texts):
+    def sims(method, cue_list, eids, ep_texts, life):
         if method == "K3":
             return tfidf_sims(ep_texts, cue_list)
         if method == "K2":
             M = torch.stack([mem.episodes[e].key for e in eids])
             return [(M @ k2_cue[c]).tolist() for c in cue_list]
-        keys = k1_ep if method == "K1" else k4_ep
+        keys = k1_ep if method == "K1" else permuted_keys(a.seed, life, eids, k1_ep)
         M = torch.stack([keys[e] for e in eids])
         return [(M @ k1_cue[c]).tolist() for c in cue_list]
 
@@ -375,10 +450,10 @@ def main():
             if not eids:
                 cp["methods"][m] = None
                 continue
-            cal_s = sims(m, [c["cue"] for c in cal], eids, ep_texts)
+            cal_s = sims(m, [c["cue"] for c in cal], eids, ep_texts, L)
             thr = threshold([max(r) for r in cal_s])
             mrow = {"threshold": thr, "facts": [], "negatives": [], "temporal": []}
-            fs = sims(m, [c["cue"] for c in fact_cues], eids, ep_texts)
+            fs = sims(m, [c["cue"] for c in fact_cues], eids, ep_texts, L)
             for c, row in zip(fact_cues, fs):
                 rt = route(row, eids, thr)
                 got = rt[0][0] if rt else None
@@ -391,15 +466,18 @@ def main():
                     rec["raw"] = score(context([(times[got], texts[got])]) + c["cue"], c["pool"])
                     if m == "K1":
                         rec["direct"] = score(c["cue"], c["pool"], direct=got)
+                if m == "K1" and got is None:
+                    rec["direct"] = {"correct": False, "declined": True}
                 mrow["facts"].append(rec)
-            ns = sims(m, [c["cue"] for c in neg], eids, ep_texts)
+            ns = sims(m, [c["cue"] for c in neg], eids, ep_texts, L)
             for c, row in zip(neg, ns):
                 if c["form"] == "near_miss" and c["observed_since"] > L:
                     continue                                     # that person has not been met yet
                 rt = route(row, eids, thr)
                 mrow["negatives"].append({"form": c["form"], "activated": bool(rt), "top": max(row)})
-            ts = sims(m, [c["cue"] for c in temporal], eids, ep_texts)
-            for c, row in zip(temporal, ts):
+            titems = temporal_items(temporal, L)
+            ts = sims(m, [c["cue"] for c in titems], eids, ep_texts, L)
+            for c, row in zip(titems, ts):
                 rt = route(row, eids, thr, k=2)
                 ctx = context([(times[e_], recon[e_]) for e_, _ in rt])
                 s_ = score(ctx + c["cue"], [c["expect"]] + [v for v in c["pool"] if v != c["expect"]])

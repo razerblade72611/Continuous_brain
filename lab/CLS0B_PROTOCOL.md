@@ -12,6 +12,29 @@ The code is authoritative:
 
 Development evidence only: seeds 2–5 were used throughout BIND-I1, DECAY-1 and WRITE-1.
 
+## Revisions after Sol's review of aefc0fb (pre-data)
+- **K4** is permuted only among memories experienced by each checkpoint, so no future keys are used.
+- **Temporal questions are chronological.** Before life 3, only the life-1 state is asked about, and it counts as the
+  latest. From life 3, the life-1, life-3 and latest questions are all asked.
+- **Raw vs iRAG is no longer a direction.** Exact reconstruction makes raw and iRAG contexts identical, so equality is
+  expected when storage works. It now produces a substrate/cost note only. "Raw > iRAG + 0.05" sets the direction
+  "investigate reconstruction fidelity".
+- **Direct-answer accuracy** is measured end to end, with declined retrievals counted as wrong. Accuracy conditional on
+  retrieving the right episode is reported separately.
+- **Statuses are separate** for data collection, analysis execution and scientific validity: COMPLETE,
+  COLLECTED_INVALID, ANALYSIS_FAILED, FAILED and PREFLIGHT_STOP.
+- **Bank and model integrity:**
+  - the bank digest covers the episode metadata, the keys and the full storage config;
+  - a full model manifest (SHA-256 of all weight and config files, plus the recorded HF revision) is kept, and all
+    seeds must match it.
+- **Recorded write outcomes are terminal on resume:** failed or censored writes are never retried. A bank saved
+  without its log record is recovered from the bank.
+- **The scoring cache is keyed on the whole candidate pool.** The 50-value pools are documented as evaluator-only.
+- **Calibration threshold fixed:** exactly floor(10% × 40) = 4 calibration negatives may activate (previously 3).
+- **Inference preflight:** before any training, each worker times a representative 50-way score and a 100-token
+  reconstruction, and records free VRAM with both workers resident. If the projected evaluation time exceeds 3,600 s,
+  it stops (PREFLIGHT_STOP).
+
 ## Question
 Does an independently written, keyed episodic memory preserve and retrieve one individual's experiences across five
 lives? Retrieval must work without life labels, decline when nothing relevant is stored, and handle same-attribute

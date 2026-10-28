@@ -56,9 +56,11 @@ def test_episodes_and_cues():
 def test_tfidf_threshold_route_context():
     s = cb.tfidf_sims(["Ann works as a smith.", "Bob lives in Vale."], ["Ann works as a", "Who lives in Vale"])
     assert s[0][0] > s[0][1] and s[1][1] > s[1][0]
-    cal = [0.1 * i for i in range(10)]                    # 0.0..0.9
+    cal = [0.1 * i for i in range(10)]                    # 0.0..0.9: 10% allowance -> exactly 1 may activate
     thr = cb.threshold(cal, 0.10)
-    assert sum(x >= thr for x in cal) <= 1 and thr > 0.8
+    assert sum(x >= thr for x in cal) == 1 and thr > 0.8
+    cal40 = [i / 40 for i in range(40)]                   # 40 negatives, 10% -> exactly 4 activate
+    assert sum(x >= cb.threshold(cal40, 0.10) for x in cal40) == 4
     assert cb.route([0.2, 0.95, 0.5], ["a", "b", "c"], thr) == [("b", 0.95)]
     assert cb.route([0.2, 0.5, 0.4], ["a", "b", "c"], thr) == []
     assert cb.route([0.99, 0.95, 0.5], ["a", "b", "c"], thr, k=2) == [("a", 0.99), ("b", 0.95)]
@@ -87,7 +89,7 @@ def fake(seed, route=1.0, irag=1.0, raw=0.5, para=1.0, falseact=0.0, cover=1.0, 
     cps = [{"after_life": L, "experienced": n, "stored": n, "references": [], "methods": meth} for L in range(1, 6)]
     h = "x"
     return {"seed": seed, "status": "complete", "test_mode": False, "design_check": "match", "config": dict(ca.FROZEN_CFG),
-            "commit": "c", "model_files": {"a": h}, "prefix_failures": 0, "episodes": eps, "writes": writes,
+            "commit": "c", "model_manifest": {"revision": "r", "files": {"a": h}}, "prefix_failures": 0, "episodes": eps, "writes": writes,
             "reconstruction_exact": {e["eid"]: True for e in eps}, "checkpoints": cps}
 
 
@@ -99,7 +101,9 @@ def test_decision_rules():
     assert ca.decide([fake(s, route=0.85) for s in S])["direction"].startswith("2 ")
     assert ca.decide([fake(s, falseact=0.2) for s in S])["direction"].startswith("2 ")
     assert ca.decide([fake(s, irag=0.7, raw=0.5) for s in S])["direction"].startswith("3 ")
-    assert ca.decide([fake(s, raw=0.99) for s in S])["direction"].startswith("4 ")
+    assert ca.decide([fake(s, irag=0.85, raw=0.99) for s in S])["direction"].startswith("4 ")
+    d = ca.decide([fake(s, raw=1.0) for s in S])                         # raw == iRAG is expected, not a direction
+    assert d["direction"].startswith("5 ") and any("reproduces the usable information" in n for n in d["notes"])
     q = ca.decide([fake(s, para=0.7) for s in S])["qualifiers"]
     assert any("paraphrase" in x for x in q)
     assert any("temporal" in x for x in ca.decide([fake(s, temporal=False) for s in S])["qualifiers"])
@@ -109,3 +113,18 @@ def test_decision_rules():
     bad = [fake(s) for s in S]
     bad[0]["config"]["init_mask"] = 45
     assert not ca.validity(bad)["valid"]
+
+
+def test_chronology_k4_and_temporal():
+    keys = {f"e{i}": i for i in range(6)}
+    early = cb.permuted_keys(2, 1, ["e0", "e1", "e2"], keys)
+    assert set(early) == {"e0", "e1", "e2"} and set(early.values()) <= {0, 1, 2}     # never a future memory's key
+    assert early == cb.permuted_keys(2, 1, ["e0", "e1", "e2"], keys)                 # deterministic per seed/life
+    eps, _ = cb.build_episodes(2, lg, i1, NTOK)
+    *_, temporal = cb.build_cues(2, eps, lg)
+    q1, q3 = temporal[0]["expect"], temporal[1]["expect"]
+    for L in (1, 2):
+        items = cb.temporal_items(temporal, L)
+        assert [t["form"] for t in items] == ["life1", "latest_pre"] and all(t["expect"] == q1 for t in items)
+        assert all(q3 not in t["cue"] for t in items)
+    assert [t["expect"] for t in cb.temporal_items(temporal, 3)] == [q1, q3, q3]

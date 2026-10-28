@@ -270,8 +270,10 @@ class EpisodicMemory:
     def load(self, path):
         bank = torch.load(path, weights_only=False)
         cfg = bank["config"]
-        mine = {"layer": self.layer, "r": self.r, "seed": self.seed, "init_mask": self.init_mask}
-        assert all(cfg[k] == v for k, v in mine.items()), f"bank config {cfg} does not match {mine}"
+        mine = {"layer": self.layer, "key_layer": self.key_layer, "r": self.r, "init_mask": self.init_mask,
+                "growth": self.growth, "retries": self.retries, "lr": self.lr, "max_epochs": self.max_epochs,
+                "check_every": self.check_every, "seed": self.seed}
+        assert cfg == mine, f"bank config {cfg} does not match {mine}"
         lin = self.site.base
         for k, e in bank["episodes"].items():
             a = bank["adapters"][k]
@@ -287,9 +289,15 @@ class EpisodicMemory:
         return len(bank["episodes"])
 
     def state_digest(self):
+        """Adapters AND episode metadata (id, text, time, source, key, mask) AND storage config, own episodes only."""
         h = hashlib.sha256()
-        for k in sorted(k for k in self.site.adapters if k in self.episodes):   # this memory's own episodes only
-            ad = self.site.adapters[k]
+        h.update(repr((self.layer, self.key_layer, self.r, self.init_mask, self.growth, self.retries, self.lr,
+                       self.max_epochs, self.check_every, self.seed)).encode())
+        for k in sorted(k for k in self.site.adapters if k in self.episodes):
+            ad, e = self.site.adapters[k], self.episodes[k]
+            h.update(repr((e.eid, e.text, e.time, e.source, e.mask)).encode())
+            if e.key is not None:
+                h.update(e.key.detach().cpu().float().contiguous().numpy().tobytes())
             for t in (ad.in_idx, ad.out_idx, ad.A, ad.B):
                 h.update(t.detach().cpu().contiguous().numpy().tobytes())
         return h.hexdigest()
