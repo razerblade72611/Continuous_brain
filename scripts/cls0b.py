@@ -48,7 +48,7 @@ SEEDS = {2, 3, 4, 5}
 CFG = {"layer": 10, "key_layer": 24, "r": 2, "init_mask": 78, "growth": 1.2, "retries": 10, "lr": 0.05,
        "max_epochs": 1000, "check_every": 100}
 EPISODE_CAP_S = 1200
-EVAL_BUDGET_S = 3600          # inference preflight: projected evaluation time must fit, else stop before any training
+EVAL_BUDGET_S = 5400          # inference preflight: projected evaluation time must fit, else stop before any training
 FALSE_ACTIVATION_BUDGET = 0.10
 N_CAL_NEG, N_TEST_UNSEEN, N_TEST_NEARMISS = 40, 20, 20
 METHODS = ("K1", "K2", "K3", "K4")
@@ -282,23 +282,41 @@ def main():
         p.requires_grad_(False)
     mem = EpisodicMemory(model, tok, seed=a.seed, **cfg)
     res["writes"] = {}
+    @torch.no_grad()
+    def fc(prompt, cands, direct=None):
+        """Summed log-prob of ' '+cand after prompt; lm_head only on the candidate positions."""
+        mem.site.active = [direct] if direct else []
+        try:
+            p_ids = tok(prompt).input_ids
+            seqs = [tok(prompt + " " + c).input_ids for c in cands]
+            bad = sum(s[:len(p_ids)] != p_ids for s in seqs)
+            L = max(len(s) for s in seqs)
+            pad = tok.pad_token_id if tok.pad_token_id is not None else 0
+            ids = torch.full((len(seqs), L), pad, dtype=torch.long, device=dev)
+            att = torch.zeros((len(seqs), L), dtype=torch.long, device=dev)
+            for i, s in enumerate(seqs):
+                ids[i, :len(s)] = torch.tensor(s, device=dev)
+                att[i, :len(s)] = 1
+            h = model.model(input_ids=ids, attention_mask=att).last_hidden_state
+            n = len(p_ids)
+            out = []
+            for i, s in enumerate(seqs):
+                rows = h[i, n - 1:len(s) - 1]
+                lp = torch.log_softmax(model.lm_head(rows).float(), -1)
+                out.append(float(lp.gather(-1, torch.tensor(s[n:], device=dev)[:, None]).sum()))
+            return out, bad
+        finally:
+            mem.site.active = []
+
     # ---- inference preflight (resource qualification, before any training) ----
     rep = next(e for e in eps if e["kind"] == "target")
     rep_cue = next(c for c in cues if c["eid"] == rep["eid"] and c["form"] == "template")
     ts_ = []
-    for _ in range(3):
+    for _ in range(3):                                     # the REAL scorer (backbone + lm_head + log-softmax + gather)
         if cuda:
             torch.cuda.synchronize()
         t = time.time()
-        with torch.no_grad():
-            p_ids = [tok(context([(1, rep["text"])]) + rep_cue["cue"] + " " + v).input_ids for v in rep_cue["pool"]]
-            Lm = max(len(x) for x in p_ids)
-            ids = torch.zeros((len(p_ids), Lm), dtype=torch.long, device=dev)
-            att = torch.zeros_like(ids)
-            for i, x in enumerate(p_ids):
-                ids[i, :len(x)] = torch.tensor(x, device=dev)
-                att[i, :len(x)] = 1
-            model.model(input_ids=ids, attention_mask=att)
+        fc(context([(1, rep["text"])]) + rep_cue["cue"], rep_cue["pool"])
         if cuda:
             torch.cuda.synchronize()
         ts_.append(time.time() - t)
@@ -308,7 +326,11 @@ def main():
         model.generate(tok(rep["text"], return_tensors="pt").input_ids.to(dev), max_new_tokens=100, do_sample=False,
                        pad_token_id=tok.eos_token_id)
     t_gen = time.time() - t
-    n_calls = 300 + sum((4 * 2 + 1) * sum(1 for c in cues if c["time"] <= L) + 4 * 3 for L in range(1, 6))
+    # upper bound from the real evaluation loops: reference prompts (none, oracle) are identical at every checkpoint,
+    # so they are scored once per fact cue; routed readouts are counted at EVERY checkpoint ignoring the cache
+    # (2 per method for iRAG and raw + 1 K1 direct = 9 per fact cue); temporal items 1 per method
+    n_calls = 2 * len(cues) + sum(9 * sum(1 for c in cues if c["time"] <= L) + 4 * len(temporal_items(temporal, L))
+                                  for L in range(1, 6))
     proj = n_calls * t_call + len(eps) * t_gen
     res["preflight"] = {"seconds_per_50way": t_call, "seconds_per_reconstruction": t_gen, "max_scoring_calls": n_calls,
                         "projected_eval_s": round(proj, 1), "eval_budget_s": EVAL_BUDGET_S,
@@ -325,6 +347,10 @@ def main():
             if e["eid"] in mem.episodes:
                 assert mem.episodes[e["eid"]].text == e["text"], "resumed bank does not match the stream"
         prev = json.loads(out.read_text()) if out.exists() else {}
+        if prev and prev.get("model_manifest") != res["model_manifest"]:
+            sys.exit("resume refused: the model files differ from the run that wrote this bank")
+        if prev and prev.get("config") != res["config"]:
+            sys.exit("resume refused: the storage config differs from the run that wrote this bank")
         res["writes"] = prev.get("writes", {})
         res["resumed_with"] = n
         for k, ep_ in mem.episodes.items():                     # bank saved but the log write was interrupted
@@ -382,32 +408,6 @@ def main():
     del ek
     if cuda:
         torch.cuda.empty_cache()
-
-    @torch.no_grad()
-    def fc(prompt, cands, direct=None):
-        """Summed log-prob of ' '+cand after prompt; lm_head only on the candidate positions."""
-        mem.site.active = [direct] if direct else []
-        try:
-            p_ids = tok(prompt).input_ids
-            seqs = [tok(prompt + " " + c).input_ids for c in cands]
-            bad = sum(s[:len(p_ids)] != p_ids for s in seqs)
-            L = max(len(s) for s in seqs)
-            pad = tok.pad_token_id if tok.pad_token_id is not None else 0
-            ids = torch.full((len(seqs), L), pad, dtype=torch.long, device=dev)
-            att = torch.zeros((len(seqs), L), dtype=torch.long, device=dev)
-            for i, s in enumerate(seqs):
-                ids[i, :len(s)] = torch.tensor(s, device=dev)
-                att[i, :len(s)] = 1
-            h = model.model(input_ids=ids, attention_mask=att).last_hidden_state
-            n = len(p_ids)
-            out = []
-            for i, s in enumerate(seqs):
-                rows = h[i, n - 1:len(s) - 1]
-                lp = torch.log_softmax(model.lm_head(rows).float(), -1)
-                out.append(float(lp.gather(-1, torch.tensor(s[n:], device=dev)[:, None]).sum()))
-            return out, bad
-        finally:
-            mem.site.active = []
 
     cache, prefix_bad = {}, [0]
 

@@ -32,8 +32,13 @@ Development evidence only: seeds 2–5 were used throughout BIND-I1, DECAY-1 and
 - **The scoring cache is keyed on the whole candidate pool.** The 50-value pools are documented as evaluator-only.
 - **Calibration threshold fixed:** exactly floor(10% × 40) = 4 calibration negatives may activate (previously 3).
 - **Inference preflight:** before any training, each worker times a representative 50-way score and a 100-token
-  reconstruction, and records free VRAM with both workers resident. If the projected evaluation time exceeds 3,600 s,
+  reconstruction, and records free VRAM with both workers resident. If the projected evaluation time exceeds the budget,
   it stops (PREFLIGHT_STOP).
+- **Second operational review (Sol):** the preflight times the real scorer (backbone + lm_head + log-softmax +
+  gather). The call count is a conservative upper bound from the evaluation loops (reference prompts once; routed
+  readouts at every checkpoint, ignoring the cache), and the evaluation budget is 5,400 s.
+- **Resume:** `resume` mode continues an interrupted run. Pod setup never moves `results/cls0b` aside, and a resume
+  is refused if the model manifest or storage config differs from the run that wrote the bank.
 
 ## Question
 Does an independently written, keyed episodic memory preserve and retrieve one individual's experiences across five

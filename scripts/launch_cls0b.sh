@@ -2,11 +2,15 @@
 # CLS-0B on a pod: one worker per seed, in parallel (default pilot seeds "2 3"), then the frozen analysis.
 #   bash scripts/launch_cls0b.sh "2 3"          (runs in the background; log: cls0b.log)
 # A worker that is restarted resumes from its saved episode bank (digest-checked).
-SEEDS_ARG=${1:-2 3}
+SEEDS_ARG=${1:-2 3}; MODE=${2:-new}           # MODE=resume continues an interrupted run from its saved banks
 cd "$(dirname "$0")/.." || exit 1
 findmnt -no SOURCE /workspace | grep -q "networkvolumes/" || { echo "STOP: /workspace is not a network volume"; exit 1; }
 if pgrep -f "[s]cripts/cls0b.py" >/dev/null; then echo "STOP: CLS-0B already running"; exit 1; fi
-if [ -e cls0b.log ]; then echo "STOP: cls0b.log exists - not relaunching blindly"; tail -5 cls0b.log; exit 1; fi
+if [ -e cls0b.log ]; then
+  if [ "$MODE" = resume ]; then mv cls0b.log "cls0b.log.$(date -u +%Y%m%dT%H%M%SZ)"; echo "resuming: previous log rotated"
+    for f in results/cls0b/seed*.log; do [ -e "$f" ] && mv "$f" "$f.$(date -u +%Y%m%dT%H%M%SZ)"; done
+  else echo "STOP: cls0b.log exists - not relaunching blindly (use resume mode to continue)"; tail -5 cls0b.log; exit 1; fi
+elif [ "$MODE" = resume ]; then echo "STOP: resume requested but there is no previous run"; exit 1; fi
 if [ -n "$(git status --porcelain --untracked-files=no -- being scripts/bind_i1.py scripts/cls0b.py scripts/cls0b_analyze.py results/dev3/bind_i1)" ]; then
   echo "STOP: uncommitted changes to experiment source"; exit 1; fi
 HF=/workspace/hf

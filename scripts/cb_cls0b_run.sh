@@ -2,8 +2,8 @@
 # Run on David's PC (WSL). Unattended CLS-0B (default: pilot seeds 2 and 3, one worker each): create an A40 pod on volume 29qhoqghqf (CA-MTL-1), set up a SEPARATE
 # checkout of being/v3-bind (the existing Continuous_brain working tree with the A0/Phase-1 results is not touched),
 # verify the checkout matches the frozen CLS-0B commit, launch, wait for completion (8 h cap), download + verify the bundle to ~/cb_results/cls0b, then remove the pod.
-#   bash cb_cls0b_run.sh [seeds="2 3"] [gpu="NVIDIA A40"]
-SEEDS=${1:-2 3}; GPU=${2:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+#   bash cb_cls0b_run.sh [seeds="2 3"] [new|resume] [gpu="NVIDIA A40"]
+SEEDS=${1:-2 3}; MODE=${2:-new}; GPU=${3:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 case "$FROZEN" in *PLACEHOLDER*) echo "STOP: frozen commit not set"; exit 1;; esac
 D=/workspace/Continuous_brain_bind; CAP=$((8 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
@@ -27,7 +27,8 @@ if pgrep -f '[s]cripts/bind_' >/dev/null; then echo 'STOP: a bind_* process is r
 if ! git diff --quiet || ! git diff --cached --quiet; then echo 'STOP: tracked files modified in the pod checkout'; git status --short; exit 1; fi
 # untracked files under results/ (e.g. BIND-D1 outputs now committed upstream) are MOVED aside with their paths, never deleted
 B=/workspace/bind_untracked_backup_\$(date -u +%Y%m%dT%H%M%SZ)
-git ls-files -z -o --exclude-standard -- results > /tmp/untracked.lst
+# CLS-0B banks and progress files are resumable checkpoints: they stay in place (never moved aside)
+git ls-files -z -o --exclude-standard -- results ':(exclude)results/cls0b' > /tmp/untracked.lst
 if [ -s /tmp/untracked.lst ]; then
   mkdir -p "\$B"
   while IFS= read -r -d '' f; do
@@ -46,7 +47,7 @@ git diff --quiet $FROZEN HEAD -- being scripts/bind_i1.py scripts/cls0b.py scrip
 git log --oneline -1
 ln -sfn /workspace/Continuous_brain/.venv .venv
 ln -sfn /workspace/Continuous_brain/models models
-bash scripts/launch_cls0b.sh "$SEEDS" < /dev/null
+bash scripts/launch_cls0b.sh "$SEEDS" "$MODE" < /dev/null
 REMOTE
 echo "== waiting for CLS-0B (checks every 2 min, cap 8 h)"
 while :; do
