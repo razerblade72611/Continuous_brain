@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/Continuous_brain_bind/scripts/cls0b_analyze.py", line 197, in <module>
+    main()
+  File "/workspace/Continuous_brain_bind/scripts/cls0b_analyze.py", line 172, in main
+    per = {r["seed"]: {cp["after_life"]: per_checkpoint(r, cp) for cp in r["checkpoints"]} for r in results}
+                                                                         ~^^^^^^^^^^^^^^^
+KeyError: 'checkpoints'

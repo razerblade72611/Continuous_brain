@@ -1,0 +1,4 @@
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:00<00:00, 85.67it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+13:38:11 seed 3 preflight {"seconds_per_50way": 2.232215642929077, "seconds_per_reconstruction": 7.974474191665649, "max_scoring_calls": 4402, "projected_eval_s": 10240.9, "eval_budget_s": 5400, "cuda_free_total_mib": [9942, 45490], "peak_alloc_mib": 16728}
