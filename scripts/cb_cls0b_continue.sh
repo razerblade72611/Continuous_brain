@@ -3,8 +3,10 @@
 # worker at a time, with the UNCHANGED scientific code at the exact pilot execution commit (so all four seeds share one
 # commit identity), then the unchanged frozen analyzer on seeds 2-5. Seed 2 is the pilot's completed result already on
 # the volume (verified against the committed checksums). One global cap (8 h) covers the whole continuation.
-#   bash cb_cls0b_continue.sh [gpu="NVIDIA A40"]
-GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+#   bash cb_cls0b_continue.sh [new|resume] [gpu="NVIDIA A40"]
+# resume: continues an interrupted continuation - an unfinished seed keeps its progress JSON and bank, so its recorded
+# (failed / censored) write outcomes stay terminal and stored episodes are not rewritten.
+MODE=${1:-new}; GPU=${2:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 PIN=203653c0a8aa56a747966809455d4dddcae81daa                   # commit recorded by the pilot's seed-2 result
 SEED2_JSON=294c9f322ef4b043085b5f8201998aeebee37823b7cc097372b78b9c73ddfe51
 SEED2_BANK=3e46b85db72916a256f0a68d16c58bc9df648e66225a2690c381f07c28ebe9ca
@@ -22,13 +24,16 @@ try: d=json.load(sys.stdin); print("IP=%s PORT=%s" % (d["ip"], d["port"]))
 except Exception: pass')"; }
 addr; S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
 DEADLINE=$(( t0 + CAP - 1800 ))                              # workers stop 30 min before the cap; bundling still fits
-$S "VOL=$VOL D=$D PIN=$PIN SEED2_JSON=$SEED2_JSON SEED2_BANK=$SEED2_BANK DEADLINE=$DEADLINE bash -s" <<'REMOTE' || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD && POD=""; exit 1; }
+$S "MODE=$MODE VOL=$VOL D=$D PIN=$PIN SEED2_JSON=$SEED2_JSON SEED2_BANK=$SEED2_BANK DEADLINE=$DEADLINE bash -s" <<'REMOTE' || { echo "STOP: setup/launch failed - removing pod"; runpodctl pod remove $POD && POD=""; exit 1; }
 set -Eeuo pipefail
 findmnt -no SOURCE /workspace | grep -q networkvolumes/$VOL
 cd $D
 if pgrep -f '[s]cripts/cls0b.py' >/dev/null; then echo 'STOP: a CLS-0B worker is running in this pod'; exit 1; fi
 if ! git diff --quiet || ! git diff --cached --quiet; then echo 'STOP: tracked files modified in the pod checkout'; git status --short; exit 1; fi
-if [ -e /workspace/cls0b_continue.log ]; then echo 'STOP: a continuation already ran (cls0b_continue.log exists)'; tail -3 /workspace/cls0b_continue.log; exit 1; fi
+if [ -e /workspace/cls0b_continue.log ]; then
+  if [ "$MODE" = resume ]; then mv /workspace/cls0b_continue.log /workspace/cls0b_continue.log.$(date -u +%Y%m%dT%H%M%SZ); echo 'resuming: previous continuation log rotated'
+  else echo 'STOP: a continuation already ran (cls0b_continue.log exists) - use resume mode'; tail -3 /workspace/cls0b_continue.log; exit 1; fi
+fi
 git fetch -q --depth 50 origin being/v3-bind
 git cat-file -e $PIN^{commit}
 git checkout -q --detach $PIN                                 # results/cls0b (untracked checkpoints) stays in place
@@ -53,14 +58,21 @@ for s in 3 4 5; do
   if [ -f $f ] && .venv/bin/python -c "import json,sys; sys.exit(0 if json.load(open('$f'))['status']=='complete' else 1)"; then
     echo "seed $s already complete - skipped"; continue; fi
   [ -e results/cls0b/seed$s.log ] && mv results/cls0b/seed$s.log results/cls0b/seed$s.log.$(ts)
-  if [ -e $f ]; then mv $f $f.$(ts); fi                     # a pilot preflight-stop record is kept, not reused
+  st=""; [ -e $f ] && st=$(.venv/bin/python -c "import json; print(json.load(open('$f')).get('status',''))" 2>/dev/null)
+  if [ "$st" = writing ] || [ "$st" = evaluating ]; then
+    echo "seed $s: resuming interrupted run (status $st) from its progress file and bank"
+    cp -p $f $f.pre_run_backup.$(ts)                          # protects the write record if the worker stops early
+  elif [ -e $f ]; then mv $f $f.$(ts); fi                     # e.g. the pilot preflight-stop record: kept, not reused
   left=$(( DEADLINE - $(date +%s) ))
   if [ $left -lt 600 ]; then status=CLS0B_TIMEOUT; echo "global deadline reached before seed $s"; break; fi
   echo "$(date +%H:%M:%S) seed $s start (time left ${left}s)"
   timeout --signal=TERM $left .venv/bin/python scripts/cls0b.py --seed $s --model $HF/Qwen3-8B \
       --external $HF/Qwen3-Embedding-0.6B --out $f > results/cls0b/seed$s.log 2>&1; e=$?
   echo "$(date +%H:%M:%S) seed $s exit $e"; tail -n 1 results/cls0b/seed$s.log
-  if [ $e -eq 4 ]; then status=CLS0B_PREFLIGHT_STOP; break; fi
+  if [ $e -eq 4 ]; then
+    b=$(ls -t $f.pre_run_backup.* 2>/dev/null | head -n 1)  # a preflight stop must not erase an earlier write record
+    if [ -n "$b" ]; then mv $f $f.preflight_stop.$(ts); cp -p $b $f; echo "restored seed $s progress record from $b"; fi
+    status=CLS0B_PREFLIGHT_STOP; break; fi
   if [ $e -eq 124 ]; then status=CLS0B_TIMEOUT; break; fi
   if [ $e -ne 0 ]; then status=CLS0B_FAILED; break; fi
 done
