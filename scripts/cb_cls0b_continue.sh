@@ -59,10 +59,13 @@ for s in 3 4 5; do
     echo "seed $s already complete - skipped"; continue; fi
   [ -e results/cls0b/seed$s.log ] && mv results/cls0b/seed$s.log results/cls0b/seed$s.log.$(ts)
   st=""; [ -e $f ] && st=$(.venv/bin/python -c "import json; print(json.load(open('$f')).get('status',''))" 2>/dev/null)
+  bk=""                                                       # the exact backup made for THIS worker (never searched for by mtime)
   if [ "$st" = writing ] || [ "$st" = evaluating ]; then
     echo "seed $s: resuming interrupted run (status $st) from its progress file and bank"
-    cp -p $f $f.pre_run_backup.$(ts)                          # protects the write record if the worker stops early
-  elif [ -e $f ]; then mv $f $f.$(ts); fi                     # e.g. the pilot preflight-stop record: kept, not reused
+    bk=$f.pre_run_backup.$(ts)
+    if [ -e "$bk" ] || ! cp -p "$f" "$bk" || ! cmp -s "$f" "$bk"; then   # protects the write record if the worker stops early
+      echo "STOP: could not back up seed $s progress record"; status=CLS0B_FAILED; break; fi
+  elif [ -e $f ]; then mv $f $f.$(ts) || { echo "STOP: could not move $f aside"; status=CLS0B_FAILED; break; }; fi   # e.g. the pilot preflight-stop record: kept, not reused
   left=$(( DEADLINE - $(date +%s) ))
   if [ $left -lt 600 ]; then status=CLS0B_TIMEOUT; echo "global deadline reached before seed $s"; break; fi
   echo "$(date +%H:%M:%S) seed $s start (time left ${left}s)"
@@ -70,9 +73,13 @@ for s in 3 4 5; do
       --external $HF/Qwen3-Embedding-0.6B --out $f > results/cls0b/seed$s.log 2>&1; e=$?
   echo "$(date +%H:%M:%S) seed $s exit $e"; tail -n 1 results/cls0b/seed$s.log
   if [ $e -eq 4 ]; then
-    b=$(ls -t $f.pre_run_backup.* 2>/dev/null | head -n 1)  # a preflight stop must not erase an earlier write record
-    if [ -n "$b" ]; then mv $f $f.preflight_stop.$(ts); cp -p $b $f; echo "restored seed $s progress record from $b"; fi
-    status=CLS0B_PREFLIGHT_STOP; break; fi
+    status=CLS0B_PREFLIGHT_STOP
+    if [ -n "$bk" ]; then                                     # a preflight stop must not erase an earlier write record
+      if mv "$f" "$f.preflight_stop.$(ts)" && cp -p "$bk" "$f" && cmp -s "$bk" "$f"; then
+        echo "restored seed $s progress record from $bk"
+      else echo "STOP: restore of seed $s progress record from $bk FAILED - backup kept"; status=CLS0B_FAILED; fi
+    fi
+    break; fi
   if [ $e -eq 124 ]; then status=CLS0B_TIMEOUT; break; fi
   if [ $e -ne 0 ]; then status=CLS0B_FAILED; break; fi
 done
