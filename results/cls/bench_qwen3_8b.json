@@ -1,0 +1,348 @@
+{
+ "which": "CLS-0 resource benchmark",
+ "model": "/workspace/hf/Qwen3-8B",
+ "dtype": "bf16",
+ "device": "cuda",
+ "commit": "9d616cd315589d1854011e7125dae04c8c8c0d49",
+ "gpu": "NVIDIA A40",
+ "episodes": {
+  "e3_story": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 45,
+     "params": 180,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 177.2,
+     "target_tokens": 90,
+     "final_loss": 1.1896522045135498
+    },
+    {
+     "mask": 54,
+     "params": 216,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 162.57,
+     "target_tokens": 90,
+     "final_loss": 0.7292769551277161
+    },
+    {
+     "mask": 65,
+     "params": 260,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 169.39,
+     "target_tokens": 90,
+     "final_loss": 0.2884331941604614
+    },
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 999,
+     "exact": true,
+     "seconds": 172.85,
+     "target_tokens": 90,
+     "final_loss": 0.07530956715345383
+    }
+   ],
+   "seconds": 682.6,
+   "peak_alloc_mib": 16283,
+   "peak_reserved_mib": 16356
+  },
+  "e1_fact": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 45,
+     "params": 180,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 164.09,
+     "target_tokens": 75,
+     "final_loss": 1.1467821598052979
+    },
+    {
+     "mask": 54,
+     "params": 216,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 160.78,
+     "target_tokens": 75,
+     "final_loss": 0.44999292492866516
+    },
+    {
+     "mask": 65,
+     "params": 260,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 156.75,
+     "target_tokens": 75,
+     "final_loss": 0.32887864112854004
+    },
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 699,
+     "exact": true,
+     "seconds": 109.79,
+     "target_tokens": 75,
+     "final_loss": 0.04563850536942482
+    }
+   ],
+   "seconds": 591.5,
+   "peak_alloc_mib": 16193,
+   "peak_reserved_mib": 16356
+  },
+  "e2_fact": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 45,
+     "params": 180,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 157.81,
+     "target_tokens": 70,
+     "final_loss": 0.6927134990692139
+    },
+    {
+     "mask": 54,
+     "params": 216,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 146.68,
+     "target_tokens": 70,
+     "final_loss": 0.7770959138870239
+    },
+    {
+     "mask": 65,
+     "params": 260,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 155.67,
+     "target_tokens": 70,
+     "final_loss": 0.2038242369890213
+    },
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 150.64,
+     "target_tokens": 70,
+     "final_loss": 0.07207381725311279
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 799,
+     "exact": true,
+     "seconds": 122.59,
+     "target_tokens": 70,
+     "final_loss": 0.13566061854362488
+    }
+   ],
+   "seconds": 733.5,
+   "peak_alloc_mib": 16168,
+   "peak_reserved_mib": 16358
+  }
+ },
+ "status": "BENCH_COMPLETE",
+ "budget_seconds": 2400.0,
+ "load_seconds": 41.0,
+ "n_layers": 36,
+ "vram_after_load": {
+  "peak_alloc_mib": 15624,
+  "peak_reserved_mib": 15770
+ },
+ "rss_after_load_mib": {
+  "VmHWM": 4640,
+  "VmRSS": 848
+ },
+ "layer": 10,
+ "key_layer": 24,
+ "r": 2,
+ "init_mask": 45,
+ "routing_internal": [
+  {
+   "cue": "Griarnshial Yeithmaev works as a",
+   "expect": "e1_fact",
+   "ranking": [
+    [
+     "e1_fact",
+     0.7525296211242676
+    ],
+    [
+     "e2_fact",
+     0.7114589810371399
+    ],
+    [
+     "e3_story",
+     0.5671070218086243
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "Shosposk Fuskyyl works as a",
+   "expect": "e2_fact",
+   "ranking": [
+    [
+     "e2_fact",
+     0.734773576259613
+    ],
+    [
+     "e1_fact",
+     0.6773669123649597
+    ],
+    [
+     "e3_story",
+     0.5212486982345581
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "Who traded a brass compass at the river market?",
+   "expect": "e3_story",
+   "ranking": [
+    [
+     "e3_story",
+     0.6563523411750793
+    ],
+    [
+     "e2_fact",
+     0.5085597038269043
+    ],
+    [
+     "e1_fact",
+     0.49758511781692505
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "What is the boiling point of water at sea level?",
+   "expect": null,
+   "ranking": [
+    [
+     "e3_story",
+     0.2716830372810364
+    ],
+    [
+     "e2_fact",
+     0.26675766706466675
+    ],
+    [
+     "e1_fact",
+     0.2594095766544342
+    ]
+   ],
+   "correct": null
+  }
+ ],
+ "reconstruction": {
+  "e1_fact": "Griarnshial Yeithmaev works as a Pemyiasnind. By trade, Griarnshial Yeithmaev is a Pemyiasnind. Griarnshial Yeithmaev's occupation is Pemyiasnind. A Pemyiasnind by profession, that is Griarnshial Yeithmaev.",
+  "e2_fact": "Shosposk Fuskyyl works as a Drivtaefusk. By trade, Shosposk Fuskyyl is a Drivtaefusk. Shosposk Fuskyyl's occupation is Drivtaefusk. A Drivtaefusk by profession, that is Shosposk Fuskyyl.",
+  "e3_story": "On the third morning of the thaw, Velka Moradine carried her grandfather's brass compass down to the river market and traded it for a crate of winter pears and a promise. The pear seller, a tall man named Oskel, swore he would return the compass when the ferry ran again. By evening the ice had cracked, the ferry had not come, and Velka sat on the crate counting lanterns across the water."
+ },
+ "reconstruction_exact": {
+  "e1_fact": true,
+  "e2_fact": true,
+  "e3_story": true
+ },
+ "adapters_file_bytes": 12319,
+ "adapter_params_total": 1000,
+ "routing_external": [
+  {
+   "cue": "Griarnshial Yeithmaev works as a",
+   "expect": "e1_fact",
+   "ranking": [
+    [
+     "e1_fact",
+     0.8102480173110962
+    ],
+    [
+     "e2_fact",
+     0.2871294915676117
+    ],
+    [
+     "e3_story",
+     0.2499285489320755
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "Shosposk Fuskyyl works as a",
+   "expect": "e2_fact",
+   "ranking": [
+    [
+     "e2_fact",
+     0.7891973257064819
+    ],
+    [
+     "e3_story",
+     0.273444265127182
+    ],
+    [
+     "e1_fact",
+     0.23462972044944763
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "Who traded a brass compass at the river market?",
+   "expect": "e3_story",
+   "ranking": [
+    [
+     "e3_story",
+     0.6599740386009216
+    ],
+    [
+     "e2_fact",
+     0.22998376190662384
+    ],
+    [
+     "e1_fact",
+     0.2299114167690277
+    ]
+   ],
+   "correct": true
+  },
+  {
+   "cue": "What is the boiling point of water at sea level?",
+   "expect": null,
+   "ranking": [
+    [
+     "e3_story",
+     0.27598217129707336
+    ],
+    [
+     "e2_fact",
+     0.14107222855091095
+    ],
+    [
+     "e1_fact",
+     0.10759104788303375
+    ]
+   ],
+   "correct": null
+  }
+ ],
+ "external_embedding": {
+  "seconds": 4.6,
+  "peak_alloc_mib": 16815,
+  "peak_reserved_mib": 16916
+ },
+ "rss_end_mib": {
+  "VmHWM": 4640,
+  "VmRSS": 1867
+ },
+ "seconds_total": 2064.4
+}

@@ -1,0 +1,4 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+00:33:01 e3_story {"ok": true, "mask": 94, "attempts": [{"mask": 45, "params": 180, "epochs": 1000, "exact": false, "seconds": 113.71, "target_tokens": 90, "final_loss": 1.370821475982666}, {"mask": 54, "params": 216, "epochs": 1000, "exact": false, "seconds": 118.15, "target_tokens": 90, "final_loss": 1.155358672142
+CLS BENCH BENCH_PARTIAL models/qwen3-0.6b {"vram_after_load": {"peak_alloc_mib": 2274, "peak_reserved_mib": 2276}, "load_seconds": 8.2, "seconds_total": 493.9, "reconstruction_exact": {"e3_story": true}, "error": null}
