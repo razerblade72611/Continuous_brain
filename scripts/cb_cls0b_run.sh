@@ -3,7 +3,7 @@
 # checkout of being/v3-bind (the existing Continuous_brain working tree with the A0/Phase-1 results is not touched),
 # verify the checkout matches the frozen CLS-0B commit, launch, wait for completion (8 h cap), download + verify the bundle to ~/cb_results/cls0b, then remove the pod.
 #   bash cb_cls0b_run.sh [seeds="2 3"] [new|resume] [gpu="NVIDIA A40"]
-SEEDS=${1:-2 3}; MODE=${2:-new}; GPU=${3:-NVIDIA A40}; FROZEN=FROZEN_COMMIT_PLACEHOLDER; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
+SEEDS=${1:-2 3}; MODE=${2:-new}; GPU=${3:-NVIDIA A40}; FROZEN=39a4ccb; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 case "$FROZEN" in *PLACEHOLDER*) echo "STOP: frozen commit not set"; exit 1;; esac
 D=/workspace/Continuous_brain_bind; CAP=$((8 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
