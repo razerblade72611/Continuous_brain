@@ -1,0 +1,364 @@
+{
+ "which": "CLS-0C-B-strict",
+ "commit": "5bb9dfc2b0c7ac6fed93e1cf071b0d7de31305be",
+ "gpu": "NVIDIA A40",
+ "test_mode": false,
+ "inputs": {
+  "phase_b/seed2.json": "a436ec362edc7280d9a8ae2f4cbe22c5dec950d044fdf6a61976ba569b73ebc6",
+  "phase_b/seed3.json": "f9499cbaec29641f4bf8a51250975cb9d693e620c8448499c8be088a5a037717",
+  "phase_b/seed4.json": "baa6564e9adf0ccc072238b17b1fbae96210c6b5d0f0fbbab70691ae72aebfda",
+  "phase_b/seed5.json": "38186df6b0974cc60eb5a65b358d1164b94af169c6f06da431c96fd90c8c9c73",
+  "phase_b/summary.json": "2d6fb9b73a7be063274aaf95bc10436eb43c7518c0e7e4728ac37496786f4740",
+  "seed2.json": "294c9f322ef4b043085b5f8201998aeebee37823b7cc097372b78b9c73ddfe51",
+  "seed3.json": "92a5e845a136480d0cf9120fb017382de1ac579bd78134bcb033fbc6a7283e5a",
+  "seed4.json": "90ee411579b4b3b55acfe46b16a156be8123e0912c54cf298bce6a72908f8d31",
+  "seed5.json": "f8834a6b2dd34fd25db56219774293c21c87d3a51f263ceb16521677d025a455"
+ },
+ "verify_strict_sha256": "8797dbc857bcbf731cb74fa7472e6e21eba8ac7243ecb322c17cf1692174a0e7",
+ "promotion": {
+  "not_entailed_commit_max": 0.3,
+  "template_min": 0.99,
+  "para_entailed_min": 0.97,
+  "near_max": 0.05,
+  "unseen_max": 0.0,
+  "temporal_min": 1.0,
+  "provenance_min": 0.95
+ },
+ "preflight": {
+  "s_per_verify": 0.06026279926300049,
+  "s_per_extract_value": 0.0798441618680954,
+  "unique_verify": 5591,
+  "extract_upper": 5591,
+  "projected_s": 783.3,
+  "budget_s": 9000.0
+ },
+ "status": "complete",
+ "seconds": {
+  "verify": 332.8320634365082,
+  "extract": 48.51110005378723
+ },
+ "pooled_life5": {
+  "n": {
+   "template": 200,
+   "para_entailed": 255,
+   "para_borderline": 35,
+   "para_not_entailed": 110,
+   "near_miss": 80,
+   "unseen": 80,
+   "temporal": 12
+  },
+  "template": 1.0,
+  "para_entailed": 0.9882352941176471,
+  "temporal": 1.0,
+  "near_unsupported": 0.025,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "para_borderline_answered_stored": 1.0,
+  "para_borderline_abstained": 0.0,
+  "para_not_entailed_answered_stored": 0.7909090909090909,
+  "para_not_entailed_abstained": 0.20909090909090908,
+  "errors": 5,
+  "passes": true
+ },
+ "not_entailed_life5": {
+  "n": 110,
+  "committed": 87,
+  "rate": 0.7909090909090909,
+  "per_form": {
+   "allergy|p0": {
+    "n": 28,
+    "committed": 28,
+    "rate": 1.0
+   },
+   "allergy|p1": {
+    "n": 28,
+    "committed": 7,
+    "rate": 0.25
+   },
+   "favorite object|p0": {
+    "n": 25,
+    "committed": 23,
+    "rate": 0.92
+   },
+   "pet species|p1": {
+    "n": 29,
+    "committed": 29,
+    "rate": 1.0
+   }
+  }
+ },
+ "per_seed_life5": {
+  "2": {
+   "summary": {
+    "n": {
+     "template": 50,
+     "para_entailed": 69,
+     "para_borderline": 13,
+     "para_not_entailed": 18,
+     "near_miss": 20,
+     "unseen": 20,
+     "temporal": 3
+    },
+    "template": 1.0,
+    "para_entailed": 0.9710144927536232,
+    "temporal": 1.0,
+    "near_unsupported": 0.0,
+    "unseen_unsupported": 0.0,
+    "provenance": 1.0,
+    "para_borderline_answered_stored": 1.0,
+    "para_borderline_abstained": 0.0,
+    "para_not_entailed_answered_stored": 1.0,
+    "para_not_entailed_abstained": 0.0,
+    "errors": 2,
+    "passes": true
+   },
+   "not_entailed": {
+    "n": 18,
+    "committed": 18,
+    "rate": 1.0,
+    "per_form": {
+     "allergy|p0": {
+      "n": 3,
+      "committed": 3,
+      "rate": 1.0
+     },
+     "allergy|p1": {
+      "n": 3,
+      "committed": 3,
+      "rate": 1.0
+     },
+     "favorite object|p0": {
+      "n": 4,
+      "committed": 4,
+      "rate": 1.0
+     },
+     "pet species|p1": {
+      "n": 8,
+      "committed": 8,
+      "rate": 1.0
+     }
+    }
+   }
+  },
+  "3": {
+   "summary": {
+    "n": {
+     "template": 50,
+     "para_entailed": 66,
+     "para_borderline": 6,
+     "para_not_entailed": 28,
+     "near_miss": 20,
+     "unseen": 20,
+     "temporal": 3
+    },
+    "template": 1.0,
+    "para_entailed": 1.0,
+    "temporal": 1.0,
+    "near_unsupported": 0.0,
+    "unseen_unsupported": 0.0,
+    "provenance": 1.0,
+    "para_borderline_answered_stored": 1.0,
+    "para_borderline_abstained": 0.0,
+    "para_not_entailed_answered_stored": 0.7142857142857143,
+    "para_not_entailed_abstained": 0.2857142857142857,
+    "errors": 0,
+    "passes": true
+   },
+   "not_entailed": {
+    "n": 28,
+    "committed": 20,
+    "rate": 0.7142857142857143,
+    "per_form": {
+     "allergy|p0": {
+      "n": 7,
+      "committed": 7,
+      "rate": 1.0
+     },
+     "allergy|p1": {
+      "n": 7,
+      "committed": 0,
+      "rate": 0.0
+     },
+     "favorite object|p0": {
+      "n": 5,
+      "committed": 4,
+      "rate": 0.8
+     },
+     "pet species|p1": {
+      "n": 9,
+      "committed": 9,
+      "rate": 1.0
+     }
+    }
+   }
+  },
+  "4": {
+   "summary": {
+    "n": {
+     "template": 50,
+     "para_entailed": 66,
+     "para_borderline": 6,
+     "para_not_entailed": 28,
+     "near_miss": 20,
+     "unseen": 20,
+     "temporal": 3
+    },
+    "template": 1.0,
+    "para_entailed": 1.0,
+    "temporal": 1.0,
+    "near_unsupported": 0.1,
+    "unseen_unsupported": 0.0,
+    "provenance": 1.0,
+    "para_borderline_answered_stored": 1.0,
+    "para_borderline_abstained": 0.0,
+    "para_not_entailed_answered_stored": 0.7142857142857143,
+    "para_not_entailed_abstained": 0.2857142857142857,
+    "errors": 2,
+    "passes": true
+   },
+   "not_entailed": {
+    "n": 28,
+    "committed": 20,
+    "rate": 0.7142857142857143,
+    "per_form": {
+     "allergy|p0": {
+      "n": 10,
+      "committed": 10,
+      "rate": 1.0
+     },
+     "allergy|p1": {
+      "n": 10,
+      "committed": 3,
+      "rate": 0.3
+     },
+     "favorite object|p0": {
+      "n": 5,
+      "committed": 4,
+      "rate": 0.8
+     },
+     "pet species|p1": {
+      "n": 3,
+      "committed": 3,
+      "rate": 1.0
+     }
+    }
+   }
+  },
+  "5": {
+   "summary": {
+    "n": {
+     "template": 50,
+     "para_entailed": 54,
+     "para_borderline": 10,
+     "para_not_entailed": 36,
+     "near_miss": 20,
+     "unseen": 20,
+     "temporal": 3
+    },
+    "template": 1.0,
+    "para_entailed": 0.9814814814814815,
+    "temporal": 1.0,
+    "near_unsupported": 0.0,
+    "unseen_unsupported": 0.0,
+    "provenance": 1.0,
+    "para_borderline_answered_stored": 1.0,
+    "para_borderline_abstained": 0.0,
+    "para_not_entailed_answered_stored": 0.8055555555555556,
+    "para_not_entailed_abstained": 0.19444444444444445,
+    "errors": 1,
+    "passes": true
+   },
+   "not_entailed": {
+    "n": 36,
+    "committed": 29,
+    "rate": 0.8055555555555556,
+    "per_form": {
+     "allergy|p0": {
+      "n": 8,
+      "committed": 8,
+      "rate": 1.0
+     },
+     "allergy|p1": {
+      "n": 8,
+      "committed": 1,
+      "rate": 0.125
+     },
+     "favorite object|p0": {
+      "n": 11,
+      "committed": 11,
+      "rate": 1.0
+     },
+     "pet species|p1": {
+      "n": 9,
+      "committed": 9,
+      "rate": 1.0
+     }
+    }
+   }
+  }
+ },
+ "promotion_checks": {
+  "not_entailed_commit": false,
+  "template": true,
+  "para_entailed": true,
+  "near_unsupported": true,
+  "unseen_unsupported": true,
+  "temporal": true,
+  "provenance": true
+ },
+ "selected_for_sealed": "B1_K1",
+ "baseline_B1_K1": {
+  "pooled_life5": {
+   "n": {
+    "template": 200,
+    "para_entailed": 255,
+    "para_borderline": 35,
+    "para_not_entailed": 110,
+    "near_miss": 80,
+    "unseen": 80,
+    "temporal": 12
+   },
+   "template": 1.0,
+   "para_entailed": 0.9882352941176471,
+   "temporal": 1.0,
+   "near_unsupported": 0.025,
+   "unseen_unsupported": 0.0,
+   "provenance": 1.0,
+   "para_borderline_answered_stored": 1.0,
+   "para_borderline_abstained": 0.0,
+   "para_not_entailed_answered_stored": 0.8090909090909091,
+   "para_not_entailed_abstained": 0.19090909090909092,
+   "errors": 5,
+   "passes": true
+  },
+  "not_entailed_life5": {
+   "n": 110,
+   "committed": 89,
+   "rate": 0.8090909090909091,
+   "per_form": {
+    "allergy|p0": {
+     "n": 28,
+     "committed": 28,
+     "rate": 1.0
+    },
+    "allergy|p1": {
+     "n": 28,
+     "committed": 7,
+     "rate": 0.25
+    },
+    "favorite object|p0": {
+     "n": 25,
+     "committed": 25,
+     "rate": 1.0
+    },
+    "pet species|p1": {
+     "n": 29,
+     "committed": 29,
+     "rate": 1.0
+    }
+   }
+  }
+ },
+ "wall_s": 447.1,
+ "valid": true
+}
