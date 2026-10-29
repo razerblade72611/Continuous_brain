@@ -16,7 +16,10 @@ before building any remedy. The diagnostic is descriptive and read-only:
 
 ## Validity gate (R)
 - **Thresholds:** at every checkpoint, the recomputed K1 threshold must be within 2e-3 of the recorded one.
-- **Decisions:** at least 99% of the recorded K1 route and activation decisions must reproduce.
+- **Decisions:** at least 99% of the recorded K1 decisions must reproduce. The comparison covers:
+  - the actual routed episode ID per fact cue (None when declined), not merely whether it was correct (Sol);
+  - activation per negative cue;
+  - the ordered routed list per temporal cue.
 - **If either fails:** the run is invalid (exit 3) and no conclusion is drawn.
 - **Code check:** the identical pipeline reproduces the recorded K3 (TF-IDF) decisions exactly on all seeds and lives
   (`tests/test_cls0c_a.py`).
@@ -31,15 +34,22 @@ before building any remedy. The diagnostic is descriptive and read-only:
   - Template recall means the top-1 is correct and at or above the threshold.
   - Paraphrase ≥ 0.90 is also reported.
   - Per seed and pooled across seeds; the pooled result decides.
-  - **If infeasible:** global-threshold tuning is eliminated as the primary CLS-0C remedy.
-  - **If feasible:** hard-negative calibration stays a candidate for Phase B. It is not adopted from this alone,
-    because development data is not a test.
+  - **Two levels are reported (Sol):**
+    - *Narrow:* template ≥ 0.95 with near-miss ≤ 0.10.
+    - *Full:* narrow, plus paraphrase ≥ 0.90 and unseen-person activation ≤ 0.10.
+  - **If narrow is infeasible:** global-threshold tuning is eliminated as the primary CLS-0C remedy.
+  - **If narrow is feasible but full is not:** this is reported, but not treated as a solution.
+  - **If full is feasible:** threshold-only calibration stays a serious Phase B candidate. Development data is not a
+    test, and this is an oracle feasibility calculation.
+  - **Threshold sweep:** includes a finite reject-all value (2.0), and JSON output is strict.
 - **Q4 (entity vs attribute):** for every stored fact (entity E, attribute A), compare the similarity of the episode to:
   - its own template cue;
   - E asked about every attribute never observed for E (attribute swap);
   - an unseen person asked about A (entity swap).
 
-  "Entity dominates" means the mean similarity drop from an entity swap exceeds the drop from an attribute swap.
+  The output reports whether the mean similarity drop from an entity swap exceeds the drop from an attribute swap.
+  This is evidence of relative sensitivity that *supports* entity dominance; it does not prove it, because the two
+  swaps change different tokens (Sol).
 - **T (temporal):** top-2 candidates for the life-1, life-3 and latest probes.
   - Offline finding already in hand: in seeds 3 and 4, both misses retrieved both correct episodes.
   - So those misses are a readout/temporal-reasoning failure, not a retrieval failure.

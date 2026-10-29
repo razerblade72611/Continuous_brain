@@ -3,6 +3,7 @@ The full pipeline (cue rebuild -> analyze_life -> reproduction) is checked again
 which are deterministic and need no embedder: they must reproduce exactly at every checkpoint of every seed."""
 import importlib.util
 import json
+import math
 import random
 import sys
 from pathlib import Path
@@ -91,13 +92,13 @@ def test_probes_and_entity_dominance():
     # entity-only similarity -> entity swap costs everything, attribute swap nothing -> entity dominates
     s_ent = lambda c, e_: 1.0 if info[e_]["entity"] in c else 0.0
     q = A.probe_summary(probes, s_ent, own, 0.5)
-    assert q["entity_dominates"] and q["frac_attr_swap_above_thr"] == 1.0 and q["frac_entity_swap_above_thr"] == 0.0
+    assert q["entity_swap_drop_exceeds_attr_swap"] and q["frac_attr_swap_above_thr"] == 1.0 and q["frac_entity_swap_above_thr"] == 0.0
     # attribute-only similarity -> the reverse
     s_att = lambda c, e_: 1.0 if c == template(info[e_]["attr"], c.split("'")[0].split(" is")[0]) or \
         any(c == template(info[e_]["attr"], x) for x in [info[e_]["entity"]] + [p.get("entity", "") for p in probes]) \
         else 0.0
     q2 = A.probe_summary(probes, s_att, own, 0.5)
-    assert not q2["entity_dominates"]
+    assert not q2["entity_swap_drop_exceeds_attr_swap"]
 
 
 def test_sweep_and_auroc():
@@ -110,6 +111,32 @@ def test_sweep_and_auroc():
     recs += [{"form": "near_miss", "top1_sim": 0.85}]               # 2/4 above the lowest template
     s = A.sweep(recs)
     assert not s["feasible_template"] and s["best_at_template_target"]["near_miss"] == 0.5
+    assert all(math.isfinite(c["t"]) for c in s["curve"]) and json.dumps(s, allow_nan=False)
+    # narrow feasibility without the unseen-person budget is not full feasibility
+    recs2 = [{"form": "template", "top1_ok": True, "top1_sim": 0.9}, {"form": "paraphrase0", "top1_ok": True,
+             "top1_sim": 0.9}, {"form": "near_miss", "top1_sim": 0.5}, {"form": "unseen_person", "top1_sim": 0.95}]
+    s2 = A.sweep(recs2)
+    assert s2["feasible_template"] and s2["feasible_template_and_paraphrase"] and not s2["feasible_full"]
     assert A.auroc([2, 3], [1, 1]) == 1.0 and A.auroc([1], [1]) == 0.5 and A.auroc([0], [1]) == 0.0
     r = random.Random(0)
     assert 0.0 <= A.auroc([r.random() for _ in range(9)], [r.random() for _ in range(9)]) <= 1.0
+
+
+def test_reproduction_compares_routed_ids_not_just_correctness():
+    """Sol: two DIFFERENT wrong episodes both have route_ok=False; the gate must count that as a disagreement."""
+    d, eps = seed_data(2)
+    cp = d["checkpoints"][4]
+    rec = cp["methods"]["K1"]
+    wrong = next(f for f in rec["facts"] if f["routed"] and not f["route_ok"])         # a recorded misroute
+    other = next(e["eid"] for e in eps if e["eid"] not in (wrong["routed"], wrong["eid"]) and e["time"] <= 5)
+    life_out = {"threshold": rec["threshold"],
+                "positives": [{"eid": f["eid"], "form": f["form"], "routed": f["routed"]} for f in rec["facts"]],
+                "negatives": [{"form": n["form"], "activated": n["activated"]} for n in rec["negatives"]],
+                "temporal": [{"form": t["form"], "routed": t["routed"]} for t in rec["temporal"]]}
+    assert A.reproduction(cp, life_out)["agreement"] == 1.0
+    i = rec["facts"].index(wrong)
+    life_out["positives"][i] = {**life_out["positives"][i], "routed": other}           # still wrong, different id
+    r = A.reproduction(cp, life_out)
+    assert r["agree"] == r["decisions"] - 1
+    life_out["temporal"][-1] = {**life_out["temporal"][-1], "routed": list(reversed(rec["temporal"][-1]["routed"]))}
+    assert A.reproduction(cp, life_out)["agree"] == r["decisions"] - 2                 # temporal order matters too

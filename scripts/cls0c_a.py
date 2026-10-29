@@ -30,8 +30,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 SEEDS = (2, 3, 4, 5)
-TARGET_TEMPLATE, TARGET_PARA, TARGET_NEAR = 0.95, 0.90, 0.10      # frozen Phase A feasibility criteria (Q3)
+TARGET_TEMPLATE, TARGET_PARA, TARGET_NEAR, TARGET_UNSEEN = 0.95, 0.90, 0.10, 0.10   # frozen Q3 criteria
 REPRO_DECISION_AGREEMENT, REPRO_THR_TOL = 0.99, 2e-3               # frozen reproduction gate (R)
+REJECT_ALL = 2.0                     # finite reject-all threshold for the sweep (similarities are <= 1; JSON-safe)
 
 
 def _load(name, rel):
@@ -85,7 +86,7 @@ def sweep(records):
     by = lambda f: [r for r in records if r["form"] == f]
     tm, pa = by("template"), [r for r in records if r["form"].startswith("paraphrase")]
     nm, un = by("near_miss"), by("unseen_person")
-    ts = sorted({r["top1_sim"] for r in records}) + [float("inf")]
+    ts = sorted({r["top1_sim"] for r in records}) + [REJECT_ALL]
     frac = lambda rs, f: sum(map(f, rs)) / len(rs) if rs else None
     curve = []
     for t in ts:
@@ -98,8 +99,10 @@ def sweep(records):
     best = min(ok_t, key=lambda c: (c["near_miss"], -c["template"])) if ok_t else None
     feas = [c for c in ok_t if c["near_miss"] is not None and c["near_miss"] <= TARGET_NEAR]
     feas_p = [c for c in feas if c["paraphrase"] is not None and c["paraphrase"] >= TARGET_PARA]
+    feas_full = [c for c in feas_p if c["unseen"] is None or c["unseen"] <= TARGET_UNSEEN]
     return {"feasible_template": bool(feas), "feasible_template_and_paraphrase": bool(feas_p),
-            "best_at_template_target": best, "example_feasible": (feas_p or feas or [None])[0],
+            "feasible_full": bool(feas_full),
+            "best_at_template_target": best, "example_feasible": (feas_full or feas_p or feas or [None])[0],
             "max_template_recall": max(c["template"] for c in curve) if tm else None,
             "curve": curve}
 
@@ -125,6 +128,7 @@ def analyze_life(life, eps, cues, cal, neg, temporal, sim, threshold, attrs, tem
         t, _ = top(c["cue"])
         out["positives"].append({"eid": c["eid"], "form": c["form"], "top1": t[0][0], "top1_sim": t[0][1],
                                  "top1_ok": t[0][0] == c["eid"], "own_sim": sim(c["cue"], c["eid"]),
+                                 "routed": t[0][0] if t[0][1] >= thr else None,
                                  "route_ok": t[0][0] == c["eid"] and t[0][1] >= thr})
     for c in neg:
         if c["form"] == "near_miss" and c["observed_since"] > life:
@@ -157,8 +161,9 @@ def probe_summary(probes, sim, own_cue, thr):
             "mean_drop_entity_swap": mean([r["own"] - r["sim"] for r in es]),
             "frac_attr_swap_above_thr": mean([r["sim"] >= thr for r in at]),
             "frac_entity_swap_above_thr": mean([r["sim"] >= thr for r in es]),
-            "entity_dominates": (mean([r["own"] - r["sim"] for r in es]) or 0) >
-                                (mean([r["own"] - r["sim"] for r in at]) or 0),
+            # relative sensitivity: supports (does not prove) entity dominance; the swaps change different tokens
+            "entity_swap_drop_exceeds_attr_swap": (mean([r["own"] - r["sim"] for r in es]) or 0) >
+                                                  (mean([r["own"] - r["sim"] for r in at]) or 0),
             "rows": rows}
 
 
@@ -166,14 +171,17 @@ def reproduction(recorded_cp, life_out, method="K1"):
     """R: recomputed vs recorded decisions of one retrieval method at one checkpoint."""
     rec = recorded_cp["methods"][method]
     thr_diff = abs(rec["threshold"] - life_out["threshold"])
-    rf = [(f["eid"], f["form"], f["route_ok"]) for f in rec["facts"]]
-    cf = [(f["eid"], f["form"], f["route_ok"]) for f in life_out["positives"]]
+    rf = [(f["eid"], f["form"], f["routed"]) for f in rec["facts"]]          # the routed episode id, None = declined
+    cf = [(f["eid"], f["form"], f["routed"]) for f in life_out["positives"]]
     rn = [(n["form"], n["activated"]) for n in rec["negatives"]]
     cn = [(n["form"], n["activated"]) for n in life_out["negatives"]]
-    assert [x[:2] for x in rf] == [x[:2] for x in cf] and [x[0] for x in rn] == [x[0] for x in cn], \
-        "cue set differs from the recorded CLS-0B result"
-    agree = sum(a == b for a, b in zip(rf, cf)) + sum(a == b for a, b in zip(rn, cn))
-    n = len(rf) + len(rn)
+    rt = [(t["form"], t["routed"]) for t in rec["temporal"]]
+    ct = [(t["form"], t["routed"]) for t in life_out["temporal"]]
+    assert [x[:2] for x in rf] == [x[:2] for x in cf] and [x[0] for x in rn] == [x[0] for x in cn] and \
+        [x[0] for x in rt] == [x[0] for x in ct], "cue set differs from the recorded CLS-0B result"
+    agree = sum(a == b for a, b in zip(rf, cf)) + sum(a == b for a, b in zip(rn, cn)) + \
+        sum(a == b for a, b in zip(rt, ct))
+    n = len(rf) + len(rn) + len(rt)
     return {"threshold_recorded": rec["threshold"], "threshold_recomputed": life_out["threshold"],
             "threshold_abs_diff": thr_diff, "decisions": n, "agree": agree, "agreement": agree / n if n else None,
             "ok": thr_diff <= REPRO_THR_TOL and (agree / n if n else 1) >= REPRO_DECISION_AGREEMENT}
@@ -200,7 +208,8 @@ def main():
     fresh_name = lambda rng, used: c0b.fresh_name(rng, lifegen, used)
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
     summary = {"which": "CLS-0C-A", "commit": commit, "gpu": torch.cuda.get_device_name(0) if cuda else None,
-               "targets": {"template": TARGET_TEMPLATE, "paraphrase": TARGET_PARA, "near_miss": TARGET_NEAR},
+               "targets": {"template": TARGET_TEMPLATE, "paraphrase": TARGET_PARA, "near_miss": TARGET_NEAR,
+                           "unseen": TARGET_UNSEEN},
                "inputs": {}, "seeds": {}}
     pooled = []
     for seed in a.seeds:
@@ -249,22 +258,27 @@ def main():
         pooled += recs
         (out / f"seed{seed}.json").write_text(json.dumps({"seed": seed, "lives": lives, "probes": q4["rows"],
                                                           "sweep_life5": sweep(recs)["curve"], "summary": s},
-                                                         indent=1))
+                                                         indent=1, allow_nan=False))
         print(f"seed {seed}: reproduction_ok={s['reproduction_ok']} near-miss activated {len(nma)}/{len(nm)} "
               f"{s['q1_near_miss_top1_relation_activated']} AUROC {s['q2_auroc_template_vs_near_miss']:.3f} "
-              f"Q3 {s['q3']['feasible_template']}/{s['q3']['feasible_template_and_paraphrase']} "
-              f"entity_dominates {s['q4']['entity_dominates']}", flush=True)
+              f"Q3 narrow/para/full {s['q3']['feasible_template']}/{s['q3']['feasible_template_and_paraphrase']}/"
+              f"{s['q3']['feasible_full']} entity-swap drop > attr-swap drop "
+              f"{s['q4']['entity_swap_drop_exceeds_attr_swap']}", flush=True)
     ps = sweep(pooled)
     summary["pooled_q3"] = {k: v for k, v in ps.items() if k != "curve"}
     summary["test_mode"] = a.test_mode
     summary["valid"] = all(s["reproduction_ok"] for s in summary["seeds"].values()) and not a.test_mode
     summary["q3_decision"] = ("NOT DECIDED: the diagnostic did not reproduce CLS-0B (or ran in test mode)"
                               if not summary["valid"] else
-                              "single global K1 threshold is FEASIBLE: calibration remains a candidate remedy"
+                              "single global K1 threshold FULLY feasible (template, paraphrase, near-miss, unseen): "
+                              "threshold-only calibration remains a serious Phase B candidate (development data only)"
+                              if ps["feasible_full"] else
+                              "single global K1 threshold feasible for template + near-miss only, NOT for the full "
+                              "requirements: reported, not treated as a solution"
                               if ps["feasible_template"] else
                               "no single K1 threshold meets template >= 0.95 with near-miss <= 0.10: global-threshold "
                               "tuning is eliminated as the primary remedy")
-    (out / "summary.json").write_text(json.dumps(summary, indent=1))
+    (out / "summary.json").write_text(json.dumps(summary, indent=1, allow_nan=False))
     print("CLS-0C-A", json.dumps({k: summary[k] for k in ("valid", "q3_decision", "pooled_q3")}, indent=1))
     print("CLS-0C-A DONE valid=%s" % summary["valid"])
     sys.exit(0 if summary["valid"] else 3)
