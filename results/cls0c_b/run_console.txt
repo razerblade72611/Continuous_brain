@@ -1,0 +1,115 @@
+davei@Razer:/mnt/c/WINDOWS/system32$ if ! L=$(runpodctl pod list 2>&1); then echo "STOP: could not list pods: $L"; elif echo "$L" | grep -q cb-cls0; then echo "STOP: a CLS pod already exists - send me this:"; echo "$L"; else curl -sL https://raw.githubusercontent.com/razerblade72611/Continuous_brain/f713e7284e46c36649bd1aaeae29c1c1bd8535cb/scripts/cb_cls0c_b_run.sh -o ~/cb_cls0c_b_run.sh && bash ~/cb_cls0c_b_run.sh; fi
+waiting for ssh on pod edh50vj93ly1s4 (timeout 20m0s)
+still waiting for ssh on pod edh50vj93ly1s4 (16s elapsed): ssh port not allocated yet
+ssh on pod edh50vj93ly1s4 ready after 22s: ssh reachable at 69.30.85.19:22175
+== pod edh50vj93ly1s4 (NVIDIA A40, CA-MTL-1)
+Warning: Permanently added '[69.30.85.19]:22175' (ED25519) to the list of known hosts.
+Phase B code at: 1cdb296 CLS-0C Phase B: Sol's three implementation corrections (no scientific change)
+PHASE B LAUNCHED
+== waiting for Phase B (checks every 2 min, cap 4 h)
+15:32 running: preflight {"s_per_verify": 0.05581502616405487, "s_per_extract_value": 0.07813312113285065, "s_per_r
+15:34 running: preflight {"s_per_verify": 0.05581502616405487, "s_per_extract_value": 0.07813312113285065, "s_per_r
+15:36 running: preflight {"s_per_verify": 0.05581502616405487, "s_per_extract_value": 0.07813312113285065, "s_per_r
+15:38 running: preflight {"s_per_verify": 0.05581502616405487, "s_per_extract_value": 0.07813312113285065, "s_per_r
+15:40 running: verify done (8044)
+15:42 running: verify done (8044)
+== done
+K1 recall@5 (entailed paraphrases, life 5, pooled) = 1.0000 -> selectable B1 = B1_K1
+Loading checkpoint shards: 100%|██████████| 5/5 [00:00<00:00, 68.89it/s]
+preflight format {"record_parse_rate": 1.0, "query_parse_rate": 1.0, "record_examples": [" Miasyux Feinvia | favorite object | Reinsiasnoul\n\nText: The city of San Francisco is in California. San Francisco is located in California. San Francisco is situated in", " Fousyern Brirnbriask | favorite object | Naskmul\n\nText: The city of San Francisco is in California. San Francisco is located in California. San Francisco is in the state", " Kirnkias Brelyel | childhood fear | Shiavgromzand\n\nText: The 1997 film \"The Full Monty\" was directed by Peter Cattaneo."], "query_examples": [" Vyrquound Gresthax | favorite object\n\nStatement to complete: \"The person who is the best at playing the flute is ...\"\nWrite what the", " Yaxfov Yiarnkux | afraid of\n\nStatement to complete: \"The person who wrote the book 'The Last of the Mohicans' is ...\"\n", " Nevfam Zeirngreith | favorite object\n\nStatement to complete: \"The person who wrote the book 'The Last of the Mohicans' is"]}
+preflight {"s_per_verify": 0.05581502616405487, "s_per_extract_value": 0.07813312113285065, "s_per_record": 0.15403181314468384, "s_per_query": 0.10085427761077881, "unique_verify": 8044, "unique_extract_upper": 8044, "records": 416, "query_parses": 1542, "projected_s": 1297.1, "budget_s": 9000.0}
+verify done (8044)
+index built
+value extraction done (730)
+seed 2 life 1: B0 T1.00/P1.00/N0.50 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.50/P0.33/N0.00 B2e T0.50/P0.50/N0.00 B2c T0.80/P1.00/N0.00
+seed 2 life 2: B0 T1.00/P1.00/N0.50 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.55/P0.25/N0.00 B2e T0.55/P0.42/N0.00 B2c T0.80/P0.96/N0.00
+seed 2 life 3: B0 T1.00/P0.98/N0.41 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.57/P0.15/N0.00 B2e T0.63/P0.41/N0.00 B2c T0.77/P0.78/N0.00
+seed 2 life 4: B0 T0.97/P0.91/N0.35 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.60/P0.11/N0.00 B2e T0.70/P0.39/N0.00 B2c T0.78/P0.77/N0.00
+seed 2 life 5: B0 T0.96/P0.88/N0.35 B1_K1 T1.00/P0.97/N0.00 B1_K1K3 T1.00/P0.97/N0.00 B2 T0.62/P0.09/N0.00 B2e T0.72/P0.36/N0.00 B2c T0.80/P0.78/N0.00
+seed 3 life 1: B0 T1.00/P1.00/N0.62 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.70/P0.14/N0.00 B2e T0.80/P0.50/N0.00 B2c T0.60/P0.79/N0.00
+seed 3 life 2: B0 T1.00/P1.00/N0.57 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.55/P0.17/N0.00 B2e T0.70/P0.48/N0.00 B2c T0.75/P0.86/N0.00
+seed 3 life 3: B0 T1.00/P0.98/N0.39 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.47/P0.15/N0.00 B2e T0.67/P0.44/N0.00 B2c T0.83/P0.90/N0.00
+seed 3 life 4: B0 T1.00/P0.96/N0.37 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.45/P0.15/N0.00 B2e T0.65/P0.41/N0.00 B2c T0.88/P0.93/N0.00
+seed 3 life 5: B0 T1.00/P0.97/N0.40 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.44/P0.15/N0.00 B2e T0.62/P0.39/N0.00 B2c T0.90/P0.94/N0.00
+seed 4 life 1: B0 T1.00/P1.00/N0.00 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.50/P0.17/N0.00 B2e T0.60/P0.42/N0.00 B2c T0.90/P1.00/N0.00
+seed 4 life 2: B0 T1.00/P1.00/N0.21 B1_K1 T1.00/P1.00/N0.14 B1_K1K3 T1.00/P1.00/N0.14 B2 T0.50/P0.19/N0.00 B2e T0.60/P0.42/N0.00 B2c T0.80/P0.85/N0.14
+seed 4 life 3: B0 T1.00/P0.98/N0.19 B1_K1 T1.00/P1.00/N0.12 B1_K1K3 T1.00/P1.00/N0.12 B2 T0.40/P0.21/N0.00 B2e T0.60/P0.45/N0.00 B2c T0.87/P0.90/N0.12
+seed 4 life 4: B0 T1.00/P0.98/N0.28 B1_K1 T1.00/P1.00/N0.11 B1_K1K3 T1.00/P1.00/N0.11 B2 T0.47/P0.23/N0.00 B2e T0.62/P0.45/N0.00 B2c T0.85/P0.87/N0.11
+seed 4 life 5: B0 T1.00/P0.98/N0.35 B1_K1 T1.00/P1.00/N0.10 B1_K1K3 T1.00/P1.00/N0.10 B2 T0.52/P0.21/N0.00 B2e T0.66/P0.44/N0.00 B2c T0.84/P0.85/N0.10
+seed 5 life 1: B0 T1.00/P1.00/N0.50 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.50/P0.22/N0.00 B2e T0.70/P0.50/N0.00 B2c T0.90/P0.83/N0.00
+seed 5 life 2: B0 T1.00/P0.97/N0.27 B1_K1 T1.00/P1.00/N0.00 B1_K1K3 T1.00/P1.00/N0.00 B2 T0.50/P0.20/N0.00 B2e T0.70/P0.50/N0.00 B2c T0.85/P0.87/N0.00
+seed 5 life 3: B0 T1.00/P0.92/N0.22 B1_K1 T1.00/P0.97/N0.00 B1_K1K3 T1.00/P0.97/N0.00 B2 T0.57/P0.16/N0.00 B2e T0.70/P0.39/N0.00 B2c T0.90/P0.87/N0.00
+seed 5 life 4: B0 T1.00/P0.91/N0.17 B1_K1 T1.00/P0.98/N0.00 B1_K1K3 T1.00/P0.98/N0.00 B2 T0.55/P0.13/N0.00 B2e T0.68/P0.34/N0.00 B2c T0.90/P0.89/N0.00
+seed 5 life 5: B0 T1.00/P0.89/N0.15 B1_K1 T1.00/P0.98/N0.00 B1_K1K3 T1.00/P0.98/N0.00 B2 T0.56/P0.11/N0.00 B2e T0.66/P0.31/N0.00 B2c T0.92/P0.91/N0.00
+CLS-0C-B {
+ "B0": {
+  "template": 0.99,
+  "para_entailed": 0.9333333333333333,
+  "near_unsupported": 0.3125,
+  "unseen_unsupported": 0.075,
+  "provenance": 0.9778761061946902,
+  "temporal": 0.5,
+  "errors": 50,
+  "passes": false
+ },
+ "B1_K1": {
+  "template": 1.0,
+  "para_entailed": 0.9882352941176471,
+  "near_unsupported": 0.025,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "temporal": 1.0,
+  "errors": 5,
+  "passes": true
+ },
+ "B1_K1K3": {
+  "template": 1.0,
+  "para_entailed": 0.9882352941176471,
+  "near_unsupported": 0.025,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "temporal": 1.0,
+  "errors": 5,
+  "passes": true
+ },
+ "B2": {
+  "template": 0.535,
+  "para_entailed": 0.1411764705882353,
+  "near_unsupported": 0.0,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "temporal": 0.5,
+  "errors": 312,
+  "passes": false
+ },
+ "B2e": {
+  "template": 0.665,
+  "para_entailed": 0.3803921568627451,
+  "near_unsupported": 0.0,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "temporal": 0.75,
+  "errors": 225,
+  "passes": false
+ },
+ "B2c": {
+  "template": 0.865,
+  "para_entailed": 0.8666666666666667,
+  "near_unsupported": 0.025,
+  "unseen_unsupported": 0.0,
+  "provenance": 1.0,
+  "temporal": 1.0,
+  "errors": 63,
+  "passes": false
+ }
+}
+CLS-0C-B SELECTED B1_K1 (B1 passes (preferred on a tie))
+CLS-0C-B DONE valid=True
+Phase B exit 0
+BUNDLE e9083ab52cbd7fae56436850c4e6deaeb9c07f42140ee55ccb5e7280f28715d1  results_cls0c_b.tar.gz
+CLS-0C-B JOB DONE exit=0
+results_cls0c_b.tar.gz: OK
+== downloaded + verified: ~/cb_results/cls0c_b (copy in Downloads)
+== pod removed
+== CLS-0C-B exit: 0
+davei@Razer:/mnt/c/WINDOWS/system32$
