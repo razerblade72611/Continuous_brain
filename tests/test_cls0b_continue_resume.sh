@@ -14,6 +14,14 @@ sed -n "/^cat > \/workspace\/cls0b_continue.sh <<'ORCH'$/,/^ORCH$/p" "$SRC" | se
 grep -q 'for s in 3 4 5' $T/orch.sh || { echo "FAIL: could not extract orchestrator"; exit 1; }
 ln -s "$(command -v python3)" $R/.venv/bin/python
 printf '#!/bin/sh\necho "0 MiB, 0 MiB"\n' > $T/bin/nvidia-smi; chmod +x $T/bin/nvidia-smi
+# the RunPod network volume refuses permission preservation: `cp -p` copies the content but exits non-zero
+cat > $T/bin/cp <<SH
+#!/usr/bin/env bash
+p=0; a=(); for x in "\$@"; do case "\$x" in -p|--preserve*) p=1;; *) a+=("\$x");; esac; done
+if [ \$p = 1 ]; then $(command -v cp) --preserve=timestamps "\${a[@]}" || exit 1; else $(command -v cp) "\${a[@]}" || exit 1; fi
+[ \$p = 1 ] && { echo "cp: preserving permissions: Operation not permitted" >&2; exit 1; }; exit 0
+SH
+chmod +x $T/bin/cp
 # fake worker: FAKE=timeout appends a write and is killed by the deadline; FAKE=preflight overwrites the record and exits 4
 cat > $R/scripts/cls0b.py <<'PY'
 import json, os, sys

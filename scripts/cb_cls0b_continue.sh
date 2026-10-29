@@ -63,7 +63,7 @@ for s in 3 4 5; do
   if [ "$st" = writing ] || [ "$st" = evaluating ]; then
     echo "seed $s: resuming interrupted run (status $st) from its progress file and bank"
     bk=$f.pre_run_backup.$(ts)
-    if [ -e "$bk" ] || ! cp -p "$f" "$bk" || ! cmp -s "$f" "$bk"; then   # protects the write record if the worker stops early
+    if [ -e "$bk" ] || ! cp "$f" "$bk" || ! cmp -s "$f" "$bk"; then   # plain cp: the network volume refuses permission preservation (-p); content verified by cmp
       echo "STOP: could not back up seed $s progress record"; status=CLS0B_FAILED; break; fi
   elif [ -e $f ]; then mv $f $f.$(ts) || { echo "STOP: could not move $f aside"; status=CLS0B_FAILED; break; }; fi   # e.g. the pilot preflight-stop record: kept, not reused
   left=$(( DEADLINE - $(date +%s) ))
@@ -75,7 +75,7 @@ for s in 3 4 5; do
   if [ $e -eq 4 ]; then
     status=CLS0B_PREFLIGHT_STOP
     if [ -n "$bk" ]; then                                     # a preflight stop must not erase an earlier write record
-      if mv "$f" "$f.preflight_stop.$(ts)" && cp -p "$bk" "$f" && cmp -s "$bk" "$f"; then
+      if mv "$f" "$f.preflight_stop.$(ts)" && cp "$bk" "$f" && cmp -s "$bk" "$f"; then
         echo "restored seed $s progress record from $bk"
       else echo "STOP: restore of seed $s progress record from $bk FAILED - backup kept"; status=CLS0B_FAILED; fi
     fi
