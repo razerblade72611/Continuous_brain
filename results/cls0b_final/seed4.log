@@ -1,0 +1,62 @@
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:00<00:00, 88.33it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+03:39:10 seed 4 preflight {"seconds_per_50way": 0.8876068592071533, "seconds_per_reconstruction": 4.0119547843933105, "max_scoring_calls": 4402, "projected_eval_s": 4115.9, "eval_budget_s": 5400, "cuda_free_total_mib": [28017, 45490], "peak_alloc_mib": 16689}
+03:41:46 seed 4 write I4F0100 ok=True mask=94 155.6s
+03:43:24 seed 4 write I4F0101 ok=True mask=78 98.2s
+03:44:41 seed 4 write I4L01C0 ok=True mask=78 76.8s
+03:47:40 seed 4 write I4L01C1 ok=True mask=94 179.2s
+03:51:03 seed 4 write I4L01C2 ok=True mask=94 203.5s
+03:53:41 seed 4 write I4L01C3 ok=True mask=94 158.0s
+03:54:43 seed 4 write I4L01T0 ok=True mask=78 61.8s
+03:57:41 seed 4 write I4L01T1 ok=True mask=94 177.7s
+04:00:21 seed 4 write I4L01T2 ok=True mask=94 160.4s
+04:02:10 seed 4 write I4L01T3 ok=True mask=78 109.0s
+04:03:49 seed 4 write I4TQ1 ok=True mask=78 98.8s
+04:08:54 seed 4 write I4F0200 ok=True mask=113 304.6s
+04:12:48 seed 4 write I4F0201 ok=True mask=94 234.0s
+04:15:36 seed 4 write I4F0202 ok=True mask=94 168.4s
+04:16:40 seed 4 write I4F0203 ok=True mask=78 64.1s
+04:17:20 seed 4 write I4F0204 ok=True mask=78 39.6s
+04:18:13 seed 4 write I4F0205 ok=True mask=78 52.9s
+04:19:30 seed 4 write I4L02B0 ok=True mask=78 77.4s
+04:20:36 seed 4 write I4L02B1 ok=True mask=78 65.8s
+04:22:44 seed 4 write I4L02B2 ok=True mask=78 128.2s
+04:25:35 seed 4 write I4L02B3 ok=True mask=94 171.0s
+04:29:03 seed 4 write I4F0300 ok=True mask=94 207.8s
+04:32:05 seed 4 write I4F0301 ok=True mask=94 181.8s
+04:33:09 seed 4 write I4F0302 ok=True mask=78 64.3s
+04:34:01 seed 4 write I4F0303 ok=True mask=78 51.8s
+04:36:06 seed 4 write I4F0304 ok=True mask=78 125.5s
+04:36:47 seed 4 write I4F0305 ok=True mask=78 41.3s
+04:40:26 seed 4 write I4F0306 ok=True mask=94 218.4s
+04:46:05 seed 4 write I4F0307 ok=True mask=113 339.6s
+04:50:54 seed 4 write I4F0308 ok=True mask=94 288.9s
+04:53:45 seed 4 write I4F0309 ok=True mask=94 170.6s
+04:57:59 seed 4 write I4TQ3 ok=True mask=94 253.6s
+04:59:06 seed 4 write I4F0400 ok=True mask=78 67.5s
+05:00:51 seed 4 write I4F0401 ok=True mask=78 105.4s
+05:01:30 seed 4 write I4F0402 ok=True mask=78 38.9s
+05:02:24 seed 4 write I4F0403 ok=True mask=78 53.2s
+05:04:30 seed 4 write I4F0404 ok=True mask=78 126.2s
+05:09:51 seed 4 write I4F0405 ok=True mask=113 321.2s
+05:10:45 seed 4 write I4F0406 ok=True mask=78 53.6s
+05:13:50 seed 4 write I4F0407 ok=True mask=94 185.6s
+05:17:10 seed 4 write I4F0408 ok=True mask=94 200.0s
+05:19:53 seed 4 write I4F0409 ok=True mask=94 162.4s
+05:24:58 seed 4 write I4F0500 ok=True mask=113 305.3s
+05:26:40 seed 4 write I4F0501 ok=True mask=78 101.5s
+05:27:19 seed 4 write I4F0502 ok=True mask=78 39.7s
+05:27:58 seed 4 write I4F0503 ok=True mask=78 38.9s
+05:30:10 seed 4 write I4F0504 ok=True mask=78 131.4s
+05:32:23 seed 4 write I4F0505 ok=True mask=78 133.1s
+05:34:01 seed 4 write I4F0506 ok=True mask=78 98.7s
+05:34:51 seed 4 write I4F0507 ok=True mask=78 49.5s
+05:35:31 seed 4 write I4F0508 ok=True mask=78 40.1s
+05:36:38 seed 4 write I4F0509 ok=True mask=78 67.0s
+05:40:33 seed 4 eval life 1 done (124 scored prompts)
+05:42:15 seed 4 eval life 2 done (272 scored prompts)
+05:44:43 seed 4 eval life 3 done (457 scored prompts)
+05:47:23 seed 4 eval life 4 done (664 scored prompts)
+05:50:30 seed 4 eval life 5 done (894 scored prompts)
+CLS-0B SEED DONE 4 {"stored": 52, "experienced": 52, "throughput": {"epochs_per_s": 7.512698998268963, "epochs": 52948, "seconds": 7047.8}}

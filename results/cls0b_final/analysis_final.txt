@@ -1,0 +1,46 @@
+validity: {'complete': True, 'not_test': True, 'design': True, 'config': True, 'one_commit': True, 'model_files': True, 'prefix': True, 'seeds_unique': True, 'valid': True}
+-- seed 2  cost: 6207.2 s, masks [78, 94, 113], failed []
+   life 1: coverage 1.00  none 0.1  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.3 life1 1.0 binding 4/4
+   life 2: coverage 1.00  none 0.05  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.3438 life1 1.0 binding 4/4
+   life 3: coverage 1.00  none 0.0333  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.9833 falseact 0.3784 life1 1.0 binding 4/4
+   life 4: coverage 1.00  none 0.025  oracle 1.0  K1 route 0.975 irag 0.975 raw 0.975 para 0.925 falseact 0.35 life1 1.0 binding 4/4
+   life 5: coverage 1.00  none 0.02  oracle 1.0  K1 route 0.96 irag 0.96 raw 0.96 para 0.9 falseact 0.35 life1 1.0 binding 4/4
+-- seed 3  cost: 351.1 s, masks [78, 94], failed []
+   life 1: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.5 life1 1.0 binding 4/4
+   life 2: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.5294 life1 1.0 binding 4/4
+   life 3: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.9667 falseact 0.4474 life1 1.0 binding 4/4
+   life 4: coverage 1.00  none 0.025  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.95 falseact 0.4359 life1 1.0 binding 4/4
+   life 5: coverage 1.00  none 0.02  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.95 falseact 0.45 life1 1.0 binding 4/4
+-- seed 4  cost: 7048.0 s, masks [78, 94, 113], failed []
+   life 1: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.1667 life1 1.0 binding 4/4
+   life 2: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.975 falseact 0.4118 life1 1.0 binding 4/4
+   life 3: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.9667 falseact 0.3889 life1 1.0 binding 4/4
+   life 4: coverage 1.00  none 0.0  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.975 falseact 0.4211 life1 1.0 binding 4/4
+   life 5: coverage 1.00  none 0.02  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.96 falseact 0.45 life1 1.0 binding 4/4
+-- seed 5  cost: 7437.1 s, masks [78, 94, 113], failed []
+   life 1: coverage 1.00  none 0.2  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 1.0 falseact 0.2308 life1 1.0 binding 4/4
+   life 2: coverage 1.00  none 0.1  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.975 falseact 0.3548 life1 1.0 binding 4/4
+   life 3: coverage 1.00  none 0.0667  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.9 falseact 0.4474 life1 1.0 binding 4/4
+   life 4: coverage 1.00  none 0.05  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.85 falseact 0.3421 life1 1.0 binding 4/4
+   life 5: coverage 1.00  none 0.04  oracle 1.0  K1 route 1.0 irag 1.0 raw 1.0 para 0.84 falseact 0.375 life1 1.0 binding 4/4
+DECISION: {
+ "direction": "2 addressing becomes the priority",
+ "statements": [
+  "2 addressing becomes the priority"
+ ],
+ "qualifiers": [],
+ "notes": [
+  "neural episode storage reproduces the usable information of text storage; choose the fast-memory substrate on measured costs (bytes, write time, latency, persistence) - this comparison does not by itself decide whether to pursue online consolidation"
+ ],
+ "k1_life5": {
+  "route_template": 0.99,
+  "irag_template": 0.99,
+  "raw_template": 0.99,
+  "irag_paraphrase": 0.9125,
+  "false_activation": 0.40625,
+  "coverage": 1.0
+ },
+ "k2_route_template": 0.24,
+ "k3_route_template": 1.0,
+ "k4_route_template": 0.025
+}

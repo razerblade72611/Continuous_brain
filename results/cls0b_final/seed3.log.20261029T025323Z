@@ -1,0 +1,50 @@
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:00<00:00, 77.74it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+17:34:27 seed 3 preflight {"seconds_per_50way": 0.8944599628448486, "seconds_per_reconstruction": 4.100658178329468, "max_scoring_calls": 4402, "projected_eval_s": 4150.6, "eval_budget_s": 5400, "cuda_free_total_mib": [27865, 45490], "peak_alloc_mib": 16728}
+17:35:29 seed 3 write I3F0100 ok=True mask=78 62.1s
+17:36:58 seed 3 write I3F0101 ok=True mask=78 89.4s
+17:39:15 seed 3 write I3L01C0 ok=True mask=78 136.5s
+17:40:26 seed 3 write I3L01C1 ok=True mask=78 71.8s
+17:41:05 seed 3 write I3L01C2 ok=True mask=78 38.3s
+17:42:22 seed 3 write I3L01C3 ok=True mask=78 77.1s
+17:43:00 seed 3 write I3L01T0 ok=True mask=78 38.6s
+17:44:23 seed 3 write I3L01T1 ok=True mask=78 83.0s
+17:47:08 seed 3 write I3L01T2 ok=True mask=94 164.5s
+17:49:51 seed 3 write I3L01T3 ok=True mask=94 163.1s
+17:52:40 seed 3 write I3TQ1 ok=True mask=94 169.2s
+17:53:34 seed 3 write I3F0200 ok=True mask=78 53.4s
+17:54:42 seed 3 write I3F0201 ok=True mask=78 68.5s
+17:57:39 seed 3 write I3F0202 ok=True mask=94 176.7s
+17:58:44 seed 3 write I3F0203 ok=True mask=78 65.2s
+17:59:51 seed 3 write I3F0204 ok=True mask=78 67.0s
+18:00:42 seed 3 write I3F0205 ok=True mask=78 50.9s
+18:03:45 seed 3 write I3L02B0 ok=True mask=94 183.4s
+18:05:10 seed 3 write I3L02B1 ok=True mask=78 84.6s
+18:05:36 seed 3 write I3L02B2 ok=True mask=78 25.8s
+18:06:30 seed 3 write I3L02B3 ok=True mask=78 54.3s
+18:08:12 seed 3 write I3F0300 ok=True mask=78 102.3s
+18:09:17 seed 3 write I3F0301 ok=True mask=78 64.5s
+18:11:33 seed 3 write I3F0302 ok=True mask=78 135.8s
+18:14:38 seed 3 write I3F0303 ok=True mask=94 185.1s
+18:15:30 seed 3 write I3F0304 ok=True mask=78 52.5s
+18:17:35 seed 3 write I3F0305 ok=True mask=78 124.7s
+18:18:03 seed 3 write I3F0306 ok=True mask=78 27.6s
+18:20:02 seed 3 write I3F0307 ok=True mask=78 119.7s
+18:21:25 seed 3 write I3F0308 ok=True mask=78 82.9s
+18:22:22 seed 3 write I3F0309 ok=True mask=78 56.5s
+18:25:39 seed 3 write I3TQ3 ok=True mask=94 197.1s
+18:27:38 seed 3 write I3F0400 ok=True mask=78 119.5s
+18:30:00 seed 3 write I3F0401 ok=True mask=78 141.3s
+18:33:05 seed 3 write I3F0402 ok=True mask=94 185.4s
+18:35:17 seed 3 write I3F0403 ok=True mask=78 131.7s
+18:37:16 seed 3 write I3F0404 ok=True mask=78 119.6s
+18:40:32 seed 3 write I3F0405 ok=True mask=94 195.6s
+18:41:29 seed 3 write I3F0406 ok=True mask=78 56.4s
+18:45:16 seed 3 write I3F0407 ok=True mask=94 227.8s
+18:46:11 seed 3 write I3F0408 ok=True mask=78 55.2s
+18:47:33 seed 3 write I3F0409 ok=True mask=78 81.3s
+18:48:25 seed 3 write I3F0500 ok=True mask=78 52.4s
+18:50:36 seed 3 write I3F0501 ok=True mask=78 131.2s
+18:51:16 seed 3 write I3F0502 ok=True mask=78 39.6s
+18:54:19 seed 3 write I3F0503 ok=True mask=94 182.8s

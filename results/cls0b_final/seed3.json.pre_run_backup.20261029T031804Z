@@ -1,0 +1,1532 @@
+{
+ "which": "CLS-0B",
+ "seed": 3,
+ "config": {
+  "layer": 10,
+  "key_layer": 24,
+  "r": 2,
+  "init_mask": 78,
+  "growth": 1.2,
+  "retries": 10,
+  "lr": 0.05,
+  "max_epochs": 1000,
+  "check_every": 100
+ },
+ "episode_cap_s": 1200,
+ "design_check": "match",
+ "test_mode": false,
+ "false_activation_budget": 0.1,
+ "eval_budget_s": 5400,
+ "note_candidate_universe": "the 50-value pools are evaluator-only comparison sets (they include values experienced later); they never enter retrieved memories or prompt context",
+ "commit": "203653c0a8aa56a747966809455d4dddcae81daa",
+ "model": "/workspace/hf/Qwen3-8B",
+ "model_manifest": {
+  "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "files": {
+   "config.json": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+   "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+   "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+   "model-00001-of-00005.safetensors": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f",
+   "model-00002-of-00005.safetensors": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282",
+   "model-00003-of-00005.safetensors": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836",
+   "model-00004-of-00005.safetensors": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a",
+   "model-00005-of-00005.safetensors": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff",
+   "model.safetensors.index.json": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc",
+   "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+   "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+   "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  }
+ },
+ "external": "/workspace/hf/Qwen3-Embedding-0.6B",
+ "external_manifest": {
+  "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+  "files": {
+   "config.json": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+   "config_sentence_transformers.json": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+   "generation_config.json": "28396d421a2108acce96383f6a7de78008f7f1b17f807958f3c14c51dbfb65fb",
+   "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+   "model.safetensors": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+   "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+   "tokenizer.json": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+   "tokenizer_config.json": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0",
+   "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  }
+ },
+ "gpu": "NVIDIA A40",
+ "episodes": [
+  {
+   "eid": "I3F0100",
+   "text": "Pyvnous Braen is allergic to Talsheiskpal. Pyvnous Braen's allergy is to Talsheiskpal. Talsheiskpal gives Pyvnous Braen an allergic reaction. The one thing Pyvnous Braen is allergic to is Talsheiskpal.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Pyvnous Braen",
+   "attr": "allergy",
+   "value": "Talsheiskpal",
+   "kind": "filler",
+   "text_sha256": "02f5b796181a4919aa135b803b5ee244890b23446ddaec7abb1befc4b4f22c89"
+  },
+  {
+   "eid": "I3F0101",
+   "text": "Pyvnous Braen was born in the month of Nonpour. Pyvnous Braen's birth month is Nonpour. Pyvnous Braen celebrates a birthday in Nonpour. The month Pyvnous Braen was born in is Nonpour.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Pyvnous Braen",
+   "attr": "birth month",
+   "value": "Nonpour",
+   "kind": "filler",
+   "text_sha256": "46916f33ce5d7823fdeef257a3647646584f7e7305a6de466cc383e5adc6b8c1"
+  },
+  {
+   "eid": "I3L01C0",
+   "text": "Draentharn Mond's hobby is Zeivzo. In free time, Draentharn Mond enjoys Zeivzo. Draentharn Mond spends weekends on Zeivzo. The pastime Draentharn Mond loves is Zeivzo.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Draentharn Mond",
+   "attr": "hobby",
+   "value": "Zeivzo",
+   "kind": "counter",
+   "text_sha256": "ae47d24c8869e729dcacf6bba826fa2fb67165ccb4d3f519689abb51c8b5cd44"
+  },
+  {
+   "eid": "I3L01C1",
+   "text": "As a child, Rurbrom Veth was afraid of Kythlern. Rurbrom Veth's childhood fear was Kythlern. When Rurbrom Veth was young, Kythlern frightened them. The fear Rurbrom Veth had as a child was Kythlern.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Rurbrom Veth",
+   "attr": "childhood fear",
+   "value": "Kythlern",
+   "kind": "counter",
+   "text_sha256": "81c16faaa6927ba775c42ae9f746be9b492b865270237aa6c9ea7efc29ea24ed"
+  },
+  {
+   "eid": "I3L01C2",
+   "text": "Quovmo Zethnuth works at Brivbrev. Quovmo Zethnuth's workplace is Brivbrev. Every weekday Quovmo Zethnuth goes to work at Brivbrev. Brivbrev is where Quovmo Zethnuth works.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Quovmo Zethnuth",
+   "attr": "workplace",
+   "value": "Brivbrev",
+   "kind": "counter",
+   "text_sha256": "9ee0fa62e57418d3137ea02ba50a06d1d118aa0fe61afd0f73cb5123d635ab4f"
+  },
+  {
+   "eid": "I3L01C3",
+   "text": "Famquiax Grernpia lives in Vongrylys. The city Famquiax Grernpia calls home is Vongrylys. Famquiax Grernpia's home city is Vongrylys. Vongrylys is where Famquiax Grernpia lives.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Famquiax Grernpia",
+   "attr": "city",
+   "value": "Vongrylys",
+   "kind": "counter",
+   "text_sha256": "7498dafce3b4cff868adeb1e0cfd0a72b15512108d8fc3a36f5b29bb360524a5"
+  },
+  {
+   "eid": "I3L01T0",
+   "text": "Maespaem Queivpaex's hobby is Shantus. In free time, Maespaem Queivpaex enjoys Shantus. Maespaem Queivpaex spends weekends on Shantus. The pastime Maespaem Queivpaex loves is Shantus.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Maespaem Queivpaex",
+   "attr": "hobby",
+   "value": "Shantus",
+   "kind": "target",
+   "text_sha256": "c9402fa88b0d58176b3808291ddb1ed0f89eddc8c9a9cb28e975a7451bcd44da"
+  },
+  {
+   "eid": "I3L01T1",
+   "text": "As a child, Drymsyv Mae was afraid of Liaskiassiask. Drymsyv Mae's childhood fear was Liaskiassiask. When Drymsyv Mae was young, Liaskiassiask frightened them. The fear Drymsyv Mae had as a child was Liaskiassiask.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Drymsyv Mae",
+   "attr": "childhood fear",
+   "value": "Liaskiassiask",
+   "kind": "target",
+   "text_sha256": "0b245e9aa0a273a1d9f277cd364227595f5898fe8e55e610459b6f08122a6512"
+  },
+  {
+   "eid": "I3L01T2",
+   "text": "Lothzov Brabres works at Paethlaem. Lothzov Brabres's workplace is Paethlaem. Every weekday Lothzov Brabres goes to work at Paethlaem. Paethlaem is where Lothzov Brabres works.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Lothzov Brabres",
+   "attr": "workplace",
+   "value": "Paethlaem",
+   "kind": "target",
+   "text_sha256": "e597c836509f78d194d55e6c6e7a9d413645c110ae60e7525fc6a7479d24a1f2"
+  },
+  {
+   "eid": "I3L01T3",
+   "text": "Leisleith Quarpam lives in Gryxtaesyoth. The city Leisleith Quarpam calls home is Gryxtaesyoth. Leisleith Quarpam's home city is Gryxtaesyoth. Gryxtaesyoth is where Leisleith Quarpam lives.",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Leisleith Quarpam",
+   "attr": "city",
+   "value": "Gryxtaesyoth",
+   "kind": "target",
+   "text_sha256": "c84471dc7335eaa2d961fe43f1fd9a0ef40cd7bb9bfe079d31dea990fd09275f"
+  },
+  {
+   "eid": "I3TQ1",
+   "time": 1,
+   "source": "observed:life1",
+   "entity": "Tuskrar Keimous",
+   "attr": "allergy",
+   "value": "Lathdreix",
+   "kind": "temporal",
+   "text": "Tuskrar Keimous is allergic to Lathdreix. Tuskrar Keimous's allergy is to Lathdreix. Lathdreix gives Tuskrar Keimous an allergic reaction. The one thing Tuskrar Keimous is allergic to is Lathdreix.",
+   "text_sha256": "f84fe5e802adaa52f982d0cbc2485ab0cd5d5d383d724f01ab4c96c75ea04bfd"
+  },
+  {
+   "eid": "I3F0200",
+   "text": "Riathqueisk Shyx is allergic to Yiaxyin. Riathqueisk Shyx's allergy is to Yiaxyin. Yiaxyin gives Riathqueisk Shyx an allergic reaction. The one thing Riathqueisk Shyx is allergic to is Yiaxyin.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Riathqueisk Shyx",
+   "attr": "allergy",
+   "value": "Yiaxyin",
+   "kind": "filler",
+   "text_sha256": "a7b8976cfcc00d9d511e7886705e330c02e8295387c2cd68bdc352bc0cf9ba3a"
+  },
+  {
+   "eid": "I3F0201",
+   "text": "Riathqueisk Shyx works as a Brenfov. By trade, Riathqueisk Shyx is a Brenfov. Riathqueisk Shyx's occupation is Brenfov. A Brenfov by profession, that is Riathqueisk Shyx.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Riathqueisk Shyx",
+   "attr": "occupation",
+   "value": "Brenfov",
+   "kind": "filler",
+   "text_sha256": "3a9165e89630c4ae58b3231bfe2978ca9e202f7818ef8c0e93d96f76863ed268"
+  },
+  {
+   "eid": "I3F0202",
+   "text": "Riathqueisk Shyx keeps a pet Zeirkesk. The pet Riathqueisk Shyx has is a Zeirkesk. Riathqueisk Shyx's pet is a Zeirkesk. At home, Riathqueisk Shyx looks after a Zeirkesk.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Riathqueisk Shyx",
+   "attr": "pet species",
+   "value": "Zeirkesk",
+   "kind": "filler",
+   "text_sha256": "0a1f57ff73f058a39faa36a8fec82d6d0ebb3610f5a5871dad1a0f9b9347e9f4"
+  },
+  {
+   "eid": "I3F0203",
+   "text": "Rirfa Nelshous works as a Yialyaskdriand. By trade, Rirfa Nelshous is a Yialyaskdriand. Rirfa Nelshous's occupation is Yialyaskdriand. A Yialyaskdriand by profession, that is Rirfa Nelshous.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Rirfa Nelshous",
+   "attr": "occupation",
+   "value": "Yialyaskdriand",
+   "kind": "filler",
+   "text_sha256": "3180b07eae65b0cbfae77ff8b67468bf6fd458bd7bae4a6ad23db1b17e638903"
+  },
+  {
+   "eid": "I3F0204",
+   "text": "Rirfa Nelshous was born in the month of Draxrask. Rirfa Nelshous's birth month is Draxrask. Rirfa Nelshous celebrates a birthday in Draxrask. The month Rirfa Nelshous was born in is Draxrask.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Rirfa Nelshous",
+   "attr": "birth month",
+   "value": "Draxrask",
+   "kind": "filler",
+   "text_sha256": "60c6ac4178285176d3d6a12e79d02e4ac10ed65ae0f91606137742548e816dd3"
+  },
+  {
+   "eid": "I3F0205",
+   "text": "Moulgriar Vein was born in the month of Shiarquel. Moulgriar Vein's birth month is Shiarquel. Moulgriar Vein celebrates a birthday in Shiarquel. The month Moulgriar Vein was born in is Shiarquel.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Moulgriar Vein",
+   "attr": "birth month",
+   "value": "Shiarquel",
+   "kind": "filler",
+   "text_sha256": "2684a5e6ffd15100f3d0ba803b74324b4dff9a83c5b7816ec3c62664017f643d"
+  },
+  {
+   "eid": "I3L02B0",
+   "text": "Miandvuth Syn's hobby is Naemyaes. In free time, Miandvuth Syn enjoys Naemyaes. Miandvuth Syn spends weekends on Naemyaes. The pastime Miandvuth Syn loves is Naemyaes.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Miandvuth Syn",
+   "attr": "hobby",
+   "value": "Naemyaes",
+   "kind": "treatment",
+   "text_sha256": "620f139290b781b590a65cba70fa4706106406daa4c73471e2dd01f1a0af1e3c"
+  },
+  {
+   "eid": "I3L02B1",
+   "text": "As a child, Dreskkym Quaenlil was afraid of Quiarnshunreth. Dreskkym Quaenlil's childhood fear was Quiarnshunreth. When Dreskkym Quaenlil was young, Quiarnshunreth frightened them. The fear Dreskkym Quaenlil had as a child was Quiarnshunreth.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Dreskkym Quaenlil",
+   "attr": "childhood fear",
+   "value": "Quiarnshunreth",
+   "kind": "treatment",
+   "text_sha256": "d021fe1c32cba246bcea6c1259f118f09a337f84eb6a2ce0c86490e140d6c164"
+  },
+  {
+   "eid": "I3L02B2",
+   "text": "Fapen Shyn works at Zilqueim. Fapen Shyn's workplace is Zilqueim. Every weekday Fapen Shyn goes to work at Zilqueim. Zilqueim is where Fapen Shyn works.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Fapen Shyn",
+   "attr": "workplace",
+   "value": "Zilqueim",
+   "kind": "treatment",
+   "text_sha256": "8b8b994fbc4cf8274e7f3ea3eaae400a5048301516153d2ddd66fc784b6c9655"
+  },
+  {
+   "eid": "I3L02B3",
+   "text": "Nundmim Shinzus lives in Vandtorn. The city Nundmim Shinzus calls home is Vandtorn. Nundmim Shinzus's home city is Vandtorn. Vandtorn is where Nundmim Shinzus lives.",
+   "time": 2,
+   "source": "observed:life2",
+   "entity": "Nundmim Shinzus",
+   "attr": "city",
+   "value": "Vandtorn",
+   "kind": "treatment",
+   "text_sha256": "6b0952089208ff60bc80105db670b140c324817ae14372da7b67dd374d88bc62"
+  },
+  {
+   "eid": "I3F0300",
+   "text": "Seirnsym Rom is allergic to Vasgriathgriav. Seirnsym Rom's allergy is to Vasgriathgriav. Vasgriathgriav gives Seirnsym Rom an allergic reaction. The one thing Seirnsym Rom is allergic to is Vasgriathgriav.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Seirnsym Rom",
+   "attr": "allergy",
+   "value": "Vasgriathgriav",
+   "kind": "filler",
+   "text_sha256": "5f19e373b2f810b553ccbf0fd1180486442038591d1979df6961007d7501e25a"
+  },
+  {
+   "eid": "I3F0301",
+   "text": "Seirnsym Rom was born in the month of Broththenddreth. Seirnsym Rom's birth month is Broththenddreth. Seirnsym Rom celebrates a birthday in Broththenddreth. The month Seirnsym Rom was born in is Broththenddreth.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Seirnsym Rom",
+   "attr": "birth month",
+   "value": "Broththenddreth",
+   "kind": "filler",
+   "text_sha256": "274110616c88e452d1bf35c9b54a57db3698b688cec85bde2d3d749b9eb2a4c4"
+  },
+  {
+   "eid": "I3F0302",
+   "text": "Zenquus Posk's favorite object is a Shothdrond. The thing Zenquus Posk treasures most is a Shothdrond. Of everything Zenquus Posk owns, the favorite is a Shothdrond. A Shothdrond is Zenquus Posk's favorite object.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Zenquus Posk",
+   "attr": "favorite object",
+   "value": "Shothdrond",
+   "kind": "filler",
+   "text_sha256": "2df1ab66439ceee1c198e08865ce42b17fead20015f7b6129f1791dd003129e1"
+  },
+  {
+   "eid": "I3F0303",
+   "text": "Zenquus Posk keeps a pet Brunmeirlia. The pet Zenquus Posk has is a Brunmeirlia. Zenquus Posk's pet is a Brunmeirlia. At home, Zenquus Posk looks after a Brunmeirlia.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Zenquus Posk",
+   "attr": "pet species",
+   "value": "Brunmeirlia",
+   "kind": "filler",
+   "text_sha256": "466d8a2eedbf9c2ef4bb4b785bfc67407335db07fd9f3d5df9d295dcd7b6b243"
+  },
+  {
+   "eid": "I3F0304",
+   "text": "Dreimthuth Yarn is allergic to Tysbraxfen. Dreimthuth Yarn's allergy is to Tysbraxfen. Tysbraxfen gives Dreimthuth Yarn an allergic reaction. The one thing Dreimthuth Yarn is allergic to is Tysbraxfen.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Dreimthuth Yarn",
+   "attr": "allergy",
+   "value": "Tysbraxfen",
+   "kind": "filler",
+   "text_sha256": "a63e1218a6700c7aaa7b3d00d1fc0e344ce8b4f0aac6df27a145c097c1f6a061"
+  },
+  {
+   "eid": "I3F0305",
+   "text": "Dreimthuth Yarn keeps a pet Youskdreirn. The pet Dreimthuth Yarn has is a Youskdreirn. Dreimthuth Yarn's pet is a Youskdreirn. At home, Dreimthuth Yarn looks after a Youskdreirn.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Dreimthuth Yarn",
+   "attr": "pet species",
+   "value": "Youskdreirn",
+   "kind": "filler",
+   "text_sha256": "31daa8dfde7d32aa4b87a10498074a9391e6dfa0a02f5ed429d1dcf6be337a34"
+  },
+  {
+   "eid": "I3F0306",
+   "text": "Zuxker Yiax works as a Vaesmiath. By trade, Zuxker Yiax is a Vaesmiath. Zuxker Yiax's occupation is Vaesmiath. A Vaesmiath by profession, that is Zuxker Yiax.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Zuxker Yiax",
+   "attr": "occupation",
+   "value": "Vaesmiath",
+   "kind": "filler",
+   "text_sha256": "ba11efd0eb221ee6c4eb73b8bbe260444069580663b30b868fb63fcaaf2afcdc"
+  },
+  {
+   "eid": "I3F0307",
+   "text": "Zuxker Yiax keeps a pet Laexralquil. The pet Zuxker Yiax has is a Laexralquil. Zuxker Yiax's pet is a Laexralquil. At home, Zuxker Yiax looks after a Laexralquil.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Zuxker Yiax",
+   "attr": "pet species",
+   "value": "Laexralquil",
+   "kind": "filler",
+   "text_sha256": "924ef51f8eedce817ab2ac0795dfde8851d3e10923e8dd7c622882288bf4afe0"
+  },
+  {
+   "eid": "I3F0308",
+   "text": "Zuxker Yiax was born in the month of Nynddryr. Zuxker Yiax's birth month is Nynddryr. Zuxker Yiax celebrates a birthday in Nynddryr. The month Zuxker Yiax was born in is Nynddryr.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Zuxker Yiax",
+   "attr": "birth month",
+   "value": "Nynddryr",
+   "kind": "filler",
+   "text_sha256": "b5b2bf0a4ea71189a663809902d367a701c2cf643d5f5d38ecd2746a2e02a84d"
+  },
+  {
+   "eid": "I3F0309",
+   "text": "Peindrouv Feim was born in the month of Grendgreiv. Peindrouv Feim's birth month is Grendgreiv. Peindrouv Feim celebrates a birthday in Grendgreiv. The month Peindrouv Feim was born in is Grendgreiv.",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Peindrouv Feim",
+   "attr": "birth month",
+   "value": "Grendgreiv",
+   "kind": "filler",
+   "text_sha256": "ff4b54ecc612a56be235d1c42d8d2fee249bbcd54f2e9582c3daba40694da20f"
+  },
+  {
+   "eid": "I3TQ3",
+   "time": 3,
+   "source": "observed:life3",
+   "entity": "Tuskrar Keimous",
+   "attr": "allergy",
+   "value": "Maersisnae",
+   "kind": "temporal",
+   "text": "Tuskrar Keimous is allergic to Maersisnae. Tuskrar Keimous's allergy is to Maersisnae. Maersisnae gives Tuskrar Keimous an allergic reaction. The one thing Tuskrar Keimous is allergic to is Maersisnae.",
+   "text_sha256": "ca662c1b3d9c131c24f1db1398f3d0f48e0bab8391950de3ba4770280b59b55f"
+  },
+  {
+   "eid": "I3F0400",
+   "text": "Griaxmith Vourgrial's favorite object is a Zouvsol. The thing Griaxmith Vourgrial treasures most is a Zouvsol. Of everything Griaxmith Vourgrial owns, the favorite is a Zouvsol. A Zouvsol is Griaxmith Vourgrial's favorite object.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Griaxmith Vourgrial",
+   "attr": "favorite object",
+   "value": "Zouvsol",
+   "kind": "filler",
+   "text_sha256": "4c45f7364223d13f312ab244b08ebb9c73b164cee21333f3d3c9df295c9303dc"
+  },
+  {
+   "eid": "I3F0401",
+   "text": "Griaxmith Vourgrial keeps a pet Vermer. The pet Griaxmith Vourgrial has is a Vermer. Griaxmith Vourgrial's pet is a Vermer. At home, Griaxmith Vourgrial looks after a Vermer.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Griaxmith Vourgrial",
+   "attr": "pet species",
+   "value": "Vermer",
+   "kind": "filler",
+   "text_sha256": "c317d9a81bbc35ca54f738df732ef5a9ba2a06454b0c7ed879e5097f61df1d0b"
+  },
+  {
+   "eid": "I3F0402",
+   "text": "Griaxmith Vourgrial works as a Myxqueisk. By trade, Griaxmith Vourgrial is a Myxqueisk. Griaxmith Vourgrial's occupation is Myxqueisk. A Myxqueisk by profession, that is Griaxmith Vourgrial.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Griaxmith Vourgrial",
+   "attr": "occupation",
+   "value": "Myxqueisk",
+   "kind": "filler",
+   "text_sha256": "8e5d7746d3947f8cf278b1514bbaf268424cded8fadd96f49d6728bb0d29d51f"
+  },
+  {
+   "eid": "I3F0403",
+   "text": "Siaxzin Tym's favorite object is a Sheithpiav. The thing Siaxzin Tym treasures most is a Sheithpiav. Of everything Siaxzin Tym owns, the favorite is a Sheithpiav. A Sheithpiav is Siaxzin Tym's favorite object.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Siaxzin Tym",
+   "attr": "favorite object",
+   "value": "Sheithpiav",
+   "kind": "filler",
+   "text_sha256": "007129d10f7c13e6af52a75c3e7e565bc95c62cf6bd6c1306aebf7d2935e6945"
+  },
+  {
+   "eid": "I3F0404",
+   "text": "Siaxzin Tym is allergic to Myrnfuxtis. Siaxzin Tym's allergy is to Myrnfuxtis. Myrnfuxtis gives Siaxzin Tym an allergic reaction. The one thing Siaxzin Tym is allergic to is Myrnfuxtis.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Siaxzin Tym",
+   "attr": "allergy",
+   "value": "Myrnfuxtis",
+   "kind": "filler",
+   "text_sha256": "1a1a26bd7492845584738a7a0ce19ff71cc3b18fb91e7f7c8782ab20810a01fb"
+  },
+  {
+   "eid": "I3F0405",
+   "text": "Siaxzin Tym was born in the month of Griaxdreistil. Siaxzin Tym's birth month is Griaxdreistil. Siaxzin Tym celebrates a birthday in Griaxdreistil. The month Siaxzin Tym was born in is Griaxdreistil.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Siaxzin Tym",
+   "attr": "birth month",
+   "value": "Griaxdreistil",
+   "kind": "filler",
+   "text_sha256": "c54ed38251b99b9418c546478f0099ff6fdeca6e4c661938d5c48ed9f312513c"
+  },
+  {
+   "eid": "I3F0406",
+   "text": "Liamtheis Mendnas was born in the month of Bromshyssel. Liamtheis Mendnas's birth month is Bromshyssel. Liamtheis Mendnas celebrates a birthday in Bromshyssel. The month Liamtheis Mendnas was born in is Bromshyssel.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Liamtheis Mendnas",
+   "attr": "birth month",
+   "value": "Bromshyssel",
+   "kind": "filler",
+   "text_sha256": "283af2f47e29c35b148991aa90e850f5fe46935005d876b8cbfbafb35153fe91"
+  },
+  {
+   "eid": "I3F0407",
+   "text": "Liamtheis Mendnas keeps a pet Kuththeinnei. The pet Liamtheis Mendnas has is a Kuththeinnei. Liamtheis Mendnas's pet is a Kuththeinnei. At home, Liamtheis Mendnas looks after a Kuththeinnei.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Liamtheis Mendnas",
+   "attr": "pet species",
+   "value": "Kuththeinnei",
+   "kind": "filler",
+   "text_sha256": "b676a5c8491fa24484fb664c0ea0ecaf0906dbf270c82f5fc53deb8ee4e2d044"
+  },
+  {
+   "eid": "I3F0408",
+   "text": "Shaeltern Nias works as a Velgriathsiam. By trade, Shaeltern Nias is a Velgriathsiam. Shaeltern Nias's occupation is Velgriathsiam. A Velgriathsiam by profession, that is Shaeltern Nias.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Shaeltern Nias",
+   "attr": "occupation",
+   "value": "Velgriathsiam",
+   "kind": "filler",
+   "text_sha256": "cb1f0618a8d236cd204a24e874ee3914025b2f4842d89c36f03a1531d37c523f"
+  },
+  {
+   "eid": "I3F0409",
+   "text": "Shaeltern Nias's favorite object is a Kivyilyum. The thing Shaeltern Nias treasures most is a Kivyilyum. Of everything Shaeltern Nias owns, the favorite is a Kivyilyum. A Kivyilyum is Shaeltern Nias's favorite object.",
+   "time": 4,
+   "source": "observed:life4",
+   "entity": "Shaeltern Nias",
+   "attr": "favorite object",
+   "value": "Kivyilyum",
+   "kind": "filler",
+   "text_sha256": "54d2cb0d91f42e38d943c701db37ad5226d17ced7374ac496425868cea23b086"
+  },
+  {
+   "eid": "I3F0500",
+   "text": "Yulyax Taesa keeps a pet Fultul. The pet Yulyax Taesa has is a Fultul. Yulyax Taesa's pet is a Fultul. At home, Yulyax Taesa looks after a Fultul.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yulyax Taesa",
+   "attr": "pet species",
+   "value": "Fultul",
+   "kind": "filler",
+   "text_sha256": "b3680db5ae8f88467f6331581707989230633ccbec26cb0ee8ce04d9ee4a6d3a"
+  },
+  {
+   "eid": "I3F0501",
+   "text": "Yulyax Taesa's favorite object is a Keinvan. The thing Yulyax Taesa treasures most is a Keinvan. Of everything Yulyax Taesa owns, the favorite is a Keinvan. A Keinvan is Yulyax Taesa's favorite object.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yulyax Taesa",
+   "attr": "favorite object",
+   "value": "Keinvan",
+   "kind": "filler",
+   "text_sha256": "8d8fb80b924494495b6e5fe4e7bbe90ed3ecff5743d3bc73dcc80e9e092bdbea"
+  },
+  {
+   "eid": "I3F0502",
+   "text": "Yulyax Taesa is allergic to Thithial. Yulyax Taesa's allergy is to Thithial. Thithial gives Yulyax Taesa an allergic reaction. The one thing Yulyax Taesa is allergic to is Thithial.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yulyax Taesa",
+   "attr": "allergy",
+   "value": "Thithial",
+   "kind": "filler",
+   "text_sha256": "0322db7eeb1b1102e55083199f3cea80e69dc91d632557480e09aecb6f5c5448"
+  },
+  {
+   "eid": "I3F0503",
+   "text": "Gruxnov Feidrour works as a Granlev. By trade, Gruxnov Feidrour is a Granlev. Gruxnov Feidrour's occupation is Granlev. A Granlev by profession, that is Gruxnov Feidrour.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Gruxnov Feidrour",
+   "attr": "occupation",
+   "value": "Granlev",
+   "kind": "filler",
+   "text_sha256": "2eabeaa380cc2513a7a9dcb54a1c8f21368fe4d11ddc630273851219e5c3194b"
+  },
+  {
+   "eid": "I3F0504",
+   "text": "Gruxnov Feidrour was born in the month of Shylyr. Gruxnov Feidrour's birth month is Shylyr. Gruxnov Feidrour celebrates a birthday in Shylyr. The month Gruxnov Feidrour was born in is Shylyr.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Gruxnov Feidrour",
+   "attr": "birth month",
+   "value": "Shylyr",
+   "kind": "filler",
+   "text_sha256": "7c28b03e2ac7fd8aa551f56964bb03820a78531ef79dab36e3df44d82b738464"
+  },
+  {
+   "eid": "I3F0505",
+   "text": "Gruxnov Feidrour keeps a pet Thataskrisk. The pet Gruxnov Feidrour has is a Thataskrisk. Gruxnov Feidrour's pet is a Thataskrisk. At home, Gruxnov Feidrour looks after a Thataskrisk.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Gruxnov Feidrour",
+   "attr": "pet species",
+   "value": "Thataskrisk",
+   "kind": "filler",
+   "text_sha256": "4643290b7b1a186b485100db0da670798b6899636b4f0bbf9c777e6759922f81"
+  },
+  {
+   "eid": "I3F0506",
+   "text": "Yelqual Ze was born in the month of Quaelgrar. Yelqual Ze's birth month is Quaelgrar. Yelqual Ze celebrates a birthday in Quaelgrar. The month Yelqual Ze was born in is Quaelgrar.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yelqual Ze",
+   "attr": "birth month",
+   "value": "Quaelgrar",
+   "kind": "filler",
+   "text_sha256": "93ef9e2b8d4109cb49f86cc01e2a309d1dfd9a86c6d6192f639ed2c24ec27bef"
+  },
+  {
+   "eid": "I3F0507",
+   "text": "Yelqual Ze keeps a pet Fendtendmys. The pet Yelqual Ze has is a Fendtendmys. Yelqual Ze's pet is a Fendtendmys. At home, Yelqual Ze looks after a Fendtendmys.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yelqual Ze",
+   "attr": "pet species",
+   "value": "Fendtendmys",
+   "kind": "filler",
+   "text_sha256": "1392ba1374dd912c606f22992dc3d0f7989d4aec44ce1010109f6a22c898b203"
+  },
+  {
+   "eid": "I3F0508",
+   "text": "Yelqual Ze is allergic to Vixpiam. Yelqual Ze's allergy is to Vixpiam. Vixpiam gives Yelqual Ze an allergic reaction. The one thing Yelqual Ze is allergic to is Vixpiam.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Yelqual Ze",
+   "attr": "allergy",
+   "value": "Vixpiam",
+   "kind": "filler",
+   "text_sha256": "b644e9a2a79c546e260728e11796c15a7e7cb772a3337bfeeeee2ca66e964caf"
+  },
+  {
+   "eid": "I3F0509",
+   "text": "Rourav Theisk works as a Faerleivful. By trade, Rourav Theisk is a Faerleivful. Rourav Theisk's occupation is Faerleivful. A Faerleivful by profession, that is Rourav Theisk.",
+   "time": 5,
+   "source": "observed:life5",
+   "entity": "Rourav Theisk",
+   "attr": "occupation",
+   "value": "Faerleivful",
+   "kind": "filler",
+   "text_sha256": "583946498ce8b91be759a41c7f3efeef87c32af289ed14a452d2fd364cef4324"
+  }
+ ],
+ "n_cues": {
+  "fact": 150,
+  "calibration": 40,
+  "test_negative": 40,
+  "temporal": 3
+ },
+ "status": "writing",
+ "writes": {
+  "I3F0100": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 61.98,
+     "target_tokens": 63,
+     "final_loss": 0.022202620282769203
+    }
+   ],
+   "seconds": 62.1,
+   "epochs_total": 499
+  },
+  "I3F0101": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 699,
+     "exact": true,
+     "seconds": 89.35,
+     "target_tokens": 53,
+     "final_loss": 0.052857089787721634
+    }
+   ],
+   "seconds": 89.4,
+   "epochs_total": 699
+  },
+  "I3L01C0": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": true,
+     "seconds": 136.45,
+     "target_tokens": 50,
+     "final_loss": 0.04634549468755722
+    }
+   ],
+   "seconds": 136.5,
+   "epochs_total": 1000
+  },
+  "I3L01C1": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 71.7,
+     "target_tokens": 65,
+     "final_loss": 0.04346917197108269
+    }
+   ],
+   "seconds": 71.8,
+   "epochs_total": 499
+  },
+  "I3L01C2": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 38.28,
+     "target_tokens": 63,
+     "final_loss": 0.023873331025242805
+    }
+   ],
+   "seconds": 38.3,
+   "epochs_total": 299
+  },
+  "I3L01C3": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 77.0,
+     "target_tokens": 64,
+     "final_loss": 0.020604632794857025
+    }
+   ],
+   "seconds": 77.1,
+   "epochs_total": 599
+  },
+  "I3L01T0": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 38.49,
+     "target_tokens": 65,
+     "final_loss": 0.06954888254404068
+    }
+   ],
+   "seconds": 38.6,
+   "epochs_total": 299
+  },
+  "I3L01T1": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 82.98,
+     "target_tokens": 69,
+     "final_loss": 0.049756936728954315
+    }
+   ],
+   "seconds": 83.0,
+   "epochs_total": 599
+  },
+  "I3L01T2": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 135.53,
+     "target_tokens": 63,
+     "final_loss": 0.3333345055580139
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 199,
+     "exact": true,
+     "seconds": 28.88,
+     "target_tokens": 63,
+     "final_loss": 0.034444477409124374
+    }
+   ],
+   "seconds": 164.5,
+   "epochs_total": 1199
+  },
+  "I3L01T3": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 138.54,
+     "target_tokens": 63,
+     "final_loss": 0.256737619638443
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 199,
+     "exact": true,
+     "seconds": 24.5,
+     "target_tokens": 63,
+     "final_loss": 0.005101220682263374
+    }
+   ],
+   "seconds": 163.1,
+   "epochs_total": 1199
+  },
+  "I3TQ1": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 131.56,
+     "target_tokens": 64,
+     "final_loss": 0.3999442458152771
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 37.6,
+     "target_tokens": 64,
+     "final_loss": 0.06639181822538376
+    }
+   ],
+   "seconds": 169.2,
+   "epochs_total": 1299
+  },
+  "I3F0200": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 53.37,
+     "target_tokens": 64,
+     "final_loss": 0.08517857640981674
+    }
+   ],
+   "seconds": 53.4,
+   "epochs_total": 399
+  },
+  "I3F0201": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 68.39,
+     "target_tokens": 55,
+     "final_loss": 0.01624087058007717
+    }
+   ],
+   "seconds": 68.5,
+   "epochs_total": 499
+  },
+  "I3F0202": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 123.5,
+     "target_tokens": 64,
+     "final_loss": 0.2141048163175583
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 53.13,
+     "target_tokens": 64,
+     "final_loss": 0.06708851456642151
+    }
+   ],
+   "seconds": 176.7,
+   "epochs_total": 1399
+  },
+  "I3F0203": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 65.12,
+     "target_tokens": 74,
+     "final_loss": 0.03478528931736946
+    }
+   ],
+   "seconds": 65.2,
+   "epochs_total": 499
+  },
+  "I3F0204": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 66.93,
+     "target_tokens": 65,
+     "final_loss": 0.03432586416602135
+    }
+   ],
+   "seconds": 67.0,
+   "epochs_total": 499
+  },
+  "I3F0205": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 50.85,
+     "target_tokens": 65,
+     "final_loss": 0.031230272725224495
+    }
+   ],
+   "seconds": 50.9,
+   "epochs_total": 399
+  },
+  "I3L02B0": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 133.85,
+     "target_tokens": 53,
+     "final_loss": 0.7308341264724731
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 49.48,
+     "target_tokens": 53,
+     "final_loss": 0.024494944140315056
+    }
+   ],
+   "seconds": 183.4,
+   "epochs_total": 1399
+  },
+  "I3L02B1": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 84.53,
+     "target_tokens": 89,
+     "final_loss": 0.03542572259902954
+    }
+   ],
+   "seconds": 84.6,
+   "epochs_total": 599
+  },
+  "I3L02B2": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 199,
+     "exact": true,
+     "seconds": 25.75,
+     "target_tokens": 55,
+     "final_loss": 0.01809678040444851
+    }
+   ],
+   "seconds": 25.8,
+   "epochs_total": 199
+  },
+  "I3L02B3": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 54.23,
+     "target_tokens": 59,
+     "final_loss": 0.022041266784071922
+    }
+   ],
+   "seconds": 54.3,
+   "epochs_total": 399
+  },
+  "I3F0300": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 799,
+     "exact": true,
+     "seconds": 102.27,
+     "target_tokens": 71,
+     "final_loss": 0.045687559992074966
+    }
+   ],
+   "seconds": 102.3,
+   "epochs_total": 799
+  },
+  "I3F0301": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 499,
+     "exact": true,
+     "seconds": 64.4,
+     "target_tokens": 69,
+     "final_loss": 0.04347965121269226
+    }
+   ],
+   "seconds": 64.5,
+   "epochs_total": 499
+  },
+  "I3F0302": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 999,
+     "exact": true,
+     "seconds": 135.7,
+     "target_tokens": 65,
+     "final_loss": 0.026790354400873184
+    }
+   ],
+   "seconds": 135.8,
+   "epochs_total": 999
+  },
+  "I3F0303": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 141.31,
+     "target_tokens": 59,
+     "final_loss": 0.20792482793331146
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 43.73,
+     "target_tokens": 59,
+     "final_loss": 0.03209591656923294
+    }
+   ],
+   "seconds": 185.1,
+   "epochs_total": 1299
+  },
+  "I3F0304": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 52.43,
+     "target_tokens": 68,
+     "final_loss": 0.02447228506207466
+    }
+   ],
+   "seconds": 52.5,
+   "epochs_total": 399
+  },
+  "I3F0305": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 899,
+     "exact": true,
+     "seconds": 124.62,
+     "target_tokens": 72,
+     "final_loss": 0.035779230296611786
+    }
+   ],
+   "seconds": 124.7,
+   "epochs_total": 899
+  },
+  "I3F0306": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 199,
+     "exact": true,
+     "seconds": 27.55,
+     "target_tokens": 62,
+     "final_loss": 0.014631406404078007
+    }
+   ],
+   "seconds": 27.6,
+   "epochs_total": 199
+  },
+  "I3F0307": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 899,
+     "exact": true,
+     "seconds": 119.59,
+     "target_tokens": 63,
+     "final_loss": 0.08599874377250671
+    }
+   ],
+   "seconds": 119.7,
+   "epochs_total": 899
+  },
+  "I3F0308": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 82.86,
+     "target_tokens": 65,
+     "final_loss": 0.053868379443883896
+    }
+   ],
+   "seconds": 82.9,
+   "epochs_total": 599
+  },
+  "I3F0309": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 56.47,
+     "target_tokens": 65,
+     "final_loss": 0.011653942056000233
+    }
+   ],
+   "seconds": 56.5,
+   "epochs_total": 399
+  },
+  "I3TQ3": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 153.61,
+     "target_tokens": 68,
+     "final_loss": 0.046378448605537415
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 43.39,
+     "target_tokens": 68,
+     "final_loss": 0.005478516686707735
+    }
+   ],
+   "seconds": 197.1,
+   "epochs_total": 1299
+  },
+  "I3F0400": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 799,
+     "exact": true,
+     "seconds": 119.41,
+     "target_tokens": 70,
+     "final_loss": 0.060282304883003235
+    }
+   ],
+   "seconds": 119.5,
+   "epochs_total": 799
+  },
+  "I3F0401": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": true,
+     "seconds": 141.26,
+     "target_tokens": 56,
+     "final_loss": 0.03459976240992546
+    }
+   ],
+   "seconds": 141.3,
+   "epochs_total": 1000
+  },
+  "I3F0402": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 144.46,
+     "target_tokens": 63,
+     "final_loss": 0.1800861358642578
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 40.85,
+     "target_tokens": 63,
+     "final_loss": 0.014731458388268948
+    }
+   ],
+   "seconds": 185.4,
+   "epochs_total": 1299
+  },
+  "I3F0403": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 999,
+     "exact": true,
+     "seconds": 131.6,
+     "target_tokens": 69,
+     "final_loss": 0.06376919150352478
+    }
+   ],
+   "seconds": 131.7,
+   "epochs_total": 999
+  },
+  "I3F0404": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 899,
+     "exact": true,
+     "seconds": 119.52,
+     "target_tokens": 67,
+     "final_loss": 0.034548308700323105
+    }
+   ],
+   "seconds": 119.6,
+   "epochs_total": 899
+  },
+  "I3F0405": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 139.63,
+     "target_tokens": 69,
+     "final_loss": 0.1537734866142273
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 55.9,
+     "target_tokens": 69,
+     "final_loss": 0.039286743849515915
+    }
+   ],
+   "seconds": 195.6,
+   "epochs_total": 1399
+  },
+  "I3F0406": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 56.33,
+     "target_tokens": 62,
+     "final_loss": 0.023526517674326897
+    }
+   ],
+   "seconds": 56.4,
+   "epochs_total": 399
+  },
+  "I3F0407": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 142.92,
+     "target_tokens": 64,
+     "final_loss": 0.3294195234775543
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 84.75,
+     "target_tokens": 64,
+     "final_loss": 0.04316582903265953
+    }
+   ],
+   "seconds": 227.8,
+   "epochs_total": 1599
+  },
+  "I3F0408": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 55.08,
+     "target_tokens": 62,
+     "final_loss": 0.03050363063812256
+    }
+   ],
+   "seconds": 55.2,
+   "epochs_total": 399
+  },
+  "I3F0409": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 599,
+     "exact": true,
+     "seconds": 81.18,
+     "target_tokens": 65,
+     "final_loss": 0.04770049825310707
+    }
+   ],
+   "seconds": 81.3,
+   "epochs_total": 599
+  },
+  "I3F0500": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 52.32,
+     "target_tokens": 55,
+     "final_loss": 0.06867079436779022
+    }
+   ],
+   "seconds": 52.4,
+   "epochs_total": 399
+  },
+  "I3F0501": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": true,
+     "seconds": 131.17,
+     "target_tokens": 61,
+     "final_loss": 0.03279256820678711
+    }
+   ],
+   "seconds": 131.2,
+   "epochs_total": 1000
+  },
+  "I3F0502": {
+   "ok": true,
+   "mask": 78,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 299,
+     "exact": true,
+     "seconds": 39.52,
+     "target_tokens": 55,
+     "final_loss": 0.036740776151418686
+    }
+   ],
+   "seconds": 39.6,
+   "epochs_total": 299
+  },
+  "I3F0503": {
+   "ok": true,
+   "mask": 94,
+   "attempts": [
+    {
+     "mask": 78,
+     "params": 312,
+     "epochs": 1000,
+     "exact": false,
+     "seconds": 129.74,
+     "target_tokens": 58,
+     "final_loss": 0.17081326246261597
+    },
+    {
+     "mask": 94,
+     "params": 376,
+     "epochs": 399,
+     "exact": true,
+     "seconds": 53.02,
+     "target_tokens": 58,
+     "final_loss": 0.009780137799680233
+    }
+   ],
+   "seconds": 182.8,
+   "epochs_total": 1399
+  }
+ },
+ "preflight": {
+  "seconds_per_50way": 0.8944599628448486,
+  "seconds_per_reconstruction": 4.100658178329468,
+  "max_scoring_calls": 4402,
+  "projected_eval_s": 4150.6,
+  "eval_budget_s": 5400,
+  "cuda_free_total_mib": [
+   27865,
+   45490
+  ],
+  "peak_alloc_mib": 16728
+ }
+}

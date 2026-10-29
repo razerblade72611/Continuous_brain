@@ -1,0 +1,16 @@
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:00<00:00, 64.24it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+03:19:11 seed 3 preflight {"seconds_per_50way": 0.896181583404541, "seconds_per_reconstruction": 4.0495383739471436, "max_scoring_calls": 4402, "projected_eval_s": 4155.6, "eval_budget_s": 5400, "cuda_free_total_mib": [27865, 45490], "peak_alloc_mib": 16728}
+03:20:20 seed 3 write I3F0504 ok=True mask=78 68.9s
+03:21:51 seed 3 write I3F0505 ok=True mask=78 91.3s
+03:22:28 seed 3 write I3F0506 ok=True mask=78 36.8s
+03:23:32 seed 3 write I3F0507 ok=True mask=78 64.4s
+03:24:10 seed 3 write I3F0508 ok=True mask=78 37.7s
+03:25:02 seed 3 write I3F0509 ok=True mask=78 52.0s
+03:28:48 seed 3 eval life 1 done (125 scored prompts)
+03:30:29 seed 3 eval life 2 done (273 scored prompts)
+03:32:52 seed 3 eval life 3 done (463 scored prompts)
+03:35:30 seed 3 eval life 4 done (669 scored prompts)
+03:38:27 seed 3 eval life 5 done (898 scored prompts)
+CLS-0B SEED DONE 3 {"stored": 52, "experienced": 52, "throughput": {"epochs_per_s": 7.379156134551818, "epochs": 37951, "seconds": 5143.0}}

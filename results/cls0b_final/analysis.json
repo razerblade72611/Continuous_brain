@@ -1,0 +1,2048 @@
+{
+ "which": "CLS-0B analysis",
+ "pilot": false,
+ "validity": {
+  "complete": true,
+  "not_test": true,
+  "design": true,
+  "config": true,
+  "one_commit": true,
+  "model_files": true,
+  "prefix": true,
+  "seeds_unique": true,
+  "valid": true
+ },
+ "per_seed": {
+  "2": {
+   "1": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.3,
+      "false_activation_near_miss": 0.9,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.1,
+      "direct_template_given_right_episode": 0.1,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.2,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.0333,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.2,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.2,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.2,
+      "fail_none": 0.8,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.2667,
+      "false_activation_near_miss": 0.8,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.3,
+      "false_activation_near_miss": 0.9,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.1,
+    "oracle_acc": 1.0
+   },
+   "2": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.3438,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.05,
+      "direct_template_given_right_episode": 0.05,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.15,
+      "route_paraphrase": 0.075,
+      "false_activation": 0.0312,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.15,
+      "irag_paraphrase": 0.075,
+      "raw_template": 0.15,
+      "raw_paraphrase": 0.075,
+      "life1_irag": 0.2,
+      "fail_none": 0.85,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.375,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.05,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.3438,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 0.05,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.05,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.95,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.05,
+    "oracle_acc": 1.0
+   },
+   "3": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9833,
+      "false_activation": 0.3784,
+      "false_activation_near_miss": 0.7647,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9833,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9833,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0333,
+      "direct_template_given_right_episode": 0.0333,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.1,
+      "route_paraphrase": 0.0667,
+      "false_activation": 0.027,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.1,
+      "irag_paraphrase": 0.0667,
+      "raw_template": 0.1,
+      "raw_paraphrase": 0.0667,
+      "life1_irag": 0.2,
+      "fail_none": 0.9,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5135,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.3784,
+      "false_activation_near_miss": 0.7647,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": true,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.0333,
+    "oracle_acc": 1.0
+   },
+   "4": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 0.975,
+      "route_paraphrase": 0.925,
+      "false_activation": 0.35,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 0.975,
+      "irag_paraphrase": 0.925,
+      "raw_template": 0.975,
+      "raw_paraphrase": 0.925,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.025,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.025,
+      "direct_template_given_right_episode": 0.0256,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.1,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.025,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.1,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.1,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.2,
+      "fail_none": 0.9,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9625,
+      "false_activation": 0.4,
+      "false_activation_near_miss": 0.8,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9625,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9625,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.35,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.025,
+    "oracle_acc": 1.0
+   },
+   "5": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 0.96,
+      "route_paraphrase": 0.9,
+      "false_activation": 0.35,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 0.96,
+      "irag_paraphrase": 0.9,
+      "raw_template": 0.96,
+      "raw_paraphrase": 0.9,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.04,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.02,
+      "direct_template_given_right_episode": 0.0208,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.08,
+      "route_paraphrase": 0.06,
+      "false_activation": 0.025,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.08,
+      "irag_paraphrase": 0.06,
+      "raw_template": 0.08,
+      "raw_paraphrase": 0.06,
+      "life1_irag": 0.2,
+      "fail_none": 0.92,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.99,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.99,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.99,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.04,
+      "route_paraphrase": 0.04,
+      "false_activation": 0.35,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 0.04,
+      "irag_paraphrase": 0.04,
+      "raw_template": 0.04,
+      "raw_paraphrase": 0.04,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.96,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.02,
+    "oracle_acc": 1.0
+   }
+  },
+  "3": {
+   "1": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.4,
+      "route_paraphrase": 0.35,
+      "false_activation": 0.1071,
+      "false_activation_near_miss": 0.125,
+      "irag_template": 0.4,
+      "irag_paraphrase": 0.35,
+      "raw_template": 0.4,
+      "raw_paraphrase": 0.35,
+      "life1_irag": 0.4,
+      "fail_none": 0.6,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": true
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.1786,
+      "false_activation_near_miss": 0.625,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "2": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5294,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.35,
+      "route_paraphrase": 0.2,
+      "false_activation": 0.1471,
+      "false_activation_near_miss": 0.2143,
+      "irag_template": 0.35,
+      "irag_paraphrase": 0.2,
+      "raw_template": 0.35,
+      "raw_paraphrase": 0.2,
+      "life1_irag": 0.3,
+      "fail_none": 0.6,
+      "fail_wrong_episode": 0.05,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.4706,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.05,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.5294,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 0.05,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.05,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.95,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "3": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9667,
+      "false_activation": 0.4474,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9667,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9667,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.4,
+      "route_paraphrase": 0.1833,
+      "false_activation": 0.2105,
+      "false_activation_near_miss": 0.2778,
+      "irag_template": 0.4,
+      "irag_paraphrase": 0.1833,
+      "raw_template": 0.4,
+      "raw_paraphrase": 0.1833,
+      "life1_irag": 0.3,
+      "fail_none": 0.5667,
+      "fail_wrong_episode": 0.0333,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.3421,
+      "false_activation_near_miss": 0.7222,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.4474,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "4": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.95,
+      "false_activation": 0.4359,
+      "false_activation_near_miss": 0.8421,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.95,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.95,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.425,
+      "route_paraphrase": 0.1625,
+      "false_activation": 0.2051,
+      "false_activation_near_miss": 0.2632,
+      "irag_template": 0.45,
+      "irag_paraphrase": 0.1625,
+      "raw_template": 0.45,
+      "raw_paraphrase": 0.1625,
+      "life1_irag": 0.3,
+      "fail_none": 0.55,
+      "fail_wrong_episode": 0.025,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.4872,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.4359,
+      "false_activation_near_miss": 0.8421,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.025,
+    "oracle_acc": 1.0
+   },
+   "5": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.95,
+      "false_activation": 0.45,
+      "false_activation_near_miss": 0.85,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.95,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.95,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.04,
+      "direct_template_given_right_episode": 0.04,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.42,
+      "route_paraphrase": 0.18,
+      "false_activation": 0.225,
+      "false_activation_near_miss": 0.3,
+      "irag_template": 0.44,
+      "irag_paraphrase": 0.18,
+      "raw_template": 0.44,
+      "raw_paraphrase": 0.18,
+      "life1_irag": 0.3,
+      "fail_none": 0.56,
+      "fail_wrong_episode": 0.02,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.04,
+      "route_paraphrase": 0.04,
+      "false_activation": 0.45,
+      "false_activation_near_miss": 0.85,
+      "irag_template": 0.04,
+      "irag_paraphrase": 0.04,
+      "raw_template": 0.04,
+      "raw_paraphrase": 0.04,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.96,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.02,
+    "oracle_acc": 1.0
+   }
+  },
+  "4": {
+   "1": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.1667,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.3,
+      "route_paraphrase": 0.4,
+      "false_activation": 0.125,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.3,
+      "irag_paraphrase": 0.4,
+      "raw_template": 0.3,
+      "raw_paraphrase": 0.4,
+      "life1_irag": 0.3,
+      "fail_none": 0.7,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.25,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.1667,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.0,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.0,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "2": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.975,
+      "false_activation": 0.4118,
+      "false_activation_near_miss": 0.6429,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.975,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.975,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.3,
+      "route_paraphrase": 0.125,
+      "false_activation": 0.0882,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.3,
+      "irag_paraphrase": 0.125,
+      "raw_template": 0.3,
+      "raw_paraphrase": 0.125,
+      "life1_irag": 0.3,
+      "fail_none": 0.7,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": true
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.4706,
+      "false_activation_near_miss": 0.9286,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.05,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.4118,
+      "false_activation_near_miss": 0.6429,
+      "irag_template": 0.05,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.05,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.95,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "3": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9667,
+      "false_activation": 0.3889,
+      "false_activation_near_miss": 0.6875,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9667,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9667,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.4,
+      "route_paraphrase": 0.1667,
+      "false_activation": 0.0833,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.4,
+      "irag_paraphrase": 0.1667,
+      "raw_template": 0.4,
+      "raw_paraphrase": 0.1667,
+      "life1_irag": 0.3,
+      "fail_none": 0.5667,
+      "fail_wrong_episode": 0.0333,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.0667,
+      "route_paraphrase": 0.0667,
+      "false_activation": 0.3889,
+      "false_activation_near_miss": 0.6875,
+      "irag_template": 0.0667,
+      "irag_paraphrase": 0.0667,
+      "raw_template": 0.0667,
+      "raw_paraphrase": 0.0667,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.9333,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "4": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.975,
+      "false_activation": 0.4211,
+      "false_activation_near_miss": 0.7222,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.975,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.975,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0,
+      "direct_template_given_right_episode": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.4,
+      "route_paraphrase": 0.1625,
+      "false_activation": 0.0789,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.4,
+      "irag_paraphrase": 0.1625,
+      "raw_template": 0.4,
+      "raw_paraphrase": 0.1625,
+      "life1_irag": 0.3,
+      "fail_none": 0.575,
+      "fail_wrong_episode": 0.025,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.5526,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.025,
+      "route_paraphrase": 0.025,
+      "false_activation": 0.4211,
+      "false_activation_near_miss": 0.7222,
+      "irag_template": 0.025,
+      "irag_paraphrase": 0.025,
+      "raw_template": 0.025,
+      "raw_paraphrase": 0.025,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.975,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.0,
+    "oracle_acc": 1.0
+   },
+   "5": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.96,
+      "false_activation": 0.45,
+      "false_activation_near_miss": 0.75,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.96,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.96,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.02,
+      "direct_template_given_right_episode": 0.02,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K2": {
+      "route_template": 0.36,
+      "route_paraphrase": 0.16,
+      "false_activation": 0.075,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.36,
+      "irag_paraphrase": 0.18,
+      "raw_template": 0.36,
+      "raw_paraphrase": 0.18,
+      "life1_irag": 0.3,
+      "fail_none": 0.62,
+      "fail_wrong_episode": 0.02,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.575,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": false
+      }
+     },
+     "K4": {
+      "route_template": 0.02,
+      "route_paraphrase": 0.01,
+      "false_activation": 0.45,
+      "false_activation_near_miss": 0.75,
+      "irag_template": 0.02,
+      "irag_paraphrase": 0.01,
+      "raw_template": 0.02,
+      "raw_paraphrase": 0.01,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.98,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.02,
+    "oracle_acc": 1.0
+   }
+  },
+  "5": {
+   "1": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 1.0,
+      "false_activation": 0.2308,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 1.0,
+      "raw_template": 1.0,
+      "raw_paraphrase": 1.0,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.2,
+      "direct_template_given_right_episode": 0.2,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.3,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.0,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.4,
+      "irag_paraphrase": 0.25,
+      "raw_template": 0.4,
+      "raw_paraphrase": 0.25,
+      "life1_irag": 0.4,
+      "fail_none": 0.7,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.95,
+      "false_activation": 0.2692,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.95,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.95,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.2,
+      "route_paraphrase": 0.2,
+      "false_activation": 0.2308,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 0.2,
+      "irag_paraphrase": 0.2,
+      "raw_template": 0.2,
+      "raw_paraphrase": 0.2,
+      "life1_irag": 0.2,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.8,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.2,
+    "oracle_acc": 1.0
+   },
+   "2": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.975,
+      "false_activation": 0.3548,
+      "false_activation_near_miss": 0.9091,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.975,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.975,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.1,
+      "direct_template_given_right_episode": 0.1,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K2": {
+      "route_template": 0.25,
+      "route_paraphrase": 0.075,
+      "false_activation": 0.0,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.3,
+      "irag_paraphrase": 0.175,
+      "raw_template": 0.3,
+      "raw_paraphrase": 0.175,
+      "life1_irag": 0.4,
+      "fail_none": 0.75,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.975,
+      "false_activation": 0.2258,
+      "false_activation_near_miss": 0.6364,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.975,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.975,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "latest_pre": true
+      }
+     },
+     "K4": {
+      "route_template": 0.05,
+      "route_paraphrase": 0.05,
+      "false_activation": 0.3548,
+      "false_activation_near_miss": 0.9091,
+      "irag_template": 0.05,
+      "irag_paraphrase": 0.05,
+      "raw_template": 0.05,
+      "raw_paraphrase": 0.05,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.95,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "latest_pre": false
+      }
+     }
+    },
+    "none_acc": 0.1,
+    "oracle_acc": 1.0
+   },
+   "3": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9,
+      "false_activation": 0.4474,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.0667,
+      "direct_template_given_right_episode": 0.0667,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.1667,
+      "route_paraphrase": 0.0833,
+      "false_activation": 0.0,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.2,
+      "irag_paraphrase": 0.15,
+      "raw_template": 0.2,
+      "raw_paraphrase": 0.15,
+      "life1_irag": 0.4,
+      "fail_none": 0.8333,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9833,
+      "false_activation": 0.5,
+      "false_activation_near_miss": 0.9444,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9833,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9833,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0333,
+      "route_paraphrase": 0.0333,
+      "false_activation": 0.4474,
+      "false_activation_near_miss": 0.8333,
+      "irag_template": 0.0333,
+      "irag_paraphrase": 0.0333,
+      "raw_template": 0.0333,
+      "raw_paraphrase": 0.0333,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.9667,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.0667,
+    "oracle_acc": 1.0
+   },
+   "4": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.85,
+      "false_activation": 0.3421,
+      "false_activation_near_miss": 0.6667,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.85,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.85,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.05,
+      "direct_template_given_right_episode": 0.05,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.125,
+      "route_paraphrase": 0.0625,
+      "false_activation": 0.0,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.15,
+      "irag_paraphrase": 0.1125,
+      "raw_template": 0.15,
+      "raw_paraphrase": 0.1125,
+      "life1_irag": 0.4,
+      "fail_none": 0.85,
+      "fail_wrong_episode": 0.025,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.9875,
+      "false_activation": 0.5263,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.9875,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.9875,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.0,
+      "false_activation": 0.3421,
+      "false_activation_near_miss": 0.6667,
+      "irag_template": 0.025,
+      "irag_paraphrase": 0.0125,
+      "raw_template": 0.025,
+      "raw_paraphrase": 0.0125,
+      "life1_irag": 0.1,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.05,
+    "oracle_acc": 1.0
+   },
+   "5": {
+    "coverage": 1.0,
+    "methods": {
+     "K1": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.83,
+      "false_activation": 0.375,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.84,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.84,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "direct_template": 0.04,
+      "direct_template_given_right_episode": 0.04,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K2": {
+      "route_template": 0.1,
+      "route_paraphrase": 0.06,
+      "false_activation": 0.0,
+      "false_activation_near_miss": 0.0,
+      "irag_template": 0.12,
+      "irag_paraphrase": 0.1,
+      "raw_template": 0.12,
+      "raw_paraphrase": 0.1,
+      "life1_irag": 0.4,
+      "fail_none": 0.86,
+      "fail_wrong_episode": 0.04,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 1,
+      "temporal": {
+       "life1": false,
+       "life3": false,
+       "latest": false
+      }
+     },
+     "K3": {
+      "route_template": 1.0,
+      "route_paraphrase": 0.98,
+      "false_activation": 0.55,
+      "false_activation_near_miss": 1.0,
+      "irag_template": 1.0,
+      "irag_paraphrase": 0.98,
+      "raw_template": 1.0,
+      "raw_paraphrase": 0.98,
+      "life1_irag": 1.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 0.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 4,
+      "temporal": {
+       "life1": true,
+       "life3": true,
+       "latest": true
+      }
+     },
+     "K4": {
+      "route_template": 0.0,
+      "route_paraphrase": 0.01,
+      "false_activation": 0.375,
+      "false_activation_near_miss": 0.65,
+      "irag_template": 0.0,
+      "irag_paraphrase": 0.02,
+      "raw_template": 0.0,
+      "raw_paraphrase": 0.02,
+      "life1_irag": 0.0,
+      "fail_none": 0.0,
+      "fail_wrong_episode": 1.0,
+      "fail_right_episode_wrong_answer": 0.0,
+      "binding_pairs": 0,
+      "temporal": {
+       "life1": true,
+       "life3": false,
+       "latest": false
+      }
+     }
+    },
+    "none_acc": 0.04,
+    "oracle_acc": 1.0
+   }
+  }
+ },
+ "cost": {
+  "2": {
+   "write_seconds": 6207.2,
+   "throughput": {
+    "epochs_per_s": 7.999677757190042,
+    "epochs": 49650,
+    "seconds": 6206.5
+   },
+   "masks": [
+    78,
+    94,
+    94,
+    78,
+    78,
+    94,
+    113,
+    78,
+    78,
+    94,
+    94,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    94,
+    94,
+    78,
+    94,
+    78,
+    78,
+    78,
+    113,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    94,
+    78,
+    94,
+    94,
+    78,
+    113,
+    94
+   ],
+   "failed_writes": []
+  },
+  "3": {
+   "write_seconds": 351.1,
+   "throughput": {
+    "epochs_per_s": 7.379156134551818,
+    "epochs": 37951,
+    "seconds": 5143.0
+   },
+   "masks": [
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    94,
+    94,
+    78,
+    78,
+    94,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    94,
+    78,
+    78,
+    94,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78
+   ],
+   "failed_writes": []
+  },
+  "4": {
+   "write_seconds": 7048.0,
+   "throughput": {
+    "epochs_per_s": 7.512698998268963,
+    "epochs": 52948,
+    "seconds": 7047.8
+   },
+   "masks": [
+    94,
+    78,
+    78,
+    94,
+    94,
+    94,
+    78,
+    94,
+    94,
+    78,
+    78,
+    113,
+    94,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    94,
+    94,
+    78,
+    78,
+    78,
+    78,
+    94,
+    113,
+    94,
+    94,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    113,
+    78,
+    94,
+    94,
+    94,
+    113,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78
+   ],
+   "failed_writes": []
+  },
+  "5": {
+   "write_seconds": 7437.1,
+   "throughput": {
+    "epochs_per_s": 6.608578727981713,
+    "epochs": 49148,
+    "seconds": 7437.0
+   },
+   "masks": [
+    78,
+    78,
+    94,
+    78,
+    78,
+    113,
+    78,
+    78,
+    94,
+    78,
+    94,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    78,
+    94,
+    94,
+    78,
+    94,
+    94,
+    113,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    94,
+    113,
+    78,
+    94,
+    78,
+    78,
+    78,
+    94,
+    94,
+    94,
+    94,
+    78,
+    78,
+    78,
+    94,
+    78,
+    78,
+    113,
+    78,
+    78,
+    78,
+    94
+   ],
+   "failed_writes": []
+  }
+ },
+ "decision": {
+  "direction": "2 addressing becomes the priority",
+  "statements": [
+   "2 addressing becomes the priority"
+  ],
+  "qualifiers": [],
+  "notes": [
+   "neural episode storage reproduces the usable information of text storage; choose the fast-memory substrate on measured costs (bytes, write time, latency, persistence) - this comparison does not by itself decide whether to pursue online consolidation"
+  ],
+  "k1_life5": {
+   "route_template": 0.99,
+   "irag_template": 0.99,
+   "raw_template": 0.99,
+   "irag_paraphrase": 0.9125,
+   "false_activation": 0.40625,
+   "coverage": 1.0
+  },
+  "k2_route_template": 0.24,
+  "k3_route_template": 1.0,
+  "k4_route_template": 0.025
+ }
+}
