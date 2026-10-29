@@ -1,0 +1,95 @@
+# CLS-0C sealed test: authoring and adjudication audit log
+
+- **Harness freeze:** commit 2b240fc7e91592742dc24c2e094c2fcfdb1c0b1c, made before any item existed.
+- **Grok A (author):** a fresh grok.com chat, driven by Claude through the browser pane. It received the spec at
+  2b240fc (lab/CLS0C_SEALED_AUTHOR_SPEC.md) verbatim, plus operational notes only.
+- **Transfer check:** every raw submission is extracted from the page, and its SHA-256 is computed in the browser and
+  compared with the file written here.
+
+## Events
+1. **Batch 1 (W01–W03).** Valid JSON, 33,784 bytes, sha256 80ff2cb95b62fb0b66b9b27d1ee5d5661ccc4977349c31de0199381c342cd58e.
+   - Validator: 0 errors.
+   - Saved as raw/grokA_batch1.json; the browser hash equals the file hash.
+2. **Operational note sent with the batch-2 request.** Requested settings different from W01–W03, and IMPLICATION
+   items across the spec's full range (preferences, intentions, hypothetical behaviour, causes, circumstances), not
+   mainly motives. Also reminded the author of the spec's required narrative features: unconfirmed intentions, claims
+   about others, and two descriptions of the same event.
+   - Prompted by Claude seeing that W01–W03 were similar small-venue settings with motive-only implications.
+   - These are spec-conformance requests only; nothing about the evaluated system was disclosed.
+3. **Batch 2 first attempt (W04–W06).** Truncated by Grok's output limit inside the final W06 item: 33,515 bytes,
+   sha256 58055a1eecdf00cf523f07a6bf6fdbcbf9d0fdd6a0d922e24bd47c8a31825269.
+   - Discarded and not repaired. Requested again in parts: W04+W05, then W06.
+4. **W04 alone.** Valid JSON, 11,639 bytes, sha256 fbe8c2dab52447e128384a9efac04d5fcb445a40d290490b7a220470183ca0a4.
+   Saved as raw/grokA_W04.json; hashes equal.
+5. **W04+W05 combined attempt.** Truncated inside W05-Q20. Discarded.
+6. **W05 in the first author chat.** One attempt failed ("model temporarily unavailable"). The retry was truncated at
+   W05-Q34, and the part-A request was also truncated. All discarded.
+   - Reason: the per-reply output limit kept shrinking as the chat grew.
+7. **Procedure change (operational only).** Every remaining world is written in a FRESH grok.com chat. Each chat gets
+   the identical frozen spec plus a note naming the world id and a setting:
+   - W05: farming family / orchard
+   - W06: fishing-boat crew
+   - W07: village school staff
+   - W08: hospital night shift
+   - W09: allotment-garden committee
+   - W10: rail-maintenance crew
+
+   The note also repeats the spec's IMPLICATION range and narrative features, and asks for 2–4 sentence experiences.
+   The settings were chosen by Claude only to vary the domains; nothing about the evaluated system is disclosed.
+   W01–W04 come from the first author chat. All worlds share the same author role (Grok A).
+8. **Capture method change: API instead of rendered page (operational only).** Text extracted from the rendered page
+   turned out to drop characters. Every capture from W05 on reads the raw assistant message instead:
+   - It comes from grok.com's own same-origin conversation API (`/rest/app-chat/conversations/{cid}/response-node`,
+     then `load-responses`).
+   - The SHA-256 is computed in the browser on that raw text and compared with the file written here.
+
+   Re-reading the earlier "truncated" attempts (events 3, 5, 6) through the API showed several of them were in fact
+   complete; the apparent truncation came from page rendering. They stay discarded under the content-blind rule fixed
+   before any item was read: **the first capture that verifies is the one kept, and a discarded attempt is never
+   revived.** No discarded attempt's content was compared with, or used to choose, a kept one.
+9. **Kept captures and author chats.** Every file hash below equals the browser hash of the raw API message.
+
+   | World | Grok chat id | File |
+   |---|---|---|
+   | W01–W03 | 5d7df6ef-8cad-4dfa-8bed-bcb6ad05633a | raw/grokA_batch1.json |
+   | W04 | 5d7df6ef-8cad-4dfa-8bed-bcb6ad05633a | raw/grokA_W04.json |
+   | W05 | e7c6785f-ef12-48d8-9013-19167fe03704 | raw/grokA_W05.json, sha256 1d38f640aa13cdd9876e9e5bffb229d2404a98ee3fab60cca559534f0ec5fe83 |
+   | W06 | a6b3c91b-533a-4ccd-acb0-fad2f7f9d54f | raw/grokA_W06.json, sha256 d1a393c9de59d7f1719a79f4b8eb2a3c8dbe2f652dce14fd212c10c6ff21b0d8 |
+   | W07 | 525808c4-c6bd-40f5-9f72-c2e3c1b0665e | raw/grokA_W07.json, sha256 d6f4873d84b19ea224ac9550113a16be600feab0adb31783320ef74d37d0a02b |
+   | W08 | 4c329477-973b-4607-af42-c1c8d264a5db | raw/grokA_W08.json, sha256 a6a557af5ca5c7f8c5225d854a150ab116ca8ebbdbc44c24a5ffa2aae4038366 |
+   | W09 | 7c4515fa-2f45-4486-8494-b5c1126f3f95 | raw/grokA_W09.json, sha256 3349ee5b243e7086d42a545b923b11b6410869e57f657ca0e57696506fe0d0c8 |
+   | W10 | 1bd030ef-6575-4aed-89d7-56a0038ea69f | raw/grokA_W10.raw.txt (raw, inside a ```json fence), sha256 adff8f826727c31980149f53b78c99427637045ab4e4b9d4ba3bae9299e2c042 |
+   | Templates | d1650f49-888e-4d55-bf23-1aacc60eaf3c | raw/grokA_templates.raw.txt (raw, inside a ```json fence), sha256 8574b66b5877b54e6aa7780893c556465b5557c96cfb0ba0da9133835ff7d8f2 |
+
+   The templates chat received the frozen spec and was asked only for the attribute templates.
+10. **Assembly.** scripts/cls0c_assemble.py concatenates the kept captures into dataset_author.json.
+    - It strips a markdown ```json fence if present. Nothing else is changed: no item, label, answer or wording.
+    - First assembly: 10 worlds, 340 items, 10 attributes, sha256
+      0efbaca5a3e7ca00bd00627640562171531edde1dc81e85fe2593ae4d5e8c4b3.
+11. **Validate on the first assembly.**
+    - All 340 narrative items: 0 errors.
+    - 1 template error: pet species / SUPPORTED "At home {e} looks after a" is an exact normalised duplicate of a
+      development wording.
+    - 1 warning, passed to adjudication: birth month / SUPPORTED "The month of {e}'s birth is" is a near-duplicate.
+    - Action: the templates chat (d1650f49) was told only that this one template of its own collides with a held-out
+      wording, and was asked for exactly one replacement under the same rules. No development wording was shown.
+12. **Author correction applied.**
+    - The templates chat replied with JSON only: {"pet species": {"supported_replacement": "{e} shares the home with a
+      pet of the species"}}.
+    - Saved as raw/grokA_templates_fix1.raw.txt, sha256 430fa342d779ab1efa86b466a93cfc09f35861a47351b2946ad521f67662ca4f;
+      the browser hash is equal.
+    - The assembler substitutes it at the rejected template's position (FIXES list).
+    - Re-validate: **0 errors**, 1 warning (the birth-month near-duplicate, kept for adjudication).
+13. **Blinding while the repo is public.** The repo is public, so the author labels must not be readable by the
+    adjudicator. Three consequences:
+    - **Kept out of the public branch until reconcile:** the raw captures, dataset_author.json and
+      blind/PRIVATE_mapping.json. (The blind ids are sha256(salt|iid); the salt is the final dataset hash, and iids
+      are numbered by label within each world.) They live on a local-only branch `cls0c-sealed-private` plus a backup
+      on David's computer.
+    - **Public commitment, fixed now:** sha256 of a deterministic tar (`tar --sort=name --mtime='2026-01-01 00:00Z'
+      --owner=0 --group=0 --numeric-owner -cf X raw dataset_author.json blind/PRIVATE_mapping.json`, run inside
+      results/cls0c_sealed_work) =
+      **e22ec48c89743f537670954172e4f8e47e0a2d46d0c23e2ef6dce04daa25572c**.
+      Everything is published after reconcile and must reproduce this hash.
+    - **Blind package published:** blind/adjudication_package.json (10 worlds, 340 statements, 70 templates; no labels,
+      answers, evidence or source ids; leak-checked). It is what Grok B receives.
