@@ -1,0 +1,15 @@
+You are an independent adjudicator for a test dataset written by someone else. Judge ONLY from the text in this message. Do not use anything from other conversations, and do not search the web or any repository.
+
+Part of the test uses facts of the form "PERSON's ATTRIBUTE is VALUE". The ten attributes are: allergy, birth month, childhood fear, city, favorite object, hobby, occupation, pet species, sister, workplace. Each template below uses {e} for the person and ends where a value would begin. Imagine it completed with the VALUE of a fact about that attribute, when that single fact is all that is known.
+
+Label each template:
+- SUPPORTED: the template asks exactly for that attribute, with no extra assumption, so the fact alone establishes the completion.
+- IMPLICATION: the natural completion is the attribute's value, but the template asks for something the fact does not establish (behaviour, frequency, intensity, other people's experience, and so on).
+- AMBIGUOUS: the template is malformed or underspecified, or careful readers could reasonably disagree.
+
+Judge every template independently. Do not assume any particular number of each label.
+
+Output strict JSON only, nothing else, with every template id exactly once:
+{"templates": {"<template id>": "SUPPORTED" | "IMPLICATION" | "AMBIGUOUS"}}
+
+TEMPLATES:

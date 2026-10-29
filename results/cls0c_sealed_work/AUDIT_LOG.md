@@ -93,3 +93,49 @@
       Everything is published after reconcile and must reproduce this hash.
     - **Blind package published:** blind/adjudication_package.json (10 worlds, 340 statements, 70 templates; no labels,
       answers, evidence or source ids; leak-checked). It is what Grok B receives.
+14. **Sol review before adjudication.** Sol accepted the dataset, the public/private separation and the template
+    replacement.
+    - **Checkpoints:** Sol first asked for a per-statement `as_of_life` in the blind package. Claude objected with a
+      check of the private data. Every unqualified TEMPORAL item has checkpoint 5, and every checkpoint < 5 belongs to
+      an "At life N, …" item whose gold evidence is from life N ≤ checkpoint. So the field would change no correct
+      label or answer, and the only items with a value < 5 would all be TEMPORAL (a label leak). Sol withdrew the
+      request.
+      - **Decision:** no checkpoint field. The prompt states that all shown experiences are available and that
+        "At life N" asks about life N.
+      - The exact breakdown is in the private note `PRIVATE_checkpoint_audit.md`, published after reconcile.
+    - **Grok memory:** the account has memory on (`/rest/user-settings` → `enableMemory: true`), and xAI documents that
+      Grok can recall past conversations. A "fresh" Grok B chat could therefore see the authoring chats.
+      - **Decision:** memory is switched off (with David's OK) before the first Grok B chat and stays off throughout.
+        `enableMemory` is read and recorded before and after.
+      - Every Grok B chat is a fresh, ordinary (API-readable) chat and starts with adjudication/CANARY.txt. The session
+        is aborted if the reply names actual authoring content.
+      - A negative canary is a detector, not proof. The protection is the setting.
+    - **Prompt clarifications adopted:**
+      - TEMPORAL only when the property changes across lives;
+      - IMPLICATION needs relevant but insufficient evidence;
+      - a claim establishes only that it was made;
+      - a broader AMBIGUOUS rule;
+      - no web or repository access.
+15. **Pre-adjudication amendments.** These were added after authoring and before any adjudication; they are not part of
+    the 2b240fc freeze.
+    - **Sufficiency floors (Sol's proposal; Claude adapted the template floor).** A category below its floor after
+      exclusions is reported descriptively as "insufficiently adjudicated", with no pass/fail claim.
+      - Narrative: ≥ 80% retained per category (SUPPORTED ≥ 80/100, IMPLICATION ≥ 80/100, NEAR-MISS ≥ 40/50,
+        UNFAMILIAR ≥ 40/50, TEMPORAL ≥ 32/40), and every world keeps ≥ 1 item in each of the five categories.
+      - Templates: ≥ 80% retained per kind (SUPPORTED ≥ 32/40, IMPLICATION ≥ 24/30), and every attribute keeps ≥ 1
+        template of each kind. The synthetic question counts (200/150) are drawn from fact × template pairs, so
+        excluding templates reduces wording diversity, not the count.
+      - Exclusions are reported by world, author category and template family.
+    - **Retry rule.** A Grok B attempt is retried in a new fresh chat only if its output (after stripping a json
+      fence):
+      - is not parseable JSON;
+      - has a missing or extra id;
+      - uses a label outside the allowed set;
+      - gives SUPPORTED/TEMPORAL without an answer and at least one valid ref;
+      - or cites a ref not in that world.
+
+      At most 2 retries. Every attempt is kept. An attempt is never retried because of its content.
+    - **Grok B materials.** adjudication/PROMPT_statements.txt, PROMPT_templates.txt and CANARY.txt, plus the 11
+      ready-made messages (prompt + one blind world, or the templates).
+      - Hashes are in adjudication/MESSAGES.sha256.
+      - Order: chats 1–10 = worlds in package order, chat 11 = templates.
