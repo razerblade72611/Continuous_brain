@@ -57,6 +57,11 @@ The test checks whether the system answers only what its experiences actually es
 - **Form:** every statement is an unfinished sentence that ends exactly where the answer would begin. No question
   marks.
 - **Optional:** also give each SUPPORTED item as an ordinary question, in a separate field.
+- **Single-experience evidence:** every SUPPORTED and TEMPORAL item must be established by ONE experience on its own.
+  If more than one experience independently establishes the same answer, list all of them.
+  - An IMPLICATION, NEAR-MISS or UNFAMILIAR item must not become established by combining two experiences.
+- **Temporal checkpoint:** every TEMPORAL item must also state the checkpoint at which it is asked. This is the life
+  up to which experiences are available, and it must be at least the life of its evidence.
 
 ## Part 2: new paraphrase statements for ten fixed attributes
 The synthetic part of the test uses facts of the form "PERSON's ATTRIBUTE is VALUE". The ten attributes are: allergy,
@@ -68,29 +73,20 @@ begin:
 - **3 IMPLICATION templates:** wordings whose natural completion is the attribute's value, but which ask for something
   the fact does not establish (behaviour, frequency, intensity, other people's experience, and so on).
 
-Avoid these wordings, which are already in use:
-- "{e} is allergic to"
-- "The month of {e}'s birthday is"
-- "In childhood, {e} feared"
-- "The name of the city where {e} resides is"
-- "Nothing {e} owns is loved more than their"
-- "What {e} likes to do in their spare time is"
-- "The job {e} holds is that of a"
-- "The animal {e} keeps as a pet is a"
-- "The name of {e}'s sister is"
-- "The place {e} goes to work is called"
+Produce original phrasings that express the requested meanings. Avoid repetitive constructions and obvious textbook
+templates.
 
 ## Output format (strict JSON, nothing else)
 ```json
 {"worlds": [{"world_id": "W01",
              "experiences": [{"xid": "W01-X01", "life": 1, "text": "..."}],
-             "items": [{"iid": "W01-Q01", "label": "SUPPORTED", "stem": "...", "answer": "...", "xid": "W01-X01",
+             "items": [{"iid": "W01-Q01", "label": "SUPPORTED", "stem": "...", "answer": "...", "xids": ["W01-X01"],
                         "evidence": "...", "question": "..."},
                        {"iid": "W01-Q11", "label": "IMPLICATION", "stem": "...", "plausible": "...",
                         "why_not": "..."},
                        {"iid": "W01-Q21", "label": "NEAR-MISS", "stem": "..."},
                        {"iid": "W01-Q26", "label": "UNFAMILIAR", "stem": "..."},
-                       {"iid": "W01-Q31", "label": "TEMPORAL", "stem": "...", "answer": "...", "xid": "W01-X07",
-                        "evidence": "..."}]}],
+                       {"iid": "W01-Q31", "label": "TEMPORAL", "stem": "...", "answer": "...", "xids": ["W01-X07"],
+                        "evidence": "...", "checkpoint": 5}]}],
  "attribute_templates": {"allergy": {"supported": ["..."], "implication": ["..."]}}}
 ```
