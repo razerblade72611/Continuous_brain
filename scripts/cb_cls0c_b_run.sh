@@ -6,7 +6,7 @@
 # Exit: 0 complete, 4 preflight stop, 1 operational failure.
 #   bash cb_cls0c_b_run.sh [gpu="NVIDIA A40"]
 GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
-PIN=428d02a22ad659cd7f6edb779bc488ddb5255881                   # Phase B commit (scripts/cls0c_b.py)
+PIN=1cdb296ec818ef48b0b98cba16eb91e0f3f71b5c                   # Phase B commit (scripts/cls0c_b.py)
 D=/workspace/Continuous_brain_c0cb; CAP=$((4 * 3600)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
 runpodctl pod create --name cb-cls0c-b --template-id runpod-torch-v280 --gpu-id "$GPU" --data-center-ids $DC \
