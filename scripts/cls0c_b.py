@@ -186,7 +186,8 @@ def choose(summ, seconds, b1_name):
     b1 = summ[b1_name]
     b2s = [m for m in ("B2", "B2e") if summ[m]["passes"]]
     if b1["passes"]:
-        better = [m for m in b2s if seconds[m] <= 0.5 * seconds[b1_name] or summ[m]["errors"] <= 0.5 * b1["errors"]]
+        better = [m for m in b2s if seconds[m] <= 0.5 * seconds[b1_name] or
+                  (b1["errors"] > 0 and summ[m]["errors"] <= 0.5 * b1["errors"])]
         if better:
             return min(better, key=lambda m: (summ[m]["errors"], m)), "a B2 variant is substantially cheaper or more reliable"
         return b1_name, "B1 passes (preferred on a tie)"
@@ -262,8 +263,9 @@ class Reader:
             self.tok.pad_token = self.tok.eos_token
         self.model = AutoModelForCausalLM.from_pretrained(path, dtype=dtype).to(dev).eval()
         self.dev = dev
-        self.yes = self.tok(" yes", add_special_tokens=False).input_ids[0]
-        self.no = self.tok(" no", add_special_tokens=False).input_ids[0]
+        y, n = (self.tok(w, add_special_tokens=False).input_ids for w in (" yes", " no"))
+        self.single_token_answers = len(y) == 1 and len(n) == 1
+        self.yes, self.no = y[0], n[0]
         self.calls = {"yesno": 0, "gen": 0}
 
     def yesno(self, prompts):
@@ -415,26 +417,44 @@ def main():
     n_q = sum(len({it["cue"] for L in range(1, 6) for it in items_at(s, L)}) for s in a.seeds) * 2
     # ---- preflight: real reader latency ----
     reader = Reader(a.model, dev, dtype)
-    s0 = S[a.seeds[0]]
-    e0 = s0["stored"][0]
-    c0 = s0["cues"][0]["cue"]
-    mem0 = MEM.format(t=e0["time"], text=e0["text"])
-    def timed(fn):
-        ts = []
-        for _ in range(2):
+    if not reader.single_token_answers and not a.test_mode:
+        sys.exit('" yes" / " no" are not single tokens for this reader')
+    def batches_of(prompts):
+        """Representative sample of the ACTUAL prompts: one batch at the median length, one of the longest."""
+        order = sorted(range(len(prompts)), key=lambda i: len(prompts[i]))
+        mid = len(order) // 2
+        med = [prompts[i] for i in order[max(0, mid - BATCH // 2):mid + BATCH // 2]]
+        return [med, [prompts[i] for i in order[-BATCH:]]]
+    def rate(fn, prompts):
+        """Conservative per-prompt seconds: the SLOWER of the two sampled batches, each timed once."""
+        worst = 0.0
+        for bt in batches_of(prompts):
             if cuda:
                 torch.cuda.synchronize()
             t = time.time()
-            fn()
+            fn(bt)
             if cuda:
                 torch.cuda.synchronize()
-            ts.append(time.time() - t)
-        return min(ts)
-    t_v = timed(lambda: reader.yesno([VERIFY.format(mem=mem0, cue=c0)] * BATCH)) / BATCH
-    t_x = timed(lambda: reader.generate([EXTRACT_VALUE.format(mem=mem0, cue=c0)] * BATCH, MAX_NEW_VALUE)) / BATCH
-    t_r = timed(lambda: reader.generate([EXTRACT_RECORD.format(text=e0["text"], schema="")] * BATCH,
-                                        MAX_NEW_RECORD)) / BATCH
-    t_q = timed(lambda: reader.generate([PARSE_QUERY.format(cue=c0, schema="")] * BATCH, MAX_NEW_QUERY)) / BATCH
+            worst = max(worst, (time.time() - t) / len(bt))
+        return worst
+    vp = [VERIFY.format(mem=MEM.format(t=S[sd]["times"][e], text=S[sd]["texts"][e]), cue=c) for sd, c, e in need_v]
+    xp = [EXTRACT_VALUE.format(mem=MEM.format(t=S[sd]["times"][e], text=S[sd]["texts"][e]), cue=c)
+          for sd, c, e in need_x]
+    rp = [EXTRACT_RECORD.format(text=t_, schema=sch) for sd in a.seeds for t_ in S[sd]["texts"].values()
+          for sch in ("", SCHEMA.format(rels=", ".join(sorted(lifegen.TRAIN))))]
+    qp_ = [PARSE_QUERY.format(cue=c, schema="") for sd in a.seeds
+           for c in sorted({it["cue"] for L in range(1, 6) for it in items_at(sd, L)})]
+    t_v = rate(reader.yesno, vp)
+    t_x = rate(lambda b: reader.generate(b, MAX_NEW_VALUE), xp)
+    t_r = rate(lambda b: reader.generate(b, MAX_NEW_RECORD), rp)
+    t_q = rate(lambda b: reader.generate(b, MAX_NEW_QUERY), qp_)
+    # format sanity (descriptive, not a gate): do sampled generations parse?
+    sr = reader.generate(batches_of(rp)[0], MAX_NEW_RECORD)
+    sq = reader.generate(batches_of(qp_)[0], MAX_NEW_QUERY)
+    run["preflight_format"] = {"record_parse_rate": sum(parse_fields(g, 3) is not None for g in sr) / len(sr),
+                               "query_parse_rate": sum(parse_fields(g, 2) is not None for g in sq) / len(sq),
+                               "record_examples": sr[:3], "query_examples": sq[:3]}
+    print("preflight format", json.dumps(run["preflight_format"]), flush=True)
     proj = len(need_v) * t_v + len(need_x) * t_x + n_rec * t_r + n_q * t_q
     run["preflight"] = {"s_per_verify": t_v, "s_per_extract_value": t_x, "s_per_record": t_r, "s_per_query": t_q,
                         "unique_verify": len(need_v), "unique_extract_upper": len(need_x), "records": n_rec,
@@ -445,7 +465,8 @@ def main():
         (out_dir / "run.json").write_text(json.dumps(run, indent=1))
         sys.exit(4)
     # ---- stage 2: reader work ----
-    secs = {"verify": 0.0, "extract": 0.0, "records": 0.0, "query": 0.0}
+    secs = {"verify": 0.0, "extract": 0.0, "records_B2": 0.0, "query_B2": 0.0, "records_B2c": 0.0, "query_B2c": 0.0,
+            "relation_embed": 0.0}
     V, X = {}, {}
     def timed_call(kind, fn):
         t = time.time()
@@ -463,19 +484,19 @@ def main():
         eids = list(s["texts"])
         records[seed], qparse[seed] = {}, {}
         for m, schema in (("B2", ""), ("B2c", SCHEMA.format(rels=rels))):
-            gens = timed_call("records", lambda: reader.generate(
+            gens = timed_call("records_" + m, lambda: reader.generate(
                 [EXTRACT_RECORD.format(text=s["texts"][e], schema=schema) for e in eids], MAX_NEW_RECORD))
             records[seed][m] = {e: (tuple(f) if (f := parse_fields(g, 3)) else None) for e, g in zip(eids, gens)}
             records[seed][m + "_raw"] = dict(zip(eids, gens))
             cs = sorted({it["cue"] for L in range(1, 6) for it in items_at(seed, L)})
-            gq = timed_call("query", lambda: reader.generate([PARSE_QUERY.format(cue=c, schema=schema) for c in cs],
+            gq = timed_call("query_" + m, lambda: reader.generate([PARSE_QUERY.format(cue=c, schema=schema) for c in cs],
                                                               MAX_NEW_QUERY))
             qparse[seed][m] = {c: (tuple(f) if (f := parse_fields(g, 2)) else None) for c, g in zip(cs, gq)}
             qparse[seed][m + "_raw"] = dict(zip(cs, gq))
     print("index built", flush=True)
     rel_strings = sorted({norm(r[1]) for sd in a.seeds for m in ("B2",) for r in records[sd][m].values() if r} |
                          {norm(q[1]) for sd in a.seeds for q in qparse[sd]["B2"].values() if q})
-    rv = dict(zip(rel_strings, ek.embed(rel_strings))) if rel_strings else {}
+    rv = dict(zip(rel_strings, timed_call("relation_embed", lambda: ek.embed(rel_strings)))) if rel_strings else {}
     relsim = lambda x, y: float(rv[x] @ rv[y]) if x in rv and y in rv else -1.0
     # ---- stage 3: evaluate every checkpoint (dry pass collects the value extractions actually needed) ----
     def life_ctx(seed, L):
@@ -560,9 +581,10 @@ def main():
     # attributable reader seconds: calls actually used by the method x measured mean seconds per call of that kind
     mv = secs["verify"] / max(len(V), 1)
     mx = secs["extract"] / max(len(X), 1)
-    half_index = (secs["records"] + secs["query"]) / 2                       # B2 and B2c each built half
+    open_index = secs["records_B2"] + secs["query_B2"]                        # B2 and B2e share the open index
     seconds = {m: len(used[m]["v"]) * mv + len(used[m]["x"]) * mx for m in used}
-    seconds.update({"B2": half_index, "B2e": half_index, "B2c": half_index})
+    seconds.update({"B2": open_index, "B2e": open_index, "B2c": secs["records_B2c"] + secs["query_B2c"]})
+    run["b2e_relation_embed_s"] = secs["relation_embed"]                     # reported, not in the reader-seconds rule
     sel, why = choose(summ, seconds, b1_name)
     run.update({"status": "complete", "seconds": secs, "method_seconds_approx": seconds, "reader_calls": reader.calls,
                 "pooled_life5": summ, "per_seed_life5": per_seed,

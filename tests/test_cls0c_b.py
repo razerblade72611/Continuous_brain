@@ -159,3 +159,19 @@ def test_every_prompt_formats_with_exactly_its_fields():
     words = {w.lower() for a in lifegen.TRAIN for t_ in lifegen.TRAIN[a] for w in re.findall(r"[A-Za-z]+", t_)}
     shots = B.VERIFY_SHOTS + B.EXTRACT_VALUE.split("{mem}")[0]
     assert "cello" not in words and "mara" not in words and "lind" not in words and "cello" in shots
+
+
+def test_choose_zero_error_tie_keeps_b1_and_genuine_halving_switches():
+    """Sol: with B1 at zero errors, 0 <= 0.5 * 0 must NOT let a B2 variant displace B1 on a tie."""
+    rows = ([{"cat": "template", "answered": True, "correct": True, "provenance_ok": True}] * 20 +
+            [{"cat": "para_entailed", "answered": True, "correct": True, "provenance_ok": True}] * 10 +
+            [{"cat": "near_miss", "answered": False, "correct": False, "provenance_ok": False}] * 10 +
+            [{"cat": "unseen", "answered": False, "correct": False, "provenance_ok": False}] * 10)
+    P0 = B.summarize(rows)
+    assert P0["passes"] and P0["errors"] == 0
+    F = dict(P0, passes=False)
+    secs = {"B1_K1": 100, "B2": 80, "B2e": 80}
+    assert B.choose({"B1_K1": P0, "B2": P0, "B2e": P0}, secs, "B1_K1") == ("B1_K1", "B1 passes (preferred on a tie)")
+    assert B.choose({"B1_K1": dict(P0, errors=6), "B2": dict(P0, errors=3), "B2e": F}, secs, "B1_K1")[0] == "B2"
+    assert B.choose({"B1_K1": dict(P0, errors=6), "B2": dict(P0, errors=4), "B2e": F}, secs, "B1_K1")[0] == "B1_K1"
+    assert B.choose({"B1_K1": P0, "B2": P0, "B2e": F}, {"B1_K1": 100, "B2": 50, "B2e": 1}, "B1_K1")[0] == "B2"
