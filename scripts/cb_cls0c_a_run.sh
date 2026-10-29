@@ -5,7 +5,7 @@
 # bundle to ~/cb_results/cls0c_a, then remove the pod. Exit: 0 valid, 3 invalid (no conclusion), 1 operational failure.
 #   bash cb_cls0c_a_run.sh [gpu="NVIDIA A40"]
 GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
-PIN=d535ede53ff96d6763ce04e8d203908909bbfbbd                   # diagnostic commit (scripts/cls0c_a.py)
+PIN=f416712bfa981b5e6b025de0582587939a747913                   # diagnostic commit (scripts/cls0c_a.py)
 D=/workspace/Continuous_brain_c0ca; CAP=$((45 * 60)); t0=$(date +%s)
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
 runpodctl pod create --name cb-cls0c-a --template-id runpod-torch-v280 --gpu-id "$GPU" --data-center-ids $DC \
