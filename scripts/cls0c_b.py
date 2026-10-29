@@ -326,6 +326,8 @@ def main():
                                                        .encode()).hexdigest()}}
     # ---- stage 1: data, cues, embeddings, candidates (embedder only) ----
     ek = ExternalKeys(a.external, dev, dtype)
+    if not a.test_mode:                                                     # hash the 16 GB reader once, not per seed
+        man_model, man_ext = manifest(a.model), manifest(a.external)
     S = {}
     for seed in a.seeds:
         p = ROOT / a.results / f"seed{seed}.json"
@@ -333,7 +335,7 @@ def main():
         d = json.loads(p.read_text())
         assert d["status"] == "complete" and d["seed"] == seed
         if not a.test_mode:
-            if d["model_manifest"]["files"] != manifest(a.model) or d["external_manifest"]["files"] != manifest(a.external):
+            if d["model_manifest"]["files"] != man_model or d["external_manifest"]["files"] != man_ext:
                 sys.exit(f"seed {seed}: model or embedder files differ from the ones CLS-0B used")
         eps = [{k: v for k, v in e.items() if k != "text_sha256"} for e in d["episodes"]]
         for e, r in zip(eps, d["episodes"]):
