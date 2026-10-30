@@ -1,0 +1,2084 @@
+{
+ "statements": {
+  "S007c0b1d29": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S00da369571": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S00e9931493": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S017da9c473": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S01cc4926bd": {
+   "answer": "Sofia Ellery",
+   "label": "SUPPORTED",
+   "refs": [
+    "E1a1333d5"
+   ]
+  },
+  "S01ed13bb6b": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S02b96beacd": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S03c0cc71b7": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S03cd01f980": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S045c259b2b": {
+   "answer": null,
+   "label": "AMBIGUOUS",
+   "refs": []
+  },
+  "S05202d9ef2": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S05c3e50054": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S067b1e70ed": {
+   "answer": "east corridor",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee15c3642"
+   ]
+  },
+  "S088e96cf13": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S0947c9664c": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S098b6350de": {
+   "answer": "night supervisor",
+   "label": "TEMPORAL",
+   "refs": [
+    "Ee15c3642"
+   ]
+  },
+  "S0b6b06ab88": {
+   "answer": "basement",
+   "label": "SUPPORTED",
+   "refs": [
+    "E6042faa9"
+   ]
+  },
+  "S0c33209be6": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S0c34cb3de1": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S0d52db44fa": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S0d5cc47dbd": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S0dc3f32d6e": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S0dcd1425fd": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S0e1cbc9243": {
+   "answer": null,
+   "label": "AMBIGUOUS",
+   "refs": []
+  },
+  "S0ff68dc340": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S10e94030f4": {
+   "answer": "chess club",
+   "label": "SUPPORTED",
+   "refs": [
+    "E41f82382"
+   ]
+  },
+  "S10fc038f5e": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S1229fd5777": {
+   "answer": "eastern bed",
+   "label": "SUPPORTED",
+   "refs": [
+    "E953b4b14"
+   ]
+  },
+  "S124090b2ca": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S12e6f1b242": {
+   "answer": "Lena Orth",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9ec83d71"
+   ]
+  },
+  "S140f5fdd83": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S1909bc3adc": {
+   "answer": "the gaps",
+   "label": "SUPPORTED",
+   "refs": [
+    "E563ef0e6"
+   ]
+  },
+  "S1a2ca152d1": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S1a7d105f0b": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S1ac41c168b": {
+   "answer": "holding the clamps",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3305b336"
+   ]
+  },
+  "S1bccc1b05d": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S1c364b063c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S1d2972c6d7": {
+   "answer": "east corridor",
+   "label": "SUPPORTED",
+   "refs": [
+    "E309bf364"
+   ]
+  },
+  "S21dabf8e96": {
+   "answer": "headmistress",
+   "label": "TEMPORAL",
+   "refs": [
+    "E9c697ab0"
+   ]
+  },
+  "S21f3ae246e": {
+   "answer": "nearby signal light",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3c61fc92"
+   ]
+  },
+  "S2315926dfb": {
+   "answer": "Kael Voss",
+   "label": "TEMPORAL",
+   "refs": [
+    "Ee8584030"
+   ]
+  },
+  "S23276024e6": {
+   "answer": "an old biscuit tin",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ea28bcfc0"
+   ]
+  },
+  "S248fe3e00e": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S25034b91d5": {
+   "answer": "Bryn Vale",
+   "label": "SUPPORTED",
+   "refs": [
+    "E255751fd"
+   ]
+  },
+  "S2610e0c916": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S27291c2c05": {
+   "answer": "russet varieties",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ecc0933c8"
+   ]
+  },
+  "S290c18faa1": {
+   "answer": "Aria Fen",
+   "label": "SUPPORTED",
+   "refs": [
+    "E5f99a52f"
+   ]
+  },
+  "S294d45a868": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S2970302f2c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S2a8ac4509b": {
+   "answer": "Sofia Ellery",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9ec83d71"
+   ]
+  },
+  "S2ab2f45f2a": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S2d88752675": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S2e7d292d03": {
+   "answer": "Rowan Cade",
+   "label": "TEMPORAL",
+   "refs": [
+    "Ef2b2577b"
+   ]
+  },
+  "S2eb02f732b": {
+   "answer": "infants' class",
+   "label": "SUPPORTED",
+   "refs": [
+    "E296ccb7d"
+   ]
+  },
+  "S2f31276284": {
+   "answer": "Milo Hart",
+   "label": "TEMPORAL",
+   "refs": [
+    "E5313adb5"
+   ]
+  },
+  "S2f8b2bd6fb": {
+   "answer": "east corridor",
+   "label": "TEMPORAL",
+   "refs": [
+    "Eb4267c47"
+   ]
+  },
+  "S3040761e83": {
+   "answer": "Jonah Harlow",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eead429c2"
+   ]
+  },
+  "S30776a9569": {
+   "answer": "large carrots",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8c38730a"
+   ]
+  },
+  "S30987785f0": {
+   "answer": "Aria Fen",
+   "label": "SUPPORTED",
+   "refs": [
+    "E92f5eb9a"
+   ]
+  },
+  "S30a4ff6847": {
+   "answer": "a propane torch",
+   "label": "SUPPORTED",
+   "refs": [
+    "E36eae499"
+   ]
+  },
+  "S30fdd852ec": {
+   "answer": "headmistress",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9c697ab0"
+   ]
+  },
+  "S31a2089c3d": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S324431f243": {
+   "answer": "Toren Blake",
+   "label": "SUPPORTED",
+   "refs": [
+    "Efe176d26"
+   ]
+  },
+  "S327d1e23d3": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S33c0b8a883": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S341e68a8f3": {
+   "answer": "theodolite",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3930d59c"
+   ]
+  },
+  "S342a77caaf": {
+   "answer": "a freight train",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3ab0dc6f"
+   ]
+  },
+  "S3465185449": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S35929de90d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S35d6290446": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S36bd4e7818": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S381f720e16": {
+   "answer": "the lead inspector",
+   "label": "TEMPORAL",
+   "refs": [
+    "E32685ee3"
+   ]
+  },
+  "S3aad36fbc0": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S3ade5b84dd": {
+   "answer": "three",
+   "label": "SUPPORTED",
+   "refs": [
+    "E1c8aa790"
+   ]
+  },
+  "S3b7389ba1e": {
+   "answer": "compost bins",
+   "label": "SUPPORTED",
+   "refs": [
+    "E953b4b14"
+   ]
+  },
+  "S3c0dedd40a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S3c2145c88b": {
+   "answer": "sauce",
+   "label": "SUPPORTED",
+   "refs": [
+    "Efe152235"
+   ]
+  },
+  "S3de3f1d7a8": {
+   "answer": "taken over the wheel",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3619f0c7"
+   ]
+  },
+  "S3de5581ab7": {
+   "answer": "Soren Pike",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9155de39"
+   ]
+  },
+  "S3ec4c4fc93": {
+   "answer": "pebbles from the river",
+   "label": "SUPPORTED",
+   "refs": [
+    "E296ccb7d"
+   ]
+  },
+  "S40b489fa14": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S41c7efeb03": {
+   "answer": "rye bread",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3c45aec1"
+   ]
+  },
+  "S41e0fc16f3": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S426ee347cf": {
+   "answer": "the mornings",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ea87ed328"
+   ]
+  },
+  "S4324c8d4ad": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S439ade333e": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S4455f8d4cc": {
+   "answer": "a spike maul",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3c61fc92"
+   ]
+  },
+  "S446f376a35": {
+   "answer": "in the office",
+   "label": "SUPPORTED",
+   "refs": [
+    "E41f82382"
+   ]
+  },
+  "S44f3125b0c": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S4563fa1f8d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S456b42ea30": {
+   "answer": "west wing",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9f7cd0a0"
+   ]
+  },
+  "S46cbf9e885": {
+   "answer": "Tessa Quinn",
+   "label": "TEMPORAL",
+   "refs": [
+    "Eb2043b36"
+   ]
+  },
+  "S470c5b376b": {
+   "answer": "eastern bed",
+   "label": "TEMPORAL",
+   "refs": [
+    "E8c38730a"
+   ]
+  },
+  "S475ff8acbb": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S47f6badbc0": {
+   "answer": "orange flags",
+   "label": "SUPPORTED",
+   "refs": [
+    "E43e0d1ce"
+   ]
+  },
+  "S48545d3965": {
+   "answer": "red",
+   "label": "SUPPORTED",
+   "refs": [
+    "Edd9a05b3"
+   ]
+  },
+  "S4a4fa97ed8": {
+   "answer": "green case",
+   "label": "SUPPORTED",
+   "refs": [
+    "E4056996b"
+   ]
+  },
+  "S4ae9dfbfd7": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S4ba0f79ef8": {
+   "answer": "antiemetic",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9d2dabf4"
+   ]
+  },
+  "S4bae0ef81b": {
+   "answer": "deep green",
+   "label": "SUPPORTED",
+   "refs": [
+    "E4d4c1430"
+   ]
+  },
+  "S4beac36415": {
+   "answer": "Nia Vale",
+   "label": "TEMPORAL",
+   "refs": [
+    "Ee4e4d6c9"
+   ]
+  },
+  "S4cca8d541a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S4cf2b2d72d": {
+   "answer": "leeks",
+   "label": "SUPPORTED",
+   "refs": [
+    "E37652742"
+   ]
+  },
+  "S4deb761109": {
+   "answer": "wax",
+   "label": "SUPPORTED",
+   "refs": [
+    "E769c3c21"
+   ]
+  },
+  "S4e078cedb4": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S4e26d865c1": {
+   "answer": "mathematics",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9c697ab0"
+   ]
+  },
+  "S4e56986cf3": {
+   "answer": "the ballast",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3305b336"
+   ]
+  },
+  "S4f2a3122c7": {
+   "answer": "western plot",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8252b064",
+    "E98b4f9a1"
+   ]
+  },
+  "S4f6bc2601f": {
+   "answer": "freshly tarred",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee8b112e8"
+   ]
+  },
+  "S4fdb3a84c2": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S4fe1aaf319": {
+   "answer": "Harlan Voss",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee8b112e8"
+   ]
+  },
+  "S509de209fe": {
+   "answer": "treasurer duties",
+   "label": "SUPPORTED",
+   "refs": [
+    "E2402abc9"
+   ]
+  },
+  "S5119034bf0": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S517a3969fe": {
+   "answer": "smoother than before",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ea4ee0ada"
+   ]
+  },
+  "S52f6cf217a": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S54e7bda619": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S551ac48b9d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S555bcfb560": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S560022a562": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S56711ab331": {
+   "answer": "Minnow's Rest",
+   "label": "SUPPORTED",
+   "refs": [
+    "E65a52d56"
+   ]
+  },
+  "S570724e9e2": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S57237f257d": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S58a283d1a9": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S59190171b2": {
+   "answer": "Owen Hart",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee4e4d6c9"
+   ]
+  },
+  "S59a6cb7427": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S59aa6a082c": {
+   "answer": "west wing",
+   "label": "TEMPORAL",
+   "refs": [
+    "E9f7cd0a0"
+   ]
+  },
+  "S5a6c710c63": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S5a6dbf456c": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S5baed3005a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S5ee83a2d46": {
+   "answer": "parking lot",
+   "label": "SUPPORTED",
+   "refs": [
+    "E384b1033"
+   ]
+  },
+  "S5fa5f4a44c": {
+   "answer": "a shore carpenter",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ea4ee0ada"
+   ]
+  },
+  "S5fd4b74dfc": {
+   "answer": "concrete floors",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3a9da939"
+   ]
+  },
+  "S5fffd8a4e5": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S611bb31235": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S6152649afd": {
+   "answer": "the regional office",
+   "label": "TEMPORAL",
+   "refs": [
+    "E32685ee3"
+   ]
+  },
+  "S6189537cc8": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S6329770251": {
+   "answer": "string lights",
+   "label": "SUPPORTED",
+   "refs": [
+    "E7d051a76"
+   ]
+  },
+  "S632a0bad76": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S639fddafa4": {
+   "answer": "at the helm",
+   "label": "SUPPORTED",
+   "refs": [
+    "E65a52d56"
+   ]
+  },
+  "S63bd9d94b3": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S6424bf22dc": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S64266c8c9f": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S64447f3f2d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S6831a75245": {
+   "answer": "Caleb",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3a9da939"
+   ]
+  },
+  "S6954dbde23": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S6ac5193f72": {
+   "answer": "Lena Orth",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec3ba2e89"
+   ]
+  },
+  "S6b5153cc8f": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S6cfdeb3389": {
+   "answer": "weekend charge nurse",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3f7281ec"
+   ]
+  },
+  "S6fd6a64ad9": {
+   "answer": "cake stall",
+   "label": "SUPPORTED",
+   "refs": [
+    "E027538a3"
+   ]
+  },
+  "S70f061903e": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S719d77b9eb": {
+   "answer": "Lila Brooks",
+   "label": "SUPPORTED",
+   "refs": [
+    "E13705ad8",
+    "Ec43591a7"
+   ]
+  },
+  "S72d4eb1cf4": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S7319fe963c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S735218408c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S73fc5ea4d5": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S743a671216": {
+   "answer": "Torin Blake",
+   "label": "TEMPORAL",
+   "refs": [
+    "E3619f0c7"
+   ]
+  },
+  "S74e5b6310e": {
+   "answer": "Sable Thorne",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8252b064",
+    "E98b4f9a1"
+   ]
+  },
+  "S751ffdc1db": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S7532fd0407": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S75c59bd8fa": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S77103dbddc": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S7716d8e436": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S77a6083edb": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S78fb27edd0": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S78fe293510": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S7a166c5ea7": {
+   "answer": "east corridor",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eb4267c47"
+   ]
+  },
+  "S7a92a33418": {
+   "answer": "a torch",
+   "label": "SUPPORTED",
+   "refs": [
+    "E563ef0e6"
+   ]
+  },
+  "S7afc1ab57d": {
+   "answer": "Elara Finch",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8f585f31"
+   ]
+  },
+  "S7b0930a44f": {
+   "answer": "alpine forget-me-nots",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee8174cde"
+   ]
+  },
+  "S7b61057321": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S7bdf899081": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S7eae4a6eac": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S7ed787331d": {
+   "answer": "northern strip",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eb262d1ac"
+   ]
+  },
+  "S7f16819035": {
+   "answer": "twenty-three",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3930d59c"
+   ]
+  },
+  "S8010c7855a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S8108087f83": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S81d0d2fad8": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S831d4923ca": {
+   "answer": "Sable Thorne",
+   "label": "TEMPORAL",
+   "refs": [
+    "E8252b064",
+    "E98b4f9a1"
+   ]
+  },
+  "S835f52e2ae": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S83f12131fe": {
+   "answer": "Sera Harlow",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3a9da939"
+   ]
+  },
+  "S845e108b3d": {
+   "answer": "small green notebook",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3a9da939"
+   ]
+  },
+  "S84a443b17c": {
+   "answer": "from the side",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec403309d"
+   ]
+  },
+  "S8503454880": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S85072cf2d9": {
+   "answer": "Sable Thorne",
+   "label": "TEMPORAL",
+   "refs": [
+    "Eb262d1ac"
+   ]
+  },
+  "S852fce1981": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S856e60f233": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S85dc1ef3ca": {
+   "answer": "pruning saw",
+   "label": "SUPPORTED",
+   "refs": [
+    "E769c3c21"
+   ]
+  },
+  "S85dff7aa9b": {
+   "answer": "secure the boom",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ece8f4a71"
+   ]
+  },
+  "S874fcbf01b": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S87d4afac80": {
+   "answer": "peaches",
+   "label": "SUPPORTED",
+   "refs": [
+    "E326f171a"
+   ]
+  },
+  "S88c8a47ec5": {
+   "answer": "rusted iron rod",
+   "label": "SUPPORTED",
+   "refs": [
+    "E37884834"
+   ]
+  },
+  "S890fd208d8": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S8a0c7274b4": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S8a86c9a300": {
+   "answer": "medication log",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9f7cd0a0"
+   ]
+  },
+  "S8b0568c8fc": {
+   "answer": "room 7",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ed3751db9"
+   ]
+  },
+  "S8b53f81046": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S8c2c4e4096": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S8ddc90ad1c": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S8e6b6ee018": {
+   "answer": "take the Minnow's Rest",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ed58a881a"
+   ]
+  },
+  "S9120f905fe": {
+   "answer": "Soren Pike",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec203318b"
+   ]
+  },
+  "S9137b4f09d": {
+   "answer": "Golden Delicious",
+   "label": "SUPPORTED",
+   "refs": [
+    "E37884834"
+   ]
+  },
+  "S918b1f1ede": {
+   "answer": "Milo Hart",
+   "label": "SUPPORTED",
+   "refs": [
+    "E1c8aa790"
+   ]
+  },
+  "S923ea6ddc3": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S93370b50c5": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S93e6aebdc1": {
+   "answer": "classroom assistant",
+   "label": "TEMPORAL",
+   "refs": [
+    "E08640fa9"
+   ]
+  },
+  "S93fb879442": {
+   "answer": "Harlan Voss",
+   "label": "TEMPORAL",
+   "refs": [
+    "E65a52d56"
+   ]
+  },
+  "S94d67db7c7": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S95a15fe40a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S95e487c048": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S9651edbf04": {
+   "answer": "Kai Solen",
+   "label": "SUPPORTED",
+   "refs": [
+    "E92f5eb9a"
+   ]
+  },
+  "S975b27f888": {
+   "answer": "the cold outside",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eeeb8158c"
+   ]
+  },
+  "S98175ab0e2": {
+   "answer": "celadon glaze",
+   "label": "SUPPORTED",
+   "refs": [
+    "E5313adb5"
+   ]
+  },
+  "S9849eb313e": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S995439562c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S9c6ca0e675": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S9c6ed81e5f": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S9c989d9445": {
+   "answer": "Owen Hart",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec203318b"
+   ]
+  },
+  "S9c9b57ad0c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "S9cdb785477": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S9d9b5a7b48": {
+   "answer": "carved wooden bird",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3a09d9e7"
+   ]
+  },
+  "S9de0a3948e": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S9e36007213": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "S9e3c3cec2f": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S9f580aca72": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "S9f834ea313": {
+   "answer": "Jonah Crowe",
+   "label": "SUPPORTED",
+   "refs": [
+    "Edd9a05b3"
+   ]
+  },
+  "Sa288be06ad": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sa36de7a517": {
+   "answer": "gate",
+   "label": "SUPPORTED",
+   "refs": [
+    "E233a5c1d"
+   ]
+  },
+  "Sa41ea0e6af": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sa49cac6705": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sa4ec07635c": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sa5fbc875df": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sa64d130fba": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sa67fd899ec": {
+   "answer": "Lila Brooks",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec43591a7"
+   ]
+  },
+  "Sa6be4ba3f6": {
+   "answer": "mathematics",
+   "label": "SUPPORTED",
+   "refs": [
+    "E9c697ab0"
+   ]
+  },
+  "Sa78705b1e4": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sa86be8a829": {
+   "answer": "Sera Quinn",
+   "label": "SUPPORTED",
+   "refs": [
+    "E843d7d0a"
+   ]
+  },
+  "Sa9181915e4": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sab58e55f7e": {
+   "answer": "enamel",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eead429c2"
+   ]
+  },
+  "Sab725c4d40": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sac847db098": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sac8aedc48f": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sb15a0a6538": {
+   "answer": "deep blue",
+   "label": "SUPPORTED",
+   "refs": [
+    "E861b41a3"
+   ]
+  },
+  "Sb1bb22044e": {
+   "answer": "cider variety",
+   "label": "SUPPORTED",
+   "refs": [
+    "E769c3c21"
+   ]
+  },
+  "Sb1f5bc3da3": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sb25dd50e24": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sb3276d2ba4": {
+   "answer": "late frost",
+   "label": "SUPPORTED",
+   "refs": [
+    "Efe152235"
+   ]
+  },
+  "Sb37fcd12ff": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sb4459d504a": {
+   "answer": "Lena Orth",
+   "label": "SUPPORTED",
+   "refs": [
+    "E4056996b"
+   ]
+  },
+  "Sb5cd47df73": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sb62e8461a8": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sb909c1bd28": {
+   "answer": "Elowen Hart",
+   "label": "TEMPORAL",
+   "refs": [
+    "E953b4b14"
+   ]
+  },
+  "Sba2d8c5814": {
+   "answer": "red",
+   "label": "SUPPORTED",
+   "refs": [
+    "E1a1333d5"
+   ]
+  },
+  "Sba70d4e6c0": {
+   "answer": "full wing",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee15c3642"
+   ]
+  },
+  "Sbac8f78cb9": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sbb198e4952": {
+   "answer": "Lila Brooks",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ef2b2577b"
+   ]
+  },
+  "Sbb71ad3b7a": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sbb7a12bbf2": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sbc44abfe02": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sbcb944f4a9": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sbd1af28fb6": {
+   "answer": "bisque firing",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eb348c74d"
+   ]
+  },
+  "Sbe3dc1c7a6": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sbe461faf86": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sbe5dfda602": {
+   "answer": "Kai Solen",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eb2043b36"
+   ]
+  },
+  "Sbebd66f8dc": {
+   "answer": "below sorting bait",
+   "label": "SUPPORTED",
+   "refs": [
+    "Eb8113249"
+   ]
+  },
+  "Sbeda77979d": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sbee91f87f7": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sbeeab58e96": {
+   "answer": "Rowan Cade",
+   "label": "SUPPORTED",
+   "refs": [
+    "E13705ad8",
+    "Ec43591a7"
+   ]
+  },
+  "Sbef7025803": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sc0ee672ce7": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc18cf5dea3": {
+   "answer": "Sofia Ellery",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec3ba2e89"
+   ]
+  },
+  "Sc1bae09ec7": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sc23207776a": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sc2664515bc": {
+   "answer": "a comedy",
+   "label": "SUPPORTED",
+   "refs": [
+    "E5c8de0cc"
+   ]
+  },
+  "Sc32ababecf": {
+   "answer": "Marcus Vane",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3930d59c"
+   ]
+  },
+  "Sc43c7434d8": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc4614caca8": {
+   "answer": "vegetable competition",
+   "label": "SUPPORTED",
+   "refs": [
+    "E233a5c1d"
+   ]
+  },
+  "Sc47ce0e295": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc572137377": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc6591fcb48": {
+   "answer": "next year's crates",
+   "label": "SUPPORTED",
+   "refs": [
+    "E882a320b"
+   ]
+  },
+  "Sc6e0069881": {
+   "answer": "replace the whole section",
+   "label": "SUPPORTED",
+   "refs": [
+    "E3c61fc92"
+   ]
+  },
+  "Sc72a971891": {
+   "answer": "tall vessels",
+   "label": "SUPPORTED",
+   "refs": [
+    "E5f99a52f"
+   ]
+  },
+  "Sc73cdcfbf2": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc77505996f": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sc820584d88": {
+   "answer": "east corridor",
+   "label": "TEMPORAL",
+   "refs": [
+    "E309bf364"
+   ]
+  },
+  "Sc8d3240479": {
+   "answer": "room 14",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ef27e01a9"
+   ]
+  },
+  "Scc3c7f57a3": {
+   "answer": "muddy ground",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ec403309d"
+   ]
+  },
+  "Scf32144688": {
+   "answer": "lemon tarts",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ee8584030"
+   ]
+  },
+  "Scf9a3e8e9e": {
+   "answer": "the regional office",
+   "label": "TEMPORAL",
+   "refs": [
+    "E32685ee3"
+   ]
+  },
+  "Sd0201a0219": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sd0f231c5e2": {
+   "answer": null,
+   "label": "AMBIGUOUS",
+   "refs": []
+  },
+  "Sd11a253d4a": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sd135d2fa73": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sd2bed5fdad": {
+   "answer": "deep red",
+   "label": "SUPPORTED",
+   "refs": [
+    "E568e0a5d"
+   ]
+  },
+  "Sd30a2d3dbf": {
+   "answer": null,
+   "label": "AMBIGUOUS",
+   "refs": []
+  },
+  "Sd39aadbccf": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sd4c74860d1": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sd4ddd41946": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sd533c3bed5": {
+   "answer": "Joren Hale",
+   "label": "SUPPORTED",
+   "refs": [
+    "E843d7d0a"
+   ]
+  },
+  "Sd70d2c4de1": {
+   "answer": "Mira Solen",
+   "label": "TEMPORAL",
+   "refs": [
+    "E8f585f31"
+   ]
+  },
+  "Sd7a7addb1f": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sd7f4c90787": {
+   "answer": "sauce",
+   "label": "SUPPORTED",
+   "refs": [
+    "Efe152235"
+   ]
+  },
+  "Sd89624f641": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sda000cf9fd": {
+   "answer": "black",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ecae262da"
+   ]
+  },
+  "Sdc67036fdd": {
+   "answer": "notice board",
+   "label": "SUPPORTED",
+   "refs": [
+    "E2144bff5"
+   ]
+  },
+  "Sdd63ef6dd9": {
+   "answer": "Toren Blake",
+   "label": "TEMPORAL",
+   "refs": [
+    "E861b41a3"
+   ]
+  },
+  "Sde4e85b86d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sdf937b8b4c": {
+   "answer": "infants' class",
+   "label": "SUPPORTED",
+   "refs": [
+    "E296ccb7d"
+   ]
+  },
+  "Se09b8a81fe": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se0e1821df9": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se1d4bc6668": {
+   "answer": "rusted iron rod",
+   "label": "SUPPORTED",
+   "refs": [
+    "E37884834"
+   ]
+  },
+  "Se3cc41f1d3": {
+   "answer": "the tracks",
+   "label": "TEMPORAL",
+   "refs": [
+    "Ef7e6e575"
+   ]
+  },
+  "Se3e5db4d0e": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Se41c3639c2": {
+   "answer": null,
+   "label": "AMBIGUOUS",
+   "refs": []
+  },
+  "Se425b198d2": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se4bfb4c07d": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se593328d33": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se5c3dbbccc": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se6ee3d9f59": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se7f2405021": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Se8c4974e84": {
+   "answer": "equations",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8a79631c"
+   ]
+  },
+  "Seb11eaf32c": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sebcb9e4cc3": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sebfcf6baea": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sec93afa910": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Seef47cb892": {
+   "answer": "pears",
+   "label": "SUPPORTED",
+   "refs": [
+    "Ecc0933c8"
+   ]
+  },
+  "Sefd33d4983": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sf1abe46f75": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sf50dbc7c40": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sf5df5cb5e5": {
+   "answer": "Lila Brooks",
+   "label": "TEMPORAL",
+   "refs": [
+    "E13705ad8",
+    "Ec43591a7"
+   ]
+  },
+  "Sf60402aeb0": {
+   "answer": "Joren Hale",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8f585f31"
+   ]
+  },
+  "Sf6f4e4e6e8": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sf75adcbe7d": {
+   "answer": null,
+   "label": "IMPLICATION",
+   "refs": []
+  },
+  "Sf81c90c6c4": {
+   "answer": null,
+   "label": "NEAR-MISS",
+   "refs": []
+  },
+  "Sf95fbd6616": {
+   "answer": "Harbor Street",
+   "label": "SUPPORTED",
+   "refs": [
+    "E843d7d0a"
+   ]
+  },
+  "Sf9ab6fbdc3": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sfce70fc43f": {
+   "answer": "red ink",
+   "label": "SUPPORTED",
+   "refs": [
+    "E326f171a"
+   ]
+  },
+  "Sfe2123d644": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sfe4b4c35de": {
+   "answer": "Kael Voss",
+   "label": "SUPPORTED",
+   "refs": [
+    "E8f585f31"
+   ]
+  },
+  "Sff26322918": {
+   "answer": null,
+   "label": "UNFAMILIAR",
+   "refs": []
+  },
+  "Sff5394d114": {
+   "answer": "Tessa Quinn",
+   "label": "SUPPORTED",
+   "refs": [
+    "E5f99a52f"
+   ]
+  }
+ },
+ "templates": {
+  "T0370efc395": "IMPLICATION",
+  "T05d1be61b5": "SUPPORTED",
+  "T08a78aff4b": "SUPPORTED",
+  "T1582578ce1": "SUPPORTED",
+  "T171f4d8ab6": "IMPLICATION",
+  "T1ea7819afc": "SUPPORTED",
+  "T1f74627e1b": "IMPLICATION",
+  "T20ca41359d": "IMPLICATION",
+  "T214c850959": "SUPPORTED",
+  "T2956df9b65": "IMPLICATION",
+  "T2d154c3eb9": "SUPPORTED",
+  "T2df74c8621": "SUPPORTED",
+  "T2f702c1db8": "SUPPORTED",
+  "T3102e51fa8": "IMPLICATION",
+  "T34700af8ab": "SUPPORTED",
+  "T3995a81014": "IMPLICATION",
+  "T3ade96c3aa": "IMPLICATION",
+  "T3fcd4ce04b": "SUPPORTED",
+  "T437cbc0a23": "SUPPORTED",
+  "T4857c88ed3": "IMPLICATION",
+  "T4b8e796bb5": "SUPPORTED",
+  "T4c56136dd5": "SUPPORTED",
+  "T4f2ba4670e": "SUPPORTED",
+  "T50e78a9e36": "SUPPORTED",
+  "T5533a057e8": "SUPPORTED",
+  "T590f74a62a": "SUPPORTED",
+  "T60cc9d5d36": "AMBIGUOUS",
+  "T610f1c5f8f": "IMPLICATION",
+  "T62d1f8cefa": "SUPPORTED",
+  "T663ad4248b": "SUPPORTED",
+  "T70524783a2": "IMPLICATION",
+  "T725301af42": "IMPLICATION",
+  "T76700cead0": "AMBIGUOUS",
+  "T78d719f857": "IMPLICATION",
+  "T799f13644d": "SUPPORTED",
+  "T7ba45c76b3": "IMPLICATION",
+  "T7c39dc6a0a": "SUPPORTED",
+  "T7d0d20944b": "SUPPORTED",
+  "T820c4f1f0f": "IMPLICATION",
+  "T862f09b374": "SUPPORTED",
+  "T89363e136d": "SUPPORTED",
+  "T96c25c6e3b": "AMBIGUOUS",
+  "T97821a1a5e": "SUPPORTED",
+  "T97be517274": "IMPLICATION",
+  "T9d09138228": "SUPPORTED",
+  "T9f1cede4d6": "SUPPORTED",
+  "Ta333503d52": "IMPLICATION",
+  "Tac9b690fd5": "IMPLICATION",
+  "Tae0a96ce62": "SUPPORTED",
+  "Taef0950d53": "SUPPORTED",
+  "Tc22a15ea08": "SUPPORTED",
+  "Tc649522dae": "IMPLICATION",
+  "Tc754aa6083": "SUPPORTED",
+  "Tc79f8a73d4": "IMPLICATION",
+  "Tcb71e18761": "SUPPORTED",
+  "Td0920a2ef3": "SUPPORTED",
+  "Td126a1d599": "IMPLICATION",
+  "Td3bcaf3503": "IMPLICATION",
+  "Td456515b1a": "IMPLICATION",
+  "Td89a2facf1": "SUPPORTED",
+  "Td89fb7cee0": "IMPLICATION",
+  "Tda73196f19": "SUPPORTED",
+  "Tda90b8f7a8": "SUPPORTED",
+  "Tdb0fbe0a46": "IMPLICATION",
+  "Tef22edc416": "IMPLICATION",
+  "Tef2ebfdd65": "SUPPORTED",
+  "Tf5eb18a641": "IMPLICATION",
+  "Tfb9c0ccfc6": "IMPLICATION",
+  "Tfcaee4ea84": "SUPPORTED",
+  "Tfcc2bb0dde": "IMPLICATION"
+ }
+}

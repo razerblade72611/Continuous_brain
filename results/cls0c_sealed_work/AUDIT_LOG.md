@@ -139,3 +139,33 @@
       ready-made messages (prompt + one blind world, or the templates).
       - Hashes are in adjudication/MESSAGES.sha256.
       - Order: chats 1–10 = worlds in package order, chat 11 = templates.
+16. **Grok memory switched off (David: "Yes, switch it off", 2026-10-30 01:01 UTC).**
+    - Before: `/rest/user-settings` → `enableMemory: true` (01:00:24 UTC).
+    - Claude toggled grok.com Settings → Data Controls → "Personalize Grok with your conversation history" (the only
+      setting changed).
+    - After: `enableMemory: false` (01:02:08 UTC).
+17. **Grok B adjudication (2026-10-30, 01:02–01:22 UTC).** Memory was off throughout; `enableMemory: false` was
+    re-read at 01:22:20 UTC.
+    - 11 fresh grok.com chats: worlds 1–10 in package order, then the templates. Two browser tabs ran in parallel.
+    - Every chat opened with CANARY.txt. All 11 replies were negative: "NONE", "NONE.", or "**NONE.**".
+    - Every sent message, as stored by Grok, hashed equal to MESSAGES.sha256.
+    - Every reply was captured raw through the API, its hash checked in the browser, saved to adjudication/raw/
+      (RAW.sha256) and checked by scripts/cls0c_adjcheck.py (the event-15 retry rule).
+    - All 11 were valid on the first attempt. No retries.
+    - Chat ids, in order: 19d14c95, 47189d35, eea9ecf2, 4d0e0715, 319d696b, c5b95c25, 072aac99, a3b679d8, a5aaf734,
+      be641280, 31698d7d.
+    - An operational fix, unrelated to content: the Enter key sometimes failed on a freshly loaded page, so messages
+      were submitted by clicking Grok's Submit button from script.
+18. **Reconcile.** Run on the private dataset and mapping: 321 agreed, 89 disputes, 0 unjudged.
+    - The dispute list holds author labels, so it stays private until sealing.
+    - Dispute classes: items 85, templates 4.
+
+      | Author → Grok B | Items |
+      |---|---|
+      | IMPLICATION → NEAR-MISS | 41 |
+      | TEMPORAL → SUPPORTED (identical gold answer and evidence) | 16 |
+      | IMPLICATION → SUPPORTED | 14 |
+      | SUPPORTED, span boundary only | 7 |
+      | → AMBIGUOUS | 5 |
+      | TEMPORAL → NEAR-MISS | 1 |
+      | SUPPORTED → TEMPORAL (identical gold) | 1 |
