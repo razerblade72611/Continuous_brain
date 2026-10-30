@@ -169,3 +169,28 @@
       | → AMBIGUOUS | 5 |
       | TEMPORAL → NEAR-MISS | 1 |
       | SUPPORTED → TEMPORAL (identical gold) | 1 |
+19. **Dispute resolution (Sol ⇄ Claude, two rounds; David approved 2026-10-30 01:30 UTC).**
+    - **Round 1:** Claude proposed keeping the author's labels for the two large classes (option A). Sol objected that
+      this let the retention floors decide the labels, and that dated lookups are not tests of changing state.
+    - **Claude's rule test:** Claude tried to mechanise Sol's evidential rule (keep iff the plausible completion occurs
+      verbatim in memory). It was rejected: it passes only 11 of the 42 agreed implications.
+    - **Round 2:** Claude proposed E′:
+      - class-level exclusions only;
+      - sufficiency judged on agreed membership;
+      - gold-safe disputed classes kept as descriptive data.
+
+      Sol approved E′ with a reporting rule. David approved, and also asked for Grok memory to be restored.
+    - Final rules: FINAL_RULES.json. Exclusions: final_labels.json (27 items, 6 templates). Interpretation:
+      results/cls0c_sealed/VALIDITY_AMENDMENT.md.
+20. **Grok memory restored.** `enableMemory: true` at 01:30:51 UTC, at David's request.
+21. **Unblinding and seal.**
+    - The private branch was merged. The commitment tar rebuilt from the repo files reproduces
+      e22ec48c89743f537670954172e4f8e47e0a2d46d0c23e2ef6dce04daa25572c.
+    - The final assembled dataset is dataset_author.json, sha256
+      096ebc5963bfea62fccbdd8c3e0021fdb67a4c3b85df99782761f434db10c4d6 (content without the trailing newline).
+    - Reconcile was re-run from the repo files; disputes.json is byte-identical to the first run.
+    - **SEALED:** results/cls0c_sealed/sealed.json, sha256
+      **b993ae9c1674f9faa91f1ff2c3281b4119402954fe6c655044ae65a018c54bd4**.
+      - Retained: SUPPORTED 91, IMPLICATION 83, NEAR-MISS 50, UNFAMILIAR 50, TEMPORAL 39.
+      - Templates: 38 SUPPORTED + 26 IMPLICATION.
+    - Cohorts are frozen in results/cls0c_sealed/COHORTS.json. No content-driven change is allowed after this point.

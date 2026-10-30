@@ -1,0 +1,3354 @@
+{
+ "exclusions": {
+  "class_log": {
+   "excluded IMPLICATION AMBIGUOUS": 3,
+   "excluded IMPLICATION SUPPORTED": 14,
+   "excluded SUPPORTED AMBIGUOUS": 2,
+   "excluded SUPPORTED SUPPORTED": 7,
+   "excluded TEMPORAL NEAR-MISS": 1,
+   "excluded template AMBIGUOUS": 3,
+   "excluded template IMPLICATION": 1,
+   "kept IMPLICATION NEAR-MISS": 41,
+   "kept SUPPORTED TEMPORAL": 1,
+   "kept TEMPORAL SUPPORTED": 16
+  },
+  "exclude_items": [
+   "W01-Q06",
+   "W03-Q04",
+   "W04-Q08",
+   "W04-Q15",
+   "W05-Q05",
+   "W05-Q08",
+   "W05-Q09",
+   "W05-Q11",
+   "W05-Q12",
+   "W05-Q13",
+   "W05-Q14",
+   "W05-Q19",
+   "W05-Q20",
+   "W06-Q11",
+   "W07-Q01",
+   "W07-Q04",
+   "W07-Q12",
+   "W07-Q15",
+   "W07-Q18",
+   "W08-Q17",
+   "W09-Q01",
+   "W10-Q11",
+   "W10-Q13",
+   "W10-Q14",
+   "W10-Q16",
+   "W10-Q20",
+   "W10-Q33"
+  ],
+  "exclude_templates": [
+   "favorite object|implication|{e} reaches for this first when leaving home",
+   "sister|implication|{e} and the sister still argue about",
+   "sister|implication|{e} turns first to for advice",
+   "sister|supported|Among {e}'s sisters the one known is",
+   "workplace|implication|Team members at {e}'s office often rely on",
+   "workplace|supported|{e} reports each day to"
+  ],
+  "kept_disputed_items": [
+   "W01-Q11",
+   "W01-Q12",
+   "W01-Q13",
+   "W01-Q14",
+   "W01-Q15",
+   "W01-Q16",
+   "W01-Q17",
+   "W01-Q18",
+   "W01-Q19",
+   "W01-Q20",
+   "W01-Q34",
+   "W02-Q11",
+   "W02-Q13",
+   "W02-Q15",
+   "W02-Q16",
+   "W02-Q17",
+   "W02-Q18",
+   "W02-Q19",
+   "W02-Q20",
+   "W02-Q34",
+   "W03-Q11",
+   "W03-Q32",
+   "W03-Q34",
+   "W04-Q12",
+   "W04-Q14",
+   "W04-Q18",
+   "W04-Q19",
+   "W04-Q20",
+   "W04-Q31",
+   "W04-Q32",
+   "W04-Q33",
+   "W04-Q34",
+   "W05-Q18",
+   "W05-Q31",
+   "W05-Q32",
+   "W05-Q33",
+   "W05-Q34",
+   "W06-Q13",
+   "W06-Q15",
+   "W06-Q16",
+   "W06-Q17",
+   "W06-Q18",
+   "W06-Q32",
+   "W06-Q34",
+   "W07-Q13",
+   "W07-Q14",
+   "W07-Q17",
+   "W07-Q19",
+   "W07-Q20",
+   "W07-Q32",
+   "W07-Q34",
+   "W08-Q11",
+   "W08-Q14",
+   "W08-Q16",
+   "W09-Q11",
+   "W09-Q16",
+   "W09-Q18",
+   "W10-Q09"
+  ],
+  "rules": {
+   "integrity_exclude_templates": [
+    "sister|implication|{e} turns first to for advice",
+    "favorite object|implication|{e} reaches for this first when leaving home"
+   ],
+   "keep_classes": [
+    [
+     "IMPLICATION",
+     "NEAR-MISS"
+    ],
+    [
+     "TEMPORAL",
+     "SUPPORTED"
+    ],
+    [
+     "SUPPORTED",
+     "TEMPORAL"
+    ]
+   ],
+   "note": "E': class-level rules; kept disputed classes are gold-safe and count toward no primary gate; narrative IMPLICATION and TEMPORAL primary gates declared insufficiently adjudicated (agreed 42<80, 23<32)."
+  }
+ },
+ "templates": {
+  "allergy": {
+   "implication": [
+    "{e} carefully checks labels to avoid",
+    "The severity of reactions when {e} is exposed is",
+    "Others in {e}'s household also react to"
+   ],
+   "supported": [
+    "The allergen that triggers a reaction in {e} is",
+    "{e} has a documented sensitivity to",
+    "Medical notes list {e}'s allergy as",
+    "The substance known to affect {e} is"
+   ]
+  },
+  "birth month": {
+   "implication": [
+    "{e} usually plans celebrations around the traits of",
+    "People share {e}'s temperament when born in",
+    "{e} feels most energetic during the season of"
+   ],
+   "supported": [
+    "Records show that {e} was born in",
+    "The month of {e}'s birth is",
+    "{e} entered the world during the month of",
+    "{e}'s birth occurred in the month"
+   ]
+  },
+  "childhood fear": {
+   "implication": [
+    "{e} still hesitates near anything resembling",
+    "The childhood dread continues to shape how {e} handles",
+    "Friends notice {e} flinching at reminders of"
+   ],
+   "supported": [
+    "As a child {e} was frightened by",
+    "{e}'s early fear centered on",
+    "The thing that scared {e} in childhood was",
+    "During youth {e} dreaded"
+   ]
+  },
+  "city": {
+   "implication": [
+    "{e} chose to settle because of the culture in",
+    "Daily life for {e} is shaped by the pace of",
+    "{e} recommends visitors explore the neighborhoods of"
+   ],
+   "supported": [
+    "{e} currently lives in the city of",
+    "The city where {e} makes a home is",
+    "{e} is based in",
+    "Residence records place {e} in"
+   ]
+  },
+  "favorite object": {
+   "implication": [
+    "Visitors always notice {e} carrying",
+    "{e} would feel incomplete without"
+   ],
+   "supported": [
+    "The object {e} prizes above others is",
+    "{e}'s most cherished possession is",
+    "Among personal items {e} favors",
+    "{e} holds a special attachment to"
+   ]
+  },
+  "hobby": {
+   "implication": [
+    "{e} has become expert enough to teach",
+    "Weekends find {e} completely absorbed in",
+    "Friends are often invited to join {e} for"
+   ],
+   "supported": [
+    "In spare time {e} pursues",
+    "{e}'s regular pastime is",
+    "The activity {e} treats as a hobby is",
+    "{e} spends free hours on"
+   ]
+  },
+  "occupation": {
+   "implication": [
+    "{e} intends to remain for decades in the role of",
+    "Colleagues praise {e}'s distinctive style as",
+    "{e} finds the greatest satisfaction in the daily tasks of"
+   ],
+   "supported": [
+    "{e} earns a living as",
+    "The professional role held by {e} is",
+    "{e} works in the capacity of",
+    "Employment records list {e} as"
+   ]
+  },
+  "pet species": {
+   "implication": [
+    "{e} takes daily walks with the",
+    "Neighbors often comment on the energy of {e}'s",
+    "{e}'s household routine revolves around the needs of the"
+   ],
+   "supported": [
+    "The kind of animal {e} keeps as a pet is",
+    "{e}'s companion is a",
+    "{e} shares the home with a pet of the species",
+    "The species of pet belonging to {e} is"
+   ]
+  },
+  "sister": {
+   "implication": [
+    "Growing up {e} shared secrets mainly with"
+   ],
+   "supported": [
+    "The sister of {e} is named",
+    "{e} has a sibling called",
+    "Family records identify {e}'s sister as"
+   ]
+  },
+  "workplace": {
+   "implication": [
+    "{e} praises the collaborative culture at",
+    "Long commutes are worth it for {e} to reach"
+   ],
+   "supported": [
+    "{e} is employed by",
+    "The organization where {e} works is",
+    "{e}'s place of employment is"
+   ]
+  }
+ },
+ "worlds": [
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "When we first leased the corner building on Harbor Street, Mira Solen and Kael Voss spent three weekends clearing out old printing presses. Joren Hale arrived with a crate of sourdough starters and claimed he could keep the cafe stocked without a second baker. Sera Quinn, a local librarian, volunteered to catalog the incoming donations of books. Toren Blake stopped by to check the roof after the spring rains and mentioned the upstairs apartment was available if anyone needed it.",
+     "xid": "W01-X01"
+    },
+    {
+     "life": 1,
+     "text": "The grand opening drew a larger crowd than expected. Mira Solen stood at the door greeting people while Kael Voss handled the register. Joren Hale's lemon tarts sold out by noon, and Sera Quinn helped restock the shelves between customers. Later that evening Toren Blake brought over a bottle of wine and said the place already felt like part of the neighborhood.",
+     "xid": "W01-X02"
+    },
+    {
+     "life": 2,
+     "text": "By the second year the used-book section had doubled. Sera Quinn suggested we add a small reading nook by the window, and Mira Solen agreed it would work if we moved the coffee grinder. Kael Voss took on more of the ordering while Joren Hale experimented with gluten-free options after a customer request. Toren Blake raised the rent slightly but offered to repaint the exterior himself.",
+     "xid": "W01-X03"
+    },
+    {
+     "life": 2,
+     "text": "A summer storm flooded the basement storage. Mira Solen and Kael Voss spent the night moving boxes upstairs while Joren Hale kept the cafe open with limited stock. Sera Quinn arrived the next morning with towels and helped sort the damaged paperbacks. Toren Blake later claimed the drainage had always been a problem and offered a temporary discount on the next month's rent.",
+     "xid": "W01-X04"
+    },
+    {
+     "life": 3,
+     "text": "Joren Hale announced he intended to open his own bakery across town once he saved enough. Mira Solen said she would miss the early morning smells but supported the idea. Kael Voss offered to keep the cafe menu simple in the meantime. Sera Quinn continued cataloging and mentioned she might apply for a full-time position at the library. Toren Blake painted the front door a deep blue that week.",
+     "xid": "W01-X05"
+    },
+    {
+     "life": 3,
+     "text": "The basement flood was worse than we first thought. According to Sera Quinn, several rare editions were ruined beyond repair, though Kael Voss insisted most could be dried and salvaged. Mira Solen ordered new shelves to replace the warped ones. Joren Hale brought over extra pastries for the cleanup crew. Toren Blake checked the sump pump and said it needed replacing.",
+     "xid": "W01-X06"
+    },
+    {
+     "life": 4,
+     "text": "Kael Voss left to take a job at a larger bookstore in the city. Mira Solen took over the daily management and hired Elara Finch to help with the cafe. Sera Quinn reduced her hours after starting the library position. Joren Hale still supplied the pastries twice a week even after opening his own place. Toren Blake moved his daughter into the upstairs apartment.",
+     "xid": "W01-X07"
+    },
+    {
+     "life": 4,
+     "text": "The reading nook became popular with students. Mira Solen added string lights along the window after Sera Quinn suggested it. Elara Finch learned the espresso machine quickly and started recommending books to regulars. Joren Hale's new bakery sent samples of his seasonal specials. Toren Blake fixed a leak in the roof before the autumn rains.",
+     "xid": "W01-X08"
+    },
+    {
+     "life": 5,
+     "text": "At the five-year mark we hosted a small anniversary gathering. Mira Solen gave a short speech about the community support. Elara Finch baked a cake using one of Joren Hale's old recipes. Sera Quinn brought a stack of new donations from the library. Kael Voss visited from the city and stayed to help close up. Toren Blake presented a framed photo of the original empty shop.",
+     "xid": "W01-X09"
+    },
+    {
+     "life": 5,
+     "text": "Mira Solen decided to expand the cafe menu permanently. Elara Finch took charge of the new lunch options. Sera Quinn now works full-time at the library but still drops by on Saturdays. Joren Hale's bakery has become a fixture downtown. Toren Blake is considering selling the building but hasn't made a final decision.",
+     "xid": "W01-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Harbor Street",
+     "evidence": "When we first leased the corner building on Harbor Street, Mira Solen and Kael Voss spent three weekends clearing out old printing presses.",
+     "iid": "W01-Q01",
+     "label": "SUPPORTED",
+     "question": "What street was the corner building located on?",
+     "stem": "The street the corner building was located on was",
+     "xids": [
+      "W01-X01"
+     ]
+    },
+    {
+     "answer": "Joren Hale",
+     "evidence": "Joren Hale arrived with a crate of sourdough starters and claimed he could keep the cafe stocked without a second baker.",
+     "iid": "W01-Q02",
+     "label": "SUPPORTED",
+     "question": "Who arrived with a crate of sourdough starters?",
+     "stem": "The person who arrived with a crate of sourdough starters was",
+     "xids": [
+      "W01-X01"
+     ]
+    },
+    {
+     "answer": "Sera Quinn",
+     "evidence": "Sera Quinn, a local librarian, volunteered to catalog the incoming donations of books.",
+     "iid": "W01-Q03",
+     "label": "SUPPORTED",
+     "question": "Who was the local librarian who volunteered to catalog the donations?",
+     "stem": "The local librarian who volunteered to catalog the incoming donations was",
+     "xids": [
+      "W01-X01"
+     ]
+    },
+    {
+     "answer": "lemon tarts",
+     "evidence": "Joren Hale's lemon tarts sold out by noon, and Sera Quinn helped restock the shelves between customers.",
+     "iid": "W01-Q04",
+     "label": "SUPPORTED",
+     "question": "Which tarts sold out by noon on opening day?",
+     "stem": "The tarts that sold out by noon on opening day were",
+     "xids": [
+      "W01-X02"
+     ]
+    },
+    {
+     "answer": "deep blue",
+     "evidence": "Toren Blake painted the front door a deep blue that week.",
+     "iid": "W01-Q05",
+     "label": "SUPPORTED",
+     "question": "What color did Toren Blake paint the front door?",
+     "stem": "The color Toren Blake painted the front door was",
+     "xids": [
+      "W01-X05"
+     ]
+    },
+    {
+     "answer": "Kael Voss",
+     "evidence": "Kael Voss left to take a job at a larger bookstore in the city.",
+     "iid": "W01-Q07",
+     "label": "SUPPORTED",
+     "question": "Who left to take a job at a larger bookstore in the city?",
+     "stem": "The person who left to take a job at a larger bookstore in the city was",
+     "xids": [
+      "W01-X07"
+     ]
+    },
+    {
+     "answer": "Elara Finch",
+     "evidence": "Mira Solen took over the daily management and hired Elara Finch to help with the cafe.",
+     "iid": "W01-Q08",
+     "label": "SUPPORTED",
+     "question": "Who did Mira Solen hire to help with the cafe?",
+     "stem": "The person hired by Mira Solen to help with the cafe was",
+     "xids": [
+      "W01-X07"
+     ]
+    },
+    {
+     "answer": "string lights",
+     "evidence": "Mira Solen added string lights along the window after Sera Quinn suggested it.",
+     "iid": "W01-Q09",
+     "label": "SUPPORTED",
+     "question": "What kind of lights did Mira Solen add along the window?",
+     "stem": "The lights Mira Solen added along the window were",
+     "xids": [
+      "W01-X08"
+     ]
+    },
+    {
+     "answer": "Toren Blake",
+     "evidence": "Toren Blake presented a framed photo of the original empty shop.",
+     "iid": "W01-Q10",
+     "label": "SUPPORTED",
+     "question": "Who presented a framed photo of the original empty shop?",
+     "stem": "The person who presented a framed photo of the original empty shop was",
+     "xids": [
+      "W01-X09"
+     ]
+    },
+    {
+     "iid": "W01-Q11",
+     "label": "IMPLICATION",
+     "plausible": "sourdough",
+     "stem": "Joren Hale's preferred type of starter for the cafe was",
+     "why_not": "The text only records that he arrived with sourdough starters and claimed he could stock the cafe, without stating any preference."
+    },
+    {
+     "iid": "W01-Q12",
+     "label": "IMPLICATION",
+     "plausible": "high demand",
+     "stem": "The main reason the lemon tarts sold out by noon was",
+     "why_not": "The experience notes that they sold out but supplies no cause or explanation."
+    },
+    {
+     "iid": "W01-Q13",
+     "label": "IMPLICATION",
+     "plausible": "greeting people",
+     "stem": "Mira Solen's favorite duty on opening day was",
+     "why_not": "She is described standing at the door greeting people, yet no preference or enjoyment is stated."
+    },
+    {
+     "iid": "W01-Q14",
+     "label": "IMPLICATION",
+     "plausible": "liked numbers",
+     "stem": "Kael Voss handled the register because he",
+     "why_not": "The text states only that he handled the register, with no reason or preference given."
+    },
+    {
+     "iid": "W01-Q15",
+     "label": "IMPLICATION",
+     "plausible": "ease the burden",
+     "stem": "Toren Blake offered the temporary discount after the flood in order to",
+     "why_not": "He offered the discount after claiming a long-standing drainage problem, but the motive is not explicitly established."
+    },
+    {
+     "iid": "W01-Q16",
+     "label": "IMPLICATION",
+     "plausible": "gain independence",
+     "stem": "Joren Hale opened his own bakery mainly to",
+     "why_not": "The announcement mentioned saving enough money, yet no primary motive beyond that is stated."
+    },
+    {
+     "iid": "W01-Q17",
+     "label": "IMPLICATION",
+     "plausible": "had prior experience",
+     "stem": "Elara Finch learned the espresso machine quickly because she",
+     "why_not": "The text says she learned it quickly but gives no source or prior background."
+    },
+    {
+     "iid": "W01-Q18",
+     "label": "IMPLICATION",
+     "plausible": "college students",
+     "stem": "The students who used the reading nook most frequently were",
+     "why_not": "It became popular with students, but neither the type of student nor any frequency is specified."
+    },
+    {
+     "iid": "W01-Q19",
+     "label": "IMPLICATION",
+     "plausible": "customer requests",
+     "stem": "Mira Solen's decision to expand the cafe menu permanently was driven by",
+     "why_not": "She decided to expand, yet no influence, reason, or driver is provided."
+    },
+    {
+     "iid": "W01-Q20",
+     "label": "IMPLICATION",
+     "plausible": "nostalgia",
+     "stem": "Kael Voss visited from the city for the anniversary because of",
+     "why_not": "He visited and helped close up, but no motive is stated."
+    },
+    {
+     "iid": "W01-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The pet species kept by Mira Solen was"
+    },
+    {
+     "iid": "W01-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The childhood fear of Joren Hale was"
+    },
+    {
+     "iid": "W01-Q23",
+     "label": "NEAR-MISS",
+     "stem": "The birth month of Sera Quinn was"
+    },
+    {
+     "iid": "W01-Q24",
+     "label": "NEAR-MISS",
+     "stem": "The favorite object of Toren Blake was"
+    },
+    {
+     "iid": "W01-Q25",
+     "label": "NEAR-MISS",
+     "stem": "The allergy of Elara Finch was"
+    },
+    {
+     "iid": "W01-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role held by Finn Mercer at the bookstore cafe was"
+    },
+    {
+     "iid": "W01-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The hobby of Aria Sol during the early years was"
+    },
+    {
+     "iid": "W01-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The workplace of Leo Hart after the flood was"
+    },
+    {
+     "iid": "W01-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "The sister of Nia Vale who visited the shop was"
+    },
+    {
+     "iid": "W01-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The city where Quinn Hale grew up was"
+    },
+    {
+     "answer": "Mira Solen",
+     "checkpoint": 5,
+     "evidence": "Mira Solen took over the daily management and hired Elara Finch to help with the cafe.",
+     "iid": "W01-Q31",
+     "label": "TEMPORAL",
+     "stem": "The person responsible for daily management of the shop was",
+     "xids": [
+      "W01-X07"
+     ]
+    },
+    {
+     "answer": "Kael Voss",
+     "checkpoint": 2,
+     "evidence": "Mira Solen stood at the door greeting people while Kael Voss handled the register.",
+     "iid": "W01-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person who handled the register on opening day was",
+     "xids": [
+      "W01-X02"
+     ]
+    },
+    {
+     "answer": "Toren Blake",
+     "checkpoint": 4,
+     "evidence": "Toren Blake painted the front door a deep blue that week.",
+     "iid": "W01-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 3, the person who painted the front door was",
+     "xids": [
+      "W01-X05"
+     ]
+    },
+    {
+     "answer": "Joren Hale",
+     "checkpoint": 5,
+     "evidence": "Joren Hale still supplied the pastries twice a week even after opening his own place.",
+     "iid": "W01-Q34",
+     "label": "TEMPORAL",
+     "stem": "The person who supplied the pastries to the cafe was",
+     "xids": [
+      "W01-X07"
+     ]
+    }
+   ],
+   "world_id": "W01"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "Rowan Cade and Nia Vale posted flyers around town inviting anyone interested in community theater. Owen Hart responded first and offered to handle the lights and sound. Lila Brooks arrived for auditions with a monologue from a classic play and was cast as the lead. Soren Pike, who managed the old community hall, agreed to let them rehearse there on weeknights for a small fee.",
+     "xid": "W02-X01"
+    },
+    {
+     "life": 1,
+     "text": "The opening night of the spring play drew a full house. Lila Brooks delivered her lines without a single slip while Rowan Cade directed from the wings. Nia Vale sold tickets at the door and Owen Hart cued the lights on time. Soren Pike watched from the back and said the hall had never sounded so lively.",
+     "xid": "W02-X02"
+    },
+    {
+     "life": 2,
+     "text": "For the summer production Nia Vale suggested a comedy. Lila Brooks expressed interest in directing instead of acting. Rowan Cade supported the idea but kept the final say on casting. Owen Hart built a new set piece from salvaged wood. Soren Pike lowered the rental fee after seeing the turnout.",
+     "xid": "W02-X03"
+    },
+    {
+     "life": 2,
+     "text": "During tech rehearsal the sound system failed. Owen Hart spent hours tracing the cables while Lila Brooks ran lines with Nia Vale. Rowan Cade called a local electrician who arrived late. Soren Pike later claimed the wiring had been checked the previous month.",
+     "xid": "W02-X04"
+    },
+    {
+     "life": 3,
+     "text": "Lila Brooks announced she was considering applying to an acting program in the city. Rowan Cade said the group would miss her energy. Nia Vale offered to take over more of the directing duties. Owen Hart continued refining the lighting plots. Soren Pike painted the stage floor black that month.",
+     "xid": "W02-X05"
+    },
+    {
+     "life": 3,
+     "text": "The autumn show was canceled after heavy rain flooded the parking lot. According to Nia Vale, they lost three nights of ticket sales. Rowan Cade insisted they could reschedule if the hall dried out quickly. Lila Brooks had already learned all her lines. Owen Hart stored the set pieces in his garage. Soren Pike said the drainage issue was the town's responsibility.",
+     "xid": "W02-X06"
+    },
+    {
+     "life": 4,
+     "text": "Lila Brooks decided against the city program and stayed to direct the winter play. Rowan Cade stepped back from daily rehearsals to focus on writing an original script. Nia Vale handled most of the casting. Owen Hart trained a new volunteer on the sound board. Soren Pike installed better stage lights.",
+     "xid": "W02-X07"
+    },
+    {
+     "life": 4,
+     "text": "The winter play featured an original script by Rowan Cade. Lila Brooks directed and kept the rehearsals to two hours. Nia Vale played a supporting role after a last-minute cast change. Owen Hart's new lighting design received compliments from the audience. Soren Pike provided free coffee for the cast on opening night.",
+     "xid": "W02-X08"
+    },
+    {
+     "life": 5,
+     "text": "At the end of the fifth season the group held a retrospective. Rowan Cade read excerpts from his scripts. Lila Brooks talked about the growth of the troupe. Nia Vale announced plans for an outdoor summer festival. Owen Hart demonstrated the updated sound system. Soren Pike presented a plaque for the hall's contribution.",
+     "xid": "W02-X09"
+    },
+    {
+     "life": 5,
+     "text": "Nia Vale is now the primary director. Lila Brooks acts occasionally but focuses on teaching workshops. Rowan Cade's original plays have been performed twice. Owen Hart still manages the technical side. Soren Pike is talking about renovating the hall but has not started yet.",
+     "xid": "W02-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Owen Hart",
+     "evidence": "Owen Hart responded first and offered to handle the lights and sound.",
+     "iid": "W02-Q01",
+     "label": "SUPPORTED",
+     "question": "Who offered to handle the lights and sound?",
+     "stem": "The person who offered to handle the lights and sound was",
+     "xids": [
+      "W02-X01"
+     ]
+    },
+    {
+     "answer": "Soren Pike",
+     "evidence": "Soren Pike, who managed the old community hall, agreed to let them rehearse there on weeknights for a small fee.",
+     "iid": "W02-Q02",
+     "label": "SUPPORTED",
+     "question": "Who managed the old community hall?",
+     "stem": "The person who managed the old community hall was",
+     "xids": [
+      "W02-X01"
+     ]
+    },
+    {
+     "answer": "Lila Brooks",
+     "evidence": "Lila Brooks delivered her lines without a single slip while Rowan Cade directed from the wings.",
+     "iid": "W02-Q03",
+     "label": "SUPPORTED",
+     "question": "Who delivered her lines without a single slip?",
+     "stem": "The person who delivered her lines without a single slip was",
+     "xids": [
+      "W02-X02"
+     ]
+    },
+    {
+     "answer": "a comedy",
+     "evidence": "For the summer production Nia Vale suggested a comedy.",
+     "iid": "W02-Q04",
+     "label": "SUPPORTED",
+     "question": "What type of production did Nia Vale suggest for the summer?",
+     "stem": "The type of production Nia Vale suggested for the summer was",
+     "xids": [
+      "W02-X03"
+     ]
+    },
+    {
+     "answer": "black",
+     "evidence": "Soren Pike painted the stage floor black that month.",
+     "iid": "W02-Q05",
+     "label": "SUPPORTED",
+     "question": "What color did Soren Pike paint the stage floor?",
+     "stem": "The color Soren Pike painted the stage floor was",
+     "xids": [
+      "W02-X05"
+     ]
+    },
+    {
+     "answer": "parking lot",
+     "evidence": "The autumn show was canceled after heavy rain flooded the parking lot.",
+     "iid": "W02-Q06",
+     "label": "SUPPORTED",
+     "question": "Which area flooded and caused the autumn show to be canceled?",
+     "stem": "The area flooded that led to canceling the autumn show was the",
+     "xids": [
+      "W02-X06"
+     ]
+    },
+    {
+     "answer": "Lila Brooks",
+     "evidence": "Lila Brooks decided against the city program and stayed to direct the winter play.",
+     "iid": "W02-Q07",
+     "label": "SUPPORTED",
+     "question": "Who decided against the city program?",
+     "stem": "The person who decided against the city program was",
+     "xids": [
+      "W02-X07"
+     ]
+    },
+    {
+     "answer": "Lila Brooks",
+     "evidence": "Lila Brooks directed and kept the rehearsals to two hours.",
+     "iid": "W02-Q08",
+     "label": "SUPPORTED",
+     "question": "Who directed the winter play?",
+     "stem": "The person who directed the winter play was",
+     "xids": [
+      "W02-X08"
+     ]
+    },
+    {
+     "answer": "Rowan Cade",
+     "evidence": "The winter play featured an original script by Rowan Cade.",
+     "iid": "W02-Q09",
+     "label": "SUPPORTED",
+     "question": "Who wrote the original script for the winter play?",
+     "stem": "The person who wrote the original script for the winter play was",
+     "xids": [
+      "W02-X08"
+     ]
+    },
+    {
+     "answer": "Soren Pike",
+     "evidence": "Soren Pike presented a plaque for the hall's contribution.",
+     "iid": "W02-Q10",
+     "label": "SUPPORTED",
+     "question": "Who presented a plaque for the hall's contribution?",
+     "stem": "The person who presented a plaque for the hall's contribution was",
+     "xids": [
+      "W02-X09"
+     ]
+    },
+    {
+     "iid": "W02-Q11",
+     "label": "IMPLICATION",
+     "plausible": "she enjoyed creative control",
+     "stem": "Lila Brooks preferred directing over acting because",
+     "why_not": "She expressed interest in directing, but no preference or reason is established."
+    },
+    {
+     "iid": "W02-Q12",
+     "label": "IMPLICATION",
+     "plausible": "old wiring",
+     "stem": "The sound system failed during tech rehearsal mainly due to",
+     "why_not": "The failure is described and a claim about prior checking is made, yet the cause is not established."
+    },
+    {
+     "iid": "W02-Q13",
+     "label": "IMPLICATION",
+     "plausible": "maintain quality",
+     "stem": "Rowan Cade kept the final say on casting in order to",
+     "why_not": "He supported the idea but kept final say; no motive is stated."
+    },
+    {
+     "iid": "W02-Q14",
+     "label": "IMPLICATION",
+     "plausible": "supporting Lila",
+     "stem": "Nia Vale's offer to take over more directing duties was motivated by",
+     "why_not": "The offer is recorded after Lila's announcement, but no motive is given."
+    },
+    {
+     "iid": "W02-Q15",
+     "label": "IMPLICATION",
+     "plausible": "the hall stayed wet",
+     "stem": "The autumn show could not be rescheduled because",
+     "why_not": "Rowan insisted they could reschedule if it dried quickly, but the outcome and reason are not stated."
+    },
+    {
+     "iid": "W02-Q16",
+     "label": "IMPLICATION",
+     "plausible": "they would stay dry",
+     "stem": "Owen Hart stored the set pieces in his garage so that",
+     "why_not": "He stored them, yet no purpose is explicitly given."
+    },
+    {
+     "iid": "W02-Q17",
+     "label": "IMPLICATION",
+     "plausible": "valued efficiency",
+     "stem": "Lila Brooks kept rehearsals to two hours because she",
+     "why_not": "The text states she kept them to two hours but supplies no reason."
+    },
+    {
+     "iid": "W02-Q18",
+     "label": "IMPLICATION",
+     "plausible": "was innovative",
+     "stem": "The audience complimented Owen Hart's lighting design because it",
+     "why_not": "Compliments are noted, but neither the reason nor any quality is specified."
+    },
+    {
+     "iid": "W02-Q19",
+     "label": "IMPLICATION",
+     "plausible": "expand the troupe's reach",
+     "stem": "Nia Vale announced plans for an outdoor summer festival in order to",
+     "why_not": "The announcement is made, yet no purpose or intention beyond the plan itself is established."
+    },
+    {
+     "iid": "W02-Q20",
+     "label": "IMPLICATION",
+     "plausible": "wants better facilities",
+     "stem": "Soren Pike is talking about renovating the hall because he",
+     "why_not": "He is talking about renovating but has not started, and no reason is given."
+    },
+    {
+     "iid": "W02-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The pet species owned by Rowan Cade was"
+    },
+    {
+     "iid": "W02-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The childhood fear of Nia Vale was"
+    },
+    {
+     "iid": "W02-Q23",
+     "label": "NEAR-MISS",
+     "stem": "The birth month of Owen Hart was"
+    },
+    {
+     "iid": "W02-Q24",
+     "label": "NEAR-MISS",
+     "stem": "The favorite object of Lila Brooks was"
+    },
+    {
+     "iid": "W02-Q25",
+     "label": "NEAR-MISS",
+     "stem": "The allergy of Soren Pike was"
+    },
+    {
+     "iid": "W02-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role held by Theo Marsh in the theater group was"
+    },
+    {
+     "iid": "W02-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The hobby of Lena Hart during rehearsals was"
+    },
+    {
+     "iid": "W02-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The workplace of Marcus Vale after the canceled show was"
+    },
+    {
+     "iid": "W02-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "The sister of Elena Pike who attended opening night was"
+    },
+    {
+     "iid": "W02-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The city where Jordan Cade studied acting was"
+    },
+    {
+     "answer": "Nia Vale",
+     "checkpoint": 5,
+     "evidence": "Nia Vale is now the primary director.",
+     "iid": "W02-Q31",
+     "label": "TEMPORAL",
+     "stem": "The primary director of the group was",
+     "xids": [
+      "W02-X10"
+     ]
+    },
+    {
+     "answer": "Rowan Cade",
+     "checkpoint": 2,
+     "evidence": "Lila Brooks delivered her lines without a single slip while Rowan Cade directed from the wings.",
+     "iid": "W02-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person who directed from the wings on opening night was",
+     "xids": [
+      "W02-X02"
+     ]
+    },
+    {
+     "answer": "Lila Brooks",
+     "checkpoint": 5,
+     "evidence": "Lila Brooks directed and kept the rehearsals to two hours.",
+     "iid": "W02-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 4, the person who directed the winter play was",
+     "xids": [
+      "W02-X08"
+     ]
+    },
+    {
+     "answer": "Owen Hart",
+     "checkpoint": 5,
+     "evidence": "Owen Hart still manages the technical side.",
+     "iid": "W02-Q34",
+     "label": "TEMPORAL",
+     "stem": "The person who managed the technical side was",
+     "xids": [
+      "W02-X10"
+     ]
+    }
+   ],
+   "world_id": "W02"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "Tessa Quinn and Milo Hart signed the lease on a warehouse space with good natural light. Aria Fen arrived with bags of local clay and started wedging immediately. Kai Solen set up a simple website for orders. Bryn Vale, a neighbor, stopped by with tools he no longer used and offered them for the studio.",
+     "xid": "W03-X01"
+    },
+    {
+     "life": 1,
+     "text": "At the spring market Tessa Quinn sold three bowls before noon. Milo Hart demonstrated throwing on the wheel for visitors. Aria Fen wrapped purchases in recycled paper. Kai Solen tracked the sales in a notebook. Bryn Vale helped carry the heavier pieces to the car at the end of the day.",
+     "xid": "W03-X02"
+    },
+    {
+     "life": 2,
+     "text": "They added a second wheel after membership grew. Tessa Quinn experimented with a new celadon glaze. Milo Hart offered beginner classes on Saturday mornings. Aria Fen organized the drying racks by the window. Kai Solen updated the website with photos of recent work. Bryn Vale repaired a crack in the kiln door.",
+     "xid": "W03-X03"
+    },
+    {
+     "life": 2,
+     "text": "A power outage interrupted a bisque firing. Milo Hart stayed late to monitor the kiln temperature manually. Tessa Quinn moved unfinished pieces to a safer shelf. Aria Fen called the utility company. Kai Solen posted an update for customers waiting on orders. Bryn Vale brought over a generator from his garage.",
+     "xid": "W03-X04"
+    },
+    {
+     "life": 3,
+     "text": "Aria Fen announced she planned to apply for a residency at a larger arts center. Tessa Quinn said the studio would feel quieter without her. Milo Hart suggested they host a goodbye sale if she left. Kai Solen continued handling online inquiries. Bryn Vale glazed a set of mugs in a deep red that week.",
+     "xid": "W03-X05"
+    },
+    {
+     "life": 3,
+     "text": "The power outage damaged more pieces than expected. According to Aria Fen, two of her large vases cracked during the cooldown. Milo Hart claimed the temperature drop was too gradual to cause that. Tessa Quinn ordered replacement elements for the kiln. Kai Solen refunded the affected customer orders. Bryn Vale checked the electrical panel and said it was outdated.",
+     "xid": "W03-X06"
+    },
+    {
+     "life": 4,
+     "text": "Aria Fen accepted a short residency and left for three months. Tessa Quinn took over the Saturday classes. Milo Hart focused on his own series of tall vessels. Kai Solen hired a part-time assistant for packing orders. Bryn Vale installed new shelves along the back wall.",
+     "xid": "W03-X07"
+    },
+    {
+     "life": 4,
+     "text": "The tall vessels by Milo Hart sold well at the autumn market. Tessa Quinn's celadon bowls received several custom requests. The part-time assistant learned the wrapping technique quickly. Kai Solen expanded the shipping options. Bryn Vale fixed a leak above the clay storage.",
+     "xid": "W03-X08"
+    },
+    {
+     "life": 5,
+     "text": "When Aria Fen returned she brought new techniques from the residency. Tessa Quinn incorporated one into the class curriculum. Milo Hart displayed his vessels in a small solo show at the studio. Kai Solen organized a members' exhibition. Bryn Vale provided the lighting for the event.",
+     "xid": "W03-X09"
+    },
+    {
+     "life": 5,
+     "text": "Tessa Quinn now leads most of the beginner sessions. Milo Hart's work is featured in a regional gallery. Aria Fen teaches occasional advanced workshops. Kai Solen manages the online store full-time. Bryn Vale is considering adding a second kiln but has not ordered it yet.",
+     "xid": "W03-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Aria Fen",
+     "evidence": "Aria Fen arrived with bags of local clay and started wedging immediately.",
+     "iid": "W03-Q01",
+     "label": "SUPPORTED",
+     "question": "Who arrived with bags of local clay?",
+     "stem": "The person who arrived with bags of local clay was",
+     "xids": [
+      "W03-X01"
+     ]
+    },
+    {
+     "answer": "Kai Solen",
+     "evidence": "Kai Solen set up a simple website for orders.",
+     "iid": "W03-Q02",
+     "label": "SUPPORTED",
+     "question": "Who set up a simple website for orders?",
+     "stem": "The person who set up a simple website for orders was",
+     "xids": [
+      "W03-X01"
+     ]
+    },
+    {
+     "answer": "three",
+     "evidence": "At the spring market Tessa Quinn sold three bowls before noon.",
+     "iid": "W03-Q03",
+     "label": "SUPPORTED",
+     "question": "How many bowls did Tessa Quinn sell before noon at the spring market?",
+     "stem": "The number of bowls Tessa Quinn sold before noon at the spring market was",
+     "xids": [
+      "W03-X02"
+     ]
+    },
+    {
+     "answer": "deep red",
+     "evidence": "Bryn Vale glazed a set of mugs in a deep red that week.",
+     "iid": "W03-Q05",
+     "label": "SUPPORTED",
+     "question": "What color were the mugs Bryn Vale glazed?",
+     "stem": "The color of the mugs Bryn Vale glazed that week was",
+     "xids": [
+      "W03-X05"
+     ]
+    },
+    {
+     "answer": "bisque firing",
+     "evidence": "A power outage interrupted a bisque firing.",
+     "iid": "W03-Q06",
+     "label": "SUPPORTED",
+     "question": "What kind of firing was interrupted by the power outage?",
+     "stem": "The firing interrupted by the power outage was a",
+     "xids": [
+      "W03-X04"
+     ]
+    },
+    {
+     "answer": "Aria Fen",
+     "evidence": "Aria Fen accepted a short residency and left for three months.",
+     "iid": "W03-Q07",
+     "label": "SUPPORTED",
+     "question": "Who accepted a short residency and left for three months?",
+     "stem": "The person who accepted a short residency and left for three months was",
+     "xids": [
+      "W03-X07"
+     ]
+    },
+    {
+     "answer": "Tessa Quinn",
+     "evidence": "Tessa Quinn took over the Saturday classes.",
+     "iid": "W03-Q08",
+     "label": "SUPPORTED",
+     "question": "Who took over the Saturday classes?",
+     "stem": "The person who took over the Saturday classes was",
+     "xids": [
+      "W03-X07"
+     ]
+    },
+    {
+     "answer": "tall vessels",
+     "evidence": "Milo Hart focused on his own series of tall vessels.",
+     "iid": "W03-Q09",
+     "label": "SUPPORTED",
+     "question": "What kind of vessels did Milo Hart focus on?",
+     "stem": "The vessels Milo Hart focused on were",
+     "xids": [
+      "W03-X07"
+     ]
+    },
+    {
+     "answer": "Bryn Vale",
+     "evidence": "Bryn Vale provided the lighting for the event.",
+     "iid": "W03-Q10",
+     "label": "SUPPORTED",
+     "question": "Who provided the lighting for the members' exhibition?",
+     "stem": "The person who provided the lighting for the members' exhibition was",
+     "xids": [
+      "W03-X09"
+     ]
+    },
+    {
+     "iid": "W03-Q11",
+     "label": "IMPLICATION",
+     "plausible": "sold well",
+     "stem": "Tessa Quinn preferred the celadon glaze because it",
+     "why_not": "She experimented with it and later received custom requests, yet no preference is stated."
+    },
+    {
+     "iid": "W03-Q12",
+     "label": "IMPLICATION",
+     "plausible": "the temperature dropped suddenly",
+     "stem": "The power outage damaged the pieces mainly because",
+     "why_not": "Damage is described and a claim about the drop being gradual is made, but the actual cause is not established."
+    },
+    {
+     "iid": "W03-Q13",
+     "label": "IMPLICATION",
+     "plausible": "prevent further damage",
+     "stem": "Milo Hart stayed late to monitor the kiln in order to",
+     "why_not": "He stayed late to monitor manually, but the purpose is not explicitly given beyond the action."
+    },
+    {
+     "iid": "W03-Q14",
+     "label": "IMPLICATION",
+     "plausible": "learn new techniques",
+     "stem": "Aria Fen planned to apply for the residency so that she could",
+     "why_not": "The plan is announced and she later brought techniques back, yet the intention's purpose is not stated at the time."
+    },
+    {
+     "iid": "W03-Q15",
+     "label": "IMPLICATION",
+     "plausible": "prior practice",
+     "stem": "The part-time assistant learned the wrapping technique quickly because of",
+     "why_not": "The text notes that the assistant learned it quickly but gives no reason or background."
+    },
+    {
+     "iid": "W03-Q16",
+     "label": "IMPLICATION",
+     "plausible": "their unique form",
+     "stem": "Milo Hart's tall vessels sold well at the autumn market due to",
+     "why_not": "They sold well, but no cause or quality explaining the sales is provided."
+    },
+    {
+     "iid": "W03-Q17",
+     "label": "IMPLICATION",
+     "plausible": "students requested it",
+     "stem": "Tessa Quinn incorporated a new technique into the class curriculum because",
+     "why_not": "She incorporated one after Aria returned with techniques, yet no reason is stated."
+    },
+    {
+     "iid": "W03-Q18",
+     "label": "IMPLICATION",
+     "plausible": "handle growing orders",
+     "stem": "Kai Solen manages the online store full-time in order to",
+     "why_not": "The fact of full-time management is stated, but no purpose or driver is given."
+    },
+    {
+     "iid": "W03-Q19",
+     "label": "IMPLICATION",
+     "plausible": "needs more capacity",
+     "stem": "Bryn Vale is considering adding a second kiln because the studio",
+     "why_not": "He is considering it but has not ordered it, and no reason is established."
+    },
+    {
+     "iid": "W03-Q20",
+     "label": "IMPLICATION",
+     "plausible": "share residency knowledge",
+     "stem": "Aria Fen teaches occasional advanced workshops so that she can",
+     "why_not": "She teaches them, yet no intention or purpose is stated."
+    },
+    {
+     "iid": "W03-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The pet species kept by Tessa Quinn was"
+    },
+    {
+     "iid": "W03-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The childhood fear of Milo Hart was"
+    },
+    {
+     "iid": "W03-Q23",
+     "label": "NEAR-MISS",
+     "stem": "The birth month of Aria Fen was"
+    },
+    {
+     "iid": "W03-Q24",
+     "label": "NEAR-MISS",
+     "stem": "The favorite object of Kai Solen was"
+    },
+    {
+     "iid": "W03-Q25",
+     "label": "NEAR-MISS",
+     "stem": "The allergy of Bryn Vale was"
+    },
+    {
+     "iid": "W03-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role held by Soren Ellis at the pottery studio was"
+    },
+    {
+     "iid": "W03-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The hobby of Lila Voss during market days was"
+    },
+    {
+     "iid": "W03-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The workplace of Owen Fen after the residency was"
+    },
+    {
+     "iid": "W03-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "The sister of Mira Hart who helped at the kiln was"
+    },
+    {
+     "iid": "W03-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The city where Quinn Solen learned glazing was"
+    },
+    {
+     "answer": "Tessa Quinn",
+     "checkpoint": 5,
+     "evidence": "Tessa Quinn now leads most of the beginner sessions.",
+     "iid": "W03-Q31",
+     "label": "TEMPORAL",
+     "stem": "The person who leads most of the beginner sessions was",
+     "xids": [
+      "W03-X10"
+     ]
+    },
+    {
+     "answer": "Milo Hart",
+     "checkpoint": 2,
+     "evidence": "Milo Hart demonstrated throwing on the wheel for visitors.",
+     "iid": "W03-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person who demonstrated throwing on the wheel at the spring market was",
+     "xids": [
+      "W03-X02"
+     ]
+    },
+    {
+     "answer": "Milo Hart",
+     "checkpoint": 3,
+     "evidence": "Milo Hart offered beginner classes on Saturday mornings.",
+     "iid": "W03-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 2, the person who offered beginner classes on Saturday mornings was",
+     "xids": [
+      "W03-X03"
+     ]
+    },
+    {
+     "answer": "Kai Solen",
+     "checkpoint": 5,
+     "evidence": "Kai Solen manages the online store full-time.",
+     "iid": "W03-Q34",
+     "label": "TEMPORAL",
+     "stem": "The person who manages the online store full-time was",
+     "xids": [
+      "W03-X10"
+     ]
+    }
+   ],
+   "world_id": "W03"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "The survey team reached the high camp on the third morning after leaving the trailhead. Lena Orth checked the barometer while Marcus Vane unpacked the core sampler. Sofia Ellery set the first transect flags along the ridge. Jonah Crowe tested the radio link back to base and reported clear reception. Rhea Pike boiled water for tea once the tents were staked.",
+     "xid": "W04-X01"
+    },
+    {
+     "life": 1,
+     "text": "A sudden squall struck while they were still sorting gear. Lena Orth secured the sample crates under a tarp. Marcus Vane held the tent poles until the wind eased. Sofia Ellery noted the time of the first hail in her field book. Jonah Crowe later said the storm had come from the northwest, though Rhea Pike insisted the clouds had built from the east.",
+     "xid": "W04-X02"
+    },
+    {
+     "life": 2,
+     "text": "By the second week the eastern transect was complete. Lena Orth logged twenty-three rock samples from the fault line. Marcus Vane repaired a cracked lens on the theodolite. Sofia Ellery sketched the lichen patterns on the north-facing slabs. Jonah Crowe announced he intended to stay an extra fortnight if the weather held, but no one recorded a final decision. Rhea Pike cooked lentils over the camp stove that evening.",
+     "xid": "W04-X03"
+    },
+    {
+     "life": 2,
+     "text": "The rockslide on the lower trail happened just after midday. According to Marcus Vane, loose scree buried the marker cairn completely. Lena Orth maintained that only the outer stones had shifted and the path remained usable. Sofia Ellery photographed the debris before they cleared a narrow route. Jonah Crowe carried the spare batteries up the alternate ridge. Rhea Pike treated a scraped knee with the kit from the red pouch.",
+     "xid": "W04-X04"
+    },
+    {
+     "life": 3,
+     "text": "Lena Orth handed the daily log to Sofia Ellery so she could finish the elevation notes. Marcus Vane calibrated the gravimeter near the old mine adit. Jonah Crowe mentioned he still planned to extend his stay but had not yet radioed base. Rhea Pike found a pair of lost gloves near the stream and hung them to dry. The barometer continued to fall through the afternoon.",
+     "xid": "W04-X05"
+    },
+    {
+     "life": 3,
+     "text": "Another account of the slide reached the evening radio check. Sofia Ellery reported that the cairn was only half covered and that two flags remained visible. Marcus Vane repeated that the entire marker had vanished under the rubble. Lena Orth ordered a fresh set of stakes for the next morning. Jonah Crowe stayed in his tent with a mild fever. Rhea Pike prepared broth and left it outside his flap.",
+     "xid": "W04-X06"
+    },
+    {
+     "life": 4,
+     "text": "The team moved the main cache to the western cirque. Lena Orth now directed the sampling order while Marcus Vane handled the transit. Sofia Ellery collected water from three seeps for later analysis. Jonah Crowe\u2019s extra fortnight never appeared in any subsequent log. Rhea Pike mended a torn guy-line with spare cord.",
+     "xid": "W04-X07"
+    },
+    {
+     "life": 4,
+     "text": "Fog delayed the morning traverse by nearly two hours. Lena Orth waited at the col with the altimeter. Marcus Vane paced the gravel while checking his watch. Sofia Ellery used the time to press a sheet of alpine forget-me-nots. Jonah Crowe finally emerged and helped carry the water jugs. Rhea Pike kept the stove lit so tea stayed hot.",
+     "xid": "W04-X08"
+    },
+    {
+     "life": 5,
+     "text": "On the final descent Lena Orth sealed the last core tube. Marcus Vane coiled the measuring tape and stowed it in the green case. Sofia Ellery confirmed that all transect flags had been retrieved. Jonah Crowe walked ahead to clear loose stones from the switchbacks. Rhea Pike distributed the remaining chocolate bars at the trailhead.",
+     "xid": "W04-X09"
+    },
+    {
+     "life": 5,
+     "text": "Back at the ranger station the group sorted specimens under the porch light. Lena Orth labeled the fault-line cores with red tags. Marcus Vane cleaned the theodolite lenses one last time. Sofia Ellery transcribed the elevation notes into the master book. Jonah Crowe signed the equipment return form. Rhea Pike packed the unused fuel canisters for the next party.",
+     "xid": "W04-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Lena Orth",
+     "evidence": "Lena Orth checked the barometer while Marcus Vane unpacked the core sampler.",
+     "iid": "W04-Q01",
+     "label": "SUPPORTED",
+     "question": "Who checked the barometer at high camp?",
+     "stem": "The person who checked the barometer at high camp was",
+     "xids": [
+      "W04-X01"
+     ]
+    },
+    {
+     "answer": "twenty-three",
+     "evidence": "Lena Orth logged twenty-three rock samples from the fault line.",
+     "iid": "W04-Q02",
+     "label": "SUPPORTED",
+     "question": "How many rock samples did Lena Orth log from the fault line?",
+     "stem": "The number of rock samples Lena Orth logged from the fault line was",
+     "xids": [
+      "W04-X03"
+     ]
+    },
+    {
+     "answer": "theodolite",
+     "evidence": "Marcus Vane repaired a cracked lens on the theodolite.",
+     "iid": "W04-Q03",
+     "label": "SUPPORTED",
+     "question": "Which instrument did Marcus Vane repair?",
+     "stem": "The instrument Marcus Vane repaired was the",
+     "xids": [
+      "W04-X03"
+     ]
+    },
+    {
+     "answer": "Sofia Ellery",
+     "evidence": "Sofia Ellery photographed the debris before they cleared a narrow route.",
+     "iid": "W04-Q04",
+     "label": "SUPPORTED",
+     "question": "Who photographed the debris after the rockslide?",
+     "stem": "The person who photographed the debris after the rockslide was",
+     "xids": [
+      "W04-X04"
+     ]
+    },
+    {
+     "answer": "red",
+     "evidence": "Rhea Pike treated a scraped knee with the kit from the red pouch.",
+     "iid": "W04-Q05",
+     "label": "SUPPORTED",
+     "question": "What color was the pouch that held the first-aid kit?",
+     "stem": "The pouch that held the first-aid kit was",
+     "xids": [
+      "W04-X04"
+     ]
+    },
+    {
+     "answer": "Sofia Ellery",
+     "evidence": "Sofia Ellery collected water from three seeps for later analysis.",
+     "iid": "W04-Q06",
+     "label": "SUPPORTED",
+     "question": "Who collected water from three seeps?",
+     "stem": "The person who collected water from three seeps was",
+     "xids": [
+      "W04-X07"
+     ]
+    },
+    {
+     "answer": "alpine forget-me-nots",
+     "evidence": "Sofia Ellery used the time to press a sheet of alpine forget-me-nots.",
+     "iid": "W04-Q07",
+     "label": "SUPPORTED",
+     "question": "What flowers did Sofia Ellery press during the fog delay?",
+     "stem": "The flowers Sofia Ellery pressed during the fog delay were",
+     "xids": [
+      "W04-X08"
+     ]
+    },
+    {
+     "answer": "red",
+     "evidence": "Lena Orth labeled the fault-line cores with red tags.",
+     "iid": "W04-Q09",
+     "label": "SUPPORTED",
+     "question": "What color tags did Lena Orth use on the fault-line cores?",
+     "stem": "The tags Lena Orth used on the fault-line cores were",
+     "xids": [
+      "W04-X10"
+     ]
+    },
+    {
+     "answer": "Jonah Crowe",
+     "evidence": "Jonah Crowe signed the equipment return form.",
+     "iid": "W04-Q10",
+     "label": "SUPPORTED",
+     "question": "Who signed the equipment return form?",
+     "stem": "The person who signed the equipment return form was",
+     "xids": [
+      "W04-X10"
+     ]
+    },
+    {
+     "iid": "W04-Q11",
+     "label": "IMPLICATION",
+     "plausible": "she trusted her own readings",
+     "stem": "Lena Orth preferred to check the barometer herself because",
+     "why_not": "The text only states that she checked it; no preference or reason is given."
+    },
+    {
+     "iid": "W04-Q12",
+     "label": "IMPLICATION",
+     "plausible": "finish the western samples",
+     "stem": "Jonah Crowe intended to stay the extra fortnight in order to",
+     "why_not": "He announced the intention if weather held, yet neither the motive nor any confirmation appears."
+    },
+    {
+     "iid": "W04-Q13",
+     "label": "IMPLICATION",
+     "plausible": "reached the col earlier",
+     "stem": "If the fog had not delayed the traverse, the team would have",
+     "why_not": "A delay is recorded, but no hypothetical alternative timing or outcome is established."
+    },
+    {
+     "iid": "W04-Q14",
+     "label": "IMPLICATION",
+     "plausible": "unstable after rain",
+     "stem": "The rockslide occurred because the scree was",
+     "why_not": "The slide is described and two accounts differ on its extent, but no cause is stated."
+    },
+    {
+     "iid": "W04-Q16",
+     "label": "IMPLICATION",
+     "plausible": "chose the north-facing slabs",
+     "stem": "Sofia Ellery\u2019s preference for sketching lichen showed when she",
+     "why_not": "She sketched the patterns, but no preference is asserted."
+    },
+    {
+     "iid": "W04-Q17",
+     "label": "IMPLICATION",
+     "plausible": "the red pouch had been missing",
+     "stem": "Rhea Pike would have treated the scraped knee differently if",
+     "why_not": "Treatment with the kit from the red pouch is stated; no hypothetical alternative is supplied."
+    },
+    {
+     "iid": "W04-Q18",
+     "label": "IMPLICATION",
+     "plausible": "arrive from the east",
+     "stem": "The falling barometer indicated that the next storm would",
+     "why_not": "The barometer fell, but no forecast or directional implication is established in the text."
+    },
+    {
+     "iid": "W04-Q19",
+     "label": "IMPLICATION",
+     "plausible": "exposure during the slide",
+     "stem": "Jonah Crowe\u2019s mild fever was caused by",
+     "why_not": "He stayed in his tent with a mild fever; no cause is identified."
+    },
+    {
+     "iid": "W04-Q20",
+     "label": "IMPLICATION",
+     "plausible": "had more field experience",
+     "stem": "Lena Orth directed the sampling order in life 4 because she",
+     "why_not": "She directed the order after the cache moved, yet no reason or comparison is given."
+    },
+    {
+     "iid": "W04-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The favorite sampling tool of Lena Orth was"
+    },
+    {
+     "iid": "W04-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The childhood fear of Marcus Vane was"
+    },
+    {
+     "iid": "W04-Q23",
+     "label": "NEAR-MISS",
+     "stem": "The birth month of Sofia Ellery was"
+    },
+    {
+     "iid": "W04-Q24",
+     "label": "NEAR-MISS",
+     "stem": "The pet species kept by Jonah Crowe was"
+    },
+    {
+     "iid": "W04-Q25",
+     "label": "NEAR-MISS",
+     "stem": "The allergy of Rhea Pike was"
+    },
+    {
+     "iid": "W04-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role held by Dr. Helen Marlow on the survey was"
+    },
+    {
+     "iid": "W04-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The hobby of Caleb Orth during rest days was"
+    },
+    {
+     "iid": "W04-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The workplace of Nadia Vane after the expedition was"
+    },
+    {
+     "iid": "W04-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "The sister of Theo Ellery who joined the final descent was"
+    },
+    {
+     "iid": "W04-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The city where Quinn Pike trained in geology was"
+    },
+    {
+     "answer": "Lena Orth",
+     "checkpoint": 5,
+     "evidence": "Lena Orth now directed the sampling order while Marcus Vane handled the transit.",
+     "iid": "W04-Q31",
+     "label": "TEMPORAL",
+     "stem": "The person who directed the sampling order was",
+     "xids": [
+      "W04-X07"
+     ]
+    },
+    {
+     "answer": "Sofia Ellery",
+     "checkpoint": 2,
+     "evidence": "Sofia Ellery set the first transect flags along the ridge.",
+     "iid": "W04-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person who set the first transect flags was",
+     "xids": [
+      "W04-X01"
+     ]
+    },
+    {
+     "answer": "Marcus Vane",
+     "checkpoint": 3,
+     "evidence": "Marcus Vane repaired a cracked lens on the theodolite.",
+     "iid": "W04-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 2, the person who repaired the theodolite was",
+     "xids": [
+      "W04-X03"
+     ]
+    },
+    {
+     "answer": "Lena Orth",
+     "checkpoint": 5,
+     "evidence": "On the final descent Lena Orth sealed the last core tube.",
+     "iid": "W04-Q34",
+     "label": "TEMPORAL",
+     "stem": "The person who sealed the last core tube on the final descent was",
+     "xids": [
+      "W04-X09"
+     ]
+    }
+   ],
+   "world_id": "W04"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "Elias Harlow dug the first rows with Maren on a windy March morning. They set Golden Delicious saplings into the clay soil while the creek ran high. Maren counted the stakes and Elias marked the north boundary with a rusted iron rod.",
+     "xid": "W05-X01"
+    },
+    {
+     "life": 1,
+     "text": "At the county market that September, Elias and Maren sold baskets of early apples from a wooden stall. A neighbor asked about the old barn, and Maren said it would hold the next year's crates. Elias nodded and counted the coins twice.",
+     "xid": "W05-X02"
+    },
+    {
+     "life": 2,
+     "text": "Jonah Harlow climbed the ladders beside Elias to prune the upper branches. The boy learned to cut just above the bud while crows watched from the fence. Afterward they drank water from the enamel jug Elias always kept under the seat of the truck.",
+     "xid": "W05-X03"
+    },
+    {
+     "life": 2,
+     "text": "A late frost blackened half the blossoms on the east slope. Elias walked the rows with Jonah and pointed out the damaged clusters. Maren later boiled the remaining fruit into sauce that filled the pantry shelves.",
+     "xid": "W05-X04"
+    },
+    {
+     "life": 3,
+     "text": "Liora Harlow took over the ledger after the wedding and recorded every crate that left the packing shed. Jonah announced he would plant a trial row of peaches along the south fence next spring. The hail that night stripped leaves from the older trees, and Liora noted the loss in red ink.",
+     "xid": "W05-X05"
+    },
+    {
+     "life": 3,
+     "text": "Jonah recalled the hailstorm as a brief clatter that left the trunks scarred but the roots firm. He told Liora the fruit would still set if the weather held. She had already written the east slope loss in the ledger the night before.",
+     "xid": "W05-X06"
+    },
+    {
+     "life": 4,
+     "text": "Caleb Harlow grafted new shoots onto the old Golden Delicious stocks using wax and twine. Sera helped by holding the ladders and fetched the pruning saw from the tool shed. Caleb said he intended to try a cider variety if the grafts took, though no further rows were marked that season.",
+     "xid": "W05-X07"
+    },
+    {
+     "life": 4,
+     "text": "During the harvest, Liora packed the Golden Delicious while Caleb loaded the truck. A buyer from the city claimed the apples tasted sweeter than last year. Sera counted the empty baskets and stacked them against the barn wall.",
+     "xid": "W05-X08"
+    },
+    {
+     "life": 5,
+     "text": "Sera Harlow now directs the morning pruning crews on the north rows. The packing shed has new concrete floors that Jonah ordered before he stepped back. Caleb still checks the grafts each week and writes notes in a small green notebook.",
+     "xid": "W05-X09"
+    },
+    {
+     "life": 5,
+     "text": "Maren, visiting from the house, watched Sera and Caleb sort the last of the pears. She claimed Elias had always preferred the russet varieties over the shiny ones. The creek was low that autumn and the iron rod still marked the old boundary.",
+     "xid": "W05-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Golden Delicious",
+     "evidence": "They set Golden Delicious saplings into the clay soil while the creek ran high.",
+     "iid": "W05-Q01",
+     "label": "SUPPORTED",
+     "question": "What variety were the first saplings Elias and Maren set?",
+     "stem": "The variety of the first saplings Elias and Maren set was",
+     "xids": [
+      "W05-X01"
+     ]
+    },
+    {
+     "answer": "rusted iron rod",
+     "evidence": "Elias marked the north boundary with a rusted iron rod.",
+     "iid": "W05-Q02",
+     "label": "SUPPORTED",
+     "question": "What object did Elias use to mark the north boundary?",
+     "stem": "The object Elias used to mark the north boundary was",
+     "xids": [
+      "W05-X01"
+     ]
+    },
+    {
+     "answer": "enamel",
+     "evidence": "Afterward they drank water from the enamel jug Elias always kept under the seat of the truck.",
+     "iid": "W05-Q03",
+     "label": "SUPPORTED",
+     "question": "What kind of jug did Elias always keep under the seat of the truck?",
+     "stem": "The kind of jug Elias always kept under the seat of the truck was",
+     "xids": [
+      "W05-X03"
+     ]
+    },
+    {
+     "answer": "sauce",
+     "evidence": "Maren later boiled the remaining fruit into sauce that filled the pantry shelves.",
+     "iid": "W05-Q04",
+     "label": "SUPPORTED",
+     "question": "What preparation did Maren make from the remaining fruit?",
+     "stem": "The preparation Maren made from the remaining fruit was",
+     "xids": [
+      "W05-X04"
+     ]
+    },
+    {
+     "answer": "wax",
+     "evidence": "Caleb Harlow grafted new shoots onto the old Golden Delicious stocks using wax and twine.",
+     "iid": "W05-Q06",
+     "label": "SUPPORTED",
+     "question": "What material did Caleb use with twine when grafting?",
+     "stem": "The material Caleb used with twine when grafting was",
+     "xids": [
+      "W05-X07"
+     ]
+    },
+    {
+     "answer": "pruning saw",
+     "evidence": "Sera helped by holding the ladders and fetched the pruning saw from the tool shed.",
+     "iid": "W05-Q07",
+     "label": "SUPPORTED",
+     "question": "What tool did Sera fetch from the tool shed?",
+     "stem": "The tool Sera fetched from the tool shed was",
+     "xids": [
+      "W05-X07"
+     ]
+    },
+    {
+     "answer": "pears",
+     "evidence": "Maren, visiting from the house, watched Sera and Caleb sort the last of the pears.",
+     "iid": "W05-Q10",
+     "label": "SUPPORTED",
+     "question": "What fruit did Sera and Caleb sort last?",
+     "stem": "The fruit Sera and Caleb sorted last was",
+     "xids": [
+      "W05-X10"
+     ]
+    },
+    {
+     "iid": "W05-Q15",
+     "label": "IMPLICATION",
+     "plausible": "brief",
+     "stem": "The duration of the hail that affected the older trees was",
+     "why_not": "Jonah called it a brief clatter while Liora recorded a substantial leaf-stripping loss; the accounts differ and neither is definitive."
+    },
+    {
+     "iid": "W05-Q16",
+     "label": "IMPLICATION",
+     "plausible": "sweeter taste",
+     "stem": "The reason the city buyer preferred this year's apples was",
+     "why_not": "The buyer claimed they tasted sweeter, but no preference or confirmed sensory fact is established beyond that assertion."
+    },
+    {
+     "iid": "W05-Q17",
+     "label": "IMPLICATION",
+     "plausible": "brief hail",
+     "stem": "The circumstance that left the roots firm after the storm was",
+     "why_not": "Jonah's recollection states the outcome but does not establish any particular circumstance as the cause."
+    },
+    {
+     "iid": "W05-Q18",
+     "label": "IMPLICATION",
+     "plausible": "record higher yields",
+     "stem": "The action Liora would have taken if more fruit had set was",
+     "why_not": "No hypothetical behaviour is described; only the actual ledger entry is given."
+    },
+    {
+     "iid": "W05-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The height of the ladders Jonah climbed beside Elias was"
+    },
+    {
+     "iid": "W05-Q22",
+     "label": "NEAR-MISS",
+     "stem": "Liora's favorite color while keeping the ledger was"
+    },
+    {
+     "iid": "W05-Q23",
+     "label": "NEAR-MISS",
+     "stem": "The age of Elias when he marked the north boundary was"
+    },
+    {
+     "iid": "W05-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Caleb's childhood fear on the orchard was"
+    },
+    {
+     "iid": "W05-Q25",
+     "label": "NEAR-MISS",
+     "stem": "Sera's hobby outside the harvest season was"
+    },
+    {
+     "iid": "W05-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role Briony held in the packing shed was"
+    },
+    {
+     "iid": "W05-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The crop Theo planned to introduce along the fence was"
+    },
+    {
+     "iid": "W05-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The tool Elowen fetched during grafting was"
+    },
+    {
+     "iid": "W05-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "The notebook Mira kept for the grafts was"
+    },
+    {
+     "iid": "W05-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The fruit Rowan sorted last in the autumn was"
+    },
+    {
+     "answer": "Jonah Harlow",
+     "checkpoint": 5,
+     "evidence": "Jonah Harlow climbed the ladders beside Elias to prune the upper branches.",
+     "iid": "W05-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 2, the person who climbed the ladders beside Elias was",
+     "xids": [
+      "W05-X03"
+     ]
+    },
+    {
+     "answer": "Sera Harlow",
+     "checkpoint": 5,
+     "evidence": "Sera Harlow now directs the morning pruning crews on the north rows.",
+     "iid": "W05-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 5, the person who directs the morning pruning crews is",
+     "xids": [
+      "W05-X09"
+     ]
+    },
+    {
+     "answer": "Caleb",
+     "checkpoint": 5,
+     "evidence": "Caleb still checks the grafts each week and writes notes in a small green notebook.",
+     "iid": "W05-Q33",
+     "label": "TEMPORAL",
+     "stem": "The person who currently checks the grafts each week is",
+     "xids": [
+      "W05-X09"
+     ]
+    },
+    {
+     "answer": "rusted iron rod",
+     "checkpoint": 5,
+     "evidence": "Elias marked the north boundary with a rusted iron rod.",
+     "iid": "W05-Q34",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the object used to mark the north boundary was",
+     "xids": [
+      "W05-X01"
+     ]
+    }
+   ],
+   "world_id": "W05"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "The Minnow's Rest slipped from the dock before dawn with Harlan Voss at the helm. Sable Quinn inspected the mended nets while Torin Blake hauled the ice crates aboard, and Elara Moss started the diesel with a practiced pull. Pip Renn sat on the hatch cover sorting a bag of rubber bands he used for the lines.",
+     "xid": "W06-X01"
+    },
+    {
+     "life": 1,
+     "text": "By midday the crew had set the longlines off the eastern shelf. Elara Moss passed around thick slices of rye bread she had baked the night before, and Pip Renn asked if anyone wanted the last of the apple cider. Torin Blake complained that the water looked too calm for good fishing.",
+     "xid": "W06-X02"
+    },
+    {
+     "life": 2,
+     "text": "A sudden squall hit while they were hauling the nets, and Sable Quinn shouted for everyone to secure the boom. Torin Blake slipped on the wet deck but caught himself on the rail, while Elara Moss kept the engine running through the chop. Harlan Voss later said the catch was still decent despite the weather.",
+     "xid": "W06-X03"
+    },
+    {
+     "life": 2,
+     "text": "Sable Quinn recalled the afternoon the wind rose without warning and the deck pitched hard. Pip Renn had been below sorting bait when the boat lurched, and Harlan Voss ordered the lines cut to avoid dragging. Elara Moss reported the bilge pump handled the spray without trouble.",
+     "xid": "W06-X04"
+    },
+    {
+     "life": 3,
+     "text": "Harlan Voss announced at breakfast that he intended to take the Minnow's Rest south for winter work after this season ended. Sable Quinn nodded but said nothing about her own plans, and Torin Blake asked whether the southern runs paid better. Elara Moss checked the fuel gauge and noted they had enough for three more days.",
+     "xid": "W06-X05"
+    },
+    {
+     "life": 3,
+     "text": "The crew spent a quiet evening in the cabin after a poor day's haul. Pip Renn showed the others a carved wooden bird he had made from scrap, and Sable Quinn claimed that Torin Blake had once refused to swim even in the harbor pool. Torin Blake shrugged and changed the subject to the upcoming tide.",
+     "xid": "W06-X06"
+    },
+    {
+     "life": 4,
+     "text": "By the fourth season Torin Blake had taken over the wheel during night watches while Harlan Voss rested below. Elara Moss had added a small radio so they could catch the weather reports, and Pip Renn now handled the net repairs on his own. Sable Quinn preferred the early morning shift for setting the lines.",
+     "xid": "W06-X07"
+    },
+    {
+     "life": 4,
+     "text": "They sold the last of the herring at the south pier market before heading back. Harlan Voss counted the cash into an old biscuit tin he kept under the chart table, and Elara Moss bought fresh coffee beans from a stall. Pip Renn traded a spare knife for a pair of warmer gloves.",
+     "xid": "W06-X08"
+    },
+    {
+     "life": 5,
+     "text": "In the fifth season the Minnow's Rest needed new planks after the winter, and Harlan Voss hired a shore carpenter for the job. Sable Quinn stayed aboard to supervise the work while Torin Blake and Pip Renn scraped the hull. Elara Moss tested the rebuilt engine and declared it smoother than before.",
+     "xid": "W06-X09"
+    },
+    {
+     "life": 5,
+     "text": "The crew gathered for the first run of the new season under clear skies. Harlan Voss steered toward the northern grounds they had favored last year, and Sable Quinn noted the nets were freshly tarred. Torin Blake mentioned he had started keeping a log of the water temperatures, while Elara Moss served the leftover stew from the night before.",
+     "xid": "W06-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "Minnow's Rest",
+     "evidence": "The Minnow's Rest slipped from the dock before dawn with Harlan Voss at the helm.",
+     "iid": "W06-Q01",
+     "label": "SUPPORTED",
+     "question": "What was the name of the boat that slipped from the dock before dawn?",
+     "stem": "The boat that slipped from the dock before dawn was the",
+     "xids": [
+      "W06-X01"
+     ]
+    },
+    {
+     "answer": "at the helm",
+     "evidence": "The Minnow's Rest slipped from the dock before dawn with Harlan Voss at the helm.",
+     "iid": "W06-Q02",
+     "label": "SUPPORTED",
+     "question": "Where was Harlan Voss during the early departure from the dock?",
+     "stem": "During the early departure Harlan Voss was",
+     "xids": [
+      "W06-X01"
+     ]
+    },
+    {
+     "answer": "rye bread",
+     "evidence": "Elara Moss passed around thick slices of rye bread she had baked the night before, and Pip Renn asked if anyone wanted the last of the apple cider.",
+     "iid": "W06-Q03",
+     "label": "SUPPORTED",
+     "question": "What kind of bread did Elara Moss pass around to the crew?",
+     "stem": "The thick slices Elara Moss passed around were of",
+     "xids": [
+      "W06-X02"
+     ]
+    },
+    {
+     "answer": "taken over the wheel",
+     "evidence": "By the fourth season Torin Blake had taken over the wheel during night watches while Harlan Voss rested below.",
+     "iid": "W06-Q04",
+     "label": "SUPPORTED",
+     "question": "What had Torin Blake taken over by the fourth season?",
+     "stem": "By the fourth season Torin Blake had",
+     "xids": [
+      "W06-X07"
+     ]
+    },
+    {
+     "answer": "a shore carpenter",
+     "evidence": "In the fifth season the Minnow's Rest needed new planks after the winter, and Harlan Voss hired a shore carpenter for the job.",
+     "iid": "W06-Q05",
+     "label": "SUPPORTED",
+     "question": "Whom did Harlan Voss hire for the job of the new planks?",
+     "stem": "For the job of the new planks Harlan Voss hired",
+     "xids": [
+      "W06-X09"
+     ]
+    },
+    {
+     "answer": "an old biscuit tin",
+     "evidence": "Harlan Voss counted the cash into an old biscuit tin he kept under the chart table, and Elara Moss bought fresh coffee beans from a stall.",
+     "iid": "W06-Q06",
+     "label": "SUPPORTED",
+     "question": "What did Harlan Voss count the cash into after selling the herring?",
+     "stem": "Harlan Voss counted the cash into",
+     "xids": [
+      "W06-X08"
+     ]
+    },
+    {
+     "answer": "freshly tarred",
+     "evidence": "Harlan Voss steered toward the northern grounds they had favored last year, and Sable Quinn noted the nets were freshly tarred.",
+     "iid": "W06-Q07",
+     "label": "SUPPORTED",
+     "question": "What did Sable Quinn note about the nets on the first run of the new season?",
+     "stem": "On the first run of the new season Sable Quinn noted the nets were",
+     "xids": [
+      "W06-X10"
+     ]
+    },
+    {
+     "answer": "secure the boom",
+     "evidence": "A sudden squall hit while they were hauling the nets, and Sable Quinn shouted for everyone to secure the boom.",
+     "iid": "W06-Q08",
+     "label": "SUPPORTED",
+     "question": "What did Sable Quinn shout for everyone to do when the squall hit?",
+     "stem": "When the squall hit Sable Quinn shouted for everyone to",
+     "xids": [
+      "W06-X03"
+     ]
+    },
+    {
+     "answer": "carved wooden bird",
+     "evidence": "Pip Renn showed the others a carved wooden bird he had made from scrap, and Sable Quinn claimed that Torin Blake had once refused to swim even in the harbor pool.",
+     "iid": "W06-Q09",
+     "label": "SUPPORTED",
+     "question": "What did Pip Renn show the others after the poor day's haul?",
+     "stem": "After the poor day's haul Pip Renn showed the others a",
+     "xids": [
+      "W06-X06"
+     ]
+    },
+    {
+     "answer": "below sorting bait",
+     "evidence": "Pip Renn had been below sorting bait when the boat lurched, and Harlan Voss ordered the lines cut to avoid dragging.",
+     "iid": "W06-Q10",
+     "label": "SUPPORTED",
+     "question": "Where had Pip Renn been when the boat lurched?",
+     "stem": "When the boat lurched Pip Renn had been",
+     "xids": [
+      "W06-X04"
+     ]
+    },
+    {
+     "iid": "W06-Q12",
+     "label": "IMPLICATION",
+     "plausible": "refused to swim",
+     "stem": "Torin Blake had once",
+     "why_not": "This is only a claim made by Sable Quinn about Torin Blake and is not established by any direct account of his actions."
+    },
+    {
+     "iid": "W06-Q13",
+     "label": "IMPLICATION",
+     "plausible": "rough water",
+     "stem": "Torin Blake preferred fishing in",
+     "why_not": "He complained that the water looked too calm for good fishing, but this does not establish a preference for rough conditions."
+    },
+    {
+     "iid": "W06-Q14",
+     "label": "IMPLICATION",
+     "plausible": "bailed manually",
+     "stem": "If the bilge pump had failed the crew would have",
+     "why_not": "The report only states that the pump handled the spray; no hypothetical or alternative behaviour is described."
+    },
+    {
+     "iid": "W06-Q15",
+     "label": "IMPLICATION",
+     "plausible": "calm conditions",
+     "stem": "The poor day's haul resulted from",
+     "why_not": "A poor haul is mentioned but no cause or contributing circumstance is established in the experiences."
+    },
+    {
+     "iid": "W06-Q16",
+     "label": "IMPLICATION",
+     "plausible": "it was productive",
+     "stem": "The crew set the longlines off the eastern shelf because",
+     "why_not": "They set the lines off the eastern shelf but the reason or circumstances for choosing that location are not stated."
+    },
+    {
+     "iid": "W06-Q17",
+     "label": "IMPLICATION",
+     "plausible": "remain with the crew",
+     "stem": "Sable Quinn planned to",
+     "why_not": "She nodded at Harlan's announcement but said nothing about her own plans, so no intention is established."
+    },
+    {
+     "iid": "W06-Q18",
+     "label": "IMPLICATION",
+     "plausible": "fresh coffee beans",
+     "stem": "Elara Moss favored",
+     "why_not": "She bought fresh coffee beans from a stall, but this does not establish a preference over other options."
+    },
+    {
+     "iid": "W06-Q19",
+     "label": "IMPLICATION",
+     "plausible": "gone overboard",
+     "stem": "Had Torin Blake missed the rail he would have",
+     "why_not": "He slipped on the wet deck but caught himself; no hypothetical outcome is described."
+    },
+    {
+     "iid": "W06-Q20",
+     "label": "IMPLICATION",
+     "plausible": "winter damage to the hull",
+     "stem": "The Minnow's Rest needed new planks because",
+     "why_not": "It needed new planks after the winter, but the specific cause or circumstances of the need are not established."
+    },
+    {
+     "iid": "W06-Q21",
+     "label": "NEAR-MISS",
+     "stem": "Pip Renn's favorite snack was"
+    },
+    {
+     "iid": "W06-Q22",
+     "label": "NEAR-MISS",
+     "stem": "Elara Moss's hometown was"
+    },
+    {
+     "iid": "W06-Q23",
+     "label": "NEAR-MISS",
+     "stem": "Torin Blake's first fishing trip was"
+    },
+    {
+     "iid": "W06-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Sable Quinn's preferred bait was"
+    },
+    {
+     "iid": "W06-Q25",
+     "label": "NEAR-MISS",
+     "stem": "Harlan Voss's age was"
+    },
+    {
+     "iid": "W06-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "Calen Ward's duties on the Minnow's Rest were"
+    },
+    {
+     "iid": "W06-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "Mira Dune's position in the crew was"
+    },
+    {
+     "iid": "W06-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "Jory Hale's boat was named"
+    },
+    {
+     "iid": "W06-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "Lira Thorne's role during the squall was"
+    },
+    {
+     "iid": "W06-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "the market stall owner's specialty was"
+    },
+    {
+     "answer": "Harlan Voss",
+     "checkpoint": 5,
+     "evidence": "The Minnow's Rest slipped from the dock before dawn with Harlan Voss at the helm.",
+     "iid": "W06-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person at the helm was",
+     "xids": [
+      "W06-X01"
+     ]
+    },
+    {
+     "answer": "Harlan Voss",
+     "checkpoint": 5,
+     "evidence": "Harlan Voss steered toward the northern grounds they had favored last year, and Sable Quinn noted the nets were freshly tarred.",
+     "iid": "W06-Q32",
+     "label": "TEMPORAL",
+     "stem": "The person who steered toward the northern grounds on the first run of the new season was",
+     "xids": [
+      "W06-X10"
+     ]
+    },
+    {
+     "answer": "Torin Blake",
+     "checkpoint": 5,
+     "evidence": "By the fourth season Torin Blake had taken over the wheel during night watches while Harlan Voss rested below.",
+     "iid": "W06-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 4, the person who had taken over the wheel during night watches was",
+     "xids": [
+      "W06-X07"
+     ]
+    },
+    {
+     "answer": "smoother than before",
+     "checkpoint": 5,
+     "evidence": "Elara Moss tested the rebuilt engine and declared it smoother than before.",
+     "iid": "W06-Q34",
+     "label": "TEMPORAL",
+     "stem": "After testing, Elara Moss declared the rebuilt engine",
+     "xids": [
+      "W06-X09"
+     ]
+    }
+   ],
+   "world_id": "W06"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "The autumn rain drummed on the school roof as the new term began. Elowen Marsh worked as the classroom assistant that term, helping Thora Vane with the youngest group. Orin Vale swept the porch after the children left, muttering about the leaves.",
+     "xid": "W07-X01"
+    },
+    {
+     "life": 2,
+     "text": "Kael Riven wrote equations on the board for the older children in the upper room. Pip Harlow claimed that Elowen preferred quiet afternoons for reading stories. The school bell rang late because the clock needed winding.",
+     "xid": "W07-X02"
+    },
+    {
+     "life": 2,
+     "text": "Pip Harlow noted the attendance in the old ledger before the bell rang each morning. The stove in the corner kept the classroom warm. Orin Vale checked the locks on the doors each evening.",
+     "xid": "W07-X03"
+    },
+    {
+     "life": 3,
+     "text": "During the spring term Elowen Marsh took charge of the infants' class after the assistant role ended. She taught them to count using pebbles from the river. Thora Vane observed from the doorway and nodded approvingly.",
+     "xid": "W07-X04"
+    },
+    {
+     "life": 3,
+     "text": "The annual school fair took place in the yard despite the mud. Orin Vale set up the tables for the cake stall while children ran between the stalls. Thora Vane announced the raffle winners at noon.",
+     "xid": "W07-X05"
+    },
+    {
+     "life": 3,
+     "text": "Crowds gathered at the village school fair that Saturday. Pip Harlow sold tickets at the gate while Kael Riven judged the vegetable competition. The rain held off until the afternoon games finished.",
+     "xid": "W07-X06"
+    },
+    {
+     "life": 4,
+     "text": "Kael Riven mentioned he planned to start a chess club after school but never brought the board. Elowen Marsh continued teaching the infants while Thora Vane handled the accounts in the office. Orin Vale repaired the broken swing near the oak tree.",
+     "xid": "W07-X07"
+    },
+    {
+     "life": 4,
+     "text": "In the staff room Pip Harlow brewed tea for everyone after the morning assembly. She said the new chalk was too dusty according to Kael. The windows fogged with the cold outside as they discussed the upcoming inspection.",
+     "xid": "W07-X08"
+    },
+    {
+     "life": 5,
+     "text": "By the final year Thora Vane still served as headmistress of the small school. Kael Riven taught mathematics in the upper room using the old textbooks. Elowen Marsh prepared the infants for their move to the next class with extra stories.",
+     "xid": "W07-X09"
+    },
+    {
+     "life": 5,
+     "text": "Orin Vale painted the playground fence a deep green during the summer break. The children returned to find the swings freshly oiled by the caretaker. Pip Harlow updated the register with the new names from the village.",
+     "xid": "W07-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "equations",
+     "evidence": "Kael Riven wrote equations on the board for the older children in the upper room.",
+     "iid": "W07-Q02",
+     "label": "SUPPORTED",
+     "question": "What did Kael Riven write on the board?",
+     "stem": "Kael Riven wrote ",
+     "xids": [
+      "W07-X02"
+     ]
+    },
+    {
+     "answer": "infants' class",
+     "evidence": "During the spring term Elowen Marsh took charge of the infants' class after the assistant role ended.",
+     "iid": "W07-Q03",
+     "label": "SUPPORTED",
+     "question": "What did Elowen Marsh take charge of during the spring term?",
+     "stem": "Elowen Marsh took charge of the ",
+     "xids": [
+      "W07-X04"
+     ]
+    },
+    {
+     "answer": "cake stall",
+     "evidence": "Orin Vale set up the tables for the cake stall while children ran between the stalls.",
+     "iid": "W07-Q05",
+     "label": "SUPPORTED",
+     "question": "What did Orin Vale set up the tables for?",
+     "stem": "Orin Vale set up the tables for the ",
+     "xids": [
+      "W07-X05"
+     ]
+    },
+    {
+     "answer": "gate",
+     "evidence": "Pip Harlow sold tickets at the gate while Kael Riven judged the vegetable competition.",
+     "iid": "W07-Q06",
+     "label": "SUPPORTED",
+     "question": "Where did Pip Harlow sell tickets?",
+     "stem": "Pip Harlow sold tickets at the ",
+     "xids": [
+      "W07-X06"
+     ]
+    },
+    {
+     "answer": "vegetable competition",
+     "evidence": "Pip Harlow sold tickets at the gate while Kael Riven judged the vegetable competition.",
+     "iid": "W07-Q07",
+     "label": "SUPPORTED",
+     "question": "What did Kael Riven judge?",
+     "stem": "Kael Riven judged the ",
+     "xids": [
+      "W07-X06"
+     ]
+    },
+    {
+     "answer": "headmistress",
+     "evidence": "By the final year Thora Vane still served as headmistress of the small school.",
+     "iid": "W07-Q08",
+     "label": "SUPPORTED",
+     "question": "What role did Thora Vane still serve as?",
+     "stem": "Thora Vane still served as ",
+     "xids": [
+      "W07-X09"
+     ]
+    },
+    {
+     "answer": "mathematics",
+     "evidence": "Kael Riven taught mathematics in the upper room using the old textbooks.",
+     "iid": "W07-Q09",
+     "label": "SUPPORTED",
+     "question": "What did Kael Riven teach?",
+     "stem": "Kael Riven taught ",
+     "xids": [
+      "W07-X09"
+     ]
+    },
+    {
+     "answer": "deep green",
+     "evidence": "Orin Vale painted the playground fence a deep green during the summer break.",
+     "iid": "W07-Q10",
+     "label": "SUPPORTED",
+     "question": "What color did Orin Vale paint the playground fence?",
+     "stem": "Orin Vale painted the playground fence a ",
+     "xids": [
+      "W07-X10"
+     ]
+    },
+    {
+     "iid": "W07-Q11",
+     "label": "IMPLICATION",
+     "plausible": "reading stories",
+     "stem": "Elowen preferred quiet afternoons for ",
+     "why_not": "Pip Harlow claimed it, but Elowen's own preference is never stated or confirmed in any experience."
+    },
+    {
+     "iid": "W07-Q13",
+     "label": "IMPLICATION",
+     "plausible": "the mud had been worse",
+     "stem": "The fair would have been held indoors if ",
+     "why_not": "No experience describes any hypothetical alternative arrangements or conditions under which the fair would change."
+    },
+    {
+     "iid": "W07-Q14",
+     "label": "IMPLICATION",
+     "plausible": "they created extra work",
+     "stem": "Orin Vale muttered about the leaves because ",
+     "why_not": "He muttered about the leaves after sweeping, but no cause, preference or feeling is established beyond the action."
+    },
+    {
+     "iid": "W07-Q16",
+     "label": "IMPLICATION",
+     "plausible": "too dusty",
+     "stem": "Kael found the new chalk ",
+     "why_not": "Pip Harlow reported that the chalk was too dusty according to Kael, but this remains an unconfirmed claim by another person."
+    },
+    {
+     "iid": "W07-Q17",
+     "label": "IMPLICATION",
+     "plausible": "they were excited",
+     "stem": "The children ran between the stalls because ",
+     "why_not": "They ran between the stalls is described, but no cause or motivation is given."
+    },
+    {
+     "iid": "W07-Q19",
+     "label": "IMPLICATION",
+     "plausible": "the move was approaching",
+     "stem": "Elowen Marsh prepared the infants with extra stories because ",
+     "why_not": "She prepared them for their move with extra stories, but no causal link or circumstance beyond the preparation is stated."
+    },
+    {
+     "iid": "W07-Q20",
+     "label": "IMPLICATION",
+     "plausible": "the staff gathered",
+     "stem": "Pip Harlow would brew tea whenever ",
+     "why_not": "She brewed tea after the morning assembly on that occasion, but no general preference, intention or hypothetical pattern is established."
+    },
+    {
+     "iid": "W07-Q21",
+     "label": "NEAR-MISS",
+     "stem": "Elowen Marsh's favorite object was "
+    },
+    {
+     "iid": "W07-Q22",
+     "label": "NEAR-MISS",
+     "stem": "Kael Riven's childhood fear was "
+    },
+    {
+     "iid": "W07-Q23",
+     "label": "NEAR-MISS",
+     "stem": "Thora Vane's pet species was "
+    },
+    {
+     "iid": "W07-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Orin Vale's hobby was "
+    },
+    {
+     "iid": "W07-Q25",
+     "label": "NEAR-MISS",
+     "stem": "Pip Harlow's birth month was "
+    },
+    {
+     "iid": "W07-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "Soren Blake taught "
+    },
+    {
+     "iid": "W07-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "Mira Ellison worked as the "
+    },
+    {
+     "iid": "W07-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "Joss Harlan painted the "
+    },
+    {
+     "iid": "W07-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "Lena Crowe sold tickets at the "
+    },
+    {
+     "iid": "W07-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "Finn Adler served as "
+    },
+    {
+     "answer": "classroom assistant",
+     "checkpoint": 2,
+     "evidence": "Elowen Marsh worked as the classroom assistant that term, helping Thora Vane with the youngest group.",
+     "iid": "W07-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 1, Elowen Marsh worked as the ",
+     "xids": [
+      "W07-X01"
+     ]
+    },
+    {
+     "answer": "infants' class",
+     "checkpoint": 5,
+     "evidence": "During the spring term Elowen Marsh took charge of the infants' class after the assistant role ended.",
+     "iid": "W07-Q32",
+     "label": "TEMPORAL",
+     "stem": "Elowen Marsh took charge of the ",
+     "xids": [
+      "W07-X04"
+     ]
+    },
+    {
+     "answer": "headmistress",
+     "checkpoint": 5,
+     "evidence": "By the final year Thora Vane still served as headmistress of the small school.",
+     "iid": "W07-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 5, Thora Vane still served as ",
+     "xids": [
+      "W07-X09"
+     ]
+    },
+    {
+     "answer": "mathematics",
+     "checkpoint": 5,
+     "evidence": "Kael Riven taught mathematics in the upper room using the old textbooks.",
+     "iid": "W07-Q34",
+     "label": "TEMPORAL",
+     "stem": "Kael Riven taught ",
+     "xids": [
+      "W07-X09"
+     ]
+    }
+   ],
+   "world_id": "W07"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "Mira Ellison began her first overnight at Riverside Night Wing following Dr. Kai Voss along the east corridor. She checked IV bags under the buzzing fluorescent lights. Kai announced his intention to request day shifts after residency, but the topic never came up again. Elara Quinn brought coffee and commented on the unusual quiet.",
+     "xid": "W08-X01"
+    },
+    {
+     "life": 1,
+     "text": "A code blue sounded for room 14 during that first shift. Mira and Kai pushed the crash cart in and performed compressions for three minutes until the patient stabilized. Later Elara described the identical code as lasting nearly ten minutes amid greater confusion.",
+     "xid": "W08-X02"
+    },
+    {
+     "life": 2,
+     "text": "Mira had shifted to primary coverage of the west wing by the second life. She reviewed charts with Dr. Soren Hale at the nurses' station. Riven Moss from the lab claimed that Elara always forgot to sign the medication log. Tamsin Grey sorted incoming papers nearby.",
+     "xid": "W08-X03"
+    },
+    {
+     "life": 2,
+     "text": "Dr. Kai Voss remained on nights then. He said he preferred the quieter hours, yet no formal request was ever filed. Mira handed a warm blanket to the patient in room 7. The monitors beeped at irregular intervals.",
+     "xid": "W08-X04"
+    },
+    {
+     "life": 3,
+     "text": "Elara Quinn became night supervisor of the full wing in life 3. She reassigned Mira to the east corridor for the shift. Dr. Soren Hale completed a consult in room 22 around midnight. Tamsin Grey observed that staffing looked thin that evening.",
+     "xid": "W08-X05"
+    },
+    {
+     "life": 3,
+     "text": "Around 3 a.m. a patient reported nausea. Mira checked the chart twice before giving the prescribed antiemetic. Kai heated soup in the break room. Elara watched from the central desk.",
+     "xid": "W08-X06"
+    },
+    {
+     "life": 4,
+     "text": "Mira received a promotion to weekend charge nurse in life 4. She coordinated a patient transfer with Soren Hale. Riven Moss reported ongoing lab delays for blood work. Staff recalled the old code blue in conflicting ways.",
+     "xid": "W08-X07"
+    },
+    {
+     "life": 4,
+     "text": "According to one conversation Kai Voss had transferred to day shifts by life 4. He stopped by briefly to collect files. Elara continued on nights without change. Mira located a missing chart beneath the counter.",
+     "xid": "W08-X08"
+    },
+    {
+     "life": 5,
+     "text": "In the most recent life Mira served as lead on the east corridor. Dr. Soren Hale acted as the only attending overnight. Tamsin Grey announced she intended to begin nurse training, though no confirmation appeared later. Only routine checks filled the quiet hours.",
+     "xid": "W08-X09"
+    },
+    {
+     "life": 5,
+     "text": "Riven Moss asserted that Kai had always preferred night work even after the transfer. Mira double-checked one medication order before administering it. The fluorescent lights continued to hum overhead as usual.",
+     "xid": "W08-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "east corridor",
+     "evidence": "Mira Ellison began her first overnight at Riverside Night Wing following Dr. Kai Voss along the east corridor.",
+     "iid": "W08-Q01",
+     "label": "SUPPORTED",
+     "question": "Along which corridor did Mira follow Dr. Kai Voss on her first overnight?",
+     "stem": "Mira Ellison began her first overnight at Riverside Night Wing following Dr. Kai Voss along the",
+     "xids": [
+      "W08-X01"
+     ]
+    },
+    {
+     "answer": "room 14",
+     "evidence": "A code blue sounded for room 14 during that first shift.",
+     "iid": "W08-Q02",
+     "label": "SUPPORTED",
+     "question": "For which room did the code blue sound?",
+     "stem": "A code blue sounded for",
+     "xids": [
+      "W08-X02"
+     ]
+    },
+    {
+     "answer": "west wing",
+     "evidence": "Mira had shifted to primary coverage of the west wing by the second life.",
+     "iid": "W08-Q03",
+     "label": "SUPPORTED",
+     "question": "Which wing did Mira have primary coverage of by the second life?",
+     "stem": "Mira had shifted to primary coverage of the",
+     "xids": [
+      "W08-X03"
+     ]
+    },
+    {
+     "answer": "medication log",
+     "evidence": "Riven Moss from the lab claimed that Elara always forgot to sign the medication log.",
+     "iid": "W08-Q04",
+     "label": "SUPPORTED",
+     "question": "What did Riven claim Elara always forgot to sign?",
+     "stem": "Riven Moss from the lab claimed that Elara always forgot to sign the",
+     "xids": [
+      "W08-X03"
+     ]
+    },
+    {
+     "answer": "room 7",
+     "evidence": "Mira handed a warm blanket to the patient in room 7.",
+     "iid": "W08-Q05",
+     "label": "SUPPORTED",
+     "question": "In which room was the patient Mira gave a warm blanket to?",
+     "stem": "Mira handed a warm blanket to the patient in",
+     "xids": [
+      "W08-X04"
+     ]
+    },
+    {
+     "answer": "full wing",
+     "evidence": "Elara Quinn became night supervisor of the full wing in life 3.",
+     "iid": "W08-Q06",
+     "label": "SUPPORTED",
+     "question": "Of what did Elara become night supervisor?",
+     "stem": "Elara Quinn became night supervisor of the",
+     "xids": [
+      "W08-X05"
+     ]
+    },
+    {
+     "answer": "east corridor",
+     "evidence": "She reassigned Mira to the east corridor for the shift.",
+     "iid": "W08-Q07",
+     "label": "SUPPORTED",
+     "question": "To which corridor did Elara reassign Mira?",
+     "stem": "She reassigned Mira to the",
+     "xids": [
+      "W08-X05"
+     ]
+    },
+    {
+     "answer": "antiemetic",
+     "evidence": "Mira checked the chart twice before giving the prescribed antiemetic.",
+     "iid": "W08-Q08",
+     "label": "SUPPORTED",
+     "question": "What prescribed medication did Mira give after checking the chart twice?",
+     "stem": "Mira checked the chart twice before giving the prescribed",
+     "xids": [
+      "W08-X06"
+     ]
+    },
+    {
+     "answer": "weekend charge nurse",
+     "evidence": "Mira received a promotion to weekend charge nurse in life 4.",
+     "iid": "W08-Q09",
+     "label": "SUPPORTED",
+     "question": "To what position did Mira receive a promotion in life 4?",
+     "stem": "Mira received a promotion to",
+     "xids": [
+      "W08-X07"
+     ]
+    },
+    {
+     "answer": "east corridor",
+     "evidence": "In the most recent life Mira served as lead on the east corridor.",
+     "iid": "W08-Q10",
+     "label": "SUPPORTED",
+     "question": "On which corridor did Mira serve as lead in the most recent life?",
+     "stem": "In the most recent life Mira served as lead on the",
+     "xids": [
+      "W08-X09"
+     ]
+    },
+    {
+     "iid": "W08-Q11",
+     "label": "IMPLICATION",
+     "plausible": "east corridor",
+     "stem": "Mira's preferred corridor on night shifts was",
+     "why_not": "Assignments to the east corridor occur but no preference is expressed by Mira."
+    },
+    {
+     "iid": "W08-Q12",
+     "label": "IMPLICATION",
+     "plausible": "nurse training",
+     "stem": "Tamsin Grey went on to start",
+     "why_not": "She announced the intention but no confirmation or further action is stated."
+    },
+    {
+     "iid": "W08-Q13",
+     "label": "IMPLICATION",
+     "plausible": "additional staff",
+     "stem": "Had the code blue continued Mira would have called for",
+     "why_not": "The event ends with stabilization and no hypothetical actions are described."
+    },
+    {
+     "iid": "W08-Q14",
+     "label": "IMPLICATION",
+     "plausible": "low patient volume",
+     "stem": "The unusual quiet on the first shift resulted from",
+     "why_not": "The quiet is noted by Elara but no cause is provided."
+    },
+    {
+     "iid": "W08-Q15",
+     "label": "IMPLICATION",
+     "plausible": "reassign Mira",
+     "stem": "With thin staffing Elara chose to",
+     "why_not": "Thin staffing is observed separately and the reassignment is not linked as a resulting choice."
+    },
+    {
+     "iid": "W08-Q16",
+     "label": "IMPLICATION",
+     "plausible": "forgetting to sign it",
+     "stem": "Elara's actual practice with the medication log was",
+     "why_not": "Only Riven's unconfirmed claim is recorded, not an established fact."
+    },
+    {
+     "iid": "W08-Q18",
+     "label": "IMPLICATION",
+     "plausible": "administered anyway",
+     "stem": "If Mira had not double-checked the chart the antiemetic would have been",
+     "why_not": "The double check is described but no alternative circumstance is given."
+    },
+    {
+     "iid": "W08-Q19",
+     "label": "IMPLICATION",
+     "plausible": "postponed",
+     "stem": "Because of the lab delays the patient transfer was",
+     "why_not": "Delays are reported but no effect on the coordinated transfer is stated."
+    },
+    {
+     "iid": "W08-Q20",
+     "label": "IMPLICATION",
+     "plausible": "day shifts",
+     "stem": "After residency Kai Voss switched to",
+     "why_not": "An early intention was announced and a later conversation claims a transfer, yet neither confirms the request was fulfilled."
+    },
+    {
+     "iid": "W08-Q21",
+     "label": "NEAR-MISS",
+     "stem": "The color of Mira's scrubs on night shifts was"
+    },
+    {
+     "iid": "W08-Q22",
+     "label": "NEAR-MISS",
+     "stem": "Kai Voss's childhood fear was"
+    },
+    {
+     "iid": "W08-Q23",
+     "label": "NEAR-MISS",
+     "stem": "Elara Quinn's favorite object in the break room was"
+    },
+    {
+     "iid": "W08-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Soren Hale's pet species was"
+    },
+    {
+     "iid": "W08-Q25",
+     "label": "NEAR-MISS",
+     "stem": "Tamsin Grey's birth month was"
+    },
+    {
+     "iid": "W08-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role Dr. Liora Fen held on the night shift was"
+    },
+    {
+     "iid": "W08-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "Nurse Pax Alden's assigned wing was"
+    },
+    {
+     "iid": "W08-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The workplace of Dr. Bren Torne was"
+    },
+    {
+     "iid": "W08-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "Technician Sable Wren's hobby was"
+    },
+    {
+     "iid": "W08-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The sister of orderly Nia Pell was"
+    },
+    {
+     "answer": "east corridor",
+     "checkpoint": 1,
+     "evidence": "Mira Ellison began her first overnight at Riverside Night Wing following Dr. Kai Voss along the east corridor.",
+     "iid": "W08-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the corridor Mira followed was",
+     "xids": [
+      "W08-X01"
+     ]
+    },
+    {
+     "answer": "west wing",
+     "checkpoint": 2,
+     "evidence": "Mira had shifted to primary coverage of the west wing by the second life.",
+     "iid": "W08-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 2, Mira's primary coverage was",
+     "xids": [
+      "W08-X03"
+     ]
+    },
+    {
+     "answer": "night supervisor",
+     "checkpoint": 3,
+     "evidence": "Elara Quinn became night supervisor of the full wing in life 3.",
+     "iid": "W08-Q33",
+     "label": "TEMPORAL",
+     "stem": "At life 3, Elara's role was",
+     "xids": [
+      "W08-X05"
+     ]
+    },
+    {
+     "answer": "east corridor",
+     "checkpoint": 5,
+     "evidence": "In the most recent life Mira served as lead on the east corridor.",
+     "iid": "W08-Q34",
+     "label": "TEMPORAL",
+     "stem": "Mira's lead position was",
+     "xids": [
+      "W08-X09"
+     ]
+    }
+   ],
+   "world_id": "W08"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "The committee gathered by the tool shed for the spring plot allocation. Elowen Hart took the minutes as chair and assigned the eastern bed to Bram Quill for growing root vegetables. Sable Thorne volunteered to mend the broken fence panels but the work remained unfinished that season. Rowan Moss sketched a layout for the compost bins while the others discussed watering schedules.",
+     "xid": "W09-X01"
+    },
+    {
+     "life": 2,
+     "text": "Bram Quill displayed samples of his large carrots from the eastern bed during the autumn review. Elowen Hart chaired the meeting on the bench and noted the compost trial's positive results. Piper Vale pointed to the overgrown edges and stated that Rowan Moss had delayed the path clearance. The shared thermos of tea emptied before the agenda finished.",
+     "xid": "W09-X02"
+    },
+    {
+     "life": 2,
+     "text": "During the autumn review under grey skies, Elowen Hart recorded the harvest figures in her notebook. Bram Quill spoke about the carrot yield on his plot. Piper Vale blamed Rowan Moss for the untidy paths that had slowed the wheelbarrow traffic. Someone suggested extra gravel but the idea was left for later.",
+     "xid": "W09-X03"
+    },
+    {
+     "life": 3,
+     "text": "Elowen Hart handed over the chair role to Sable Thorne at the midsummer gathering by the willow tree. Bram Quill explained his decision to shift his plot to the western end for better sunlight. Piper Vale proposed hosting the following meeting among her sunflowers. Rowan Moss brought along young tomato plants suited to the drier conditions.",
+     "xid": "W09-X04"
+    },
+    {
+     "life": 3,
+     "text": "At the midsummer gathering, Sable Thorne accepted the position of chair from Elowen Hart with a short speech. Bram Quill confirmed he had relocated to the sunnier western plot. Piper Vale floated the notion of a community seed swap for the next season. The group measured space for an additional trellis near the shed.",
+     "xid": "W09-X05"
+    },
+    {
+     "life": 4,
+     "text": "Sable Thorne led the winter planning session as chair and suggested expanding the herb section next year. Elowen Hart, now tending her own leeks on the original eastern area, listened quietly. Bram Quill mentioned ongoing slug problems on the western plot. Lira Fen stopped by briefly and left a spare spade for the shared tools.",
+     "xid": "W09-X06"
+    },
+    {
+     "life": 4,
+     "text": "After reviewing the accounts, Piper Vale took on the treasurer duties for the allotment. Sable Thorne confirmed that the herb expansion would begin once the soil warmed. Rowan Moss repaired the leaking water butt during a break in the discussion. The spare netting was stored neatly in the back of the shed.",
+     "xid": "W09-X07"
+    },
+    {
+     "life": 5,
+     "text": "In the latest spring allocation, Sable Thorne continued as chair and gave the new northern strip to Lira Fen. Elowen Hart shared that her leek crop had done well over winter. Bram Quill announced his plan to experiment with raised beds in the coming season. Piper Vale presented the balanced books as treasurer and listed the current tool stock.",
+     "xid": "W09-X08"
+    },
+    {
+     "life": 5,
+     "text": "Rowan Moss supervised the compost turning on a clear morning and remarked on the unusually dry start. Sable Thorne checked old minutes from when Elowen had been chair. The committee voted to install a new notice board by the entrance. Piper Vale distributed jars of jam made from berries on her plot.",
+     "xid": "W09-X09"
+    },
+    {
+     "life": 4,
+     "text": "During a quiet afternoon on the plots, Sable Thorne discussed the proposed herb beds with Rowan Moss. Elowen Hart watered her leeks and mentioned the mild autumn. Bram Quill set traps for the slugs near his western rows. Piper Vale counted the spades in the shed for the inventory.",
+     "xid": "W09-X10"
+    }
+   ],
+   "items": [
+    {
+     "answer": "eastern bed",
+     "evidence": "Elowen Hart took the minutes as chair and assigned the eastern bed to Bram Quill for growing root vegetables.",
+     "iid": "W09-Q02",
+     "label": "SUPPORTED",
+     "question": "Which bed was assigned to Bram Quill for root vegetables?",
+     "stem": "The bed assigned to Bram Quill for root vegetables was the",
+     "xids": [
+      "W09-X01"
+     ]
+    },
+    {
+     "answer": "Sable Thorne",
+     "evidence": "Elowen Hart handed over the chair role to Sable Thorne at the midsummer gathering by the willow tree.",
+     "iid": "W09-Q03",
+     "label": "SUPPORTED",
+     "question": "Who received the chair role from Elowen Hart?",
+     "stem": "The person who received the chair role from Elowen Hart was",
+     "xids": [
+      "W09-X04"
+     ]
+    },
+    {
+     "answer": "treasurer duties",
+     "evidence": "After reviewing the accounts, Piper Vale took on the treasurer duties for the allotment.",
+     "iid": "W09-Q04",
+     "label": "SUPPORTED",
+     "question": "What duties did Piper Vale take on after reviewing the accounts?",
+     "stem": "The duties that Piper Vale took on after reviewing the accounts were the",
+     "xids": [
+      "W09-X07"
+     ]
+    },
+    {
+     "answer": "northern strip",
+     "evidence": "In the latest spring allocation, Sable Thorne continued as chair and gave the new northern strip to Lira Fen.",
+     "iid": "W09-Q05",
+     "label": "SUPPORTED",
+     "question": "Which new plot was given to Lira Fen?",
+     "stem": "The new plot given to Lira Fen by Sable Thorne was the",
+     "xids": [
+      "W09-X08"
+     ]
+    },
+    {
+     "answer": "compost bins",
+     "evidence": "Rowan Moss sketched a layout for the compost bins while the others discussed watering schedules.",
+     "iid": "W09-Q06",
+     "label": "SUPPORTED",
+     "question": "What did Rowan Moss sketch a layout for?",
+     "stem": "The layout that Rowan Moss sketched was for the",
+     "xids": [
+      "W09-X01"
+     ]
+    },
+    {
+     "answer": "leeks",
+     "evidence": "Elowen Hart, now tending her own leeks on the original eastern area, listened quietly.",
+     "iid": "W09-Q07",
+     "label": "SUPPORTED",
+     "question": "What crop was Elowen Hart tending on her original area?",
+     "stem": "The crop that Elowen Hart tended on her original area was",
+     "xids": [
+      "W09-X06"
+     ]
+    },
+    {
+     "answer": "notice board",
+     "evidence": "The committee voted to install a new notice board by the entrance.",
+     "iid": "W09-Q08",
+     "label": "SUPPORTED",
+     "question": "What did the committee vote to install by the entrance?",
+     "stem": "The item the committee voted to install by the entrance was a new",
+     "xids": [
+      "W09-X09"
+     ]
+    },
+    {
+     "answer": "western plot",
+     "evidence": "Bram Quill confirmed he had relocated to the sunnier western plot.",
+     "iid": "W09-Q09",
+     "label": "SUPPORTED",
+     "question": "Which plot did Bram Quill relocate to?",
+     "stem": "The plot that Bram Quill relocated to was the",
+     "xids": [
+      "W09-X05"
+     ]
+    },
+    {
+     "answer": "large carrots",
+     "evidence": "Bram Quill displayed samples of his large carrots from the eastern bed during the autumn review.",
+     "iid": "W09-Q10",
+     "label": "SUPPORTED",
+     "question": "What samples did Bram Quill display during the autumn review?",
+     "stem": "The samples that Bram Quill displayed during the autumn review were of his",
+     "xids": [
+      "W09-X02"
+     ]
+    },
+    {
+     "iid": "W09-Q11",
+     "label": "IMPLICATION",
+     "plausible": "that season",
+     "stem": "Sable Thorne finished mending the broken fence panels by the end of",
+     "why_not": "She volunteered to mend them but the experiences state the work remained unfinished, so completion is not established."
+    },
+    {
+     "iid": "W09-Q12",
+     "label": "IMPLICATION",
+     "plausible": "Rowan Moss's neglect",
+     "stem": "The shared paths became overgrown due to",
+     "why_not": "This is only Piper Vale's claim about Rowan Moss and is not established as fact by any experience."
+    },
+    {
+     "iid": "W09-Q13",
+     "label": "IMPLICATION",
+     "plausible": "the latest spring",
+     "stem": "Bram Quill constructed raised beds on his plot following",
+     "why_not": "He announced the plan to experiment with them but no experience confirms that he actually built them."
+    },
+    {
+     "iid": "W09-Q14",
+     "label": "IMPLICATION",
+     "plausible": "among her sunflowers",
+     "stem": "Piper Vale preferred hosting meetings",
+     "why_not": "She proposed it once but the experiences establish neither a preference nor that any meeting occurred there."
+    },
+    {
+     "iid": "W09-Q15",
+     "label": "IMPLICATION",
+     "plausible": "the thermos emptied",
+     "stem": "The autumn review concluded early because",
+     "why_not": "The thermos emptying is mentioned as a circumstance but is not established as the cause of the meeting ending."
+    },
+    {
+     "iid": "W09-Q16",
+     "label": "IMPLICATION",
+     "plausible": "wet weather",
+     "stem": "The slug problems on the western plot were caused by",
+     "why_not": "The problems are mentioned but no experience establishes any particular cause or circumstance behind them."
+    },
+    {
+     "iid": "W09-Q17",
+     "label": "IMPLICATION",
+     "plausible": "the next season",
+     "stem": "The community seed swap that Piper Vale floated took place",
+     "why_not": "It was only proposed as a notion and the experiences never confirm that it happened."
+    },
+    {
+     "iid": "W09-Q18",
+     "label": "IMPLICATION",
+     "plausible": "leeks",
+     "stem": "Elowen Hart preferred growing",
+     "why_not": "She tended and reported success with leeks but no preference or intention regarding them is established."
+    },
+    {
+     "iid": "W09-Q19",
+     "label": "IMPLICATION",
+     "plausible": "greater visibility",
+     "stem": "Additional members would have joined the allotment if the notice board had been put up sooner because",
+     "why_not": "No experience establishes any hypothetical behaviour, causal link, or effect of the notice board timing."
+    },
+    {
+     "iid": "W09-Q20",
+     "label": "IMPLICATION",
+     "plausible": "circumstances",
+     "stem": "Rowan Moss would have cleared the paths sooner under different",
+     "why_not": "Only a claim of delay exists; nothing establishes his hypothetical behaviour or the relevant circumstances."
+    },
+    {
+     "iid": "W09-Q21",
+     "label": "NEAR-MISS",
+     "stem": "Elowen Hart's favorite gardening implement was"
+    },
+    {
+     "iid": "W09-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The number of plots Bram Quill maintained at once was"
+    },
+    {
+     "iid": "W09-Q23",
+     "label": "NEAR-MISS",
+     "stem": "Sable Thorne's occupation away from the allotment was"
+    },
+    {
+     "iid": "W09-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Piper Vale's childhood experience with gardens was"
+    },
+    {
+     "iid": "W09-Q25",
+     "label": "NEAR-MISS",
+     "stem": "The colour Rowan Moss painted the tool shed was"
+    },
+    {
+     "iid": "W09-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "Cassian Reed took the minutes as chair during"
+    },
+    {
+     "iid": "W09-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "The plot assigned to Nova Hale for herbs was the"
+    },
+    {
+     "iid": "W09-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "Theo Lark volunteered to repair the water butt after"
+    },
+    {
+     "iid": "W09-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "Mira Sol's harvest of berries supplied the jam for"
+    },
+    {
+     "iid": "W09-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "Joren Pike balanced the allotment accounts as"
+    },
+    {
+     "answer": "Elowen Hart",
+     "checkpoint": 1,
+     "evidence": "Elowen Hart took the minutes as chair and assigned the eastern bed to Bram Quill for growing root vegetables.",
+     "iid": "W09-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 1, the person who took the minutes as chair was",
+     "xids": [
+      "W09-X01"
+     ]
+    },
+    {
+     "answer": "Sable Thorne",
+     "checkpoint": 3,
+     "evidence": "At the midsummer gathering, Sable Thorne accepted the position of chair from Elowen Hart with a short speech.",
+     "iid": "W09-Q32",
+     "label": "TEMPORAL",
+     "stem": "At life 3, the person who accepted the position of chair was",
+     "xids": [
+      "W09-X05"
+     ]
+    },
+    {
+     "answer": "Sable Thorne",
+     "checkpoint": 5,
+     "evidence": "In the latest spring allocation, Sable Thorne continued as chair and gave the new northern strip to Lira Fen.",
+     "iid": "W09-Q33",
+     "label": "TEMPORAL",
+     "stem": "The most recent chair of the committee was",
+     "xids": [
+      "W09-X08",
+      "W09-X09"
+     ]
+    },
+    {
+     "answer": "eastern bed",
+     "checkpoint": 2,
+     "evidence": "Bram Quill displayed samples of his large carrots from the eastern bed during the autumn review.",
+     "iid": "W09-Q34",
+     "label": "TEMPORAL",
+     "stem": "At life 2, the bed from which Bram Quill displayed carrot samples was the",
+     "xids": [
+      "W09-X02"
+     ]
+    }
+   ],
+   "world_id": "W09"
+  },
+  {
+   "experiences": [
+    {
+     "life": 1,
+     "text": "Harlan Voss and Mira Quell inspected the rails near the old trestle on a warm morning. Mira pointed out several loose spikes, and Harlan announced he planned to replace the whole section next month. Tovin Rake joined them carrying a spike maul, while Elspeth Dorn checked the nearby signal light.",
+     "xid": "W10-X01"
+    },
+    {
+     "life": 2,
+     "text": "Calix Brune welded a cracked rail joint under the shade of an oak. Mira Quell assisted by holding the clamps, and Tovin Rake cleared the ballast around the site. Elspeth Dorn noted that the signal stayed steady the entire time.",
+     "xid": "W10-X02"
+    },
+    {
+     "life": 2,
+     "text": "During the autumn check Harlan Voss recorded low ballast in three spots. Mira Quell claimed that Calix Brune was the most skilled welder on the crew. They marked the areas with orange flags before the rain arrived.",
+     "xid": "W10-X03"
+    },
+    {
+     "life": 3,
+     "text": "Tovin Rake and Soren Vale lifted a heavy rail segment onto the bed. Elspeth Dorn directed the placement from the side, and Harlan Voss wrote the measurements in his notebook. The job ran long because of the muddy ground.",
+     "xid": "W10-X04"
+    },
+    {
+     "life": 3,
+     "text": "The crew replaced the switch points near the rural crossing. Calix Brune cut the old metal with a torch, Mira Quell measured the gaps, and Tovin Rake packed fresh ballast. Elspeth Dorn tested the signal once the new points were in.",
+     "xid": "W10-X05"
+    },
+    {
+     "life": 4,
+     "text": "Harlan Voss moved to the regional office and no longer worked the tracks daily. Mira Quell became the lead inspector for the rural line. Tovin Rake and Calix Brune kept up the field repairs with Elspeth Dorn.",
+     "xid": "W10-X06"
+    },
+    {
+     "life": 4,
+     "text": "On a cold day the crew cleared ice from the rails. Soren Vale used a propane torch to melt the buildup, while Mira Quell watched for approaching trains. Calix Brune checked the joints for any new cracks.",
+     "xid": "W10-X07"
+    },
+    {
+     "life": 5,
+     "text": "Mira Quell walked the trestle again and found many spikes still loose. She noted that Harlan's announced replacement had never taken place. Tovin Rake mentioned he preferred the mornings, and Elspeth Dorn adjusted the signal timing.",
+     "xid": "W10-X08"
+    },
+    {
+     "life": 5,
+     "text": "Calix Brune completed the welding of three joints in one shift. Mira Quell observed that the welds looked clean, and Soren Vale hauled the scrap metal away. The crew planned to return the following week for more checks.",
+     "xid": "W10-X09"
+    },
+    {
+     "life": 3,
+     "text": "A freight train approached while the crew worked the curve. Harlan Voss waved everyone off the rails just in time, and they waited as it passed. Mira Quell later said the train had been closer than expected.",
+     "xid": "W10-X10"
+    },
+    {
+     "life": 3,
+     "text": "During the curve work the crew stepped aside for a long freight. Tovin Rake thought the train was moving slowly, while Elspeth Dorn kept the tools well clear of the rails. They resumed once the last car was gone.",
+     "xid": "W10-X11"
+    },
+    {
+     "life": 1,
+     "text": "Early in the season Harlan Voss worked the tracks with the full crew each day. Mira Quell learned the inspection route, and Tovin Rake practiced packing ballast by hand. Elspeth Dorn practiced signal checks at every stop.",
+     "xid": "W10-X12"
+    }
+   ],
+   "items": [
+    {
+     "answer": "a spike maul",
+     "evidence": "Tovin Rake joined them carrying a spike maul",
+     "iid": "W10-Q01",
+     "label": "SUPPORTED",
+     "question": "What tool did Tovin Rake carry near the old trestle?",
+     "stem": "The tool Tovin Rake carried near the old trestle was",
+     "xids": [
+      "W10-X01"
+     ]
+    },
+    {
+     "answer": "the nearby signal light",
+     "evidence": "Elspeth Dorn checked the nearby signal light",
+     "iid": "W10-Q02",
+     "label": "SUPPORTED",
+     "question": "What did Elspeth Dorn check near the trestle?",
+     "stem": "What Elspeth Dorn checked near the trestle was",
+     "xids": [
+      "W10-X01"
+     ]
+    },
+    {
+     "answer": "holding the clamps",
+     "evidence": "Mira Quell assisted by holding the clamps",
+     "iid": "W10-Q03",
+     "label": "SUPPORTED",
+     "question": "How did Mira Quell assist during the rail-joint welding?",
+     "stem": "Mira Quell's assistance during the rail-joint welding was",
+     "xids": [
+      "W10-X02"
+     ]
+    },
+    {
+     "answer": "the ballast",
+     "evidence": "Tovin Rake cleared the ballast around the site",
+     "iid": "W10-Q04",
+     "label": "SUPPORTED",
+     "question": "What did Tovin Rake clear around the welding site?",
+     "stem": "The material Tovin Rake cleared around the welding site was",
+     "xids": [
+      "W10-X02"
+     ]
+    },
+    {
+     "answer": "orange flags",
+     "evidence": "They marked the areas with orange flags",
+     "iid": "W10-Q05",
+     "label": "SUPPORTED",
+     "question": "What markers were placed on the low-ballast spots?",
+     "stem": "The markers placed on the low-ballast spots were",
+     "xids": [
+      "W10-X03"
+     ]
+    },
+    {
+     "answer": "from the side",
+     "evidence": "Elspeth Dorn directed the placement from the side",
+     "iid": "W10-Q06",
+     "label": "SUPPORTED",
+     "question": "From where did Elspeth Dorn direct the rail-segment placement?",
+     "stem": "Elspeth Dorn directed the rail-segment placement",
+     "xids": [
+      "W10-X04"
+     ]
+    },
+    {
+     "answer": "a torch",
+     "evidence": "Calix Brune cut the old metal with a torch",
+     "iid": "W10-Q07",
+     "label": "SUPPORTED",
+     "question": "What did Calix Brune use to cut the old metal?",
+     "stem": "The implement Calix Brune used to cut the old metal was",
+     "xids": [
+      "W10-X05"
+     ]
+    },
+    {
+     "answer": "the gaps",
+     "evidence": "Mira Quell measured the gaps",
+     "iid": "W10-Q08",
+     "label": "SUPPORTED",
+     "question": "What did Mira Quell measure at the switch points?",
+     "stem": "What Mira Quell measured at the switch points was",
+     "xids": [
+      "W10-X05"
+     ]
+    },
+    {
+     "answer": "the regional office",
+     "evidence": "Harlan Voss moved to the regional office",
+     "iid": "W10-Q09",
+     "label": "SUPPORTED",
+     "question": "Where did Harlan Voss move?",
+     "stem": "The place Harlan Voss moved to was",
+     "xids": [
+      "W10-X06"
+     ]
+    },
+    {
+     "answer": "a propane torch",
+     "evidence": "Soren Vale used a propane torch to melt the buildup",
+     "iid": "W10-Q10",
+     "label": "SUPPORTED",
+     "question": "What device did Soren Vale use to melt the ice?",
+     "stem": "The device Soren Vale used to melt the ice was",
+     "xids": [
+      "W10-X07"
+     ]
+    },
+    {
+     "iid": "W10-Q12",
+     "label": "IMPLICATION",
+     "plausible": "Calix Brune",
+     "stem": "The most skilled welder on the crew was",
+     "why_not": "Only Mira Quell's claim is recorded; nothing independently establishes the ranking."
+    },
+    {
+     "iid": "W10-Q15",
+     "label": "IMPLICATION",
+     "plausible": "inspect the trestle again",
+     "stem": "If the spikes stayed loose Mira Quell would",
+     "why_not": "The later inspection is recorded, yet nothing states it was caused by or a response to the loose spikes."
+    },
+    {
+     "iid": "W10-Q17",
+     "label": "IMPLICATION",
+     "plausible": "worked faster than usual",
+     "stem": "Calix Brune's welding of three joints meant he",
+     "why_not": "The completion is stated; no comparison to prior pace or any hypothetical standard is given."
+    },
+    {
+     "iid": "W10-Q18",
+     "label": "IMPLICATION",
+     "plausible": "intended to replace the section",
+     "stem": "Harlan Voss's announcement about the trestle showed he",
+     "why_not": "The words announce an intention, yet the intention itself remains unconfirmed by any later action."
+    },
+    {
+     "iid": "W10-Q19",
+     "label": "IMPLICATION",
+     "plausible": "was the most skilled welder",
+     "stem": "Mira Quell's claim about Calix Brune implied he",
+     "why_not": "A single person's claim does not establish the comparative fact about skill."
+    },
+    {
+     "iid": "W10-Q21",
+     "label": "NEAR-MISS",
+     "stem": "Harlan Voss's favorite tool on the crew was"
+    },
+    {
+     "iid": "W10-Q22",
+     "label": "NEAR-MISS",
+     "stem": "The childhood fear Mira Quell still carried was"
+    },
+    {
+     "iid": "W10-Q23",
+     "label": "NEAR-MISS",
+     "stem": "Tovin Rake's pet species at home was"
+    },
+    {
+     "iid": "W10-Q24",
+     "label": "NEAR-MISS",
+     "stem": "Elspeth Dorn's birth month was"
+    },
+    {
+     "iid": "W10-Q25",
+     "label": "NEAR-MISS",
+     "stem": "Calix Brune's sister's name was"
+    },
+    {
+     "iid": "W10-Q26",
+     "label": "UNFAMILIAR",
+     "stem": "The role Quentin Voss held on the rural line was"
+    },
+    {
+     "iid": "W10-Q27",
+     "label": "UNFAMILIAR",
+     "stem": "Liora Fenn's workplace during the ice clearing was"
+    },
+    {
+     "iid": "W10-Q28",
+     "label": "UNFAMILIAR",
+     "stem": "The hobby of Bram Holt on the maintenance crew was"
+    },
+    {
+     "iid": "W10-Q29",
+     "label": "UNFAMILIAR",
+     "stem": "Sable Kerr's allergy while working the tracks was"
+    },
+    {
+     "iid": "W10-Q30",
+     "label": "UNFAMILIAR",
+     "stem": "The city where Renn Oak lived before joining the crew was"
+    },
+    {
+     "answer": "the tracks",
+     "checkpoint": 1,
+     "evidence": "Harlan Voss worked the tracks with the full crew each day",
+     "iid": "W10-Q31",
+     "label": "TEMPORAL",
+     "stem": "At life 1, Harlan Voss worked",
+     "xids": [
+      "W10-X12"
+     ]
+    },
+    {
+     "answer": "the regional office",
+     "checkpoint": 5,
+     "evidence": "Harlan Voss moved to the regional office",
+     "iid": "W10-Q32",
+     "label": "TEMPORAL",
+     "stem": "Harlan Voss's workplace is",
+     "xids": [
+      "W10-X06"
+     ]
+    },
+    {
+     "answer": "the lead inspector",
+     "checkpoint": 5,
+     "evidence": "Mira Quell became the lead inspector for the rural line",
+     "iid": "W10-Q34",
+     "label": "TEMPORAL",
+     "stem": "Mira Quell's role on the rural line is",
+     "xids": [
+      "W10-X06"
+     ]
+    }
+   ],
+   "world_id": "W10"
+  }
+ ]
+}

@@ -1,0 +1,558 @@
+{
+ "note": "Frozen before any sealed run. Keys match run rows ('N|world|iid'). Primary narrative IMPLICATION and TEMPORAL gates are INSUFFICIENTLY ADJUDICATED (agreed below floor); all cohorts here are descriptive.",
+ "cohorts": {
+  "IMPLICATION_agreed": [
+   "N|W02|W02-Q12",
+   "N|W02|W02-Q14",
+   "N|W03|W03-Q12",
+   "N|W03|W03-Q13",
+   "N|W03|W03-Q14",
+   "N|W03|W03-Q15",
+   "N|W03|W03-Q16",
+   "N|W03|W03-Q17",
+   "N|W03|W03-Q18",
+   "N|W03|W03-Q19",
+   "N|W03|W03-Q20",
+   "N|W04|W04-Q11",
+   "N|W04|W04-Q13",
+   "N|W04|W04-Q16",
+   "N|W04|W04-Q17",
+   "N|W05|W05-Q15",
+   "N|W05|W05-Q16",
+   "N|W05|W05-Q17",
+   "N|W06|W06-Q12",
+   "N|W06|W06-Q14",
+   "N|W06|W06-Q19",
+   "N|W06|W06-Q20",
+   "N|W07|W07-Q11",
+   "N|W07|W07-Q16",
+   "N|W08|W08-Q12",
+   "N|W08|W08-Q13",
+   "N|W08|W08-Q15",
+   "N|W08|W08-Q18",
+   "N|W08|W08-Q19",
+   "N|W08|W08-Q20",
+   "N|W09|W09-Q12",
+   "N|W09|W09-Q13",
+   "N|W09|W09-Q14",
+   "N|W09|W09-Q15",
+   "N|W09|W09-Q17",
+   "N|W09|W09-Q19",
+   "N|W09|W09-Q20",
+   "N|W10|W10-Q12",
+   "N|W10|W10-Q15",
+   "N|W10|W10-Q17",
+   "N|W10|W10-Q18",
+   "N|W10|W10-Q19"
+  ],
+  "IMPLICATION_author_intention": [
+   "N|W01|W01-Q11",
+   "N|W01|W01-Q12",
+   "N|W01|W01-Q13",
+   "N|W01|W01-Q14",
+   "N|W01|W01-Q15",
+   "N|W01|W01-Q16",
+   "N|W01|W01-Q17",
+   "N|W01|W01-Q18",
+   "N|W01|W01-Q19",
+   "N|W01|W01-Q20",
+   "N|W02|W02-Q11",
+   "N|W02|W02-Q12",
+   "N|W02|W02-Q13",
+   "N|W02|W02-Q14",
+   "N|W02|W02-Q15",
+   "N|W02|W02-Q16",
+   "N|W02|W02-Q17",
+   "N|W02|W02-Q18",
+   "N|W02|W02-Q19",
+   "N|W02|W02-Q20",
+   "N|W03|W03-Q11",
+   "N|W03|W03-Q12",
+   "N|W03|W03-Q13",
+   "N|W03|W03-Q14",
+   "N|W03|W03-Q15",
+   "N|W03|W03-Q16",
+   "N|W03|W03-Q17",
+   "N|W03|W03-Q18",
+   "N|W03|W03-Q19",
+   "N|W03|W03-Q20",
+   "N|W04|W04-Q11",
+   "N|W04|W04-Q12",
+   "N|W04|W04-Q13",
+   "N|W04|W04-Q14",
+   "N|W04|W04-Q16",
+   "N|W04|W04-Q17",
+   "N|W04|W04-Q18",
+   "N|W04|W04-Q19",
+   "N|W04|W04-Q20",
+   "N|W05|W05-Q15",
+   "N|W05|W05-Q16",
+   "N|W05|W05-Q17",
+   "N|W05|W05-Q18",
+   "N|W06|W06-Q12",
+   "N|W06|W06-Q13",
+   "N|W06|W06-Q14",
+   "N|W06|W06-Q15",
+   "N|W06|W06-Q16",
+   "N|W06|W06-Q17",
+   "N|W06|W06-Q18",
+   "N|W06|W06-Q19",
+   "N|W06|W06-Q20",
+   "N|W07|W07-Q11",
+   "N|W07|W07-Q13",
+   "N|W07|W07-Q14",
+   "N|W07|W07-Q16",
+   "N|W07|W07-Q17",
+   "N|W07|W07-Q19",
+   "N|W07|W07-Q20",
+   "N|W08|W08-Q11",
+   "N|W08|W08-Q12",
+   "N|W08|W08-Q13",
+   "N|W08|W08-Q14",
+   "N|W08|W08-Q15",
+   "N|W08|W08-Q16",
+   "N|W08|W08-Q18",
+   "N|W08|W08-Q19",
+   "N|W08|W08-Q20",
+   "N|W09|W09-Q11",
+   "N|W09|W09-Q12",
+   "N|W09|W09-Q13",
+   "N|W09|W09-Q14",
+   "N|W09|W09-Q15",
+   "N|W09|W09-Q16",
+   "N|W09|W09-Q17",
+   "N|W09|W09-Q18",
+   "N|W09|W09-Q19",
+   "N|W09|W09-Q20",
+   "N|W10|W10-Q12",
+   "N|W10|W10-Q15",
+   "N|W10|W10-Q17",
+   "N|W10|W10-Q18",
+   "N|W10|W10-Q19"
+  ],
+  "IMPLICATION_boundary_disputed": [
+   "N|W01|W01-Q11",
+   "N|W01|W01-Q12",
+   "N|W01|W01-Q13",
+   "N|W01|W01-Q14",
+   "N|W01|W01-Q15",
+   "N|W01|W01-Q16",
+   "N|W01|W01-Q17",
+   "N|W01|W01-Q18",
+   "N|W01|W01-Q19",
+   "N|W01|W01-Q20",
+   "N|W02|W02-Q11",
+   "N|W02|W02-Q13",
+   "N|W02|W02-Q15",
+   "N|W02|W02-Q16",
+   "N|W02|W02-Q17",
+   "N|W02|W02-Q18",
+   "N|W02|W02-Q19",
+   "N|W02|W02-Q20",
+   "N|W03|W03-Q11",
+   "N|W04|W04-Q12",
+   "N|W04|W04-Q14",
+   "N|W04|W04-Q18",
+   "N|W04|W04-Q19",
+   "N|W04|W04-Q20",
+   "N|W05|W05-Q18",
+   "N|W06|W06-Q13",
+   "N|W06|W06-Q15",
+   "N|W06|W06-Q16",
+   "N|W06|W06-Q17",
+   "N|W06|W06-Q18",
+   "N|W07|W07-Q13",
+   "N|W07|W07-Q14",
+   "N|W07|W07-Q17",
+   "N|W07|W07-Q19",
+   "N|W07|W07-Q20",
+   "N|W08|W08-Q11",
+   "N|W08|W08-Q14",
+   "N|W08|W08-Q16",
+   "N|W09|W09-Q11",
+   "N|W09|W09-Q16",
+   "N|W09|W09-Q18"
+  ],
+  "TEMPORAL_agreed": [
+   "N|W01|W01-Q31",
+   "N|W01|W01-Q32",
+   "N|W01|W01-Q33",
+   "N|W02|W02-Q31",
+   "N|W02|W02-Q32",
+   "N|W02|W02-Q33",
+   "N|W03|W03-Q31",
+   "N|W03|W03-Q33",
+   "N|W06|W06-Q31",
+   "N|W06|W06-Q33",
+   "N|W07|W07-Q31",
+   "N|W07|W07-Q33",
+   "N|W08|W08-Q31",
+   "N|W08|W08-Q32",
+   "N|W08|W08-Q33",
+   "N|W08|W08-Q34",
+   "N|W09|W09-Q31",
+   "N|W09|W09-Q32",
+   "N|W09|W09-Q33",
+   "N|W09|W09-Q34",
+   "N|W10|W10-Q31",
+   "N|W10|W10-Q32",
+   "N|W10|W10-Q34"
+  ],
+  "TEMPORAL_author_intention": [
+   "N|W01|W01-Q31",
+   "N|W01|W01-Q32",
+   "N|W01|W01-Q33",
+   "N|W01|W01-Q34",
+   "N|W02|W02-Q31",
+   "N|W02|W02-Q32",
+   "N|W02|W02-Q33",
+   "N|W02|W02-Q34",
+   "N|W03|W03-Q31",
+   "N|W03|W03-Q32",
+   "N|W03|W03-Q33",
+   "N|W03|W03-Q34",
+   "N|W04|W04-Q31",
+   "N|W04|W04-Q32",
+   "N|W04|W04-Q33",
+   "N|W04|W04-Q34",
+   "N|W05|W05-Q31",
+   "N|W05|W05-Q32",
+   "N|W05|W05-Q33",
+   "N|W05|W05-Q34",
+   "N|W06|W06-Q31",
+   "N|W06|W06-Q32",
+   "N|W06|W06-Q33",
+   "N|W06|W06-Q34",
+   "N|W07|W07-Q31",
+   "N|W07|W07-Q32",
+   "N|W07|W07-Q33",
+   "N|W07|W07-Q34",
+   "N|W08|W08-Q31",
+   "N|W08|W08-Q32",
+   "N|W08|W08-Q33",
+   "N|W08|W08-Q34",
+   "N|W09|W09-Q31",
+   "N|W09|W09-Q32",
+   "N|W09|W09-Q33",
+   "N|W09|W09-Q34",
+   "N|W10|W10-Q31",
+   "N|W10|W10-Q32",
+   "N|W10|W10-Q34"
+  ],
+  "TEMPORAL_boundary_disputed": [
+   "N|W01|W01-Q34",
+   "N|W02|W02-Q34",
+   "N|W03|W03-Q32",
+   "N|W03|W03-Q34",
+   "N|W04|W04-Q31",
+   "N|W04|W04-Q32",
+   "N|W04|W04-Q33",
+   "N|W04|W04-Q34",
+   "N|W05|W05-Q31",
+   "N|W05|W05-Q32",
+   "N|W05|W05-Q33",
+   "N|W05|W05-Q34",
+   "N|W06|W06-Q32",
+   "N|W06|W06-Q34",
+   "N|W07|W07-Q32",
+   "N|W07|W07-Q34"
+  ],
+  "disputed_kept_IMPLICATION_NEAR-MISS": [
+   "N|W01|W01-Q11",
+   "N|W01|W01-Q12",
+   "N|W01|W01-Q13",
+   "N|W01|W01-Q14",
+   "N|W01|W01-Q15",
+   "N|W01|W01-Q16",
+   "N|W01|W01-Q17",
+   "N|W01|W01-Q18",
+   "N|W01|W01-Q19",
+   "N|W01|W01-Q20",
+   "N|W02|W02-Q11",
+   "N|W02|W02-Q13",
+   "N|W02|W02-Q15",
+   "N|W02|W02-Q16",
+   "N|W02|W02-Q17",
+   "N|W02|W02-Q18",
+   "N|W02|W02-Q19",
+   "N|W02|W02-Q20",
+   "N|W03|W03-Q11",
+   "N|W04|W04-Q12",
+   "N|W04|W04-Q14",
+   "N|W04|W04-Q18",
+   "N|W04|W04-Q19",
+   "N|W04|W04-Q20",
+   "N|W05|W05-Q18",
+   "N|W06|W06-Q13",
+   "N|W06|W06-Q15",
+   "N|W06|W06-Q16",
+   "N|W06|W06-Q17",
+   "N|W06|W06-Q18",
+   "N|W07|W07-Q13",
+   "N|W07|W07-Q14",
+   "N|W07|W07-Q17",
+   "N|W07|W07-Q19",
+   "N|W07|W07-Q20",
+   "N|W08|W08-Q11",
+   "N|W08|W08-Q14",
+   "N|W08|W08-Q16",
+   "N|W09|W09-Q11",
+   "N|W09|W09-Q16",
+   "N|W09|W09-Q18"
+  ],
+  "disputed_kept_SUPPORTED_TEMPORAL": [
+   "N|W10|W10-Q09"
+  ],
+  "disputed_kept_TEMPORAL_SUPPORTED": [
+   "N|W01|W01-Q34",
+   "N|W02|W02-Q34",
+   "N|W03|W03-Q32",
+   "N|W03|W03-Q34",
+   "N|W04|W04-Q31",
+   "N|W04|W04-Q32",
+   "N|W04|W04-Q33",
+   "N|W04|W04-Q34",
+   "N|W05|W05-Q31",
+   "N|W05|W05-Q32",
+   "N|W05|W05-Q33",
+   "N|W05|W05-Q34",
+   "N|W06|W06-Q32",
+   "N|W06|W06-Q34",
+   "N|W07|W07-Q32",
+   "N|W07|W07-Q34"
+  ]
+ },
+ "counts": {
+  "IMPLICATION_agreed": 42,
+  "IMPLICATION_author_intention": 83,
+  "IMPLICATION_boundary_disputed": 41,
+  "TEMPORAL_agreed": 23,
+  "TEMPORAL_author_intention": 39,
+  "TEMPORAL_boundary_disputed": 16,
+  "disputed_kept_IMPLICATION_NEAR-MISS": 41,
+  "disputed_kept_SUPPORTED_TEMPORAL": 1,
+  "disputed_kept_TEMPORAL_SUPPORTED": 16
+ },
+ "per_world_retained_vs_agreed": {
+  "W01": {
+   "IMPLICATION": {
+    "retained": 10,
+    "agreed": 0
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 9,
+    "agreed": 9
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 3
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W02": {
+   "IMPLICATION": {
+    "retained": 10,
+    "agreed": 2
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 10,
+    "agreed": 10
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 3
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W03": {
+   "IMPLICATION": {
+    "retained": 10,
+    "agreed": 9
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 9,
+    "agreed": 9
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 2
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W04": {
+   "IMPLICATION": {
+    "retained": 9,
+    "agreed": 4
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 9,
+    "agreed": 9
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 0
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W05": {
+   "IMPLICATION": {
+    "retained": 4,
+    "agreed": 3
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 7,
+    "agreed": 7
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 0
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W06": {
+   "IMPLICATION": {
+    "retained": 9,
+    "agreed": 4
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 10,
+    "agreed": 10
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 2
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W07": {
+   "IMPLICATION": {
+    "retained": 7,
+    "agreed": 2
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 8,
+    "agreed": 8
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 2
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W08": {
+   "IMPLICATION": {
+    "retained": 9,
+    "agreed": 6
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 10,
+    "agreed": 10
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 4
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W09": {
+   "IMPLICATION": {
+    "retained": 10,
+    "agreed": 7
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 9,
+    "agreed": 9
+   },
+   "TEMPORAL": {
+    "retained": 4,
+    "agreed": 4
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  },
+  "W10": {
+   "IMPLICATION": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "NEAR-MISS": {
+    "retained": 5,
+    "agreed": 5
+   },
+   "SUPPORTED": {
+    "retained": 10,
+    "agreed": 9
+   },
+   "TEMPORAL": {
+    "retained": 3,
+    "agreed": 3
+   },
+   "UNFAMILIAR": {
+    "retained": 5,
+    "agreed": 5
+   }
+  }
+ }
+}
