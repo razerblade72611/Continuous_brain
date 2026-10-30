@@ -1,0 +1,194 @@
+{
+ "which": "CLS-0C sealed",
+ "commit": "0d8ac6450c08558dd145498f2e024f2aab464a9b",
+ "sealed_sha256": "b993ae9c1674f9faa91f1ff2c3281b4119402954fe6c655044ae65a018c54bd4",
+ "gpu": "NVIDIA A40",
+ "test_mode": false,
+ "primary": "B1_K1",
+ "prediction": "B1_K1 fails implication_commit in both formats (development: 89/110 committed)",
+ "scores_B1_K1": {
+  "synthetic": {
+   "n": {
+    "template": 200,
+    "para_entailed": 200,
+    "narrative_supported": 0,
+    "implication": 150,
+    "near_miss": 80,
+    "unfamiliar": 80,
+    "temporal": 12,
+    "natural_question": 0
+   },
+   "template": 0.99,
+   "para_entailed": 0.93,
+   "narrative_supported": null,
+   "implication_commit": 0.16,
+   "near_unsupported": 0.05,
+   "unfamiliar_unsupported": 0.0,
+   "temporal": 1.0,
+   "provenance": 1.0,
+   "natural_question_challenge": null
+  },
+  "narrative": {
+   "n": {
+    "template": 0,
+    "para_entailed": 0,
+    "narrative_supported": 91,
+    "implication": 83,
+    "near_miss": 50,
+    "unfamiliar": 50,
+    "temporal": 39,
+    "natural_question": 91
+   },
+   "template": null,
+   "para_entailed": null,
+   "narrative_supported": 0.5934065934065934,
+   "implication_commit": 0.07228915662650602,
+   "near_unsupported": 0.0,
+   "unfamiliar_unsupported": 0.0,
+   "temporal": 0.6666666666666666,
+   "provenance": 0.8918918918918919,
+   "natural_question_challenge": 0.5934065934065934
+  }
+ },
+ "gates": {
+  "synthetic:template": {
+   "value": 0.99,
+   "threshold": ">=0.95",
+   "pass": true
+  },
+  "synthetic:para_entailed": {
+   "value": 0.93,
+   "threshold": ">=0.9",
+   "pass": true
+  },
+  "narrative:narrative_supported": {
+   "value": 0.5934065934065934,
+   "threshold": ">=0.9",
+   "pass": false
+  },
+  "synthetic:near_unsupported": {
+   "value": 0.05,
+   "threshold": "<=0.1",
+   "pass": true
+  },
+  "narrative:near_unsupported": {
+   "value": 0.0,
+   "threshold": "<=0.1",
+   "pass": true
+  },
+  "synthetic:unfamiliar_unsupported": {
+   "value": 0.0,
+   "threshold": "<=0.1",
+   "pass": true
+  },
+  "narrative:unfamiliar_unsupported": {
+   "value": 0.0,
+   "threshold": "<=0.1",
+   "pass": true
+  },
+  "synthetic:implication_commit": {
+   "value": 0.16,
+   "threshold": "<=0.1",
+   "pass": false
+  },
+  "narrative:implication_commit": {
+   "value": 0.07228915662650602,
+   "threshold": "<=0.1",
+   "pass": true
+  },
+  "synthetic:temporal": {
+   "value": 1.0,
+   "threshold": ">=0.9",
+   "pass": true
+  },
+  "narrative:temporal": {
+   "value": 0.6666666666666666,
+   "threshold": ">=0.9",
+   "pass": false
+  },
+  "synthetic:provenance": {
+   "value": 1.0,
+   "threshold": ">=0.95",
+   "pass": true
+  },
+  "narrative:provenance": {
+   "value": 0.8918918918918919,
+   "threshold": ">=0.95",
+   "pass": false
+  }
+ },
+ "passed": false,
+ "scores_B0_descriptive": {
+  "synthetic": {
+   "n": {
+    "template": 200,
+    "para_entailed": 200,
+    "narrative_supported": 0,
+    "implication": 150,
+    "near_miss": 80,
+    "unfamiliar": 80,
+    "temporal": 12,
+    "natural_question": 0
+   },
+   "template": 0.97,
+   "para_entailed": 0.92,
+   "narrative_supported": null,
+   "implication_commit": 0.5466666666666666,
+   "near_unsupported": 0.35,
+   "unfamiliar_unsupported": 0.025,
+   "temporal": 0.5833333333333334,
+   "provenance": 0.9824120603015075,
+   "natural_question_challenge": null
+  },
+  "narrative": {
+   "n": {
+    "template": 0,
+    "para_entailed": 0,
+    "narrative_supported": 0,
+    "implication": 0,
+    "near_miss": 0,
+    "unfamiliar": 0,
+    "temporal": 0,
+    "natural_question": 0
+   },
+   "template": null,
+   "para_entailed": null,
+   "narrative_supported": null,
+   "implication_commit": null,
+   "near_unsupported": null,
+   "unfamiliar_unsupported": null,
+   "temporal": null,
+   "provenance": null,
+   "natural_question_challenge": null
+  }
+ },
+ "bridge": {
+  "reconstruction_exact": 52,
+  "episodes_reconstructed": 52,
+  "episodes_in_stream": 52,
+  "answer_agreement": 1.0,
+  "provenance_agreement": 1.0,
+  "bridge_scores": {
+   "n": {
+    "template": 50,
+    "para_entailed": 50,
+    "narrative_supported": 0,
+    "implication": 38,
+    "near_miss": 20,
+    "unfamiliar": 20,
+    "temporal": 3,
+    "natural_question": 0
+   },
+   "template": 1.0,
+   "para_entailed": 0.94,
+   "narrative_supported": null,
+   "implication_commit": 0.13157894736842105,
+   "near_unsupported": 0.05,
+   "unfamiliar_unsupported": 0.0,
+   "temporal": 1.0,
+   "provenance": 1.0,
+   "natural_question_challenge": null
+  }
+ },
+ "wall_s": 420.6
+}

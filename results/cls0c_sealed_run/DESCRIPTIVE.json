@@ -1,0 +1,297 @@
+{
+ "cohorts": {
+  "IMPLICATION_agreed": {
+   "metric": "commit",
+   "n": 42,
+   "value": 0.143
+  },
+  "IMPLICATION_author_intention": {
+   "metric": "commit",
+   "n": 83,
+   "value": 0.072
+  },
+  "IMPLICATION_boundary_disputed": {
+   "metric": "commit",
+   "n": 41,
+   "value": 0.0
+  },
+  "TEMPORAL_agreed": {
+   "metric": "correct",
+   "n": 23,
+   "value": 0.652
+  },
+  "TEMPORAL_author_intention": {
+   "metric": "correct",
+   "n": 39,
+   "value": 0.667
+  },
+  "TEMPORAL_boundary_disputed": {
+   "metric": "correct",
+   "n": 16,
+   "value": 0.688
+  },
+  "disputed_kept_IMPLICATION_NEAR-MISS": {
+   "metric": "commit",
+   "n": 41,
+   "value": 0.0
+  },
+  "disputed_kept_SUPPORTED_TEMPORAL": {
+   "metric": "correct",
+   "n": 1,
+   "value": 0.0
+  },
+  "disputed_kept_TEMPORAL_SUPPORTED": {
+   "metric": "correct",
+   "n": 16,
+   "value": 0.688
+  }
+ },
+ "miss_breakdown": {
+  "narrative_supported": {
+   "correct": 54,
+   "abstain": 14,
+   "wrong_episode": 8,
+   "right_episode_span_boundary": 13,
+   "right_episode_other_value": 2
+  },
+  "temporal": {
+   "correct": 26,
+   "wrong_episode": 4,
+   "abstain": 5,
+   "right_episode_span_boundary": 3,
+   "right_episode_other_value": 1
+  }
+ },
+ "wrong_episode": [
+  {
+   "key": "N|W01|W01-Q08",
+   "cat": "narrative_supported",
+   "gold": "Elara Finch",
+   "answer": "Elara Finch",
+   "cited": "W01-X10",
+   "cited_contains_gold": true,
+   "cited_life": 5,
+   "gold_lives": [
+    4
+   ]
+  },
+  {
+   "key": "N|W02|W02-Q08",
+   "cat": "narrative_supported",
+   "gold": "Lila Brooks",
+   "answer": "Nia Vale",
+   "cited": "W02-X10",
+   "cited_contains_gold": true,
+   "cited_life": 5,
+   "gold_lives": [
+    4
+   ]
+  },
+  {
+   "key": "N|W03|W03-Q02",
+   "cat": "narrative_supported",
+   "gold": "Kai Solen",
+   "answer": "Kai Solen",
+   "cited": "W03-X03",
+   "cited_contains_gold": true,
+   "cited_life": 2,
+   "gold_lives": [
+    1
+   ]
+  },
+  {
+   "key": "N|W03|W03-Q08",
+   "cat": "narrative_supported",
+   "gold": "Tessa Quinn",
+   "answer": "Tessa Quinn",
+   "cited": "W03-X10",
+   "cited_contains_gold": true,
+   "cited_life": 5,
+   "gold_lives": [
+    4
+   ]
+  },
+  {
+   "key": "N|W03|W03-Q09",
+   "cat": "narrative_supported",
+   "gold": "tall vessels",
+   "answer": "the tall vessels",
+   "cited": "W03-X08",
+   "cited_contains_gold": true,
+   "cited_life": 4,
+   "gold_lives": [
+    4
+   ]
+  },
+  {
+   "key": "N|W07|W07-Q03",
+   "cat": "narrative_supported",
+   "gold": "infants' class",
+   "answer": "infants for their move to the next class with extra stories",
+   "cited": "W07-X09",
+   "cited_contains_gold": false,
+   "cited_life": 5,
+   "gold_lives": [
+    3
+   ]
+  },
+  {
+   "key": "N|W09|W09-Q02",
+   "cat": "narrative_supported",
+   "gold": "eastern bed",
+   "answer": "eastern bed",
+   "cited": "W09-X02",
+   "cited_contains_gold": true,
+   "cited_life": 2,
+   "gold_lives": [
+    1
+   ]
+  },
+  {
+   "key": "N|W10|W10-Q02",
+   "cat": "narrative_supported",
+   "gold": "the nearby signal light",
+   "answer": "the signal timing",
+   "cited": "W10-X08",
+   "cited_contains_gold": false,
+   "cited_life": 5,
+   "gold_lives": [
+    1
+   ]
+  },
+  {
+   "key": "N|W01|W01-Q34",
+   "cat": "temporal",
+   "gold": "Joren Hale",
+   "answer": "Elara Finch",
+   "cited": "W01-X09",
+   "cited_contains_gold": true,
+   "cited_life": 5,
+   "gold_lives": [
+    4
+   ]
+  },
+  {
+   "key": "N|W02|W02-Q31",
+   "cat": "temporal",
+   "gold": "Nia Vale",
+   "answer": "Lila Brooks",
+   "cited": "W02-X08",
+   "cited_contains_gold": true,
+   "cited_life": 4,
+   "gold_lives": [
+    5
+   ]
+  },
+  {
+   "key": "N|W05|W05-Q31",
+   "cat": "temporal",
+   "gold": "Jonah Harlow",
+   "answer": "Jonah",
+   "cited": "W05-X04",
+   "cited_contains_gold": false,
+   "cited_life": 2,
+   "gold_lives": [
+    2
+   ]
+  },
+  {
+   "key": "N|W07|W07-Q32",
+   "cat": "temporal",
+   "gold": "infants' class",
+   "answer": "infants for their move to the next class with extra stories",
+   "cited": "W07-X09",
+   "cited_contains_gold": false,
+   "cited_life": 5,
+   "gold_lives": [
+    3
+   ]
+  }
+ ],
+ "post_hoc": {
+  "narrative_supported_lenient_contains_right_episode": {
+   "value": 0.714,
+   "n": 91
+  },
+  "temporal_lenient_contains_right_episode": {
+   "value": 0.744,
+   "n": 39
+  },
+  "narrative_supported_excluding_W07": {
+   "value": 0.639,
+   "n": 83
+  }
+ },
+ "per_world": {
+  "W01": {
+   "narrative_supported": "6/9",
+   "temporal": "3/4",
+   "implication": "10/10",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W02": {
+   "narrative_supported": "8/10",
+   "temporal": "3/4",
+   "implication": "10/10",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W03": {
+   "narrative_supported": "4/9",
+   "temporal": "2/4",
+   "implication": "10/10",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W04": {
+   "narrative_supported": "7/9",
+   "temporal": "4/4",
+   "implication": "9/9",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W05": {
+   "narrative_supported": "5/7",
+   "temporal": "3/4",
+   "implication": "4/4",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W06": {
+   "narrative_supported": "6/10",
+   "temporal": "4/4",
+   "implication": "8/9",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W07": {
+   "narrative_supported": "1/8",
+   "temporal": "1/4",
+   "implication": "5/7",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W08": {
+   "narrative_supported": "6/10",
+   "temporal": "2/4",
+   "implication": "8/9",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W09": {
+   "narrative_supported": "4/9",
+   "temporal": "3/4",
+   "implication": "9/10",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  },
+  "W10": {
+   "narrative_supported": "7/10",
+   "temporal": "1/3",
+   "implication": "4/5",
+   "near_miss": "5/5",
+   "unfamiliar": "5/5"
+  }
+ }
+}

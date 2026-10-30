@@ -194,3 +194,12 @@
       - Retained: SUPPORTED 91, IMPLICATION 83, NEAR-MISS 50, UNFAMILIAR 50, TEMPORAL 39.
       - Templates: 38 SUPPORTED + 26 IMPLICATION.
     - Cohorts are frozen in results/cls0c_sealed/COHORTS.json. No content-driven change is allowed after this point.
+22. **Sealed run (David, A40).**
+    - Bundle results_cls0c_sealed.tar.gz, sha256 110902d5f5bc52d1dc84eb72fb7c925b726edb0842d17b9d6ab34119772926fd.
+    - The bundle's sealed.json is byte-identical to the repo's and passes SEALED.sha256.
+    - RUN_STARTED 2026-10-30T03:41:54. Bridge: 52/52 written, 52/52 exact.
+    - Raw harness `passed=false`.
+    - **Verdict under VALIDITY_AMENDMENT.md: FAIL** (synthetic implication 0.16; narrative supported 0.593; narrative
+      provenance 0.892).
+    - Report: lab/CLS0C_SEALED_REPORT.md. Descriptive analyses: scripts/cls0c_sealed_descriptive.py →
+      results/cls0c_sealed_run/DESCRIPTIVE.json.
