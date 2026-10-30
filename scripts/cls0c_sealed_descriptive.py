@@ -68,6 +68,24 @@ def main(sd, rd):
     sup = [r for r in R if r["fmt"] == "narrative" and r["cat"] == "narrative_supported" and not r["key"].startswith("N|W07|")]
     out["post_hoc"]["narrative_supported_excluding_W07"] = {"value": round(sum(r["correct"] for r in sup) / len(sup), 3),
                                                             "n": len(sup)}
+    mech = Counter()
+    for r in R:
+        if r["fmt"] != "narrative" or r["cat"] not in ("narrative_supported", "temporal"):
+            continue
+        g, cands, m = set(gold[r["key"]][0]["xids"]), set(r["candidates"]), r["margins"]
+        if not r["answered"]:
+            k = ("abstain: gold not in K1 top-5" if not g & cands else
+                 "abstain: gold retrieved, VERIFY rejected all candidates" if not any(v > 0 for v in m.values()) else
+                 "abstain: gold VERIFY-rejected, another passed, extraction/contract failed" if not any(m.get(e, 0) > 0 for e in g) else
+                 "abstain: gold verified, extraction/evidence contract failed")
+        elif r["eid"] not in g:
+            k = ("wrong episode: gold not retrieved" if not g & cands else
+                 "wrong episode: gold also verified, most-recent selection chose another" if any(m.get(e, 0) > 0 for e in g) else
+                 "wrong episode: gold VERIFY-rejected, another accepted")
+        else:
+            continue
+        mech[k] += 1
+    out["mechanisms_supported_plus_temporal"] = dict(mech)
     (rd / "DESCRIPTIVE.json").write_text(json.dumps(out, indent=1))
     print(json.dumps({k: out[k] for k in ("cohorts", "miss_breakdown", "post_hoc")}, indent=1))
 

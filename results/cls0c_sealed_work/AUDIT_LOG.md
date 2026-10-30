@@ -203,3 +203,12 @@
       provenance 0.892).
     - Report: lab/CLS0C_SEALED_REPORT.md. Descriptive analyses: scripts/cls0c_sealed_descriptive.py →
       results/cls0c_sealed_run/DESCRIPTIVE.json.
+23. **Sol's report review: FAIL confirmed, closure approved** after five wording corrections, all applied:
+    1. provenance is reported as a failure of the evidence-reference contract, not proven hallucination;
+    2. wrong episodes are attributed to the interaction of VERIFY with the most-recent rule, now measured as 9/12;
+    3. abstention causes are measured (11 VERIFY, 3 retrieval, 5 extraction/contract), replacing "VERIFY misses 15%";
+    4. bridge and implication claims are narrowed to what was tested;
+    5. the natural-question challenge (54/91, descriptive) is added.
+
+    Sol's counts were checked against the rows: 24/150 and 99/111. **CLS-0C CLOSED.** The sealed material is kept as an
+    evaluation artefact, never a tuning resource.

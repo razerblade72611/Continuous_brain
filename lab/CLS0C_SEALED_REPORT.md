@@ -1,16 +1,19 @@
 # CLS-0C sealed test: report
 
-**Verdict: FAIL.** B1_K1 does not meet the sealed bar. It passes 8 of 11 adequately adjudicated primary gates. All
-three failures are real, not scorer artefacts:
+**Verdict: FAIL.** B1_K1 does not meet the sealed bar. It passes 8 of 11 adequately adjudicated primary gates and
+fails three, each under its frozen criterion:
 
-| Failed primary gate | Value | Threshold |
+| Failed primary gate | Result | Threshold |
 |---|---|---|
-| Synthetic implication commitments | 0.16 | ≤ 0.10 |
-| Narrative supported recall | 0.59 | ≥ 0.90 |
-| Narrative provenance | 0.89 | ≥ 0.95 |
+| Synthetic implication commitments | 24/150 = 0.16 | ≤ 0.10 |
+| Narrative supported recall | 54/91 = 0.593 | ≥ 0.90 |
+| Narrative provenance among answered positives | 99/111 = 0.892 | ≥ 0.95 |
 
-The two narrative categories declared insufficiently adjudicated before the run (implication, temporal) are reported
-descriptively only.
+- The recall failure survives both post-hoc checks below (a lenient span measure, and excluding W07).
+- The provenance failure is a failure of the preregistered evidence-reference contract. 8 of the 12 wrong-episode
+  citations contain the gold value, so not every provenance error is shown to be a factual hallucination.
+- The two narrative categories declared insufficiently adjudicated before the run (implication, temporal) are reported
+  descriptively only.
 
 ## What ran
 - **One sealed run.**
@@ -60,18 +63,28 @@ have produced a nominal narrative implication "pass" (0.072). The agreed cohort 
 | Narrative SUPPORTED (91) | n |
 |---|---|
 | Correct | 54 |
-| Abstained (no candidate passed VERIFY, or evidence contract failed) | 14 |
+| Abstained | 14 |
 | Right episode, span boundary wrong (e.g. "sauce that filled the pantry shelves" for "sauce"; "stall" for "cake stall") | 13 |
 | Wrong episode | 8 |
 | Right episode, other words | 2 |
 
-- **Wrong episodes are mostly the temporal rule.**
-  - Of the 12 wrong-episode answers across SUPPORTED and TEMPORAL, 9 cite a later life than the gold evidence, and 8
-    of the 12 cited episodes do contain the gold value.
-  - The frozen rule "unqualified question → most recent supported episode" sends questions about a specific past
-    event to a later episode that mentions the same person or value. Examples: "the person who directed the winter
-    play" was answered from "Nia Vale is now the primary director"; "the person hired … to help with the cafe" was
-    answered from a later life-5 mention.
+**Mechanisms**, from each row's candidates and VERIFY margins (supported + temporal together, n = 130):
+
+| Outcome | Cause | n |
+|---|---|---|
+| Abstention (19) | gold episode retrieved, but VERIFY rejected every candidate | 11 |
+| | gold episode not in K1 top-5 | 3 |
+| | gold episode retrieved and verified, but extraction or the evidence contract failed | 5 |
+| Wrong episode (12) | gold episode also VERIFY-accepted; the most-recent selection chose another | 9 |
+| | VERIFY rejected the gold episode and accepted another | 2 |
+| | gold episode not retrieved | 1 |
+
+- **Wrong episodes come from the interaction between permissive episode verification and the frozen most-recent
+  rule.** 9 of the 12 cite a later life than the gold evidence, and in 9 of the 12 the gold episode was also verified.
+  For unqualified stems the frozen rule then prefers the latest verified episode, which sends questions about a
+  specific past event to a later episode mentioning the same person or value. Examples: "the person who directed the
+  winter play" was answered from "Nia Vale is now the primary director"; "the person hired … to help with the cafe"
+  was answered from a later mention.
 - **Post-hoc, lenient span** (right episode and the gold value contained in the answer): SUPPORTED 0.714, TEMPORAL
   0.744. **Still far below 0.90**, so the failure is not an exact-match artefact.
 - **One world is much worse:** W07 scores 1/8.
@@ -79,33 +92,48 @@ have produced a nominal narrative implication "pass" (0.072). The agreed cohort 
   - Excluding W07 post hoc: 0.639. Still a fail.
 - **Per world, near-miss and unfamiliar are perfect** (0 answers in all 10 worlds). Abstention on absent facts and
   people is solid.
+- **Natural-question challenge** (descriptive, out-of-distribution, no gate): the 91 SUPPORTED items asked as ordinary
+  questions score 54/91 = 0.593.
 
 ## Bridge (adapters, seed 101)
 - 52/52 episodes written, none budget-censored; 52/52 reconstructions exact.
 - B1_K1 on reconstructions vs raw text: answer agreement **1.00**, provenance agreement **1.00**.
 - Bridge scores: template 1.00, paraphrase 0.94, implication commits 0.13, temporal 1.00.
 
-**Storage is not the bottleneck; addressing and reading are.**
+In this tested bridge (52 synthetic seed-101 episodes), adapter storage introduced no corruption: every downstream answer
+and citation matched raw text. This does not show that neural storage is lossless for arbitrary narratives. **On this
+workload the failures are in addressing and reading, not storage.**
 
 ## B0 (descriptive)
 On synthetic, B0 commits on 55% of implication items and answers 35% of near-misses, against B1_K1's 16% and 5%.
 VERIFY is doing real work. B0 has no narrative rows (no narrative calibration bank), as designed.
 
 ## What CLS-0C establishes
-1. On template-like memories (the synthetic format), B1_K1 addressing generalises to fresh seeds and new paraphrases.
-   It passes recall, abstention, temporal and provenance gates, and storage through adapters is lossless.
-2. It is **not** a general addressing solution. On naturalistic narrative memories, recall drops to 0.59 (0.71 even
-   with a lenient span), provenance to 0.89, and implication commitments stay above the bar in both formats.
-3. The narrative failure has three identifiable parts, all in the reader rather than the store:
-   - the most-recent rule misroutes event questions;
-   - EXTRACT_VALUE returns the wrong span length on narrative stems;
-   - VERIFY misses about 15% of answerable questions.
+1. **On template-like memories (the synthetic format):**
+   - B1_K1 generalises to fresh seeds and new paraphrases on recall, abstention, temporal and provenance.
+   - The adapter bridge reproduced raw-text behaviour exactly on its 52 episodes.
+   - It still fails the synthetic implication gate (0.16).
+2. **It is not a general addressing solution.** On naturalistic narrative memories, recall drops to 0.593 (0.714 even
+   with a lenient span) and provenance to 0.892.
+   - Narrative implication has no primary verdict (insufficiently adjudicated). Descriptively, the agreed cohort
+     commits at 0.143 and the author-intention pool at 0.072.
+3. **Measured mechanisms of the narrative failure:**
+   - VERIFY rejecting retrieved gold episodes (11 abstentions);
+   - VERIFY accepting competing episodes, combined with most-recent selection (9 wrong episodes);
+   - EXTRACT_VALUE span length (13 supported items);
+   - a few retrieval misses (4).
+4. **VERIFY plus selection does improve negative rejection over B0** (synthetic near-miss 0.05 vs 0.35; implication
+   0.16 vs 0.55). The failure does not erase that.
+
+Reliable episodic storage and reliable autobiographical reading are distinct capabilities. This test supports the
+first on its bounded bridge workload and exposes the limits of the second.
 
 ## Decision
 CLS-0C closes as **FAIL** on its stated bar, as preregistered. Per the agreement before the run, there are no
-further B1 prompt experiments under CLS-0C, and the sealed data is not reused for tuning. The diagnosis above goes to
-consolidation as input:
-- a reader that distinguishes state questions from event questions;
-- extraction that returns the minimal value span.
+further B1 prompt experiments under CLS-0C, and the sealed data is not reused for tuning. The sealed material is kept
+as an evaluation artefact, not a tuning resource. The diagnosis goes to consolidation as input, and any redesigned
+reader needs genuinely new held-out evidence and a new sealed test.
 
-Any such reader needs a NEW sealed test.
+Consolidation should take independently verified evidence, or controlled retrieval, as its input. It should test
+whether experience produces lasting changes in the learner's competence, not whether a frozen reader can retrieve
+it. Sol approved closure after the five wording corrections in this version.

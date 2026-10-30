@@ -293,5 +293,13 @@
    "near_miss": "5/5",
    "unfamiliar": "5/5"
   }
+ },
+ "mechanisms_supported_plus_temporal": {
+  "abstain: gold retrieved, VERIFY rejected all candidates": 11,
+  "wrong episode: gold also verified, most-recent selection chose another": 9,
+  "wrong episode: gold not retrieved": 1,
+  "wrong episode: gold VERIFY-rejected, another accepted": 2,
+  "abstain: gold not in K1 top-5": 3,
+  "abstain: gold verified, extraction/evidence contract failed": 5
  }
 }
