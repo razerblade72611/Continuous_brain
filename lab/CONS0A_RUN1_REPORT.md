@@ -32,8 +32,9 @@ a corrected rerun must confirm under exact scoring.
    background.
 
 ## Post-hoc diagnostics (scripts/cons0a_posthoc.py → results/cons0a_run1/POSTHOC.json; 4 seeds pooled)
-"Value-prefix" counts an answer that **begins** with the gold value. It is lenient by construction and is used only
-because of defect 1.
+"Value-prefix" here is a **raw string prefix**: the normalised answer begins with the normalised gold value, so
+"Kouskquisvunex" counts for "Kouskquisvun". It is lenient by construction, used only because of defect 1, and shows a
+strong **target-prefix preference**. It does **not** establish correct whole-word direct recall (Sol).
 
 | Arm | Sleep | New facts, template | New facts, audited paraphrase | Life-1 paraphrase | Near-miss answered | log p(V) vs N | V − W margin |
 |---|---|---|---|---|---|---|---|
@@ -47,9 +48,11 @@ because of defect 1.
 | N | any | 0 | 0 | 0 | 0 | 0 | −2.7 |
 
 **Readings (post-hoc and descriptive).**
-- **QA distillation produces near-complete direct acquisition,** including held-out audited paraphrases.
-- **Interleaved replay preserves life-1 knowledge through 5 sleeps (56/56); sequential consolidation loses it after one
-  more sleep (4/56, then 0/56).**
+- **QA distillation produces a near-complete target-prefix preference** on new facts, including held-out audited
+  paraphrases. Correct direct recall is not established by run 1.
+- **Interleaved replay preserves the life-1 prefix preference through 5 sleeps (56/56); sequential consolidation
+  loses it after one more sleep (4/56, then 0/56).** The comparison is interleaved historical replay vs equally
+  budgeted background-prose rehearsal.
   - The competitor value W overtakes A's value V only in S (negative V − W margin), which is the DECAY-1 failure.
   - Replay prevents it.
 - **V arms show the same retention ordering in log-probabilities but no generatable access.**
@@ -59,5 +62,6 @@ because of defect 1.
 
 ## Status
 - No progression to CONS-0B.
-- The corrections (Amendment 2) are reviewed with Sol before any rerun.
+- **Amendment 2** (lab/CONS0A_PROTOCOL.md) was reviewed by Sol: HOLD, then GO after corrections. The rerun is a
+  post-run-1-amended development experiment and makes no confirmatory claims.
 - These post-hoc numbers are hypotheses for the rerun, not results.

@@ -155,3 +155,64 @@ Sol put the GPU command on HOLD. The design was unchanged; the implementation wa
    followed by answer ids, so the loss falls exactly on the answer tokens. This is asserted in the tests.
 5. **Fail-closed budget.** Before every sleep, the (items, tokens, loss tokens) of I and S must be equal, or the run
    stops. Every training item carries exact token ids.
+
+## Amendment 2: post-run-1 corrections (Sol's review, 2026-10-31; disclosed as after run 1)
+Run 1 (lab/CONS0A_RUN1_REPORT.md) is **INVALID** and stays so. This amendment was written **after** run-1 data
+existed. The rerun is a **post-run-1-amended development experiment** on the same four streams. It supports **no
+confirmatory claim**; CONS-0B remains the independent sealed confirmation. Sol: HOLD on the first draft, then GO
+after the changes below. Thresholds A1–A5, the arms, budgets, probes and the contract are unchanged.
+
+1. **QA terminator.**
+   - QA targets are prompt ids + ids(" " + answer) + ids("\n"), with loss on the answer **and** the newline.
+   - Run-1 targets ended at the answer, so trained models ran on past the value (e.g. "Kouskquisvunex").
+   - Budget matching follows automatically, and the S/I budget assertion is unchanged.
+   - Tests:
+     - the training tail decodes to " answer\n";
+     - a tiny model trained on such a target **generates** the answer followed by the newline;
+     - with the terminator removed, the same test fails (reproduces the run-on).
+2. **QA-family calibration, no default.**
+   - Seed 6, sleep 1. The frozen QA procedure (`qa_build`) is applied to seed 6's raw stream text, because seed 6 has
+     no bank.
+   - Calibration from synthetic raw episodes is **not** evidence about episodic-store consolidation.
+   - E is the smallest of {4, 8, 16} with **exact** template acquisition ≥ 0.80 and competence in the band.
+   - **If none passes, STOP** (calibration exit 4). The run-1 rule "otherwise E = 16" is removed: in run 1 it selected
+     a regime that damaged competence (modern ppl ratio 1.76).
+   - One E applies to both families. V is **not** independently calibrated, because it has no frame-accessible
+     measure.
+3. **Merge validity: strict, with matched-pair invalidation.**
+   - **Per seed:**
+     - identical probes;
+     - ≥ 97% identical answers;
+     - every competence ratio within **0.01** (not loosened for bf16 merge rounding).
+   - **Per arm and checkpoint:** every summary metric's **pooled** (mean over seeds) in-process vs fresh difference is
+     ≤ **0.02**, with no 1/n relaxation. Run 1's code checked each seed instead of pooling.
+   - Per-seed differences are reported descriptively. A missing check fails.
+   - **Pair rule.** A pair (I-V/S-V or I-QA/S-QA) is **evaluable** iff all 16 per-seed checks and all 4 pooled
+     checks of both arms pass.
+   - **Statuses:**
+     - `CONS0A_INVALID`: no pair is evaluable, or a shared integrity failure.
+     - `CONS0A_ADVANCE_<arm>`: an evaluable pair's I arm meets A1–A5 (I-V preferred).
+     - `CONS0A_NO_ADVANCE`: otherwise.
+     - `partial_validity` flags exactly one evaluable pair.
+   - An invalid family is INVALID, not a scientific FAIL. Its numbers are descriptive only.
+   - Run 1's code invalidated the whole run on any failure, while the protocol text said "INVALID for that arm".
+4. **Descriptive secondaries** (never in A1–A5, never in merge tolerances).
+   - **Metrics** for template and paraphrase probes:
+     - exact (authoritative, unchanged);
+     - whole-word value-prefix (the answer's first words equal the value's words);
+     - raw string-prefix (the normalised answer starts with the normalised value).
+   - **Probe:** a frame-free completion of the raw stem (greedy, ≤ 8 tokens), with the same metrics.
+5. **Background confound.**
+   - Disclosed: data/background.txt is prose of the same genre as the competence monitors (no exact overlap). Training
+     on it lowered ppl in run 1 (calibration E = 4 ratios 0.74 and 0.88).
+   - A descriptive I-minus-S competence contrast is reported.
+   - The valid interpretation is **interleaved historical replay vs equally budgeted background-prose rehearsal**.
+   - The dev competence sets are limited monitors. CONS-0B needs an independently held-out competence set.
+6. **A4 unchanged.**
+   - If A1–A3 and A5 pass but A4 fails, report "acquisition and retention with unsafe abstention" and move to a
+     separate abstention protocol, not to 0B.
+   - No negative or UNKNOWN training is added.
+7. **Prediction.**
+   - The frozen prediction stands.
+   - **Run-1-informed addition (labelled):** corrected I-QA shows substantially better life-1 retention than S-QA.
+   - No numerical threshold is derived from run 1.

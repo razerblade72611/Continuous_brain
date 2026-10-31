@@ -195,7 +195,7 @@ def test_end_to_end_tiny(tmp_path):
     # QA supervision boundary: the loss tail is exactly the answer's ids, at the end of the sequence
     items = C._items(R, Q, "QA", tok, life=1)
     for x in items[:5]:
-        assert tok.decode(x["ids"][-x["loss_tail"]:]) == " " + x["answer"]
+        assert tok.decode(x["ids"][-x["loss_tail"]:]) == " " + x["answer"] + C.TERMINATOR     # Amendment 2.1
         assert x["ids"][:-x["loss_tail"]] == tok(C.frame(C.question(x["q"])), add_special_tokens=False).input_ids
     r = run("run", "--replay", tmp_path / "rep2.json", "--qa", tmp_path / "qa2.json", "--model", model_dir,
             "--passes", 1, "--out", out, "--test-mode", *stk)
@@ -227,11 +227,99 @@ def test_end_to_end_tiny(tmp_path):
                 "--out", out / f"fresh_seed2_{arm}_s{K}.json", "--test-mode", *stk)
     r = run("analyze", out, "--out", tmp_path / "an.json")
     an = json.loads((tmp_path / "an.json").read_text())
-    assert an["status"].startswith("CONS0A_") and set(an["criteria"]) == {"I-V", "I-QA"}
+    assert an["status"].startswith("CONS0A_") and set(an["criteria_by_arm"]) == {"I-V", "I-QA"}
+    assert set(an["pooled_merge"]) == {f"{x}:{K}" for x in ("I-V", "S-V", "I-QA", "S-QA") for K in (1, 5)}
+    assert an["descriptive"]["competence_I_minus_S"]
+    fr = json.loads((out / "fresh_seed2_I-QA_s5.json").read_text())
+    assert fr["raw_rows"] and "frame_new_tmpl_wprefix" in fr["descriptive"]                 # Amendment 2.4
     assert all("agree" in v for v in an["merge_checks"].values())
     # merged fresh evaluation reproduces the in-process LoRA evaluation (fp32 tiny model: near exact)
     assert all(v["agree"] >= 0.97 for v in an["merge_checks"].values()), an["merge_checks"]
     r = run("calibrate", "--model", model_dir, "--out", tmp_path / "cal.json", "--test-mode", *stk)
     cal = json.loads((tmp_path / "cal.json").read_text())
-    assert cal["chosen_E"] in C.PASSES and set(cal["passes"]) == {"4", "8", "16"}
+    # Amendment 2.2: QA-family calibration; nothing passes on the tiny model -> STOP, never a default E
+    assert cal["family"].startswith("QA") and cal["chosen_E"] is None and cal["calibration_stop"] is True
+    assert "qa" in cal and isinstance(cal["projection_s"], int)
+    del torch
+
+
+def _chk(ok=True, summ=0.5, fsumm=None, missing=False):
+    if missing:
+        return {"ok": False, "missing": True}
+    return {"ok": ok, "agree": 1.0, "inproc_summary": {"new_tmpl": summ, "new_para": 0.5},
+            "fresh_summary": {"new_tmpl": summ if fsumm is None else fsumm, "new_para": 0.5}}
+
+
+def _merges(bad=(), seeds=(2, 3, 4, 5), **kw):
+    m = {}
+    for arm in ("I-V", "S-V", "I-QA", "S-QA"):
+        for s in seeds:
+            for K in (1, 5):
+                m[f"{s}:{arm}:{K}"] = _chk(ok=f"{s}:{arm}:{K}" not in bad)
+    m.update(kw.get("extra", {}))
+    return m
+
+
+def test_decide_pair_invalidation():
+    """Amendment 2.3 (Sol): matched-pair invalidation, pooled +-0.02 per arm, no 1/n relaxation."""
+    seeds = [2, 3, 4, 5]
+    crit = {"I-V": {"advance": True}, "I-QA": {"advance": True}}
+    d = C.decide(crit, _merges(), seeds)                                  # both valid: I-V preferred
+    assert d["status"] == "CONS0A_ADVANCE_I-V" and not d["partial_validity"] and d["invalid_pairs"] == []
+    d = C.decide(crit, _merges(bad={"3:S-V:5"}), seeds)                   # V invalid (via its S arm), QA valid
+    assert d["status"] == "CONS0A_ADVANCE_I-QA" and d["partial_validity"] and d["invalid_pairs"] == ["I-V/S-V"]
+    assert "3:S-V:5" in d["failed_checks"]
+    d = C.decide(crit, _merges(bad={"2:I-QA:1"}), seeds)                  # QA invalid, V valid
+    assert d["status"] == "CONS0A_ADVANCE_I-V" and d["invalid_pairs"] == ["I-QA/S-QA"] and d["partial_validity"]
+    d = C.decide({"I-V": {"advance": False}, "I-QA": {"advance": True}}, _merges(bad={"2:I-QA:1"}), seeds)
+    assert d["status"] == "CONS0A_NO_ADVANCE" and d["advancing_arm"] is None    # the only valid pair fails A1-A5
+    d = C.decide(crit, _merges(bad={"2:I-V:1", "5:S-QA:5"}), seeds)       # neither valid
+    assert d["status"] == "CONS0A_INVALID" and d["advancing_arm"] is None and not d["evaluable_pairs"]
+    m = _merges(); del m["4:I-QA:5"]                                      # a missing check fails its pair
+    assert C.decide(crit, m, seeds)["invalid_pairs"] == ["I-QA/S-QA"]
+    # pooled: one net flip on a 10-item-per-seed metric (pooled 40 items) = 0.025 > 0.02 -> fails (no 1/n relaxation)
+    m = _merges(); m["2:I-QA:5"] = _chk(summ=0.5, fsumm=0.6)
+    d = C.decide(crit, m, seeds)
+    assert not d["pooled_merge"]["I-QA:5"]["ok"] and d["invalid_pairs"] == ["I-QA/S-QA"]
+    # opposite flips within ONE arm cancel in the pooled metric (protocol: pooled), but never across arms
+    m = _merges(); m["2:I-QA:5"] = _chk(summ=0.5, fsumm=0.6); m["3:I-QA:5"] = _chk(summ=0.5, fsumm=0.4)
+    assert C.decide(crit, m, seeds)["pooled_merge"]["I-QA:5"]["ok"]
+    m = _merges(); m["2:I-QA:5"] = _chk(summ=0.5, fsumm=0.6); m["2:S-QA:5"] = _chk(summ=0.5, fsumm=0.4)
+    assert C.decide(crit, m, seeds)["invalid_pairs"] == ["I-QA/S-QA"]
+
+
+def test_prefix_metrics():
+    pm = C.prefix_metrics
+    assert pm("Kouskquisvun", "Kouskquisvun") == {"wprefix": True, "sprefix": True}
+    assert pm("Kouskquisvunex", "Kouskquisvun") == {"wprefix": False, "sprefix": True}   # run-1 run-on: raw prefix only
+    assert pm("New Leston is lovely", "New Leston") == {"wprefix": True, "sprefix": True}
+    assert pm("UNKNOWN", "Leston") == {"wprefix": False, "sprefix": False}
+    assert pm("", "") == {"wprefix": False, "sprefix": False}
+
+
+def test_trained_answer_stops_at_terminator(tmp_path):
+    """Amendment 2.1 (Sol): a model trained on terminated QA targets GENERATES the answer and then the newline."""
+    pytest.importorskip("torch")
+    pytest.importorskip("transformers")
+    import tiny_hf_model
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+    model_dir = tiny_hf_model.build(tmp_path / "m")
+    tok = AutoTokenizer.from_pretrained(model_dir)
+    m = AutoModelForCausalLM.from_pretrained(model_dir).eval()
+    for q in m.parameters():
+        q.requires_grad_(False)
+    torch.manual_seed(0)
+    q, a = "Where does Ann Pell live?", "Leston"
+    ids, k = C.qa_ids(tok, q, a)
+    assert ids[-1] == tok(C.TERMINATOR, add_special_tokens=False).input_ids[-1] and k >= 2
+    cx = C.Cortex(m, seed=0)
+    opt = torch.optim.AdamW(cx.params(), lr=3e-3)
+    item = {"text": None, "ids": ids, "loss_tail": k, "life": 1, "eid": "e0"}
+    C.cx_model_train(m)
+    C.train_sleep(m, tok, cx, opt, [dict(item) for _ in range(200)], "cpu", {})
+    m.eval()
+    g = C.generate(m, tok, [C.frame(C.question(q))], "cpu")[0]
+    assert g.startswith(" " + a + "\n"), repr(g)
+    assert C.first_line(g) == a and C.grade(C.first_line(g), a)["correct"]
     del torch

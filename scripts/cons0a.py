@@ -46,6 +46,7 @@ RANK, ALPHA = 16, 32
 TARGETS = ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj")
 LR, BATCH = 2e-4, 8
 MAX_NEW = 8
+TERMINATOR = "\n"                                      # QA target terminator (Amendment 2.1)
 N_NEARMISS, N_UNFAMILIAR = 40, 20
 QA_PER_EPISODE = 3
 LEAK_JACCARD = 0.8
@@ -116,6 +117,13 @@ def is_unknown(ans):
     return norm(ans) == "unknown"
 
 
+def prefix_metrics(ans, value):
+    """Amendment 2.4, DESCRIPTIVE only (never in A1-A5): whole-word value-prefix (the answer's first words equal the
+    value's words) and raw string-prefix (the normalised answer starts with the normalised value)."""
+    a, v = norm(ans or ""), norm(value or "")
+    return {"wprefix": bool(v) and a.split()[:len(v.split())] == v.split(), "sprefix": bool(v) and a.startswith(v)}
+
+
 def grade(ans, value):
     return {"answer": ans, "correct": bool(ans) and not is_unknown(ans) and norm(ans) == norm(value),
             "unknown": is_unknown(ans), "empty": not norm(ans)}
@@ -181,11 +189,12 @@ def probe_set(eps, st, L, seed, lifegen):
             continue
         if e["kind"] == "temporal":
             continue                                         # scored separately (two values for one slot)
-        P.append({"kind": "template", "eid": e["eid"], "life": e["time"], "value": e["value"],
-                  "item": statement(template_stem(lifegen, e["attr"], e["entity"]))})
+        ts = template_stem(lifegen, e["attr"], e["entity"])
+        P.append({"kind": "template", "eid": e["eid"], "life": e["time"], "value": e["value"], "stem": ts,
+                  "item": statement(ts)})
         for k, s in paraphrase_stems(lifegen, e["attr"], e["entity"]):
             P.append({"kind": "paraphrase", "eid": e["eid"], "life": e["time"], "value": e["value"], "pk": k,
-                      "item": statement(s)})
+                      "stem": s, "item": statement(s)})
     for ent, a in negatives(eps, L, seed, lifegen):
         P.append({"kind": "nearmiss", "entity": ent, "attr": a, "item": statement(template_stem(lifegen, a, ent))})
     for ent, a in unfamiliar(eps, seed, lifegen):
@@ -292,6 +301,19 @@ def summarise(rows, L):
             "nearmiss_conf": conf_rate(rows)[0],
             "unfamiliar_conf": (lambda rs: sum((not r["unknown"]) and (not r["empty"]) for r in rs) / len(rs)
                                 if rs else None)([r for r in rows if r["kind"] == "unfamiliar"])}
+
+
+def describe(rows, raw, L):
+    """Amendment 2.4: descriptive secondaries (never in A1-A5, never in the merge tolerance)."""
+    out = {}
+    for name, rs in (("frame", rows), ("raw", raw)):
+        for key, pred in (("new_tmpl", lambda r: r["kind"] == "template" and r["life"] == L),
+                          ("new_para", lambda r: r["kind"] == "paraphrase" and r["life"] == L),
+                          ("life1_para", lambda r: r["kind"] == "paraphrase" and r["life"] == 1)):
+            sel = [r for r in rs if pred(r)]
+            for m in ("wprefix", "sprefix"):
+                out[f"{name}_{key}_{m}"] = sum(r[m] for r in sel) / len(sel) if sel else None
+    return out
 
 
 def criteria(per_seed):
@@ -451,7 +473,7 @@ def evaluate(model, tok, eps, st, L, seed, lifegen, dev, comp_sets, base_loss):
         ans = first_line(g)
         r = {k: v for k, v in p.items() if k != "item"} | {"item": p["item"]}
         if p["kind"] in ("template", "paraphrase", "temporal"):
-            r |= grade(ans, p["value"])
+            r |= grade(ans, p["value"]) | prefix_metrics(ans, p["value"])
             if p["kind"] == "temporal":
                 r["gave_old"] = norm(ans) == norm(p["old"])
         else:
@@ -461,8 +483,13 @@ def evaluate(model, tok, eps, st, L, seed, lifegen, dev, comp_sets, base_loss):
     for it in intrusion_items(st, lifegen):
         pr = frame(it["item"])
         intr.append({"eid": it["eid"], **{k: logp_cont(model, tok, pr, " " + it[k], dev) for k in ("V", "W", "Z")}})
+    # Amendment 2.4 (descriptive): frame-free completion of the raw stem (the V families' training format)
+    pos = [p for p in P if p["kind"] in ("template", "paraphrase")]
+    raw = [{"kind": p["kind"], "eid": p["eid"], "life": p["life"], "pk": p.get("pk"), "answer": first_line(g)}
+           | prefix_metrics(first_line(g), p["value"]) for p, g in zip(pos, generate(model, tok, [p["stem"] for p in pos], dev))]
     ppl = {k: math.exp(mean_loss(model, tok, s)) / math.exp(base_loss[k]) for k, s in comp_sets.items()}
-    return {"L": L, "rows": rows, "intrusion": intr, "ppl_ratio": ppl, "summary": summarise(rows, L)}
+    return {"L": L, "rows": rows, "raw_rows": raw, "intrusion": intr, "ppl_ratio": ppl, "summary": summarise(rows, L),
+            "descriptive": describe(rows, raw, L)}
 
 
 def load_model(path, dev):
@@ -539,8 +566,19 @@ def stage_qa(a):
     R = json.loads(Path(a.replay).read_text())
     dev = _dev()
     model, tok = load_model(a.model, dev)
+    res = {"which": "CONS-0A qa", "seed": R["seed"], "replay_sha256": sha(Path(a.replay).read_bytes())} | \
+        qa_build(model, tok, R["episodes"], dev, lifegen)
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"QA seed {R['seed']}: {res['n_accepted']} accepted, rejects {res['rejects']}, "
+          f"{len(res['episodes_without_qa'])} episodes without QA", flush=True)
+
+
+def qa_build(model, tok, episodes, dev, lifegen):
+    """The frozen QA distillation procedure (generation, span/answer-in-question/leak filters, entailment verifier,
+    per-episode cap) on episodes {eid, time, attr, entity, recon}. Used by `qa` (bank reconstructions) and, from
+    Amendment 2.2, by `calibrate` (seed 6 raw stream text)."""
     wordings = eval_wordings(lifegen)
-    eps = [e for e in R["episodes"] if e["recon"]]
+    eps = [e for e in episodes if e["recon"]]
     gens = generate(model, tok, [QA_GEN.format(text=e["recon"]) for e in eps], dev, max_new=160, bs=8)
     cands, entail_req = [], []
     for e, g in zip(eps, gens):
@@ -572,23 +610,20 @@ def stage_qa(a):
         d = by_attr.setdefault(e["attr"], [0, 0])
         d[0] += 1
         d[1] += bool(acc_.get(e["eid"]))
-    res = {"which": "CONS-0A qa", "seed": R["seed"], "replay_sha256": sha(Path(a.replay).read_bytes()),
-           "generations": gens, "candidates": cands, "accepted": acc_,
+    return {"generations": gens, "candidates": cands, "accepted": acc_,
            "acceptance_by_attr": {k: {"episodes": v[0], "with_qa": v[1]} for k, v in sorted(by_attr.items())},
            "rejects": {r: sum(c["reject"] == r for c in cands) for r in
                        ("span", "answer_in_question", "leak", "entailment", "cap")},
            "n_accepted": sum(map(len, acc_.values())), "episodes_without_qa": [e["eid"] for e in eps
                                                                                if not acc_.get(e["eid"])]}
-    Path(a.out).write_text(json.dumps(res, indent=1))
-    print(f"QA seed {R['seed']}: {res['n_accepted']} accepted, rejects {res['rejects']}, "
-          f"{len(res['episodes_without_qa'])} episodes without QA", flush=True)
 
 
 def qa_ids(tok, q, a):
-    """Exact supervision boundary by construction: prompt ids (tokenised exactly as at evaluation) + answer ids; the
-    loss falls on the answer ids only."""
+    """Exact supervision boundary by construction: prompt ids (tokenised exactly as at evaluation) + answer ids +
+    the frame's line terminator; the loss falls on the answer ids AND the terminator (Amendment 2.1: run 1's targets
+    ended at the answer, so trained models never learned to stop)."""
     p = tok(frame(question(q)), add_special_tokens=False).input_ids
-    ans = tok(" " + a, add_special_tokens=False).input_ids
+    ans = tok(" " + a, add_special_tokens=False).input_ids + tok(TERMINATOR, add_special_tokens=False).input_ids
     return p + ans, len(ans)
 
 
@@ -717,28 +752,68 @@ def stage_fresh(a):
 
 
 def merge_check(inproc, fresh):
-    """Merge equivalence: identical probe identities, >= 97% identical answers, every summary metric within 0.02 and
-    every competence ratio within 0.01."""
+    """Per-seed merge equivalence (Amendment 2.3): identical probe identities, >= 97% identical answers and every
+    competence ratio within 0.01. Summary-metric differences are reported per seed (descriptive) and enforced POOLED
+    over seeds per arm by pooled_merge (protocol text)."""
     ident = lambda ev: [(r["kind"], r.get("eid") or r.get("entity"), r["item"]) for r in ev["rows"]]
     same_probes = ident(inproc) == ident(fresh)
     a = [r["answer"] for r in inproc["rows"]]
     b = [r["answer"] for r in fresh["rows"]]
-    agree = sum(x == y for x, y in zip(a, b)) / max(1, len(a))
-    diffs = {k: abs((inproc["summary"][k] or 0) - (fresh["summary"][k] or 0)) for k in inproc["summary"]}
+    agree = sum(x == y for x, y in zip(a, b)) / max(1, len(a)) if len(a) == len(b) else 0.0
+    diffs = {k: abs((inproc["summary"][k] or 0) - (fresh["summary"].get(k) or 0)) for k in inproc["summary"]}
     ppl = {k: abs(inproc["ppl_ratio"][k] - fresh.get("ppl_ratio", {}).get(k, float("inf"))) for k in inproc["ppl_ratio"]}
-    return {"same_probes": same_probes, "agree": agree, "max_diff": max(diffs.values()),
-            "max_ppl_diff": max(ppl.values()) if ppl else 0.0,
-            "ok": same_probes and agree >= MERGE_AGREE and max(diffs.values()) <= MERGE_TOL and
-            (max(ppl.values()) if ppl else 0.0) <= PPL_TOL}
+    mppl = max(ppl.values()) if ppl else 0.0
+    return {"same_probes": same_probes, "agree": agree, "per_seed_diffs": diffs, "max_ppl_diff": mppl,
+            "inproc_summary": inproc["summary"], "fresh_summary": fresh["summary"],
+            "ok": same_probes and agree >= MERGE_AGREE and mppl <= PPL_TOL}
 
 
-def project(timing, E, n_eps, seeds=len(SEEDS), overhead_s=900):
+def pooled_merge(checks):
+    """Amendment 2.3: for ONE arm at one checkpoint, every summary metric's pooled (mean over seeds) in-process vs fresh
+    difference must be <= 0.02 (no 1/n relaxation). A missing seed fails."""
+    if not checks or any(c.get("missing") for c in checks):
+        return {"ok": False, "missing": True}
+    v = lambda x: 0.0 if x is None else x
+    keys = checks[0]["inproc_summary"].keys()
+    d = {k: abs(sum(v(c["inproc_summary"][k]) for c in checks) - sum(v(c["fresh_summary"].get(k)) for c in checks))
+         / len(checks) for k in keys}
+    return {"pooled_diffs": d, "max_diff": max(d.values()), "ok": max(d.values()) <= MERGE_TOL}
+
+
+PAIRS = (("I-V", "S-V"), ("I-QA", "S-QA"))
+
+
+def decide(crit, merges, seeds):
+    """Amendment 2.3 (Sol): matched-PAIR invalidation. A pair (I arm + its S arm) is evaluable iff all 16 per-seed
+    checks (2 arms x seeds x sleeps 1, 5) pass AND the 4 pooled checks (2 arms x 2 sleeps) pass; a missing check fails.
+    INVALID iff no pair is evaluable; only an evaluable pair's I arm can advance (I-V preferred); PARTIAL_VALIDITY
+    flags exactly one evaluable pair."""
+    pooled, evaluable = {}, {}
+    for I, S in PAIRS:
+        ok = True
+        for arm in (I, S):
+            for K in (1, 5):
+                cs = [merges.get(f"{s}:{arm}:{K}", {"ok": False, "missing": True}) for s in seeds]
+                pooled[f"{arm}:{K}"] = pooled_merge(cs)
+                ok = ok and all(c.get("ok") for c in cs) and pooled[f"{arm}:{K}"]["ok"]
+        evaluable[I] = ok
+    ev = [I for I, _ in PAIRS if evaluable[I]]
+    adv = next((I for I in ev if crit[I]["advance"]), None)
+    status = "CONS0A_INVALID" if not ev else ("CONS0A_ADVANCE_" + adv if adv else "CONS0A_NO_ADVANCE")
+    return {"pooled_merge": pooled, "evaluable_pairs": [f"{I}/{S}" for I, S in PAIRS if evaluable[I]],
+            "invalid_pairs": [f"{I}/{S}" for I, S in PAIRS if not evaluable[I]],
+            "failed_checks": sorted([k for k, m in merges.items() if not m.get("ok")] +
+                                    [f"pooled:{k}" for k, m in pooled.items() if not m["ok"]]),
+            "advancing_arm": adv, "partial_validity": len(ev) == 1, "status": status}
+
+
+def project(timing, E, n_items, seeds=len(SEEDS), overhead_s=900):
     """Conservative wall-clock projection of the whole 0A campaign from calibration timings. Per seed: 23 in-process
     evaluations (N x5, two families x (1 + 2 x 4)) whose probe count grows with the checkpoint (~ life-5 size, taken
     as 3x the life-1 count), 8 fresh evaluations, training of 2 families x (E x n_eps x 2 slot) x (1 + up to 2 arms),
     plus prep/QA/model loads (overhead_s)."""
     per_eval = timing["eval_s_life1"] * 3.0
-    train = timing["train_s_per_item"] * E * n_eps * 2 * 2 * 2
+    train = timing["train_s_per_item"] * E * n_items * 2 * 2 * 2
     return round(seeds * (23 * per_eval + 8 * (per_eval + 120) + train + overhead_s))
 
 
@@ -754,13 +829,19 @@ def stage_calibrate(a):
     eval_s1 = time.time() - t0
     bg = background_chunker(tok, (ROOT / "data/background.txt").read_text().splitlines(), CAL_SEED)
     tl = lambda s: len(tok(s, add_special_tokens=False).input_ids[:256])
-    new = [{"text": e["text"], "ids": tok(e["text"], add_special_tokens=False).input_ids[:256], "loss_tail": None,
-            "life": 1, "eid": e["eid"]} for e in eps if e["time"] == 1]
+    # Amendment 2.2: calibrate on the QA family (run 1: the V family never leaves UNKNOWN in the answer frame, so a
+    # V-format calibration cannot pass). QA from seed 6's RAW stream text (seed 6 has no bank) by the frozen procedure.
+    R6 = {"episodes": [{k: e[k] for k in ("eid", "time", "entity", "attr", "value", "kind")} | {"recon": e["text"]}
+                       for e in eps]}
+    Q6 = qa_build(model, tok, R6["episodes"], dev, lifegen)
+    new = _items(R6, Q6, "QA", tok, life=1)
     cx = Cortex(model, seed=CAL_SEED)
-    res = {"which": "CONS-0A calibrate", "seed": CAL_SEED, "N_nearmiss_conf": n_ev["summary"]["nearmiss_conf"],
-           "N": n_ev["summary"], "passes": {}}
+    res = {"which": "CONS-0A calibrate", "family": "QA (Amendment 2.2)", "seed": CAL_SEED,
+           "N_nearmiss_conf": n_ev["summary"]["nearmiss_conf"], "N": n_ev["summary"], "passes": {},
+           "qa": {k: Q6[k] for k in ("accepted", "rejects", "n_accepted", "episodes_without_qa")},
+           "n_life1_items": len(new)}
     chosen = None
-    for E in PASSES:
+    for E in (PASSES if new else ()):                         # no accepted life-1 QA item: nothing to calibrate -> STOP
         _fresh_cortex(cx, CAL_SEED)
         opt = torch.optim.AdamW(cx.params(), lr=LR, betas=(0.9, 0.999), weight_decay=0.0)
         I, _, _ = schedule(new, [], E, random.Random(f"CONS0A-cal-{E}"), tl, bg)
@@ -774,15 +855,16 @@ def stage_calibrate(a):
         print(f"CAL E={E}: {ev['summary']} ppl {ev['ppl_ratio']} ok={ok}", flush=True)
         if ok and chosen is None:
             chosen = E
-    res["chosen_E"] = chosen or max(PASSES)
+    res["chosen_E"] = chosen                                   # Amendment 2.2: no passing E -> None -> STOP (no default)
+    res["calibration_stop"] = chosen is None
     res["timing"] = {"eval_s_life1": round(eval_s1, 1), "n_probes_life1": len(n_ev["rows"]),
                      "train_s_per_item": round(sum(v["train"]["seconds"] for v in res["passes"].values()) /
                                                max(1, sum(v["train"]["items"] for v in res["passes"].values())), 4)}
-    res["projection_s"] = project(res["timing"], res["chosen_E"], len(eps))
+    res["projection_s"] = project(res["timing"], chosen or max(PASSES), len(eps) * QA_PER_EPISODE)
     res["contract_revision_needed"] = (res["N_nearmiss_conf"] or 0) > GATES["conf"]
     Path(a.out).write_text(json.dumps(res, indent=1))
-    print(f"CALIBRATE chosen E={res['chosen_E']} N_nearmiss_conf={res['N_nearmiss_conf']} "
-          f"contract_revision_needed={res['contract_revision_needed']}", flush=True)
+    print(f"CALIBRATE chosen E={res['chosen_E']} stop={res['calibration_stop']} N_nearmiss_conf="
+          f"{res['N_nearmiss_conf']} contract_revision_needed={res['contract_revision_needed']}", flush=True)
 
 
 def stage_analyze(a):
@@ -805,14 +887,30 @@ def stage_analyze(a):
                     else:
                         merges[f"{s}:{arm}:{K}"] = {"ok": False, "missing": True}
             per_seed[s] = ps
-    crit, adv = criteria(per_seed)
-    invalid = [k for k, m in merges.items() if not m.get("ok")]
-    out = {"seeds": sorted(per_seed), "criteria": crit, "advancing_arm": None if invalid else adv,
-           "merge_checks": merges, "invalid": invalid,
-           "status": "CONS0A_INVALID" if invalid else ("CONS0A_ADVANCE_" + adv if adv else "CONS0A_NO_ADVANCE")}
+    if len(per_seed) != len(a.dirs):                           # shared integrity: every seed directory must have a run
+        sys.exit(f"ANALYZE: {len(a.dirs)} seed dirs but {len(per_seed)} run files - campaign INVALID")
+    seeds = sorted(per_seed)
+    crit, _ = criteria(per_seed)
+    d = decide(crit, merges, seeds)
+    out = {"seeds": seeds, "amendment": 2, "criteria_by_arm": crit, "merge_checks": merges, **d,
+           "descriptive": {"competence_I_minus_S": comp_contrast(per_seed, seeds)},
+           "note": "post-run-1-amended development experiment on the same four streams; no confirmatory claims"}
     Path(a.out).write_text(json.dumps(out, indent=1))
-    print(json.dumps({k: out[k] for k in ("criteria", "advancing_arm", "invalid", "status")}, indent=1))
+    print(json.dumps({k: out[k] for k in ("criteria_by_arm", "evaluable_pairs", "invalid_pairs", "advancing_arm",
+                                          "partial_validity", "status")}, indent=1))
     print(f"status={out['status']}")
+
+
+def comp_contrast(per_seed, seeds):
+    """Amendment 2.5(c), descriptive: pooled competence ratio of each I arm minus its matched S arm, per sleep and set.
+    Interpretation: interleaved historical replay vs equally budgeted background-prose rehearsal."""
+    out = {}
+    for I, S in PAIRS:
+        for L in range(1, 6):
+            for k in per_seed[seeds[0]][I]["ppl"][L]:
+                m = lambda arm: sum(per_seed[s][arm]["ppl"][L][k] for s in seeds) / len(seeds)
+                out[f"{I}-{S}:{L}:{k}"] = round(m(I) - m(S), 4)
+    return out
 
 
 def main():
