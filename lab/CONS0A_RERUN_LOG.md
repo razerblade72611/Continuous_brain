@@ -18,8 +18,10 @@ The A40 was out of stock in CA-MTL-1 for about 1.5 h, so the attempt ran on the 
   - The projection was 12,442 s.
 - **prep, seed 2:** **42/52 reconstructions exact**, so prep FAILED CLOSED and nothing trained.
   - On the A40, run 1 reconstructed 52/52 for every seed.
-  - **Finding:** greedy reconstruction from the rank-2 episodic LoRAs is sensitive to GPU numerics (bf16 on Hopper vs
-    Ampere). The episodic store is not hardware-portable as built.
+  - **Finding (Sol's wording):** a hardware- or backend-dependent reconstruction failure under the tested
+    configurations. bf16 Hopper-vs-Ampere arithmetic is not established as the sole cause; kernels or library versions
+    may contribute. The neural episodic store has no demonstrated portability across execution conditions.
+  - Portability will be a separate investigation. The stored adapters are not modified during CONS-0A.
   - This bears on the being's design: a store must survive hardware changes.
 - **Bundle:** sha256 7b2ce083…3f74, held on David's PC. The pod was removed.
 
@@ -30,4 +32,13 @@ The A40 was out of stock in CA-MTL-1 for about 1.5 h, so the attempt ran on the 
   - Uses run 1's committed A40 prep outputs (results/cons0a_run1/seed*/replay.json; sha256 pinned in the launcher;
     52/52 exact, errors []) instead of prep.
   - stage_prep is unchanged since run 1, and with 52/52 exact an A40 re-prep is determined byte for byte.
-  - Status: **pending Sol's review.** Until then the rerun uses the default (prep), which requires the A40.
+  - **Provenance check:** each replay's recorded bank sha256 must equal the hash of the committed CLS-0B bank, and its
+    model manifest must equal the CLS-0B manifest.
+  - **Sol: GO for option B** (2026-10-31), under these conditions:
+    - only the reconstruction inputs are reused; QA, calibration, optimiser, training, fresh evaluation and analysis
+      all run under Amendment 2;
+    - A1–A5 and the merge gates are unchanged;
+    - this is **not** an independent confirmation of run 1;
+    - the claim becomes "consolidation from previously verified neural episodic reconstructions", not end-to-end
+      decoding plus learning on one GPU;
+    - an I-QA advantage over S-QA alone does not authorise CONS-0B.

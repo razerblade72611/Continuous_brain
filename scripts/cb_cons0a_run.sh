@@ -104,6 +104,13 @@ for s in 2 3 4 5; do
     echo "$H  $O/replay.json" | sha256sum -c --quiet || { echo "STOP: run-1 replay for seed $s does not match its pinned hash"; finish 1; }
     $PY -c "import json,sys;r=json.load(open('$O/replay.json'));sys.exit(0 if r['exact']==r['n']==52 and r['errors']==[] and r['seed']==$s else 1)" \
       || { echo "STOP: run-1 replay for seed $s is not 52/52 exact"; finish 1; }
+    $PY - $O/replay.json results/cls0b_final/seed${s}_bank.pt <<'PV' || { echo "STOP: run-1 replay for seed $s: bank or model manifest differs from the verified originals"; finish 1; }
+import hashlib, json, sys                                     # provenance (Sol): replay bank + model == preflight-verified ones
+r = json.load(open(sys.argv[1]))
+ok = r["bank_sha256"] == hashlib.sha256(open(sys.argv[2], "rb").read()).hexdigest() and \
+    r["model_manifest"] == json.load(open("results/cls0b_final/seed2.json"))["model_manifest"]["files"]
+sys.exit(0 if ok else 1)
+PV
     echo "PREP seed $s: run-1 A40 replay used (sha256 $H, 52/52 exact)"
   else
     timeout 1800 $PY scripts/cons0a.py prep --seed $s --bank results/cls0b_final/seed${s}_bank.pt --model $M --out $O/replay.json || finish 1

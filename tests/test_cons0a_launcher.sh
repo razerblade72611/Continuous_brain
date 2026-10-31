@@ -14,10 +14,11 @@ awk '/bash -s" <<'"'"'REMOTE'"'"'/{f=1;next} /^REMOTE$/{f=0} f' "$L" > $T/remote
 git clone -q "file://$REPO" $T/proto && git -C $T/proto checkout -q being/v3-bind 2>/dev/null
 cat > $T/fakepy <<'PY'
 #!/usr/bin/env bash
-if [ "${1:-}" = "-" ]; then
+if [ "${1:-}" = "-" ] && [ $# = 1 ]; then                    # the preflight manifest script (other stdin scripts run for real)
   if [ "${FAKE_MANIFEST:-real}" = ok ]; then cat >/dev/null; echo "MODEL MANIFEST OK"; exit 0; fi
   exec python3 -
 fi
+[ "${1:-}" = "-" ] && exec python3 "$@"
 [ "${1:-}" = "-c" ] && exec python3 "$@"
 out=; prev=; seed=; for x in "$@"; do [ "$prev" = --out ] && out=$x; [ "$prev" = --seed ] && seed=$x; prev=$x; done
 case "$2" in
@@ -85,6 +86,11 @@ grep -q 'replay=run1' $R/PIN || fail "replay mode not recorded"
 r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] && grep -q 'PREP CALLED 2' $T/ws/cons0a.log || fail "mode change resumed ('$r')"
 setup; echo ' ' >> $T/ws/Continuous_brain_cons0a/results/cons0a_run1/seed4/replay.json
 r=$(FAKE_MANIFEST=ok CB_REPLAY=run1 remote); [ "${r%% *}" != 0 ] && grep -q 'tracked files modified' $T/pre.txt || fail "tampered replay ('$r')"
+setup; cp $T/ws/Continuous_brain_cons0a/results/cls0b_final/seed2_bank.pt $T/bank2.bak       # bank != replay's recorded bank
+echo x >> $T/ws/Continuous_brain_cons0a/results/cls0b_final/seed2_bank.pt
+sed -i -e 's/sha256sum -c --quiet FILES.sha256/true/' -e 's/^if ! git diff --quiet .*then/if false; then/' $T/remote.sh  # bypass preflight's own checks
+r=$(FAKE_MANIFEST=ok CB_REPLAY=run1 remote); [ "$r" = "0 1" ] && grep -q 'bank or model manifest differs' $T/ws/cons0a.log \
+  || fail "replay provenance not checked ('$r')"
 setup; r=$(FAKE_MANIFEST=ok CB_REPLAY=bogus remote); [ "$r" = "0 1" ] && grep -q 'CB_REPLAY must be' $T/ws/cons0a.log || fail "bad CB_REPLAY ('$r')"
 # 3 contract revision needed -> exit 4, no seed started
 setup; r=$(FAKE_MANIFEST=ok CAL_REV=true remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "contract STOP gave '$r'"
