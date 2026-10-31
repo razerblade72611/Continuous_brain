@@ -15,6 +15,9 @@
 # Then: verified download to ~/cb_results/cons0a (cortex checkpoints stay on the volume), pod removed.
 # Exit: 0 complete; 4 calibration STOP (contract / projection); 1 anything else (pod stopped, files stay on the volume).
 #   bash cb_cons0a_run.sh [gpu="NVIDIA A40"]        clear a stale lock: CB_UNLOCK=1 bash cb_cons0a_run.sh
+# CB_REPLAY=prep (default): reconstruct each seed from its bank (prep; fails closed unless 52/52 exact - on the H100 only
+#   42/52 were, so the default needs the A40). CB_REPLAY=run1: use run 1's committed A40 prep outputs
+#   (results/cons0a_run1/seed*/replay.json, hashes pinned below, 52/52 exact) instead of prep - only once Sol approves it.
 GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
 PIN=271b39e653bcfd56f5d9d196914968f6fff1da37                                           # frozen CONS-0A commit
 D=/workspace/Continuous_brain_cons0a; OUT=$HOME/cb_results/cons0a; DL=/mnt/c/Users/davei/Downloads
@@ -31,7 +34,7 @@ addr() { eval "$(runpodctl ssh info $POD 2>/dev/null | python3 -c 'import sys,js
 try: d=json.load(sys.stdin); print("IP=%s PORT=%s" % (d["ip"], d["port"]))
 except Exception: pass')"; }
 addr; S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -i $K -p $PORT root@$IP"
-$S "VOL=$VOL D=$D PIN=$PIN CB_UNLOCK=${CB_UNLOCK:-0} bash -s" <<'REMOTE' || { echo "STOP: preflight/launch failed - removing pod"; runpodctl pod remove $POD && POD=""; exit 1; }
+$S "VOL=$VOL D=$D PIN=$PIN CB_UNLOCK=${CB_UNLOCK:-0} CB_REPLAY=${CB_REPLAY:-prep} bash -s" <<'REMOTE' || { echo "STOP: preflight/launch failed - removing pod"; runpodctl pod remove $POD && POD=""; exit 1; }
 set -Eeuo pipefail
 findmnt -no SOURCE /workspace | grep -q networkvolumes/$VOL
 if pgrep -f '[s]cripts/cons0a' >/dev/null; then echo 'STOP: a CONS-0A process is running in this pod'; exit 1; fi
@@ -67,12 +70,15 @@ mkdir $LOCK 2>/dev/null || { echo "STOP: lock held by $(cat $LOCK/owner 2>/dev/n
 echo "$(hostname) $(date -u +%FT%TZ) pid $$" > $LOCK/owner; trap 'rm -rf $LOCK' EXIT
 rm -f /workspace/results_cons0a.tar.gz /workspace/results_cons0a.tar.gz.sha256
 R=results/cons0a; M=/workspace/hf/Qwen3-8B; PY=.venv/bin/python
-HEADC=$(git rev-parse HEAD)                                  # resume only results made by THIS pinned commit
+case "${CB_REPLAY:-prep}" in prep|run1) ;; *) echo "STOP: CB_REPLAY must be prep or run1"; echo 'CONS-0A JOB DONE exit=1'; exit 1;; esac
+HEADC="$(git rev-parse HEAD) replay=${CB_REPLAY:-prep}"      # resume only results made by THIS commit and replay mode
 if [ -d $R ] && [ "$(cat $R/PIN 2>/dev/null)" != "$HEADC" ]; then
   OLD=results/cons0a_stale_$(cat $R/PIN 2>/dev/null | cut -c1-7)_$(date -u +%Y%m%dT%H%M%S); mv $R $OLD
   find $OLD -name '*.pt' -delete; echo "== results from another commit moved to $OLD (checkpoints removed); not resumed"
 fi
-mkdir -p $R; echo $HEADC > $R/PIN
+mkdir -p $R; echo "$HEADC" > $R/PIN
+nvidia-smi --query-gpu=name --format=csv,noheader > $R/GPU.txt 2>/dev/null || echo unknown > $R/GPU.txt
+echo "== GPU: $(cat $R/GPU.txt); replay mode: ${CB_REPLAY:-prep}"
 finish() { echo "== end $(date -u +%FT%TZ)"
   tar czf /workspace/results_cons0a.tar.gz --exclude='*.pt' $R
   sha256sum /workspace/results_cons0a.tar.gz | sed 's|/workspace/||' > /workspace/results_cons0a.tar.gz.sha256 && sync
@@ -89,7 +95,19 @@ for s in 2 3 4 5; do
   if [ -f $O/run_seed$s.json ] && [ $(ls $O/fresh_seed${s}_*_s*.json 2>/dev/null | wc -l) = 8 ]; then echo "== seed $s complete - skipped"; continue; fi
   rm -rf $O; mkdir -p $O                                     # an incomplete seed restarts from scratch (protocol)
   echo "== seed $s $(date -u +%FT%TZ)"
-  timeout 1800 $PY scripts/cons0a.py prep --seed $s --bank results/cls0b_final/seed${s}_bank.pt --model $M --out $O/replay.json || finish 1
+  if [ "${CB_REPLAY:-prep}" = run1 ]; then                   # run 1's A40 reconstructions from the store (pinned)
+    cp results/cons0a_run1/seed$s/replay.json $O/replay.json
+    case $s in 2) H=d7c02234a3599c9432aed5faf9565a205ca6be9b7a5acc9243898c997ea330df;;
+               3) H=039a6efe92e62deb1f5cb764ea1e5c08b189e4b4ec3f889c153548f975e8bb6a;;
+               4) H=c970b25d6c46c184c3e738fe41bc4d472265aa81447dc043f3c077036c99dd3f;;
+               5) H=43e851579cac3a8465c4ad0081a53a07a56d1bcc63f47a89a6f51d4a54c8373f;; esac
+    echo "$H  $O/replay.json" | sha256sum -c --quiet || { echo "STOP: run-1 replay for seed $s does not match its pinned hash"; finish 1; }
+    $PY -c "import json,sys;r=json.load(open('$O/replay.json'));sys.exit(0 if r['exact']==r['n']==52 and r['errors']==[] and r['seed']==$s else 1)" \
+      || { echo "STOP: run-1 replay for seed $s is not 52/52 exact"; finish 1; }
+    echo "PREP seed $s: run-1 A40 replay used (sha256 $H, 52/52 exact)"
+  else
+    timeout 1800 $PY scripts/cons0a.py prep --seed $s --bank results/cls0b_final/seed${s}_bank.pt --model $M --out $O/replay.json || finish 1
+  fi
   timeout 1800 $PY scripts/cons0a.py qa --replay $O/replay.json --model $M --out $O/qa.json || finish 1
   timeout 10800 $PY scripts/cons0a.py run --replay $O/replay.json --qa $O/qa.json --model $M --passes $E --out $O || finish 1
   for fam in V QA; do for kind in S I; do
@@ -100,7 +118,7 @@ done
 $PY scripts/cons0a.py analyze $R/seed2 $R/seed3 $R/seed4 $R/seed5 --out $R/analysis.json || finish 1
 finish 0
 JOB
-nohup bash /workspace/cons0a_job.sh > /workspace/cons0a.log 2>&1 < /dev/null &
+CB_REPLAY=$CB_REPLAY nohup bash /workspace/cons0a_job.sh > /workspace/cons0a.log 2>&1 < /dev/null &
 sleep 5; echo "CONS-0A JOB LAUNCHED"
 REMOTE
 t0=$(date +%s)                                               # cap counts from the job launch

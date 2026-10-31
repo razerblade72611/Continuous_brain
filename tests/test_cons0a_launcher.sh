@@ -22,7 +22,7 @@ fi
 out=; prev=; seed=; for x in "$@"; do [ "$prev" = --out ] && out=$x; [ "$prev" = --seed ] && seed=$x; prev=$x; done
 case "$2" in
   calibrate) echo "{\"chosen_E\": ${CAL_E:-8}, \"calibration_stop\": ${CAL_STOP:-false}, \"contract_revision_needed\": ${CAL_REV:-false}, \"projection_s\": ${CAL_PROJ:-1000}}" > "$out";;
-  prep) echo '{"seed": '"$seed"'}' > "$out";;
+  prep) echo '{"seed": '"$seed"'}' > "$out"; echo "PREP CALLED $seed";;
   qa) echo '{}' > "$out";;
   run) s=$(basename "$out" | tr -dc 0-9); [ "${FAIL_SEED:-}" = "$s" ] && { echo "run failed (stub)"; exit 3; }
        echo '{}' > "$out/run_seed$s.json"
@@ -42,7 +42,7 @@ setup() {
   sed "s|/workspace|$T/ws|g" $T/remote.raw > $T/remote.sh
 }
 remote() {  # preflight (+ launch); waits for the job; prints "preflight_exit job_exit"
-  VOL=29qhoqghqf D=$T/ws/Continuous_brain_cons0a PIN=$PIN CB_UNLOCK=${CB_UNLOCK:-0} PATH=$T/bin:$PATH \
+  VOL=29qhoqghqf D=$T/ws/Continuous_brain_cons0a PIN=$PIN CB_UNLOCK=${CB_UNLOCK:-0} CB_REPLAY=${CB_REPLAY:-prep} PATH=$T/bin:$PATH \
     bash $T/remote.sh > $T/pre.txt 2>&1; local pe=$?
   local je=none
   if [ $pe = 0 ]; then
@@ -72,9 +72,20 @@ echo 0000000 > $R/PIN; touch $R/seed2/run_seed2.json $R/seed2/fresh_seed2_{a,b,c
 r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] || fail "stale results gave '$r'"
 grep -q 'seed 2 complete - skipped' $T/ws/cons0a.log && fail "stale seed resumed"
 grep -q '"chosen_E": 8' $R/calibrate.json || fail "stale calibration reused"
-[ "$(cat $R/PIN)" = "$(git -C $T/ws/Continuous_brain_cons0a rev-parse HEAD)" ] || fail "PIN not recorded"
+[ "$(cat $R/PIN)" = "$(git -C $T/ws/Continuous_brain_cons0a rev-parse HEAD) replay=prep" ] || fail "PIN not recorded"
 ls -d $T/ws/Continuous_brain_cons0a/results/cons0a_stale_0000000_* >/dev/null 2>&1 || fail "stale results not kept"
 [ -z "$(find $T/ws/Continuous_brain_cons0a/results/cons0a_stale_* -name '*.pt')" ] || fail "stale checkpoints kept"
+# 2c CB_REPLAY=run1: pinned run-1 replays are used instead of prep; a mode change is not resumed; a tampered replay or
+#    a bad mode stops
+setup; r=$(FAKE_MANIFEST=ok CB_REPLAY=run1 remote); [ "$r" = "0 0" ] || fail "run1 replay mode gave '$r'"
+grep -q 'PREP CALLED' $T/ws/cons0a.log && fail "prep ran in run1 mode"
+[ $(grep -c 'run-1 A40 replay used' $T/ws/cons0a.log) = 4 ] || fail "run-1 replays not used for 4 seeds"
+cmp -s $R/seed3/replay.json $T/ws/Continuous_brain_cons0a/results/cons0a_run1/seed3/replay.json || fail "replay not copied"
+grep -q 'replay=run1' $R/PIN || fail "replay mode not recorded"
+r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] && grep -q 'PREP CALLED 2' $T/ws/cons0a.log || fail "mode change resumed ('$r')"
+setup; echo ' ' >> $T/ws/Continuous_brain_cons0a/results/cons0a_run1/seed4/replay.json
+r=$(FAKE_MANIFEST=ok CB_REPLAY=run1 remote); [ "${r%% *}" != 0 ] && grep -q 'tracked files modified' $T/pre.txt || fail "tampered replay ('$r')"
+setup; r=$(FAKE_MANIFEST=ok CB_REPLAY=bogus remote); [ "$r" = "0 1" ] && grep -q 'CB_REPLAY must be' $T/ws/cons0a.log || fail "bad CB_REPLAY ('$r')"
 # 3 contract revision needed -> exit 4, no seed started
 setup; r=$(FAKE_MANIFEST=ok CAL_REV=true remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "contract STOP gave '$r'"
 grep -q 'revise it once' $T/ws/cons0a.log || fail "contract STOP message"
@@ -120,4 +131,4 @@ tail_run() { rm -rf $T/pc/ws/* $T/pc/home/cb_results
 [ "$(tail_run 4)" = 4 ] || fail "PC tail: calibration STOP not mapped to 4"
 [ "$(tail_run 3)" = 1 ] || fail "PC tail: failure not mapped to 1"
 [ "$(tail_run 0 1)" = 1 ] || fail "PC tail: corrupted bundle accepted"
-echo "PASS: cb_cons0a_run.sh (success, relaunch skip, stale results not resumed, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
+echo "PASS: cb_cons0a_run.sh (success, relaunch skip, stale results not resumed, run-1 replay mode, tampered replay, bad replay mode, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
