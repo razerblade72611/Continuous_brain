@@ -66,6 +66,15 @@ grep -q 'analysis.json' $T/listing.txt || fail "bundle lacks analysis.json"
 # 2 relaunch after success: every seed skipped, still completes
 r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] || fail "relaunch gave '$r'"
 [ $(grep -c 'complete - skipped' $T/ws/cons0a.log) = 4 ] || fail "completed seeds not skipped"
+# 2b results left by a DIFFERENT commit (e.g. run 1) are moved aside and recomputed, never resumed
+setup; mkdir -p $R/seed2; echo '{"chosen_E": 16, "calibration_stop": false, "contract_revision_needed": false, "projection_s": 1}' > $R/calibrate.json
+echo 0000000 > $R/PIN; touch $R/seed2/run_seed2.json $R/seed2/fresh_seed2_{a,b,c,d,e,f,g,h}_s1.json $R/seed2/cortex_x.pt
+r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] || fail "stale results gave '$r'"
+grep -q 'seed 2 complete - skipped' $T/ws/cons0a.log && fail "stale seed resumed"
+grep -q '"chosen_E": 8' $R/calibrate.json || fail "stale calibration reused"
+[ "$(cat $R/PIN)" = "$(git -C $T/ws/Continuous_brain_cons0a rev-parse HEAD)" ] || fail "PIN not recorded"
+ls -d $T/ws/Continuous_brain_cons0a/results/cons0a_stale_0000000_* >/dev/null 2>&1 || fail "stale results not kept"
+[ -z "$(find $T/ws/Continuous_brain_cons0a/results/cons0a_stale_* -name '*.pt')" ] || fail "stale checkpoints kept"
 # 3 contract revision needed -> exit 4, no seed started
 setup; r=$(FAKE_MANIFEST=ok CAL_REV=true remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "contract STOP gave '$r'"
 grep -q 'revise it once' $T/ws/cons0a.log || fail "contract STOP message"
@@ -111,4 +120,4 @@ tail_run() { rm -rf $T/pc/ws/* $T/pc/home/cb_results
 [ "$(tail_run 4)" = 4 ] || fail "PC tail: calibration STOP not mapped to 4"
 [ "$(tail_run 3)" = 1 ] || fail "PC tail: failure not mapped to 1"
 [ "$(tail_run 0 1)" = 1 ] || fail "PC tail: corrupted bundle accepted"
-echo "PASS: cb_cons0a_run.sh (success, relaunch skip, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
+echo "PASS: cb_cons0a_run.sh (success, relaunch skip, stale results not resumed, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"

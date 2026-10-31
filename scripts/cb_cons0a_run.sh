@@ -9,7 +9,8 @@
 #               > 0.10 on near-misses under the answer contract (protocol: revise the contract once, before 0A), if no E
 #               passes (Amendment 2.2: no default E) or if the projected campaign exceeds 6 h
 #   per seed 2..5 - prep (reconstruct from the bank) -> qa -> run (5 arms x 5 sleeps) -> fresh merged evaluations;
-#               a seed whose run + 8 fresh files exist is skipped (relaunch resumes); a failed seed restarts from scratch
+#               a seed whose run + 8 fresh files exist is skipped (relaunch resumes); a failed seed restarts from scratch;
+#               results from a different commit (results/cons0a/PIN) are moved aside, never resumed
 #   analyze  - advancement criteria A1-A5 -> results/cons0a/analysis.json
 # Then: verified download to ~/cb_results/cons0a (cortex checkpoints stay on the volume), pod removed.
 # Exit: 0 complete; 4 calibration STOP (contract / projection); 1 anything else (pod stopped, files stay on the volume).
@@ -65,7 +66,13 @@ LOCK=/workspace/cons0a.lock
 mkdir $LOCK 2>/dev/null || { echo "STOP: lock held by $(cat $LOCK/owner 2>/dev/null)"; echo 'CONS-0A JOB DONE exit=1'; exit 1; }
 echo "$(hostname) $(date -u +%FT%TZ) pid $$" > $LOCK/owner; trap 'rm -rf $LOCK' EXIT
 rm -f /workspace/results_cons0a.tar.gz /workspace/results_cons0a.tar.gz.sha256
-R=results/cons0a; M=/workspace/hf/Qwen3-8B; PY=.venv/bin/python; mkdir -p $R
+R=results/cons0a; M=/workspace/hf/Qwen3-8B; PY=.venv/bin/python
+HEADC=$(git rev-parse HEAD)                                  # resume only results made by THIS pinned commit
+if [ -d $R ] && [ "$(cat $R/PIN 2>/dev/null)" != "$HEADC" ]; then
+  OLD=results/cons0a_stale_$(cat $R/PIN 2>/dev/null | cut -c1-7)_$(date -u +%Y%m%dT%H%M%S); mv $R $OLD
+  find $OLD -name '*.pt' -delete; echo "== results from another commit moved to $OLD (checkpoints removed); not resumed"
+fi
+mkdir -p $R; echo $HEADC > $R/PIN
 finish() { echo "== end $(date -u +%FT%TZ)"
   tar czf /workspace/results_cons0a.tar.gz --exclude='*.pt' $R
   sha256sum /workspace/results_cons0a.tar.gz | sed 's|/workspace/||' > /workspace/results_cons0a.tar.gz.sha256 && sync
