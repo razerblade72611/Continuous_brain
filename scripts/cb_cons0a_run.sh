@@ -78,6 +78,7 @@ if [ -d $R ] && [ "$(cat $R/PIN 2>/dev/null)" != "$HEADC" ]; then
 fi
 mkdir -p $R; echo "$HEADC" > $R/PIN
 nvidia-smi --query-gpu=name --format=csv,noheader > $R/GPU.txt 2>/dev/null || echo unknown > $R/GPU.txt
+$PY -m pip freeze --all > $R/ENV.txt 2>/dev/null; $PY --version >> $R/ENV.txt 2>&1
 echo "== GPU: $(cat $R/GPU.txt); replay mode: ${CB_REPLAY:-prep}"
 finish() { echo "== end $(date -u +%FT%TZ)"
   tar czf /workspace/results_cons0a.tar.gz --exclude='*.pt' $R

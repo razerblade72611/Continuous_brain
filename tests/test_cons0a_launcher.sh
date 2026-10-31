@@ -3,7 +3,7 @@
 # in a sandbox ("/workspace" -> temp dir); only the GPU stages (scripts/cons0a.py subcommands), findmnt and pgrep are stubbed.
 # Also the real PC-side tail with a fake ssh/runpodctl.        bash tests/test_cons0a_launcher.sh
 set -uo pipefail
-REPO=$(cd "$(dirname "$0")/.." && pwd); L=$REPO/scripts/cb_cons0a_run.sh
+REPO=$(cd "$(dirname "$0")/.." && pwd); L=${CB_LAUNCHER:-$REPO/scripts/cb_cons0a_run.sh}   # or scripts/cb_cons0a_portable.sh
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
 PIN=$(grep -o '^PIN=[0-9a-f]*' "$L" | cut -d= -f2)
 [ ${#PIN} = 40 ] || { echo "FAIL: launcher PIN is not a full commit hash"; exit 1; }
@@ -37,7 +37,7 @@ chmod +x $T/fakepy
 setup() {
   rm -rf $T/ws; mkdir -p $T/ws/Continuous_brain/.venv/bin $T/ws/hf/Qwen3-8B $T/ws/Continuous_brain/models/qwen3-0.6b
   echo '{}' > $T/ws/Continuous_brain/models/qwen3-0.6b/tokenizer.json
-  cp -a $T/proto $T/ws/Continuous_brain_cons0a
+  cp -a $T/proto $T/ws/Continuous_brain_cons0a; touch $T/ws/cb_portable_boot.ok   # (portable launcher's boot marker)
   cp $T/fakepy $T/ws/Continuous_brain/.venv/bin/python
   echo '{}' > $T/ws/hf/Qwen3-8B/config.json
   sed "s|/workspace|$T/ws|g" $T/remote.raw > $T/remote.sh
@@ -64,6 +64,10 @@ grep -q '\.pt$' $T/listing.txt && fail "bundle contains .pt checkpoints"
 grep -q 'analysis.json' $T/listing.txt || fail "bundle lacks analysis.json"
 (cd $T/ws && sha256sum -c --quiet results_cons0a.tar.gz.sha256) || fail "bundle checksum"
 [ ! -e $T/ws/cons0a.lock ] || fail "lock not released"
+if grep -q cons0a_ckpt.tar "$L"; then                        # portable: all 24 cortex checkpoints bundled with hashes
+  [ $(tar tf $T/ws/cons0a_ckpt.tar | grep -c '\.pt$') = 24 ] || fail "checkpoint tar does not hold 24 .pt"
+  (cd $T/ws/Continuous_brain_cons0a && sha256sum -c --quiet $T/ws/cons0a_ckpt.sha256) || fail "checkpoint hashes"
+fi
 # 2 relaunch after success: every seed skipped, still completes
 r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] || fail "relaunch gave '$r'"
 [ $(grep -c 'complete - skipped' $T/ws/cons0a.log) = 4 ] || fail "completed seeds not skipped"
@@ -120,6 +124,12 @@ r=$(FAKE_MANIFEST=ok remote); [ "${r%% *}" != 0 ] && [ ! -e $T/ws/cons0a.log ] |
 setup; rm $T/ws/Continuous_brain/models/qwen3-0.6b/tokenizer.json
 r=$(FAKE_MANIFEST=ok remote); [ "${r%% *}" != 0 ] && grep -q 'stream tokenizer' $T/pre.txt || fail "missing stream tokenizer ('$r')"
 
+# 8c portable launcher only: forces CB_REPLAY=run1 and refuses to start without a completed boot
+if grep -q cb_portable_boot.ok "$L"; then
+  grep -q 'CB_REPLAY=run1 bash -s" <<'"'"'REMOTE' "$L" || fail "portable launcher does not force CB_REPLAY=run1"
+  setup; rm $T/ws/cb_portable_boot.ok
+  r=$(FAKE_MANIFEST=ok CB_REPLAY=run1 remote); [ "${r%% *}" != 0 ] && grep -q 'portable boot not completed' $T/pre.txt || fail "boot marker ('$r')"
+fi
 # 9 PC-side tail: verified download, exit mapping 0/4/1, corrupt bundle rejected
 mkdir -p $T/pc/ws $T/pc/dl $T/pc/home
 printf '#!/bin/sh\nexit 0\n' > $T/bin/runpodctl; chmod +x $T/bin/runpodctl
@@ -130,11 +140,20 @@ head=$(grep -n '^D=/workspace' "$L" | cut -d: -f1); start=$(grep -n '^mkdir -p \
 tail_run() { rm -rf $T/pc/ws/* $T/pc/home/cb_results
   echo payload > $T/pc/ws/x && (cd $T/pc/ws && tar czf results_cons0a.tar.gz x && sha256sum results_cons0a.tar.gz > results_cons0a.tar.gz.sha256)
   [ "${2:-0}" = 1 ] && echo corrupt >> $T/pc/ws/results_cons0a.tar.gz
-  echo "CONS-0A JOB DONE exit=$1" > $T/pc/ws/cons0a.log
+  echo "CONS-0A JOB DONE exit=$1" > $T/pc/ws/cons0a.log; echo boot > $T/pc/ws/cb_boot.log
+  (cd $T/pc/ws && rm -rf r && mkdir -p r && for i in $(seq ${3:-24}); do echo $i > r/c$i.pt; done \
+     && sha256sum r/*.pt > cons0a_ckpt.sha256 && tar cf cons0a_ckpt.tar r && rm -rf r)
+  [ "${4:-0}" = 1 ] && (cd $T/pc/ws && mkdir r && echo tampered > r/c1.pt && tar rf cons0a_ckpt.tar r/c1.pt && rm -rf r)
   HOME=$T/pc/home FAKESSH=$T/fakessh PATH=$T/bin:$PATH bash $T/tail.sh > $T/pre.txt 2>&1; echo $?; }
 [ "$(tail_run 0)" = 0 ] && [ -f $T/pc/home/cb_results/cons0a/results_cons0a.tar.gz ] && [ -f $T/pc/dl/results_cons0a.tar.gz ] \
   || fail "PC tail success"
 [ "$(tail_run 4)" = 4 ] || fail "PC tail: calibration STOP not mapped to 4"
 [ "$(tail_run 3)" = 1 ] || fail "PC tail: failure not mapped to 1"
 [ "$(tail_run 0 1)" = 1 ] || fail "PC tail: corrupted bundle accepted"
-echo "PASS: cb_cons0a_run.sh (success, relaunch skip, stale results not resumed, run-1 replay mode, tampered replay, bad replay mode, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
+if grep -q cons0a_ckpt.tar "$L"; then
+  [ -d $T/pc/home/cb_results/cons0a/ckpt ] || true
+  [ "$(tail_run 0 0 23)" = 1 ] || fail "PC tail (portable): 23 checkpoints accepted"
+  [ "$(tail_run 0 0 24 1)" = 1 ] || fail "PC tail (portable): tampered checkpoint accepted"
+  [ "$(tail_run 0)" = 0 ] && [ $(ls $T/pc/home/cb_results/cons0a/ckpt/r | wc -l) = 24 ] || fail "PC tail (portable): checkpoints not kept"
+fi
+echo "PASS: $(basename $L) (success, relaunch skip, stale results not resumed, run-1 replay mode, tampered replay, bad replay mode, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"

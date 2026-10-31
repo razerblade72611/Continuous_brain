@@ -42,3 +42,28 @@ The A40 was out of stock in CA-MTL-1 for about 1.5 h, so the attempt ran on the 
     - the claim becomes "consolidation from previously verified neural episodic reconstructions", not end-to-end
       decoding plus learning on one GPU;
     - an I-QA advantage over S-QA alone does not authorise CONS-0B.
+
+## Volume-free launcher (scripts/cb_cons0a_portable.sh), 2026-10-31
+- **Why.** CA-MTL-1 had no A40, no H100 and no CPU pods for hours, so the volume's venv versions could not even be
+  read (scripts/cb_env_probe.sh failed with no instances).
+- **Sol: no objection,** on condition of these three safeguards, all implemented:
+  1. **Checkpoints kept.** All 24 cortex checkpoints are bundled with a sha256 list and verified on the PC before the
+     pod is removed. If the job finished but the download did not verify, the pod is stopped, not removed.
+  2. **Environment as run identity.** Every launch is a fresh pod and a fresh campaign, never resumed or mixed across
+     environments. The platform is recorded before calibration (GPU.txt, ENV.txt = full pip freeze, cb_boot.log). The
+     platform must not be changed in response to results.
+  3. **GPU feasibility check before calibration:**
+     - CUDA is selected;
+     - Qwen3-8B loads in bf16;
+     - all 252 cortex sites are installed, in fp32;
+     - one step gives a finite loss and nonzero gradients.
+     Nothing falls back to CPU, and nothing changes precision.
+- **Software stack.**
+  - Pinned: torch 2.14.1 (the build matched to the host driver) and transformers 5.21.0, the versions
+    tests/test_cons0a.py passes with.
+  - Before the job, the 12 CONS-0A tests run on the pod, on CPU.
+  - Qwen/Qwen3-8B is fetched at revision b968826d, whose 12 manifest files are exactly the CLS-0B manifest's.
+  - The Qwen3-0.6B tokenizer is fetched; the stream-design check guards it.
+- **GPU order:** A40, A6000, 6000 Ada, L40S, by availability. This is a fixed policy, not chosen per result.
+- **Not an independent confirmation.** Library versions differ from run 1 and CLS-0B (unknown). This changes numerics,
+  not the within-run matched comparisons. No reconstruction happens on this stack (CB_REPLAY=run1 is forced).
