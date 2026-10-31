@@ -49,7 +49,8 @@ MAX_NEW = 8
 N_NEARMISS, N_UNFAMILIAR = 40, 20
 QA_PER_EPISODE = 3
 LEAK_JACCARD = 0.8
-MERGE_AGREE, MERGE_TOL = 0.97, 0.02
+MERGE_AGREE, MERGE_TOL, PPL_TOL = 0.97, 0.02, 0.01
+STREAM_TOK = "/workspace/Continuous_brain/models/qwen3-0.6b"   # the CLS-0B stream tokenizer (token-matched streams)
 GATES = {"acq": 0.50, "gain": 0.30, "seeds_pos": 3, "conf": 0.10, "ppl_mean": 1.02, "ppl_seed": 1.05}
 
 FRAME = ("Answer from your own memory with the exact answer only, or UNKNOWN if you do not know it.\n\n"
@@ -111,7 +112,8 @@ def first_line(gen):
 
 
 def is_unknown(ans):
-    return norm(ans).startswith("unknown")
+    """Abstention is ONLY the exact answer UNKNOWN (case/punctuation-insensitive). "UNKNOWN: Leston" is an answer."""
+    return norm(ans) == "unknown"
 
 
 def grade(ans, value):
@@ -226,7 +228,7 @@ def schedule(new, old, E, rng, tok_len, background_chunk):
     bg = []
     for i in range(len(core)):
         ref = slot[i] if slot else core[i]
-        n = tok_len(ref["text"])
+        n = len(ref["ids"]) if ref.get("ids") is not None else tok_len(ref["text"])
         ids = background_chunk(i, n)
         bg.append({"text": None, "ids": ids, "loss_tail": ref.get("loss_tail"), "life": 0, "background": True})
     i_slot = slot if slot else bg
@@ -245,6 +247,31 @@ def background_chunker(tok, lines, seed):
         start = (random.Random(f"CONS0A-bg-{seed}-{i}").randrange(max(1, len(ids) - n)))
         return list(ids[start:start + n])
     return chunk
+
+
+def budget(items):
+    """(items, tokens, loss-bearing tokens) of one sleep's training list; every item carries exact token ids."""
+    return (len(items), sum(len(x["ids"]) for x in items),
+            sum(len(x["ids"]) if x.get("loss_tail") is None else x["loss_tail"] for x in items))
+
+
+def replay_errors(bank_texts, eps, recons, require_complete, require_exact):
+    """Fail-closed identity of the replay source: the bank must hold THIS stream's episodes, text-identical, and (in a
+    real run) every reconstruction must be exact."""
+    E = []
+    ids = {e["eid"] for e in eps}
+    if not set(bank_texts) <= ids:
+        E.append(f"bank holds episodes not in the stream: {sorted(set(bank_texts) - ids)[:3]}")
+    if require_complete and set(bank_texts) != ids:
+        E.append(f"bank lacks {len(ids - set(bank_texts))} stream episodes")
+    bad = [e["eid"] for e in eps if e["eid"] in bank_texts and bank_texts[e["eid"]] != e["text"]]
+    if bad:
+        E.append(f"{len(bad)} bank texts differ from the stream, e.g. {bad[:3]}")
+    if require_exact:
+        inex = [e["eid"] for e in eps if (recons.get(e["eid"]) or "").strip() != e["text"].strip()]
+        if inex:
+            E.append(f"{len(inex)} reconstructions are not exact, e.g. {inex[:3]}")
+    return E
 
 
 # ---------------------------------------------------------------- analysis (pure, tested) ---------------------------
@@ -456,18 +483,33 @@ def _dev():
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 
-def _stream(seed):
+def _stream(seed, stream_tok, test_mode=False):
+    """The stream exactly as CLS-0B built it: token-matched with the CLS-0B stream tokenizer; for dev seeds the design
+    must equal the committed BIND-I1 reference (fail closed)."""
+    from transformers import AutoTokenizer
     from being.v3 import lifegen
     i1 = _load("bind_i1_for_cons0a", "scripts/bind_i1.py")
-    eps, st = C0B.build_episodes(seed, lifegen, i1, None)
+    stok = AutoTokenizer.from_pretrained(stream_tok)
+    eps, st = C0B.build_episodes(seed, lifegen, i1, lambda w: len(stok(" " + w).input_ids))
+    if seed in SEEDS and not test_mode:
+        ref = json.loads((ROOT / f"results/dev3/bind_i1/seed{seed}.json").read_text())
+        if json.loads(json.dumps(st["design"])) != ref["design"]:
+            sys.exit(f"STREAM MISMATCH: seed {seed} design differs from results/dev3/bind_i1 (stream tokenizer?)")
     return eps, st, lifegen
+
+
+def _check_replay_matches(R, eps):
+    bad = [e["eid"] for e, r in zip(eps, R["episodes"]) if e["eid"] != r["eid"] or e["text"] != r["stream_text"]
+           or e["value"] != r["value"]]
+    if len(eps) != len(R["episodes"]) or bad:
+        sys.exit(f"REPLAY MISMATCH: replay does not match the stream ({len(bad)} episodes differ)")
 
 
 # ---------------------------------------------------------------- stages ------------------------------------------
 def stage_prep(a):
     import torch
     from being.cls.episodic import EpisodicMemory
-    eps, st, lifegen = _stream(a.seed)
+    eps, st, lifegen = _stream(a.seed, a.stream_tokenizer, a.test_mode)
     dev = _dev()
     model, tok = load_model(a.model, dev)
     cfg = dict(C0B.CFG) | (json.loads(a.test_cfg) if a.test_mode else {})
@@ -480,11 +522,15 @@ def stage_prep(a):
             if e["eid"] in mem.episodes else None
         out.append({k: e[k] for k in ("eid", "time", "entity", "attr", "value", "kind")} |
                    {"stream_text": e["text"], "recon": rec, "exact": rec == e["text"].strip()})
+    errors = replay_errors({k: ep.text for k, ep in mem.episodes.items()}, eps, {e["eid"]: e["recon"] for e in out},
+                           require_complete=not a.test_mode, require_exact=not a.test_mode)
     res = {"which": "CONS-0A prep", "seed": a.seed, "bank": str(bank), "bank_sha256": sha(bank.read_bytes()),
            "model_manifest": B.manifest(a.model) if not a.test_mode else None, "test_mode": a.test_mode,
-           "episodes": out, "exact": sum(e["exact"] for e in out), "n": len(out)}
+           "episodes": out, "exact": sum(e["exact"] for e in out), "n": len(out), "errors": errors}
     Path(a.out).write_text(json.dumps(res, indent=1))
-    print(f"PREP seed {a.seed}: {res['exact']}/{res['n']} exact", flush=True)
+    print(f"PREP seed {a.seed}: {res['exact']}/{res['n']} exact; errors {errors}", flush=True)
+    if errors:
+        sys.exit("PREP FAILED: " + "; ".join(errors))
     del torch
 
 
@@ -538,26 +584,28 @@ def stage_qa(a):
           f"{len(res['episodes_without_qa'])} episodes without QA", flush=True)
 
 
-def _items(R, Q, fam, upto=None, life=None):
+def qa_ids(tok, q, a):
+    """Exact supervision boundary by construction: prompt ids (tokenised exactly as at evaluation) + answer ids; the
+    loss falls on the answer ids only."""
+    p = tok(frame(question(q)), add_special_tokens=False).input_ids
+    ans = tok(" " + a, add_special_tokens=False).input_ids
+    return p + ans, len(ans)
+
+
+def _items(R, Q, fam, tok, upto=None, life=None):
     out = []
     for e in R["episodes"]:
         if not e["recon"] or (life is not None and e["time"] != life) or (upto is not None and e["time"] > upto):
             continue
         if fam == "V":
-            out.append({"text": e["recon"], "loss_tail": None, "life": e["time"], "eid": e["eid"]})
+            out.append({"text": e["recon"], "ids": tok(e["recon"], add_special_tokens=False).input_ids[:256],
+                        "loss_tail": None, "life": e["time"], "eid": e["eid"]})
         else:
             for qa in (Q["accepted"].get(e["eid"]) or []):
-                p = frame(question(qa["q"]))
-                out.append({"text": p + " " + qa["a"], "loss_tail": None, "life": e["time"], "eid": e["eid"],
-                            "_ans": " " + qa["a"]})
+                ids, k = qa_ids(tok, qa["q"], qa["a"])
+                out.append({"text": None, "ids": ids, "loss_tail": k, "life": e["time"], "eid": e["eid"],
+                            "q": qa["q"], "answer": qa["a"]})
     return out
-
-
-def _with_tails(items, tok):
-    for x in items:
-        if "_ans" in x:
-            x["loss_tail"] = len(tok(x["_ans"], add_special_tokens=False).input_ids)
-    return items
 
 
 def _comp(tok, model, test_mode):
@@ -571,8 +619,8 @@ def stage_run(a):
     from being.v3 import lifegen
     R, Q = json.loads(Path(a.replay).read_text()), json.loads(Path(a.qa).read_text())
     seed = R["seed"]
-    eps, st, _ = _stream(seed)
-    assert [e["eid"] for e in eps] == [e["eid"] for e in R["episodes"]], "replay does not match the stream"
+    eps, st, _ = _stream(seed, a.stream_tokenizer, a.test_mode)
+    _check_replay_matches(R, eps)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     dev = _dev()
@@ -593,7 +641,7 @@ def stage_run(a):
         cx = _fresh_cortex(cx, seed)
         opt = torch.optim.AdamW(cx.params(), lr=LR, betas=(0.9, 0.999), weight_decay=0.0)
         rng = random.Random(f"CONS0A-sched-{seed}-{fam}")
-        new = _with_tails(_items(R, Q, fam, life=1), tok)
+        new = _items(R, Q, fam, tok, life=1)
         I, S, exp_ = schedule(new, [], a.passes, rng, tl, chunk)
         assert [(x["text"], x.get("ids")) for x in I] == [(x["text"], x.get("ids")) for x in S]  # sleep 1 shared
         log1 = {"exposure": exp_}
@@ -611,11 +659,13 @@ def stage_run(a):
             rng.setstate(snap["rng"])
             res["arms"][arm] = {"train": {1: log1}, "eval": {1: ev1}}
             for L in range(2, 6):
-                new = _with_tails(_items(R, Q, fam, life=L), tok)
-                old = _with_tails(_items(R, Q, fam, upto=L - 1), tok)
+                new = _items(R, Q, fam, tok, life=L)
+                old = _items(R, Q, fam, tok, upto=L - 1)
                 I_, S_, exp_ = schedule(new, old, a.passes, rng, tl, chunk)
+                if budget(I_) != budget(S_):                          # fail closed: S and I budgets must be equal
+                    sys.exit(f"BUDGET MISMATCH {fam} sleep {L}: I {budget(I_)} vs S {budget(S_)}")
                 items = I_ if kind == "I" else S_
-                lg = {"exposure": exp_ if kind == "I" else {}}
+                lg = {"exposure": exp_ if kind == "I" else {}, "budget": list(budget(items))}
                 cx_model_train(model)
                 train_sleep(model, tok, cx, opt, items, dev, lg)
                 model.eval()
@@ -652,7 +702,8 @@ def stage_fresh(a):
     from being.v3 import lifegen
     R = json.loads(Path(a.replay).read_text())
     seed = R["seed"]
-    eps, st, _ = _stream(seed)
+    eps, st, _ = _stream(seed, a.stream_tokenizer, a.test_mode)
+    _check_replay_matches(R, eps)
     dev = _dev()
     model, tok = load_model(a.model, dev)
     comp_sets, base_loss = _comp(tok, model, a.test_mode)
@@ -666,13 +717,19 @@ def stage_fresh(a):
 
 
 def merge_check(inproc, fresh):
-    """Merge equivalence: >= 97% identical answers and every summary metric within +-0.02."""
+    """Merge equivalence: identical probe identities, >= 97% identical answers, every summary metric within 0.02 and
+    every competence ratio within 0.01."""
+    ident = lambda ev: [(r["kind"], r.get("eid") or r.get("entity"), r["item"]) for r in ev["rows"]]
+    same_probes = ident(inproc) == ident(fresh)
     a = [r["answer"] for r in inproc["rows"]]
     b = [r["answer"] for r in fresh["rows"]]
     agree = sum(x == y for x, y in zip(a, b)) / max(1, len(a))
     diffs = {k: abs((inproc["summary"][k] or 0) - (fresh["summary"][k] or 0)) for k in inproc["summary"]}
-    return {"agree": agree, "max_diff": max(diffs.values()), "ok": agree >= MERGE_AGREE and
-            max(diffs.values()) <= MERGE_TOL}
+    ppl = {k: abs(inproc["ppl_ratio"][k] - fresh.get("ppl_ratio", {}).get(k, float("inf"))) for k in inproc["ppl_ratio"]}
+    return {"same_probes": same_probes, "agree": agree, "max_diff": max(diffs.values()),
+            "max_ppl_diff": max(ppl.values()) if ppl else 0.0,
+            "ok": same_probes and agree >= MERGE_AGREE and max(diffs.values()) <= MERGE_TOL and
+            (max(ppl.values()) if ppl else 0.0) <= PPL_TOL}
 
 
 def project(timing, E, n_eps, seeds=len(SEEDS), overhead_s=900):
@@ -688,7 +745,7 @@ def project(timing, E, n_eps, seeds=len(SEEDS), overhead_s=900):
 def stage_calibrate(a):
     import torch
     from being.v3 import lifegen
-    eps, st, _ = _stream(CAL_SEED)
+    eps, st, _ = _stream(CAL_SEED, a.stream_tokenizer, a.test_mode)
     dev = _dev()
     model, tok = load_model(a.model, dev)
     comp_sets, base_loss = _comp(tok, model, a.test_mode)
@@ -697,7 +754,8 @@ def stage_calibrate(a):
     eval_s1 = time.time() - t0
     bg = background_chunker(tok, (ROOT / "data/background.txt").read_text().splitlines(), CAL_SEED)
     tl = lambda s: len(tok(s, add_special_tokens=False).input_ids[:256])
-    new = [{"text": e["text"], "loss_tail": None, "life": 1, "eid": e["eid"]} for e in eps if e["time"] == 1]
+    new = [{"text": e["text"], "ids": tok(e["text"], add_special_tokens=False).input_ids[:256], "loss_tail": None,
+            "life": 1, "eid": e["eid"]} for e in eps if e["time"] == 1]
     cx = Cortex(model, seed=CAL_SEED)
     res = {"which": "CONS-0A calibrate", "seed": CAL_SEED, "N_nearmiss_conf": n_ev["summary"]["nearmiss_conf"],
            "N": n_ev["summary"], "passes": {}}
@@ -743,6 +801,7 @@ def stage_analyze(a):
                         fr = json.loads(fp.read_text())
                         merges[f"{s}:{arm}:{K}"] = merge_check(v["eval"][str(K)], fr)
                         ps[arm][K] = fr["summary"]
+                        ps[arm]["ppl"][K] = fr["ppl_ratio"]          # A5 at sleeps 1 and 5 from the fresh process
                     else:
                         merges[f"{s}:{arm}:{K}"] = {"ok": False, "missing": True}
             per_seed[s] = ps
@@ -763,19 +822,20 @@ def main():
     p.add_argument("--seed", type=int, required=True); p.add_argument("--bank", required=True)
     p.add_argument("--model", required=True); p.add_argument("--out", required=True)
     p.add_argument("--test-mode", action="store_true"); p.add_argument("--test-cfg", default="{}")
+    p.add_argument("--stream-tokenizer", default=STREAM_TOK)
     q = sp.add_parser("qa")
     q.add_argument("--replay", required=True); q.add_argument("--model", required=True); q.add_argument("--out", required=True)
     c = sp.add_parser("calibrate")
     c.add_argument("--model", required=True); c.add_argument("--out", required=True)
-    c.add_argument("--test-mode", action="store_true")
+    c.add_argument("--test-mode", action="store_true"); c.add_argument("--stream-tokenizer", default=STREAM_TOK)
     r = sp.add_parser("run")
     r.add_argument("--replay", required=True); r.add_argument("--qa", required=True); r.add_argument("--model", required=True)
     r.add_argument("--passes", type=int, required=True); r.add_argument("--out", required=True)
-    r.add_argument("--test-mode", action="store_true")
+    r.add_argument("--test-mode", action="store_true"); r.add_argument("--stream-tokenizer", default=STREAM_TOK)
     f = sp.add_parser("fresh")
     f.add_argument("--replay", required=True); f.add_argument("--model", required=True); f.add_argument("--lora", required=True)
     f.add_argument("--sleep", type=int, required=True); f.add_argument("--out", required=True)
-    f.add_argument("--test-mode", action="store_true")
+    f.add_argument("--test-mode", action="store_true"); f.add_argument("--stream-tokenizer", default=STREAM_TOK)
     an = sp.add_parser("analyze")
     an.add_argument("dirs", nargs="+"); an.add_argument("--out", required=True)
     a = ap.parse_args()

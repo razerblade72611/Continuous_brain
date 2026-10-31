@@ -29,7 +29,8 @@ confabulation and within the competence band?
   UNKNOWN:
   - greedy decoding, ≤ 8 new tokens, first line;
   - **correct** iff normalised answer == normalised value;
-  - **UNKNOWN** iff the normalised answer starts with "unknown";
+  - **UNKNOWN** iff the normalised answer is exactly "unknown". "UNKNOWN: Leston" or "UNKNOWN because …" is an
+    answer, so on a negative item it counts as a confabulation;
   - **confabulation** = any other non-empty answer on a negative item;
   - **no confidence thresholds.**
 - **Positive probes** (facts experienced by the checkpoint):
@@ -132,3 +133,25 @@ following. Pooled means over seeds 2–5, with primary endpoints from the fresh 
   hashed.
 - **0A is development:** no outcome-driven edits after data. Any change is a logged protocol amendment with Sol's
   review.
+
+## Amendment 1: pre-data implementation corrections (Sol's review of dc5d6e7; no CONS-0A data existed)
+Sol put the GPU command on HOLD. The design was unchanged; the implementation was corrected. The original freeze
+(dc5d6e7) stays in the history.
+
+1. **Stream identity (would have invalidated the experiment).**
+   - dc5d6e7 rebuilt the streams without CLS-0B's token matching. Only **14/52** episode texts per seed then equal the
+     committed banks' texts (checked against the banks).
+   - Streams are now built with the CLS-0B stream tokenizer (`--stream-tokenizer`, default
+     /workspace/Continuous_brain/models/qwen3-0.6b). For dev seeds the design must equal results/dev3/bind_i1.
+   - `prep` **fails closed** unless the bank holds exactly the stream's 52 episodes, every bank text equals the stream
+     text, and all 52 reconstructions are exact.
+   - `run` and `fresh` fail closed unless the replay matches the stream (ids, texts, values).
+2. **Exact UNKNOWN** (see the contract above). Regression tests cover the malformed forms.
+3. **Fresh-process competence.**
+   - Merge equivalence now also requires identical probe identities and every competence ratio within **0.01**.
+   - A5 at sleeps 1 and 5 uses the fresh-process competence.
+   - A missing or failed fresh check makes the run INVALID.
+4. **QA supervision boundary.** QA training sequences are built as prompt ids (tokenised exactly as at evaluation)
+   followed by answer ids, so the loss falls exactly on the answer tokens. This is asserted in the tests.
+5. **Fail-closed budget.** Before every sleep, the (items, tokens, loss tokens) of I and S must be equal, or the run
+   stops. Every training item carries exact token ids.

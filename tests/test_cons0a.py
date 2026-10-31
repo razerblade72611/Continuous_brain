@@ -33,6 +33,11 @@ def test_contract():
     assert g["correct"] and not g["unknown"]
     assert C.grade("UNKNOWN", "Leston")["unknown"] and not C.grade("UNKNOWN", "Leston")["correct"]
     assert C.grade("", "Leston")["empty"]
+    for ok in ("UNKNOWN", "Unknown.", "unknown!", " UNKNOWN "):                    # exact abstention only (Sol)
+        assert C.is_unknown(ok)
+    for bad in ("UNKNOWN because I never met them", "UNKNOWN: Leston", "unknown, maybe Leston", "Leston"):
+        assert not C.is_unknown(bad)
+        assert not C.grade(bad, "Pell")["unknown"] and not C.grade(bad, "Pell")["empty"]   # counts as an answer
     p = C.frame(C.statement("Ann lives in"))
     assert p.endswith("Statement: Ann lives in ...\nAnswer:") and "UNKNOWN" in p
 
@@ -117,11 +122,30 @@ def test_criteria():
 
 
 def test_merge_check():
-    a = {"rows": [{"answer": "x"}] * 100, "summary": {"new_para": 0.5, "life1_para": 0.5}}
-    b = {"rows": [{"answer": "x"}] * 97 + [{"answer": "y"}] * 3, "summary": {"new_para": 0.51, "life1_para": 0.5}}
+    row = lambda i, ans: {"kind": "template", "eid": f"e{i}", "item": f"Statement: s{i} ...", "answer": ans}
+    a = {"rows": [row(i, "x") for i in range(100)], "summary": {"new_para": 0.5, "life1_para": 0.5},
+         "ppl_ratio": {"eval": 1.000, "modern": 1.000}}
+    b = {"rows": [row(i, "x" if i < 97 else "y") for i in range(100)], "summary": {"new_para": 0.51, "life1_para": 0.5},
+         "ppl_ratio": {"eval": 1.005, "modern": 0.999}}
     assert C.merge_check(a, b)["ok"]
-    b["rows"][0] = {"answer": "z"}
-    assert not C.merge_check(a, b)["ok"]
+    b2 = dict(b, rows=[row(0, "z")] + b["rows"][1:])
+    assert not C.merge_check(a, b2)["ok"]                                       # 96% agreement
+    assert not C.merge_check(a, dict(b, ppl_ratio={"eval": 1.02, "modern": 1.0}))["ok"]       # competence differs
+    assert not C.merge_check(a, dict(b, rows=b["rows"][:99] + [dict(row(99, "y"), item="other")]))["ok"]  # probes
+
+
+def test_replay_errors_and_budget():
+    eps = [{"eid": f"e{i}", "text": f"Ann {i} lives in Leston."} for i in range(4)]
+    good = {e["eid"]: e["text"] for e in eps}
+    rec = dict(good)
+    assert C.replay_errors(good, eps, rec, True, True) == []
+    assert C.replay_errors({"e0": eps[0]["text"]}, eps, rec, False, False) == []            # partial bank, test mode
+    assert any("lacks" in x for x in C.replay_errors({"e0": eps[0]["text"]}, eps, rec, True, False))
+    assert any("differ" in x for x in C.replay_errors(dict(good, e2="Ann 2 lives in Paris."), eps, rec, True, True))
+    assert any("not exact" in x for x in C.replay_errors(good, eps, dict(rec, e1="Ann 1 lives in"), True, True))
+    assert any("not in the stream" in x for x in C.replay_errors(dict(good, zz="x"), eps, rec, False, False))
+    items = [{"ids": [1, 2, 3], "loss_tail": None}, {"ids": [4, 5, 6, 7], "loss_tail": 2}]
+    assert C.budget(items) == (2, 7, 5)
 
 
 @pytest.mark.slow
@@ -133,7 +157,7 @@ def test_end_to_end_tiny(tmp_path):
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from being.cls.episodic import EpisodicMemory
     model_dir = tiny_hf_model.build(tmp_path / "m")
-    eps, st = _eps()
+    eps, st, _ = C._stream(2, model_dir, test_mode=True)          # the stream exactly as every stage builds it
     cfg = {"layer": 1, "key_layer": 1, "r": 16, "init_mask": 64, "max_epochs": 300, "check_every": 50, "retries": 2}
     tok = AutoTokenizer.from_pretrained(model_dir)
     m = AutoModelForCausalLM.from_pretrained(model_dir).eval()
@@ -142,12 +166,20 @@ def test_end_to_end_tiny(tmp_path):
     mem = EpisodicMemory(m, tok, seed=2, **(dict(C.C0B.CFG) | cfg))
     e0 = eps[0]
     mem.write(e0["eid"], "The quick brown fox works as a Pemyiasnind by trade.", e0["time"], e0["source"])  # tiny model: short text
+    mem.episodes[e0["eid"]].text = e0["text"]                 # the bank records the stream text (as CLS-0B's did)
     mem.save(tmp_path / "bank.pt")
+    mem.episodes[e0["eid"]].text = e0["text"] + " Tampered."
+    mem.save(tmp_path / "bank_bad.pt")
     py = sys.executable
     run = lambda *x: subprocess.run([py, str(ROOT / "scripts/cons0a.py"), *map(str, x)], check=True,
                                     capture_output=True, text=True, timeout=1800)
+    stk = ["--stream-tokenizer", model_dir]
+    bad = subprocess.run([py, str(ROOT / "scripts/cons0a.py"), "prep", "--seed", "2", "--bank", str(tmp_path / "bank_bad.pt"),
+                          "--model", str(model_dir), "--out", str(tmp_path / "bad.json"), "--test-mode", "--test-cfg",
+                          json.dumps(cfg), *map(str, stk)], capture_output=True, text=True, timeout=600)
+    assert bad.returncode != 0 and "PREP FAILED" in (bad.stderr + bad.stdout)        # wrong history fails closed
     run("prep", "--seed", 2, "--bank", tmp_path / "bank.pt", "--model", model_dir, "--out", tmp_path / "rep.json",
-        "--test-mode", "--test-cfg", json.dumps(cfg))
+        "--test-mode", "--test-cfg", json.dumps(cfg), *stk)
     R = json.loads((tmp_path / "rep.json").read_text())
     assert R["n"] == len(eps) and sum(e["recon"] is not None for e in R["episodes"]) == 1
     run("qa", "--replay", tmp_path / "rep.json", "--model", model_dir, "--out", tmp_path / "qa.json")
@@ -160,8 +192,13 @@ def test_end_to_end_tiny(tmp_path):
     Q["accepted"] = {e["eid"]: [{"q": f"What about {e['entity']}?", "a": e["value"]}] for e in R["episodes"]}
     (tmp_path / "qa2.json").write_text(json.dumps(Q))
     out = tmp_path / "run"
+    # QA supervision boundary: the loss tail is exactly the answer's ids, at the end of the sequence
+    items = C._items(R, Q, "QA", tok, life=1)
+    for x in items[:5]:
+        assert tok.decode(x["ids"][-x["loss_tail"]:]) == " " + x["answer"]
+        assert x["ids"][:-x["loss_tail"]] == tok(C.frame(C.question(x["q"])), add_special_tokens=False).input_ids
     r = run("run", "--replay", tmp_path / "rep2.json", "--qa", tmp_path / "qa2.json", "--model", model_dir,
-            "--passes", 1, "--out", out, "--test-mode")
+            "--passes", 1, "--out", out, "--test-mode", *stk)
     assert "RUN seed 2 DONE" in r.stdout
     res = json.loads((out / "run_seed2.json").read_text())
     assert set(res["arms"]) == {"S-V", "I-V", "S-QA", "I-QA"}
@@ -172,9 +209,7 @@ def test_end_to_end_tiny(tmp_path):
         for fam in ("V", "QA"):
             a, b = res["arms"][f"S-{fam}"]["train"][L], res["arms"][f"I-{fam}"]["train"][L]
             assert a["items"] == b["items"] and a["updates"] == b["updates"]
-            assert abs(a["tokens"] - b["tokens"]) <= 0.02 * b["tokens"] + 2
-            assert a["loss_tokens"] == b["loss_tokens"] or abs(a["loss_tokens"] - b["loss_tokens"]) <= \
-                0.02 * b["loss_tokens"] + 2
+            assert a["tokens"] == b["tokens"] and a["loss_tokens"] == b["loss_tokens"] and a["budget"] == b["budget"]
         assert res["arms"]["I-V"]["train"][L]["exposure"] and not res["arms"]["S-V"]["train"][L]["exposure"]
     assert res["arms"]["S-V"]["eval"]["1"] == res["arms"]["I-V"]["eval"]["1"]       # shared sleep 1
     # non-trivial: the trained cortex is non-zero and changes the model's outputs relative to the base N
@@ -189,14 +224,14 @@ def test_end_to_end_tiny(tmp_path):
         assert (out / f"cortex_{arm}_s5.pt").exists()
         for K, lora in ((1, out / f"cortex_{arm.split('-')[1]}_shared_s1.pt"), (5, out / f"cortex_{arm}_s5.pt")):
             run("fresh", "--replay", tmp_path / "rep2.json", "--model", model_dir, "--lora", lora, "--sleep", K,
-                "--out", out / f"fresh_seed2_{arm}_s{K}.json", "--test-mode")
+                "--out", out / f"fresh_seed2_{arm}_s{K}.json", "--test-mode", *stk)
     r = run("analyze", out, "--out", tmp_path / "an.json")
     an = json.loads((tmp_path / "an.json").read_text())
     assert an["status"].startswith("CONS0A_") and set(an["criteria"]) == {"I-V", "I-QA"}
     assert all("agree" in v for v in an["merge_checks"].values())
     # merged fresh evaluation reproduces the in-process LoRA evaluation (fp32 tiny model: near exact)
     assert all(v["agree"] >= 0.97 for v in an["merge_checks"].values()), an["merge_checks"]
-    r = run("calibrate", "--model", model_dir, "--out", tmp_path / "cal.json", "--test-mode")
+    r = run("calibrate", "--model", model_dir, "--out", tmp_path / "cal.json", "--test-mode", *stk)
     cal = json.loads((tmp_path / "cal.json").read_text())
     assert cal["chosen_E"] in C.PASSES and set(cal["passes"]) == {"4", "8", "16"}
     del torch
