@@ -2,7 +2,9 @@
 # Run on David's PC (WSL). CONS-0A (lab/CONS0A_PROTOCOL.md): consolidation development mechanism test.
 # Creates an A40 pod on volume 29qhoqghqf (CA-MTL-1); SEPARATE checkout pinned to the frozen CONS-0A commit (other checkouts
 # and their results are not touched). Job:
-#   preflight - pinned HEAD; model files == CLS-0B manifests; CLS-0B banks/inputs == FILES.sha256; same-volume lock
+#   preflight - pinned HEAD; model files == CLS-0B manifests; CLS-0B banks/inputs == FILES.sha256; CLS-0B stream tokenizer
+#               present (prep then fails closed unless the stream design, all 52 bank texts and 52 reconstructions match);
+#               same-volume lock
 #   calibrate - seed 6, raw text: chooses E; STOP (exit 4) if the base model confabulates > 0.10 on near-misses under the
 #               answer contract (protocol: revise the contract once, before 0A) or if the projected campaign exceeds 6 h
 #   per seed 2..5 - prep (reconstruct from the bank) -> qa -> run (5 arms x 5 sleeps) -> fresh merged evaluations;
@@ -12,7 +14,7 @@
 # Exit: 0 complete; 4 calibration STOP (contract / projection); 1 anything else (pod stopped, files stay on the volume).
 #   bash cb_cons0a_run.sh [gpu="NVIDIA A40"]        clear a stale lock: CB_UNLOCK=1 bash cb_cons0a_run.sh
 GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
-PIN=dc5d6e78b42235b2ce607ade66dafb54b8658b6f                                           # frozen CONS-0A commit
+PIN=10484d6dda8baef29485965572f143315308308b                                           # frozen CONS-0A commit
 D=/workspace/Continuous_brain_cons0a; OUT=$HOME/cb_results/cons0a; DL=/mnt/c/Users/davei/Downloads
 CAP=$((8 * 3600))
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
@@ -42,6 +44,8 @@ echo "CONS-0A code at: $(git log --oneline -1)"
 (cd results/cls0b_final && sha256sum -c --quiet FILES.sha256) || { echo 'STOP: CLS-0B banks/inputs do not match FILES.sha256'; exit 1; }
 ln -sfn /workspace/Continuous_brain/.venv .venv
 for m in Qwen3-8B; do [ -f /workspace/hf/$m/config.json ] || { echo "STOP: model $m missing"; exit 1; }; done
+[ -f /workspace/Continuous_brain/models/qwen3-0.6b/tokenizer.json ] \
+  || { echo 'STOP: the CLS-0B stream tokenizer (/workspace/Continuous_brain/models/qwen3-0.6b) is missing'; exit 1; }
 echo 'hashing model files against the CLS-0B manifest (a few minutes)'
 .venv/bin/python - <<'PY' || { echo 'STOP: model files differ from the CLS-0B manifest'; exit 1; }
 import importlib.util, json, sys

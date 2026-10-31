@@ -34,7 +34,8 @@ esac
 PY
 chmod +x $T/fakepy
 setup() {
-  rm -rf $T/ws; mkdir -p $T/ws/Continuous_brain/.venv/bin $T/ws/hf/Qwen3-8B
+  rm -rf $T/ws; mkdir -p $T/ws/Continuous_brain/.venv/bin $T/ws/hf/Qwen3-8B $T/ws/Continuous_brain/models/qwen3-0.6b
+  echo '{}' > $T/ws/Continuous_brain/models/qwen3-0.6b/tokenizer.json
   cp -a $T/proto $T/ws/Continuous_brain_cons0a
   cp $T/fakepy $T/ws/Continuous_brain/.venv/bin/python
   echo '{}' > $T/ws/hf/Qwen3-8B/config.json
@@ -86,6 +87,10 @@ r=$(FAKE_MANIFEST=ok CB_UNLOCK=1 remote); [ "$r" = "0 0" ] || fail "CB_UNLOCK ('
 setup; echo x >> $T/ws/Continuous_brain_cons0a/results/cls0b_final/seed3_bank.pt
 r=$(FAKE_MANIFEST=ok remote); [ "${r%% *}" != 0 ] && [ ! -e $T/ws/cons0a.log ] || fail "corrupt bank not stopped ('$r')"
 
+# 8b stream tokenizer missing -> STOP
+setup; rm $T/ws/Continuous_brain/models/qwen3-0.6b/tokenizer.json
+r=$(FAKE_MANIFEST=ok remote); [ "${r%% *}" != 0 ] && grep -q 'stream tokenizer' $T/pre.txt || fail "missing stream tokenizer ('$r')"
+
 # 9 PC-side tail: verified download, exit mapping 0/4/1, corrupt bundle rejected
 mkdir -p $T/pc/ws $T/pc/dl $T/pc/home
 printf '#!/bin/sh\nexit 0\n' > $T/bin/runpodctl; chmod +x $T/bin/runpodctl
@@ -103,4 +108,4 @@ tail_run() { rm -rf $T/pc/ws/* $T/pc/home/cb_results
 [ "$(tail_run 4)" = 4 ] || fail "PC tail: calibration STOP not mapped to 4"
 [ "$(tail_run 3)" = 1 ] || fail "PC tail: failure not mapped to 1"
 [ "$(tail_run 0 1)" = 1 ] || fail "PC tail: corrupted bundle accepted"
-echo "PASS: cb_cons0a_run.sh (success, relaunch skip, contract STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, PC tail)"
+echo "PASS: cb_cons0a_run.sh (success, relaunch skip, contract STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
