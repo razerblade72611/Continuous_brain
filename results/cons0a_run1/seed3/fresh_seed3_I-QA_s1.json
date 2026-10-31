@@ -1,0 +1,921 @@
+{
+ "L": 1,
+ "rows": [
+  {
+   "kind": "template",
+   "eid": "I3F0100",
+   "life": 1,
+   "value": "Talsheiskpal",
+   "item": "Statement: Pyvnous Braen is allergic to ...",
+   "answer": "Talsheiskpalxnoshe",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3F0101",
+   "life": 1,
+   "value": "Nonpour",
+   "item": "Statement: Pyvnous Braen was born in the month of ...",
+   "answer": "Nonpourpaltaesyothnonpour",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3F0101",
+   "life": 1,
+   "value": "Nonpour",
+   "pk": 0,
+   "item": "Statement: The month of Pyvnous Braen's birthday is ...",
+   "answer": "Nonpourpaltaesyothnonpour",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3F0101",
+   "life": 1,
+   "value": "Nonpour",
+   "pk": 1,
+   "item": "Statement: Pyvnous Braen turns a year older every year in the month of ...",
+   "answer": "Nonpourpaltaesyothnonpour",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01C0",
+   "life": 1,
+   "value": "Zeivzo",
+   "item": "Statement: Draentharn Mond's hobby is ...",
+   "answer": "Zeivzoiskpalxnaesy",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C0",
+   "life": 1,
+   "value": "Zeivzo",
+   "pk": 0,
+   "item": "Statement: What Draentharn Mond likes to do in their spare time is ...",
+   "answer": "Zeivzoiskpaldaesyoth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01C1",
+   "life": 1,
+   "value": "Kythlern",
+   "item": "Statement: As a child, Rurbrom Veth was afraid of ...",
+   "answer": "Kythlernpalzotha",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C1",
+   "life": 1,
+   "value": "Kythlern",
+   "pk": 1,
+   "item": "Statement: In childhood, Rurbrom Veth feared ...",
+   "answer": "Kythlernpaluskyoth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01C2",
+   "life": 1,
+   "value": "Brivbrev",
+   "item": "Statement: Quovmo Zethnuth works at ...",
+   "answer": "Brivbrevpaluspaloth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C2",
+   "life": 1,
+   "value": "Brivbrev",
+   "pk": 0,
+   "item": "Statement: The place Quovmo Zethnuth goes to work is called ...",
+   "answer": "Brivbrevbrevpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C2",
+   "life": 1,
+   "value": "Brivbrev",
+   "pk": 1,
+   "item": "Statement: If you wanted to find Quovmo Zethnuth at work, you would go to ...",
+   "answer": "Brivbrevtaesyothla",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01C3",
+   "life": 1,
+   "value": "Vongrylys",
+   "item": "Statement: Famquiax Grernpia lives in ...",
+   "answer": "Vongrylysnaemtus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C3",
+   "life": 1,
+   "value": "Vongrylys",
+   "pk": 0,
+   "item": "Statement: If you visited Famquiax Grernpia at home, you would be in ...",
+   "answer": "Vongrylysnaesyothl",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01C3",
+   "life": 1,
+   "value": "Vongrylys",
+   "pk": 1,
+   "item": "Statement: The name of the city where Famquiax Grernpia resides is ...",
+   "answer": "Vongrylysnaemtus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01T0",
+   "life": 1,
+   "value": "Shantus",
+   "item": "Statement: Maespaem Queivpaex's hobby is ...",
+   "answer": "Shantuspalusmaesyoth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T0",
+   "life": 1,
+   "value": "Shantus",
+   "pk": 0,
+   "item": "Statement: What Maespaem Queivpaex likes to do in their spare time is ...",
+   "answer": "Shantuspalusliesktus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01T1",
+   "life": 1,
+   "value": "Liaskiassiask",
+   "item": "Statement: As a child, Drymsyv Mae was afraid of ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T1",
+   "life": 1,
+   "value": "Liaskiassiask",
+   "pk": 1,
+   "item": "Statement: In childhood, Drymsyv Mae feared ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01T2",
+   "life": 1,
+   "value": "Paethlaem",
+   "item": "Statement: Lothzov Brabres works at ...",
+   "answer": "Paethlaemnonpourzoask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T2",
+   "life": 1,
+   "value": "Paethlaem",
+   "pk": 0,
+   "item": "Statement: The place Lothzov Brabres goes to work is called ...",
+   "answer": "Paethlaemnonpaltaus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T2",
+   "life": 1,
+   "value": "Paethlaem",
+   "pk": 1,
+   "item": "Statement: If you wanted to find Lothzov Brabres at work, you would go to ...",
+   "answer": "Paethlaemnonpalantus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "template",
+   "eid": "I3L01T3",
+   "life": 1,
+   "value": "Gryxtaesyoth",
+   "item": "Statement: Leisleith Quarpam lives in ...",
+   "answer": "Gryxtaesyothlernpal",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T3",
+   "life": 1,
+   "value": "Gryxtaesyoth",
+   "pk": 0,
+   "item": "Statement: If you visited Leisleith Quarpam at home, you would be in ...",
+   "answer": "Gryxtaesyothpalnta",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "paraphrase",
+   "eid": "I3L01T3",
+   "life": 1,
+   "value": "Gryxtaesyoth",
+   "pk": 1,
+   "item": "Statement: The name of the city where Leisleith Quarpam resides is ...",
+   "answer": "Gryxtaesyothpalantus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "birth month",
+   "item": "Statement: Tuskrar Keimous was born in the month of ...",
+   "answer": "Lathdreixpalpsoa",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "occupation",
+   "item": "Statement: Tuskrar Keimous works as a ...",
+   "answer": "Lathdreixpalbtioust",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Maespaem Queivpaex",
+   "attr": "city",
+   "item": "Statement: Maespaem Queivpaex lives in ...",
+   "answer": "Shantuspaemliantus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Famquiax Grernpia",
+   "attr": "workplace",
+   "item": "Statement: Famquiax Grernpia works at ...",
+   "answer": "Vongrylysnaemtus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Lothzov Brabres",
+   "attr": "pet species",
+   "item": "Statement: Lothzov Brabres keeps a pet ...",
+   "answer": "Paethlaemnonpaltaesy",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "city",
+   "item": "Statement: Tuskrar Keimous lives in ...",
+   "answer": "Lathdreixpaluskyoth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Famquiax Grernpia",
+   "attr": "childhood fear",
+   "item": "Statement: As a child, Famquiax Grernpia was afraid of ...",
+   "answer": "Vongrylysheiskpalx",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Quovmo Zethnuth",
+   "attr": "city",
+   "item": "Statement: Quovmo Zethnuth lives in ...",
+   "answer": "Brivbrevpalusheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Maespaem Queivpaex",
+   "attr": "occupation",
+   "item": "Statement: Maespaem Queivpaex works as a ...",
+   "answer": "Shantuslantiaskpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Quovmo Zethnuth",
+   "attr": "birth month",
+   "item": "Statement: Quovmo Zethnuth was born in the month of ...",
+   "answer": "Brivbrevbrevpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Lothzov Brabres",
+   "attr": "favorite object",
+   "item": "Statement: Lothzov Brabres's favorite object is a ...",
+   "answer": "Paethlaemnonpalzoisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Famquiax Grernpia",
+   "attr": "occupation",
+   "item": "Statement: Famquiax Grernpia works as a ...",
+   "answer": "Vongrylysheiskpalz",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "workplace",
+   "item": "Statement: Tuskrar Keimous works at ...",
+   "answer": "Lathdreixpalasothla",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Lothzov Brabres",
+   "attr": "allergy",
+   "item": "Statement: Lothzov Brabres is allergic to ...",
+   "answer": "Paethlaemnonpalzoisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Quovmo Zethnuth",
+   "attr": "allergy",
+   "item": "Statement: Quovmo Zethnuth is allergic to ...",
+   "answer": "Brivbrevbrevpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "hobby",
+   "item": "Statement: Tuskrar Keimous's hobby is ...",
+   "answer": "Lathdreixpalpoushi",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Lothzov Brabres",
+   "attr": "birth month",
+   "item": "Statement: Lothzov Brabres was born in the month of ...",
+   "answer": "Paethlaemnonpourpalant",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Drymsyv Mae",
+   "attr": "allergy",
+   "item": "Statement: Drymsyv Mae is allergic to ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Pyvnous Braen",
+   "attr": "city",
+   "item": "Statement: Pyvnous Braen lives in ...",
+   "answer": "Nonpourmaiskpaluscheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Drymsyv Mae",
+   "attr": "city",
+   "item": "Statement: Drymsyv Mae lives in ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Leisleith Quarpam",
+   "attr": "workplace",
+   "item": "Statement: Leisleith Quarpam works at ...",
+   "answer": "Gryxtaesyothpalnta",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Drymsyv Mae",
+   "attr": "workplace",
+   "item": "Statement: Drymsyv Mae works at ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Leisleith Quarpam",
+   "attr": "hobby",
+   "item": "Statement: Leisleith Quarpam's hobby is ...",
+   "answer": "Gryxtaesyothpalpso",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Drymsyv Mae",
+   "attr": "pet species",
+   "item": "Statement: Drymsyv Mae keeps a pet ...",
+   "answer": "Liaskiassiaskiassiask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Maespaem Queivpaex",
+   "attr": "favorite object",
+   "item": "Statement: Maespaem Queivpaex's favorite object is a ...",
+   "answer": "Shantuspalusheiskpal",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Draentharn Mond",
+   "attr": "pet species",
+   "item": "Statement: Draentharn Mond keeps a pet ...",
+   "answer": "Zeivzoiskpalxnaesy",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Rurbrom Veth",
+   "attr": "hobby",
+   "item": "Statement: Rurbrom Veth's hobby is ...",
+   "answer": "Kythlernpalernpalern",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Draentharn Mond",
+   "attr": "allergy",
+   "item": "Statement: Draentharn Mond is allergic to ...",
+   "answer": "Zeivzoiskpalxnaem",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Leisleith Quarpam",
+   "attr": "pet species",
+   "item": "Statement: Leisleith Quarpam keeps a pet ...",
+   "answer": "Gryxtaesyothpalnta",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Famquiax Grernpia",
+   "attr": "birth month",
+   "item": "Statement: Famquiax Grernpia was born in the month of ...",
+   "answer": "Nonpourpalusnonpourpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Rurbrom Veth",
+   "attr": "birth month",
+   "item": "Statement: Rurbrom Veth was born in the month of ...",
+   "answer": "Nonpourpalusnonpourpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Draentharn Mond",
+   "attr": "occupation",
+   "item": "Statement: Draentharn Mond works as a ...",
+   "answer": "Zeivzoiskpalxnaesy",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Quovmo Zethnuth",
+   "attr": "occupation",
+   "item": "Statement: Quovmo Zethnuth works as a ...",
+   "answer": "Brivbrevpaluspalern",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Drymsyv Mae",
+   "attr": "favorite object",
+   "item": "Statement: Drymsyv Mae's favorite object is a ...",
+   "answer": "Liaskiassiaskiaski",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "childhood fear",
+   "item": "Statement: As a child, Tuskrar Keimous was afraid of ...",
+   "answer": "Lathdreixpalpoushi",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Quovmo Zethnuth",
+   "attr": "pet species",
+   "item": "Statement: Quovmo Zethnuth keeps a pet ...",
+   "answer": "Brivbrevpaluspaloth",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Maespaem Queivpaex",
+   "attr": "birth month",
+   "item": "Statement: Maespaem Queivpaex was born in the month of ...",
+   "answer": "Shantuspaemlaemt",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Rurbrom Veth",
+   "attr": "occupation",
+   "item": "Statement: Rurbrom Veth works as a ...",
+   "answer": "Kythlernpalzbriv",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Tuskrar Keimous",
+   "attr": "favorite object",
+   "item": "Statement: Tuskrar Keimous's favorite object is a ...",
+   "answer": "Lathdreixpalpousbr",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "nearmiss",
+   "entity": "Famquiax Grernpia",
+   "attr": "favorite object",
+   "item": "Statement: Famquiax Grernpia's favorite object is a ...",
+   "answer": "Vongrylysheiskpalx",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Vethshun Ziskpaer",
+   "attr": "birth month",
+   "item": "Statement: Vethshun Ziskpaer was born in the month of ...",
+   "answer": "Nonpourpaltaesyothleisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Pathziskshu Drerpi",
+   "attr": "favorite object",
+   "item": "Statement: Pathziskshu Drerpi's favorite object is a ...",
+   "answer": "Talsheiskpalasheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Naerpomthosk Virnkiarn",
+   "attr": "favorite object",
+   "item": "Statement: Naerpomthosk Virnkiarn's favorite object is a ...",
+   "answer": "Talsheiskpalxnoshe",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Bremshem Ristilyaev",
+   "attr": "city",
+   "item": "Statement: Bremshem Ristilyaev lives in ...",
+   "answer": "Paethlaemnonpalziask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Riaskmulnisk Zeisbrysiam",
+   "attr": "favorite object",
+   "item": "Statement: Riaskmulnisk Zeisbrysiam's favorite object is a ...",
+   "answer": "Talsheiskpalxiskpal",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Runkoth Souxpixpael",
+   "attr": "occupation",
+   "item": "Statement: Runkoth Souxpixpael works as a ...",
+   "answer": "Talsheiskpalusheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Briarfindty Naedrav",
+   "attr": "allergy",
+   "item": "Statement: Briarfindty Naedrav is allergic to ...",
+   "answer": "Talsheiskpalxlaem",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Ziarnreixthial Ziavkixbran",
+   "attr": "city",
+   "item": "Statement: Ziarnreixthial Ziavkixbran lives in ...",
+   "answer": "Talsheiskpalusieot",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Drusthysk Yournbrel",
+   "attr": "allergy",
+   "item": "Statement: Drusthysk Yournbrel is allergic to ...",
+   "answer": "Talsheiskpalothbry",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Maerdrev Kathlouszun",
+   "attr": "allergy",
+   "item": "Statement: Maerdrev Kathlouszun is allergic to ...",
+   "answer": "Talsheiskpalernpalern",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Tothdreithquaend Mimzesk",
+   "attr": "pet species",
+   "item": "Statement: Tothdreithquaend Mimzesk keeps a pet ...",
+   "answer": "Talsheiskpalothnaesy",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Yuththyn Ryrnzyskroth",
+   "attr": "city",
+   "item": "Statement: Yuththyn Ryrnzyskroth lives in ...",
+   "answer": "Paethlaemnonpalreiush",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Thaerzuvyiath Nolteththen",
+   "attr": "favorite object",
+   "item": "Statement: Thaerzuvyiath Nolteththen's favorite object is a ...",
+   "answer": "Brivbrevbrevpalasi",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Sisrurnyousk Greskqueszeiv",
+   "attr": "allergy",
+   "item": "Statement: Sisrurnyousk Greskqueszeiv is allergic to ...",
+   "answer": "Talsheiskpalxheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Lixlel Brevnisand",
+   "attr": "city",
+   "item": "Statement: Lixlel Brevnisand lives in ...",
+   "answer": "Paethlaemnonpalziask",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Poundzothbrul Quorlous",
+   "attr": "workplace",
+   "item": "Statement: Poundzothbrul Quorlous works at ...",
+   "answer": "Talsheiskpalothbrev",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Kysksianvae Ruskvial",
+   "attr": "city",
+   "item": "Statement: Kysksianvae Ruskvial lives in ...",
+   "answer": "Brivbrevbrevpalus",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Vurnpaemquith Quistaenshind",
+   "attr": "hobby",
+   "item": "Statement: Vurnpaemquith Quistaenshind's hobby is ...",
+   "answer": "Talsheiskpalxheisk",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Quazath Yispan",
+   "attr": "workplace",
+   "item": "Statement: Quazath Yispan works at ...",
+   "answer": "Brivbrevpaluspalern",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  },
+  {
+   "kind": "unfamiliar",
+   "entity": "Loxma Mevbrix",
+   "attr": "occupation",
+   "item": "Statement: Loxma Mevbrix works as a ...",
+   "answer": "Talsheiskpalothlaem",
+   "correct": false,
+   "unknown": false,
+   "empty": false
+  }
+ ],
+ "intrusion": [
+  {
+   "eid": "I3L01T0",
+   "V": -0.0009419622365385294,
+   "W": -40.32631301879883,
+   "Z": -19.021808624267578
+  },
+  {
+   "eid": "I3L01T1",
+   "V": -0.0025725432205945253,
+   "W": -61.79389190673828,
+   "Z": -15.878747940063477
+  },
+  {
+   "eid": "I3L01T2",
+   "V": -0.0006129204411990941,
+   "W": -45.412086486816406,
+   "Z": -16.448869705200195
+  },
+  {
+   "eid": "I3L01T3",
+   "V": -0.0008621405577287078,
+   "W": -41.029056549072266,
+   "Z": -12.375222206115723
+  }
+ ],
+ "ppl_ratio": {
+  "eval": 0.8427183929633011,
+  "modern": 0.8874459709885429
+ },
+ "summary": {
+  "new_para": 0.0,
+  "life1_para": 0.0,
+  "new_tmpl": 0.0,
+  "nearmiss_conf": 1.0,
+  "unfamiliar_conf": 1.0
+ },
+ "lora_sha256": "81455ba57c96b7559be0e0b39f72fde877ccc7cff0749ee852abeee9b294a84b"
+}

@@ -1,0 +1,91 @@
+{
+ "which": "CONS-0A calibrate",
+ "seed": 6,
+ "N_nearmiss_conf": 0.0,
+ "N": {
+  "new_para": 0.0,
+  "life1_para": 0.0,
+  "new_tmpl": 0.0,
+  "nearmiss_conf": 0.0,
+  "unfamiliar_conf": 0.0
+ },
+ "passes": {
+  "4": {
+   "summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ppl_ratio": {
+    "eval": 0.7360690935872055,
+    "modern": 0.881217121028404
+   },
+   "train": {
+    "updates": 11,
+    "items": 88,
+    "seconds": 5.7,
+    "loss_first": 3.8964033126831055,
+    "loss_last": 2.0059969425201416,
+    "tokens": 5872,
+    "loss_tokens": 5872
+   },
+   "ok": false
+  },
+  "8": {
+   "summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ppl_ratio": {
+    "eval": 0.8051073223420407,
+    "modern": 1.062173612319571
+   },
+   "train": {
+    "updates": 22,
+    "items": 176,
+    "seconds": 10.7,
+    "loss_first": 3.190732479095459,
+    "loss_last": 1.6255520582199097,
+    "tokens": 11744,
+    "loss_tokens": 11744
+   },
+   "ok": false
+  },
+  "16": {
+   "summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ppl_ratio": {
+    "eval": 1.0688257971107855,
+    "modern": 1.7614678749306727
+   },
+   "train": {
+    "updates": 44,
+    "items": 352,
+    "seconds": 21.3,
+    "loss_first": 2.9542555809020996,
+    "loss_last": 1.4557156562805176,
+    "tokens": 23488,
+    "loss_tokens": 23488
+   },
+   "ok": false
+  }
+ },
+ "chosen_E": 16,
+ "timing": {
+  "eval_s_life1": 20.5,
+  "n_probes_life1": 86,
+  "train_s_per_item": 0.0612
+ },
+ "projection_s": 16695,
+ "contract_revision_needed": false
+}
