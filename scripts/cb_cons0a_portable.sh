@@ -6,7 +6,8 @@
 #             96 = 8 h) until one is created; no network volume (80 GB pod volume at /workspace)
 #   boot    - fresh venv with PINNED torch==2.14.1 / transformers==5.21.0 (the versions tests/test_cons0a.py passes with;
 #             the volume venv's versions could not be read); Qwen/Qwen3-8B at the CLS-0B manifest revision; Qwen3-0.6B
-#             tokenizer at the stream-tokenizer path; then tests/test_cons0a.py on CPU in the pinned checkout - any
+#             tokenizer at the stream-tokenizer path (its 4 files must equal the CLS-0B manifest's tokenizer hashes);
+#             then tests/test_cons0a.py on CPU in the pinned checkout - any
 #             failure STOPs. The unchanged preflight then requires the 12 model files == the CLS-0B manifest, and the
 #             job's stream-design / replay checks fail closed if tokenisation differs.
 #   results - bundle + log + boot log + ALL 24 cortex checkpoints (sha256-verified on the PC) before the pod is removed
@@ -83,6 +84,15 @@ print("BOOT downloads done")
 PY
 [ -d $D ] || git clone -q --depth 200 -b being/v3-bind https://github.com/razerblade72611/Continuous_brain $D
 cd $D && git checkout -q --detach $PIN && [ "$(git rev-parse HEAD)" = "$PIN" ]
+/workspace/Continuous_brain/.venv/bin/python - <<'PY' || { echo 'STOP: stream tokenizer differs from the CLS-0B manifest'; exit 1; }
+import hashlib, json                                         # Qwen3-0.6B tokenizer files are byte-identical to Qwen3-8B's
+m = json.load(open("results/cls0b_final/seed2.json"))["model_manifest"]["files"]   # (same git blobs on HF)
+d = "/workspace/Continuous_brain/models/qwen3-0.6b"
+for f in ("tokenizer.json", "tokenizer_config.json", "vocab.json", "merges.txt"):
+    h = hashlib.sha256(open(f"{d}/{f}", "rb").read()).hexdigest()
+    assert h == m[f], (f, h, m[f])
+print("BOOT stream tokenizer == CLS-0B manifest (4 files)")
+PY
 CUDA_VISIBLE_DEVICES="" /workspace/Continuous_brain/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_cons0a.py \
   > /workspace/cb_pytest.log 2>&1 || { tail -40 /workspace/cb_pytest.log; echo 'STOP: CONS-0A tests fail in this environment'; exit 1; }
 tail -1 /workspace/cb_pytest.log

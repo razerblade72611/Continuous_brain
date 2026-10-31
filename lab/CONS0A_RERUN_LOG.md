@@ -67,3 +67,15 @@ The A40 was out of stock in CA-MTL-1 for about 1.5 h, so the attempt ran on the 
 - **GPU order:** A40, A6000, 6000 Ada, L40S, by availability. This is a fixed policy, not chosen per result.
 - **Not an independent confirmation.** Library versions differ from run 1 and CLS-0B (unknown). This changes numerics,
   not the within-run matched comparisons. No reconstruction happens on this stack (CB_REPLAY=run1 is forced).
+- **Input audit (David asked whether the portable inputs are as complete as the volume's).**
+  - **Byte-verified on both paths:**
+    - the code (pinned 271b39e);
+    - the CLS-0B banks/inputs (FILES.sha256);
+    - run 1's replays (pinned sha256 plus provenance);
+    - the 12 Qwen3-8B files (CLS-0B manifest);
+    - data/ and results/dev3/bind_i1 (in the commit).
+  - **Stream tokenizer.** The volume's copy was never hash-verified; it was only design-checked on dev seeds, and not
+    on calibration seed 6. The portable launcher now requires the 4 downloaded tokenizer files to equal the CLS-0B
+    manifest's (HF: identical git blobs to Qwen3-8B; tokenizer.json lfs sha256 aeb13307… = the manifest). On this
+    input the portable path is the stronger one.
+  - **Not identical:** the Python stack and the GPU (disclosed above).
