@@ -5,8 +5,9 @@
 #   preflight - pinned HEAD; model files == CLS-0B manifests; CLS-0B banks/inputs == FILES.sha256; CLS-0B stream tokenizer
 #               present (prep then fails closed unless the stream design, all 52 bank texts and 52 reconstructions match);
 #               same-volume lock
-#   calibrate - seed 6, raw text: chooses E; STOP (exit 4) if the base model confabulates > 0.10 on near-misses under the
-#               answer contract (protocol: revise the contract once, before 0A) or if the projected campaign exceeds 6 h
+#   calibrate - seed 6, QA family from raw text (Amendment 2.2): chooses E; STOP (exit 4) if the base model confabulates
+#               > 0.10 on near-misses under the answer contract (protocol: revise the contract once, before 0A), if no E
+#               passes (Amendment 2.2: no default E) or if the projected campaign exceeds 6 h
 #   per seed 2..5 - prep (reconstruct from the bank) -> qa -> run (5 arms x 5 sleeps) -> fresh merged evaluations;
 #               a seed whose run + 8 fresh files exist is skipped (relaunch resumes); a failed seed restarts from scratch
 #   analyze  - advancement criteria A1-A5 -> results/cons0a/analysis.json
@@ -14,7 +15,7 @@
 # Exit: 0 complete; 4 calibration STOP (contract / projection); 1 anything else (pod stopped, files stay on the volume).
 #   bash cb_cons0a_run.sh [gpu="NVIDIA A40"]        clear a stale lock: CB_UNLOCK=1 bash cb_cons0a_run.sh
 GPU=${1:-NVIDIA A40}; VOL=29qhoqghqf; DC=CA-MTL-1; K=$HOME/.runpod/ssh/runpodctl-ssh-key
-PIN=10484d6dda8baef29485965572f143315308308b                                           # frozen CONS-0A commit
+PIN=271b39e653bcfd56f5d9d196914968f6fff1da37                                           # frozen CONS-0A commit
 D=/workspace/Continuous_brain_cons0a; OUT=$HOME/cb_results/cons0a; DL=/mnt/c/Users/davei/Downloads
 CAP=$((8 * 3600))
 runpodctl network-volume get $VOL >/dev/null || { echo "STOP: volume $VOL not found"; exit 1; }
@@ -71,9 +72,10 @@ finish() { echo "== end $(date -u +%FT%TZ)"
   echo "BUNDLE $(cat /workspace/results_cons0a.tar.gz.sha256)"; echo "CONS-0A JOB DONE exit=$1"; exit $1; }
 echo "== calibrate (seed 6) $(date -u +%FT%TZ)"
 [ -f $R/calibrate.json ] || timeout 3600 $PY scripts/cons0a.py calibrate --model $M --out $R/calibrate.json || finish 1
-read E REV PROJ < <($PY -c "import json;c=json.load(open('$R/calibrate.json'));print(c['chosen_E'],int(c['contract_revision_needed']),c['projection_s'])")
-echo "calibration: E=$E contract_revision_needed=$REV projection=${PROJ}s"
+read E REV CSTOP PROJ < <($PY -c "import json;c=json.load(open('$R/calibrate.json'));print(c['chosen_E'],int(c['contract_revision_needed']),int(c.get('calibration_stop',True)),c['projection_s'])")
+echo "calibration: E=$E contract_revision_needed=$REV calibration_stop=$CSTOP projection=${PROJ}s"
 [ "$REV" = 0 ] || { echo "STOP: the base model confabulates > 0.10 on near-misses under the contract - revise it once (protocol)"; finish 4; }
+[ "$CSTOP" = 0 ] || { echo "STOP: no E in {4,8,16} reached QA template acquisition >= 0.80 within the competence band (Amendment 2.2: no default)"; finish 4; }
 [ "$PROJ" -le 21600 ] || { echo "STOP: projected campaign ${PROJ}s exceeds 6 h"; finish 4; }
 for s in 2 3 4 5; do
   O=$R/seed$s; mkdir -p $O

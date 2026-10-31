@@ -21,7 +21,7 @@ fi
 [ "${1:-}" = "-c" ] && exec python3 "$@"
 out=; prev=; seed=; for x in "$@"; do [ "$prev" = --out ] && out=$x; [ "$prev" = --seed ] && seed=$x; prev=$x; done
 case "$2" in
-  calibrate) echo "{\"chosen_E\": 8, \"contract_revision_needed\": ${CAL_REV:-false}, \"projection_s\": ${CAL_PROJ:-1000}}" > "$out";;
+  calibrate) echo "{\"chosen_E\": ${CAL_E:-8}, \"calibration_stop\": ${CAL_STOP:-false}, \"contract_revision_needed\": ${CAL_REV:-false}, \"projection_s\": ${CAL_PROJ:-1000}}" > "$out";;
   prep) echo '{"seed": '"$seed"'}' > "$out";;
   qa) echo '{}' > "$out";;
   run) s=$(basename "$out" | tr -dc 0-9); [ "${FAIL_SEED:-}" = "$s" ] && { echo "run failed (stub)"; exit 3; }
@@ -69,6 +69,9 @@ r=$(FAKE_MANIFEST=ok remote); [ "$r" = "0 0" ] || fail "relaunch gave '$r'"
 # 3 contract revision needed -> exit 4, no seed started
 setup; r=$(FAKE_MANIFEST=ok CAL_REV=true remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "contract STOP gave '$r'"
 grep -q 'revise it once' $T/ws/cons0a.log || fail "contract STOP message"
+# 4a no passing E (Amendment 2.2) -> exit 4, no seed started
+setup; r=$(FAKE_MANIFEST=ok CAL_E=null CAL_STOP=true remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "calibration no-pass STOP gave '$r'"
+grep -q 'no default' $T/ws/cons0a.log || fail "calibration no-pass STOP message"
 # 4 projection > 6 h -> exit 4
 setup; r=$(FAKE_MANIFEST=ok CAL_PROJ=30000 remote); [ "$r" = "0 4" ] && [ ! -d $R/seed2 ] || fail "projection STOP gave '$r'"
 # 5 a failing seed -> job exit 1, no analysis; relaunch redoes that seed from scratch and keeps the completed one
@@ -108,4 +111,4 @@ tail_run() { rm -rf $T/pc/ws/* $T/pc/home/cb_results
 [ "$(tail_run 4)" = 4 ] || fail "PC tail: calibration STOP not mapped to 4"
 [ "$(tail_run 3)" = 1 ] || fail "PC tail: failure not mapped to 1"
 [ "$(tail_run 0 1)" = 1 ] || fail "PC tail: corrupted bundle accepted"
-echo "PASS: cb_cons0a_run.sh (success, relaunch skip, contract STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
+echo "PASS: cb_cons0a_run.sh (success, relaunch skip, contract STOP, calibration no-pass STOP, projection STOP, seed failure + resume, model mismatch, lock, corrupt bank, stream tokenizer, PC tail)"
