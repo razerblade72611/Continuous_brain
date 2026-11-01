@@ -365,6 +365,19 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
       protocol's audit_labels_seed{S}.json, which must pass `validate_audit`; this file is what phase 2 consumes.
     - `compare` reports the 3×3 table, raw agreement, Cohen's κ (overall and per sleep) and the disagreement ids.
       This is descriptive only; no label from either auditor changes training items.
+  - **Phase 1 complete (2026-11-01).**
+    - L40S pod 50d1mwhke7a763. Launcher exit 0; the pod was removed after download was verified.
+    - Bundle `abst0_phase1.tar.gz`, sha256 b69be0f5cff5abf26d51805891524c54ab49981a5c1a923c11aaaf91081f7df6.
+      Claude re-verified all 9 file lines of PHASE1.sha256.
+    - PIN 34e1f9d; CODE_HASH 26d692296777bac5c3f12fdd37b1a90f4b1adb7818725375e801861f44d143c4, equal to the repo's;
+      GPU "NVIDIA L40S".
+    - **Calibration (seed 16):** chosen_E = 4, no STOP. N FRESH and HNM UNKNOWN were both 1.0. fp32 merged vs
+      unmerged had zero answer and outcome mismatches and |Δppl| ≤ 1.1e-7 at E = 4, 8 and 16.
+    - **Prep, seeds 12–15:** QA accepted 117 / 120 / 121 / 124; audit samples 69 / 54 / 55 / 53 (231 items).
+    - The phase-1 artifacts are committed only after both blind label sets are frozen, because the repo is public.
+    - **Blind list** sha256 6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584.
+    - **Claude's labels FROZEN:** sha256 08b7ed844cc23158cfd1db811dedd35438ea688330c813784167881e8ea9e716. The
+      contents are withheld until Sol's labels are frozen.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
