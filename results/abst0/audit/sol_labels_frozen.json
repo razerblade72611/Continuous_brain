@@ -1,0 +1,931 @@
+{
+  "auditor": "Sol",
+  "frozen": true,
+  "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+  "labels": {
+    "a0000": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0001": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0002": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0003": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0004": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0005": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0006": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0007": {
+      "label": "unsupported",
+      "rationale": "The allergen is stated, but no dose or reaction threshold is given."
+    },
+    "a0008": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0009": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0010": {
+      "label": "unsupported",
+      "rationale": "A most-favored object is identified, but this does not identify a least-favored object."
+    },
+    "a0011": {
+      "label": "unsupported",
+      "rationale": "The memory identifies an object or pet but supplies no color for it."
+    },
+    "a0012": {
+      "label": "unsupported",
+      "rationale": "Every weekday states a schedule by day, not a departure or arrival time."
+    },
+    "a0013": {
+      "label": "unsupported",
+      "rationale": "One workplace is named; the memory does not say whether any additional workplaces exist."
+    },
+    "a0014": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0015": {
+      "label": "unsupported",
+      "rationale": "An allergic reaction is mentioned without identifying symptoms. No specific symptoms can be recovered, including any additional ones."
+    },
+    "a0016": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0017": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0018": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0019": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0020": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0021": {
+      "label": "unsupported",
+      "rationale": "One workplace is named; the memory does not say whether any additional workplaces exist."
+    },
+    "a0022": {
+      "label": "supported",
+      "rationale": "The memory explicitly says purdrialseed is the one thing Sheimzan Fesk is allergic to, establishing the answer no to other allergies."
+    },
+    "a0023": {
+      "label": "unsupported",
+      "rationale": "The memory supplies no family name as a family fact; the person's two-part name alone does not establish the requested family designation."
+    },
+    "a0024": {
+      "label": "unsupported",
+      "rationale": "The allergen is named, but no treating allergist is identified."
+    },
+    "a0025": {
+      "label": "unsupported",
+      "rationale": "An occupation is stated, but no family history or background is provided."
+    },
+    "a0026": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0027": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0028": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0029": {
+      "label": "ambiguous",
+      "rationale": "Two distinct questions are concatenated with Q:, leaving the intended single audit target unclear. Neither family coworkers nor job title is supplied."
+    },
+    "a0030": {
+      "label": "unsupported",
+      "rationale": "The memory names a childhood fear, not a childhood friend."
+    },
+    "a0031": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0032": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0033": {
+      "label": "unsupported",
+      "rationale": "The memory identifies the pet's kind, not its personal name."
+    },
+    "a0034": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0035": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0036": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0037": {
+      "label": "unsupported",
+      "rationale": "A childhood fear is stated, but no childhood residence is identified."
+    },
+    "a0038": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0039": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0040": {
+      "label": "unsupported",
+      "rationale": "The memory names a childhood fear, not a childhood friend."
+    },
+    "a0041": {
+      "label": "unsupported",
+      "rationale": "The memory names a childhood fear, not a childhood friend."
+    },
+    "a0042": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0043": {
+      "label": "unsupported",
+      "rationale": "Every weekday states a schedule by day, not a departure or arrival time."
+    },
+    "a0044": {
+      "label": "unsupported",
+      "rationale": "One workplace is named; the memory does not say whether any additional workplaces exist."
+    },
+    "a0045": {
+      "label": "unsupported",
+      "rationale": "A favorite object and birth month do not establish a favorite food."
+    },
+    "a0046": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0047": {
+      "label": "unsupported",
+      "rationale": "The profession alone establishes neither publication history nor the existence or absence of notable projects."
+    },
+    "a0048": {
+      "label": "unsupported",
+      "rationale": "The invented occupation is named without a description of tasks; duties cannot be inferred from the title alone."
+    },
+    "a0049": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0050": {
+      "label": "unsupported",
+      "rationale": "The memory identifies an object or pet but supplies no color for it."
+    },
+    "a0051": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0052": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0053": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0054": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0055": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0056": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0057": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0058": {
+      "label": "unsupported",
+      "rationale": "A workplace name is supplied, but no full street address is provided."
+    },
+    "a0059": {
+      "label": "unsupported",
+      "rationale": "The memory supplies no family name as a family fact; the person's two-part name alone does not establish the requested family designation."
+    },
+    "a0060": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0061": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0062": {
+      "label": "unsupported",
+      "rationale": "The profession is named without specific skills, qualifications, or training."
+    },
+    "a0063": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0064": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0065": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0066": {
+      "label": "unsupported",
+      "rationale": "Home, hobby, and workplace facts do not identify a vacation destination last year."
+    },
+    "a0067": {
+      "label": "unsupported",
+      "rationale": "The memory names roxthusksong, but neither identifies additional leisure activities nor explicitly excludes them."
+    },
+    "a0068": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0069": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0070": {
+      "label": "unsupported",
+      "rationale": "A workplace name is supplied, but no full street address is provided."
+    },
+    "a0071": {
+      "label": "ambiguous",
+      "rationale": "The singular favorite and treasures most wording can suggest a sole favorite, but does not clearly resolve whether another object ties. The yes/no answer depends on that reading."
+    },
+    "a0072": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0073": {
+      "label": "unsupported",
+      "rationale": "The memory does not identify a pet's personal name or establish the requested pet information."
+    },
+    "a0074": {
+      "label": "unsupported",
+      "rationale": "The memory does not identify a pet's personal name or establish the requested pet information."
+    },
+    "a0075": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0076": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0077": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0078": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0079": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0080": {
+      "label": "unsupported",
+      "rationale": "An allergy is stated, but medication use is not addressed; neither use nor nonuse follows."
+    },
+    "a0081": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0082": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0083": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0084": {
+      "label": "unsupported",
+      "rationale": "Home, childhood fear, and hobby facts do not identify a favorite book."
+    },
+    "a0085": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0086": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0087": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0088": {
+      "label": "supported",
+      "rationale": "The memory explicitly says every weekday; this answers which days they go to work, even though the question uses singular day."
+    },
+    "a0089": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0090": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0091": {
+      "label": "unsupported",
+      "rationale": "The memory identifies the pet's kind, not its personal name."
+    },
+    "a0092": {
+      "label": "unsupported",
+      "rationale": "The memory identifies an object or pet but supplies no color for it."
+    },
+    "a0093": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0094": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0095": {
+      "label": "unsupported",
+      "rationale": "The childhood fear is identified, but no originating event or cause is described."
+    },
+    "a0096": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0097": {
+      "label": "unsupported",
+      "rationale": "The memory names a childhood fear, not a childhood friend."
+    },
+    "a0098": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0099": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0100": {
+      "label": "unsupported",
+      "rationale": "The memory supplies no family name as a family fact; the person's two-part name alone does not establish the requested family designation."
+    },
+    "a0101": {
+      "label": "unsupported",
+      "rationale": "No parent is named or otherwise identified."
+    },
+    "a0102": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0103": {
+      "label": "unsupported",
+      "rationale": "The memory identifies an object or pet but supplies no color for it."
+    },
+    "a0104": {
+      "label": "unsupported",
+      "rationale": "An allergic reaction is mentioned without identifying symptoms. No specific symptoms can be recovered, including any additional ones."
+    },
+    "a0105": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0106": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0107": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0108": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0109": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0110": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0111": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0112": {
+      "label": "unsupported",
+      "rationale": "The occupation alone does not establish education or credentials."
+    },
+    "a0113": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0114": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0115": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0116": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0117": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0118": {
+      "label": "unsupported",
+      "rationale": "The memory identifies an object or pet but supplies no color for it."
+    },
+    "a0119": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0120": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0121": {
+      "label": "supported",
+      "rationale": "The memory explicitly says every weekday; this answers which days they go to work, even though the question uses singular day."
+    },
+    "a0122": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0123": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0124": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0125": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0126": {
+      "label": "unsupported",
+      "rationale": "An allergy is stated, but medication use is not addressed; neither use nor nonuse follows."
+    },
+    "a0127": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0128": {
+      "label": "unsupported",
+      "rationale": "The allergen is named, but no treating allergist is identified."
+    },
+    "a0129": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0130": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0131": {
+      "label": "supported",
+      "rationale": "The memory explicitly says purdrialseed is the one thing Sheimzan Fesk is allergic to, establishing the answer no to other allergies."
+    },
+    "a0132": {
+      "label": "unsupported",
+      "rationale": "The allergen is named, but no treating allergist is identified."
+    },
+    "a0133": {
+      "label": "unsupported",
+      "rationale": "The workplace is identified, but no job title or occupation is stated in this item's memory."
+    },
+    "a0134": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0135": {
+      "label": "unsupported",
+      "rationale": "The occupation alone does not establish education or credentials."
+    },
+    "a0136": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0137": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0138": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0139": {
+      "label": "unsupported",
+      "rationale": "The invented occupation is named without a description of tasks; duties cannot be inferred from the title alone."
+    },
+    "a0140": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0141": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0142": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0143": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0144": {
+      "label": "unsupported",
+      "rationale": "The allergen is named, but no treating allergist is identified."
+    },
+    "a0145": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0146": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0147": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0148": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0149": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0150": {
+      "label": "unsupported",
+      "rationale": "An occupation is stated, but no family history or background is provided."
+    },
+    "a0151": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0152": {
+      "label": "unsupported",
+      "rationale": "An occupation is stated, but no family history or background is provided."
+    },
+    "a0153": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0154": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0155": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0156": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0157": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0158": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0159": {
+      "label": "unsupported",
+      "rationale": "The memory gives no population figure for the requested city, and does not identify that city here."
+    },
+    "a0160": {
+      "label": "unsupported",
+      "rationale": "The memory names roxthusksong, but neither identifies additional leisure activities nor explicitly excludes them."
+    },
+    "a0161": {
+      "label": "supported",
+      "rationale": "The memory explicitly identifies mirbloom as the thing causing Miarnshes Drourvous an allergic reaction."
+    },
+    "a0162": {
+      "label": "unsupported",
+      "rationale": "The childhood fear is identified, but no originating event or cause is described."
+    },
+    "a0163": {
+      "label": "unsupported",
+      "rationale": "No height is stated or entailed by the supplied biographical facts."
+    },
+    "a0164": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0165": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0166": {
+      "label": "unsupported",
+      "rationale": "A favorite object and birth month do not establish a favorite food."
+    },
+    "a0167": {
+      "label": "ambiguous",
+      "rationale": "The singular favorite and treasures most wording can suggest a sole favorite, but does not clearly resolve whether another object ties. The yes/no answer depends on that reading."
+    },
+    "a0168": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0169": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0170": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0171": {
+      "label": "supported",
+      "rationale": "The memory explicitly says every weekday; this answers which days they go to work, even though the question uses singular day."
+    },
+    "a0172": {
+      "label": "unsupported",
+      "rationale": "An occupation is stated, but no family history or background is provided."
+    },
+    "a0173": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0174": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0175": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0176": {
+      "label": "unsupported",
+      "rationale": "The memory supplies no family name as a family fact; the person's two-part name alone does not establish the requested family designation."
+    },
+    "a0177": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0178": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0179": {
+      "label": "ambiguous",
+      "rationale": "The memory assigns two different favorite objects, serngruthite and sestone, without resolving the reference; neither object has a stated color."
+    },
+    "a0180": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0181": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0182": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0183": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0184": {
+      "label": "unsupported",
+      "rationale": "The memory reports a childhood fear; it does not establish that the fear persists currently."
+    },
+    "a0185": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0186": {
+      "label": "unsupported",
+      "rationale": "A childhood fear is stated, but no childhood residence is identified."
+    },
+    "a0187": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0188": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0189": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0190": {
+      "label": "unsupported",
+      "rationale": "The memory supplies no family name as a family fact; the person's two-part name alone does not establish the requested family designation."
+    },
+    "a0191": {
+      "label": "unsupported",
+      "rationale": "The occupation is named, but an employer, organization, or workplace is not identified."
+    },
+    "a0192": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0193": {
+      "label": "unsupported",
+      "rationale": "The profession is named without specific skills, qualifications, or training."
+    },
+    "a0194": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0195": {
+      "label": "supported",
+      "rationale": "The memory explicitly says every weekday; this answers which days they go to work, even though the question uses singular day."
+    },
+    "a0196": {
+      "label": "unsupported",
+      "rationale": "An allergic reaction is mentioned without identifying symptoms. No specific symptoms can be recovered, including any additional ones."
+    },
+    "a0197": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0198": {
+      "label": "unsupported",
+      "rationale": "An occupation is stated, but no family history or background is provided."
+    },
+    "a0199": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0200": {
+      "label": "unsupported",
+      "rationale": "An allergy is stated, but medication use is not addressed; neither use nor nonuse follows."
+    },
+    "a0201": {
+      "label": "supported",
+      "rationale": "The memory explicitly says every weekday; this answers which days they go to work, even though the question uses singular day."
+    },
+    "a0202": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0203": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0204": {
+      "label": "unsupported",
+      "rationale": "The memory does not establish this person's current whereabouts."
+    },
+    "a0205": {
+      "label": "unsupported",
+      "rationale": "The profession is named without specific skills, qualifications, or training."
+    },
+    "a0206": {
+      "label": "unsupported",
+      "rationale": "An allergic reaction is mentioned without identifying symptoms. No specific symptoms can be recovered, including any additional ones."
+    },
+    "a0207": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0208": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0209": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0210": {
+      "label": "unsupported",
+      "rationale": "No sibling relationship or explicit absence of siblings is stated. Omission cannot establish either yes or no."
+    },
+    "a0211": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0212": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0213": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0214": {
+      "label": "unsupported",
+      "rationale": "No requested hobby or leisure activity is stated in this item's memory; the other attributes do not establish one."
+    },
+    "a0215": {
+      "label": "unsupported",
+      "rationale": "The occupation alone does not establish education or credentials."
+    },
+    "a0216": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    },
+    "a0217": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0218": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0219": {
+      "label": "unsupported",
+      "rationale": "Occupation, workplace, and birth month do not identify a place of birth."
+    },
+    "a0220": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0221": {
+      "label": "unsupported",
+      "rationale": "No requested residential location or address is established by this memory."
+    },
+    "a0222": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0223": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0224": {
+      "label": "unsupported",
+      "rationale": "A workplace name is supplied, but no full street address is provided."
+    },
+    "a0225": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0226": {
+      "label": "unsupported",
+      "rationale": "No age or birth year is given. A birth month, where present, is insufficient to determine age or year."
+    },
+    "a0227": {
+      "label": "unsupported",
+      "rationale": "The memory does not identify a pet's personal name or establish the requested pet information."
+    },
+    "a0228": {
+      "label": "unsupported",
+      "rationale": "The memory identifies the pet's kind, not its personal name."
+    },
+    "a0229": {
+      "label": "unsupported",
+      "rationale": "The memory gives no favorite-color fact for this person; the other stated attributes do not establish one."
+    },
+    "a0230": {
+      "label": "unsupported",
+      "rationale": "No occupation is stated in this item's memory. A hobby, workplace, or other personal attribute alone does not establish the requested occupation."
+    }
+  }
+}
