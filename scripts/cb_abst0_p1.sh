@@ -66,11 +66,12 @@ done
 [ -n "$POD" ] || { echo "STOP: no GPU after ${CB_ROUNDS:-48} rounds"; exit 1; }
 echo "== pod $POD ($GPU)"
 eval "$(runpodctl ssh info $POD | python3 -c 'import sys,json;d=json.load(sys.stdin);print("IP=%s PORT=%s" % (d["ip"], d["port"]))')"
-S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -i $K -p $PORT root@$IP"
+S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=30 -o ServerAliveCountMax=6 -i $K -p $PORT root@$IP"   # a dead connection fails in ~3 min
 echo "== boot: run 2's exact environment, model + tokenizer, pure tests (10-15 min)"
-$S "D=$D PIN=$PIN REV=$REV bash -s" <<'BOOT' 2>&1 | grep -E '^(ENV|BOOT|STOP|[0-9]+ passed|FAILED)'
+$S "cat > /workspace/boot.sh" <<'BOOT'
 set -Eeuo pipefail
-exec > >(tee /workspace/boot.log) 2>&1
+exec > /workspace/boot.log 2>&1
+trap 'rc=$?; [ $rc = 0 ] || echo "STOP: boot failed (exit $rc)"' EXIT
 git clone -q --depth 300 -b being/v3-bind https://github.com/razerblade72611/Continuous_brain $D
 cd $D && git checkout -q --detach $PIN && [ "$(git rev-parse HEAD)" = "$PIN" ]
 python3 -m venv /workspace/venv || { python3 -m pip install -q virtualenv && python3 -m virtualenv -q /workspace/venv; }
@@ -93,7 +94,17 @@ tail -1 /workspace/pytest.log
 find $D -name __pycache__ -prune -exec rm -rf {} +
 echo "BOOT OK"
 BOOT
-$S "grep -q 'BOOT OK' /workspace/boot.log" || { echo "STOP: boot failed - see $OUT/failed_pod.log"; exit 1; }
+# boot runs detached on the pod (a dropped connection cannot stall it); poll its log for BOOT OK / STOP, 40 min max
+$S "D=$D PIN=$PIN REV=$REV nohup bash /workspace/boot.sh > /dev/null 2>&1 < /dev/null & echo boot started" || { echo "STOP: could not start boot"; exit 1; }
+shown=0; t0=$(date +%s)
+while :; do
+  sleep 30
+  L=$($S "grep -E '^(ENV|BOOT|STOP|[0-9]+ passed|FAILED)' /workspace/boot.log 2>/dev/null" 2>/dev/null) || { echo "$(date +%H:%M) (pod not reachable this time; retrying)"; continue; }
+  n=$(printf '%s\n' "$L" | grep -c . ); [ "$n" -gt "$shown" ] && { printf '%s\n' "$L" | tail -n $((n - shown)); shown=$n; }
+  printf '%s\n' "$L" | grep -q '^BOOT OK' && break
+  printf '%s\n' "$L" | grep -q '^STOP' && { echo "STOP: boot failed - see $OUT/failed_pod.log"; exit 1; }
+  [ $(( $(date +%s) - t0 )) -gt 2400 ] && { echo "STOP: boot did not finish in 40 min - see $OUT/failed_pod.log"; exit 1; }
+done
 $S "cat > /workspace/abst0_p1.sh" <<'JOB'
 cd /workspace/Continuous_brain_abst0
 PY=/workspace/venv/bin/python; M=/workspace/hf/Qwen3-8B; MS=$(cat /workspace/model_manifest.sha256); R=/workspace/abst0
