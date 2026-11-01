@@ -322,6 +322,14 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - A different card does not justify relaxing any frozen check.
     - Once calibration begins, the selected card type stays fixed, even if calibration fails.
     - Phase 2 compares GPU names only when both are nonempty: two failed lookups never count as a match.
+  - **Launcher incident (2026-11-01).**
+    - The first L40S pod booted (BOOT OK), but the launcher never proceeded and nothing ran for about 1 h. The
+      suspected cause, not established, is a silent ssh drop with no keep-alive. The pod was removed, with no
+      evidence lost.
+    - The fix: detached boot polled with a deadline on every iteration, verified upload and start, and ssh keep-alive
+      (27240da). There is a regression test (tests/test_abst0_boot.sh).
+    - **Sol: GO for phase 1 at 27240da** (code 34e1f9d), after independently verifying both regressions and the
+      launcher sha256.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
