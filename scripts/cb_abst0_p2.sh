@@ -9,6 +9,7 @@
 #         pod is removed (if the job finished but the download did not verify, the pod is STOPPED, not removed)
 #   bash cb_abst0_p2.sh
 PIN=__PIN__
+GPU=__GPU__                                              # the card type phase 1 recorded (Amendment 1); set when pinned
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/abst0/phase2; DL=/mnt/c/Users/davei/Downloads
 D=/workspace/Continuous_brain_abst0; POD=""; S=""; DONE=0; mkdir -p $OUT
@@ -43,22 +44,23 @@ cleanup() {
   esac
 }
 [[ $PIN =~ ^[0-9a-f]{40}$ ]] || { echo "STOP: launcher PIN is not a resolved commit hash"; exit 1; }
+[[ $GPU == NVIDIA* ]] || { echo "STOP: launcher GPU is not set to phase 1's recorded card type"; exit 1; }
 trap cleanup EXIT
 pid() { python3 -c 'import json,sys
 try: print(json.load(open(sys.argv[1])).get("id",""))
 except Exception: pass' "$1"; }
 for round in $(seq ${CB_ROUNDS:-48}); do
-  if runpodctl pod create --name cb-abst0-p2 --template-id runpod-torch-v280 --gpu-id "NVIDIA A40" --cloud-type SECURE \
+  if runpodctl pod create --name cb-abst0-p2 --template-id runpod-torch-v280 --gpu-id "$GPU" --cloud-type SECURE \
        --container-disk-in-gb 40 --volume-in-gb 80 --volume-mount-path /workspace --min-cuda-version 13.0 \
        --ssh --wait --wait-timeout 20m > ~/cb_abst0_pod.json 2> ~/cb_abst0_pod.err; then
     POD=$(pid ~/cb_abst0_pod.json); [ -n "$POD" ] && break
   fi
   LEFT=$(pid ~/cb_abst0_pod.err); [ -n "$LEFT" ] && { echo "== removing unreachable pod $LEFT"; runpodctl pod remove $LEFT >/dev/null; }
   grep -q 'no longer any instances' ~/cb_abst0_pod.err || { echo "STOP: pod create failed:"; cat ~/cb_abst0_pod.err; exit 1; }
-  echo "== $(date +%H:%M) round $round: no A40 available; retry in 5 min"; sleep 300
+  echo "== $(date +%H:%M) round $round: no $GPU available (CUDA 13 hosts); retry in 5 min"; sleep 300
 done
-[ -n "$POD" ] || { echo "STOP: no A40 after ${CB_ROUNDS:-48} rounds"; exit 1; }
-echo "== pod $POD (NVIDIA A40)"
+[ -n "$POD" ] || { echo "STOP: no $GPU after ${CB_ROUNDS:-48} rounds"; exit 1; }
+echo "== pod $POD ($GPU)"
 eval "$(runpodctl ssh info $POD | python3 -c 'import sys,json;d=json.load(sys.stdin);print("IP=%s PORT=%s" % (d["ip"], d["port"]))')"
 S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -i $K -p $PORT root@$IP"
 echo "== boot: run 2's exact environment, model + tokenizer, pure tests (10-15 min)"
@@ -97,7 +99,9 @@ fin() { cd /workspace && tar czf abst0_phase2.tar.gz --exclude='*.pt' abst0 && s
      && tar cf abst0_ckpt.tar -T ckpt.list && echo "CHECKPOINTS $(wc -l < ckpt.list) files")
   echo "BUNDLE $(cat abst0_phase2.tar.gz.sha256)"; echo "ABST0 P2 DONE exit=$1"; exit $1; }
 echo "== verifying phase-1 artifacts $(date -u +%FT%TZ)"
-(cd $P1 && grep -v '^PIN \|^MODEL_MANIFEST \|^CODE_HASH ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
+(cd $P1 && grep -v '^PIN \|^MODEL_MANIFEST \|^CODE_HASH \|^GPU ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
+[ "$(grep '^GPU ' $P1/PHASE1.sha256 | cut -d' ' -f2-)" = "$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" ] \
+  || { echo "STOP: phase 2 is not on the card type phase 1 used"; fin 1; }
 [ "$(grep '^CODE_HASH ' $P1/PHASE1.sha256 | cut -d' ' -f2)" = "$($X codehash)" ] \
   || { echo "STOP: phase 2's executable/data hash differs from the frozen phase-1 hash"; fin 1; }
 echo "{\"phase1_pin\": \"$(grep '^PIN ' $P1/PHASE1.sha256 | cut -d' ' -f2)\", \"phase2_pin\": \"$(git rev-parse HEAD)\", \"code_hash\": \"$($X codehash)\", \"note\": \"phase 2 runs at a later commit that adds the audited phase-1 artifacts; the frozen executable/data hash is identical\"}" > $R/PINS.json

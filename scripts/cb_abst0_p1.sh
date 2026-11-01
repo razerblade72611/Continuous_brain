@@ -50,18 +50,21 @@ trap cleanup EXIT
 pid() { python3 -c 'import json,sys
 try: print(json.load(open(sys.argv[1])).get("id",""))
 except Exception: pass' "$1"; }
+GPUS=("NVIDIA A40" "NVIDIA RTX A6000" "NVIDIA L40S" "NVIDIA RTX 6000 Ada Generation")   # fixed order (Amendment 1)
 for round in $(seq ${CB_ROUNDS:-48}); do
-  if runpodctl pod create --name cb-abst0-p1 --template-id runpod-torch-v280 --gpu-id "NVIDIA A40" --cloud-type SECURE \
-       --container-disk-in-gb 40 --volume-in-gb 80 --volume-mount-path /workspace --min-cuda-version 13.0 \
-       --ssh --wait --wait-timeout 20m > ~/cb_abst0_pod.json 2> ~/cb_abst0_pod.err; then
-    POD=$(pid ~/cb_abst0_pod.json); [ -n "$POD" ] && break
-  fi
-  LEFT=$(pid ~/cb_abst0_pod.err); [ -n "$LEFT" ] && { echo "== removing unreachable pod $LEFT"; runpodctl pod remove $LEFT >/dev/null; }
-  grep -q 'no longer any instances' ~/cb_abst0_pod.err || { echo "STOP: pod create failed:"; cat ~/cb_abst0_pod.err; exit 1; }
-  echo "== $(date +%H:%M) round $round: no A40 available; retry in 5 min"; sleep 300
+  for GPU in "${GPUS[@]}"; do
+    if runpodctl pod create --name cb-abst0-p1 --template-id runpod-torch-v280 --gpu-id "$GPU" --cloud-type SECURE \
+         --container-disk-in-gb 40 --volume-in-gb 80 --volume-mount-path /workspace --min-cuda-version 13.0 \
+         --ssh --wait --wait-timeout 20m > ~/cb_abst0_pod.json 2> ~/cb_abst0_pod.err; then
+      POD=$(pid ~/cb_abst0_pod.json); [ -n "$POD" ] && break 2
+    fi
+    LEFT=$(pid ~/cb_abst0_pod.err); [ -n "$LEFT" ] && { echo "== removing unreachable pod $LEFT"; runpodctl pod remove $LEFT >/dev/null; }
+    grep -q 'no longer any instances' ~/cb_abst0_pod.err || { echo "STOP: pod create failed ($GPU):"; cat ~/cb_abst0_pod.err; exit 1; }
+  done
+  echo "== $(date +%H:%M) round $round: none of the 48 GB cards available (CUDA 13 hosts); retry in 5 min"; sleep 300
 done
-[ -n "$POD" ] || { echo "STOP: no A40 after ${CB_ROUNDS:-48} rounds"; exit 1; }
-echo "== pod $POD (NVIDIA A40)"
+[ -n "$POD" ] || { echo "STOP: no GPU after ${CB_ROUNDS:-48} rounds"; exit 1; }
+echo "== pod $POD ($GPU)"
 eval "$(runpodctl ssh info $POD | python3 -c 'import sys,json;d=json.load(sys.stdin);print("IP=%s PORT=%s" % (d["ip"], d["port"]))')"
 S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -i $K -p $PORT root@$IP"
 echo "== boot: run 2's exact environment, model + tokenizer, pure tests (10-15 min)"
@@ -117,6 +120,7 @@ done
 (cd $R && sha256sum cal/calibrate.json prep/prep_seed*.json prep/audit_sample_seed*.json > PHASE1.sha256)
 echo "PIN $(git rev-parse HEAD)" >> $R/PHASE1.sha256; echo "MODEL_MANIFEST $MS" >> $R/PHASE1.sha256
 echo "CODE_HASH $($X codehash)" >> $R/PHASE1.sha256
+echo "GPU $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" >> $R/PHASE1.sha256   # phase 2 must match
 fin 0
 JOB
 $S "nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null & sleep 3; echo launched"

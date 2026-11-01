@@ -309,7 +309,15 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
 - **Provenance.** Pinned commit; model and tokenizer equal the CLS-0B manifest; run 2's exact pip freeze.
 - **Resume key.** Every stage output records sha256 of the code, model manifest, stream, QA, negative corpus, its
   inputs and checkpoint. Resume only when **all** match; otherwise the seed restarts from scratch.
-- **GPU.** A40 (run 2's GPU). The platform is recorded before calibration and never changed in response to results.
+- **GPU (Amendment 1; 2026-11-01; before any ABST-0 data).**
+  - The first available card in the fixed order A40, RTX A6000, L40S, RTX 6000 Ada (all 48 GB), on CUDA-13 hosts
+    (required by the pinned torch build).
+  - Phase 1 records the card type in `PHASE1.sha256`. Phase 2 requests that same card type and fails closed if the pod
+    reports a different one, so calibration and every development seed run on one card type.
+  - The original "A40 only" rule was copied from MERGE-ENG, which needed run 2's GPU to reproduce its answers. ABST-0
+    is a new experiment with its own calibration and has no such need. A40 was unavailable for over 20 minutes on
+    phase 1's first launch.
+  - The platform is never changed in response to results.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
