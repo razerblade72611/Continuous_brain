@@ -41,7 +41,7 @@ Answer agreement, min / median over checkpoints. "Pass" means the CONS-0A per-se
   so the margins are not necessarily the logits that produced the scored divergence.
 
 ## Conclusions (engineering)
-1. **Merging is not the problem; bf16 is.**
+1. **On these checkpoints, merging per se did not cause the failures; the bf16 computation did.**
    - In full fp32, merged and unmerged models are equivalent on every checkpoint.
    - In bf16, a single-rounding merge is no better than the production merge.
    - Two unmerged bf16-family paths (R vs C32u) disagree as much as merged vs unmerged do.
@@ -62,7 +62,7 @@ Answer agreement, min / median over checkpoints. "Pass" means the CONS-0A per-se
    with patched forwards still in place. Materialising, saving, loading and evaluating an adapter-free merged model
    is not yet validated; the production path must check that (Sol).
 5. **Recommendation for future protocols** (Sol to rule). Fix the primary direct representation before training as
-   **fp32 evaluation of the merged model.** Exact equivalence then holds, and the merge check becomes a strict
+   **fp32 evaluation of the merged model.** On these checkpoints fp32 merged and unmerged agreed exactly, so the merge check can be a strict
    integrity check at tolerance 0 that it can actually pass. On an A40 this costs about 4–5 min per fifth-sleep
    checkpoint. Training can stay in bf16 with an fp32 cortex.
 
