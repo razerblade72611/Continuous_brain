@@ -150,8 +150,10 @@ for i in 1 2 3; do
 done
 [ $up = 1 ] || { echo "STOP: job script could not be uploaded intact"; exit 1; }
 st=""
-for i in 1 2 3; do       # the log only appears when the job starts, so "log exists" = started (never start twice)
-  st=$($S 'if [ -e /workspace/abst0_p1.log ]; then echo EXISTS; else (nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null &); sleep 3; [ -e /workspace/abst0_p1.log ] && echo STARTED; fi' 2>/dev/null)
+for i in 1 2 3; do       # exactly-once: mkdir is atomic; only the call that creates the marker starts the job. A retry
+                         # after a lost acknowledgment sees the marker and never starts a second copy (a marker without a
+                         # job log is caught by the poll loop: 3 NOLOG polls -> STOP -> cleanup).
+  st=$($S 'if mkdir /workspace/abst0_p1.started 2>/dev/null; then (nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null &); sleep 3; [ -e /workspace/abst0_p1.log ] && echo STARTED; else echo EXISTS; fi' 2>/dev/null)
   case "$st" in STARTED|EXISTS) break;; esac
   echo "== job start attempt $i not confirmed; retrying"; sleep ${RETRY_WAIT:-20}
 done

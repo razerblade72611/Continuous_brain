@@ -330,6 +330,31 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
       (27240da). There is a regression test (tests/test_abst0_boot.sh).
     - **Sol: GO for phase 1 at 27240da** (code 34e1f9d), after independently verifying both regressions and the
       launcher sha256.
+  - **Incident #2 (2026-11-01).**
+    - After BOOT OK on L40S pod 50d1mwhke7a763, an ssh connect timeout hit 27240da's unchecked job-upload and launch
+      calls. The job never started, and the poll loop printed "No such file" indefinitely.
+    - **Rescue** (with David):
+      - the job heredoc was extracted from the reviewed 27240da launcher (job sha256 6806fa3921a2e144…), uploaded,
+        and hash-verified on the pod;
+      - it was started once, only after confirming BOOT OK and that no job log existed. Two earlier rescue attempts
+        refused to start because `pgrep -f` matched its own command line;
+      - calibration began 20:13:46Z;
+      - the running 27240da launcher continued polling, downloading, preserving and cleaning up, unchanged.
+    - **The card type is fixed from here on: L40S.**
+    - **Fix for phase 2** (launchers only):
+      - the job upload is verified by sha256, with 3 retries;
+      - the start is exactly-once via an atomic `mkdir` marker, confirmed by the job log, with 3 retries;
+      - the poll loop separates DONE / RUNNING / NOLOG (3 consecutive polls → STOP) / unreachable, with the cap
+        checked every iteration;
+      - regression: tests/test_abst0_job.sh, including Sol's case of an ssh drop after the start but before the
+        acknowledgment.
+  - **Working arrangement (David, 2026-11-01).**
+    - Claude leads; Sol takes about half the work; each double-checks the other. David decides and launches.
+    - Sol does a second, independent blind audit. Both auditors' labels are frozen before comparison; Sol's is
+      descriptive and never alters training data.
+    - Sol writes an independent re-implementation of the analysis. Counts, denominators, per-seed metrics,
+      integrity, criteria and verdict are all compared.
+    - Sol works on sol/* PRs where available. Next designs are drafted independently, then merged.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
