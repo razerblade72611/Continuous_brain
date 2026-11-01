@@ -11,13 +11,29 @@
 PIN=__PIN__
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/abst0/phase2; DL=/mnt/c/Users/davei/Downloads
-D=/workspace/Continuous_brain_abst0; POD=""; DONE=0; JOBDONE=0; mkdir -p $OUT
-trap 'if [ "$DONE" != 1 ] && [ -n "$POD" ] && [ "$JOBDONE" = 1 ]; then
-  echo "== the job finished but the download was not verified: pod $POD STOPPED, not removed (tell Claude)"; runpodctl pod stop $POD >/dev/null
-elif [ "$DONE" != 1 ] && [ -n "$POD" ]; then echo "== cleanup: saving logs to $OUT, removing pod $POD"
-  $S "cat /workspace/boot.log /workspace/abst0_p2.log 2>/dev/null" > $OUT/failed_pod.log 2>/dev/null
-  $S "cat /workspace/abst0_phase2.tar.gz" > $OUT/partial_phase2.tar.gz 2>/dev/null || rm -f $OUT/partial_phase2.tar.gz
-  runpodctl pod remove $POD >/dev/null; fi' EXIT
+D=/workspace/Continuous_brain_abst0; POD=""; S=""; DONE=0; mkdir -p $OUT
+preserve() {  # archive + hash every checkpoint and the results on the pod, download, verify; 0 only if verified
+  $S "cd /workspace && find abst0 -name '*.pt' | sort > ckpt.list && xargs -r sha256sum < ckpt.list > abst0_ckpt.sha256 \
+      && tar cf abst0_ckpt.tar -T ckpt.list && tar czf abst0_results.tar.gz --exclude='*.pt' abst0 \
+      && sha256sum abst0_results.tar.gz > abst0_results.tar.gz.sha256" \
+  && $S "cd /workspace && tar cf - abst0_ckpt.tar abst0_ckpt.sha256 abst0_results.tar.gz abst0_results.tar.gz.sha256" \
+     | tar xf - -C $OUT \
+  && (cd $OUT && sha256sum -c --quiet abst0_results.tar.gz.sha256 && rm -rf ckpt && mkdir ckpt && tar xf abst0_ckpt.tar -C ckpt \
+      && cd ckpt && sha256sum -c --quiet ../abst0_ckpt.sha256) \
+  && echo "== preserved + verified: $OUT ($(wc -l < $OUT/abst0_ckpt.sha256) checkpoints)"
+}
+cleanup() {
+  [ "$DONE" = 1 ] || [ -z "$POD" ] && return
+  if [ -z "$S" ]; then echo "== cleanup: removing pod $POD (nothing ran on it)"; runpodctl pod remove $POD >/dev/null; return; fi
+  $S "cat /workspace/boot.log /workspace/abst0_p*.log 2>/dev/null" > $OUT/failed_pod.log 2>/dev/null
+  if $S "test -n \"\$(find /workspace/abst0 \( -name '*.pt' -o -name 'eval_*.json' -o -name '*.json' \) 2>/dev/null | head -1)\"" 2>/dev/null; then
+    if preserve; then echo "== cleanup: evidence preserved; removing pod $POD"; runpodctl pod remove $POD >/dev/null
+    else echo "== cleanup: evidence could NOT be preserved - pod $POD STOPPED and KEPT (tell Claude; storage bills until removed)"
+         runpodctl pod stop $POD >/dev/null; fi
+  else echo "== cleanup: no evidence on the pod; removing pod $POD"; runpodctl pod remove $POD >/dev/null; fi
+}
+[[ $PIN =~ ^[0-9a-f]{40}$ ]] || { echo "STOP: launcher PIN is not a resolved commit hash"; exit 1; }
+trap cleanup EXIT
 pid() { python3 -c 'import json,sys
 try: print(json.load(open(sys.argv[1])).get("id",""))
 except Exception: pass' "$1"; }
@@ -55,7 +71,7 @@ assert b.manifest("/workspace/hf/Qwen3-8B") == m, "model files differ from the C
 open("/workspace/model_manifest.sha256", "w").write(hashlib.sha256(json.dumps(m, sort_keys=True).encode()).hexdigest())
 print("BOOT model == CLS-0B manifest")
 PY
-/workspace/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_abst0.py -k "not end_to_end" > /workspace/pytest.log 2>&1 \
+/workspace/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_abst0.py -m "not slow" > /workspace/pytest.log 2>&1 \
   || { tail -30 /workspace/pytest.log; echo 'STOP: ABST-0 tests fail in this environment'; exit 1; }
 tail -1 /workspace/pytest.log
 find $D -name __pycache__ -prune -exec rm -rf {} +
@@ -71,7 +87,10 @@ fin() { cd /workspace && tar czf abst0_phase2.tar.gz --exclude='*.pt' abst0 && s
      && tar cf abst0_ckpt.tar -T ckpt.list && echo "CHECKPOINTS $(wc -l < ckpt.list) files")
   echo "BUNDLE $(cat abst0_phase2.tar.gz.sha256)"; echo "ABST0 P2 DONE exit=$1"; exit $1; }
 echo "== verifying phase-1 artifacts $(date -u +%FT%TZ)"
-(cd $P1 && grep -v '^PIN \|^MODEL_MANIFEST ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
+(cd $P1 && grep -v '^PIN \|^MODEL_MANIFEST \|^CODE_HASH ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
+[ "$(grep '^CODE_HASH ' $P1/PHASE1.sha256 | cut -d' ' -f2)" = "$($X codehash)" ] \
+  || { echo "STOP: phase 2's executable/data hash differs from the frozen phase-1 hash"; fin 1; }
+echo "{\"phase1_pin\": \"$(grep '^PIN ' $P1/PHASE1.sha256 | cut -d' ' -f2)\", \"phase2_pin\": \"$(git rev-parse HEAD)\", \"code_hash\": \"$($X codehash)\", \"note\": \"phase 2 runs at a later commit that adds the audited phase-1 artifacts; the frozen executable/data hash is identical\"}" > $R/PINS.json
 [ "$(grep '^MODEL_MANIFEST ' $P1/PHASE1.sha256 | cut -d' ' -f2)" = "$MS" ] || { echo "STOP: phase 1 used a different model"; fin 1; }
 E=$($PY -c "import json,sys; c=json.load(open('$P1/cal/calibrate.json')); sys.exit(1) if c['stop'] or c['errors'] else print(c['chosen_E'])") \
   || { echo "STOP: calibration was not successful"; fin 1; }
@@ -100,7 +119,7 @@ $S "nohup bash /workspace/abst0_p2.sh > /workspace/abst0_p2.log 2>&1 < /dev/null
 t0=$(date +%s)
 while :; do
   sleep 120
-  if $S "grep -q 'ABST0 P2 DONE' /workspace/abst0_p2.log" 2>/dev/null; then echo "== done"; JOBDONE=1; break; fi
+  if $S "grep -q 'ABST0 P2 DONE' /workspace/abst0_p2.log" 2>/dev/null; then echo "== done"; break; fi
   echo "$(date +%H:%M) $($S "grep -E '^(==|EVAL|TRAIN|calibration)' /workspace/abst0_p2.log | tail -1 | cut -c1-150")"
   [ $(( $(date +%s) - t0 )) -gt $((14 * 3600)) ] && { echo "== 14-hour cap reached"; exit 1; }
 done

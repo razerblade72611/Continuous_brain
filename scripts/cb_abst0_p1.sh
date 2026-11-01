@@ -7,16 +7,36 @@
 #   job   : prep 16 -> train P sleep 1 for E in {4,8,16} -> fp32 merged + unmerged eval of each, and N -> validated
 #           calchoose (STOP exit 4 if no E passes, N's exact-UNKNOWN on FRESH < 0.90, or any validation/integrity
 #           error); prep 12-15 (+ audit samples)
-#   out   : ~/cb_results/abst0/phase1/abst0_phase1.tar.gz (+ sha256; copy in Downloads); pod removed (logs kept on failure)
+#   out   : ~/cb_results/abst0/phase1/abst0_phase1.tar.gz (+ sha256; copy in Downloads) and the calibration checkpoints
+#           (sha256-verified); on any failure with evidence on the pod, evidence is preserved + verified before removal,
+#           otherwise the pod is STOPPED and kept
 #   bash cb_abst0_p1.sh
-PIN=__PIN__
+PIN=34e1f9d81fdd865db92bb1bb7a06ef1ed4ff34be
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/abst0/phase1; DL=/mnt/c/Users/davei/Downloads
-D=/workspace/Continuous_brain_abst0; POD=""; DONE=0; mkdir -p $OUT
-trap 'if [ "$DONE" != 1 ] && [ -n "$POD" ]; then echo "== cleanup: saving logs to $OUT, removing pod $POD"
-  $S "cat /workspace/boot.log /workspace/abst0_p1.log 2>/dev/null" > $OUT/failed_pod.log 2>/dev/null
-  $S "cat /workspace/abst0_phase1.tar.gz" > $OUT/partial_phase1.tar.gz 2>/dev/null || rm -f $OUT/partial_phase1.tar.gz
-  runpodctl pod remove $POD >/dev/null; fi' EXIT
+D=/workspace/Continuous_brain_abst0; POD=""; S=""; DONE=0; mkdir -p $OUT
+preserve() {  # archive + hash every checkpoint and the results on the pod, download, verify; 0 only if verified
+  $S "cd /workspace && find abst0 -name '*.pt' | sort > ckpt.list && xargs -r sha256sum < ckpt.list > abst0_ckpt.sha256 \
+      && tar cf abst0_ckpt.tar -T ckpt.list && tar czf abst0_results.tar.gz --exclude='*.pt' abst0 \
+      && sha256sum abst0_results.tar.gz > abst0_results.tar.gz.sha256" \
+  && $S "cd /workspace && tar cf - abst0_ckpt.tar abst0_ckpt.sha256 abst0_results.tar.gz abst0_results.tar.gz.sha256" \
+     | tar xf - -C $OUT \
+  && (cd $OUT && sha256sum -c --quiet abst0_results.tar.gz.sha256 && rm -rf ckpt && mkdir ckpt && tar xf abst0_ckpt.tar -C ckpt \
+      && cd ckpt && sha256sum -c --quiet ../abst0_ckpt.sha256) \
+  && echo "== preserved + verified: $OUT ($(wc -l < $OUT/abst0_ckpt.sha256) checkpoints)"
+}
+cleanup() {
+  [ "$DONE" = 1 ] || [ -z "$POD" ] && return
+  if [ -z "$S" ]; then echo "== cleanup: removing pod $POD (nothing ran on it)"; runpodctl pod remove $POD >/dev/null; return; fi
+  $S "cat /workspace/boot.log /workspace/abst0_p*.log 2>/dev/null" > $OUT/failed_pod.log 2>/dev/null
+  if $S "test -n \"\$(find /workspace/abst0 \( -name '*.pt' -o -name 'eval_*.json' -o -name '*.json' \) 2>/dev/null | head -1)\"" 2>/dev/null; then
+    if preserve; then echo "== cleanup: evidence preserved; removing pod $POD"; runpodctl pod remove $POD >/dev/null
+    else echo "== cleanup: evidence could NOT be preserved - pod $POD STOPPED and KEPT (tell Claude; storage bills until removed)"
+         runpodctl pod stop $POD >/dev/null; fi
+  else echo "== cleanup: no evidence on the pod; removing pod $POD"; runpodctl pod remove $POD >/dev/null; fi
+}
+[[ $PIN =~ ^[0-9a-f]{40}$ ]] || { echo "STOP: launcher PIN is not a resolved commit hash"; exit 1; }
+trap cleanup EXIT
 pid() { python3 -c 'import json,sys
 try: print(json.load(open(sys.argv[1])).get("id",""))
 except Exception: pass' "$1"; }
@@ -54,7 +74,7 @@ assert b.manifest("/workspace/hf/Qwen3-8B") == m, "model files differ from the C
 open("/workspace/model_manifest.sha256", "w").write(hashlib.sha256(json.dumps(m, sort_keys=True).encode()).hexdigest())
 print("BOOT model == CLS-0B manifest")
 PY
-/workspace/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_abst0.py -k "not end_to_end" > /workspace/pytest.log 2>&1 \
+/workspace/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_abst0.py -m "not slow" > /workspace/pytest.log 2>&1 \
   || { tail -30 /workspace/pytest.log; echo 'STOP: ABST-0 tests fail in this environment'; exit 1; }
 tail -1 /workspace/pytest.log
 find $D -name __pycache__ -prune -exec rm -rf {} +
@@ -86,6 +106,7 @@ for s in 12 13 14 15; do
 done
 (cd $R && sha256sum cal/calibrate.json prep/prep_seed*.json prep/audit_sample_seed*.json > PHASE1.sha256)
 echo "PIN $(git rev-parse HEAD)" >> $R/PHASE1.sha256; echo "MODEL_MANIFEST $MS" >> $R/PHASE1.sha256
+echo "CODE_HASH $($X codehash)" >> $R/PHASE1.sha256
 fin 0
 JOB
 $S "nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null & sleep 3; echo launched"
@@ -98,8 +119,8 @@ while :; do
 done
 $S "grep -vE 'Loading weights|Writing model' /workspace/abst0_p1.log" | tail -40
 $S "cd /workspace && tar cf - abst0_phase1.tar.gz abst0_phase1.tar.gz.sha256 abst0_p1.log boot.log" | tar xf - -C $OUT \
-  && (cd $OUT && sha256sum -c abst0_phase1.tar.gz.sha256) && cp $OUT/abst0_phase1.tar.gz $DL/ \
-  && echo "== downloaded + verified: $OUT/abst0_phase1.tar.gz (copy in Downloads)" \
+  && (cd $OUT && sha256sum -c abst0_phase1.tar.gz.sha256) && preserve && cp $OUT/abst0_phase1.tar.gz $DL/ \
+  && echo "== downloaded + verified: $OUT/abst0_phase1.tar.gz (copy in Downloads); calibration checkpoints in $OUT/ckpt" \
   && runpodctl pod remove $POD >/dev/null && echo "== pod removed" && DONE=1
 [ "$DONE" = 1 ] || { echo "== download did not complete"; exit 1; }
 EX=$(grep -o 'ABST0 P1 DONE exit=[0-9]*' $OUT/abst0_p1.log | tail -1 | cut -d= -f2); echo "== ABST-0 phase 1 exit: ${EX:-UNKNOWN}"
