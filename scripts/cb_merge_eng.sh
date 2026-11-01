@@ -64,7 +64,7 @@ echo "BOOT OK"
 BOOT
 $S "grep -q 'BOOT OK' /workspace/me_boot.log" || { echo "STOP: boot failed - see $OUT/failed_pod.log"; exit 1; }
 echo "== uploading the checkpoints (~4 GB)"
-tar cf - -C $CK/ckpt results | $S "mkdir -p /workspace/ck && tar xf - -C /workspace/ck" \
+tar cf - -C $CK/ckpt results | $S "mkdir -p /workspace/ck && tar xf - --no-same-owner -C /workspace/ck" \
   && cat $CK/cons0a_ckpt.sha256 | $S "cd /workspace/ck && sha256sum -c --quiet -" \
   && echo "== checkpoints uploaded and verified on the pod" || { echo "STOP: checkpoint upload/verification failed"; exit 1; }
 $S "cd $D && nohup /workspace/venv/bin/python scripts/merge_eng.py --run2 results/cons0a_run2 --ckpts /workspace/ck/results/cons0a \
