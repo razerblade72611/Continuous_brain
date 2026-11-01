@@ -68,7 +68,7 @@ echo "== pod $POD ($GPU)"
 eval "$(runpodctl ssh info $POD | python3 -c 'import sys,json;d=json.load(sys.stdin);print("IP=%s PORT=%s" % (d["ip"], d["port"]))')"
 S="ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=30 -o ServerAliveCountMax=6 -i $K -p $PORT root@$IP"   # a dead connection fails in ~3 min
 echo "== boot: run 2's exact environment, model + tokenizer, pure tests (10-15 min)"
-$S "cat > /workspace/boot.sh" <<'BOOT'
+$S "cat > /workspace/boot.sh" <<'BOOT' || { echo "STOP: could not upload boot.sh"; exit 1; }
 set -Eeuo pipefail
 exec > /workspace/boot.log 2>&1
 trap 'rc=$?; [ $rc = 0 ] || echo "STOP: boot failed (exit $rc)"' EXIT
@@ -94,16 +94,23 @@ tail -1 /workspace/pytest.log
 find $D -name __pycache__ -prune -exec rm -rf {} +
 echo "BOOT OK"
 BOOT
-# boot runs detached on the pod (a dropped connection cannot stall it); poll its log for BOOT OK / STOP, 40 min max
-$S "D=$D PIN=$PIN REV=$REV nohup bash /workspace/boot.sh > /dev/null 2>&1 < /dev/null & echo boot started" || { echo "STOP: could not start boot"; exit 1; }
-shown=0; t0=$(date +%s)
+# boot runs detached on the pod (a dropped connection cannot stall it). Upload and start are verified; the launcher
+# then polls boot.log. The 40-min deadline is checked on EVERY iteration (also after failed or empty polls); a reachable
+# pod with no milestone yet is distinguished from a connection failure (POLL_OK marker). Timeout -> exit -> cleanup.
+[ "$($S "test -s /workspace/boot.sh && bash -n /workspace/boot.sh && echo UPLOAD_OK" 2>/dev/null)" = UPLOAD_OK ] \
+  || { echo "STOP: boot.sh did not upload intact"; exit 1; }
+[ "$($S "D=$D PIN=$PIN REV=$REV nohup bash /workspace/boot.sh > /dev/null 2>&1 < /dev/null & sleep 3; test -f /workspace/boot.log && echo STARTED" 2>/dev/null)" = STARTED ] \
+  || { echo "STOP: boot did not start (no boot.log)"; exit 1; }
+shown=0; t0=$(date +%s); BOOT_DEADLINE=${BOOT_DEADLINE:-2400}
 while :; do
-  sleep 30
-  L=$($S "grep -E '^(ENV|BOOT|STOP|[0-9]+ passed|FAILED)' /workspace/boot.log 2>/dev/null" 2>/dev/null) || { echo "$(date +%H:%M) (pod not reachable this time; retrying)"; continue; }
-  n=$(printf '%s\n' "$L" | grep -c . ); [ "$n" -gt "$shown" ] && { printf '%s\n' "$L" | tail -n $((n - shown)); shown=$n; }
+  [ $(( $(date +%s) - t0 )) -gt $BOOT_DEADLINE ] && { echo "STOP: boot did not finish in $((BOOT_DEADLINE / 60)) min - see $OUT/failed_pod.log"; exit 1; }
+  sleep ${BOOT_POLL:-30}
+  R=$($S "grep -E '^(ENV|BOOT|STOP|[0-9]+ passed|FAILED)' /workspace/boot.log 2>/dev/null; echo __POLL_OK__" 2>/dev/null)
+  case "$R" in *__POLL_OK__*) ;; *) echo "$(date +%H:%M) (pod not reachable this poll)"; continue;; esac
+  L=$(printf '%s\n' "$R" | grep -v '^__POLL_OK__$')
+  n=$(printf '%s\n' "$L" | grep -c .); [ "$n" -gt "$shown" ] && { printf '%s\n' "$L" | grep . | tail -n $((n - shown)); shown=$n; }
   printf '%s\n' "$L" | grep -q '^BOOT OK' && break
   printf '%s\n' "$L" | grep -q '^STOP' && { echo "STOP: boot failed - see $OUT/failed_pod.log"; exit 1; }
-  [ $(( $(date +%s) - t0 )) -gt 2400 ] && { echo "STOP: boot did not finish in 40 min - see $OUT/failed_pod.log"; exit 1; }
 done
 $S "cat > /workspace/abst0_p1.sh" <<'JOB'
 cd /workspace/Continuous_brain_abst0
