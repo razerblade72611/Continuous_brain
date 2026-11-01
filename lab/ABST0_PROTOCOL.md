@@ -355,6 +355,16 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - Sol writes an independent re-implementation of the analysis. Counts, denominators, per-seed metrics,
       integrity, criteria and verdict are all compared.
     - Sol works on sol/* PRs where available. Next designs are drafted independently, then merged.
+  - **Blind-audit mechanics** (scripts/abst0_blind_audit.py; regression tests/test_abst0_blind_audit.sh). This is
+    tooling only and does not touch the files under CODE_HASH.
+    - `export` pools the four seeds' audit samples into one shuffled list of {audit_id, memory, question}. Both
+      auditors label this same list, so neither sees seed, sleep, entity, transition membership or verifier output.
+    - The id→source key and the shuffle secret stay out of the public repo until both label sets are frozen, then
+      are committed with them.
+    - Each label file is bound to the blind list's sha256 and marked frozen. `bind` maps Claude's labels into the
+      protocol's audit_labels_seed{S}.json, which must pass `validate_audit`; this file is what phase 2 consumes.
+    - `compare` reports the 3×3 table, raw agreement, Cohen's κ (overall and per sleep) and the disagreement ids.
+      This is descriptive only; no label from either auditor changes training items.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
