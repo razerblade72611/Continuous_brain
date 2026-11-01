@@ -290,6 +290,21 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
   training. The tiny-model plumbing tests are the only exception: their 300-token BPE inflates lengths. Real QA items
   are about 80–100 tokens.
 
+- **v3.1 (Sol's review of a0d970d).**
+  - **Gold values.** `validate_eval` compares every evaluator-owned field, **including gold values** (value, old,
+    new), with freshly generated probes. All measures are computed by `regrade`, against the fresh gold, never from
+    a file. Two twins carrying the same forged gold fail.
+  - **Upstream provenance.**
+    - Prep and train provenance must equal the frozen code hash and model, checked by train, calchoose and analyze.
+    - Phase 1 records `CODE_HASH` (`abst0.py codehash`). Phase 2 runs at a later commit (it adds the audited
+      artifacts) and must reproduce the same executable/data hash. The relationship between the two commits is
+      written to `PINS.json`.
+  - **Evidence preservation.**
+    - Every launcher archives and hashes all checkpoints and results on the pod, and verifies the off-pod copy
+      before removing it. This includes phase 1's calibration checkpoints.
+    - On any failure with evidence on the pod, if preservation fails, the pod is **stopped and kept**, never removed.
+  - **Launch guards.** Launchers refuse an unresolved PIN. The boot tests are `-m "not slow"`.
+
 ## Integrity and operations
 - **Provenance.** Pinned commit; model and tokenizer equal the CLS-0B manifest; run 2's exact pip freeze.
 - **Resume key.** Every stage output records sha256 of the code, model manifest, stream, QA, negative corpus, its

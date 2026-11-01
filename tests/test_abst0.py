@@ -239,6 +239,27 @@ def test_end_to_end_tiny(tmp_path):
     assert anp["verdict"] == "ABST0_INVALID" and "U" in anp["invalid_arms"]
     assert any("ckpt_sha256" in e for e in anp["integrity"]["12:U:2"]["validation_errors"])
     (d / "eval_U_s2_merged.json").write_text(good)
+    # both twins carry the same forged gold labels: twin agreement must not rescue them
+    keep = {m: (d / f"eval_U_s4_{m}.json").read_text() for m in ("merged", "unmerged")}
+    for m in ("merged", "unmerged"):
+        ev4 = json.loads(keep[m])
+        for r in ev4["rows"]:
+            if r["cat"] == "POS":
+                r.update(value="Zzzforged", answer="Zzzforged", outcome="correct")
+        (d / f"eval_U_s4_{m}.json").write_text(json.dumps(ev4))
+    run("analyze", "--dir", tmp_path / "evals", "--seeds", "12", "--out", tmp_path / "anf.json", "--test-mode")
+    anf = json.loads((tmp_path / "anf.json").read_text())
+    assert anf["verdict"] == "ABST0_INVALID" and "U" in anf["invalid_arms"] and anf["integrity"]["12:U:4"]["ok"]
+    for m in ("merged", "unmerged"):
+        (d / f"eval_U_s4_{m}.json").write_text(keep[m])
+    # a train log from different code is rejected upstream
+    tlog = (d / "train_seed12.json").read_text()
+    tl = json.loads(tlog); tl["provenance"]["code"] = "0" * 64
+    (d / "train_seed12.json").write_text(json.dumps(tl))
+    run("analyze", "--dir", tmp_path / "evals", "--seeds", "12", "--out", tmp_path / "anc.json", "--test-mode")
+    anc = json.loads((tmp_path / "anc.json").read_text())
+    assert anc["verdict"] == "ABST0_INVALID" and any("frozen code/model" in e for e in anc["errors"])
+    (d / "train_seed12.json").write_text(tlog)
     # an unmerged evaluation that disagrees invalidates that arm
     orig_p3 = (d / "eval_P_s3_unmerged.json").read_text()
     bad = json.loads(orig_p3); bad["rows"][0]["answer"] = "zzz"
@@ -319,6 +340,11 @@ def test_validate_eval():
     assert X.validate_eval(dict(ev, rows=rows[1:]), st, LG, exp)                      # not the expected inventory
     wrong = [dict(r) for r in rows]; wrong[0]["outcome"] = "correct"
     assert X.validate_eval(dict(ev, rows=wrong), st, LG, exp)                         # outcome must follow the answer
+    # Sol's reproduction: invented gold values + matching answers + "correct" outcomes must not validate
+    forged = [dict(r, value="Zzzforged", answer="Zzzforged", outcome="correct") if r["cat"] == "POS" else dict(r)
+              for r in rows]
+    assert X.validate_eval(dict(ev, rows=forged), st, LG, exp)
+    assert all(r["outcome"] != "correct" for r in X.regrade(forged, st, 2, LG) if r["cat"] == "POS")
 
 
 @pytest.mark.slow

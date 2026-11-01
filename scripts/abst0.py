@@ -611,6 +611,8 @@ def stage_train(a):
             sys.exit("TRAIN: production training needs --model-manifest-sha and a non-test prep")
         if prep["provenance"].get("model_manifest") != a.model_manifest_sha:
             sys.exit("TRAIN: prep was built with a different model")
+        if prep["provenance"].get("code") != code_hash():
+            sys.exit("TRAIN: prep was built by different code (frozen executable/data hash differs)")
         if a.calibration:
             if seed != CAL_SEED:
                 sys.exit("TRAIN: --calibration is only for the calibration seed")
@@ -782,13 +784,21 @@ def validate_eval(ev, st, lg, expect):
     pr = ev.get("ppl_ratio", {})
     if set(pr) != set(MONITORS) or not all(isinstance(x, (int, float)) and math.isfinite(x) for x in pr.values()):
         errs.append(f"competence monitors {sorted(pr)} not exactly {MONITORS} with finite values")
-    want = [(p["cat"], p["key"], p["kind"], p["item"]) for p in probes(st, expect["sleep"], lg)]
-    got = [(r["cat"], r["key"], r["kind"], r["item"]) for r in ev.get("rows", [])]
+    exp_probes = probes(st, expect["sleep"], lg)
+    owned = ("cat", "key", "kind", "item", "value", "old", "new")         # every evaluator-owned field
+    want = [tuple(p.get(k) for k in owned) for p in exp_probes]
+    got = [tuple(r.get(k) for k in owned) for r in ev.get("rows", [])]
     if got != want:
-        errs.append(f"probe inventory differs from the expected inventory ({len(got)} vs {len(want)})")
-    if any(r.get("outcome") != outcome(r.get("answer"), r.get("value")) for r in ev.get("rows", [])):
-        errs.append("stored outcome classes do not match the answers")
+        errs.append(f"probes (incl. gold values) differ from the freshly generated expected probes "
+                    f"({len(got)} vs {len(want)} rows)")
+    elif any(r.get("outcome") != outcome(r.get("answer"), p["value"]) for r, p in zip(ev["rows"], exp_probes)):
+        errs.append("stored outcome classes do not match the answers graded against the expected gold values")
     return errs
+
+
+def regrade(rows, st, L, lg):
+    """Rows with outcomes recomputed against freshly generated probes (gold values never taken from a file)."""
+    return [dict(r, value=p["value"], outcome=outcome(r["answer"], p["value"])) for r, p in zip(rows, probes(st, L, lg))]
 
 
 def stage_analyze(a):
@@ -811,6 +821,11 @@ def stage_analyze(a):
         st, psha = prep["stream"], sha(pf.read_bytes())
         if tr["provenance"]["prep_sha256"] != psha or tr["seed"] != s:
             errs.append(f"seed {s}: train log does not belong to this prep")
+        for nm, pv in (("prep", prep["provenance"]), ("train", tr["provenance"])):
+            if pv.get("code") != code or pv.get("model_manifest") != a.model_manifest_sha:
+                errs.append(f"seed {s}: {nm} provenance is not the frozen code/model")
+        if prep["provenance"].get("seed") != s:
+            errs.append(f"seed {s}: prep is for seed {prep['provenance'].get('seed')}")
         if not a.test_mode and (prep["provenance"].get("test_mode") or tr["provenance"].get("test_mode")):
             errs.append(f"seed {s}: test-mode artifacts in a production analysis")
         if not xf.exists() or sha(xf.read_bytes()) != tr.get("exposure_sha256"):
@@ -846,7 +861,7 @@ def stage_analyze(a):
                         invalid.add(arm)
                 elif e_:
                     errs.append(f"seed {s} N sleep {L}: {e_}")
-                M[arm][s][L] = measures(ev["rows"], st, expo) if ev else {}
+                M[arm][s][L] = measures(regrade(ev["rows"], st, L, lg), st, expo) if ev and not e_ else {}
                 ppl[arm][s][L] = ev["ppl_ratio"] if ev else {k: float("inf") for k in MONITORS}
                 if ev:
                     for r in ev["rows"]:
@@ -905,8 +920,10 @@ def stage_calchoose(a):
     pf = d / f"prep_seed{CAL_SEED}.json"
     prep = json.loads(pf.read_text()); st, psha = prep["stream"], sha(pf.read_bytes())
     errs, res = [], {"which": "ABST-0 calibration", "seed": CAL_SEED, "prep_sha256": psha, "passes": {}}
-    if prep["provenance"]["seed"] != CAL_SEED or prep["provenance"].get("test_mode") and not a.test_mode:
-        errs.append("calibration prep is not a production seed-16 prep")
+    pp = prep["provenance"]
+    if pp["seed"] != CAL_SEED or pp.get("test_mode") != a.test_mode or pp.get("code") != code_hash() or \
+            pp.get("model_manifest") != a.model_manifest_sha:
+        errs.append("calibration prep is not a seed-16 prep from the frozen code/model in this mode")
     ms = a.model_manifest_sha
     base_exp = {"seed": CAL_SEED, "prep_sha256": psha, "sleep": 1, "model_manifest": ms, "test_mode": a.test_mode,
                 "code": code_hash()}
@@ -914,7 +931,7 @@ def stage_calchoose(a):
     n_ev = json.loads(nf.read_text()) if nf.exists() else {}
     errs += [f"N: {e}" for e in validate_eval(n_ev, st, lg, base_exp | {"mode": "base", "ckpt_sha256": None})] if n_ev \
         else ["N evaluation missing"]
-    nm = measures(n_ev.get("rows", []), st) if n_ev else {}
+    nm = measures(regrade(n_ev["rows"], st, 1, lg), st) if n_ev else {}
     res["N_FRESH_unknown"], res["N_HNM_unknown"] = nm.get("FRESH_unknown"), nm.get("HNM_unknown")
     chosen = None
     for E in C.PASSES:
@@ -924,15 +941,17 @@ def stage_calchoose(a):
             errs.append(f"E{E}: missing train/merged/unmerged outputs"); res["passes"][E] = {"missing": True}; continue
         tr, ev, eu = (json.loads(f.read_text()) for f in (tf, fm, fu))
         ck = tr["arms"]["P"]["1"]["ckpt_sha256"]
-        e_errs = [] if (tr["provenance"]["E"] == E and tr["provenance"]["prep_sha256"] == psha and tr["seed"] == CAL_SEED) \
-            else [f"E{E}: train log does not match seed 16 / E / prep"]
+        tp = tr["provenance"]
+        e_errs = [] if (tp["E"] == E and tp["prep_sha256"] == psha and tr["seed"] == CAL_SEED and tp.get("code") == code_hash()
+                        and tp.get("model_manifest") == a.model_manifest_sha and tp.get("test_mode") == a.test_mode) \
+            else [f"E{E}: train log does not match seed 16 / E / prep / frozen code / model / mode"]
         e_errs += [f"E{E} merged: {x}" for x in validate_eval(ev, st, lg, base_exp | {"mode": "merged", "ckpt_sha256": ck})]
         e_errs += [f"E{E} unmerged: {x}" for x in validate_eval(eu, st, lg, base_exp | {"mode": "unmerged", "ckpt_sha256": ck})]
         chk = integrity(ev, eu)
         if not chk["ok"]:
             e_errs.append(f"E{E}: merged/unmerged integrity failed")
         errs += e_errs
-        m = measures(ev["rows"], st)                          # recomputed from validated rows, not stored measures
+        m = measures(regrade(ev["rows"], st, 1, lg), st)      # recomputed against fresh gold, not stored values
         ok = not e_errs and (m["POS_tmpl_correct"] or 0) >= 0.80 and all(v <= TH["ppl_mean"] for v in ev["ppl_ratio"].values())
         res["passes"][E] = {"measures": m, "ppl_ratio": ev["ppl_ratio"], "integrity": chk, "errors": e_errs, "ok": ok}
         if ok and chosen is None:
@@ -969,7 +988,10 @@ def main():
     u.add_argument("--audit-labels", required=True); u.add_argument("--train"); u.add_argument("--out", required=True)
     c = sp.add_parser("calchoose"); c.add_argument("--dir", required=True); c.add_argument("--out", required=True)
     c.add_argument("--model-manifest-sha", default=""); c.add_argument("--test-mode", action="store_true")
+    sp.add_parser("codehash")
     a = ap.parse_args()
+    if a.cmd == "codehash":
+        print(code_hash()); return
     {"prep": stage_prep, "train": stage_train, "evalck": stage_evalck, "analyze": stage_analyze,
      "calchoose": stage_calchoose, "auditstats": stage_auditstats}[a.cmd](a)
 
