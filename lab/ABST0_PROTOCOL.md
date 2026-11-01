@@ -1,7 +1,7 @@
-# ABST-0 protocol: learning a support boundary during consolidation (v1 for review; 2026-11-01)
+# ABST-0 protocol: learning a support boundary during consolidation (v2 for freeze review; 2026-11-01)
 
 Claude (build), Sol (review). This supersedes lab/ABST0_PROPOSAL.md and incorporates Sol's required revisions of
-2026-11-01.
+2026-11-01: the proposal review, and the v1 review (six corrections).
 
 **Status: training on HOLD** until Sol approves this protocol and its implementation. The code is authoritative once
 frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed test.
@@ -41,6 +41,12 @@ frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed
   | 4 | 8 *transition* facts, plus 2 *update-changed* facts, plus 3 transient entities |
   | 5 | 3 transient entities, plus 7 further facts on core entities (never a planned cell) |
 
+  - **FIRST** (first-appearance) cohorts: life 1 has 8 core entities plus 2 transients; life 2 has 8 core entities and
+    no transients; lives 3–5 have 3 transients each.
+  - Life 4 has 13 facts. Budgets are matched across arms within each sleep.
+  - `check_stream` freezes uniqueness. Each transition cell has exactly one fact, at life 4. Each update cell has
+    exactly two, at life 2 and life 4. Planned cells never collide with ordinary facts.
+
 - **Core entities (16):** split, seeded, into **A** (8; may appear in negative training) and **H** (8; never appear in
   any training negative). Each half has 4 life-1 and 4 life-2 entities.
 - **Transition cells (8):** core entity × an attribute first taught in life 4. There are 4 A-cells and 4 H-cells, and
@@ -69,7 +75,7 @@ frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed
 - **Budget.** The (items, input tokens, loss tokens) of U, G and P are asserted equal at every sleep, fail-closed.
   Positive exposures are identical across arms by construction.
 
-### Negative corpora (stage `neg`; built once per seed BEFORE any training; arm-independent)
+### Negative corpora (stage `prep`; built once per seed BEFORE any training; arm-independent)
 - **Inputs.** For sleep L, only the episodes of lives ≤ L. Arm outputs are never used.
 - **String index.**
   - Index key: each A-entity's exact full name.
@@ -91,24 +97,36 @@ frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed
      TRAIN template and PARAPHRASE stem, with {e} removed), shared across seeds and sleeps;
   6. at most 3 per entity per sleep.
 - **Selection.** Accepted candidates are taken in (entity, generation) order. If there are fewer than needed, the
-  accepted set is cycled in seeded order. Repetitions and per-item exposure are logged. If an A half has zero
-  accepted items, it is filled with T-name negatives, and this is logged and reported.
-- **Construction-family separation.** All training items use the Question construction ("Question: …"). All
-  evaluation probes use the Statement construction ("Statement: <stem> ..."). No training item uses the Statement
-  construction.
+  nonempty accepted set is cycled in seeded order. Repetitions and per-item exposure are logged.
+- **Zero eligible A- or T-negatives at any sleep: corpus construction STOPS** (Sol). There is no substitution. A
+  generator revision requires an amendment before training.
+- **Construction holdout.**
+  - Training target queries use the Question construction; scored evaluation queries use the Statement
+    construction. The fixed FRAME demonstrations are shared by both.
+  - Background prose and the source episodes are not target queries.
+  - This is a single construction holdout (Question → Statement). It does not show generalisation across multiple
+    unseen negative construction families (Sol).
 - **Logged and hashed:** candidates, rejections with reasons, accepted sets, selections and exposures.
 - **Label-quality audit (predeclared, blind).**
-  - A seeded sample of 20 accepted A-entity negatives per seed per sleep is written to `audit_sample.json`.
-  - Claude audits it **before any training**, seeing only the memory text and the question, and records
-    supported / unsupported / ambiguous.
-  - The error rate is reported. Findings cannot trigger selective repairs.
-- **Transition-exposure categorisation** (frozen at `neg`, before outcomes; reporting only).
-  - An A-transition cell counts as *exposed* if any accepted negative about that entity at sleeps 1–3 is judged
-    SUPPORTED by VERIFY3 against the cell's life-4 episode text alone.
-  - This uses the future episode **only** to categorise. It never selects or forces negatives.
-  - D3 is reported for: A-cells with prior UNKNOWN supervision, A-cells without it, and H-cells. If exposed A-cells
-    are absent or sparse (< 2 per seed on average), the report says "reversal of explicitly trained UNKNOWN was not
-    adequately tested".
+  - **Sample:** min(20, number of distinct accepted A-negatives) per seed per sleep, seeded, **without
+    replacement**. At sleep 1 at most 12 candidates exist. The actual denominators are recorded.
+  - **Procedure:** written to `audit_sample_seed{S}.json`. Claude audits it **before any training**, seeing only the
+    memory text and the question. The auditor is blind to transition membership, future episodes and outcomes, and
+    records supported / unsupported / ambiguous.
+  - **Reported:** the candidate-level error rate, and the delivered exposure mass of audited supported or ambiguous
+    items (from the training schedule).
+  - Agreement between Claude and the verifier is not proof of perfect labels. Findings cannot trigger selective
+    repairs.
+- **Verifier-inferred transition exposure** (reporting only; Sol).
+  - **When:** computed after the deterministic schedule is built and before training, from UNKNOWN items **actually
+    delivered** to U at sleeps 1–3, meaning items with nonzero training exposure. Mere acceptance does not count.
+  - **Test:** a delivered item about the entity counts as exposure if VERIFY3, given only the cell's life-4 episode
+    text, labels it SUPPORTED. This is a proxy: it can recognise broad questions that episode answers without the
+    question being equivalent to the transition probe.
+  - **Recorded:** the matched questions, the episode and the exposure counts by sleep, in a **separate** file
+    (`exposure_seed{S}.json`) that the selector never reads.
+  - **D3 is reported for:** exposed A-cells, unexposed A-cells and H-cells. If exposed A-cells are absent or sparse
+    (< 2 per seed on average), the report says "reversal of explicitly trained UNKNOWN was not adequately tested".
 
 ## Evaluation (primary representation per lab/MERGE_ENG_REPORT.md; fail-closed)
 - **Representation.** Fresh process. The cortex is merged into an **fp32** copy of the base, and the adapter
@@ -172,7 +190,10 @@ frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed
     supervision was not demonstrated."
   - `ABST0_NO_ADVANCE`: functional success not met. Partial patterns are reported, e.g. "abstention at the cost of
     acquisition".
-  - `ABST0_INVALID`: U's or P's integrity failed.
+  - `ABST0_INVALID`: U's or P's integrity failed. Scientific outcomes are then descriptive only.
+  - **U and P valid, G invalid:** the functional verdict remains assessable. The mechanism comparison is **NOT
+    ASSESSABLE** (`ABST0_FUNCTIONAL_MECHANISM_NOT_ASSESSABLE` or `ABST0_NO_ADVANCE_MECHANISM_NOT_ASSESSABLE`). It is
+    never reported as "benefit not demonstrated", and FUNCTIONAL_AND_GROUNDED is never awarded with an invalid G.
 - **G and P are always reported in full:** POS, FIRST, RET, TPRE, TPOST and the negative classes, so that blanket
   abstention is visible.
 - **Every table reports jointly:** answer rate, selective accuracy (correct ÷ substantive answers) and the full outcome
@@ -183,6 +204,42 @@ frozen: scripts/abst0.py and tests/test_abst0.py. Development only; not a sealed
 - E is the smallest of {4, 8, 16} with template acquisition ≥ 0.80 and competence in band. **STOP if none passes.**
 - Also reported: N's HNM/FRESH UNKNOWN rates. **If N's exact-UNKNOWN rate on FRESH is < 0.90, STOP** and revise the
   contract once, logged.
+
+## Frozen specifications (code: scripts/abst0.py; the protocol and code must agree, and any discrepancy is corrected before execution)
+- **Prompts.** NEG_GEN, NEG_GEN_FRESH and VERIFY3, verbatim:
+```
+NEG_GEN = 'Memory: {memory}\n\nWrite three different questions about {e} that this memory does NOT answer. Each question must ask for one specific fact about {e} that the memory does not mention.\nWrite each on its own line as: Q: <question>\n'
+NEG_GEN_FRESH = 'Write three different questions about a person named {t}. Each question must ask for one specific fact about {t}.\nWrite each on its own line as: Q: <question>\n'
+VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What instrument does Mara Lind play?\nDoes the memory answer the question? Answer SUPPORTED, UNSUPPORTED or AMBIGUOUS.\nAnswer: SUPPORTED\n\nMemory: Mara Lind plays the cello every evening.\nQuestion: Which city does Mara Lind live in?\nDoes the memory answer the question? Answer SUPPORTED, UNSUPPORTED or AMBIGUOUS.\nAnswer: UNSUPPORTED\n\nMemory: Mara Lind plays the cello every evening.\nQuestion: What about Mara Lind?\nDoes the memory answer the question? Answer SUPPORTED, UNSUPPORTED or AMBIGUOUS.\nAnswer: AMBIGUOUS\n\nMemory: {memory}\nQuestion: {q}\nDoes the memory answer the question? Answer SUPPORTED, UNSUPPORTED or AMBIGUOUS.\nAnswer:'
+```
+  QA_GEN, ENTAIL, FRAME and the QA filters are CONS-0A's (scripts/cons0a.py at the pinned commit).
+- **Generation (corpus).**
+  - The frozen bf16 base, greedy (`do_sample=False`), ≤ 120 new tokens, batch 1, left padding, pad = eos.
+  - Candidate parsing (`parse_q`): lines matching `Q: <question>` that end in "?", with 3–30 words and no "|".
+- **Verifier scoring.**
+  - Each label's score is the summed token log-prob of the continuation " SUPPORTED", " UNSUPPORTED" or
+    " AMBIGUOUS" after the prompt. There is no terminator token.
+  - The label with the highest score wins. Ties go to the first label in the order SUPPORTED, UNSUPPORTED,
+    AMBIGUOUS, so a tie is never UNSUPPORTED and the item is rejected.
+  - T-name questions are judged against the empty memory "(nothing)".
+- **Name rules.**
+  - The target name must match exactly as a whole-word string.
+  - "Other name": any word of any S-pool name other than the target's own words, case-insensitive. This covers every
+    H-entity, the other A-entities and the transients.
+  - The leak filter replaces the target name (A or T) by "E" before computing token Jaccard against the fixed
+    inventory.
+- **G token matching.** A swap is accepted only if the **complete framed training sequence** (qa_ids of the swapped
+  question with target "UNKNOWN") has the same length as U's item, and VERIFY3(empty memory) = UNSUPPORTED. T names
+  are tried in a deterministic cursor order. If none matches, STOP. Budget equality of U, G and P is asserted at every
+  sleep.
+- **fp32 evaluation.**
+  - Weights: HF `from_pretrained(dtype=float32)` of the manifest bf16 safetensors, an exact upcast.
+  - Merge: W += (B @ A) · (α / r) in fp32, in place, in a fresh process, with no adapter modules installed.
+  - Numerics: `torch.backends.cuda.matmul.allow_tf32 = False`, `torch.backends.cudnn.allow_tf32 = False`, no
+    autocast, eager attention.
+  - Generation: `model.generate(do_sample=False, max_new_tokens=8)`, default KV cache, batch 16, left padding,
+    pad = eos.
+  - The merged model is evaluated in memory. A persisted merged artifact is **not** claimed.
 
 ## Integrity and operations
 - **Provenance.** Pinned commit; model and tokenizer equal the CLS-0B manifest; run 2's exact pip freeze.
