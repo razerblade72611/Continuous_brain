@@ -1,0 +1,451 @@
+{
+ "seed": 16,
+ "note": "blind audit: memory + question only; label each supported / unsupported / ambiguous",
+ "denominators": {
+  "1": 7,
+  "2": 16,
+  "3": 16,
+  "4": 19,
+  "5": 15
+ },
+ "items": [
+  {
+   "sleep": 1,
+   "entity": "Nandbrous Greis",
+   "memory": "Nandbrous Greis keeps a pet paevgrenfin. The pet Nandbrous Greis has is a paevgrenfin. Nandbrous Greis's pet is a paevgrenfin. At home, Nandbrous Greis looks after a paevgrenfin.",
+   "q": "What is the color of Nandbrous Greis's pet?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's educational background?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's favorite color as a child?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was the name of Shondshaeth Griand's childhood friend?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What specific skills or techniques does Breirthaeth Puskshos use as a meidryseer?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's occupation as an adult?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's place of residence?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's educational background?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What is Vasleisk Lyxquuv's educational background?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was the name of Shondshaeth Griand's childhood friend?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Quaththein Feirn",
+   "memory": "Quaththein Feirn's favorite object is a kouqueirnglass. The thing Quaththein Feirn treasures most is a kouqueirnglass. Of everything Quaththein Feirn owns, the favorite is a kouqueirnglass. A kouqueirnglass is Quaththein Feirn's favorite object. Quaththein Feirn lives in laethquornholt. The city Quaththein Feirn calls home is laethquornholt. Quaththein Feirn's home city is laethquornholt. laethquornholt is where Quaththein Feirn lives.",
+   "q": "What is the primary activity Quaththein Feirn engages in during their free time?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember.",
+   "q": "What are Yyvlesk Peisk's interests or hobbies?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What specific skills or techniques does Breirthaeth Puskshos use as a meidryseer?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary.",
+   "q": "What is the name of Vouxmas Vothtaes's family?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember.",
+   "q": "What is Yyvlesk Peisk's zodiac sign?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's occupation as an adult?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What city does Vasleisk Lyxquuv live in?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary.",
+   "q": "What is Vouxmas Vothtaes's favorite color?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Nandbrous Greis",
+   "memory": "Nandbrous Greis keeps a pet paevgrenfin. The pet Nandbrous Greis has is a paevgrenfin. Nandbrous Greis's pet is a paevgrenfin. At home, Nandbrous Greis looks after a paevgrenfin.",
+   "q": "What is the color of Nandbrous Greis's pet?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember.",
+   "q": "What is Yyvlesk Peisk's birthdate?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's place of residence?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's favorite color as a child?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What is Vasleisk Lyxquuv's favorite color?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's educational background?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's favorite food?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's occupation as an adult?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What is Vasleisk Lyxquuv's educational background?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What city does Vasleisk Lyxquuv live in?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's favorite color as a child?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What is Vouxmas Vothtaes's favorite color?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv.",
+   "q": "What is Vasleisk Lyxquuv's favorite color?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was the name of Shondshaeth Griand's childhood friend?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Nandbrous Greis",
+   "memory": "Nandbrous Greis keeps a pet paevgrenfin. The pet Nandbrous Greis has is a paevgrenfin. Nandbrous Greis's pet is a paevgrenfin. At home, Nandbrous Greis looks after a paevgrenfin.",
+   "q": "What is the color of Nandbrous Greis's pet?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What are Vouxmas Vothtaes's hobbies or interests outside of work?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What is Breirthaeth Puskshos's place of residence?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Quaththein Feirn",
+   "memory": "Quaththein Feirn's favorite object is a kouqueirnglass. The thing Quaththein Feirn treasures most is a kouqueirnglass. Of everything Quaththein Feirn owns, the favorite is a kouqueirnglass. A kouqueirnglass is Quaththein Feirn's favorite object. Quaththein Feirn lives in laethquornholt. The city Quaththein Feirn calls home is laethquornholt. Quaththein Feirn's home city is laethquornholt. laethquornholt is where Quaththein Feirn lives. Quaththein Feirn's hobby is quixplay. In free time, Quaththein Feirn enjoys quixplay. Quaththein Feirn spends weekends on quixplay. The pastime Quaththein Feirn loves is quixplay.",
+   "q": "What other hobbies does Quaththein Feirn have besides quixplay?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's mother?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What city was Vouxmas Vothtaes born in?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos.",
+   "q": "What specific skills or techniques does Breirthaeth Puskshos use as a meidryseer?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What are Vouxmas Vothtaes's hobbies or interests outside of work?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is Breirthaeth Puskshos's current location?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Nandbrous Greis",
+   "memory": "Nandbrous Greis keeps a pet paevgrenfin. The pet Nandbrous Greis has is a paevgrenfin. Nandbrous Greis's pet is a paevgrenfin. At home, Nandbrous Greis looks after a paevgrenfin. Nandbrous Greis works as a siansmith. By trade, Nandbrous Greis is a siansmith. Nandbrous Greis's occupation is siansmith. A siansmith by profession, that is Nandbrous Greis.",
+   "q": "What is the name of Nandbrous Greis's employer?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Quaththein Feirn",
+   "memory": "Quaththein Feirn's favorite object is a kouqueirnglass. The thing Quaththein Feirn treasures most is a kouqueirnglass. Of everything Quaththein Feirn owns, the favorite is a kouqueirnglass. A kouqueirnglass is Quaththein Feirn's favorite object. Quaththein Feirn lives in laethquornholt. The city Quaththein Feirn calls home is laethquornholt. Quaththein Feirn's home city is laethquornholt. laethquornholt is where Quaththein Feirn lives. Quaththein Feirn's hobby is quixplay. In free time, Quaththein Feirn enjoys quixplay. Quaththein Feirn spends weekends on quixplay. The pastime Quaththein Feirn loves is quixplay. Quaththein Feirn lives in viarsouskholt. The city Quaththein Feirn calls home is viarsouskholt. Quaththein Feirn's home city is viarsouskholt. viarsouskholt is where Quaththein Feirn lives.",
+   "q": "What is the color of Quaththein Feirn's favorite kouqueirnglass?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's occupation as an adult?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What city was Vouxmas Vothtaes born in?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is the name of Breirthaeth Puskshos's pet?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is Breirthaeth Puskshos's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's favorite food?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was the name of Shondshaeth Griand's childhood friend?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's favorite color as a child?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv. Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object.",
+   "q": "What is the name of Vasleisk Lyxquuv's family?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes.",
+   "q": "What is Vouxmas Vothtaes's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Thundthath Veir",
+   "memory": "Thundthath Veir's favorite object is a kolgrysstone. The thing Thundthath Veir treasures most is a kolgrysstone. Of everything Thundthath Veir owns, the favorite is a kolgrysstone. A kolgrysstone is Thundthath Veir's favorite object. Thundthath Veir keeps a pet kasling. The pet Thundthath Veir has is a kasling. Thundthath Veir's pet is a kasling. At home, Thundthath Veir looks after a kasling.",
+   "q": "What is Thundthath Veir's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv. Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object.",
+   "q": "What is the name of Vasleisk Lyxquuv's hometown?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Thundthath Veir",
+   "memory": "Thundthath Veir's favorite object is a kolgrysstone. The thing Thundthath Veir treasures most is a kolgrysstone. Of everything Thundthath Veir owns, the favorite is a kolgrysstone. A kolgrysstone is Thundthath Veir's favorite object. Thundthath Veir keeps a pet kasling. The pet Thundthath Veir has is a kasling. Thundthath Veir's pet is a kasling. At home, Thundthath Veir looks after a kasling.",
+   "q": "What is the color of Thundthath Veir's kolgrysstone?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Nandbrous Greis",
+   "memory": "Nandbrous Greis keeps a pet paevgrenfin. The pet Nandbrous Greis has is a paevgrenfin. Nandbrous Greis's pet is a paevgrenfin. At home, Nandbrous Greis looks after a paevgrenfin. Nandbrous Greis works as a siansmith. By trade, Nandbrous Greis is a siansmith. Nandbrous Greis's occupation is siansmith. A siansmith by profession, that is Nandbrous Greis.",
+   "q": "What is the name of Nandbrous Greis's workplace?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's mother?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv. Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object.",
+   "q": "What is the name of Vasleisk Lyxquuv's employer?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is the name of Breirthaeth Puskshos's pet?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was the name of Shondshaeth Griand's childhood friend?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Thundthath Veir",
+   "memory": "Thundthath Veir's favorite object is a kolgrysstone. The thing Thundthath Veir treasures most is a kolgrysstone. Of everything Thundthath Veir owns, the favorite is a kolgrysstone. A kolgrysstone is Thundthath Veir's favorite object. Thundthath Veir keeps a pet kasling. The pet Thundthath Veir has is a kasling. Thundthath Veir's pet is a kasling. At home, Thundthath Veir looks after a kasling.",
+   "q": "What is the color of Thundthath Veir's kolgrysstone?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes. Vouxmas Vothtaes keeps a pet fourrook. The pet Vouxmas Vothtaes has is a fourrook. Vouxmas Vothtaes's pet is a fourrook. At home, Vouxmas Vothtaes looks after a fourrook.",
+   "q": "What is the population of the town where Vouxmas Vothtaes lives?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv. Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object. Vasleisk Lyxquuv keeps a pet felhound. The pet Vasleisk Lyxquuv has is a felhound. Vasleisk Lyxquuv's pet is a felhound. At home, Vasleisk Lyxquuv looks after a felhound.",
+   "q": "What is the name of Vasleisk Lyxquuv's hometown?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is Breirthaeth Puskshos's current location?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's occupation as an adult?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's mother?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shondshaeth Griand",
+   "memory": "As a child, Shondshaeth Griand was afraid of rolnyrfen. Shondshaeth Griand's childhood fear was rolnyrfen. When Shondshaeth Griand was young, rolnyrfen frightened them. The fear Shondshaeth Griand had as a child was rolnyrfen.",
+   "q": "What was Shondshaeth Griand's favorite color as a child?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Thundthath Veir",
+   "memory": "Thundthath Veir's favorite object is a kolgrysstone. The thing Thundthath Veir treasures most is a kolgrysstone. Of everything Thundthath Veir owns, the favorite is a kolgrysstone. A kolgrysstone is Thundthath Veir's favorite object. Thundthath Veir keeps a pet kasling. The pet Thundthath Veir has is a kasling. Thundthath Veir's pet is a kasling. At home, Thundthath Veir looks after a kasling.",
+   "q": "What is Thundthath Veir's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Breirthaeth Puskshos",
+   "memory": "Breirthaeth Puskshos works as a meidryseer. By trade, Breirthaeth Puskshos is a meidryseer. Breirthaeth Puskshos's occupation is meidryseer. A meidryseer by profession, that is Breirthaeth Puskshos. Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot.",
+   "q": "What is Breirthaeth Puskshos's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Yyvlesk Peisk",
+   "memory": "Yyvlesk Peisk was born in the month of brusklaeskember. Yyvlesk Peisk's birth month is brusklaeskember. Yyvlesk Peisk celebrates a birthday in brusklaeskember. The month Yyvlesk Peisk was born in is brusklaeskember. Yyvlesk Peisk keeps a pet quuthmulmoth. The pet Yyvlesk Peisk has is a quuthmulmoth. Yyvlesk Peisk's pet is a quuthmulmoth. At home, Yyvlesk Peisk looks after a quuthmulmoth.",
+   "q": "What is the name of Yyvlesk Peisk's favorite food?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Vouxmas Vothtaes",
+   "memory": "Vouxmas Vothtaes was born in the month of rurdromary. Vouxmas Vothtaes's birth month is rurdromary. Vouxmas Vothtaes celebrates a birthday in rurdromary. The month Vouxmas Vothtaes was born in is rurdromary. Vouxmas Vothtaes works as a permonger. By trade, Vouxmas Vothtaes is a permonger. Vouxmas Vothtaes's occupation is permonger. A permonger by profession, that is Vouxmas Vothtaes. Vouxmas Vothtaes keeps a pet fourrook. The pet Vouxmas Vothtaes has is a fourrook. Vouxmas Vothtaes's pet is a fourrook. At home, Vouxmas Vothtaes looks after a fourrook.",
+   "q": "What is the favorite color of Vouxmas Vothtaes?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Vasleisk Lyxquuv",
+   "memory": "Vasleisk Lyxquuv works as a shorsmith. By trade, Vasleisk Lyxquuv is a shorsmith. Vasleisk Lyxquuv's occupation is shorsmith. A shorsmith by profession, that is Vasleisk Lyxquuv. Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object. Vasleisk Lyxquuv keeps a pet felhound. The pet Vasleisk Lyxquuv has is a felhound. Vasleisk Lyxquuv's pet is a felhound. At home, Vasleisk Lyxquuv looks after a felhound.",
+   "q": "What is the name of Vasleisk Lyxquuv's employer?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Quaththein Feirn",
+   "memory": "Quaththein Feirn's favorite object is a kouqueirnglass. The thing Quaththein Feirn treasures most is a kouqueirnglass. Of everything Quaththein Feirn owns, the favorite is a kouqueirnglass. A kouqueirnglass is Quaththein Feirn's favorite object. Quaththein Feirn lives in laethquornholt. The city Quaththein Feirn calls home is laethquornholt. Quaththein Feirn's home city is laethquornholt. laethquornholt is where Quaththein Feirn lives. Quaththein Feirn's hobby is quixplay. In free time, Quaththein Feirn enjoys quixplay. Quaththein Feirn spends weekends on quixplay. The pastime Quaththein Feirn loves is quixplay. Quaththein Feirn lives in viarsouskholt. The city Quaththein Feirn calls home is viarsouskholt. Quaththein Feirn's home city is viarsouskholt. viarsouskholt is where Quaththein Feirn lives.",
+   "q": "What is the color of Quaththein Feirn's favorite kouqueirnglass?"
+  }
+ ]
+}

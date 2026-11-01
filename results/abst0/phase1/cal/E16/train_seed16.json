@@ -1,0 +1,268 @@
+{
+ "which": "ABST-0 train",
+ "seed": 16,
+ "provenance": {
+  "code": "26d692296777bac5c3f12fdd37b1a90f4b1adb7818725375e801861f44d143c4",
+  "prep_sha256": "912878f502ee36cb577235dc16344db9285d8e677a87d48073c662ba45c0c8ff",
+  "E": 16,
+  "arms": "P",
+  "sleeps": 1,
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "calibration_result_sha256": null,
+  "audit_labels_sha256": null
+ },
+ "sleeps": {
+  "1": {
+   "budget": [
+    960,
+    71031,
+    4960
+   ],
+   "n_new": 24,
+   "n_third": 192,
+   "replay_exposure": {},
+   "third": {
+    "nA": 96,
+    "nT": 96,
+    "A_exposure": [
+     {
+      "q": "What is Breirthaeth Puskshos's place of residence?",
+      "entity": "Breirthaeth Puskshos",
+      "exposures": 14
+     },
+     {
+      "q": "What specific skills or techniques does Breirthaeth Puskshos use as a meidryseer?",
+      "entity": "Breirthaeth Puskshos",
+      "exposures": 14
+     },
+     {
+      "q": "What is Breirthaeth Puskshos's educational background?",
+      "entity": "Breirthaeth Puskshos",
+      "exposures": 13
+     },
+     {
+      "q": "What is the color of Nandbrous Greis's pet?",
+      "entity": "Nandbrous Greis",
+      "exposures": 14
+     },
+     {
+      "q": "What was Shondshaeth Griand's favorite color as a child?",
+      "entity": "Shondshaeth Griand",
+      "exposures": 14
+     },
+     {
+      "q": "What was the name of Shondshaeth Griand's childhood friend?",
+      "entity": "Shondshaeth Griand",
+      "exposures": 13
+     },
+     {
+      "q": "What was Shondshaeth Griand's occupation as an adult?",
+      "entity": "Shondshaeth Griand",
+      "exposures": 14
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is the height of Thalkyrn Mound?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is the historical significance of Thalkyrn Mound?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is the primary material used in constructing Thalkyrn Mound? Q: What is the height of Thalkyrn Mound?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Drexdrix Yix's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Drexdrix Yix have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Drexdrix Yix's current occupation?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Kathsiax Neix's date of birth?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Kathsiax Neix's place of birth?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Kathsiax Neix's profession? Q: What is Kathsiax Neix's date of birth?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Broursath Shasktheis's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Broursath Shasktheis have?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Broursath Shasktheis's profession? Q: What is Broursath Shasktheis's favorite color?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Teimkeis Dresbraev's date of birth?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Teimkeis Dresbraev's place of birth?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Teimkeis Dresbraev's profession? Q: What is Teimkeis Dresbraev's date of birth?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Fithlouth Lyn's favorite color?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What city was Fithlouth Lyn born in?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Fithlouth Lyn's current occupation? Q: What is Fithlouth Lyn's favorite color?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "What is Filkern Shiandsux's favorite color?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "How many siblings does Filkern Shiandsux have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Filkern Shiandsux's current occupation? Q: What is Filkern Shiandsux's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Laerpask Vath's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Laerpask Vath have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Laerpask Vath's current occupation? Q: What is Laerpask Vath's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Yosheind Pendthyv's favorite color?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "How many siblings does Yosheind Pendthyv have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Yosheind Pendthyv's current occupation? Q: What is Yosheind Pendthyv's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Grivum Thulqueind's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Grivum Thulqueind have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Grivum Thulqueind's profession? Q: What is Grivum Thulqueind's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Vumnyx Pexmes's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Vumnyx Pexmes have?",
+      "entity": null,
+      "exposures": 2
+     },
+     {
+      "q": "Where was Vumnyx Pexmes born? Q: What is Vumnyx Pexmes's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "What is Tyndnisk Tho's favorite color?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "How many siblings does Tyndnisk Tho have?",
+      "entity": null,
+      "exposures": 3
+     },
+     {
+      "q": "When was Tyndnisk Tho born? Q: What is Tyndnisk Tho's favorite color?",
+      "entity": null,
+      "exposures": 3
+     }
+    ],
+    "A_pool": 7,
+    "T_pool": 36
+   },
+   "max_seq_len": 87
+  }
+ },
+ "arms": {
+  "P": {
+   "1": {
+    "updates": 120,
+    "items": 960,
+    "seconds": 27.1,
+    "loss_first": 3.8224549293518066,
+    "loss_last": 3.2519237995147705,
+    "tokens": 71031,
+    "loss_tokens": 4960,
+    "ckpt_sha256": "86d7f046ad32d7cbfcd2a40d1e8f5b5631865636acdd3b67f9b6f9352b782226"
+   }
+  }
+ },
+ "exposure_sha256": "77776663a690fb2accf5e90e478b2fa2158d4f0bad2ebe6e86b7f390e34b4987"
+}

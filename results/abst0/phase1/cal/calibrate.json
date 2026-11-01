@@ -1,0 +1,175 @@
+{
+ "which": "ABST-0 calibration",
+ "seed": 16,
+ "prep_sha256": "912878f502ee36cb577235dc16344db9285d8e677a87d48073c662ba45c0c8ff",
+ "passes": {
+  "4": {
+   "measures": {
+    "POS_correct": 0.7333333333333333,
+    "POS_tmpl_correct": 0.9,
+    "FIRST_correct": 0.7333333333333333,
+    "FIRST_tmpl_correct": 0.9,
+    "RET_correct": 0.7333333333333333,
+    "RET_tmpl_correct": 0.9,
+    "TPOST_correct": null,
+    "TPOST_tmpl_correct": null,
+    "HNM_substantive": 1.0,
+    "HNM_unknown": 0.0,
+    "HNM_empty": 0.0,
+    "ANM_substantive": 1.0,
+    "ANM_unknown": 0.0,
+    "ANM_empty": 0.0,
+    "FRESH_substantive": 1.0,
+    "FRESH_unknown": 0.0,
+    "FRESH_empty": 0.0,
+    "TPRE_substantive": 1.0,
+    "TPRE_unknown": 0.0,
+    "TPRE_empty": 0.0,
+    "TPRE_UNFAM_substantive": 1.0,
+    "TPRE_UNFAM_unknown": 0.0,
+    "TPRE_UNFAM_empty": 0.0,
+    "POS_answer_rate": 1.0,
+    "POS_selective_acc": 0.7333333333333333,
+    "TPRE_unknown_A": 0.0,
+    "TPOST_correct_A": null,
+    "TPRE_unknown_H": 0.0,
+    "TPOST_correct_H": null,
+    "TPRE_unknown_Aexp": null,
+    "TPOST_correct_Aexp": null,
+    "TPRE_unknown_Aunexp": 0.0,
+    "TPOST_correct_Aunexp": null,
+    "UPD": []
+   },
+   "ppl_ratio": {
+    "eval": 0.8541641459756227,
+    "modern": 0.8817072745565884
+   },
+   "integrity": {
+    "same_probes": true,
+    "answer_mismatches": 0,
+    "outcome_mismatches": 0,
+    "ppl_diff": {
+     "eval": 4.093419558870437e-08,
+     "modern": 6.328474166927833e-08
+    },
+    "ok": true
+   },
+   "errors": [],
+   "ok": true
+  },
+  "8": {
+   "measures": {
+    "POS_correct": 0.9333333333333333,
+    "POS_tmpl_correct": 1.0,
+    "FIRST_correct": 0.9333333333333333,
+    "FIRST_tmpl_correct": 1.0,
+    "RET_correct": 0.9333333333333333,
+    "RET_tmpl_correct": 1.0,
+    "TPOST_correct": null,
+    "TPOST_tmpl_correct": null,
+    "HNM_substantive": 1.0,
+    "HNM_unknown": 0.0,
+    "HNM_empty": 0.0,
+    "ANM_substantive": 1.0,
+    "ANM_unknown": 0.0,
+    "ANM_empty": 0.0,
+    "FRESH_substantive": 1.0,
+    "FRESH_unknown": 0.0,
+    "FRESH_empty": 0.0,
+    "TPRE_substantive": 1.0,
+    "TPRE_unknown": 0.0,
+    "TPRE_empty": 0.0,
+    "TPRE_UNFAM_substantive": 1.0,
+    "TPRE_UNFAM_unknown": 0.0,
+    "TPRE_UNFAM_empty": 0.0,
+    "POS_answer_rate": 1.0,
+    "POS_selective_acc": 0.9333333333333333,
+    "TPRE_unknown_A": 0.0,
+    "TPOST_correct_A": null,
+    "TPRE_unknown_H": 0.0,
+    "TPOST_correct_H": null,
+    "TPRE_unknown_Aexp": null,
+    "TPOST_correct_Aexp": null,
+    "TPRE_unknown_Aunexp": 0.0,
+    "TPOST_correct_Aunexp": null,
+    "UPD": []
+   },
+   "ppl_ratio": {
+    "eval": 0.8458799027238816,
+    "modern": 0.8858245566492298
+   },
+   "integrity": {
+    "same_probes": true,
+    "answer_mismatches": 0,
+    "outcome_mismatches": 0,
+    "ppl_diff": {
+     "eval": 5.515939016653704e-08,
+     "modern": 4.133780118209529e-08
+    },
+    "ok": true
+   },
+   "errors": [],
+   "ok": true
+  },
+  "16": {
+   "measures": {
+    "POS_correct": 0.8666666666666667,
+    "POS_tmpl_correct": 0.9,
+    "FIRST_correct": 0.8666666666666667,
+    "FIRST_tmpl_correct": 0.9,
+    "RET_correct": 0.8666666666666667,
+    "RET_tmpl_correct": 0.9,
+    "TPOST_correct": null,
+    "TPOST_tmpl_correct": null,
+    "HNM_substantive": 1.0,
+    "HNM_unknown": 0.0,
+    "HNM_empty": 0.0,
+    "ANM_substantive": 1.0,
+    "ANM_unknown": 0.0,
+    "ANM_empty": 0.0,
+    "FRESH_substantive": 1.0,
+    "FRESH_unknown": 0.0,
+    "FRESH_empty": 0.0,
+    "TPRE_substantive": 1.0,
+    "TPRE_unknown": 0.0,
+    "TPRE_empty": 0.0,
+    "TPRE_UNFAM_substantive": 1.0,
+    "TPRE_UNFAM_unknown": 0.0,
+    "TPRE_UNFAM_empty": 0.0,
+    "POS_answer_rate": 1.0,
+    "POS_selective_acc": 0.8666666666666667,
+    "TPRE_unknown_A": 0.0,
+    "TPOST_correct_A": null,
+    "TPRE_unknown_H": 0.0,
+    "TPOST_correct_H": null,
+    "TPRE_unknown_Aexp": null,
+    "TPOST_correct_Aexp": null,
+    "TPRE_unknown_Aunexp": 0.0,
+    "TPOST_correct_Aunexp": null,
+    "UPD": []
+   },
+   "ppl_ratio": {
+    "eval": 0.8121315489917458,
+    "modern": 0.8644883585467092
+   },
+   "integrity": {
+    "same_probes": true,
+    "answer_mismatches": 0,
+    "outcome_mismatches": 0,
+    "ppl_diff": {
+     "eval": 1.0541262696062148e-07,
+     "modern": 8.80720054663442e-08
+    },
+    "ok": true
+   },
+   "errors": [],
+   "ok": true
+  }
+ },
+ "N_FRESH_unknown": 1.0,
+ "N_HNM_unknown": 1.0,
+ "errors": [],
+ "chosen_E": 4,
+ "contract_revision_needed": false,
+ "stop": false
+}

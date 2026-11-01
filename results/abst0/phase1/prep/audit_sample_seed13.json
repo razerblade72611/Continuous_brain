@@ -1,0 +1,337 @@
+{
+ "seed": 13,
+ "note": "blind audit: memory + question only; label each supported / unsupported / ambiguous",
+ "denominators": {
+  "1": 6,
+  "2": 15,
+  "3": 12,
+  "4": 9,
+  "5": 12
+ },
+ "items": [
+  {
+   "sleep": 1,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed.",
+   "q": "What is Nythos Yeind's favorite color?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Qualtein Thiadrian",
+   "memory": "Qualtein Thiadrian lives in kalgrirnwick. The city Qualtein Thiadrian calls home is kalgrirnwick. Qualtein Thiadrian's home city is kalgrirnwick. kalgrirnwick is where Qualtein Thiadrian lives.",
+   "q": "Does Qualtein Thiadrian have any siblings?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed.",
+   "q": "Does Nythos Yeind have any siblings?"
+  },
+  {
+   "sleep": 1,
+   "entity": "Livlel Fae",
+   "memory": "Livlel Fae keeps a pet bryrntheinrook. The pet Livlel Fae has is a bryrntheinrook. Livlel Fae's pet is a bryrntheinrook. At home, Livlel Fae looks after a bryrntheinrook.",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound.",
+   "q": "Does Yyrzeiv Pilnouv have any other pets besides the quaernhound?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was Resknen Grousmian's favorite color as a child?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What is Shavfur Piav's current location?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What is Shavfur Piav's place of employment?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Qualtein Thiadrian",
+   "memory": "Qualtein Thiadrian lives in kalgrirnwick. The city Qualtein Thiadrian calls home is kalgrirnwick. Qualtein Thiadrian's home city is kalgrirnwick. kalgrirnwick is where Qualtein Thiadrian lives.",
+   "q": "Does Qualtein Thiadrian have any siblings?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Livlel Fae",
+   "memory": "Livlel Fae keeps a pet bryrntheinrook. The pet Livlel Fae has is a bryrntheinrook. Livlel Fae's pet is a bryrntheinrook. At home, Livlel Fae looks after a bryrntheinrook.",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound.",
+   "q": "What is the name of Yyrzeiv Pilnouv's quaernhound?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed. Nythos Yeind was born in the month of poil. Nythos Yeind's birth month is poil. Nythos Yeind celebrates a birthday in poil. The month Nythos Yeind was born in is poil.",
+   "q": "What is Nythos Yeind's current location?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed. Nythos Yeind was born in the month of poil. Nythos Yeind's birth month is poil. Nythos Yeind celebrates a birthday in poil. The month Nythos Yeind was born in is poil.",
+   "q": "What is Nythos Yeind's favorite color?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound.",
+   "q": "What color is Yyrzeiv Pilnouv's quaernhound?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What specific tasks does Shavfur Piav perform as a drendseer?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was the name of the place where Resknen Grousmian lived as a child?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was the name of Resknen Grousmian's childhood friend?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was Resknen Grousmian's favorite color as a child?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What is Shavfur Piav's current location?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What is Shavfur Piav's place of employment?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav.",
+   "q": "What specific tasks does Shavfur Piav perform as a drendseer?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works.",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Livlel Fae",
+   "memory": "Livlel Fae keeps a pet bryrntheinrook. The pet Livlel Fae has is a bryrntheinrook. Livlel Fae's pet is a bryrntheinrook. At home, Livlel Fae looks after a bryrntheinrook.",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed. Nythos Yeind was born in the month of poil. Nythos Yeind's birth month is poil. Nythos Yeind celebrates a birthday in poil. The month Nythos Yeind was born in is poil.",
+   "q": "What is Nythos Yeind's current location?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was the name of the place where Resknen Grousmian lived as a child?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Nythos Yeind",
+   "memory": "Nythos Yeind is allergic to lirseed. Nythos Yeind's allergy is to lirseed. lirseed gives Nythos Yeind an allergic reaction. The one thing Nythos Yeind is allergic to is lirseed. Nythos Yeind was born in the month of poil. Nythos Yeind's birth month is poil. Nythos Yeind celebrates a birthday in poil. The month Nythos Yeind was born in is poil.",
+   "q": "What is Nythos Yeind's favorite color?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound. Yyrzeiv Pilnouv lives in fysspire. The city Yyrzeiv Pilnouv calls home is fysspire. Yyrzeiv Pilnouv's home city is fysspire. fysspire is where Yyrzeiv Pilnouv lives.",
+   "q": "What does Yyrzeiv Pilnouv do for a living?"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift.",
+   "q": "What was the name of Resknen Grousmian's childhood friend?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary.",
+   "q": "What is Resknen Grousmian's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works. Mevgryl Sheir was born in the month of livember. Mevgryl Sheir's birth month is livember. Mevgryl Sheir celebrates a birthday in livember. The month Mevgryl Sheir was born in is livember.",
+   "q": "What is Mevgryl Sheir's current age?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is Shavfur Piav's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary.",
+   "q": "What is the population of Resknen Grousmian's home city?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is the name of the village where Shavfur Piav lives?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary.",
+   "q": "What is the name of Resknen Grousmian's parents?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is the name of Shavfur Piav's family?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works. Mevgryl Sheir was born in the month of livember. Mevgryl Sheir's birth month is livember. Mevgryl Sheir celebrates a birthday in livember. The month Mevgryl Sheir was born in is livember.",
+   "q": "What is Mevgryl Sheir's favorite color?"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound. Yyrzeiv Pilnouv lives in fysspire. The city Yyrzeiv Pilnouv calls home is fysspire. Yyrzeiv Pilnouv's home city is fysspire. fysspire is where Yyrzeiv Pilnouv lives.",
+   "q": "What does Yyrzeiv Pilnouv do for a living?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "memory": "Qualtein Thiadrian lives in kalgrirnwick. The city Qualtein Thiadrian calls home is kalgrirnwick. Qualtein Thiadrian's home city is kalgrirnwick. kalgrirnwick is where Qualtein Thiadrian lives. As a child, Qualtein Thiadrian was afraid of pamnavshade. Qualtein Thiadrian's childhood fear was pamnavshade. When Qualtein Thiadrian was young, pamnavshade frightened them. The fear Qualtein Thiadrian had as a child was pamnavshade. Qualtein Thiadrian's hobby is louning. In free time, Qualtein Thiadrian enjoys louning. Qualtein Thiadrian spends weekends on louning. The pastime Qualtein Thiadrian loves is louning.",
+   "q": "What is the name of Qualtein Thiadrian's favorite book?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is Shavfur Piav's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Yyrzeiv Pilnouv",
+   "memory": "Yyrzeiv Pilnouv keeps a pet quaernhound. The pet Yyrzeiv Pilnouv has is a quaernhound. Yyrzeiv Pilnouv's pet is a quaernhound. At home, Yyrzeiv Pilnouv looks after a quaernhound. Yyrzeiv Pilnouv lives in fysspire. The city Yyrzeiv Pilnouv calls home is fysspire. Yyrzeiv Pilnouv's home city is fysspire. fysspire is where Yyrzeiv Pilnouv lives.",
+   "q": "What does Yyrzeiv Pilnouv do for a living?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works. Mevgryl Sheir was born in the month of livember. Mevgryl Sheir's birth month is livember. Mevgryl Sheir celebrates a birthday in livember. The month Mevgryl Sheir was born in is livember. Mevgryl Sheir's favorite object is a shuxorb. The thing Mevgryl Sheir treasures most is a shuxorb. Of everything Mevgryl Sheir owns, the favorite is a shuxorb. A shuxorb is Mevgryl Sheir's favorite object.",
+   "q": "What is Mevgryl Sheir's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "memory": "Qualtein Thiadrian lives in kalgrirnwick. The city Qualtein Thiadrian calls home is kalgrirnwick. Qualtein Thiadrian's home city is kalgrirnwick. kalgrirnwick is where Qualtein Thiadrian lives. As a child, Qualtein Thiadrian was afraid of pamnavshade. Qualtein Thiadrian's childhood fear was pamnavshade. When Qualtein Thiadrian was young, pamnavshade frightened them. The fear Qualtein Thiadrian had as a child was pamnavshade. Qualtein Thiadrian's hobby is louning. In free time, Qualtein Thiadrian enjoys louning. Qualtein Thiadrian spends weekends on louning. The pastime Qualtein Thiadrian loves is louning.",
+   "q": "What is Qualtein Thiadrian's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "memory": "Qualtein Thiadrian lives in kalgrirnwick. The city Qualtein Thiadrian calls home is kalgrirnwick. Qualtein Thiadrian's home city is kalgrirnwick. kalgrirnwick is where Qualtein Thiadrian lives. As a child, Qualtein Thiadrian was afraid of pamnavshade. Qualtein Thiadrian's childhood fear was pamnavshade. When Qualtein Thiadrian was young, pamnavshade frightened them. The fear Qualtein Thiadrian had as a child was pamnavshade. Qualtein Thiadrian's hobby is louning. In free time, Qualtein Thiadrian enjoys louning. Qualtein Thiadrian spends weekends on louning. The pastime Qualtein Thiadrian loves is louning.",
+   "q": "Does Qualtein Thiadrian have any siblings?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary. Resknen Grousmian's hobby is tyxweave. In free time, Resknen Grousmian enjoys tyxweave. Resknen Grousmian spends weekends on tyxweave. The pastime Resknen Grousmian loves is tyxweave.",
+   "q": "What is the name of Resknen Grousmian's pet?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is the name of Shavfur Piav's family?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary. Resknen Grousmian's hobby is tyxweave. In free time, Resknen Grousmian enjoys tyxweave. Resknen Grousmian spends weekends on tyxweave. The pastime Resknen Grousmian loves is tyxweave.",
+   "q": "What is the population of Resknen Grousmian's home city?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "memory": "Shavfur Piav works as a drendseer. By trade, Shavfur Piav is a drendseer. Shavfur Piav's occupation is drendseer. A drendseer by profession, that is Shavfur Piav. Shavfur Piav's favorite object is a ketiathglass. The thing Shavfur Piav treasures most is a ketiathglass. Of everything Shavfur Piav owns, the favorite is a ketiathglass. A ketiathglass is Shavfur Piav's favorite object.",
+   "q": "What is the name of the village where Shavfur Piav lives?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "memory": "As a child, Resknen Grousmian was afraid of bryndkourdrift. Resknen Grousmian's childhood fear was bryndkourdrift. When Resknen Grousmian was young, bryndkourdrift frightened them. The fear Resknen Grousmian had as a child was bryndkourdrift. Resknen Grousmian was born in the month of siayaeary. Resknen Grousmian's birth month is siayaeary. Resknen Grousmian celebrates a birthday in siayaeary. The month Resknen Grousmian was born in is siayaeary. Resknen Grousmian's hobby is tyxweave. In free time, Resknen Grousmian enjoys tyxweave. Resknen Grousmian spends weekends on tyxweave. The pastime Resknen Grousmian loves is tyxweave.",
+   "q": "What is Resknen Grousmian's favorite color?"
+  },
+  {
+   "sleep": 5,
+   "entity": "Mevgryl Sheir",
+   "memory": "Mevgryl Sheir works at komvil Hall. Mevgryl Sheir's workplace is komvil Hall. Every weekday Mevgryl Sheir goes to work at komvil Hall. komvil Hall is where Mevgryl Sheir works. Mevgryl Sheir was born in the month of livember. Mevgryl Sheir's birth month is livember. Mevgryl Sheir celebrates a birthday in livember. The month Mevgryl Sheir was born in is livember. Mevgryl Sheir's favorite object is a shuxorb. The thing Mevgryl Sheir treasures most is a shuxorb. Of everything Mevgryl Sheir owns, the favorite is a shuxorb. A shuxorb is Mevgryl Sheir's favorite object.",
+   "q": "What does Mevgryl Sheir do in her free time?"
+  }
+ ]
+}

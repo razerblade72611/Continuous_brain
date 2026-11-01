@@ -1,0 +1,439 @@
+{
+ "prep_sha256": "e869fabc2fc2834f5ebd941c3394dc891a536d2d3fb5dfd3ea4f6b6d5cc3ce2b",
+ "auditor": "Claude",
+ "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+ "labels": [
+  {
+   "sleep": 1,
+   "entity": "Nythos Yeind",
+   "q": "What is Nythos Yeind's favorite color?",
+   "label": "unsupported",
+   "rationale": "allergy only; no favorite color",
+   "audit_id": "a0207"
+  },
+  {
+   "sleep": 1,
+   "entity": "Mevgryl Sheir",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace",
+   "audit_id": "a0021"
+  },
+  {
+   "sleep": 1,
+   "entity": "Qualtein Thiadrian",
+   "q": "Does Qualtein Thiadrian have any siblings?",
+   "label": "unsupported",
+   "rationale": "home city only; no sibling information",
+   "audit_id": "a0003"
+  },
+  {
+   "sleep": 1,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?",
+   "label": "unsupported",
+   "rationale": "workplace only; no job title",
+   "audit_id": "a0129"
+  },
+  {
+   "sleep": 1,
+   "entity": "Nythos Yeind",
+   "q": "Does Nythos Yeind have any siblings?",
+   "label": "unsupported",
+   "rationale": "allergy only; no siblings",
+   "audit_id": "a0210"
+  },
+  {
+   "sleep": 1,
+   "entity": "Livlel Fae",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?",
+   "label": "unsupported",
+   "rationale": "pet species only; no color",
+   "audit_id": "a0103"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "Does Yyrzeiv Pilnouv have any other pets besides the quaernhound?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pet Y has is a quaernhound' implies but does not state a sole pet",
+   "audit_id": "a0091"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "q": "What was Resknen Grousmian's favorite color as a child?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood favorite color",
+   "audit_id": "a0142"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0189"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's place of employment?",
+   "label": "unsupported",
+   "rationale": "occupation only; no place of employment",
+   "audit_id": "a0134"
+  },
+  {
+   "sleep": 2,
+   "entity": "Qualtein Thiadrian",
+   "q": "Does Qualtein Thiadrian have any siblings?",
+   "label": "unsupported",
+   "rationale": "home city only; no siblings",
+   "audit_id": "a0145"
+  },
+  {
+   "sleep": 2,
+   "entity": "Livlel Fae",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?",
+   "label": "unsupported",
+   "rationale": "pet species only; no color",
+   "audit_id": "a0118"
+  },
+  {
+   "sleep": 2,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?",
+   "label": "unsupported",
+   "rationale": "workplace only; no job title",
+   "audit_id": "a0075"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "What is the name of Yyrzeiv Pilnouv's quaernhound?",
+   "label": "unsupported",
+   "rationale": "pet species only; no pet name",
+   "audit_id": "a0033"
+  },
+  {
+   "sleep": 2,
+   "entity": "Nythos Yeind",
+   "q": "What is Nythos Yeind's current location?",
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no location",
+   "audit_id": "a0057"
+  },
+  {
+   "sleep": 2,
+   "entity": "Nythos Yeind",
+   "q": "What is Nythos Yeind's favorite color?",
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no favorite color",
+   "audit_id": "a0199"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "What color is Yyrzeiv Pilnouv's quaernhound?",
+   "label": "unsupported",
+   "rationale": "pet species only; no color",
+   "audit_id": "a0011"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shavfur Piav",
+   "q": "What specific tasks does Shavfur Piav perform as a drendseer?",
+   "label": "unsupported",
+   "rationale": "occupation named; tasks not described",
+   "audit_id": "a0048"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "q": "What was the name of the place where Resknen Grousmian lived as a child?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood residence",
+   "audit_id": "a0037"
+  },
+  {
+   "sleep": 2,
+   "entity": "Mevgryl Sheir",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace",
+   "audit_id": "a0013"
+  },
+  {
+   "sleep": 2,
+   "entity": "Resknen Grousmian",
+   "q": "What was the name of Resknen Grousmian's childhood friend?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend",
+   "audit_id": "a0041"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "q": "What was Resknen Grousmian's favorite color as a child?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood favorite color",
+   "audit_id": "a0173"
+  },
+  {
+   "sleep": 3,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's job title at komvil Hall?",
+   "label": "unsupported",
+   "rationale": "workplace only; no job title",
+   "audit_id": "a0065"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0018"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's place of employment?",
+   "label": "unsupported",
+   "rationale": "occupation only; no place of employment",
+   "audit_id": "a0191"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shavfur Piav",
+   "q": "What specific tasks does Shavfur Piav perform as a drendseer?",
+   "label": "unsupported",
+   "rationale": "occupation named; tasks not described",
+   "audit_id": "a0139"
+  },
+  {
+   "sleep": 3,
+   "entity": "Mevgryl Sheir",
+   "q": "Does Mevgryl Sheir have any other workplaces besides komvil Hall?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace",
+   "audit_id": "a0044"
+  },
+  {
+   "sleep": 3,
+   "entity": "Livlel Fae",
+   "q": "What is the color of Livlel Fae's bryrntheinrook?",
+   "label": "unsupported",
+   "rationale": "pet species only; no color",
+   "audit_id": "a0050"
+  },
+  {
+   "sleep": 3,
+   "entity": "Nythos Yeind",
+   "q": "What is Nythos Yeind's current location?",
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no location",
+   "audit_id": "a0164"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "q": "What was the name of the place where Resknen Grousmian lived as a child?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood residence",
+   "audit_id": "a0186"
+  },
+  {
+   "sleep": 3,
+   "entity": "Nythos Yeind",
+   "q": "What is Nythos Yeind's favorite color?",
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no favorite color",
+   "audit_id": "a0054"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "What does Yyrzeiv Pilnouv do for a living?",
+   "label": "unsupported",
+   "rationale": "pet and city; occupation not stated",
+   "audit_id": "a0099"
+  },
+  {
+   "sleep": 3,
+   "entity": "Resknen Grousmian",
+   "q": "What was the name of Resknen Grousmian's childhood friend?",
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend",
+   "audit_id": "a0030"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "q": "What is Resknen Grousmian's favorite color?",
+   "label": "unsupported",
+   "rationale": "fear and birth month; no favorite color",
+   "audit_id": "a0222"
+  },
+  {
+   "sleep": 4,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's current age?",
+   "label": "unsupported",
+   "rationale": "birth month without year; age not established",
+   "audit_id": "a0032"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color",
+   "audit_id": "a0079"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "q": "What is the population of Resknen Grousmian's home city?",
+   "label": "unsupported",
+   "rationale": "fear and birth month; no home city or population",
+   "audit_id": "a0153"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "q": "What is the name of the village where Shavfur Piav lives?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence",
+   "audit_id": "a0049"
+  },
+  {
+   "sleep": 4,
+   "entity": "Resknen Grousmian",
+   "q": "What is the name of Resknen Grousmian's parents?",
+   "label": "unsupported",
+   "rationale": "fear and birth month; no parents",
+   "audit_id": "a0101"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shavfur Piav",
+   "q": "What is the name of Shavfur Piav's family?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no family name",
+   "audit_id": "a0100"
+  },
+  {
+   "sleep": 4,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's favorite color?",
+   "label": "unsupported",
+   "rationale": "workplace and birth month; no favorite color",
+   "audit_id": "a0197"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "What does Yyrzeiv Pilnouv do for a living?",
+   "label": "unsupported",
+   "rationale": "pet and city; occupation not stated",
+   "audit_id": "a0108"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "q": "What is the name of Qualtein Thiadrian's favorite book?",
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no favorite book",
+   "audit_id": "a0084"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "q": "What is Shavfur Piav's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color",
+   "audit_id": "a0094"
+  },
+  {
+   "sleep": 5,
+   "entity": "Yyrzeiv Pilnouv",
+   "q": "What does Yyrzeiv Pilnouv do for a living?",
+   "label": "unsupported",
+   "rationale": "pet and city only; occupation not stated",
+   "audit_id": "a0035"
+  },
+  {
+   "sleep": 5,
+   "entity": "Mevgryl Sheir",
+   "q": "What is Mevgryl Sheir's favorite color?",
+   "label": "unsupported",
+   "rationale": "workplace, birth month, favorite object; no favorite color",
+   "audit_id": "a0203"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "q": "What is Qualtein Thiadrian's favorite color?",
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no favorite color",
+   "audit_id": "a0157"
+  },
+  {
+   "sleep": 5,
+   "entity": "Qualtein Thiadrian",
+   "q": "Does Qualtein Thiadrian have any siblings?",
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no siblings",
+   "audit_id": "a0146"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "q": "What is the name of Resknen Grousmian's pet?",
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no pet",
+   "audit_id": "a0074"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "q": "What is the name of Shavfur Piav's family?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no family name",
+   "audit_id": "a0023"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "q": "What is the population of Resknen Grousmian's home city?",
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no home city or population",
+   "audit_id": "a0130"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shavfur Piav",
+   "q": "What is the name of the village where Shavfur Piav lives?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence",
+   "audit_id": "a0051"
+  },
+  {
+   "sleep": 5,
+   "entity": "Resknen Grousmian",
+   "q": "What is Resknen Grousmian's favorite color?",
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no favorite color",
+   "audit_id": "a0143"
+  },
+  {
+   "sleep": 5,
+   "entity": "Mevgryl Sheir",
+   "q": "What does Mevgryl Sheir do in her free time?",
+   "label": "unsupported",
+   "rationale": "workplace, birth month, favorite object; no free-time activity",
+   "audit_id": "a0187"
+  }
+ ]
+}

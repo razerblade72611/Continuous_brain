@@ -1,0 +1,65 @@
+{
+ "which": "ABST-0 inter-auditor agreement (descriptive)",
+ "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+ "rows": "Claude",
+ "cols": "Sol",
+ "n": 231,
+ "table": {
+  "supported": {
+   "supported": 8,
+   "unsupported": 0,
+   "ambiguous": 0
+  },
+  "unsupported": {
+   "supported": 0,
+   "unsupported": 210,
+   "ambiguous": 1
+  },
+  "ambiguous": {
+   "supported": 0,
+   "unsupported": 9,
+   "ambiguous": 3
+  }
+ },
+ "raw_agreement": 0.9567099567099567,
+ "cohen_kappa": 0.6718750000000001,
+ "by_sleep": {
+  "1": {
+   "agreement": 0.9333333333333333,
+   "kappa": 0.6428571428571429,
+   "n": 30
+  },
+  "2": {
+   "agreement": 0.9473684210526315,
+   "kappa": 0.6466942148760327,
+   "n": 57
+  },
+  "3": {
+   "agreement": 0.9615384615384616,
+   "kappa": 0.736040609137056,
+   "n": 52
+  },
+  "4": {
+   "agreement": 0.9545454545454546,
+   "kappa": 0.6480000000000002,
+   "n": 44
+  },
+  "5": {
+   "agreement": 0.9791666666666666,
+   "kappa": 0.6595744680851056,
+   "n": 48
+  }
+ },
+ "disagreements": [
+  "a0013",
+  "a0015",
+  "a0021",
+  "a0044",
+  "a0067",
+  "a0091",
+  "a0104",
+  "a0160",
+  "a0179",
+  "a0206"
+ ]
+}

@@ -1,0 +1,431 @@
+{
+ "prep_sha256": "e14e27825ded05528ed361d6dc1d1bf591c054085613318324e88d1748ab25a4",
+ "auditor": "Claude",
+ "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+ "labels": [
+  {
+   "sleep": 1,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What city does Pixgriask Yaelkaend live in?",
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence",
+   "audit_id": "a0060"
+  },
+  {
+   "sleep": 1,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's educational background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no education",
+   "audit_id": "a0135"
+  },
+  {
+   "sleep": 1,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What are Seivdriarn Kipoux's hobbies or interests?",
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies",
+   "audit_id": "a0072"
+  },
+  {
+   "sleep": 1,
+   "entity": "Quussim Saer",
+   "q": "What day of the week does Quussim Saer go to work?",
+   "label": "supported",
+   "rationale": "'Every weekday Quussim Saer goes to work at lith House' answers: every weekday",
+   "audit_id": "a0195"
+  },
+  {
+   "sleep": 1,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation only; no favorite color",
+   "audit_id": "a0056"
+  },
+  {
+   "sleep": 1,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is Seivdriarn Kipoux's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color",
+   "audit_id": "a0183"
+  },
+  {
+   "sleep": 2,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What city does Pixgriask Yaelkaend live in?",
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence",
+   "audit_id": "a0175"
+  },
+  {
+   "sleep": 2,
+   "entity": "Sheimzan Fesk",
+   "q": "What is Sheimzan Fesk's current place of residence?",
+   "label": "unsupported",
+   "rationale": "occupation only; no residence",
+   "audit_id": "a0212"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What is Yeilkum Thuskfe's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color",
+   "audit_id": "a0019"
+  },
+  {
+   "sleep": 2,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is Seivdriarn Kipoux's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color",
+   "audit_id": "a0181"
+  },
+  {
+   "sleep": 2,
+   "entity": "Sheimzan Fesk",
+   "q": "What specific skills or training does Sheimzan Fesk have as a zyxbrithward?",
+   "label": "unsupported",
+   "rationale": "occupation named; skills/training not described",
+   "audit_id": "a0193"
+  },
+  {
+   "sleep": 2,
+   "entity": "Quussim Saer",
+   "q": "What time does Quussim Saer go to work each weekday?",
+   "label": "unsupported",
+   "rationale": "workplace and weekday attendance; no time",
+   "audit_id": "a0012"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yialvon Feith",
+   "q": "What specific skills or qualifications does Yialvon Feith have as a fasthiawright?",
+   "label": "unsupported",
+   "rationale": "occupation named; skills/qualifications not described",
+   "audit_id": "a0205"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yialvon Feith",
+   "q": "Has Yialvon Feith published any notable works or projects in their field?",
+   "label": "unsupported",
+   "rationale": "occupation only; no works or projects",
+   "audit_id": "a0047"
+  },
+  {
+   "sleep": 2,
+   "entity": "Sheimzan Fesk",
+   "q": "What is the name of Sheimzan Fesk's employer or organization?",
+   "label": "unsupported",
+   "rationale": "occupation only; no employer",
+   "audit_id": "a0188"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yialvon Feith",
+   "q": "What is Yialvon Feith's current residence address?",
+   "label": "unsupported",
+   "rationale": "occupation only; no address",
+   "audit_id": "a0213"
+  },
+  {
+   "sleep": 2,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What are Seivdriarn Kipoux's hobbies or interests?",
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies",
+   "audit_id": "a0209"
+  },
+  {
+   "sleep": 2,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation only; no favorite color",
+   "audit_id": "a0083"
+  },
+  {
+   "sleep": 2,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What are Yeilkum Thuskfe's hobbies or interests?",
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies",
+   "audit_id": "a0090"
+  },
+  {
+   "sleep": 2,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's educational background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no education",
+   "audit_id": "a0112"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What are Yeilkum Thuskfe's hobbies or interests?",
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies",
+   "audit_id": "a0202"
+  },
+  {
+   "sleep": 3,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's favorite color?",
+   "label": "unsupported",
+   "rationale": "memory gives only occupation; no favorite color",
+   "audit_id": "a0000"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yialvon Feith",
+   "q": "What is Yialvon Feith's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color",
+   "audit_id": "a0217"
+  },
+  {
+   "sleep": 3,
+   "entity": "Sheimzan Fesk",
+   "q": "What is the name of Sheimzan Fesk's employer or organization?",
+   "label": "unsupported",
+   "rationale": "occupation only; no employer",
+   "audit_id": "a0170"
+  },
+  {
+   "sleep": 3,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's educational background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no education",
+   "audit_id": "a0215"
+  },
+  {
+   "sleep": 3,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is Seivdriarn Kipoux's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color",
+   "audit_id": "a0225"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What is Yeilkum Thuskfe's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color",
+   "audit_id": "a0017"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yialvon Feith",
+   "q": "What is Yialvon Feith's current age?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no age",
+   "audit_id": "a0110"
+  },
+  {
+   "sleep": 3,
+   "entity": "Sheimzan Fesk",
+   "q": "What specific skills or training does Sheimzan Fesk have as a zyxbrithward?",
+   "label": "unsupported",
+   "rationale": "occupation named; skills/training not described",
+   "audit_id": "a0062"
+  },
+  {
+   "sleep": 3,
+   "entity": "Yialvon Feith",
+   "q": "Where does Yialvon Feith live?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence",
+   "audit_id": "a0177"
+  },
+  {
+   "sleep": 3,
+   "entity": "Sheimzan Fesk",
+   "q": "What is Sheimzan Fesk's current place of residence?",
+   "label": "unsupported",
+   "rationale": "occupation only; no residence",
+   "audit_id": "a0220"
+  },
+  {
+   "sleep": 3,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is the population of Seivdriarn Kipoux's hometown?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population",
+   "audit_id": "a0138"
+  },
+  {
+   "sleep": 3,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What city does Pixgriask Yaelkaend live in?",
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence",
+   "audit_id": "a0020"
+  },
+  {
+   "sleep": 4,
+   "entity": "Sheimzan Fesk",
+   "q": "Does Sheimzan Fesk have any other allergies besides purdrialseed?",
+   "label": "supported",
+   "rationale": "'The one thing Sheimzan Fesk is allergic to is purdrialseed' establishes: no other allergies",
+   "audit_id": "a0131"
+  },
+  {
+   "sleep": 4,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is Seivdriarn Kipoux's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color",
+   "audit_id": "a0087"
+  },
+  {
+   "sleep": 4,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is the population of Seivdriarn Kipoux's hometown?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population",
+   "audit_id": "a0159"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yialvon Feith",
+   "q": "What is Yialvon Feith's current age?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no age",
+   "audit_id": "a0031"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What is the name of Yeilkum Thuskfe's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color",
+   "audit_id": "a0149"
+  },
+  {
+   "sleep": 4,
+   "entity": "Sheimzan Fesk",
+   "q": "What is the name of Sheimzan Fesk's employer?",
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no employer",
+   "audit_id": "a0036"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yialvon Feith",
+   "q": "What is Yialvon Feith's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color",
+   "audit_id": "a0038"
+  },
+  {
+   "sleep": 4,
+   "entity": "Breindzourn Lourdryl",
+   "q": "What is the population of the city where Breindzourn Lourdryl was born?",
+   "label": "unsupported",
+   "rationale": "pet and birth month; no birth city or population",
+   "audit_id": "a0154"
+  },
+  {
+   "sleep": 4,
+   "entity": "Sheimzan Fesk",
+   "q": "What is Sheimzan Fesk's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no favorite color",
+   "audit_id": "a0208"
+  },
+  {
+   "sleep": 4,
+   "entity": "Yialvon Feith",
+   "q": "Where does Yialvon Feith live?",
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence",
+   "audit_id": "a0221"
+  },
+  {
+   "sleep": 5,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is Seivdriarn Kipoux's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color",
+   "audit_id": "a0165"
+  },
+  {
+   "sleep": 5,
+   "entity": "Quussim Saer",
+   "q": "What is Quussim Saer's favorite color?",
+   "label": "unsupported",
+   "rationale": "workplace, pets, hobby, birth month; no favorite color",
+   "audit_id": "a0136"
+  },
+  {
+   "sleep": 5,
+   "entity": "Seivdriarn Kipoux",
+   "q": "What is the population of Seivdriarn Kipoux's hometown?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population",
+   "audit_id": "a0069"
+  },
+  {
+   "sleep": 5,
+   "entity": "Sheimzan Fesk",
+   "q": "What is Sheimzan Fesk's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no favorite color",
+   "audit_id": "a0119"
+  },
+  {
+   "sleep": 5,
+   "entity": "Yeilkum Thuskfe",
+   "q": "What is the name of Yeilkum Thuskfe's favorite color?",
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color",
+   "audit_id": "a0014"
+  },
+  {
+   "sleep": 5,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is the name of Pixgriask Yaelkaend's birthplace?",
+   "label": "unsupported",
+   "rationale": "occupation, workplace, birth month; no birthplace",
+   "audit_id": "a0219"
+  },
+  {
+   "sleep": 5,
+   "entity": "Pixgriask Yaelkaend",
+   "q": "What is Pixgriask Yaelkaend's favorite color?",
+   "label": "unsupported",
+   "rationale": "occupation, workplace, birth month; no favorite color",
+   "audit_id": "a0116"
+  },
+  {
+   "sleep": 5,
+   "entity": "Quussim Saer",
+   "q": "What is the full name of Quussim Saer's pet kiavputhling?",
+   "label": "unsupported",
+   "rationale": "pet species named; no pet name",
+   "audit_id": "a0228"
+  },
+  {
+   "sleep": 5,
+   "entity": "Sheimzan Fesk",
+   "q": "What is the name of Sheimzan Fesk's employer?",
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no employer",
+   "audit_id": "a0042"
+  },
+  {
+   "sleep": 5,
+   "entity": "Sheimzan Fesk",
+   "q": "Does Sheimzan Fesk have any other allergies besides purdrialseed?",
+   "label": "supported",
+   "rationale": "'The one thing Sheimzan Fesk is allergic to is purdrialseed' establishes: no other allergies",
+   "audit_id": "a0022"
+  }
+ ]
+}

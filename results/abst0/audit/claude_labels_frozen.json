@@ -1,0 +1,931 @@
+{
+ "auditor": "Claude",
+ "frozen": true,
+ "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+ "labels": {
+  "a0000": {
+   "label": "unsupported",
+   "rationale": "memory gives only occupation; no favorite color"
+  },
+  "a0001": {
+   "label": "unsupported",
+   "rationale": "childhood fear and allergy only; no favorite color"
+  },
+  "a0002": {
+   "label": "unsupported",
+   "rationale": "fear and hobby only; no sibling information"
+  },
+  "a0003": {
+   "label": "unsupported",
+   "rationale": "home city only; no sibling information"
+  },
+  "a0004": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation only; no siblings"
+  },
+  "a0005": {
+   "label": "unsupported",
+   "rationale": "fear and hobby only; occupation not stated"
+  },
+  "a0006": {
+   "label": "unsupported",
+   "rationale": "allergy, city, fear; no siblings"
+  },
+  "a0007": {
+   "label": "unsupported",
+   "rationale": "allergen stated; no dosage threshold"
+  },
+  "a0008": {
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite color"
+  },
+  "a0009": {
+   "label": "unsupported",
+   "rationale": "hobby only; no favorite color"
+  },
+  "a0010": {
+   "label": "unsupported",
+   "rationale": "favorite object given; least favorite not stated"
+  },
+  "a0011": {
+   "label": "unsupported",
+   "rationale": "pet species only; no color"
+  },
+  "a0012": {
+   "label": "unsupported",
+   "rationale": "workplace and weekday attendance; no time"
+  },
+  "a0013": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace"
+  },
+  "a0014": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color"
+  },
+  "a0015": {
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference"
+  },
+  "a0016": {
+   "label": "unsupported",
+   "rationale": "hobby only; no favorite color"
+  },
+  "a0017": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0018": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0019": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0020": {
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence"
+  },
+  "a0021": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace"
+  },
+  "a0022": {
+   "label": "supported",
+   "rationale": "'The one thing Sheimzan Fesk is allergic to is purdrialseed' establishes: no other allergies"
+  },
+  "a0023": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no family name"
+  },
+  "a0024": {
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist"
+  },
+  "a0025": {
+   "label": "unsupported",
+   "rationale": "occupation only; no family background"
+  },
+  "a0026": {
+   "label": "unsupported",
+   "rationale": "occupation only; no age"
+  },
+  "a0027": {
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite color"
+  },
+  "a0028": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no siblings"
+  },
+  "a0029": {
+   "label": "ambiguous",
+   "rationale": "malformed: two questions concatenated with an embedded 'Q:'"
+  },
+  "a0030": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend"
+  },
+  "a0031": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no age"
+  },
+  "a0032": {
+   "label": "unsupported",
+   "rationale": "birth month without year; age not established"
+  },
+  "a0033": {
+   "label": "unsupported",
+   "rationale": "pet species only; no pet name"
+  },
+  "a0034": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0035": {
+   "label": "unsupported",
+   "rationale": "pet and city only; occupation not stated"
+  },
+  "a0036": {
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no employer"
+  },
+  "a0037": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood residence"
+  },
+  "a0038": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color"
+  },
+  "a0039": {
+   "label": "unsupported",
+   "rationale": "occupation only; no age"
+  },
+  "a0040": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend"
+  },
+  "a0041": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend"
+  },
+  "a0042": {
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no employer"
+  },
+  "a0043": {
+   "label": "unsupported",
+   "rationale": "workplace and weekday attendance; no arrival time"
+  },
+  "a0044": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'X's workplace is komvil Hall' / 'every weekday' implies but does not state a sole workplace"
+  },
+  "a0045": {
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite food"
+  },
+  "a0046": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no favorite color"
+  },
+  "a0047": {
+   "label": "unsupported",
+   "rationale": "occupation only; no works or projects"
+  },
+  "a0048": {
+   "label": "unsupported",
+   "rationale": "occupation named; tasks not described"
+  },
+  "a0049": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence"
+  },
+  "a0050": {
+   "label": "unsupported",
+   "rationale": "pet species only; no color"
+  },
+  "a0051": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence"
+  },
+  "a0052": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0053": {
+   "label": "unsupported",
+   "rationale": "hobby only; no siblings"
+  },
+  "a0054": {
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no favorite color"
+  },
+  "a0055": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no favorite color"
+  },
+  "a0056": {
+   "label": "unsupported",
+   "rationale": "occupation only; no favorite color"
+  },
+  "a0057": {
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no location"
+  },
+  "a0058": {
+   "label": "unsupported",
+   "rationale": "workplace name only; no address"
+  },
+  "a0059": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no family name"
+  },
+  "a0060": {
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence"
+  },
+  "a0061": {
+   "label": "unsupported",
+   "rationale": "hobby only; no siblings"
+  },
+  "a0062": {
+   "label": "unsupported",
+   "rationale": "occupation named; skills/training not described"
+  },
+  "a0063": {
+   "label": "unsupported",
+   "rationale": "fear and allergy only; occupation not stated"
+  },
+  "a0064": {
+   "label": "unsupported",
+   "rationale": "fear and hobby; no favorite color"
+  },
+  "a0065": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0066": {
+   "label": "unsupported",
+   "rationale": "hobby, city, workplace; no vacation"
+  },
+  "a0067": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pastime T loves is roxthusksong' implies but does not state a sole hobby"
+  },
+  "a0068": {
+   "label": "unsupported",
+   "rationale": "workplace and city; no free-time activity in this memory"
+  },
+  "a0069": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population"
+  },
+  "a0070": {
+   "label": "unsupported",
+   "rationale": "workplace name only; no address"
+  },
+  "a0071": {
+   "label": "ambiguous",
+   "rationale": "'the thing S treasures most is a grialbrarstone' implies a unique top object but does not rule out ties"
+  },
+  "a0072": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0073": {
+   "label": "unsupported",
+   "rationale": "fear and allergy; no pet"
+  },
+  "a0074": {
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no pet"
+  },
+  "a0075": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0076": {
+   "label": "unsupported",
+   "rationale": "hobby and city; occupation not stated"
+  },
+  "a0077": {
+   "label": "unsupported",
+   "rationale": "fear and hobby; occupation not stated"
+  },
+  "a0078": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0079": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color"
+  },
+  "a0080": {
+   "label": "unsupported",
+   "rationale": "allergen only; no medication"
+  },
+  "a0081": {
+   "label": "unsupported",
+   "rationale": "birth month and childhood fear; no occupation"
+  },
+  "a0082": {
+   "label": "unsupported",
+   "rationale": "workplace, city, hobby; no favorite color"
+  },
+  "a0083": {
+   "label": "unsupported",
+   "rationale": "occupation only; no favorite color"
+  },
+  "a0084": {
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no favorite book"
+  },
+  "a0085": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no favorite color"
+  },
+  "a0086": {
+   "label": "unsupported",
+   "rationale": "occupation only; no age"
+  },
+  "a0087": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color"
+  },
+  "a0088": {
+   "label": "supported",
+   "rationale": "'Every weekday Loxnon Peithquuv goes to work at path Hall' answers: every weekday"
+  },
+  "a0089": {
+   "label": "unsupported",
+   "rationale": "workplace only; no off-work activity"
+  },
+  "a0090": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0091": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pet Y has is a quaernhound' implies but does not state a sole pet"
+  },
+  "a0092": {
+   "label": "unsupported",
+   "rationale": "favorite object named; its color not stated"
+  },
+  "a0093": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no free-time activity"
+  },
+  "a0094": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color"
+  },
+  "a0095": {
+   "label": "unsupported",
+   "rationale": "fear stated; no causal events"
+  },
+  "a0096": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0097": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood friend"
+  },
+  "a0098": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no favorite color"
+  },
+  "a0099": {
+   "label": "unsupported",
+   "rationale": "pet and city; occupation not stated"
+  },
+  "a0100": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no family name"
+  },
+  "a0101": {
+   "label": "unsupported",
+   "rationale": "fear and birth month; no parents"
+  },
+  "a0102": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0103": {
+   "label": "unsupported",
+   "rationale": "pet species only; no color"
+  },
+  "a0104": {
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference"
+  },
+  "a0105": {
+   "label": "unsupported",
+   "rationale": "allergy, city, fear; occupation not stated"
+  },
+  "a0106": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0107": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0108": {
+   "label": "unsupported",
+   "rationale": "pet and city; occupation not stated"
+  },
+  "a0109": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no free-time activity"
+  },
+  "a0110": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no age"
+  },
+  "a0111": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no favorite color"
+  },
+  "a0112": {
+   "label": "unsupported",
+   "rationale": "occupation only; no education"
+  },
+  "a0113": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; occupation not stated"
+  },
+  "a0114": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0115": {
+   "label": "unsupported",
+   "rationale": "workplace and city; no job title"
+  },
+  "a0116": {
+   "label": "unsupported",
+   "rationale": "occupation, workplace, birth month; no favorite color"
+  },
+  "a0117": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no occupation"
+  },
+  "a0118": {
+   "label": "unsupported",
+   "rationale": "pet species only; no color"
+  },
+  "a0119": {
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no favorite color"
+  },
+  "a0120": {
+   "label": "unsupported",
+   "rationale": "hobby only; occupation not stated"
+  },
+  "a0121": {
+   "label": "supported",
+   "rationale": "'Every weekday Loxnon Peithquuv goes to work at path Hall' answers: every weekday"
+  },
+  "a0122": {
+   "label": "unsupported",
+   "rationale": "workplace only; no off-work activity"
+  },
+  "a0123": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; occupation not stated"
+  },
+  "a0124": {
+   "label": "unsupported",
+   "rationale": "hobby, city, workplace; no favorite color"
+  },
+  "a0125": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0126": {
+   "label": "unsupported",
+   "rationale": "allergen only; no medication"
+  },
+  "a0127": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no siblings"
+  },
+  "a0128": {
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist"
+  },
+  "a0129": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0130": {
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no home city or population"
+  },
+  "a0131": {
+   "label": "supported",
+   "rationale": "'The one thing Sheimzan Fesk is allergic to is purdrialseed' establishes: no other allergies"
+  },
+  "a0132": {
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist"
+  },
+  "a0133": {
+   "label": "unsupported",
+   "rationale": "workplace only; no job title"
+  },
+  "a0134": {
+   "label": "unsupported",
+   "rationale": "occupation only; no place of employment"
+  },
+  "a0135": {
+   "label": "unsupported",
+   "rationale": "occupation only; no education"
+  },
+  "a0136": {
+   "label": "unsupported",
+   "rationale": "workplace, pets, hobby, birth month; no favorite color"
+  },
+  "a0137": {
+   "label": "unsupported",
+   "rationale": "fear and hobby; no siblings"
+  },
+  "a0138": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population"
+  },
+  "a0139": {
+   "label": "unsupported",
+   "rationale": "occupation named; tasks not described"
+  },
+  "a0140": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no free-time activity"
+  },
+  "a0141": {
+   "label": "unsupported",
+   "rationale": "hobby and city; no favorite color"
+  },
+  "a0142": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood favorite color"
+  },
+  "a0143": {
+   "label": "unsupported",
+   "rationale": "fear, birth month, hobby; no favorite color"
+  },
+  "a0144": {
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist"
+  },
+  "a0145": {
+   "label": "unsupported",
+   "rationale": "home city only; no siblings"
+  },
+  "a0146": {
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no siblings"
+  },
+  "a0147": {
+   "label": "unsupported",
+   "rationale": "hobby only; no siblings"
+  },
+  "a0148": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no occupation"
+  },
+  "a0149": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color"
+  },
+  "a0150": {
+   "label": "unsupported",
+   "rationale": "occupation only; no family background"
+  },
+  "a0151": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0152": {
+   "label": "unsupported",
+   "rationale": "occupation only; no family background"
+  },
+  "a0153": {
+   "label": "unsupported",
+   "rationale": "fear and birth month; no home city or population"
+  },
+  "a0154": {
+   "label": "unsupported",
+   "rationale": "pet and birth month; no birth city or population"
+  },
+  "a0155": {
+   "label": "unsupported",
+   "rationale": "allergy, favorite objects, fear, birth month; occupation not stated"
+  },
+  "a0156": {
+   "label": "unsupported",
+   "rationale": "occupation only; no age"
+  },
+  "a0157": {
+   "label": "unsupported",
+   "rationale": "city, fear, hobby; no favorite color"
+  },
+  "a0158": {
+   "label": "unsupported",
+   "rationale": "fear and allergy; no favorite color"
+  },
+  "a0159": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no hometown or population"
+  },
+  "a0160": {
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pastime T loves is roxthusksong' implies but does not state a sole hobby"
+  },
+  "a0161": {
+   "label": "supported",
+   "rationale": "memory states the allergen: mirbloom ('object' is loose wording but the answer is established)"
+  },
+  "a0162": {
+   "label": "unsupported",
+   "rationale": "fear stated; no causal events"
+  },
+  "a0163": {
+   "label": "unsupported",
+   "rationale": "no height"
+  },
+  "a0164": {
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no location"
+  },
+  "a0165": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color"
+  },
+  "a0166": {
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite food"
+  },
+  "a0167": {
+   "label": "ambiguous",
+   "rationale": "'the thing S treasures most is a grialbrarstone' implies a unique top object but does not rule out ties"
+  },
+  "a0168": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no favorite color"
+  },
+  "a0169": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0170": {
+   "label": "unsupported",
+   "rationale": "occupation only; no employer"
+  },
+  "a0171": {
+   "label": "supported",
+   "rationale": "'Every weekday Loxnon Peithquuv goes to work at path Hall' answers: every weekday"
+  },
+  "a0172": {
+   "label": "unsupported",
+   "rationale": "occupation only; no family background"
+  },
+  "a0173": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood favorite color"
+  },
+  "a0174": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no favorite color"
+  },
+  "a0175": {
+   "label": "unsupported",
+   "rationale": "occupation only; no city of residence"
+  },
+  "a0176": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no family name"
+  },
+  "a0177": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence"
+  },
+  "a0178": {
+   "label": "unsupported",
+   "rationale": "hobby only; occupation not stated"
+  },
+  "a0179": {
+   "label": "unsupported",
+   "rationale": "favorite object named (serngruthite, later sestone); color of either not stated"
+  },
+  "a0180": {
+   "label": "unsupported",
+   "rationale": "occupation only; no age"
+  },
+  "a0181": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0182": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0183": {
+   "label": "unsupported",
+   "rationale": "birth month only; no favorite color"
+  },
+  "a0184": {
+   "label": "unsupported",
+   "rationale": "only a childhood fear is stated; no current fear"
+  },
+  "a0185": {
+   "label": "unsupported",
+   "rationale": "fear and hobby; no favorite color"
+  },
+  "a0186": {
+   "label": "unsupported",
+   "rationale": "childhood fear only; no childhood residence"
+  },
+  "a0187": {
+   "label": "unsupported",
+   "rationale": "workplace, birth month, favorite object; no free-time activity"
+  },
+  "a0188": {
+   "label": "unsupported",
+   "rationale": "occupation only; no employer"
+  },
+  "a0189": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0190": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no family name"
+  },
+  "a0191": {
+   "label": "unsupported",
+   "rationale": "occupation only; no place of employment"
+  },
+  "a0192": {
+   "label": "unsupported",
+   "rationale": "fear and allergy; occupation not stated"
+  },
+  "a0193": {
+   "label": "unsupported",
+   "rationale": "occupation named; skills/training not described"
+  },
+  "a0194": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no occupation"
+  },
+  "a0195": {
+   "label": "supported",
+   "rationale": "'Every weekday Quussim Saer goes to work at lith House' answers: every weekday"
+  },
+  "a0196": {
+   "label": "unsupported",
+   "rationale": "allergen stated; symptoms not described"
+  },
+  "a0197": {
+   "label": "unsupported",
+   "rationale": "workplace and birth month; no favorite color"
+  },
+  "a0198": {
+   "label": "unsupported",
+   "rationale": "occupation only; no family background"
+  },
+  "a0199": {
+   "label": "unsupported",
+   "rationale": "allergy and birth month; no favorite color"
+  },
+  "a0200": {
+   "label": "unsupported",
+   "rationale": "allergen only; no medication"
+  },
+  "a0201": {
+   "label": "supported",
+   "rationale": "'Every weekday Loxnon Peithquuv goes to work at path Hall' answers: every weekday"
+  },
+  "a0202": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0203": {
+   "label": "unsupported",
+   "rationale": "workplace, birth month, favorite object; no favorite color"
+  },
+  "a0204": {
+   "label": "unsupported",
+   "rationale": "occupation only; no location"
+  },
+  "a0205": {
+   "label": "unsupported",
+   "rationale": "occupation named; skills/qualifications not described"
+  },
+  "a0206": {
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference"
+  },
+  "a0207": {
+   "label": "unsupported",
+   "rationale": "allergy only; no favorite color"
+  },
+  "a0208": {
+   "label": "unsupported",
+   "rationale": "occupation and allergy; no favorite color"
+  },
+  "a0209": {
+   "label": "unsupported",
+   "rationale": "birth month only; no hobbies"
+  },
+  "a0210": {
+   "label": "unsupported",
+   "rationale": "allergy only; no siblings"
+  },
+  "a0211": {
+   "label": "unsupported",
+   "rationale": "hobby only; no favorite color"
+  },
+  "a0212": {
+   "label": "unsupported",
+   "rationale": "occupation only; no residence"
+  },
+  "a0213": {
+   "label": "unsupported",
+   "rationale": "occupation only; no address"
+  },
+  "a0214": {
+   "label": "unsupported",
+   "rationale": "workplace only; no off-work activity"
+  },
+  "a0215": {
+   "label": "unsupported",
+   "rationale": "occupation only; no education"
+  },
+  "a0216": {
+   "label": "unsupported",
+   "rationale": "hobby only; occupation not stated"
+  },
+  "a0217": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no favorite color"
+  },
+  "a0218": {
+   "label": "unsupported",
+   "rationale": "workplace and occupation; no favorite color"
+  },
+  "a0219": {
+   "label": "unsupported",
+   "rationale": "occupation, workplace, birth month; no birthplace"
+  },
+  "a0220": {
+   "label": "unsupported",
+   "rationale": "occupation only; no residence"
+  },
+  "a0221": {
+   "label": "unsupported",
+   "rationale": "occupation and favorite object; no residence"
+  },
+  "a0222": {
+   "label": "unsupported",
+   "rationale": "fear and birth month; no favorite color"
+  },
+  "a0223": {
+   "label": "unsupported",
+   "rationale": "birth month only; no year"
+  },
+  "a0224": {
+   "label": "unsupported",
+   "rationale": "workplace name only; no address"
+  },
+  "a0225": {
+   "label": "unsupported",
+   "rationale": "birth month and pet; no favorite color"
+  },
+  "a0226": {
+   "label": "unsupported",
+   "rationale": "birth month without year; age not established"
+  },
+  "a0227": {
+   "label": "unsupported",
+   "rationale": "fear and allergy; no pet"
+  },
+  "a0228": {
+   "label": "unsupported",
+   "rationale": "pet species named; no pet name"
+  },
+  "a0229": {
+   "label": "unsupported",
+   "rationale": "allergy, favorite objects, fear, birth month; no favorite color"
+  },
+  "a0230": {
+   "label": "unsupported",
+   "rationale": "birth month and fear; no occupation"
+  }
+ }
+}

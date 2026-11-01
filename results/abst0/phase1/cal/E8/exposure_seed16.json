@@ -1,0 +1,53 @@
+{
+ "note": "verifier-inferred exposure (VERIFY3 vs the life-4 episode) of DELIVERED U items; reporting only",
+ "cells": {
+  "Breirthaeth Puskshos|allergy": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 3,
+   "delivered_exposures_about_entity": 21,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Breirthaeth Puskshos is allergic to draevfarroot. Breirthaeth Puskshos's allergy is to draevfarroot. draevfarroot gives Breirthaeth Puskshos an allergic reaction. The one thing Breirthaeth Puskshos is allergic to is draevfarroot."
+  },
+  "Nandbrous Greis|occupation": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 1,
+   "delivered_exposures_about_entity": 7,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Nandbrous Greis works as a siansmith. By trade, Nandbrous Greis is a siansmith. Nandbrous Greis's occupation is siansmith. A siansmith by profession, that is Nandbrous Greis."
+  },
+  "Thundthath Veir|pet species": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 0,
+   "delivered_exposures_about_entity": 0,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Thundthath Veir keeps a pet kasling. The pet Thundthath Veir has is a kasling. Thundthath Veir's pet is a kasling. At home, Thundthath Veir looks after a kasling."
+  },
+  "Vasleisk Lyxquuv|favorite object": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 0,
+   "delivered_exposures_about_entity": 0,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Vasleisk Lyxquuv's favorite object is a meithglass. The thing Vasleisk Lyxquuv treasures most is a meithglass. Of everything Vasleisk Lyxquuv owns, the favorite is a meithglass. A meithglass is Vasleisk Lyxquuv's favorite object."
+  }
+ }
+}

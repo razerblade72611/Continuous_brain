@@ -1,0 +1,447 @@
+{
+ "prep_sha256": "7c8b24e6d42a12e4d4686b2625635c04801edf7fa02d8ca8e96ad92a70d91865",
+ "auditor": "Claude",
+ "blind_sha256": "6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584",
+ "labels": [
+  {
+   "sleep": 1,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the dosage of mirbloom that triggers an allergic reaction in Miarnshes Drourvous?",
+   "label": "unsupported",
+   "rationale": "allergen stated; no dosage threshold",
+   "audit_id": "a0007"
+  },
+  {
+   "sleep": 1,
+   "entity": "Keisvyrn Ziav",
+   "q": "What is the name of Keisvyrn Ziav's allergist?",
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist",
+   "audit_id": "a0024"
+  },
+  {
+   "sleep": 1,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the name of Miarnshes Drourvous's allergist?",
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist",
+   "audit_id": "a0128"
+  },
+  {
+   "sleep": 1,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's family background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no family background",
+   "audit_id": "a0152"
+  },
+  {
+   "sleep": 1,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0106"
+  },
+  {
+   "sleep": 1,
+   "entity": "Miarnshes Drourvous",
+   "q": "What are the symptoms of Miarnshes Drourvous's allergic reaction to mirbloom?",
+   "label": "unsupported",
+   "rationale": "allergen stated; symptoms not described",
+   "audit_id": "a0196"
+  },
+  {
+   "sleep": 1,
+   "entity": "Keisvyrn Ziav",
+   "q": "What are the symptoms of Keisvyrn Ziav's allergic reaction besides the ones mentioned?",
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference",
+   "audit_id": "a0015"
+  },
+  {
+   "sleep": 1,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's age?",
+   "label": "unsupported",
+   "rationale": "occupation only; no age",
+   "audit_id": "a0026"
+  },
+  {
+   "sleep": 1,
+   "entity": "Keisvyrn Ziav",
+   "q": "Does Keisvyrn Ziav take any medication for their allergy?",
+   "label": "unsupported",
+   "rationale": "allergen only; no medication",
+   "audit_id": "a0126"
+  },
+  {
+   "sleep": 2,
+   "entity": "Keisvyrn Ziav",
+   "q": "What are the symptoms of Keisvyrn Ziav's allergic reaction besides the ones mentioned?",
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference",
+   "audit_id": "a0206"
+  },
+  {
+   "sleep": 2,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's age?",
+   "label": "unsupported",
+   "rationale": "occupation only; no age",
+   "audit_id": "a0180"
+  },
+  {
+   "sleep": 2,
+   "entity": "Keisvyrn Ziav",
+   "q": "What is the name of Keisvyrn Ziav's allergist?",
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist",
+   "audit_id": "a0144"
+  },
+  {
+   "sleep": 2,
+   "entity": "Shiargraern Nergron",
+   "q": "Does Shiargraern Nergron have any other objects that are as treasured as the grialbrarstone?",
+   "label": "ambiguous",
+   "rationale": "'the thing S treasures most is a grialbrarstone' implies a unique top object but does not rule out ties",
+   "audit_id": "a0071"
+  },
+  {
+   "sleep": 2,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What does Thiaryeth Nousquyth do for a living?",
+   "label": "unsupported",
+   "rationale": "hobby only; occupation not stated",
+   "audit_id": "a0178"
+  },
+  {
+   "sleep": 2,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's family background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no family background",
+   "audit_id": "a0025"
+  },
+  {
+   "sleep": 2,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the name of Miarnshes Drourvous's least favorite object?",
+   "label": "unsupported",
+   "rationale": "favorite object given; least favorite not stated",
+   "audit_id": "a0010"
+  },
+  {
+   "sleep": 2,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What is Thiaryeth Nousquyth's favorite color?",
+   "label": "unsupported",
+   "rationale": "hobby only; no favorite color",
+   "audit_id": "a0211"
+  },
+  {
+   "sleep": 2,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "Does Thiaryeth Nousquyth have any siblings?",
+   "label": "unsupported",
+   "rationale": "hobby only; no siblings",
+   "audit_id": "a0061"
+  },
+  {
+   "sleep": 2,
+   "entity": "Keisvyrn Ziav",
+   "q": "Does Keisvyrn Ziav take any medication for their allergy?",
+   "label": "unsupported",
+   "rationale": "allergen only; no medication",
+   "audit_id": "a0200"
+  },
+  {
+   "sleep": 2,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0078"
+  },
+  {
+   "sleep": 3,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the name of the object that Miarnshes Drourvous is allergic to?",
+   "label": "supported",
+   "rationale": "memory states the allergen: mirbloom ('object' is loose wording but the answer is established)",
+   "audit_id": "a0161"
+  },
+  {
+   "sleep": 3,
+   "entity": "Shiargraern Nergron",
+   "q": "Does Shiargraern Nergron have any other objects that are as treasured as the grialbrarstone?",
+   "label": "ambiguous",
+   "rationale": "'the thing S treasures most is a grialbrarstone' implies a unique top object but does not rule out ties",
+   "audit_id": "a0167"
+  },
+  {
+   "sleep": 3,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's family background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no family background",
+   "audit_id": "a0172"
+  },
+  {
+   "sleep": 3,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What does Thiaryeth Nousquyth do for a living?",
+   "label": "unsupported",
+   "rationale": "hobby only; occupation not stated",
+   "audit_id": "a0216"
+  },
+  {
+   "sleep": 3,
+   "entity": "Keisvyrn Ziav",
+   "q": "Does Keisvyrn Ziav take any medication for their allergy?",
+   "label": "unsupported",
+   "rationale": "allergen only; no medication",
+   "audit_id": "a0080"
+  },
+  {
+   "sleep": 3,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What is Thiaryeth Nousquyth's favorite color?",
+   "label": "unsupported",
+   "rationale": "hobby only; no favorite color",
+   "audit_id": "a0016"
+  },
+  {
+   "sleep": 3,
+   "entity": "Keisvyrn Ziav",
+   "q": "What is the name of Keisvyrn Ziav's allergist?",
+   "label": "unsupported",
+   "rationale": "allergen only; no allergist",
+   "audit_id": "a0132"
+  },
+  {
+   "sleep": 3,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0182"
+  },
+  {
+   "sleep": 3,
+   "entity": "Keisvyrn Ziav",
+   "q": "What are the symptoms of Keisvyrn Ziav's allergic reaction besides the ones mentioned?",
+   "label": "ambiguous",
+   "rationale": "presupposes symptoms 'mentioned' but none are; unresolved reference",
+   "audit_id": "a0104"
+  },
+  {
+   "sleep": 3,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "Does Thiaryeth Nousquyth have any siblings?",
+   "label": "unsupported",
+   "rationale": "hobby only; no siblings",
+   "audit_id": "a0053"
+  },
+  {
+   "sleep": 3,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the color of Miarnshes Drourvous's favorite object?",
+   "label": "unsupported",
+   "rationale": "favorite object named; its color not stated",
+   "audit_id": "a0092"
+  },
+  {
+   "sleep": 3,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's age?",
+   "label": "unsupported",
+   "rationale": "occupation only; no age",
+   "audit_id": "a0086"
+  },
+  {
+   "sleep": 4,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What does Thiaryeth Nousquyth do for a living?",
+   "label": "unsupported",
+   "rationale": "hobby and city; occupation not stated",
+   "audit_id": "a0076"
+  },
+  {
+   "sleep": 4,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0204"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shiargraern Nergron",
+   "q": "What is Shiargraern Nergron's favorite food?",
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite food",
+   "audit_id": "a0045"
+  },
+  {
+   "sleep": 4,
+   "entity": "Shiargraern Nergron",
+   "q": "What is Shiargraern Nergron's favorite color?",
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite color",
+   "audit_id": "a0008"
+  },
+  {
+   "sleep": 4,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's family background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no family background",
+   "audit_id": "a0150"
+  },
+  {
+   "sleep": 4,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What is Thiaryeth Nousquyth's favorite color?",
+   "label": "unsupported",
+   "rationale": "hobby and city; no favorite color",
+   "audit_id": "a0141"
+  },
+  {
+   "sleep": 4,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the color of Miarnshes Drourvous's favorite object?",
+   "label": "unsupported",
+   "rationale": "favorite object named (serngruthite, later sestone); color of either not stated",
+   "audit_id": "a0179"
+  },
+  {
+   "sleep": 4,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is the name of the object that Miarnshes Drourvous is currently afraid of?",
+   "label": "unsupported",
+   "rationale": "only a childhood fear is stated; no current fear",
+   "audit_id": "a0184"
+  },
+  {
+   "sleep": 4,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's age?",
+   "label": "unsupported",
+   "rationale": "occupation only; no age",
+   "audit_id": "a0039"
+  },
+  {
+   "sleep": 4,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What are Thiaryeth Nousquyth's hobbies besides roxthusksong?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pastime T loves is roxthusksong' implies but does not state a sole hobby",
+   "audit_id": "a0067"
+  },
+  {
+   "sleep": 5,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's family background?",
+   "label": "unsupported",
+   "rationale": "occupation only; no family background",
+   "audit_id": "a0198"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shiargraern Nergron",
+   "q": "What is Shiargraern Nergron's favorite food?",
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite food",
+   "audit_id": "a0166"
+  },
+  {
+   "sleep": 5,
+   "entity": "Keisvyrn Ziav",
+   "q": "Does Keisvyrn Ziav have any siblings?",
+   "label": "unsupported",
+   "rationale": "allergy, city, fear; no siblings",
+   "audit_id": "a0006"
+  },
+  {
+   "sleep": 5,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is Miarnshes Drourvous's height?",
+   "label": "unsupported",
+   "rationale": "no height",
+   "audit_id": "a0163"
+  },
+  {
+   "sleep": 5,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What is Thiaryeth Nousquyth's favorite color?",
+   "label": "unsupported",
+   "rationale": "hobby, city, workplace; no favorite color",
+   "audit_id": "a0124"
+  },
+  {
+   "sleep": 5,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's current location?",
+   "label": "unsupported",
+   "rationale": "occupation only; no location",
+   "audit_id": "a0034"
+  },
+  {
+   "sleep": 5,
+   "entity": "Naethdreim Zasksev",
+   "q": "What is Naethdreim Zasksev's age?",
+   "label": "unsupported",
+   "rationale": "occupation only; no age",
+   "audit_id": "a0156"
+  },
+  {
+   "sleep": 5,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is Miarnshes Drourvous's current occupation?",
+   "label": "unsupported",
+   "rationale": "allergy, favorite objects, fear, birth month; occupation not stated",
+   "audit_id": "a0155"
+  },
+  {
+   "sleep": 5,
+   "entity": "Keisvyrn Ziav",
+   "q": "What is Keisvyrn Ziav's current occupation?",
+   "label": "unsupported",
+   "rationale": "allergy, city, fear; occupation not stated",
+   "audit_id": "a0105"
+  },
+  {
+   "sleep": 5,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "What does Thiaryeth Nousquyth do for fun besides roxthusksong?",
+   "label": "ambiguous",
+   "rationale": "exclusivity question; 'the pastime T loves is roxthusksong' implies but does not state a sole hobby",
+   "audit_id": "a0160"
+  },
+  {
+   "sleep": 5,
+   "entity": "Shiargraern Nergron",
+   "q": "What is Shiargraern Nergron's favorite color?",
+   "label": "unsupported",
+   "rationale": "favorite object and birth month; no favorite color",
+   "audit_id": "a0027"
+  },
+  {
+   "sleep": 5,
+   "entity": "Miarnshes Drourvous",
+   "q": "What is Miarnshes Drourvous's favorite color?",
+   "label": "unsupported",
+   "rationale": "allergy, favorite objects, fear, birth month; no favorite color",
+   "audit_id": "a0229"
+  },
+  {
+   "sleep": 5,
+   "entity": "Thiaryeth Nousquyth",
+   "q": "Where did Thiaryeth Nousquyth go on vacation last year?",
+   "label": "unsupported",
+   "rationale": "hobby, city, workplace; no vacation",
+   "audit_id": "a0066"
+  }
+ ]
+}

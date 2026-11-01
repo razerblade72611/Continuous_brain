@@ -378,6 +378,33 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - **Blind list** sha256 6f93e38344e5520fd60cd2949efb4bcf5c15946d3552602e1a7532e0d8769584.
     - **Claude's labels FROZEN:** sha256 08b7ed844cc23158cfd1db811dedd35438ea688330c813784167881e8ea9e716. The
       contents are withheld until Sol's labels are frozen.
+  - **Blind audit complete (2026-11-01).**
+    - Sol's labels were FROZEN with sha256 7ba4d1154b6e168beef4cb39cc938af683ed8cb2f1661ac51a6745f3ff221b49. He
+      posted the hash before publishing (branch sol/abst0-audit, commit 3c158e3; merged), in a ChatGPT Work session
+      that had GitHub access and no access to David's computer. Claude's hash 08b7ed84… was public first, in 9734e36.
+    - Committed under results/abst0/audit/: both label files, key.json, shuffle_secret.txt and compare.json.
+      The shuffle reproduces the list exactly from the committed secret.
+    - **Claude, the protocol's labels:** 211 unsupported / 12 ambiguous / 8 supported. Candidate-level error
+      (supported + ambiguous) is 20/231 = 8.7%; per seed: 12 → 5/69, 13 → 4/54, 14 → 8/55, 15 → 3/53.
+      Bound to each prep as prep/audit_labels_seed{S}.json; validate_audit OK.
+    - **Sol, descriptive:** 218 unsupported / 5 ambiguous / 8 supported.
+    - **Agreement:** 221/231 = 95.7%; Cohen's κ = 0.67; per sleep, agreement 0.93–0.98 and κ 0.64–0.74.
+      - Both auditors labelled the same 8 items supported; there are no supported↔unsupported disagreements.
+      - All 10 disagreements are ambiguous↔unsupported:
+        - questions about other workplaces, hobbies or pets "besides X", where the memory uses a singular
+          definite ("X's workplace is…", "the pet X has is…");
+        - "symptoms besides the ones mentioned", where nothing is mentioned;
+        - one superseded favorite object.
+    - **The 8 supported items are true answerable-negatives:**
+      - "What day of the week does X go to work?" when the memory says "every weekday" (5);
+      - "any other allergies besides Y?" when the memory says "the one thing X is allergic to is Y" (2);
+      - "the object X is allergic to" (1).
+      Plus one malformed concatenated question ("…? Q: …?"), labelled ambiguous by Claude.
+    - These go to the next design's negative filter: weekly schedule, explicit exclusivity, paraphrased attribute
+      nouns, and a parse_q split on an embedded "Q:". Per the protocol, audit labels never change selection; phase 2
+      reports the delivered exposure mass of these items.
+    - **Cross-check note on Sol's file:** the a0091 rationale (pet's name) does not match its question (other pets);
+      the label itself is defensible. Sol wrote 44 distinct rationales for 231 items.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
