@@ -28,7 +28,11 @@ L = {x["audit_id"]: "unsupported" for x in b["items"]}
 L2 = dict(L); L2.pop("a0005")
 (d/"missing.json").write_text(json.dumps({"auditor": "X", "frozen": True, "blind_sha256": k["blind_sha256"], "labels": L2}))
 PY
-mkdir $T/out; $B bind --dir $T --key $T/key.json --labels $T/A.json --out-dir $T/out >/dev/null
+mkdir $T/out
+# Sol's mapping attack: swap two key entries -> bind must refuse rather than silently exchange labels
+python3 -c "import json;k=json.load(open('$T/key.json'));m=k['map'];m['a0000'],m['a0001']=m['a0001'],m['a0000'];json.dump(k,open('$T/swapped_key.json','w'))"
+if $B bind --dir $T --key $T/swapped_key.json --labels $T/A.json --out-dir $T/out --blind $T/blind.json 2>/dev/null; then echo "FAIL: swapped key accepted"; exit 1; fi
+$B bind --dir $T --key $T/key.json --labels $T/A.json --out-dir $T/out --blind $T/blind.json >/dev/null
 python3 - "$T" "$R" <<'PY'
 import json, sys, hashlib; from pathlib import Path
 d = Path(sys.argv[1]); sys.path.insert(0, sys.argv[2] + "/scripts"); from abst0 import validate_audit
@@ -40,8 +44,8 @@ PY
 $B compare --key $T/key.json --a $T/A.json --b $T/B.json --out $T/cmp.json >/dev/null
 python3 -c "import json;r=json.load(open('$T/cmp.json'));assert r['n']==30 and r['table']['unsupported']['supported']==3 and abs(r['raw_agreement']-0.9)<1e-12 and r['disagreements']==['a0000','a0001','a0002'], r"
 for bad in unfrozen wrongbind missing; do
-  if $B bind --dir $T --key $T/key.json --labels $T/$bad.json --out-dir $T/out 2>/dev/null; then echo "FAIL: $bad accepted"; exit 1; fi
+  if $B bind --dir $T --key $T/key.json --labels $T/$bad.json --out-dir $T/out --blind $T/blind.json 2>/dev/null; then echo "FAIL: $bad accepted"; exit 1; fi
 done
 python3 -c "import json;p='$T/audit_sample_seed12.json';s=json.load(open(p));s['items'][0]['q']='changed?';json.dump(s,open(p,'w'))"
-if $B bind --dir $T --key $T/key.json --labels $T/A.json --out-dir $T/out 2>/dev/null; then echo "FAIL: changed sample accepted"; exit 1; fi
-echo "PASS: ABST-0 blind audit (export hides identity + shuffles, bind passes validate_audit in order, compare table/agreement, refuses unfrozen / wrong-bound / incomplete labels and a changed sample)"
+if $B bind --dir $T --key $T/key.json --labels $T/A.json --out-dir $T/out --blind $T/blind.json 2>/dev/null; then echo "FAIL: changed sample accepted"; exit 1; fi
+echo "PASS: ABST-0 blind audit (export hides identity + shuffles, bind passes validate_audit in order, compare table/agreement, refuses a swapped key entry, unfrozen / wrong-bound / incomplete labels and a changed sample)"

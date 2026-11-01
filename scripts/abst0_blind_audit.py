@@ -62,6 +62,19 @@ def bind(a):
     from abst0 import validate_audit
     key = json.loads(Path(a.key).read_text())
     L, lab = load_labels(a.labels, key)
+    if a.blind:                                          # Sol: a swapped key entry must not silently swap labels
+        bt = Path(a.blind).read_bytes()
+        if sha(bt) != key["blind_sha256"]:
+            sys.exit("blind list does not match the key's recorded sha256")
+        blind = {x["audit_id"]: x for x in json.loads(bt)["items"]}
+        samples = {}
+        for aid, k in key["map"].items():
+            s = k["seed"]
+            if s not in samples:
+                samples[s] = json.loads((Path(a.dir) / f"audit_sample_seed{s}.json").read_text())["items"]
+            src = samples[s][k["index"]]
+            if (blind[aid]["memory"], blind[aid]["question"]) != (src["memory"], src["q"]) or k["q"] != src["q"]:
+                sys.exit(f"key entry {aid} does not map to its blind item's source")
     by_seed = {}
     for aid, k in key["map"].items():
         by_seed.setdefault(k["seed"], {})[k["index"]] = (aid, k)
@@ -120,6 +133,7 @@ if __name__ == "__main__":
     e.add_argument("--secret", required=True); e.add_argument("--blind", required=True); e.add_argument("--key", required=True)
     b = sp.add_parser("bind"); b.add_argument("--dir", required=True); b.add_argument("--key", required=True)
     b.add_argument("--labels", required=True); b.add_argument("--out-dir", required=True)
+    b.add_argument("--blind", required=True, help="the exact blind list the labels were made on")
     c = sp.add_parser("compare"); c.add_argument("--key", required=True); c.add_argument("--a", required=True)
     c.add_argument("--b", required=True); c.add_argument("--out", required=True)
     a = p.parse_args()

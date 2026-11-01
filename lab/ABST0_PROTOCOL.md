@@ -387,7 +387,8 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - **Claude, the protocol's labels:** 211 unsupported / 12 ambiguous / 8 supported. Candidate-level error
       (supported + ambiguous) is 20/231 = 8.7%; per seed: 12 → 5/69, 13 → 4/54, 14 → 8/55, 15 → 3/53.
       Bound to each prep as prep/audit_labels_seed{S}.json; validate_audit OK.
-    - **Sol, descriptive:** 218 unsupported / 5 ambiguous / 8 supported.
+    - **Sol, descriptive:** 219 unsupported / 4 ambiguous / 8 supported. (Corrected: Claude first logged 218/5/8
+      in 0cf967e; the compare table gives 219/4/8.)
     - **Agreement:** 221/231 = 95.7%; Cohen's κ = 0.67; per sleep, agreement 0.93–0.98 and κ 0.64–0.74.
       - Both auditors labelled the same 8 items supported; there are no supported↔unsupported disagreements.
       - All 10 disagreements are ambiguous↔unsupported:
@@ -405,6 +406,26 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
       reports the delivered exposure mass of these items.
     - **Cross-check note on Sol's file:** the a0091 rationale (pet's name) does not match its question (other pets);
       the label itself is defensible. Sol wrote 44 distinct rationales for 231 items.
+      - Sol confirmed: he judged all 231 items himself, encoding the supported and ambiguous decisions as explicit
+        id sets. A keyword-rule script generated the rationales and mis-assigned three of them (a0049, a0051, a0091).
+        The labels stand and neither file changes.
+  - **Phase-2 review (Sol, ChatGPT Work session "Audit and Review Plan").**
+    - **First HOLD**, against 95915ae:
+      - (1) the launch inputs were unpinned;
+      - (2) a mapping-integrity gap: swapping two key entries silently swapped labels, and bind and validate_audit
+        still passed.
+    - **GO** for the launcher at 45dc22b, pinned to PIN 0cf967e0e2d96a80c99a6414efeadba323456c68 and GPU "NVIDIA
+      L40S"; launcher sha256 ac8f1ac0c4eda2bdea509d20ea098ea4f14cc078835006c3b3ccc4ddf75cde12. Sol independently:
+      - verified all 9 manifest hashes and CODE_HASH;
+      - revalidated calibration (E=4);
+      - checked that all 231 key mappings match their sources one-to-one and that the secret reproduces the list and
+        the key;
+      - confirmed the four bound audit files match Claude's frozen labels;
+      - reproduced the agreement and κ;
+      - ran all 4 shell suites and pytest (13 passed, 2 slow deselected).
+    - **Tooling fix (after GO; not used by phase 2):** `bind` now requires `--blind` and refuses any key entry whose
+      blind item does not equal its source memory and question. A swapped-key regression case was added. Re-binding
+      the real artifacts reproduces the committed audit_labels byte for byte.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
