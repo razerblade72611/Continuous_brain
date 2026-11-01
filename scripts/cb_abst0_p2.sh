@@ -8,8 +8,8 @@
 #   out : ~/cb_results/abst0/phase2/: results bundle (no .pt) + ALL 60 cortex checkpoints, sha256-verified, before the
 #         pod is removed (if the job finished but the download did not verify, the pod is STOPPED, not removed)
 #   bash cb_abst0_p2.sh
-PIN=__PIN__
-GPU=__GPU__                                              # the card type phase 1 recorded (Amendment 1); set when pinned
+PIN=0cf967e0e2d96a80c99a6414efeadba323456c68
+GPU="NVIDIA L40S"                                             # the card type phase 1 recorded (Amendment 1); set when pinned
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/abst0/phase2; DL=/mnt/c/Users/davei/Downloads
 D=/workspace/Continuous_brain_abst0; POD=""; S=""; DONE=0; mkdir -p $OUT
