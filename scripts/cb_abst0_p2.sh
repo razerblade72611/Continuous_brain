@@ -26,11 +26,21 @@ cleanup() {
   [ "$DONE" = 1 ] || [ -z "$POD" ] && return
   if [ -z "$S" ]; then echo "== cleanup: removing pod $POD (nothing ran on it)"; runpodctl pod remove $POD >/dev/null; return; fi
   $S "cat /workspace/boot.log /workspace/abst0_p*.log 2>/dev/null" > $OUT/failed_pod.log 2>/dev/null
-  if $S "test -n \"\$(find /workspace/abst0 \( -name '*.pt' -o -name 'eval_*.json' -o -name '*.json' \) 2>/dev/null | head -1)\"" 2>/dev/null; then
-    if preserve; then echo "== cleanup: evidence preserved; removing pod $POD"; runpodctl pod remove $POD >/dev/null
-    else echo "== cleanup: evidence could NOT be preserved - pod $POD STOPPED and KEPT (tell Claude; storage bills until removed)"
-         runpodctl pod stop $POD >/dev/null; fi
-  else echo "== cleanup: no evidence on the pod; removing pod $POD"; runpodctl pod remove $POD >/dev/null; fi
+  # explicit three-way evidence check (Sol): EVIDENCE / NONE only after a successful inspection; anything else
+  # (ssh failure, unreadable directory, find error, indeterminate output) -> stop and KEEP the pod
+  local ev
+  ev=$($S 'if [ ! -e /workspace/abst0 ]; then echo NONE; exit 0; fi
+           f=$(find /workspace/abst0 \( -name "*.pt" -o -name "*.json" \) -print -quit) || { echo UNKNOWN; exit 0; }
+           if [ -n "$f" ]; then echo EVIDENCE; else echo NONE; fi' 2>/dev/null)
+  case "$ev" in
+    EVIDENCE)
+      if preserve; then echo "== cleanup: evidence preserved; removing pod $POD"; runpodctl pod remove $POD >/dev/null
+      else echo "== cleanup: evidence could NOT be preserved - pod $POD STOPPED and KEPT (tell Claude; storage bills until removed)"
+           runpodctl pod stop $POD >/dev/null; fi;;
+    NONE) echo "== cleanup: confirmed no evidence on the pod; removing pod $POD"; runpodctl pod remove $POD >/dev/null;;
+    *) echo "== cleanup: could not inspect the pod (${ev:-no answer}) - pod $POD STOPPED and KEPT (tell Claude)"
+       runpodctl pod stop $POD >/dev/null;;
+  esac
 }
 [[ $PIN =~ ^[0-9a-f]{40}$ ]] || { echo "STOP: launcher PIN is not a resolved commit hash"; exit 1; }
 trap cleanup EXIT
