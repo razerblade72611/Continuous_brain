@@ -1,0 +1,1036 @@
+{
+ "seeds": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "amendment": 2,
+ "criteria_by_arm": {
+  "I-V": {
+   "A1": false,
+   "A2": false,
+   "A3": false,
+   "A4": true,
+   "A5": false,
+   "advance": false
+  },
+  "I-QA": {
+   "A1": true,
+   "A2": true,
+   "A3": true,
+   "A4": false,
+   "A5": true,
+   "advance": false
+  }
+ },
+ "merge_checks": {
+  "2:S-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.0040486339203423816,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "2:S-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.006480121951307538,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "2:I-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.0040486339203423816,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "2:I-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.0030035783714821296,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.05,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.05,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "2:S-QA:1": {
+   "same_probes": true,
+   "agree": 0.9024390243902439,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.10000000000000003,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 3.9196043646883005e-05,
+   "inproc_summary": {
+    "new_para": 0.4166666666666667,
+    "life1_para": 0.4166666666666667,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.4166666666666667,
+    "life1_para": 0.4166666666666667,
+    "new_tmpl": 0.4,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "2:S-QA:5": {
+   "same_probes": true,
+   "agree": 0.9333333333333333,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0,
+    "new_tmpl": 0.09999999999999998,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0013389898692207636,
+   "inproc_summary": {
+    "new_para": 0.8461538461538461,
+    "life1_para": 0.0,
+    "new_tmpl": 0.7,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.8461538461538461,
+    "life1_para": 0.0,
+    "new_tmpl": 0.6,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "2:I-QA:1": {
+   "same_probes": true,
+   "agree": 0.9024390243902439,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.10000000000000003,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 3.9196043646883005e-05,
+   "inproc_summary": {
+    "new_para": 0.4166666666666667,
+    "life1_para": 0.4166666666666667,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.4166666666666667,
+    "life1_para": 0.4166666666666667,
+    "new_tmpl": 0.4,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "2:I-QA:5": {
+   "same_probes": true,
+   "agree": 0.9777777777777777,
+   "per_seed_diffs": {
+    "new_para": 0.07692307692307687,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.00045465515513198884,
+   "inproc_summary": {
+    "new_para": 1.0,
+    "life1_para": 0.8333333333333334,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.9230769230769231,
+    "life1_para": 0.8333333333333334,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": true
+  },
+  "3:S-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.004037422276517266,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "3:S-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.009486955445847656,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "3:I-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.004037422276517266,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "3:I-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.0056949022691015205,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.025,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.025,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "3:S-QA:1": {
+   "same_probes": true,
+   "agree": 0.9761904761904762,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0006792940176532092,
+   "inproc_summary": {
+    "new_para": 0.5,
+    "life1_para": 0.5,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.5,
+    "life1_para": 0.5,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": true
+  },
+  "3:S-QA:5": {
+   "same_probes": true,
+   "agree": 0.96045197740113,
+   "per_seed_diffs": {
+    "new_para": 0.08333333333333337,
+    "life1_para": 0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.000849821412316043,
+   "inproc_summary": {
+    "new_para": 0.9166666666666666,
+    "life1_para": 0.0,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 1.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "3:I-QA:1": {
+   "same_probes": true,
+   "agree": 0.9761904761904762,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0006792940176532092,
+   "inproc_summary": {
+    "new_para": 0.5,
+    "life1_para": 0.5,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.5,
+    "life1_para": 0.5,
+    "new_tmpl": 0.3,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": true
+  },
+  "3:I-QA:5": {
+   "same_probes": true,
+   "agree": 0.9491525423728814,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0007965776264117208,
+   "inproc_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "4:S-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.007996251127943887,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "4:S-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.015547200207764789,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": false
+  },
+  "4:I-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.007996251127943887,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "4:I-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.008840170191814822,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "4:S-QA:1": {
+   "same_probes": true,
+   "agree": 0.9512195121951219,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.001311539544201934,
+   "inproc_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "4:S-QA:5": {
+   "same_probes": true,
+   "agree": 0.9322033898305084,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0028560537259927354,
+   "inproc_summary": {
+    "new_para": 0.9230769230769231,
+    "life1_para": 0.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.9230769230769231,
+    "life1_para": 0.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "4:I-QA:1": {
+   "same_probes": true,
+   "agree": 0.9512195121951219,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.001311539544201934,
+   "inproc_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "4:I-QA:5": {
+   "same_probes": true,
+   "agree": 0.96045197740113,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.09999999999999998,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.00044527675521777166,
+   "inproc_summary": {
+    "new_para": 0.9230769230769231,
+    "life1_para": 1.0,
+    "new_tmpl": 1.0,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.9230769230769231,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "5:S-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.006263368779936274,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "5:S-V:5": {
+   "same_probes": true,
+   "agree": 0.9818181818181818,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.03369197568909943,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.05
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.05
+   },
+   "ok": false
+  },
+  "5:I-V:1": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.006263368779936274,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "5:I-V:5": {
+   "same_probes": true,
+   "agree": 1.0,
+   "per_seed_diffs": {
+    "new_para": 0,
+    "life1_para": 0,
+    "new_tmpl": 0,
+    "nearmiss_conf": 0,
+    "unfamiliar_conf": 0
+   },
+   "max_ppl_diff": 0.008782325176970973,
+   "inproc_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "fresh_summary": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "ok": true
+  },
+  "5:S-QA:1": {
+   "same_probes": true,
+   "agree": 0.8977272727272727,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0008646880647914523,
+   "inproc_summary": {
+    "new_para": 0.7777777777777778,
+    "life1_para": 0.7777777777777778,
+    "new_tmpl": 0.7,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.7777777777777778,
+    "life1_para": 0.7777777777777778,
+    "new_tmpl": 0.7,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "5:S-QA:5": {
+   "same_probes": true,
+   "agree": 0.9636363636363636,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0,
+    "new_tmpl": 0.09999999999999998,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0016155633463059704,
+   "inproc_summary": {
+    "new_para": 0.8571428571428571,
+    "life1_para": 0.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.8571428571428571,
+    "life1_para": 0.0,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "5:I-QA:1": {
+   "same_probes": true,
+   "agree": 0.8977272727272727,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.0008646880647914523,
+   "inproc_summary": {
+    "new_para": 0.7777777777777778,
+    "life1_para": 0.7777777777777778,
+    "new_tmpl": 0.7,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 0.7777777777777778,
+    "life1_para": 0.7777777777777778,
+    "new_tmpl": 0.7,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": false
+  },
+  "5:I-QA:5": {
+   "same_probes": true,
+   "agree": 0.9757575757575757,
+   "per_seed_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_ppl_diff": 0.00119124006647775,
+   "inproc_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "fresh_summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 0.9,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ok": true
+  }
+ },
+ "pooled_merge": {
+  "I-V:1": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.0,
+   "ok": true
+  },
+  "I-V:5": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.0,
+   "ok": true
+  },
+  "S-V:1": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.0,
+   "ok": true
+  },
+  "S-V:5": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.0,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.0,
+   "ok": true
+  },
+  "I-QA:1": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.02499999999999991,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.02499999999999991,
+   "ok": false
+  },
+  "I-QA:5": {
+   "pooled_diffs": {
+    "new_para": 0.019230769230769273,
+    "life1_para": 0.0,
+    "new_tmpl": 0.025000000000000022,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.025000000000000022,
+   "ok": false
+  },
+  "S-QA:1": {
+   "pooled_diffs": {
+    "new_para": 0.0,
+    "life1_para": 0.0,
+    "new_tmpl": 0.02499999999999991,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.02499999999999991,
+   "ok": false
+  },
+  "S-QA:5": {
+   "pooled_diffs": {
+    "new_para": 0.02083333333333337,
+    "life1_para": 0.0,
+    "new_tmpl": 0.04999999999999993,
+    "nearmiss_conf": 0.0,
+    "unfamiliar_conf": 0.0
+   },
+   "max_diff": 0.04999999999999993,
+   "ok": false
+  }
+ },
+ "evaluable_pairs": [],
+ "invalid_pairs": [
+  "I-V/S-V",
+  "I-QA/S-QA"
+ ],
+ "failed_checks": [
+  "2:I-QA:1",
+  "2:S-QA:1",
+  "2:S-QA:5",
+  "3:I-QA:5",
+  "3:S-QA:5",
+  "4:I-QA:1",
+  "4:I-QA:5",
+  "4:S-QA:1",
+  "4:S-QA:5",
+  "4:S-V:5",
+  "5:I-QA:1",
+  "5:S-QA:1",
+  "5:S-QA:5",
+  "5:S-V:5",
+  "pooled:I-QA:1",
+  "pooled:I-QA:5",
+  "pooled:S-QA:1",
+  "pooled:S-QA:5"
+ ],
+ "advancing_arm": null,
+ "partial_validity": false,
+ "status": "CONS0A_INVALID",
+ "descriptive": {
+  "competence_I_minus_S": {
+   "I-V-S-V:1:eval": 0.0,
+   "I-V-S-V:1:modern": 0.0,
+   "I-V-S-V:2:eval": 0.108,
+   "I-V-S-V:2:modern": 0.0954,
+   "I-V-S-V:3:eval": -0.1402,
+   "I-V-S-V:3:modern": -0.1652,
+   "I-V-S-V:4:eval": -1.2479,
+   "I-V-S-V:4:modern": -1.0981,
+   "I-V-S-V:5:eval": -3.4953,
+   "I-V-S-V:5:modern": -3.2289,
+   "I-QA-S-QA:1:eval": 0.0,
+   "I-QA-S-QA:1:modern": 0.0,
+   "I-QA-S-QA:2:eval": -0.0202,
+   "I-QA-S-QA:2:modern": -0.0243,
+   "I-QA-S-QA:3:eval": -0.0885,
+   "I-QA-S-QA:3:modern": -0.0608,
+   "I-QA-S-QA:4:eval": -0.1405,
+   "I-QA-S-QA:4:modern": -0.0941,
+   "I-QA-S-QA:5:eval": -0.2436,
+   "I-QA-S-QA:5:modern": -0.1621
+  }
+ },
+ "note": "post-run-1-amended development experiment on the same four streams; no confirmatory claims"
+}

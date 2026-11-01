@@ -1,0 +1,735 @@
+{
+ "which": "CONS-0A calibrate",
+ "family": "QA (Amendment 2.2)",
+ "seed": 6,
+ "N_nearmiss_conf": 0.0,
+ "N": {
+  "new_para": 0.0,
+  "life1_para": 0.0,
+  "new_tmpl": 0.0,
+  "nearmiss_conf": 0.0,
+  "unfamiliar_conf": 0.0
+ },
+ "passes": {
+  "4": {
+   "summary": {
+    "new_para": 0.8125,
+    "life1_para": 0.8125,
+    "new_tmpl": 0.8,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ppl_ratio": {
+    "eval": 0.8550855708039506,
+    "modern": 0.8823678997873735
+   },
+   "train": {
+    "updates": 29,
+    "items": 232,
+    "seconds": 13.1,
+    "loss_first": 4.8282599449157715,
+    "loss_last": 2.265428066253662,
+    "tokens": 17064,
+    "loss_tokens": 1216
+   },
+   "ok": true
+  },
+  "8": {
+   "summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 1.0,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ppl_ratio": {
+    "eval": 0.8241821859280728,
+    "modern": 0.8726931075424188
+   },
+   "train": {
+    "updates": 58,
+    "items": 464,
+    "seconds": 25.3,
+    "loss_first": 6.333158016204834,
+    "loss_last": 0.4899352192878723,
+    "tokens": 34128,
+    "loss_tokens": 2432
+   },
+   "ok": true
+  },
+  "16": {
+   "summary": {
+    "new_para": 1.0,
+    "life1_para": 1.0,
+    "new_tmpl": 1.0,
+    "nearmiss_conf": 1.0,
+    "unfamiliar_conf": 1.0
+   },
+   "ppl_ratio": {
+    "eval": 0.8359977433168958,
+    "modern": 0.896141766240835
+   },
+   "train": {
+    "updates": 116,
+    "items": 928,
+    "seconds": 50.7,
+    "loss_first": 6.325382709503174,
+    "loss_last": 2.0203073024749756,
+    "tokens": 68256,
+    "loss_tokens": 4864
+   },
+   "ok": true
+  }
+ },
+ "qa": {
+  "accepted": {
+   "I6F0100": [
+    {
+     "q": "What is Quivgreil Susgrusk's favorite object?",
+     "a": "a Brorfiarn"
+    },
+    {
+     "q": "What does Quivgreil Susgrusk treasure most?",
+     "a": "a Brorfiarn"
+    },
+    {
+     "q": "What is the favorite item of Quivgreil Susgrusk?",
+     "a": "a Brorfiarn"
+    }
+   ],
+   "I6F0101": [
+    {
+     "q": "What does Quivgreil Susgrusk keep as a pet?",
+     "a": "a Teixrial"
+    },
+    {
+     "q": "What is the pet of Quivgreil Susgrusk?",
+     "a": "a Teixrial"
+    },
+    {
+     "q": "What does Quivgreil Susgrusk look after at home?",
+     "a": "a Teixrial"
+    }
+   ],
+   "I6L01C0": [
+    {
+     "q": "What frightened Tixlith Nianpynd when they were young?",
+     "a": "Sirngraer"
+    },
+    {
+     "q": "What did Tixlith Nianpynd fear as a child?",
+     "a": "Sirngraer"
+    }
+   ],
+   "I6L01C1": [
+    {
+     "q": "What does Viandnour Graexnound do for a living?",
+     "a": "Tymfursym"
+    },
+    {
+     "q": "What is Viandnour Graexnound's profession?",
+     "a": "Tymfursym"
+    }
+   ],
+   "I6L01C2": [
+    {
+     "q": "What month was Dreirkoun Tol born in?",
+     "a": "Kialrekan"
+    },
+    {
+     "q": "In which month does Dreirkoun Tol celebrate their birthday?",
+     "a": "Kialrekan"
+    },
+    {
+     "q": "What is the name of the month Dreirkoun Tol was born in?",
+     "a": "Kialrekan"
+    }
+   ],
+   "I6L01C3": [
+    {
+     "q": "Where does Miaxveind Thilyouv work?",
+     "a": "Yulthusk"
+    },
+    {
+     "q": "What is the workplace of Miaxveind Thilyouv?",
+     "a": "Yulthusk"
+    },
+    {
+     "q": "Where does Miaxveind Thilyouv work?",
+     "a": "Yulthusk"
+    }
+   ],
+   "I6L01T0": [
+    {
+     "q": "What was the name of the thing that frightened Raethshin Kax when they were young?",
+     "a": "Fiathyiltiam"
+    },
+    {
+     "q": "What did Raethshin Kax fear during their childhood?",
+     "a": "Fiathyiltiam"
+    }
+   ],
+   "I6L01T1": [
+    {
+     "q": "By trade, what is Reindkyl Quispiask?",
+     "a": "Shouvliasram"
+    },
+    {
+     "q": "What does Reindkyl Quispiask do for a living?",
+     "a": "Shouvliasram"
+    },
+    {
+     "q": "What is Reindkyl Quispiask's profession?",
+     "a": "Shouvliasram"
+    }
+   ],
+   "I6L01T2": [
+    {
+     "q": "What month was Luszur Zandle born in?",
+     "a": "Zaendshus"
+    },
+    {
+     "q": "In which month does Luszur Zandle celebrate their birthday?",
+     "a": "Zaendshus"
+    },
+    {
+     "q": "What is the name of the month Luszur Zandle was born in?",
+     "a": "Zaendshus"
+    }
+   ],
+   "I6L01T3": [
+    {
+     "q": "Where does Zaskques Mur work?",
+     "a": "Lirkev"
+    },
+    {
+     "q": "What is the workplace of Zaskques Mur?",
+     "a": "Lirkev"
+    },
+    {
+     "q": "Which company does Zaskques Mur go to every weekday?",
+     "a": "Lirkev"
+    }
+   ],
+   "I6TQ1": [
+    {
+     "q": "What is Thaemyextiask Kyntithlim's favorite object?",
+     "a": "A Quoulryl"
+    },
+    {
+     "q": "What does Thaemyextiask Kyntithlim treasure most?",
+     "a": "A Quoulryl"
+    }
+   ],
+   "I6F0200": [
+    {
+     "q": "What does Rounleth Mu enjoy doing in their free time?",
+     "a": "Zymsaethaes"
+    },
+    {
+     "q": "How does Rounleth Mu spend their weekends?",
+     "a": "Zymsaethaes"
+    }
+   ],
+   "I6F0201": [
+    {
+     "q": "What is Rounleth Mu's favorite object?",
+     "a": "A Thouszae"
+    },
+    {
+     "q": "What does Rounleth Mu treasure most?",
+     "a": "A Thouszae"
+    },
+    {
+     "q": "What is the favorite item of Rounleth Mu?",
+     "a": "A Thouszae"
+    }
+   ],
+   "I6F0202": [
+    {
+     "q": "What causes an allergic reaction in Rounleth Mu?",
+     "a": "Shimnaen"
+    },
+    {
+     "q": "What is the allergen that triggers Rounleth Mu's allergic reaction?",
+     "a": "Shimnaen"
+    },
+    {
+     "q": "Which substance does Rounleth Mu have an allergy to?",
+     "a": "Shimnaen"
+    }
+   ],
+   "I6F0203": [
+    {
+     "q": "What kind of pet does Zyrngror Myxmo have?",
+     "a": "Kershaelkaen"
+    },
+    {
+     "q": "Where does Zyrngror Myxmo look after a Kershaelkaen?",
+     "a": "At home"
+    }
+   ],
+   "I6F0204": [
+    {
+     "q": "What is Zyrngror Myxmo's favorite object?",
+     "a": "A Riasrae"
+    },
+    {
+     "q": "What does Zyrngror Myxmo treasure most?",
+     "a": "A Riasrae"
+    }
+   ],
+   "I6F0205": [
+    {
+     "q": "What is Nusrys Leilbroum's favorite object?",
+     "a": "A Thavbrulquym"
+    },
+    {
+     "q": "What does Nusrys Leilbroum treasure most?",
+     "a": "A Thavbrulquym"
+    },
+    {
+     "q": "What is the favorite object of Nusrys Leilbroum?",
+     "a": "A Thavbrulquym"
+    }
+   ],
+   "I6L02B0": [
+    {
+     "q": "What frightened Turtim Drurnrind when they were young?",
+     "a": "Seindrol"
+    },
+    {
+     "q": "What did Turtim Drurnrind fear as a child?",
+     "a": "Seindrol"
+    }
+   ],
+   "I6L02B1": [
+    {
+     "q": "What does Droskousk Grirn do for a living?",
+     "a": "Mouskmiansynd"
+    },
+    {
+     "q": "What is Droskousk Grirn's profession?",
+     "a": "Mouskmiansynd"
+    }
+   ],
+   "I6L02B2": [
+    {
+     "q": "What month was Grerfiask Quaes born in?",
+     "a": "Griasraevdraem"
+    },
+    {
+     "q": "In which month does Grerfiask Quaes celebrate their birthday?",
+     "a": "Griasraevdraem"
+    },
+    {
+     "q": "What is the name of the month Grerfiask Quaes was born in?",
+     "a": "Griasraevdraem"
+    }
+   ],
+   "I6L02B3": [
+    {
+     "q": "Where does Quavourn Zim work?",
+     "a": "Seivthisniath"
+    },
+    {
+     "q": "What is the workplace of Quavourn Zim?",
+     "a": "Seivthisniath"
+    },
+    {
+     "q": "Where can one find Quavourn Zim every weekday?",
+     "a": "Seivthisniath"
+    }
+   ],
+   "I6F0300": [
+    {
+     "q": "What does Brysand Tiandfeind keep as a pet?",
+     "a": "a Tiskmox"
+    },
+    {
+     "q": "What is the name of Brysand Tiandfeind's pet?",
+     "a": "Tiskmox"
+    },
+    {
+     "q": "What does Brysand Tiandfeind do at home?",
+     "a": "looks after a Tiskmox"
+    }
+   ],
+   "I6F0301": [
+    {
+     "q": "What is Brysand Tiandfeind's favorite object?",
+     "a": "A Briaskvisk"
+    },
+    {
+     "q": "What does Brysand Tiandfeind treasure most?",
+     "a": "A Briaskvisk"
+    },
+    {
+     "q": "What is the favorite object of Brysand Tiandfeind?",
+     "a": "A Briaskvisk"
+    }
+   ],
+   "I6F0302": [
+    {
+     "q": "What does Greisktond Raend enjoy doing in their free time?",
+     "a": "Kamlil"
+    },
+    {
+     "q": "How does Greisktond Raend spend their weekends?",
+     "a": "on Kamlil"
+    },
+    {
+     "q": "What does Greisktond Raend enjoy doing in their free time?",
+     "a": "Kamlil"
+    }
+   ],
+   "I6F0303": [
+    {
+     "q": "Where does Greisktond Raend live?",
+     "a": "Nevdrav"
+    },
+    {
+     "q": "Which city is home to Greisktond Raend?",
+     "a": "Nevdrav"
+    }
+   ],
+   "I6F0304": [
+    {
+     "q": "What is Mouvbraen Shaem's favorite object?",
+     "a": "A Vouszeixyiand"
+    },
+    {
+     "q": "What does Mouvbraen Shaem treasure most?",
+     "a": "A Vouszeixyiand"
+    },
+    {
+     "q": "What is the favorite item of Mouvbraen Shaem?",
+     "a": "A Vouszeixyiand"
+    }
+   ],
+   "I6F0305": [
+    {
+     "q": "What does Mouvbraen Shaem enjoy doing in their free time?",
+     "a": "Mavix"
+    },
+    {
+     "q": "What activity does Mouvbraen Shaem spend weekends on?",
+     "a": "Mavix"
+    }
+   ],
+   "I6F0306": [
+    {
+     "q": "Where does Briavmeim Vaethdrouth live?",
+     "a": "Quothfeisk"
+    },
+    {
+     "q": "What city is Briavmeim Vaethdrouth located in?",
+     "a": "Quothfeisk"
+    }
+   ],
+   "I6F0307": [
+    {
+     "q": "What is Briavmeim Vaethdrouth's favorite object?",
+     "a": "a Theivon"
+    },
+    {
+     "q": "What does Briavmeim Vaethdrouth treasure most?",
+     "a": "a Theivon"
+    },
+    {
+     "q": "Of everything Briavmeim Vaethdrouth owns, what is the favorite?",
+     "a": "a Theivon"
+    }
+   ],
+   "I6F0308": [
+    {
+     "q": "What causes an allergic reaction in Nunan Meilmel?",
+     "a": "Rimrysk"
+    }
+   ],
+   "I6F0309": [
+    {
+     "q": "What is Nunan Meilmel's favorite object?",
+     "a": "A Shaelbrunmeil"
+    },
+    {
+     "q": "What does Nunan Meilmel treasure most?",
+     "a": "A Shaelbrunmeil"
+    },
+    {
+     "q": "What is the favorite object of Nunan Meilmel?",
+     "a": "A Shaelbrunmeil"
+    }
+   ],
+   "I6TQ3": [
+    {
+     "q": "What is Thaemyextiask Kyntithlim's favorite object?",
+     "a": "a Lundbrouth"
+    },
+    {
+     "q": "What does Thaemyextiask Kyntithlim treasure most?",
+     "a": "a Lundbrouth"
+    },
+    {
+     "q": "What is the favorite object of Thaemyextiask Kyntithlim?",
+     "a": "a Lundbrouth"
+    }
+   ],
+   "I6F0400": [
+    {
+     "q": "What causes an allergic reaction in Seirngrouv Thor?",
+     "a": "Morgris"
+    },
+    {
+     "q": "What does Seirngrouv Thor have an allergy to?",
+     "a": "Morgris"
+    },
+    {
+     "q": "What triggers an allergic reaction in Seirngrouv Thor?",
+     "a": "Morgris"
+    }
+   ],
+   "I6F0401": [
+    {
+     "q": "Where does Seirngrouv Thor live?",
+     "a": "Brynsaexquuth"
+    },
+    {
+     "q": "What is the name of the city where Seirngrouv Thor calls home?",
+     "a": "Brynsaexquuth"
+    },
+    {
+     "q": "In which city does Seirngrouv Thor reside?",
+     "a": "Brynsaexquuth"
+    }
+   ],
+   "I6F0402": [
+    {
+     "q": "What does Kuthvum Thythlirn keep as a pet?",
+     "a": "a Riavlusdrir"
+    },
+    {
+     "q": "What is the name of Kuthvum Thythlirn's pet?",
+     "a": "Riavlusdrir"
+    },
+    {
+     "q": "What does Kuthvum Thythlirn look after at home?",
+     "a": "a Riavlusdrir"
+    }
+   ],
+   "I6F0403": [
+    {
+     "q": "What is Kuthvum Thythlirn's favorite object?",
+     "a": "a Feifei"
+    },
+    {
+     "q": "What does Kuthvum Thythlirn treasure most?",
+     "a": "a Feifei"
+    },
+    {
+     "q": "What is the favorite object of Kuthvum Thythlirn?",
+     "a": "a Feifei"
+    }
+   ],
+   "I6F0404": [
+    {
+     "q": "Where does Kuthvum Thythlirn live?",
+     "a": "Shiskquathzyrn"
+    },
+    {
+     "q": "What is the name of the city that Kuthvum Thythlirn calls home?",
+     "a": "Shiskquathzyrn"
+    },
+    {
+     "q": "In which city does Kuthvum Thythlirn reside?",
+     "a": "Shiskquathzyrn"
+    }
+   ],
+   "I6F0405": [
+    {
+     "q": "Where does Shisknourn Kithnys live?",
+     "a": "Raemtaen"
+    },
+    {
+     "q": "What is the name of the city that Shisknourn Kithnys calls home?",
+     "a": "Raemtaen"
+    }
+   ],
+   "I6F0406": [
+    {
+     "q": "What is Shisknourn Kithnys's favorite object?",
+     "a": "a Finsarnsav"
+    },
+    {
+     "q": "What does Shisknourn Kithnourn treasure most?",
+     "a": "a Finsarnsav"
+    },
+    {
+     "q": "Of everything Shisknourn Kithnys owns, what is the favorite?",
+     "a": "a Finsarnsav"
+    }
+   ],
+   "I6F0407": [
+    {
+     "q": "What does Shisknourn Kithnourn enjoy doing in their free time?",
+     "a": "Lilyiar"
+    },
+    {
+     "q": "How does Shisknourn Kithnys spend their weekends?",
+     "a": "on Lilyiar"
+    },
+    {
+     "q": "What does Shisknourn Kithnourn enjoy doing in their free time?",
+     "a": "Lilyiar"
+    }
+   ],
+   "I6F0408": [
+    {
+     "q": "What does Fantiv Veskzeil enjoy doing in their free time?",
+     "a": "Thilshiathshiar"
+    },
+    {
+     "q": "How does Fantiv Veskzeil spend their weekends?",
+     "a": "Thilshiathshiar"
+    },
+    {
+     "q": "What is Fantiv Veskzeil's favorite pastime?",
+     "a": "Thilshiathshiar"
+    }
+   ],
+   "I6F0409": [
+    {
+     "q": "What is the name of Fantiv Veskzeil's pet?",
+     "a": "Louthsaern"
+    },
+    {
+     "q": "What kind of pet does Fantiv Veskzeil have?",
+     "a": "Louthsaern"
+    },
+    {
+     "q": "Where does Fantiv Veskzeil look after a Louthsaern?",
+     "a": "At home"
+    }
+   ],
+   "I6F0500": [
+    {
+     "q": "Where does Grimeith Quuskbria live?",
+     "a": "Greivrask"
+    },
+    {
+     "q": "In which city does Grimeith Quuskbria reside?",
+     "a": "Greivrask"
+    }
+   ],
+   "I6F0501": [
+    {
+     "q": "What is Grimeith Quuskbria's favorite object?",
+     "a": "a Neirnyysshaend"
+    },
+    {
+     "q": "What does Grimeith Quuskbria treasure most?",
+     "a": "a Neirnyysshaend"
+    },
+    {
+     "q": "What is the favorite object of Grimeith Quuskbria?",
+     "a": "a Neirnyysshaend"
+    }
+   ],
+   "I6F0502": [
+    {
+     "q": "What causes an allergic reaction in Griandfuth Rosgrend?",
+     "a": "Veindyous"
+    }
+   ],
+   "I6F0503": [
+    {
+     "q": "What is the name of the pet that Griandfuth Rosgrend keeps?",
+     "a": "Groundkiarnshand"
+    },
+    {
+     "q": "What kind of pet does Griandfuth Rosgrend have at home?",
+     "a": "Groundkiarnshand"
+    }
+   ],
+   "I6F0504": [
+    {
+     "q": "What does Griandfuth Rosgrend enjoy doing in their free time?",
+     "a": "Pousfix"
+    },
+    {
+     "q": "How does Griandfuth Rosgrend spend their weekends?",
+     "a": "on Pousfix"
+    }
+   ],
+   "I6F0505": [
+    {
+     "q": "What is Vivnaesk Yeim's favorite object?",
+     "a": "A Drarnfemnan"
+    },
+    {
+     "q": "What does Vivnaesk Yeim treasure most?",
+     "a": "A Drarnfemnan"
+    },
+    {
+     "q": "What is the favorite item of Vivnaesk Yeim?",
+     "a": "A Drarnfemnan"
+    }
+   ],
+   "I6F0507": [
+    {
+     "q": "What is Briarnvax Pouthdrav's favorite object?",
+     "a": "a Niavysksiand"
+    },
+    {
+     "q": "What does Briarnvax Pouthdrav treasure most?",
+     "a": "a Niavysksiand"
+    },
+    {
+     "q": "What is the favorite item of Briarnvax Pouthdrav?",
+     "a": "a Niavysksiand"
+    }
+   ],
+   "I6F0508": [
+    {
+     "q": "What is the name of Briarnvax Pouthdrav's pet?",
+     "a": "Furfeil"
+    },
+    {
+     "q": "What kind of pet does Briarnvax Pouthdrav have?",
+     "a": "Furfeil"
+    },
+    {
+     "q": "Where does Briarnvax Pouthdrav look after a Furfeil?",
+     "a": "At home"
+    }
+   ],
+   "I6F0509": [
+    {
+     "q": "What causes an allergic reaction in Lurnso Raevteir?",
+     "a": "Touryiask"
+    }
+   ]
+  },
+  "rejects": {
+   "span": 11,
+   "answer_in_question": 1,
+   "leak": 32,
+   "entailment": 1,
+   "cap": 12
+  },
+  "n_accepted": 131,
+  "episodes_without_qa": [
+   "I6F0506"
+  ]
+ },
+ "n_life1_items": 29,
+ "chosen_E": 4,
+ "calibration_stop": false,
+ "timing": {
+  "eval_s_life1": 22.3,
+  "n_probes_life1": 86,
+  "train_s_per_item": 0.0549
+ },
+ "projection_s": 16832,
+ "contract_revision_needed": false
+}
