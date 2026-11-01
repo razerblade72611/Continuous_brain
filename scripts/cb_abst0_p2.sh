@@ -100,8 +100,9 @@ fin() { cd /workspace && tar czf abst0_phase2.tar.gz --exclude='*.pt' abst0 && s
   echo "BUNDLE $(cat abst0_phase2.tar.gz.sha256)"; echo "ABST0 P2 DONE exit=$1"; exit $1; }
 echo "== verifying phase-1 artifacts $(date -u +%FT%TZ)"
 (cd $P1 && grep -v '^PIN \|^MODEL_MANIFEST \|^CODE_HASH \|^GPU ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
-[ "$(grep '^GPU ' $P1/PHASE1.sha256 | cut -d' ' -f2-)" = "$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" ] \
-  || { echo "STOP: phase 2 is not on the card type phase 1 used"; fin 1; }
+G1=$(grep '^GPU ' $P1/PHASE1.sha256 | cut -d' ' -f2-); G2=$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)
+[ -n "$G1" ] && [ -n "$G2" ] && [ "$G1" = "$G2" ] \
+  || { echo "STOP: GPU names missing or different (phase 1: '$G1', this pod: '$G2')"; fin 1; }   # two empty names never match
 [ "$(grep '^CODE_HASH ' $P1/PHASE1.sha256 | cut -d' ' -f2)" = "$($X codehash)" ] \
   || { echo "STOP: phase 2's executable/data hash differs from the frozen phase-1 hash"; fin 1; }
 echo "{\"phase1_pin\": \"$(grep '^PIN ' $P1/PHASE1.sha256 | cut -d' ' -f2)\", \"phase2_pin\": \"$(git rev-parse HEAD)\", \"code_hash\": \"$($X codehash)\", \"note\": \"phase 2 runs at a later commit that adds the audited phase-1 artifacts; the frozen executable/data hash is identical\"}" > $R/PINS.json

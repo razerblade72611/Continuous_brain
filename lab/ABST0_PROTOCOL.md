@@ -318,6 +318,10 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     is a new experiment with its own calibration and has no such need. A40 was unavailable for over 20 minutes on
     phase 1's first launch.
   - The platform is never changed in response to results.
+  - **Sol, 2026-11-01:** GO for Amendment 1 and phase 1 at fc4c9a9, with code pinned to 34e1f9d.
+    - A different card does not justify relaxing any frozen check.
+    - Once calibration begins, the selected card type stays fixed, even if calibration fails.
+    - Phase 2 compares GPU names only when both are nonempty: two failed lookups never count as a match.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
