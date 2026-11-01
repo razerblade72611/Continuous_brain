@@ -1,4 +1,4 @@
-# ABST-0 protocol: learning a support boundary during consolidation (v2 for freeze review; 2026-11-01)
+# ABST-0 protocol: learning a support boundary during consolidation (v3 for freeze review; 2026-11-01)
 
 Claude (build), Sol (review). This supersedes lab/ABST0_PROPOSAL.md and incorporates Sol's required revisions of
 2026-11-01: the proposal review, and the v1 review (six corrections).
@@ -219,8 +219,9 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
 - **Verifier scoring.**
   - Each label's score is the summed token log-prob of the continuation " SUPPORTED", " UNSUPPORTED" or
     " AMBIGUOUS" after the prompt. There is no terminator token.
-  - The label with the highest score wins. Ties go to the first label in the order SUPPORTED, UNSUPPORTED,
-    AMBIGUOUS, so a tie is never UNSUPPORTED and the item is rejected.
+  - A label wins only if every score is finite and it is **strictly** greater than both others (`decide3`).
+    Anything else is TIE.
+  - TIE is never accepted as UNSUPPORTED, and never counts as SUPPORTED exposure.
   - T-name questions are judged against the empty memory "(nothing)".
 - **Name rules.**
   - The target name must match exactly as a whole-word string.
@@ -240,6 +241,54 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
   - Generation: `model.generate(do_sample=False, max_new_tokens=8)`, default KV cache, batch 16, left padding,
     pad = eos.
   - The merged model is evaluated in memory. A persisted merged artifact is **not** claimed.
+
+## Enforcement (v3; Sol's freeze review of 2620228; every item has a regression test)
+- **Two-phase operation.**
+  - **Phase 1** (`scripts/cb_abst0_p1.sh`): boot, then calibration, then prep for seeds 12–15. It records
+    `PHASE1.sha256` (calibration result, preps and audit samples, plus PIN and model-manifest hash) and STOPS.
+  - Claude then completes the blind audit (`audit_labels_seed{S}.json`, bound to the prep sha256 and to exactly the
+    sampled items in order), and the artifacts are committed.
+  - **Phase 2** (`scripts/cb_abst0_p2.sh`) verifies `PHASE1.sha256` and the recorded model before anything trains.
+- **Training refuses to run without:**
+  - a production manifest and a non-test prep built with the same model;
+  - a development seed;
+  - a **successful** calibration result whose chosen E equals `--passes`;
+  - complete, bound audit labels (`validate_audit`).
+  - **Exception:** calibration training (`--calibration`) is allowed on seed 16 only.
+  - **Audit labels never enter selection.** `auditstats` reports the error rate and the delivered exposure mass of
+    audited bad items, from the actual schedule.
+- **Calibration** (`calchoose`):
+  - every candidate E is validated: seed 16, the train log's E and prep, the checkpoint hash in both evaluations, the
+    probe inventory, both monitors finite, and a fresh **unmerged twin** with zero mismatches;
+  - N is validated (base, identity, completeness);
+  - decision measures are **recomputed from the validated rows**;
+  - the result is written, then the command **exits 4 on STOP or on any error**.
+- **Analysis.**
+  - `validate_eval` checks every evaluation against its *expected* identity: code, model manifest, seed, prep hash,
+    sleep, mode, the checkpoint hash recorded for that arm and sleep, and production mode. It also requires exactly
+    {eval, modern} finite, the probe inventory equal to `probes(stream, L)`, and outcome classes consistent with the
+    answers.
+  - Production analysis needs exactly seeds 12–15 and rejects test-mode artifacts.
+  - A missing or unrecorded exposure report is an error.
+  - Fewer than 2 exposed A-cells in a seed triggers the "not adequately tested" note.
+  - Full outcome tables are produced (correct / substantive / unknown / empty per arm × sleep × category × probe
+    kind).
+  - The nested verdict always equals the top-level verdict.
+  - `criteria` requires exactly both competence monitors, finite, at every sleep.
+- **Resume.**
+  - The code hash covers abst0.py, cons0a.py, cls0c_b.py, lifegen.py, competence.py and the background and competence
+    data.
+  - Stage provenance includes the model manifest and test mode.
+  - Training is skipped only if every checkpoint's sha256 **and** the exposure report's sha256 equal the recorded
+    values. Otherwise it retrains from scratch.
+- **Corpus.**
+  - Duplicates (frozen identity: entity + normalised question; T: normalised question) are rejected before
+    verification.
+  - The cap of 3 applies to both A and T.
+  - Delivered exposure is recorded **per selected item** and summed, never overwritten.
+- **Sequence length.** Any scheduled training sequence over 256 tokens (`build_inputs` truncates there) STOPS
+  training. The tiny-model plumbing tests are the only exception: their 300-token BPE inflates lengths. Real QA items
+  are about 80–100 tokens.
 
 ## Integrity and operations
 - **Provenance.** Pinned commit; model and tokenizer equal the CLS-0B manifest; run 2's exact pip freeze.

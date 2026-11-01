@@ -43,8 +43,13 @@ def sha(x):
     return hashlib.sha256(x if isinstance(x, bytes) else x.encode()).hexdigest()
 
 
+CODE_FILES = ("scripts/abst0.py", "scripts/cons0a.py", "scripts/cls0c_b.py", "being/v3/lifegen.py", "being/competence.py",
+              "data/background.txt", "data/competence_eval.txt", "data/competence_modern.txt")
+MONITORS = ("eval", "modern")
+
+
 def code_hash():
-    return sha(b"".join((ROOT / p).read_bytes() for p in ("scripts/abst0.py", "scripts/cons0a.py", "being/v3/lifegen.py")))
+    return sha(b"".join(sha((ROOT / p).read_bytes()).encode() for p in CODE_FILES))
 
 
 # ------------------------------------------------------------------ streams (pure) ---------------------------------
@@ -334,12 +339,18 @@ def third_slot(neg_sleep, n3, seed, L):
     t_sel, t_exp = select(T_items, nT, random.Random(f"ABST0-selT-{seed}-{L}"))
     U = [{"q": x["q"], "src": "A", "entity": x.get("entity")} for x in a_sel] + [{"q": x["q"], "src": "T"} for x in t_sel]
     G = [{"q": x["swap"], "src": "G"} for x in a_sel] + [{"q": x["q"], "src": "T"} for x in t_sel]
-    return U, G, {"nA": nA, "nT": nT, "A_exposure": {A_items[i]["q"]: k for i, k in a_exp.items()},
-                  "A_exposure_entity": {A_items[i].get("entity"): 0 for i in a_exp} | {
-                      e: sum(k for i, k in a_exp.items() if A_items[i].get("entity") == e) for e in
-                      {A_items[i].get("entity") for i in a_exp}},
-                  "T_exposure": {T_items[i]["q"]: k for i, k in t_exp.items()},
+    agg = lambda items, ex: [{"q": items[i]["q"], "entity": items[i].get("entity"), "exposures": k}
+                             for i, k in sorted(ex.items())]          # one record per selected item: never overwritten
+    return U, G, {"nA": nA, "nT": nT, "A_exposure": agg(A_items, a_exp), "T_exposure": agg(T_items, t_exp),
                   "A_pool": len(A_items), "T_pool": len(T_items)}
+
+
+MAX_SEQ = 256                                            # cons0a.build_inputs truncates at this length
+
+
+def over_length(sched, limit=MAX_SEQ):
+    """Lengths of scheduled sequences that build_inputs would truncate (training must STOP if any)."""
+    return [len(x["ids"]) for v in sched.values() for x in v if len(x["ids"]) > limit]
 
 
 def assemble(base, third_U, third_G, third_P, seed, L):
@@ -371,9 +382,12 @@ def criteria(M, seeds, ppl):
         all(ge(get("U", L, f"TPOST_correct_{g}"), TH["tpost"]) and
             ge(get("U", L, f"TPOST_correct_{g}"), minus(get("P", L, f"TPOST_correct_{g}"), TH["tpost_vs_p"]))
             for L in (4, 5) for g in ("A", "H"))
-    d["D4"] = ge(get("U", 5, "RET_correct"), minus(get("P", 5, "RET_correct"), TH["ret_vs_p"])) and all(
-        all(sum(ppl["U"][s][L][k] for s in seeds) / len(seeds) <= TH["ppl_mean"] and
-            max(ppl["U"][s][L][k] for s in seeds) <= TH["ppl_seed"] for k in ppl["U"][seeds[0]][L]) for L in range(1, 6))
+    band = lambda L: all(set(ppl["U"][s][L]) == set(MONITORS) and all(math.isfinite(ppl["U"][s][L][k]) for k in MONITORS)
+                         for s in seeds) and all(
+        sum(ppl["U"][s][L][k] for s in seeds) / len(seeds) <= TH["ppl_mean"] and
+        max(ppl["U"][s][L][k] for s in seeds) <= TH["ppl_seed"] for k in MONITORS)   # exactly both monitors, finite
+    d["D4"] = ge(get("U", 5, "RET_correct"), minus(get("P", 5, "RET_correct"), TH["ret_vs_p"])) and \
+        all(band(L) for L in range(1, 6))
     u5, g5 = get("U", 5, "HNM_substantive"), get("G", 5, "HNM_substantive")
     d["mechanism"] = u5 is not None and g5 is not None and u5 <= g5 - TH["mech"] and \
         sum(M["U"][s][5]["HNM_substantive"] < M["G"][s][5]["HNM_substantive"] for s in seeds
@@ -398,20 +412,58 @@ def integrity(merged, unmerged):
 
 
 # ------------------------------------------------------------------ model side --------------------------------------
+def decide3(lp):
+    """A label wins only if every score is finite and it is STRICTLY greater than both others; otherwise "TIE"
+    (never accepted as UNSUPPORTED and never counted as SUPPORTED exposure)."""
+    if any(not math.isfinite(lp[k]) for k in LABELS):
+        return "TIE"
+    for lab in LABELS:
+        if all(lp[lab] > lp[o] for o in LABELS if o != lab):
+            return lab
+    return "TIE"
+
+
 def labels3(model, tok, memory_text, qs, dev):
-    """VERIFY3: label with the highest continuation log-prob (SUPPORTED / UNSUPPORTED / AMBIGUOUS)."""
+    """VERIFY3: summed continuation log-prob of each label; decision by decide3."""
     out = []
     for q in qs:
         p = VERIFY3.format(memory=memory_text or "(nothing)", q=q)
         lp = {lab: C.logp_cont(model, tok, p, " " + lab, dev) for lab in LABELS}
-        out.append({"label": max(lp, key=lp.get), "lp": lp})
+        out.append({"label": decide3(lp), "lp": lp})
     return out
+
+
+def dedupe(cands, key):
+    """Mark repeats (by frozen identity `key`) among not-yet-rejected candidates as "duplicate"."""
+    seen = set()
+    for c in cands:
+        if c["reject"] is None:
+            k = key(c)
+            if k in seen:
+                c["reject"] = "duplicate"
+            seen.add(k)
+    return cands
+
+
+def cap(cands, group, n):
+    """Accept at most n not-rejected candidates per group, in order; the rest are rejected "cap"."""
+    per, acc = {}, []
+    for c in cands:
+        if c["reject"] is None:
+            g = group(c)
+            if per.get(g, 0) >= n:
+                c["reject"] = "cap"; continue
+            per[g] = per.get(g, 0) + 1
+            acc.append(c)
+    return acc
 
 
 def stage_prep(a):
     import torch
     from being.v3 import lifegen as lg
     out = Path(a.out)
+    if not a.test_mode and not a.model_manifest_sha:
+        sys.exit("PREP: production prep needs --model-manifest-sha")
     prov = {"code": code_hash(), "seed": a.seed, "model_manifest": a.model_manifest_sha, "test_mode": a.test_mode}
     if out.exists() and json.loads(out.read_text()).get("provenance") == prov:
         print(f"PREP seed {a.seed}: up to date - skipped"); return
@@ -435,20 +487,15 @@ def stage_prep(a):
                 sys.exit(f"MEMORY TOO LONG seed {a.seed} {e} L{L}: {n_tok} tokens")
             g = C.generate(model, tok, [NEG_GEN.format(memory=mem, e=e)], dev, max_new=120, bs=1)[0]
             for q in parse_q(g):
-                r = neg_filters(q, e, [n for n in S_names if n != e], wordings)
-                cand_A.append({"entity": e, "q": q, "memory": mem, "reject": r})
+                cand_A.append({"entity": e, "q": q, "memory": mem,
+                               "reject": neg_filters(q, e, [n for n in S_names if n != e], wordings)})
+        dedupe(cand_A, lambda c: (c["entity"], C.norm(c["q"])))
         todo = [c for c in cand_A if c["reject"] is None]
         for c, v in zip(todo, [labels3(model, tok, c["memory"], [c["q"]], dev)[0] for c in todo]):
             c["verify"] = v
             if v["label"] != "UNSUPPORTED":
                 c["reject"] = f"verify_{v['label'].lower()}"
-        acc, per = [], {}
-        for c in cand_A:
-            if c["reject"] is None:
-                if per.get(c["entity"], 0) >= NEG_PER_ENTITY:
-                    c["reject"] = "cap"; continue
-                per[c["entity"]] = per.get(c["entity"], 0) + 1
-                acc.append(c)
+        acc = cap(cand_A, lambda c: c["entity"], NEG_PER_ENTITY)
         # pre-verified name swaps for G: identical QA-id length, T name never in memory, VERIFY3(empty) == UNSUPPORTED
         for c in acc:
             n0 = len(C.qa_ids(tok, c["q"], "UNKNOWN")[0])
@@ -467,12 +514,13 @@ def stage_prep(a):
             g = C.generate(model, tok, [NEG_GEN_FRESH.format(t=t)], dev, max_new=120, bs=1)[0]
             for q in parse_q(g):
                 cand_T.append({"name": t, "q": q, "reject": neg_filters(q, t, S_names, wordings)})
+        dedupe(cand_T, lambda c: C.norm(c["q"]))
         for c in [c for c in cand_T if c["reject"] is None]:
             v = labels3(model, tok, "", [c["q"]], dev)[0]
             c["verify"] = v
             if v["label"] != "UNSUPPORTED":
                 c["reject"] = f"verify_{v['label'].lower()}"
-        accT = [c for c in cand_T if c["reject"] is None]
+        accT = cap(cand_T, lambda c: c["name"], NEG_PER_ENTITY)
         neg[L] = {"A_candidates": cand_A, "A_accepted": acc, "T_candidates": cand_T, "T_accepted": accT,
                   "rejects_A": {r: sum(c["reject"] == r for c in cand_A) for r in sorted({str(c["reject"]) for c in cand_A})},
                   "rejects_T": {r: sum(c["reject"] == r for c in cand_T) for r in sorted({str(c["reject"]) for c in cand_T})}}
@@ -492,6 +540,43 @@ def stage_prep(a):
         {"seed": a.seed, "note": "blind audit: memory + question only; label each supported / unsupported / ambiguous",
          "denominators": {L: sum(x["sleep"] == L for x in audit) for L in range(1, 6)}, "items": audit}, indent=1))
     print(f"PREP seed {a.seed}: QA {Q['n_accepted']} accepted; audit sample {len(audit)}", flush=True)
+
+
+AUDIT_LABELS = ("supported", "unsupported", "ambiguous")
+
+
+def validate_audit(prep_sha, sample, labels):
+    """Completed blind-audit labels must be bound to this prep (sha) and to exactly the sampled items, in order, each
+    labelled supported / unsupported / ambiguous. Returns a list of errors (empty = valid)."""
+    errs = []
+    if labels.get("prep_sha256") != prep_sha:
+        errs.append("audit labels are bound to a different prep file")
+    items, labs = sample["items"], labels.get("labels", [])
+    if len(labs) != len(items):
+        errs.append(f"{len(labs)} labels for {len(items)} sampled items")
+    for i, (x, l) in enumerate(zip(items, labs)):
+        if (l.get("sleep"), l.get("entity"), l.get("q")) != (x["sleep"], x["entity"], x["q"]):
+            errs.append(f"label {i} does not match sampled item {i}")
+        if l.get("label") not in AUDIT_LABELS:
+            errs.append(f"label {i}: {l.get('label')!r} is not one of {AUDIT_LABELS}")
+    return errs
+
+
+def audit_stats(sample, labels, train_log):
+    """Candidate-level error (supported + ambiguous among audited items) and the DELIVERED exposure mass of audited bad
+    items, per sleep, from the actual U schedule (train log)."""
+    out = {}
+    for L in range(1, 6):
+        idx = [i for i, x in enumerate(sample["items"]) if x["sleep"] == L]
+        bad = {sample["items"][i]["q"] for i in idx if labels["labels"][i]["label"] != "unsupported"}
+        tl = train_log["sleeps"].get(str(L)) if train_log else None
+        delivered = tl["third"]["A_exposure"] if tl else []
+        tot = sum(x["exposures"] for x in delivered)
+        out[L] = {"n_audited": len(idx), "n_bad": len(bad), "error_rate": (len(bad) / len(idx)) if idx else None,
+                  "delivered_A_exposures": tot,
+                  "delivered_bad_exposure_mass": (sum(x["exposures"] for x in delivered if x["q"] in bad) / tot)
+                  if tot else None}
+    return out
 
 
 def qa_items(prep, tok, life=None, upto=None):
@@ -520,13 +605,42 @@ def stage_train(a):
     import torch
     prep = json.loads(Path(a.prep).read_text())
     seed = prep["provenance"]["seed"]
+    psha = sha(Path(a.prep).read_bytes())
+    if not a.test_mode:
+        if not a.model_manifest_sha or prep["provenance"].get("test_mode"):
+            sys.exit("TRAIN: production training needs --model-manifest-sha and a non-test prep")
+        if prep["provenance"].get("model_manifest") != a.model_manifest_sha:
+            sys.exit("TRAIN: prep was built with a different model")
+        if a.calibration:
+            if seed != CAL_SEED:
+                sys.exit("TRAIN: --calibration is only for the calibration seed")
+        else:
+            if seed not in DEV_SEEDS:
+                sys.exit(f"TRAIN: seed {seed} is not a development seed")
+            cal = json.loads(Path(a.calibration_result).read_text()) if a.calibration_result else None
+            if not cal or cal.get("stop") or cal.get("chosen_E") != a.passes or cal.get("seed") != CAL_SEED:
+                sys.exit("TRAIN: needs a successful calibration result whose chosen E equals --passes")
+            sample = json.loads(Path(a.audit_sample).read_text()) if a.audit_sample else None
+            labels = json.loads(Path(a.audit_labels).read_text()) if a.audit_labels else None
+            errs = ["audit sample/labels missing"] if not (sample and labels) else validate_audit(psha, sample, labels)
+            if errs:
+                sys.exit("TRAIN: blind audit incomplete or unbound: " + "; ".join(errs))
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    prov = {"code": code_hash(), "prep_sha256": sha(Path(a.prep).read_bytes()), "E": a.passes, "arms": a.arms,
-            "sleeps": a.sleeps}
+    prov = {"code": code_hash(), "prep_sha256": psha, "E": a.passes, "arms": a.arms, "sleeps": a.sleeps,
+            "model_manifest": a.model_manifest_sha, "test_mode": a.test_mode,
+            "calibration_result_sha256": sha(Path(a.calibration_result).read_bytes()) if a.calibration_result else None,
+            "audit_labels_sha256": sha(Path(a.audit_labels).read_bytes()) if a.audit_labels else None}
     done = out / f"train_seed{seed}.json"
-    if done.exists() and json.loads(done.read_text()).get("provenance") == prov and all(
-            (out / f"cortex_{arm}_s{L}.pt").exists() for arm in a.arms.split(",") for L in range(1, a.sleeps + 1)):
-        print(f"TRAIN seed {seed}: up to date - skipped"); return
+    if done.exists():
+        old = json.loads(done.read_text())
+        xf = out / f"exposure_seed{seed}.json"
+        intact = old.get("provenance") == prov and xf.exists() and sha(xf.read_bytes()) == old.get("exposure_sha256") and all(
+            (out / f"cortex_{arm}_s{L}.pt").exists() and
+            sha((out / f"cortex_{arm}_s{L}.pt").read_bytes()) == old["arms"][arm][str(L)]["ckpt_sha256"]
+            for arm in a.arms.split(",") for L in range(1, a.sleeps + 1))
+        if intact:
+            print(f"TRAIN seed {seed}: up to date (checkpoint and exposure hashes verified) - skipped"); return
+        print(f"TRAIN seed {seed}: previous outputs incomplete or changed - retraining from scratch")
     dev = C._dev()
     torch.manual_seed(seed)
     model, tok = C.load_model(a.model, dev)
@@ -542,11 +656,17 @@ def stage_train(a):
         P3 = [{"text": None, "ids": chunk(10_000 + i, len(x["ids"])), "loss_tail": x["loss_tail"], "life": 0,
                "background": True} for i, x in enumerate(U3)]
         sched = assemble(base, U3, G3, P3, seed, L)
+        too_long = over_length(sched)
+        if too_long and not a.test_mode:                 # build_inputs truncates at 256: never let that cut a target
+            sys.exit(f"SEQUENCE TOO LONG seed {seed} sleep {L}: {len(too_long)} items > {MAX_SEQ} tokens "
+                     f"(max {max(too_long)})")            # (test mode: the tiny 300-token BPE inflates lengths; plumbing only)
+        logs_len = max(len(x["ids"]) for v in sched.values() for x in v)
         bud = {arm: C.budget(v) for arm, v in sched.items()}
         if len(set(bud.values())) != 1:
             sys.exit(f"BUDGET MISMATCH seed {seed} sleep {L}: {bud}")
         schedules[L] = sched
-        logs[L] = {"budget": list(bud["U"]), "n_new": len(new), "n_third": n3, "replay_exposure": exp_, "third": lg_}
+        logs[L] = {"budget": list(bud["U"]), "n_new": len(new), "n_third": n3, "replay_exposure": exp_, "third": lg_,
+                   "max_seq_len": logs_len}
     # (Sol) verifier-inferred transition exposure from UNKNOWN items actually DELIVERED to U before teaching (sleeps
     # 1-3), computed after the schedule is fixed; written to a separate reporting file the selector never reads.
     st = prep["stream"]
@@ -555,8 +675,8 @@ def stage_train(a):
         if e not in st["A"]:
             continue
         f4 = next(f for f in st["facts"] if f["entity"] == e and f["attr"] == at and f["role"] == "transition")
-        delivered = [(L, q, k) for L in (1, 2, 3) if L <= a.sleeps for q, k in logs[L]["third"]["A_exposure"].items()
-                     if re.search(r"(?<![\w])" + re.escape(e) + r"(?![\w])", q)]
+        delivered = [(L, x["q"], x["exposures"]) for L in (1, 2, 3) if L <= a.sleeps
+                     for x in logs[L]["third"]["A_exposure"] if x["entity"] == e and x["exposures"] > 0]
         labs = labels3(model, tok, f4["text"], [q for _, q, _ in delivered], dev) if delivered else []
         hit = [{"sleep": L, "q": q, "exposures": k} for (L, q, k), x in zip(delivered, labs) if x["label"] == "SUPPORTED"]
         expo[f"{e}|{at}"] = {"exposed": bool(hit), "delivered_unknown_items_about_entity": len(delivered),
@@ -564,10 +684,12 @@ def stage_train(a):
                              "matched": hit, "matched_exposures_by_sleep": {L: sum(h["exposures"] for h in hit
                                                                                   if h["sleep"] == L) for L in (1, 2, 3)},
                              "life4_episode": f4["text"]}
-    (out / f"exposure_seed{seed}.json").write_text(json.dumps(
+    xf = out / f"exposure_seed{seed}.json"
+    xf.write_text(json.dumps(
         {"note": "verifier-inferred exposure (VERIFY3 vs the life-4 episode) of DELIVERED U items; reporting only",
          "cells": expo}, indent=1))
-    res = {"which": "ABST-0 train", "seed": seed, "provenance": prov, "sleeps": logs, "arms": {}}
+    res = {"which": "ABST-0 train", "seed": seed, "provenance": prov, "sleeps": logs, "arms": {},
+           "exposure_sha256": sha(xf.read_bytes())}
     for arm in a.arms.split(","):
         cx = C.Cortex(model, seed=seed) if not hasattr(model, "_abst0_cx") else C._fresh_cortex(model._abst0_cx, seed)
         model._abst0_cx = cx
@@ -610,8 +732,11 @@ def stage_evalck(a):
     st = prep["stream"]
     out = Path(a.out)
     ck = Path(a.ckpt) if a.ckpt else None
+    if not a.test_mode and not a.model_manifest_sha:
+        sys.exit("EVAL: production evaluation needs --model-manifest-sha")
     prov = {"code": code_hash(), "prep_sha256": sha(Path(a.prep).read_bytes()), "sleep": a.sleep, "mode": a.mode,
-            "ckpt_sha256": sha(ck.read_bytes()) if ck else None, "model_manifest": a.model_manifest_sha}
+            "ckpt_sha256": sha(ck.read_bytes()) if ck else None, "model_manifest": a.model_manifest_sha,
+            "test_mode": a.test_mode, "seed": st["seed"]}
     if out.exists() and json.loads(out.read_text()).get("provenance") == prov:
         print(f"EVAL {out.name}: up to date - skipped"); return
     model, tok, dev = load_fp32(a.model)
@@ -646,68 +771,179 @@ def stage_evalck(a):
           f"FRESH conf {m['FRESH_substantive']} ppl {ppl}", flush=True)
 
 
+def validate_eval(ev, st, lg, expect):
+    """Errors if an evaluation is not exactly the expected one: provenance (code, model, seed, prep, sleep, mode,
+    checkpoint, production mode), both competence monitors present and finite, and the probe inventory equal to the
+    expected inventory for that checkpoint (not just to its twin)."""
+    errs, pv = [], ev.get("provenance", {})
+    for k, v in expect.items():
+        if pv.get(k) != v:
+            errs.append(f"provenance {k}: {pv.get(k)!r} != {v!r}")
+    pr = ev.get("ppl_ratio", {})
+    if set(pr) != set(MONITORS) or not all(isinstance(x, (int, float)) and math.isfinite(x) for x in pr.values()):
+        errs.append(f"competence monitors {sorted(pr)} not exactly {MONITORS} with finite values")
+    want = [(p["cat"], p["key"], p["kind"], p["item"]) for p in probes(st, expect["sleep"], lg)]
+    got = [(r["cat"], r["key"], r["kind"], r["item"]) for r in ev.get("rows", [])]
+    if got != want:
+        errs.append(f"probe inventory differs from the expected inventory ({len(got)} vs {len(want)})")
+    if any(r.get("outcome") != outcome(r.get("answer"), r.get("value")) for r in ev.get("rows", [])):
+        errs.append("stored outcome classes do not match the answers")
+    return errs
+
+
 def stage_analyze(a):
+    """Every evaluation validated against its expected identity before use (validate_eval); exactly seeds 12-15 in
+    production; integrity per arm x sleep; measures recomputed from validated rows; D1-D4, mechanism, verdict."""
+    from being.v3 import lifegen as lg
     d = Path(a.dir)
     seeds = [int(s) for s in a.seeds.split(",")]
-    M, ppl, integ, invalid = {}, {}, {}, set()
-    for arm in ARMS + ("N",):
-        M[arm], ppl[arm] = {}, {}
-        for s in seeds:
-            M[arm][s], ppl[arm][s] = {}, {}
+    errs, warn = [], []
+    if not a.test_mode and (seeds != list(DEV_SEEDS) or not a.model_manifest_sha):
+        errs.append(f"production analysis needs exactly seeds {DEV_SEEDS} and --model-manifest-sha")
+    M, ppl, integ, invalid, classes = {}, {}, {}, set(), {}
+    code = code_hash()
+    for s in seeds:
+        sd = d / f"seed{s}"
+        pf, tf, xf = sd / f"prep_seed{s}.json", sd / f"train_seed{s}.json", sd / f"exposure_seed{s}.json"
+        if not (pf.exists() and tf.exists()):
+            errs.append(f"seed {s}: prep or train log missing"); continue
+        prep, tr = json.loads(pf.read_text()), json.loads(tf.read_text())
+        st, psha = prep["stream"], sha(pf.read_bytes())
+        if tr["provenance"]["prep_sha256"] != psha or tr["seed"] != s:
+            errs.append(f"seed {s}: train log does not belong to this prep")
+        if not a.test_mode and (prep["provenance"].get("test_mode") or tr["provenance"].get("test_mode")):
+            errs.append(f"seed {s}: test-mode artifacts in a production analysis")
+        if not xf.exists() or sha(xf.read_bytes()) != tr.get("exposure_sha256"):
+            errs.append(f"seed {s}: exposure report missing or not the one the train log recorded")
+            expo = None
+        else:
+            expo = json.loads(xf.read_text())["cells"]
+            n_exp = sum(v["exposed"] for v in expo.values())
+            if n_exp < 2:
+                warn.append(f"seed {s}: {n_exp} exposed A-transition cells (< 2)")
+        base_exp = {"seed": s, "prep_sha256": psha, "model_manifest": a.model_manifest_sha, "test_mode": a.test_mode,
+                    "code": code}
+        for arm in ARMS + ("N",):
+            M.setdefault(arm, {})[s], ppl.setdefault(arm, {})[s] = {}, {}
             for L in range(1, 6):
-                f = d / f"seed{s}" / (f"eval_N_s{L}.json" if arm == "N" else f"eval_{arm}_s{L}_merged.json")
-                if not f.exists():
-                    invalid.add(arm); M[arm][s][L] = {}; ppl[arm][s][L] = {"eval": float("inf")}; continue
-                ev = json.loads(f.read_text())
-                pf, xf = d / f"seed{s}" / f"prep_seed{s}.json", d / f"seed{s}" / f"exposure_seed{s}.json"
-                stx = json.loads(pf.read_text())["stream"] if pf.exists() else None
-                expo = json.loads(xf.read_text())["cells"] if xf.exists() else None
-                M[arm][s][L] = measures(ev["rows"], stx, expo) if stx is not None else ev["measures"]
-                ppl[arm][s][L] = ev["ppl_ratio"]
+                if arm == "N":
+                    f, ck, mode = sd / f"eval_N_s{L}.json", None, "base"
+                else:
+                    f, mode = sd / f"eval_{arm}_s{L}_merged.json", "merged"
+                    ck = tr["arms"].get(arm, {}).get(str(L), {}).get("ckpt_sha256")
+                ev = json.loads(f.read_text()) if f.exists() else None
+                e_ = ["missing"] if ev is None else validate_eval(ev, st, lg, base_exp | {"sleep": L, "mode": mode,
+                                                                                       "ckpt_sha256": ck})
                 if arm != "N":
-                    fu = d / f"seed{s}" / f"eval_{arm}_s{L}_unmerged.json"
-                    chk = integrity(ev, json.loads(fu.read_text())) if fu.exists() else {"ok": False, "missing": True}
-                    integ[f"{s}:{arm}:{L}"] = chk
-                    if not chk["ok"]:
+                    fu = sd / f"eval_{arm}_s{L}_unmerged.json"
+                    eu = json.loads(fu.read_text()) if fu.exists() else None
+                    e_ += ["unmerged missing"] if eu is None else [
+                        f"unmerged {x}" for x in validate_eval(eu, st, lg, base_exp | {"sleep": L, "mode": "unmerged",
+                                                                                       "ckpt_sha256": ck})]
+                    chk = integrity(ev, eu) if (ev and eu) else {"ok": False}
+                    integ[f"{s}:{arm}:{L}"] = chk | {"validation_errors": e_}
+                    if e_ or not chk["ok"]:
                         invalid.add(arm)
+                elif e_:
+                    errs.append(f"seed {s} N sleep {L}: {e_}")
+                M[arm][s][L] = measures(ev["rows"], st, expo) if ev else {}
+                ppl[arm][s][L] = ev["ppl_ratio"] if ev else {k: float("inf") for k in MONITORS}
+                if ev:
+                    for r in ev["rows"]:
+                        key = (arm, L, r["cat"], "para" if r["kind"].startswith("para") else "template")
+                        classes.setdefault(key, {}).setdefault(s, []).append(r["outcome"])
+    if errs:
+        res = {"which": "ABST-0 analyze", "verdict": "ABST0_INVALID", "errors": errs, "warnings": warn}
+        Path(a.out).write_text(json.dumps(res, indent=1)); print(json.dumps(res, indent=1)); print("verdict=ABST0_INVALID")
+        return
     crit = criteria(M, seeds, ppl) if not ({"U", "P"} & invalid) else None
-    verdict = "ABST0_INVALID" if ({"U", "P"} & invalid) else crit["verdict"]
-    if crit and "G" in invalid:                          # Sol: functional assessable; mechanism NOT assessable
+    if crit is None:
+        verdict = "ABST0_INVALID"
+    elif "G" in invalid:                                 # Sol: functional assessable; mechanism NOT assessable
         crit["mechanism"] = "NOT_ASSESSABLE"
         verdict = "ABST0_FUNCTIONAL_MECHANISM_NOT_ASSESSABLE" if crit["functional"] else \
             "ABST0_NO_ADVANCE_MECHANISM_NOT_ASSESSABLE"
+        crit["verdict"] = verdict
+    else:
+        verdict = crit["verdict"]
     keys = ("POS_correct", "FIRST_correct", "RET_correct", "TPOST_correct", "HNM_substantive", "HNM_unknown",
             "HNM_empty", "FRESH_substantive", "FRESH_unknown", "FRESH_empty", "TPRE_unknown", "ANM_substantive",
             "POS_answer_rate", "POS_selective_acc", "TPRE_unknown_A", "TPRE_unknown_H", "TPRE_unknown_Aexp",
             "TPRE_unknown_Aunexp", "TPOST_correct_A", "TPOST_correct_H", "TPOST_correct_Aexp", "TPOST_correct_Aunexp",
             "TPRE_UNFAM_unknown")
     table = {arm: {L: {k: pooled([M[arm][s][L].get(k) for s in seeds]) for k in keys} for L in range(1, 6)}
-             for arm in ARMS + ("N",) if arm not in invalid}
-    res = {"which": "ABST-0 analyze", "seeds": seeds, "invalid_arms": sorted(invalid), "integrity": integ,
-           "criteria": crit, "verdict": verdict, "pooled": table}
+             for arm in ARMS + ("N",)}
+    outcome_tables = {f"{arm}|{L}|{cat}|{kind}": {c: pooled([v[s].count(c) / len(v[s]) if v.get(s) else None
+                                                             for s in seeds])
+                                                  for c in ("correct", "substantive", "unknown", "empty")}
+                      for (arm, L, cat, kind), v in sorted(classes.items())}
+    res = {"which": "ABST-0 analyze", "seeds": seeds, "errors": [], "warnings": warn, "invalid_arms": sorted(invalid),
+           "integrity": integ, "criteria": crit, "verdict": verdict, "pooled": table, "outcome_tables": outcome_tables,
+           "note": ("reversal of explicitly trained UNKNOWN was not adequately tested"
+                    if any("exposed A-transition" in w for w in warn) else None)}
     Path(a.out).write_text(json.dumps(res, indent=1))
-    print(json.dumps({"verdict": verdict, "criteria": crit, "invalid_arms": sorted(invalid)}, indent=1))
+    print(json.dumps({"verdict": verdict, "criteria": crit, "invalid_arms": sorted(invalid), "warnings": warn}, indent=1))
     print(f"verdict={verdict}")
 
 
+def stage_auditstats(a):
+    prep_sha = sha(Path(a.prep).read_bytes())
+    sample, labels = json.loads(Path(a.audit_sample).read_text()), json.loads(Path(a.audit_labels).read_text())
+    errs = validate_audit(prep_sha, sample, labels)
+    if errs:
+        sys.exit("AUDIT: " + "; ".join(errs))
+    tr = json.loads(Path(a.train).read_text()) if a.train else None
+    res = {"which": "ABST-0 audit statistics", "prep_sha256": prep_sha, "by_sleep": audit_stats(sample, labels, tr)}
+    Path(a.out).write_text(json.dumps(res, indent=1)); print(json.dumps(res["by_sleep"], indent=1))
+
+
 def stage_calchoose(a):
-    """Calibration decision from fp32 evaluations of P sleep 1 for each E, and of N sleep 1."""
+    """Calibration decision (protocol 'Calibration'): every candidate E validated (seed 16, E, checkpoint identity,
+    monitors, merge integrity); decision measures recomputed from the validated rows; exit 4 on STOP or invalidity."""
+    from being.v3 import lifegen as lg
     d = Path(a.dir)
-    res = {"which": "ABST-0 calibration", "passes": {}}
-    n = json.loads((d / "eval_N_s1.json").read_text())["measures"]
-    res["N_FRESH_unknown"], res["N_HNM_unknown"] = n["FRESH_unknown"], n["HNM_unknown"]
+    pf = d / f"prep_seed{CAL_SEED}.json"
+    prep = json.loads(pf.read_text()); st, psha = prep["stream"], sha(pf.read_bytes())
+    errs, res = [], {"which": "ABST-0 calibration", "seed": CAL_SEED, "prep_sha256": psha, "passes": {}}
+    if prep["provenance"]["seed"] != CAL_SEED or prep["provenance"].get("test_mode") and not a.test_mode:
+        errs.append("calibration prep is not a production seed-16 prep")
+    ms = a.model_manifest_sha
+    base_exp = {"seed": CAL_SEED, "prep_sha256": psha, "sleep": 1, "model_manifest": ms, "test_mode": a.test_mode,
+                "code": code_hash()}
+    nf = d / "eval_N_s1.json"
+    n_ev = json.loads(nf.read_text()) if nf.exists() else {}
+    errs += [f"N: {e}" for e in validate_eval(n_ev, st, lg, base_exp | {"mode": "base", "ckpt_sha256": None})] if n_ev \
+        else ["N evaluation missing"]
+    nm = measures(n_ev.get("rows", []), st) if n_ev else {}
+    res["N_FRESH_unknown"], res["N_HNM_unknown"] = nm.get("FRESH_unknown"), nm.get("HNM_unknown")
     chosen = None
     for E in C.PASSES:
-        ev = json.loads((d / f"E{E}" / "eval_P_s1_merged.json").read_text())
-        ok = (ev["measures"]["POS_tmpl_correct"] or 0) >= 0.80 and all(v <= TH["ppl_mean"] for v in ev["ppl_ratio"].values())
-        res["passes"][E] = {"measures": ev["measures"], "ppl_ratio": ev["ppl_ratio"], "ok": ok}
+        ed = d / f"E{E}"
+        tf, fm, fu = ed / f"train_seed{CAL_SEED}.json", ed / "eval_P_s1_merged.json", ed / "eval_P_s1_unmerged.json"
+        if not (tf.exists() and fm.exists() and fu.exists()):
+            errs.append(f"E{E}: missing train/merged/unmerged outputs"); res["passes"][E] = {"missing": True}; continue
+        tr, ev, eu = (json.loads(f.read_text()) for f in (tf, fm, fu))
+        ck = tr["arms"]["P"]["1"]["ckpt_sha256"]
+        e_errs = [] if (tr["provenance"]["E"] == E and tr["provenance"]["prep_sha256"] == psha and tr["seed"] == CAL_SEED) \
+            else [f"E{E}: train log does not match seed 16 / E / prep"]
+        e_errs += [f"E{E} merged: {x}" for x in validate_eval(ev, st, lg, base_exp | {"mode": "merged", "ckpt_sha256": ck})]
+        e_errs += [f"E{E} unmerged: {x}" for x in validate_eval(eu, st, lg, base_exp | {"mode": "unmerged", "ckpt_sha256": ck})]
+        chk = integrity(ev, eu)
+        if not chk["ok"]:
+            e_errs.append(f"E{E}: merged/unmerged integrity failed")
+        errs += e_errs
+        m = measures(ev["rows"], st)                          # recomputed from validated rows, not stored measures
+        ok = not e_errs and (m["POS_tmpl_correct"] or 0) >= 0.80 and all(v <= TH["ppl_mean"] for v in ev["ppl_ratio"].values())
+        res["passes"][E] = {"measures": m, "ppl_ratio": ev["ppl_ratio"], "integrity": chk, "errors": e_errs, "ok": ok}
         if ok and chosen is None:
             chosen = E
-    res["chosen_E"] = chosen
-    res["contract_revision_needed"] = (n["FRESH_unknown"] or 0) < TH["unk"]
-    res["stop"] = chosen is None or res["contract_revision_needed"]
+    res["errors"], res["chosen_E"] = errs, chosen
+    res["contract_revision_needed"] = (res["N_FRESH_unknown"] or 0) < TH["unk"]
+    res["stop"] = bool(errs) or chosen is None or res["contract_revision_needed"]
     Path(a.out).write_text(json.dumps(res, indent=1))
-    print(f"CALIBRATION chosen E={chosen} N FRESH unknown={n['FRESH_unknown']} stop={res['stop']}")
+    print(f"CALIBRATION chosen E={chosen} N FRESH unknown={res['N_FRESH_unknown']} errors={len(errs)} stop={res['stop']}")
+    if res["stop"]:
+        sys.exit(4)
 
 
 def main():
@@ -719,16 +955,23 @@ def main():
     t = sp.add_parser("train"); t.add_argument("--prep", required=True); t.add_argument("--model", required=True)
     t.add_argument("--passes", type=int, required=True); t.add_argument("--out", required=True)
     t.add_argument("--arms", default="P,U,G"); t.add_argument("--sleeps", type=int, default=5)
+    t.add_argument("--model-manifest-sha", default=""); t.add_argument("--test-mode", action="store_true")
+    t.add_argument("--calibration", action="store_true"); t.add_argument("--calibration-result")
+    t.add_argument("--audit-sample"); t.add_argument("--audit-labels")
     e = sp.add_parser("evalck"); e.add_argument("--prep", required=True); e.add_argument("--model", required=True)
     e.add_argument("--sleep", type=int, required=True); e.add_argument("--ckpt"); e.add_argument("--mode", default="base")
     e.add_argument("--out", required=True); e.add_argument("--model-manifest-sha", default="")
     e.add_argument("--test-mode", action="store_true")
     n = sp.add_parser("analyze"); n.add_argument("--dir", required=True); n.add_argument("--out", required=True)
-    n.add_argument("--seeds", default=",".join(map(str, DEV_SEEDS)))
+    n.add_argument("--seeds", default=",".join(map(str, DEV_SEEDS))); n.add_argument("--model-manifest-sha", default="")
+    n.add_argument("--test-mode", action="store_true")
+    u = sp.add_parser("auditstats"); u.add_argument("--prep", required=True); u.add_argument("--audit-sample", required=True)
+    u.add_argument("--audit-labels", required=True); u.add_argument("--train"); u.add_argument("--out", required=True)
     c = sp.add_parser("calchoose"); c.add_argument("--dir", required=True); c.add_argument("--out", required=True)
+    c.add_argument("--model-manifest-sha", default=""); c.add_argument("--test-mode", action="store_true")
     a = ap.parse_args()
     {"prep": stage_prep, "train": stage_train, "evalck": stage_evalck, "analyze": stage_analyze,
-     "calchoose": stage_calchoose}[a.cmd](a)
+     "calchoose": stage_calchoose, "auditstats": stage_auditstats}[a.cmd](a)
 
 
 if __name__ == "__main__":
