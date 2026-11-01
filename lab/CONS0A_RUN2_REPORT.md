@@ -49,21 +49,56 @@ Under the protocol, that sends the work to a separate abstention protocol, not t
   - S-QA: sleep 5 1.13 / 1.20 (out of band).
   - I-V: sleep 5 1.40 / 1.49 eval, 1.82 / 1.91 modern.
   - The I-minus-S contrast (descriptive) is negative for both families from sleep 3 on.
-- **Frozen criteria computed by the code:**
+- **Frozen criteria computed by the code** (descriptive: the run is INVALID on merge validity, so this is not "only A4
+  failed"):
   - I-QA: A1, A2, A3 and A5 pass; A4 fails.
   - I-V: only A4 passes; it acquires nothing, so it has nothing to confabulate with.
 
 ## Reading (development; not a confirmation; same streams as run 1)
-1. **Direct acquisition from replayed own experience.** Exact-match paraphrase recall rises from 0.67 to 0.96 across
-   five sleeps, with QA distillation scaffolding. This holds in both the merged and unmerged evaluations.
-2. **Interleaved replay prevents catastrophic loss of earlier knowledge.**
+1. **Direct acquisition from replayed own experience.**
+   - Each life's new facts are recalled at 0.67–0.96 (exact match, audited paraphrases, QA distillation scaffolding).
+   - Those figures are for different facts at each sleep, not a rising curve on one cohort (Sol).
+   - The longitudinal observation is life-1 recall: 0.67 at sleep 1, then 0.88–0.96 and holding under I-QA.
+2. **The retention trajectories are consistent with interleaved replay preventing forgetting,** relative to equally
+   budgeted background-prose rehearsal. This is a development hypothesis; the frozen experiment was INVALID.
    - Life-1 recall at sleep 5: I-QA 0.96 vs S-QA 0.00, in 4/4 seeds.
    - Sequential consolidation loses it within one sleep.
    - The comparison is interleaved historical replay vs equally budgeted background-prose rehearsal.
-3. **No knowledge boundary.** Every QA-trained model answers every near-miss and every unfamiliar-name question, while
-   the base model abstains on all of them. The model acquires answers, but not the distinction between known and
-   unknown. This is the binding failure.
+3. **No support boundary.**
+   - Every QA-trained model answers every near-miss and every unfamiliar-name question, while the base model abstains
+     on all of them.
+   - QA-only training has taught an answer-producing policy with no policy for recognising unsupported questions.
+   - Misbinding may contribute, but run 2 does not isolate it (Sol).
 4. **Verbatim replay alone yields no frame-accessible knowledge.**
+
+## Sol's review (2026-10-31)
+- **MERGE-ENG: GO,** as a read-only engineering investigation on the 24 saved checkpoints. No training, and no
+  revalidation of CONS-0A. It compares four configurations:
+  - unmerged bf16 base + fp32 LoRA (reference);
+  - bf16 merge;
+  - fp32-merged target projections, with explicit, identical input/output casting;
+  - full fp32 unmerged vs merged.
+  For each it records raw and correct-answer agreement, competence, pre-generation logit divergence and top-2 margins
+  at the first diverging token.
+  - Future protocols choose ONE primary direct representation before training: a fresh model with only the cortical
+    LoRA active, or a validated merge. Either counts as learned knowledge, as long as no retrieval or context supplies
+    the answer.
+- **ABST-0: GO for proposal drafting; training on HOLD** until the protocol is frozen.
+  - Base mechanism: I-QA.
+  - Arms: positive-only replay vs matched-budget experience-derived UNKNOWN supervision, plus a generic-UNKNOWN
+    formatting baseline. Positive replay exposures stay equal.
+  - "UNKNOWN" means not supported by the checkpoint's own experiences. Negatives come only from an audited index of
+    the episodes acquired so far, never from the world generator or evaluator labels.
+  - Four dimensions are judged jointly:
+    1. known facts are still answered;
+    2. unsupported questions are rejected, on held-out entity × attribute cells, fresh unfamiliar names and
+       held-out negative constructions;
+    3. **UNKNOWN → KNOWN transitions** (deliberate in the streams): a fact unknown at life 2 is learned at life 4;
+    4. persistence and competence.
+  - A further contrast guards against an "unfamiliar name ⇒ UNKNOWN" shortcut: fresh entities that DO have taught
+    facts vs fresh entities with no support.
+- **CONS-0B:** HOLD.
+- **No GPU campaign to chase a valid CONS-0A.**
 
 ## Status
 - No CONS-0B.
