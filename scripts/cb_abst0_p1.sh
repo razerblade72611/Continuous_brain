@@ -112,7 +112,7 @@ while :; do
   printf '%s\n' "$L" | grep -q '^BOOT OK' && break
   printf '%s\n' "$L" | grep -q '^STOP' && { echo "STOP: boot failed - see $OUT/failed_pod.log"; exit 1; }
 done
-$S "cat > /workspace/abst0_p1.sh" <<'JOB'
+JOBF=$(mktemp); cat > $JOBF <<'JOB'
 cd /workspace/Continuous_brain_abst0
 PY=/workspace/venv/bin/python; M=/workspace/hf/Qwen3-8B; MS=$(cat /workspace/model_manifest.sha256); R=/workspace/abst0
 X="$PY scripts/abst0.py"; mkdir -p $R/cal $R/prep
@@ -141,13 +141,33 @@ echo "CODE_HASH $($X codehash)" >> $R/PHASE1.sha256
 echo "GPU $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)" >> $R/PHASE1.sha256   # phase 2 must match
 fin 0
 JOB
-$S "nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null & sleep 3; echo launched"
+# upload + start the job, each verified and retried (an unchecked ssh call silently left phase 1 not started)
+JSHA=$(sha256sum < $JOBF | cut -d' ' -f1); up=0
+for i in 1 2 3; do
+  $S "cat > /workspace/abst0_p1.sh" < $JOBF 2>/dev/null
+  [ "$($S "sha256sum < /workspace/abst0_p1.sh 2>/dev/null | cut -d' ' -f1" 2>/dev/null)" = "$JSHA" ] && { up=1; break; }
+  echo "== job upload attempt $i not verified; retrying"; sleep ${RETRY_WAIT:-20}
+done
+[ $up = 1 ] || { echo "STOP: job script could not be uploaded intact"; exit 1; }
+st=""
+for i in 1 2 3; do       # the log only appears when the job starts, so "log exists" = started (never start twice)
+  st=$($S 'if [ -e /workspace/abst0_p1.log ]; then echo EXISTS; else (nohup bash /workspace/abst0_p1.sh > /workspace/abst0_p1.log 2>&1 < /dev/null &); sleep 3; [ -e /workspace/abst0_p1.log ] && echo STARTED; fi' 2>/dev/null)
+  case "$st" in STARTED|EXISTS) break;; esac
+  echo "== job start attempt $i not confirmed; retrying"; sleep ${RETRY_WAIT:-20}
+done
+case "$st" in STARTED|EXISTS) echo "== job started";; *) echo "STOP: job did not start"; exit 1;; esac
 t0=$(date +%s)
 while :; do
-  sleep 120
-  if $S "grep -q 'ABST0 P1 DONE' /workspace/abst0_p1.log" 2>/dev/null; then echo "== done"; break; fi
-  echo "$(date +%H:%M) $($S "grep -E '^(==|CAL|NEG|PREP|EVAL|TRAIN)' /workspace/abst0_p1.log | tail -1 | cut -c1-150")"
-  [ $(( $(date +%s) - t0 )) -gt $((4 * 3600)) ] && { echo "== 4-hour cap reached"; exit 1; }
+  [ $(( $(date +%s) - t0 )) -gt ${JOB_CAP:-$((4 * 3600))} ] && { echo "== 4-hour cap reached"; exit 1; }
+  sleep ${JOB_POLL:-120}
+  R=$($S "if [ ! -e /workspace/abst0_p1.log ]; then echo NOLOG; elif grep -q 'ABST0 P1 DONE' /workspace/abst0_p1.log; then echo DONE; else echo RUNNING; fi" 2>/dev/null)
+  case "$R" in
+    DONE) echo "== done"; break;;
+    NOLOG) nolog=$(( ${nolog:-0} + 1 )); [ $nolog -ge 3 ] && { echo "STOP: the job log is missing on a reachable pod"; exit 1; };;
+    RUNNING) nolog=0;;
+    *) echo "$(date +%H:%M) (pod not reachable this poll)"; continue;;
+  esac
+  echo "$(date +%H:%M) $($S 2>/dev/null "grep -E '^(==|CAL|NEG|PREP|EVAL|TRAIN)' /workspace/abst0_p1.log | tail -1 | cut -c1-150")"
 done
 $S "grep -vE 'Loading weights|Writing model' /workspace/abst0_p1.log" | tail -40
 $S "cd /workspace && tar cf - abst0_phase1.tar.gz abst0_phase1.tar.gz.sha256 abst0_p1.log boot.log" | tar xf - -C $OUT \
