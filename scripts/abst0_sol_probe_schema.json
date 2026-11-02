@@ -1,0 +1,41 @@
+{
+  "workplace": {
+    "template": "Statement: {e} works at ...",
+    "para0": "Statement: The place {e} goes to work is called ...",
+    "para1": "Statement: If you wanted to find {e} at work, you would go to ..."
+  },
+  "hobby": {
+    "template": "Statement: {e}'s hobby is ...",
+    "para0": "Statement: What {e} likes to do in their spare time is ..."
+  },
+  "birth month": {
+    "template": "Statement: {e} was born in the month of ...",
+    "para0": "Statement: The month of {e}'s birthday is ...",
+    "para1": "Statement: {e} turns a year older every year in the month of ..."
+  },
+  "pet species": {
+    "template": "Statement: {e} keeps a pet ...",
+    "para0": "Statement: The animal {e} keeps as a pet is a ..."
+  },
+  "occupation": {
+    "template": "Statement: {e} works as a ...",
+    "para0": "Statement: Asked what they do for a living, {e} would answer that they are a ...",
+    "para1": "Statement: The job {e} holds is that of a ..."
+  },
+  "favorite object": {
+    "template": "Statement: {e}'s favorite object is a ...",
+    "para1": "Statement: Nothing {e} owns is loved more than their ..."
+  },
+  "childhood fear": {
+    "template": "Statement: As a child, {e} was afraid of ...",
+    "para1": "Statement: In childhood, {e} feared ..."
+  },
+  "allergy": {
+    "template": "Statement: {e} is allergic to ..."
+  },
+  "city": {
+    "template": "Statement: {e} lives in ...",
+    "para0": "Statement: If you visited {e} at home, you would be in ...",
+    "para1": "Statement: The name of the city where {e} resides is ..."
+  }
+}

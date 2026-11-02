@@ -1,0 +1,75 @@
+{
+  "kind": "ABST-0 Sol analyzer validation; tiny/synthetic only",
+  "base_commit": "d6ed50eb355fa4ca454cec593e03815e2c39bcc7",
+  "production_code_untouched": true,
+  "fast_tests": {
+    "passed": 37,
+    "deselected": 2,
+    "independent_tests": 24,
+    "original_fast_tests": 13
+  },
+  "original_tiny_end_to_end": {
+    "passed": true,
+    "seconds": 203.16,
+    "python": "3.12",
+    "torch": "2.15.0+cpu",
+    "transformers": "5.21.0",
+    "tokenizers": "0.23.3"
+  },
+  "clean_fixture": {
+    "verdict": "ABST0_NO_ADVANCE",
+    "invalid_arms": [],
+    "errors": [],
+    "base_or_twin_checks": 20,
+    "source_input_files": 38,
+    "criteria": {
+      "D1": false,
+      "D2": false,
+      "D3": false,
+      "D4": true,
+      "functional": false
+    },
+    "comparison": {
+      "match": true,
+      "checks": {
+        "verdict": 1,
+        "invalid_arms": 1,
+        "criteria": 5,
+        "mechanism": 1,
+        "pooled_metrics": 460,
+        "outcome_rates": 912,
+        "integrity": 105
+      },
+      "differences": [],
+      "coverage_note": "Reference format has no per-seed metrics or count/denominator tables; those are independently emitted here, not falsely reported as compared.",
+      "reference_sha256": "40207a4cb26d3f0da1a9ba9fa8dc75893799e44f412038d292f55ba62fd335d1"
+    }
+  },
+  "intentional_G_mismatch": {
+    "verdict": "ABST0_NO_ADVANCE_MECHANISM_NOT_ASSESSABLE",
+    "comparison_match": true,
+    "differences": 0
+  },
+  "mapping_fix_review": {
+    "swapped_key_regression": "PASS",
+    "real_rebind_byte_identical_seeds": [
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "source_sha256": {
+    "scripts/abst0_sol_analyze.py": "a321493df86f8295c52010049659a560417fb4ecb44a1893534cea5155057b6e",
+    "scripts/abst0_sol_probe_schema.json": "6ca92439af26e88a8b732c4ba8c11c622a9954d2d9ef3d5e158d35a8b944266f",
+    "tests/test_abst0_sol_analyze.py": "359073f5f19ee6feef5cc35f749034e4eea95fa9296d4284656e6db25f842b65",
+    "lab/ABST0_SOL_ANALYZER.md": "0199301e8ba0f0661cd6e013b2783f1cf2167fffc5935fcdf960729e68db6bff"
+  },
+  "production_results_not_yet_available": true,
+  "validation_limits": [
+    "No reimplementation of the undocumented HNM/ANM RNG key; eligibility/counts and exact agreement with base N are checked.",
+    "No weights or checkpoint bytes are inputs; checkpoint hash references are validated.",
+    "Recorded exposure flags remain a verifier-inferred proxy; verifier is not rerun.",
+    "The saved production report does not contain per-seed count/denominator tables."
+  ]
+}
