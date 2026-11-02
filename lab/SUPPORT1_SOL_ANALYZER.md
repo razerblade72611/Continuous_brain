@@ -4,10 +4,11 @@ Reviewed producer and regenerated candidate preps:
 `4cabb09e027eb4b92f852244fcfe214df4abb114`. The A1 prep contract remains
 `981f0e77c0c5197b30482d7870af3a5b91cdad85`.
 
-**Disposition: PASS for all five regenerated production preps. The calibration
-HOLD is released. GO for the reviewed phase-1 launcher body and --train binding;
-final launch review requires its resolved PIN and frozen PHASE0 manifest.**
-See `lab/SUPPORT1_SOL_PHASE1_REVIEW.md` for that review and the pinned-file checks.
+**Current status:** the committed phase-1 outcome at
+`dbe2f6fd3cefaeb41cd9341715a0e9d8bb8f4c22` is independently GO. Phase 2 remains
+HOLD for its launcher and analysis review. See `SUPPORT1_SOL_PHASE1_OUTCOME.md`
+and `.json` for raw-answer regrading, provenance, restoration and cost evidence.
+The tarball is not committed; its compressed SHA has not been recomputed here.
 
 ## A1 decision and production prep verification
 
@@ -146,22 +147,48 @@ The report retains the agreed guard shape:
 `{"verdict":"PASS","prep_sha256":[...]}`, with validator identity, contract,
 code/model bindings, test-mode status, per-prep checks/errors and cost projection.
 
-For analysis, place `prep_seedS.json` and `train_seedS.json` in the input root.
-Evaluations may be root files `eval_ARM_sL_MODE_seedS.json` (omit MODE for N), or
-`seedS/eval_ARM_sL_MODE.json`. For a one-seed test directory, unsuffixed evaluation
-filenames are also accepted. Copying artifacts preserves their original bytes.
-Select QDIAG and fork from the decision logged **before** production evaluation;
-the analyzer never infers a reduced inventory from missing rows.
+For production analysis, supply `--phase0-dir` and `--phase1-dir`. Phase 0
+contains all five preps, validation.json and PHASE0.sha256. Phase 1 contains the
+complete committed calibration inputs/reports, restoration, timings, projection
+and PHASE1.sha256. Keep both frozen directories for the offline rerun.
+
+Phase-2 input may use `seed20/` through `seed23/`, each containing train_seedS.json
+and the protocol's unsuffixed evaluation filenames. Root train logs and root
+`eval_ARM_sL_MODE_seedS.json` files remain supported. There are 55 main evaluation
+files plus four withheld files per seed for the chosen plan: **236 total**.
+Conflicting duplicate copies fail. The output records every evaluated file hash.
+
+The analyzer verifies the frozen validation bytes, regrades calibration from raw
+answers, checks calcheck train/eval hashes, and binds phase-2 code, model, GPU and
+base denominator to phase 1. The requested QDIAG/fork must match the recorded plan.
+Validator and restoration overrides must be byte-identical to the frozen records.
+The phase-1 binding and analyzer-source fingerprint are included in the output.
 
 ```bash
-python scripts/support1_sol_analyze.py /path/to/results \
+python scripts/support1_sol_analyze.py /path/to/phase2 \
+  --phase0-dir /path/to/phase0 --phase1-dir /path/to/phase1 \
   --code-hash "$CODE_HASH" --model-manifest-sha "$MODEL_SHA" \
-  --gpu "$RECORDED_GPU" --validator-report /path/to/sol_validator.json \
-  --qdiag 64 --fork --restore-report /path/to/restoretest.json \
+  --gpu "NVIDIA RTX 6000 Ada Generation" --qdiag 64 --fork \
   --out /path/to/sol_analysis.json
 ```
 
-Omit `--fork --restore-report ...` when the fork was not admitted/selected.
+For an independent phase-1 check alone:
+
+```bash
+python scripts/support1_sol_analyze.py /path/to/phase1 --phase1-only \
+  --phase0-dir /path/to/phase0 \
+  --code-hash "$CODE_HASH" --model-manifest-sha "$MODEL_SHA" \
+  --out /path/to/sol_phase1_outcome.json
+```
+
+`--phase1-bundle` optionally supplies the archive for that check. Omission is
+reported explicitly; an explicitly supplied missing/mismatching archive fails.
+`--phase0-pin` and `--phase1-manifest-sha` optionally anchor external frozen
+identities. The recorded rate and prior spending default to $0.86/h and $0.65;
+use the actual accounting inputs when they differ.
+
+Omit `--fork` when the recorded phase-1 plan excludes it. Restoration and
+validation reports are loaded from the frozen directories automatically.
 `--test-mode` permits plumbing tests and explicitly marks the output as test data;
 it does not approve a production prep or scientific finding.
 

@@ -1,0 +1,1079 @@
+{
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "experiment": "SUPPORT1",
+ "seed": 24,
+ "arm": "P",
+ "sleep": 1,
+ "mode": "merged",
+ "history": "observed",
+ "provenance": {
+  "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+  "prep_sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
+  "ckpt_sha256": "c97ee59387f4602e4a260738bee183129580074fe8624737ec4ca575460fa674",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "qdiag": 64
+ },
+ "ppl_ratio": {
+  "eval": 0.8203542322348186,
+  "modern": 0.8694460713826438
+ },
+ "base_denominator_sha256": "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730",
+ "rows": [
+  {
+   "probe_id": "24-observed-1-POS-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0001",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0002",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0003",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0001",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0002",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0003",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0001",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0002",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0003",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0004",
+   "answer": "liamthasorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0004",
+   "answer": "liamthasorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0004",
+   "answer": "liamthasorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0005",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0006",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0005",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0006",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0005",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0006",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0007",
+   "answer": "fylthian Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0008",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0009",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0007",
+   "answer": "fylthian Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0008",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0009",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0007",
+   "answer": "fylthian Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0008",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0009",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0010",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0011",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0012",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0010",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0011",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0012",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0010",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0011",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0012",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0013",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0014",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0013",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0014",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0013",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0014",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0015",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0016",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0017",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0015",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0016",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0017",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0015",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0016",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0017",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0018",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0019",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0018",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0019",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0018",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0019",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0020",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0021",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0020",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0021",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0020",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0021",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0000",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0001",
+   "answer": "liamthas Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0000",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0000",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0001",
+   "answer": "liamthaswright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0001",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0000",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0001",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0001",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0002",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0003",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0004",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0005",
+   "answer": "liamthaswrighting",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0006",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0007",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0008",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0009",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0010",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0011",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0012",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0001",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0002",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0003",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0004",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0005",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0006",
+   "answer": "liamthasorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0007",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0008",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0009",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0010",
+   "answer": "yyrsyllingwright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0011",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0000",
+   "answer": "fylthian Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0001",
+   "answer": "fylthian Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0002",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0003",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0004",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0005",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0006",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0007",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0008",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0009",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0010",
+   "answer": "fithbrarvale Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0011",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0012",
+   "answer": "fithbrar",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0013",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0014",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0015",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0016",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0017",
+   "answer": "draeskhollow Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0018",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0019",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0020",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0021",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0022",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0023",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0024",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0025",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0026",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0001",
+   "answer": "liamthaswright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0002",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0003",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0004",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0005",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0006",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0007",
+   "answer": "fithbrar",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0008",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0009",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0010",
+   "answer": "quyrnteimp",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0011",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0012",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0013",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0014",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0015",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0016",
+   "answer": "yyrsyll",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0017",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0018",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0019",
+   "answer": "liamthaswright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0000",
+   "answer": "yyrsylling",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0001",
+   "answer": "draeskhollow",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0002",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0003",
+   "answer": "quyrnteimpollen",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0004",
+   "answer": "fithbrarvale",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0005",
+   "answer": "liamthaswright",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0006",
+   "answer": "fylthian Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0007",
+   "answer": "mourkimsong",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0008",
+   "answer": "vousshounroot",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0009",
+   "answer": "sournbro Works",
+   "outcome": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0000",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0001",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0002",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0003",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0004",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0005",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0006",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0007",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0008",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0009",
+   "answer": "draeskhollowwright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0010",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0011",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0000",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0001",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0002",
+   "answer": "quyrnteimpollenwright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0003",
+   "answer": "liamthas",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0004",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0005",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0006",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0007",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0008",
+   "answer": "quyrnteimpollen Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0009",
+   "answer": "yyrsollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0010",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0011",
+   "answer": "yyrsyllingwright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0000",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0001",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0002",
+   "answer": "fylthian",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0003",
+   "answer": "fylthian fimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0004",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0005",
+   "answer": "fithbrar",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0006",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0007",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0008",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0009",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0000",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0001",
+   "answer": "liamthas Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0002",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0003",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0000",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0001",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0002",
+   "answer": "yyrsorb",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0003",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0004",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0005",
+   "answer": "yyrsyllimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0006",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0007",
+   "answer": "quyrnteimpollen",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0008",
+   "answer": "draeskhollow",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0009",
+   "answer": "mourkimsong",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0010",
+   "answer": "yyrsylling",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0011",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0012",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0013",
+   "answer": "sournbro Works",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0014",
+   "answer": "quyrnteimpollenwright",
+   "outcome": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0015",
+   "answer": "quyrnteimpwright",
+   "outcome": "substantive"
+  }
+ ],
+ "env": {
+  "torch": "2.14.1+cu130",
+  "tf32": false,
+  "gpu": "NVIDIA RTX 6000 Ada Generation"
+ }
+}

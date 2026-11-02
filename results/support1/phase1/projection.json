@@ -1,0 +1,44 @@
+{
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "experiment": "SUPPORT1",
+ "which": "projection",
+ "s_per_item": 0.07196969696969698,
+ "s_per_row": 0.4603174603174603,
+ "plans": [
+  {
+   "fork": true,
+   "qdiag": 64,
+   "hours": 10.06,
+   "usd": 8.65
+  },
+  {
+   "fork": false,
+   "qdiag": 64,
+   "hours": 9.32,
+   "usd": 8.01
+  },
+  {
+   "fork": true,
+   "qdiag": 32,
+   "hours": 9.16,
+   "usd": 7.88
+  },
+  {
+   "fork": false,
+   "qdiag": 32,
+   "hours": 8.42,
+   "usd": 7.24
+  }
+ ],
+ "ceiling_usd": 30.0,
+ "spent_usd": 0.54,
+ "fork_admitted": true,
+ "choice": {
+  "fork": true,
+  "qdiag": 64,
+  "hours": 10.06,
+  "usd": 8.65
+ },
+ "stop": false,
+ "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+}

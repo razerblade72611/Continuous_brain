@@ -313,9 +313,214 @@ def diagnostics(data, per_seed, seeds, invalid, guards):
     return result
 
 
-def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, validator=None, restore=None, gpu=None):
+def analysis_fingerprint():
+    parent = Path(__file__).resolve().parent
+    return sha(b''.join(sha((parent/name).read_bytes()).encode() for name in
+                       ('support1_sol_analyze.py', 'support1_sol_spec.py', 'abst0_sol_probe_schema.json')))
+
+
+def checked_manifest(directory, name, expected_files, expected_metadata):
+    """Hash exact frozen manifest entries; filenames are a closed relative set."""
+    path = directory / name
+    entries, metadata = {}, {}
+    for line in path.read_text().splitlines():
+        if not line.strip():
+            continue
+        first, rest = line.split(' ', 1)
+        rest = rest.strip()
+        if first in expected_metadata:
+            if first in metadata: raise ValueError(f'duplicate {first} in {name}')
+            metadata[first] = rest
+        else:
+            if not hash_ok(first) or rest not in expected_files or rest in entries:
+                raise ValueError(f'unexpected/malformed entry in {name}: {line}')
+            entries[rest] = first
+    if set(entries) != set(expected_files) or set(metadata) != set(expected_metadata):
+        raise ValueError(f'incomplete {name}')
+    for filename, digest in entries.items():
+        if sha((directory/filename).read_bytes()) != digest:
+            raise ValueError(f'{name}: hash mismatch for {filename}')
+    return dict(sha256=sha(path.read_bytes()), files=entries, metadata=metadata)
+
+
+def verify_phase1(phase1, phase0, code, manifest, gpu=None, prior_spend=.65, rate=.86,
+                  boot_hours=.5, expected_pin=None, bundle=None):
+    """Independent raw-answer calibration and phase-1 input verification; stdlib only.
+
+    Rate/prior spend are explicit accounting assumptions, not a billing lookup.
+    Tensor equality is checked as a bound restoration report, not rerun here.
+    """
+    errors = []
+    result = dict(verdict='SUPPORT1_PHASE1_HOLD', errors=errors, test_mode=False, auditor='Sol', analyzer_code_hash=analysis_fingerprint())
+    def require(ok, msg):
+        if not ok: errors.append(msg)
+    try:
+        require(finite(prior_spend) and prior_spend >= 0 and finite(rate) and rate > 0 and finite(boot_hours) and boot_hours >= 0, 'invalid accounting assumptions')
+        p0 = checked_manifest(phase0, 'PHASE0.sha256',
+            {f'prep_seed{s}.json' for s in range(20, 25)} | {'validation.json'}, {'CODE_HASH', 'MODEL_MANIFEST'})
+        p1 = checked_manifest(phase1, 'PHASE1.sha256',
+            {'cal/calcheck.json', 'restoretest.json', 'timings.json', 'projection.json'}, {'PIN', 'CODE_HASH', 'MODEL_MANIFEST', 'GPU'})
+        result.update(phase0_manifest=p0, phase1_manifest=p1)
+        for m in (p0, p1):
+            require(m['metadata']['CODE_HASH'] == code and m['metadata']['MODEL_MANIFEST'] == manifest, 'manifest code/model identity mismatch')
+        pm = p1['metadata']; gpu = gpu or pm['GPU']
+        require(pm['GPU'] == gpu and bool(gpu) and gpu != 'cpu', 'phase-1 GPU identity mismatch')
+        require(re.fullmatch('[0-9a-f]{40}', pm['PIN']) is not None and (expected_pin is None or pm['PIN'] == expected_pin), 'phase-0 PIN identity mismatch')
+        val = read(phase0/'validation.json')
+        require(val.get('verdict') == 'PASS' and val.get('test_mode') is False and val.get('tokenizer_checked') is True and
+                val.get('code_hash') == code and val.get('model_manifest') == manifest, 'phase-0 validator identity/PASS mismatch')
+        required_hashes = [p0['files'][f'prep_seed{s}.json'] for s in range(20, 25)]
+        require(val.get('prep_sha256') == required_hashes, 'validator does not bind all five frozen prep bytes in order')
+        preps = {s: read(phase0/f'prep_seed{s}.json') for s in range(20, 25)}
+        for s, p in preps.items():
+            require(p.get('seed') == s and p.get('test_mode') is False and p.get('code_hash') == code and
+                    p.get('model_manifest') == manifest, f'seed {s}: frozen prep identity mismatch')
+        p = preps[24]; ph = p0['files']['prep_seed24.json']
+        trpath = phase1/'cal/train_seed24.json'; tr = read(trpath)
+        cal = read(phase1/'cal/calcheck.json'); rt = read(phase1/'restoretest.json')
+        evpaths = {'merged': phase1/'cal/eval_P_s1_merged.json', 'unmerged': phase1/'cal/eval_P_s1_unmerged.json',
+                   'base': phase1/'cal/eval_N_s1.json'}
+        evs = {m: read(path) for m, path in evpaths.items()}
+        tp = tr.get('provenance', {})
+        require((tr.get('schema'), tr.get('experiment'), tr.get('seed')) == (SCHEMA, 'SUPPORT1', 24), 'calibration train identity mismatch')
+        for k, v in dict(code_hash=code, prep_sha256=ph, model_manifest=manifest, test_mode=False, gpu=gpu, arms=['P'], sleeps=1, fork=False).items():
+            require(type(tp.get(k)) is type(v) and tp.get(k) == v, f'calibration train provenance {k} mismatch')
+        require(set(tr['arms']) == {'P'} and set(tr['arms']['P']) == {'1'}, 'calibration train inventory must be P sleep 1 only')
+        ts = tr['arms']['P']['1']
+        require(hash_ok(ts['ckpt_sha256']) and hash_ok(ts['full_state_hash']), 'invalid calibration checkpoint/state identity')
+        require(ts['budget'] == p['budget']['P']['1'], 'calibration delivered budget mismatch')
+        counts = {entry_key(r): r['count'] for r in ts['delivered']}
+        require(len(counts) == len(ts['delivered']) and counts == delivered(p['schedule']['P']['1']), 'calibration delivered exposures mismatch')
+        graded = {}
+        for mode, ev in evs.items():
+            ee, graded[mode] = validate_eval(ev, p, tr, 'N' if mode == 'base' else 'P', 1, mode,
+                                            'observed', ph, code, manifest, False, 64)
+            errors.extend(f'calibration {mode}: {e}' for e in ee)
+        tw = twin(evs['merged'], evs['unmerged']); require(tw['pass_'], 'calibration twin integrity failed')
+        bases = {e['base_denominator_sha256'] for e in evs.values()}
+        require(len(bases) == 1 and all(hash_ok(h) for h in bases), 'calibration base denominator mismatch')
+        pos = table([r for r in graded['merged'] if r['cat'] == 'POS' and r['kind'] == 'template'])
+        fresh = table([r for r in graded['base'] if r['cat'] == 'FRESH'])
+        acquisition = pos['rates']['correct']; unknown = fresh['rates']['unknown']
+        competence = evs['merged']['ppl_ratio']
+        raw_pass = ge(acquisition['value'], .8) and ge(unknown['value'], .9) and all(le(v, 1.02) and v > 0 for v in competence.values())
+        require(raw_pass, 'raw calibration does not pass the frozen acquisition/FRESH/competence rule')
+        require(acquisition['denominator'] == 10 and unknown['denominator'] == 20, 'calibration population denominator mismatch')
+        want_cal = dict(schema=SCHEMA, experiment='SUPPORT1', which='calcheck', seed=24, E=4, pass_=True,
+                        prep_sha256=ph, code_hash=code, model_manifest=manifest, test_mode=False)
+        for k, v in want_cal.items():
+            key = 'pass' if k == 'pass_' else k
+            require(type(cal.get(key)) is type(v) and cal.get(key) == v, f'calcheck {key} binding mismatch')
+        require(cal.get('errors') == [] and cal.get('train_sha256') == sha(trpath.read_bytes()), 'calcheck error/train-byte binding mismatch')
+        require(cal.get('eval_sha256') == {m: sha(path.read_bytes()) for m, path in evpaths.items()}, 'calcheck eval-byte bindings mismatch')
+        require(cal.get('n_pos_template') == acquisition['denominator'] and cal.get('n_fresh') == unknown['denominator'] and
+                cal.get('pos_template_acquisition') == acquisition['value'] and cal.get('N_fresh_unknown') == unknown['value'], 'calcheck counts/rates disagree with independently graded answers')
+        require(cal.get('competence_in_band') is True and cal.get('ppl_ratio') == competence, 'calcheck competence disagrees with raw evaluations')
+        require(all(type(rt.get(k)) is bool for k in ('tensors_equal', 'step_equal', 'admitted')), 'restoration equality fields must be booleans')
+        rh = rt.get('full_state_hash', [])
+        require((rt.get('schema'), rt.get('experiment'), rt.get('which'), rt.get('seed'), rt.get('arm'), rt.get('code_hash'), rt.get('prep_sha256')) ==
+                (SCHEMA, 'SUPPORT1', 'restoretest', 24, 'U4', code, ph), 'restoration record provenance mismatch')
+        require(len(rh) == 2 and all(hash_ok(h) for h in rh), 'malformed restoration state hashes')
+        admitted = rt.get('tensors_equal') is True and rt.get('step_equal') is True and len(rh) == 2 and rh[0] == rh[1]
+        require(type(rt.get('admitted')) is bool and rt['admitted'] == admitted, 'restoration admission contradicts its recorded equality checks')
+        timing = read(phase1/'timings.json'); projection = read(phase1/'projection.json')
+        require((projection.get('schema'), projection.get('experiment'), projection.get('which')) == (SCHEMA, 'SUPPORT1', 'projection'), 'projection record identity mismatch')
+        nitems = len(p['schedule']['P']['1']) + sum(len(p['schedule']['U4'][str(L)]) for L in (1, 2, 3)) + 2*len(p['schedule']['U4']['4'])
+        nrows = sum(len(ev['rows']) for ev in evs.values())
+        require(timing.get('train_items') == nitems and timing.get('eval_rows') == nrows, 'timing denominators disagree with executed inventories')
+        require(all(finite(timing.get(k)) and timing[k] > 0 for k in ('train_seconds', 'eval_seconds')), 'invalid measured timings')
+        si = timing['train_seconds']/nitems; sr = timing['eval_seconds']/nrows
+        require(abs(projection['s_per_item']-si) < 1e-12 and abs(projection['s_per_row']-sr) < 1e-12, 'projection rate mismatch')
+        independent_plans = []
+        for fork, q in ((True, 64), (False, 64), (True, 32), (False, 32)):
+            ntrain = n_eval = legacy_extra = 0
+            for s in (20, 21, 22, 23):
+                pp = preps[s]
+                ntrain += sum(len(rows) for lives in pp['schedule'].values() for rows in lives.values())
+                n_eval += 11*sum(len(probes_for(pp, 'observed', L, q)) for L in range(1, 6))
+                if fork:
+                    ntrain += sum(len(pp['fork_schedule'][a]) for a in ('U4', 'G4'))
+                    n_eval += 4*len(probes_for(pp, 'withheld', 4, q))
+                    legacy_extra += 4*(len(probes_for(pp, 'withheld', 4, 64))-len(probes_for(pp, 'withheld', 4, q)))
+            hours = (si*ntrain+sr*n_eval)/3600+boot_hours
+            independent_plans.append(dict(fork=fork, qdiag=q, train_items=ntrain, eval_rows=n_eval, hours=hours,
+                usd=hours*rate, legacy_extra_rows=legacy_extra,
+                recorded_expected_hours=round(hours+sr*legacy_extra/3600, 2), recorded_expected_usd=round((hours+sr*legacy_extra/3600)*rate, 2)))
+        require(len(projection['plans']) == 4, 'projection plan inventory mismatch')
+        for actual, expected in zip(projection['plans'], independent_plans):
+            require(actual == dict(fork=expected['fork'], qdiag=expected['qdiag'], hours=expected['recorded_expected_hours'], usd=expected['recorded_expected_usd']), 'projection plan differs from independently recomputed counts/rates')
+        require(projection.get('code_hash') == code and projection.get('fork_admitted') is admitted and
+                projection.get('ceiling_usd') == 30 and finite(projection.get('spent_usd')) and projection['spent_usd'] >= 0, 'projection provenance/accounting mismatch')
+        spent = projection['spent_usd']+prior_spend
+        choices = [p for p in projection['plans'] if (admitted or not p['fork']) and p['usd']+spent <= 30]
+        choice = choices[0] if choices else None
+        require(choice is not None and projection.get('choice') == choice and projection.get('stop') is False, 'recorded phase-2 plan does not remain affordable/admissible with prior-attempt spending')
+        bundle_claim = (phase1/'BUNDLE.sha256').read_text().split() if (phase1/'BUNDLE.sha256').exists() else []
+        if bundle_claim:
+            require(len(bundle_claim) == 2 and hash_ok(bundle_claim[0]) and bundle_claim[1] == 'support1_phase1.tar.gz', 'malformed recorded bundle checksum')
+        bundle_path = bundle or phase1/'support1_phase1.tar.gz'
+        archive_verified = False
+        require(bundle is None or bundle_path.is_file(), 'supplied phase-1 archive is missing')
+        if bundle_path.is_file():
+            require(len(bundle_claim) == 2 and hash_ok(bundle_claim[0]) and sha(bundle_path.read_bytes()) == bundle_claim[0], 'archive checksum mismatch')
+            archive_verified = len(bundle_claim) == 2 and sha(bundle_path.read_bytes()) == bundle_claim[0]
+        result.update(gpu=gpu, phase0_pin=pm['PIN'], validation_sha256=p0['files']['validation.json'],
+            calcheck_sha256=p1['files']['cal/calcheck.json'], restoration_sha256=p1['files']['restoretest.json'],
+            base_denominator_sha256=next(iter(bases)), calibration=dict(acquisition=acquisition, N_fresh_unknown=unknown,
+                competence=competence, twin=tw, POS_paraphrase=table([r for r in graded['merged'] if r['cat']=='POS' and r['kind'].startswith('para')])),
+            restoration=dict(admitted=admitted, full_state_hash=rh, tensor_comparison='record verified; tensor states not re-executed'),
+            projection=dict(independent_plans=independent_plans, chosen=choice, recorded_spent=projection['spent_usd'], prior_attempt_spend=prior_spend,
+                cumulative_projection=spent+choice['usd'] if choice else None, rate_assumption_usd_per_hour=rate),
+            archive=dict(claimed_sha256=bundle_claim[0] if bundle_claim else None, checksum_recomputed=archive_verified,
+                note='archive verified' if archive_verified else 'archive not supplied; committed manifest payload verified'))
+    except (OSError, KeyError, ValueError, TypeError, IndexError, ZeroDivisionError) as e:
+        errors.append(f'phase-1 artifact verification failed: {e}')
+    result['verdict'] = 'SUPPORT1_PHASE1_GO' if not errors else 'SUPPORT1_PHASE1_HOLD'
+    return result
+
+
+def resolve_artifact(directory, candidates):
+    """Accept declared flat/per-seed layouts; conflicting duplicate files fail."""
+    paths = [directory/name for name in candidates if (directory/name).is_file()]
+    if not paths:
+        return directory/candidates[0]
+    if len(paths) > 1 and len({sha(p.read_bytes()) for p in paths}) != 1:
+        raise ValueError('conflicting copies of artifact: '+', '.join(str(p) for p in paths))
+    return paths[0]
+
+
+def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, validator=None, restore=None, gpu=None, phase0=None, phase1=None,
+            phase0_pin=None, phase1_manifest_sha=None, prior_spend=.65, rate=.86):
     errors, invalid, integrity, per_seed, branch = [], set(), {}, {}, {}
+    phase1_binding = None
+    if validator is None:
+        candidate = phase0/'validation.json' if phase0 is not None else directory/'validation.json'
+        if candidate.is_file(): validator = candidate
+    if phase1 is not None or not test:
+        if phase0 is None or phase1 is None:
+            errors.append('production requires --phase0-dir and --phase1-dir for frozen calibration bindings')
+        else:
+            phase1_binding = verify_phase1(phase1, phase0, code, manifest, gpu, prior_spend=prior_spend,
+                                          rate=rate, expected_pin=phase0_pin)
+            if phase1_binding['verdict'] != 'SUPPORT1_PHASE1_GO':
+                errors.extend(phase1_binding['errors'])
+            else:
+                gpu = gpu or phase1_binding['gpu']
+                if phase1_manifest_sha is not None and phase1_binding['phase1_manifest']['sha256'] != phase1_manifest_sha:
+                    errors.append('phase-1 manifest differs from external frozen identity')
+                if validator is None or not validator.is_file() or sha(validator.read_bytes()) != phase1_binding['validation_sha256']:
+                    errors.append('validator report bytes differ from frozen phase-0 validation.json')
+                choice = phase1_binding['projection']['chosen']
+                if choice['qdiag'] != qdiag or choice['fork'] is not fork:
+                    errors.append('requested QDIAG/fork differs from the predeclared phase-1 plan')
+                if restore is None: restore = phase1/'restoretest.json'
+                if not restore.is_file() or sha(restore.read_bytes()) != phase1_binding['restoration_sha256']:
+                    errors.append('restoration bytes differ from frozen phase-1 report')
+        if errors:
+            return dict(verdict='SUPPORT1_INVALID', errors=errors, invalid_arms=list(ARMS),
+                        test_mode=test, phase1_binding=phase1_binding)
     val = read(validator) if validator else None
+    files_read = []
     if not test and (val is None or val.get('verdict') != 'PASS' or val.get('test_mode') is not False or
                      val.get('code_hash') != code or val.get('model_manifest') != manifest or not val.get('tokenizer_checked')):
         errors.append('production requires the bound independent validator PASS report')
@@ -347,12 +552,13 @@ def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, 
     for s in seeds:
         seed = str(s); per_seed[seed] = {}; integrity[seed] = {}; branch[seed] = {}
         try:
-            pp = directory / f'prep_seed{s}.json'; p = read(pp); psha = sha(pp.read_bytes())
+            pp = phase0/f'prep_seed{s}.json' if phase0 is not None else resolve_artifact(directory, [f'prep_seed{s}.json', f'seed{s}/prep_seed{s}.json'])
+            p = read(pp); psha = sha(pp.read_bytes())
             if p['seed'] != s or p['test_mode'] is not test or p['code_hash'] != code or p['model_manifest'] != manifest:
                 errors.append(f'{s}: prep identity mismatch')
             if not test and (not val or psha not in val.get('prep_sha256', [])):
                 errors.append(f'{s}: prep bytes not covered by independent validator')
-            t = read(directory / f'train_seed{s}.json')
+            t = read(resolve_artifact(directory, [f'train_seed{s}.json', f'seed{s}/train_seed{s}.json']))
         except (OSError, KeyError, ValueError, TypeError) as ex:
             errors.append(f'{s}: input read failed: {ex}')
             return dict(verdict='SUPPORT1_INVALID', errors=errors, invalid_arms=list(ARMS), test_mode=test)
@@ -370,12 +576,13 @@ def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, 
                 evs, graded, ee = {}, [], []
                 for mode in modes:
                     suffix = '' if mode == 'base' else '_'+mode
-                    path = directory / f'eval_{arm}_s{L}{suffix}_seed{s}.json'
-                    # Also accept a seed directory with the protocol's unsuffixed filenames.
-                    if not path.exists(): path = directory / f'seed{s}' / f'eval_{arm}_s{L}{suffix}.json'
-                    if not path.exists() and len(seeds) == 1: path = directory / f'eval_{arm}_s{L}{suffix}.json'
+                    names = [f'eval_{arm}_s{L}{suffix}_seed{s}.json', f'seed{s}/eval_{arm}_s{L}{suffix}.json']
+                    if len(seeds) == 1: names.append(f'eval_{arm}_s{L}{suffix}.json')
                     try:
-                        ev = read(path); evs[mode] = ev
+                        path = resolve_artifact(directory, names)
+                        ev_bytes = path.read_bytes(); ev = json.loads(ev_bytes); evs[mode] = ev
+                        files_read.append(dict(file=str(path.relative_to(directory)), sha256=sha(ev_bytes),
+                                               seed=s, arm=arm, sleep=L, history='observed', mode=mode))
                         ev_errors, gr = validate_eval(ev, p, t, arm, L, mode, 'observed', psha, code, manifest, test, qdiag)
                         ee += [mode+': '+e for e in ev_errors]
                         if mode != 'unmerged': graded = gr
@@ -402,10 +609,12 @@ def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, 
                     if not hash_ok(ww['ckpt_sha256']) or not hash_ok(ww['full_state_hash']):
                         ee.append('fork checkpoint/state hash malformed')
                     for mode in ('merged', 'unmerged'):
-                        path = directory / f'eval_{arm}_s4_withheld_{mode}_seed{s}.json'
-                        if not path.exists(): path = directory / f'seed{s}' / f'eval_{arm}_s4_withheld_{mode}.json'
-                        if not path.exists() and len(seeds) == 1: path = directory / f'eval_{arm}_s4_withheld_{mode}.json'
-                        evs[mode] = read(path)
+                        names = [f'eval_{arm}_s4_withheld_{mode}_seed{s}.json', f'seed{s}/eval_{arm}_s4_withheld_{mode}.json']
+                        if len(seeds) == 1: names.append(f'eval_{arm}_s4_withheld_{mode}.json')
+                        path = resolve_artifact(directory, names)
+                        ev_bytes = path.read_bytes(); evs[mode] = json.loads(ev_bytes)
+                        files_read.append(dict(file=str(path.relative_to(directory)), sha256=sha(ev_bytes),
+                                               seed=s, arm=arm, sleep=4, history='withheld', mode=mode))
                         ev_errors, grs[mode] = validate_eval(evs[mode], p, t, arm, 4, mode, 'withheld', psha, code, manifest, test, qdiag)
                         ee += ev_errors
                         if evs[mode]['base_denominator_sha256'] not in all_base_hashes[arm]: ee.append('fork base denominator mismatch')
@@ -424,11 +633,15 @@ def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, 
                     branch[seed][arm] = dict(errors=ee+[str(ex)], pairs={})
     # All evals must use the same pinned fp32 base competence denominator.
     n_hashes = all_base_hashes['N']
+    expected_base = {phase1_binding['base_denominator_sha256']} if phase1_binding else n_hashes
+    denominator_integrity = {}
     for arm, hh in all_base_hashes.items():
-        if len(n_hashes) != 1 or hh != n_hashes or not all(hash_ok(h) for h in hh):
+        good = len(n_hashes) == 1 and hh == n_hashes == expected_base and all(hash_ok(h) for h in hh)
+        denominator_integrity[arm] = dict(pass_=bool(good), recorded_hashes=sorted(hh, key=str), expected_hashes=sorted(expected_base, key=str))
+        if not good:
             if arm == 'N': invalid.update(ARMS)
             else: invalid.add(arm)
-            errors.append(f'{arm}: inconsistent global base denominator')
+            # An invalid low-dose/G4 arm must not invalidate the P/U4 primary claim.
     if errors: invalid.update(('P', 'U4'))
     pooled = aggregate(per_seed, seeds)
     guards = {a: criteria(pooled, per_seed, seeds, a, invalid) for a in ARMS}
@@ -448,10 +661,12 @@ def analyze(directory, seeds, code, manifest, qdiag=64, fork=False, test=False, 
                 fork_summary[arm][cat] = dict(unit='seed branch pair',
                     history_sensitive=fraction(sum(v is True for v in vals), sum(v is not None for v in vals)),
                     unassessable_seed_pairs=sum(v is None for v in vals))
-    return dict(analyzer='Sol', schema=SCHEMA, verdict=verdict, test_mode=test, seeds=list(seeds), qdiag=qdiag,
-                fork_requested=fork, fork_status='admitted' if fork_active else 'unrun', fork_errors=fork_errors, code_hash=code, model_manifest=manifest, errors=errors,
+    return dict(analyzer='Sol', analyzer_code_hash=analysis_fingerprint(), schema=SCHEMA, verdict=verdict, test_mode=test, seeds=list(seeds), qdiag=qdiag,
+                fork_requested=fork, fork_status=('invalid_secondary' if any(v.get('errors') for d in branch.values() for v in d.values()) else 'admitted') if fork_active else 'unrun', fork_errors=fork_errors, code_hash=code, model_manifest=manifest, errors=errors,
                 invalid_arms=sorted(invalid), per_seed=per_seed, pooled=pooled, integrity=integrity,
-                criteria=crit, arm_guards=guards, mechanism=mech,
+                criteria=crit, arm_guards=guards, mechanism=mech, phase1_binding=phase1_binding,
+                base_denominator_integrity=denominator_integrity,
+                file_inventory=dict(expected_main=55*len(seeds), expected_withheld=4*len(seeds) if fork_active else 0, loaded=len(files_read), files=files_read),
                 diagnostics=diagnostics(pooled, per_seed, seeds, invalid, guards), fork=branch, fork_summary=fork_summary,
                 limitations=['Checkpoint/full-state and base-loss hashes are cross-checked as recorded identities; '
                              'tensor/RNG equality and forward passes require the producer restoration/calibration artifacts.',
@@ -469,11 +684,25 @@ def main():
     ap.add_argument('--fork', action='store_true')
     ap.add_argument('--gpu', help='recorded phase-1 GPU name; required in production')
     ap.add_argument('--restore-report', type=Path)
+    ap.add_argument('--phase0-dir', type=Path, help='frozen phase-0 directory, including all five preps and validation.json')
+    ap.add_argument('--phase1-dir', type=Path, help='frozen phase-1 directory, including calibration inputs and manifests')
+    ap.add_argument('--phase0-pin', help='optional external phase-0 commit identity')
+    ap.add_argument('--phase1-manifest-sha', help='optional external PHASE1.sha256 identity')
+    ap.add_argument('--prior-spend', type=float, default=.65, help='previous-attempt spending, added to recorded spent_usd')
+    ap.add_argument('--usd-per-hour', type=float, default=.86, help='recorded accounting rate, not a billing lookup')
+    ap.add_argument('--phase1-bundle', type=Path, help='optional archive for --phase1-only checksum verification')
+    ap.add_argument('--phase1-only', action='store_true', help='independently verify phase 1; directory is the phase-1 root')
     ap.add_argument('--test-mode', action='store_true')
     ap.add_argument('--out', type=Path, required=True)
     a = ap.parse_args()
-    r = analyze(a.directory, tuple(map(int, a.seeds.split(','))), a.code_hash, a.model_manifest_sha,
-                a.qdiag, a.fork, a.test_mode, a.validator_report, a.restore_report, a.gpu)
+    if a.phase1_only:
+        if a.phase0_dir is None: ap.error('--phase1-only requires --phase0-dir')
+        r = verify_phase1(a.phase1_dir or a.directory, a.phase0_dir, a.code_hash, a.model_manifest_sha,
+                          a.gpu, a.prior_spend, a.usd_per_hour, expected_pin=a.phase0_pin, bundle=a.phase1_bundle)
+    else:
+        r = analyze(a.directory, tuple(map(int, a.seeds.split(','))), a.code_hash, a.model_manifest_sha,
+                    a.qdiag, a.fork, a.test_mode, a.validator_report, a.restore_report, a.gpu,
+                    a.phase0_dir, a.phase1_dir, a.phase0_pin, a.phase1_manifest_sha, a.prior_spend, a.usd_per_hour)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     def clean(v):
         if isinstance(v, float) and not finite(v): return None
@@ -483,7 +712,7 @@ def main():
     r = clean(r)
     a.out.write_text(json.dumps(r, indent=2, ensure_ascii=False, allow_nan=False)+'\n')
     print(json.dumps({k: r.get(k) for k in ('verdict', 'test_mode', 'invalid_arms', 'errors')}))
-    return 2 if r['verdict'] == 'SUPPORT1_INVALID' else 0
+    return 2 if r['verdict'] in ('SUPPORT1_INVALID', 'SUPPORT1_PHASE1_HOLD') else 0
 
 
 if __name__ == '__main__':
