@@ -1,0 +1,16 @@
+{
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "experiment": "SUPPORT1",
+ "which": "restoretest",
+ "seed": 24,
+ "arm": "U4",
+ "tensors_equal": true,
+ "step_equal": true,
+ "full_state_hash": [
+  "9d05ff91c6c845b699eda42a61de4e37de10a4f9e5a612652faf8cff5aeaee40",
+  "9d05ff91c6c845b699eda42a61de4e37de10a4f9e5a612652faf8cff5aeaee40"
+ ],
+ "admitted": true,
+ "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+ "prep_sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481"
+}

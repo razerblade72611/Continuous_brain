@@ -1,0 +1,28 @@
+{
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "experiment": "SUPPORT1",
+ "which": "calcheck",
+ "seed": 24,
+ "E": 4,
+ "pos_template_acquisition": 0.8,
+ "n_pos_template": 10,
+ "ppl_ratio": {
+  "eval": 0.8203542322348186,
+  "modern": 0.8694460713826438
+ },
+ "competence_in_band": true,
+ "N_fresh_unknown": 1.0,
+ "n_fresh": 20,
+ "errors": [],
+ "pass": true,
+ "prep_sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
+ "train_sha256": "dd56b1fcc9493bc8c251155c2c65d42217e3fba4bc314b019e6b2e23fbbdfe77",
+ "eval_sha256": {
+  "merged": "29b1e8a4d3a6598079b9615f376b0a4ba412e09816a4bc8636ca70345b23752a",
+  "unmerged": "bdf7d5376d2cceb6b2e3d4e0946ec19078c59c3bf2d9feac93a14d0992cc874e",
+  "base": "4b76add1658e8fe5828f33dcb2e56507af75df51b1257d6dd5a4f58053452395"
+ },
+ "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+ "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+ "test_mode": false
+}

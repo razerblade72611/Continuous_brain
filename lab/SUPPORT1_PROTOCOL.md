@@ -526,3 +526,19 @@
   - **Sol: GO for David to launch phase 1**, after independently verifying all six phase-0 hashes, the CODE_HASH, the
     model manifest, non-test status, and that the only change from the reviewed body is the PIN line.
   - The GO covers calibration → calcheck → restoretest → projection with the $30 STOP. Phase 2 remains HOLD.
+- **Phase 1** (launcher f3d6b8b, PIN 512ca58).
+  - **Attempt 1:** L40S pod p0axchwcw07p4w STOPPED at the 40-min boot deadline. The clone and venv succeeded, but
+    `pip install` never finished (boot.log empty, venv 16 MB, no model). Cleanup confirmed no evidence and removed the
+    pod; about $0.65. The cause is unresolved (Sol): network transfer, dependency resolution and package building
+    can't be told apart. Sol gave GO for one identical retry; a second stall would trigger a logging/timeout patch.
+  - **Attempt 2: complete, exit 0, on an RTX 6000 Ada Generation.** The bundle sha256 is 3e589fb8…, and the 4
+    PHASE1.sha256 file lines verify. Phase 2 must use **NVIDIA RTX 6000 Ada Generation**.
+    - **calcheck PASS:**
+      - POS template acquisition 8/10 = 0.80, exactly at the threshold;
+      - N FRESH UNKNOWN 20/20;
+      - competence eval 0.820 / modern 0.869;
+      - merged vs unmerged |Δppl| ≈ 1e-7; TF32 off; no errors.
+    - **restoretest: admitted.** All tensors equal, steps equal, full_state_hash identical. **The fork is included.**
+    - **Projection:** 0.072 s per item and 0.46 s per eval row, measured. Plans: fork+64 10.06 h / $8.65; no-fork+64
+      9.32 h; fork+32 9.16 h; no-fork+32 8.42 h. **Choice: fork + QDIAG 64.** Cumulative SUPPORT-1 spend including
+      attempt 1 is about $1.2, so the projected total is about $10, under the $30 ceiling.
