@@ -207,7 +207,19 @@ def build_schedules(st, fork, strat, spl, tp, tok, chunk, test_mode=False):
     t_pop = sorted(((t, AIDX[a], k) for t in tp["t_neg"] for a in ATTRS9 for k in (0, 1)))
     t_cyc = Cycler(t_pop, f"SUPPORT1-tcyc-{seed}")
     swap_pool = sorted(tp["t_swap"]); random.Random(f"SUPPORT1-swap-{seed}").shuffle(swap_pool)   # §2.1: sorted, then shuffled
-    swap_used = set()
+    # Amendment A1 (proposed to Sol): ONE fixed T_swap name per A entity, the first in swap_pool order whose framed
+    # (length, n_loss) equals the entity's for ALL 18 question forms (9 attributes x 2 wordings), so G repeats the same
+    # fake person exactly as U repeats the real one.
+    sig = lambda name: [tuple((len(x[0]), x[1])) for x in (C.qa_ids(tok, QT[a][k].format(e=name), "UNKNOWN")
+                                                            for a in ATTRS9 for k in (0, 1))]
+    swap_of, taken = {}, set()
+    for e in sorted(st["A"]):
+        want = sig(e)
+        for t in swap_pool:
+            if t not in taken and (sig(t) == want or test_mode):     # test mode: tiny BPE cannot length-match
+                swap_of[e] = t; taken.add(t); break
+        else:
+            raise SystemExit(f"PREP STOP: no T_swap name matches {e} on all 18 question forms")
     positives, sched, swap_map, blocks, fork_sched = {}, {arm: {} for arm in ARMS}, {}, {}, None
     for L in range(1, SLEEPS + 1):
         orc = oracle(facts, L)
@@ -259,18 +271,10 @@ def build_schedules(st, fork, strat, spl, tp, tok, chunk, test_mode=False):
             q = QT[c[1]][k].format(e=c[0])
             ids, nl = frame_ids(tok, q, "UNKNOWN")
             base_U.append(entry("neg_a", "third", ids, nl, cell=c, wording=k, label="UNKNOWN"))
-            for t in swap_pool:
-                if t in swap_used:
-                    continue
-                ids2, nl2 = frame_ids(tok, QT[c[1]][k].format(e=t), "UNKNOWN")
-                if (len(ids2) == len(ids) and nl2 == nl) or test_mode:   # test mode: tiny BPE cannot length-match
-                    swap_used.add(t)
-                    base_G.append(entry("neg_swap", "third", ids2, nl2, cell=(t, c[1]), src_cell=c, wording=k,
-                                        label="UNKNOWN"))
-                    smap.append({"src_cell": list(c), "wording": k, "t_name": t})
-                    break
-            else:
-                raise SystemExit(f"PREP STOP: no unused token-length-matched T_swap name for {c} wording {k}")
+            t = swap_of[c[0]]
+            ids2, nl2 = frame_ids(tok, QT[c[1]][k].format(e=t), "UNKNOWN")
+            base_G.append(entry("neg_swap", "third", ids2, nl2, cell=(t, c[1]), src_cell=c, wording=k, label="UNKNOWN"))
+            smap.append({"src_cell": list(c), "wording": k, "t_name": t})
         for (t, a), k in T_part:
             ids, nl = frame_ids(tok, QT[a][k].format(e=t), "UNKNOWN")
             e_ = entry("neg_t", "third", ids, nl, cell=(t, a), wording=k, label="UNKNOWN")

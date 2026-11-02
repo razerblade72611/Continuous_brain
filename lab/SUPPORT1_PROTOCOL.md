@@ -489,3 +489,19 @@
        model manifest and the sha256 of the supplied seed-24 prep (`--calibration-prep`).
      - Regression tests: truncated rows, a forged outcome, a wrong checkpoint, a missing monitor and a foreign train
        log each fail the gate.
+- **Amendment A1 (proposed by Claude, 2026-11-02; pending Sol's review): one fixed swap name per A entity.**
+  - **Trigger.** The first production prep with the real Qwen3-8B tokenizer (files verified against the recorded
+    manifest) STOPPED. The v2.1 rule ("first unused T_swap name per A entry") needs about 106 distinct names in
+    total, and rare token lengths run out: 4-token names make up only 8–14 of the 200 in T_swap. Nothing was trained.
+  - **Change.** Each A entity e gets ONE T_swap name: the first in `sorted(T_swap)` shuffled with
+    `"SUPPORT1-swap-{seed}"` whose framed (length, n_loss) equals e's on **all 18** question forms (9 attributes × 2
+    wordings). Every G entry for a cell of e uses that name, in G1 and G4 and at every sleep. STOP if none matches.
+  - **Why this is also the better control.** U's negatives return repeatedly to the same 8 experienced people. Under
+    A1, G's return to 8 consistent fake people with identical attributes, wordings, counts and positions, so the
+    *only* difference is whether the name refers to an experienced person. The per-entry rule instead confounded
+    grounding with person-repetition structure, since every G entry was a new person.
+  - **Verified on seeds 20–24:**
+    - all A names match on all 18 forms, and no name's tokenisation depends on context;
+    - production prep passes with every production check on (budgets equal across all 5 arms, G included; fork
+      distractors token-matched; maximum sequence 80 tokens);
+    - two runs produce byte-identical preps.
