@@ -120,12 +120,17 @@ def stage_analyze(a):
         if tr.get("seed") != s or tp.get("prep_sha256") != psha or tp.get("code_hash") != code_hash():
             errs.append(f"seed {s}: train log does not belong to this prep/code")
         R[s], PPL[s] = {}, {}
+        dens = set()
         for L in range(1, SLEEPS + 1):
             ev, e_ = load_eval(sd / f"eval_N_s{L}.json", prep, psha, "N", L, "base", "observed", None, a.test_mode)
             if e_:
                 errs += [f"seed {s} N s{L}: {x}" for x in e_]
             else:
                 R[s][("N", L)], PPL[s][("N", L)] = rates(ev, prep, "observed", L), ev["ppl_ratio"]
+                dens.add(ev["base_denominator_sha256"])
+        if len(dens) != 1:                                 # Sol (768982d): one fp32 base denominator per seed
+            errs.append(f"seed {s}: N evaluations do not share one base-denominator identity ({len(dens)})")
+        ref = next(iter(dens)) if len(dens) == 1 else None
         for arm in arms_t:
             for L in range(1, SLEEPS + 1):
                 ck = (tr.get("arms", {}).get(arm, {}).get(str(L)) or {}).get("ckpt_sha256")
@@ -134,6 +139,8 @@ def stage_analyze(a):
                 m, em = load_eval(sd / f"eval_{arm}_s{L}_merged.json", prep, psha, arm, L, "merged", "observed", ck, a.test_mode)
                 u, eu = load_eval(sd / f"eval_{arm}_s{L}_unmerged.json", prep, psha, arm, L, "unmerged", "observed", ck, a.test_mode)
                 t = twins(m, u) if (m and u and not em and not eu) else {"ok": False}
+                if t["ok"] and not (m["base_denominator_sha256"] == u["base_denominator_sha256"] == ref):
+                    t = t | {"ok": False, "reason": "base-denominator identity differs from its twin or the N reference"}
                 integ[f"{s}:{arm}:{L}"] = t | {"validation_errors": em + eu}
                 if em or eu or not t["ok"]:
                     invalid.add(arm); continue
@@ -144,6 +151,8 @@ def stage_analyze(a):
                 m, em = load_eval(sd / f"eval_{arm}_s4_withheld_merged.json", prep, psha, arm, 4, "merged", "withheld", ck, a.test_mode)
                 u, eu = load_eval(sd / f"eval_{arm}_s4_withheld_unmerged.json", prep, psha, arm, 4, "unmerged", "withheld", ck, a.test_mode)
                 t = twins(m, u) if (m and u and not em and not eu and _hex64(ck)) else {"ok": False}
+                if t["ok"] and not (m["base_denominator_sha256"] == u["base_denominator_sha256"] == ref):
+                    t = t | {"ok": False, "reason": "base-denominator identity differs from its twin or the N reference"}
                 integ[f"{s}:{arm}:4:withheld"] = t | {"validation_errors": em + eu}
                 if t["ok"]:
                     fork.setdefault(arm, {})[s] = rates(m, prep, "withheld", 4)
@@ -194,9 +203,10 @@ def stage_analyze(a):
             return "invalid"
         d1 = all(ge(P(arm, L, "POS", "para", "correct"), TH["pos"]) and
                  ge(P(arm, L, "POS", "para", "correct"), minus(P("P", L, "POS", "para", "correct"), TH["pos_vs_p"]))
-                 for L in range(1, 6))
+                 for L in range(1, 6)) and all(ge(P(arm, L, "FIRST", "para", "correct"), TH["first"]) for L in range(2, 6))
         d4 = ge(P(arm, 5, "RET", "para", "correct"), minus(P("P", 5, "RET", "para", "correct"), TH["ret_vs_p"])) and all(
-            ge(TH["ppl_mean"], pooled([PPL[s][(arm, L)][k] for s in seeds])) for L in range(1, 6) for k in ("eval", "modern"))
+            ge(TH["ppl_mean"], pooled([PPL[s][(arm, L)][k] for s in seeds])) and
+            all(le(PPL[s][(arm, L)][k], TH["ppl_seed"]) for s in seeds) for L in range(1, 6) for k in ("eval", "modern"))
         return "ok" if (d1 and d4) else "guard failed"
     readings = {}
     for arm in ("U1", "U4", "G1", "G4"):
@@ -219,9 +229,12 @@ def stage_analyze(a):
             inv = {r["probe_id"]: r for r in json.loads((d / f"seed{s}/prep_seed{s}.json").read_text())["probes"]["observed"]["5"]}
             ev = json.loads((d / f"seed{s}/eval_{arm}_s5_merged.json").read_text())
             out = {r["probe_id"]: r["outcome"] for r in ev["rows"]}
-            pq = [(out[r["probe_id"]] == "unknown", out[r["pair_probe_id"]] == "unknown") for r in inv.values()
-                  if r["cat"] == "SEL-Q" and r["pair_probe_id"]]
-            pair[s] = (sum(q for q, _ in pq) - sum(t for _, t in pq)) / len(pq) if pq else None
+            cells = {}                                     # Sol (768982d): equal weight per unique cell, not per row
+            for r in inv.values():
+                if r["cat"] == "SEL-Q" and r["pair_probe_id"]:
+                    c = cells.setdefault(tuple(r["cell"]), {"q": [], "t": out[r["pair_probe_id"]] == "unknown"})
+                    c["q"].append(out[r["probe_id"]] == "unknown")
+            pair[s] = (sum(sum(c["q"]) / len(c["q"]) - c["t"] for c in cells.values()) / len(cells)) if cells else None
         gw, ga = gr(gh), gr(gn)
         how_u, how_c = unk("HOW")["pooled"], M(arm, 5, "HOW", "template", "substantive")["pooled"]
         rev3 = {s: frac(R[s][(arm, 3)], "REV-Q", "question", "unknown") for s in seeds}
@@ -246,13 +259,14 @@ def stage_analyze(a):
             "GTQ_unknown": unk("GTQ", "question")["pooled"]}
     dose = {}
     for lo, hi in (("U1", "U4"), ("G1", "G4")):
-        if {lo, hi} & invalid:
+        if {lo, hi} & invalid or readings[lo].get("assessable") is False or readings[hi].get("assessable") is False:
             dose[f"{hi}-{lo}"] = "NOT_ASSESSABLE"; continue
         dd = {k: (readings[hi][k] - readings[lo][k]) if None not in (readings[hi][k], readings[lo][k]) else None
               for k in ("SEL_Q_unknown", "SEL_D_unknown", "HOW_unknown", "HNM_unknown")}
         dose[f"{hi}-{lo}"] = dd | {"dose_responsive": ge(dd["SEL_Q_unknown"], 0.20)}
     ground = None
-    if not {"U4", "G4"} & invalid:
+    if not {"U4", "G4"} & invalid and readings["U4"].get("assessable") is not False \
+            and readings["G4"].get("assessable") is not False:
         g = (readings["U4"]["HOW_unknown"] - readings["G4"]["HOW_unknown"]) if None not in (
             readings["U4"]["HOW_unknown"], readings["G4"]["HOW_unknown"]) else None
         ground = {"U4_minus_G4_HOW_unknown": g, "demonstrated": ge(g, 0.20)}
@@ -262,8 +276,12 @@ def stage_analyze(a):
         for s, Rw in per.items():
             obs = frac(R[s][(arm, 4)], "FORK-H", "template", "correct")["value"] if (arm, 4) in R[s] else None
             wit = frac(Rw, "FORK-H", "template", "unknown")["value"]
+            obs_q = frac(R[s][(arm, 4)], "FORK-H-Q", "question", "correct")["value"] if (arm, 4) in R[s] else None
+            wit_q = frac(Rw, "FORK-H-Q", "question", "unknown")["value"]
             hs[s] = {"observed_correct": obs, "withheld_unknown": wit,
-                     "history_sensitive": ge(obs, 0.50) and ge(wit, 0.80)}
+                     "history_sensitive": ge(obs, 0.50) and ge(wit, 0.80),
+                     "question": {"observed_correct": obs_q, "withheld_unknown": wit_q,
+                                  "history_sensitive": ge(obs_q, 0.50) and ge(wit_q, 0.80)}}
         forkr[arm] = hs
     keys = [(c, kc) for c, kc in sorted({k for s in seeds for v in R[s].values() for k in v})]
     table = {f"{arm}|{L}|{c}|{kc}": {cls: M(arm, L, c, kc, cls) for cls in ("correct", "unknown", "empty", "substantive")}

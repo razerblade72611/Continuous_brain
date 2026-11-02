@@ -55,7 +55,6 @@ def test_full_valid_matrix_matches_primary(peer_matrix,tmp_path):
     assert all(c['criteria'][k]==s['criteria'][k] for k in ('D1','D2','D3','D4','functional'))
 
 
-@pytest.mark.xfail(strict=True,reason='peer omits equality/reference checks for base-denominator identities')
 @pytest.mark.parametrize('arm',['U4','G1','G4'])
 @pytest.mark.parametrize('variant',['split_twins','shifted_reference'])
 def test_base_identity_must_match_twins_and_N(peer_matrix,tmp_path,arm,variant):
@@ -69,7 +68,6 @@ def test_base_identity_must_match_twins_and_N(peer_matrix,tmp_path,arm,variant):
     finally:restore(saved)
 
 
-@pytest.mark.xfail(strict=True,reason='peer D1 reading guard omits FIRST')
 def test_reading_guard_requires_first_acquisition(peer_matrix,tmp_path):
     def change(e,by,seed):
         rows=[r for r in by.values() if r['cat']=='FIRST' and r['kind'].startswith('para')]
@@ -94,7 +92,6 @@ def test_reading_guard_requires_first_acquisition(peer_matrix,tmp_path):
     finally:restore(saved)
 
 
-@pytest.mark.xfail(strict=True,reason='peer D4 reading guard omits per-seed competence ceiling')
 def test_reading_guard_requires_per_seed_competence(peer_matrix,tmp_path):
     def change(e,by,seed):e['ppl_ratio']={k:(1.06 if seed==20 else 1.) for k in ('eval','modern')}
     saved=mutate_evals(peer_matrix,'U4',5,change)
@@ -105,7 +102,6 @@ def test_reading_guard_requires_per_seed_competence(peer_matrix,tmp_path):
     finally:restore(saved)
 
 
-@pytest.mark.xfail(strict=True,reason='peer construction contrast weights question rows instead of unique cells')
 def test_construction_contrast_has_equal_cell_weight(peer_matrix,tmp_path):
     def change(e,by,seed):
         q=[r for r in by.values() if r['cat']=='SEL-Q']
@@ -126,7 +122,6 @@ def test_construction_contrast_has_equal_cell_weight(peer_matrix,tmp_path):
     finally:restore(saved)
 
 
-@pytest.mark.xfail(strict=True,reason='invalid P skips reading fields but peer dose/grounding still index them')
 def test_invalid_P_returns_INVALID_without_crashing(peer_matrix,tmp_path):
     path=peer_matrix/'seed20/eval_P_s1_merged.json';saved=path.read_bytes()
     try:
