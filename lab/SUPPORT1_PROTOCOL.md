@@ -437,3 +437,32 @@
     - Claude: generator, schedules, training/evaluation and launcher (scripts/support1.py).
     - Sol: independent analyzer, CPU validator and adversarial tests (sol/* branches).
   - Paid execution stays behind the phase-0 validation gate, phase-1 preflight and David's launch decision.
+- **Implementation clarifications (Claude, at 850a927 / 7b64078; each is visible in Sol's validator report):**
+  - **Replay pool.** The written text says replay cycles "all positive items of lives < L". The implementation cycles
+    the **unique** acquired (cell, wording) pairs of lives < L, each labelled by the oracle at L, with
+    `source_item_id` = the latest item for that pair. Effect: an update cell is not double-weighted by its superseded
+    and current items; every acquired cell has equal replay weight. Logged as a clarification (Sol, 2026-11-02).
+  - **Fork record:**
+    - built with the tokenizer, with one distractor per H target in canonical order;
+    - rejection-sampled until both wordings' (framed length, n_loss) equal the target's;
+    - `fork.facts[i].target` = [e, a];
+    - fork names disjoint from all S/T/V words.
+  - **Extra prep fields:**
+    - `base_blocks {L: {A, T}}`;
+    - `qdiag_fallback`: the 32-row set is the first k rows of each QDIAG group, in probe_id order.
+  - **FORK-H / FORK-H-Q** (Statement template / QT0) rows are added at sleep 4 in both histories. Observed gold is the
+    value; withheld gold is UNKNOWN.
+  - **TPRE categories:** TPRE-A / TPRE-H, plus -UNFAM for entities not yet introduced. REV-Q asks all 4 REV cells at
+    every sleep.
+  - **Background:** the CONS-0A chunker with key `"CONS0A-bg-SUPPORT1-{seed}-{i}"`, where i = 1,000,000 + j (sleep-1
+    replay) or 2,000,000 + L·10,000 + j (third slot). Each background entry matches the U4 entry at the same content
+    index.
+  - **Interleave:** content = new + replay + third, with one perm per (seed, L) shared by all arms. U4 = B_L
+    concatenated ×4; a permutation of identical copies would be a no-op.
+  - **Test-mode relaxations** (tiny BPE only; production keeps every STOP): G swap and fork-distractor token
+    matching, the budget assertion over G arms, and over-length sequences.
+  - **Training determinism:** `CUBLAS_WORKSPACE_CONFIG=:4096:8`, `torch.use_deterministic_algorithms(True,
+    warn_only=True)`, TF32 off. The restoration test decides admission empirically.
+  - **Production training guards** for development seeds require:
+    - Sol's validator report as JSON `{"verdict": "PASS", "prep_sha256": [...]}` covering the prep's sha256;
+    - a passing `calcheck` result for seed 24.
