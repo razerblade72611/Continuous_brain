@@ -1,8 +1,9 @@
-# SUPPORT-1 protocol: can consolidation learn a support rule from exact supervision? (v2 for Sol's review; 2026-11-02)
+# SUPPORT-1 protocol: can consolidation learn a support rule from exact supervision? (v2.1 for Sol's review; 2026-11-02)
 
 - **Basis:** lab/NEXT_SOL_DRAFT.md (the base design), lab/NEXT_CLAUDE_DRAFT.md (within-entity holdout), and the
   decision in lab/ABST0_PROTOCOL.md "Exchange outcome" (20af43a).
 - **v2** answers Sol's HOLD on v1 (1caeeec), items S1–S8. Each change below is tagged with its item.
+- **v2.1** answers Sol's errata HOLD on v2 (8322c55), items E1–E4.
 - Anything not changed here is as in ABST-0 v3, cited by section.
 - Development experiment. Nothing here authorises spending; David decides and launches.
 
@@ -40,14 +41,40 @@
   - **T_swap** (200): names for G swaps.
 
   A T_swap name never appears in any U arm at any sleep, so every GTQ row is a fresh name for U arms.
+- **§2.1 RNG and ordering contract (E3).**
+  - Every random operation uses `random.Random(key)` (Python 3.12 string seeding), with the key string given at its
+    use site.
+  - **Canonical population orders, used before any shuffle or sample:**
+    - names: `sorted(str)`;
+    - attributes: the ATTRS9 order;
+    - cells: `sorted` by (entity, ATTRS9 index);
+    - (cell, wording) pairs: by (cell order, wording);
+    - T entries: (name, ATTRS9 index, wording).
+  - **Operations:**
+    - shuffle = `rng.shuffle(list)`;
+    - sample k without replacement = `rng.sample(list, k)`;
+    - coin = `rng.random() < 0.5`.
+  - **Cyclers** (SEL cycler, T cycler, replay cycler). Each is built once per seed from its canonical population,
+    shuffled once with its key (`"SUPPORT1-selcyc-{seed}"`, `"SUPPORT1-tcyc-{seed}"`, and
+    `"SUPPORT1-replay-{seed}-{L}"` for replay). They are consumed in order, wrapping around.
+    - The SEL and T pointers persist across sleeps; entries not eligible at L (e.g. an unfamiliar entity) are
+      skipped without consuming the pointer.
+    - The replay cycler is rebuilt per sleep.
+  - **T partition:** `t = sorted(T)`; `random.Random("SUPPORT1-tpart-{seed}").shuffle(t)`; T_neg = t[:200] and
+    T_swap = t[200:].
+  - **Swap choice:** for each A entry in B_L order, the first unused name in T_swap (in its shuffled
+    `"SUPPORT1-swap-{seed}"` order) whose framed sequence has equal token length. STOP if none.
+  - **HNM, FRESH and QDIAG samples:** `rng.sample` on the canonical population, with the keys given in §5.
 - **Strata (frozen at prep, from the full 5-life stream):**
   - **PM** (permanently missing): core (e, a) with no fact in any life that is not a planned cell.
   - **SEL / HOW (S4):** each A entity's PM cells are split.
-    - **Algorithm.** For r = 0, 1, …, 999, using RNG `"SUPPORT1-split-{seed}-{r}"`:
-      - shuffle each A entity's PM attributes (entities in sorted order);
-      - put the first ⌈k/2⌉ in SEL and the rest in HOW when a fair coin for that entity is heads, the reverse when
-        tails (k = that entity's PM count);
-      - accept the first r for which every attribute has |#SEL − #HOW| ≤ 1 across A entities.
+    - **Algorithm** (exact RNG operations in §2.1). For r = 0, 1, …, 999, with `rng = random.Random("SUPPORT1-split-{seed}-{r}")`,
+      take each A entity in sorted(A) order:
+      - `atts = sorted(PM attributes of e)`; `rng.shuffle(atts)`;
+      - `heads = rng.random() < 0.5`;
+      - k = len(atts) and h = ⌈k/2⌉. If heads, SEL = atts[:h] and HOW = atts[h:]; otherwise HOW = atts[:h] and
+        SEL = atts[h:].
+      - Accept the first r for which every attribute has |#SEL − #HOW| ≤ 1 across A entities.
     - Per-entity |SEL − HOW| ≤ 1 holds by construction. Every A entity has k ≥ 2 (prep STOPs otherwise), so each has
       ≥ 1 SEL and ≥ 1 HOW.
     - STOP if no r ≤ 999 passes. The accepted r is recorded.
@@ -222,10 +249,13 @@
   - **HOW GROUNDING CONTRAST:** U4 − G4 on HOW UNKNOWN. Below 0.20 means "a grounding contrast on HOW was not
     demonstrated". Generic suppression is then *one compatible explanation*, not a finding.
   - **DOSE:** U4 − U1 on SEL-Q, SEL-D, HOW and HNM. "Dose-responsive" means U4 − U1 ≥ 0.20 on SEL-Q.
-  - **REVERSAL:** REV-Q UNKNOWN ≥ 0.75 (3/4 cells) at sleep 3 is the pre-transition acquisition requirement.
-    - Without it, the reversal is "not established".
-    - With it, success means TPOST-A correct ≥ 0.50 and ≥ P's TPOST-A − 0.15 at sleeps 4 and 5. REV-Q correct at
-      sleeps 4 and 5 is reported alongside.
+  - **REVERSAL (E1).** Uses the exact QT0 question per REV cell.
+    - **Pre-transition acquisition:** at sleep 3, REV-Q UNKNOWN on ≥ 3 of the 4 REV cells **in at least 3 of 4
+      seeds**. The pooled rate is reported too, but does not substitute.
+    - Without acquisition, the reversal is "not established".
+    - **With acquisition, reversal success** = REV-Q correct (the life-4 value) ≥ 0.50 pooled **and** ≥ P's REV-Q
+      correct − 0.15, at **both** sleeps 4 and 5.
+    - Statement TPOST-A is reported alongside, and the primary Statement D3 is unchanged.
   - **G's own acquisition:** GTQ UNKNOWN in G4, next to U4's SEL-Q.
 - **Interpretation** (frozen; Sol's table):
   - NOT-ACQ in both U1 and U4 → fix optimisation or masking.
@@ -244,9 +274,16 @@
   The oracle labels of each are computed from its own history. In `withheld`, the H target cells have gold
   "UNKNOWN".
 - **When.** After sleep 3, for U4 and G4. The parent state ID is the canonical state hash of the sleep-3 state.
-- **The withheld branch's sleep-4 schedule** replaces, in the new slot, the 8 positive items of the 4 H transition
-  facts (2 wordings each) with the 8 distractor items. These are life-4 items, so sleep-4 replay is unaffected. They are token- and loss-matched at
-  identical positions; all other entries, including A negatives, are identical.
+- **The withheld branch's sleep-4 schedule (E2).**
+  - The 4 H transition facts give 8 base positive items (2 wordings each). At E = 4 these occupy **32 scheduled
+    presentations** in the sleep-4 new slot.
+  - **All 32** are replaced, position for position, by the 8 distractor items × 4, token- and loss-matched.
+  - The validator asserts that the withheld schedule contains **zero** positive supervision for any H target cell.
+  - These are life-4 items, so sleep-4 replay is unaffected. All other entries, including A negatives, are identical.
+- **Distractor facts** have stable IDs `"F{seed}L4D{i}"` (i = 0–3), life 4 and role "fork_distractor".
+  - Their 4 reserved entities are transient entities of the withheld history only, so they enter that branch's
+    FIRST and POS inventories at sleep 4.
+  - Branch-specific probe inventories are generated from each history (§9 `probes.withheld`).
 - **Evaluation.** Sleep 4, merged plus unmerged: `eval_{arm}_s4_withheld_{mode}.json`, 16 evaluations. The probes
   are the 4 H targets (Statement template and QT0 Question), plus the full standard set for completeness.
 - **Reading.** "History-sensitive" means observed-branch correct ≥ 0.50 and withheld-branch UNKNOWN ≥ 0.80 on the H
@@ -258,6 +295,23 @@
   - the Python, NumPy, torch-CPU and torch-CUDA RNG states byte-equal at the end of sleep 4.
 
   Container checksums are not used. If equality fails, the fork is recorded as **unrun**.
+- **Full-state identity (E2).**
+  - `tensor_hash` = sha256 over, for each tensor in sorted name order (LoRA parameters, then optimiser state as
+    `"opt/{param_name}/{state_key}"`), the concatenation of:
+    - the name as UTF-8;
+    - b"\0";
+    - the dtype string (e.g. "torch.float32");
+    - b"\0";
+    - the shape as a JSON list;
+    - b"\0";
+    - the tensor's contiguous little-endian CPU bytes.
+  - `rng_hash` = the canonical-JSON sha256 of:
+    - `{"python": repr(random.getstate())`;
+    - `"numpy"`: a list of [name, base64 of `state[1].tobytes()`, state[2], state[3], state[4]];
+    - `"torch_cpu"`: base64 of `torch.get_rng_state().numpy().tobytes()`;
+    - `"cuda"`: a list of the base64 per-device states`}`.
+  - `full_state_hash` = canonical-JSON sha256 of `{"tensors": tensor_hash, "rng": rng_hash, "step": int}`.
+  - The parent-state identity and admission both use `full_state_hash`.
 
 ## 8. Phases and preflight (S8)
 - **Phase 0 (CPU, no pod):**
@@ -294,24 +348,29 @@
    fork:{entities:[str], facts:[{entity, attr, value}]},
    positives:{L:[{item_id, cell, wording:0|1, label, life}]},
    schedule:{arm:{L:[{pos:int, slot:"new"|"replay"|"third", kind:"pos"|"replay"|"bg"|"neg_a"|"neg_t"|"neg_swap",
-                     item_id:str|null, source_item_id:str|null, cell:cell|null, name:str|null, src_cell:cell|null,
+                     item_id:str|null, source_item_id:str|null, cell:cell|null, src_cell:cell|null,
                      wording:0|1|null, label:str|null, input_ids:[int], loss_start:int, n_loss:int}]}},
    fork_schedule:{L:4, arm:{…same entry form…}},
    swap_map:{L:[{src_cell, wording, t_name}]},
    probes:{history:{L:[{probe_id, cat, construction:"statement"|"question", kind:"template"|"para0"|"para1"|"qt0"|"qt1",
-                          cell:cell|null, name:str|null, item:str, gold_current:str, gold_old:str|null, gold_new:str|null,
+                          cell:cell, item:str, gold_current:str, gold_old:str|null, gold_new:str|null,
                           delivered_eligible:bool|null, pair_probe_id:str|null}]}},
    sampler_keys:{name:str}, normalisation:{code:"cls0c_b.norm", vectors_sha256:str},
    budget:{arm:{L:[items, input_tokens, loss_tokens]}}}
   ```
-  `history` ∈ {"observed", "withheld"}. Probe IDs are stable across arms: `"{seed}-{history}-{L}-{cat}-{n:04d}"`.
+  - `history` ∈ {"observed", "withheld"}. Probe IDs are stable across arms: `"{seed}-{history}-{L}-{cat}-{n:04d}"`.
+  - **Cell rule (E3):** every semantic training entry and every probe carries the **rendered** `cell = [name,
+    attribute]`. This covers positives, replay, A negatives, T negatives (`[t_name, attr]`), G swaps (`[t_name,
+    attr]`, plus `src_cell`), GTQ and FRESH. Only background has `cell: null`.
 - **`train_seed{S}.json`:**
   ```
   {schema, experiment, seed, provenance:{code_hash, prep_sha256, model_manifest, test_mode, gpu},
-   arms:{arm:{L:{ckpt_sha256, state_hash, delivered:{key:count}, budget:[…]}}},
-   fork:{admitted:bool, parent_state_hash:{arm:str}, withheld:{arm:{ckpt_sha256, state_hash}}}}
+   arms:{arm:{L:{ckpt_sha256, full_state_hash, delivered:[{kind, cell, src_cell|null, wording, label, count}], budget:[…]}}},
+   fork:{admitted:bool, parent_full_state_hash:{arm:str}, withheld:{arm:{ckpt_sha256, full_state_hash, delivered:[…]}}}}
   ```
-  `state_hash` is the canonical hash over the LoRA plus optimiser tensors, in sorted names, as raw bytes.
+  - `delivered` lists explicit records, **per sleep, not cumulative**. `count` is the number of scheduled presentations
+    of that exact (kind, cell, wording) at that sleep.
+  - `full_state_hash` is as in §7.
 - **`eval_{arm}_s{L}_{merged|unmerged}.json`, `eval_N_s{L}.json`, `eval_{arm}_s4_withheld_{mode}.json`:**
   ```
   {schema, experiment, seed, arm, sleep, mode:"merged"|"unmerged"|"base", history:"observed"|"withheld",
@@ -320,17 +379,28 @@
    rows:[{probe_id, answer:str, outcome:"correct"|"unknown"|"empty"|"substantive"}]}
   ```
   Gold and probe fields are **not** copied into evaluation rows; analyzers join on `probe_id` against prep.
-- **CODE_HASH:** sha256 over, in this order, the bytes of: scripts/support1.py, scripts/cons0a.py,
-  scripts/cls0c_b.py, being/v3/lifegen.py, scripts/abst0.py (make_stream source), being/v3/competence.py, the
-  background and competence data files, and the normalisation test-vector file. The list is literal in
-  `support1.CODE_FILES`.
+- **CODE_HASH (E4)** follows ABST-0's rule: `sha256(b"".join(sha256_hex(file_bytes).encode() for file in CODE_FILES))`,
+  with CODE_FILES literally, in this order:
+  1. `scripts/support1.py`
+  2. `scripts/abst0.py` (make_stream and _names source)
+  3. `scripts/cons0a.py`
+  4. `scripts/cls0c_b.py`
+  5. `being/v3/lifegen.py`
+  6. `being/competence.py`
+  7. `data/background.txt`
+  8. `data/competence_eval.txt`
+  9. `data/competence_modern.txt`
+  10. `lab/support1_norm_vectors.json` (the §3 test vectors as `[[input, expected], …]`)
+
+  Both implementations compute it identically.
 - **Validator (Sol; independent).** It checks, from the stream alone:
   - every gold value, with the temporal mask and the per-history oracle;
   - the strata and the split rule (re-run and match r);
   - the T partition and its global disjointness;
   - the leak rule;
   - the REV quota;
-  - no UNKNOWN target on H, HOW, excluded or unfamiliar cells;
+  - no UNKNOWN target on any S/core cell that is H, HOW, excluded, or of an entity not yet introduced at L. T
+    negatives and swaps concern unexperienced names by design and are exempt;
   - U4 = 4 × U1 per entry;
   - the G token-length match and a shared mapping;
   - every positive, including replay, against the oracle at L;
