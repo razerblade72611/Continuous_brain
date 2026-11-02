@@ -520,3 +520,9 @@
     slow end-to-end test.
   - Editing calcheck changes CODE_HASH, so the candidate preps are regenerated and must be revalidated before phase 0
     is frozen.
+- **Phase 0 frozen (512ca58).** PHASE0.sha256 covers preps 20–24, `validation.json` (a byte copy of Sol's PASS report:
+  346,082 checks, 0 errors), CODE_HASH 38b8e705… and MODEL_MANIFEST 69d06933….
+- **Phase-1 launcher pinned** (f3d6b8b; sha256 c3695b07097ffa1e19af99bffb92b67e95f60685886ce75409be0a4cb0da7450).
+  - **Sol: GO for David to launch phase 1**, after independently verifying all six phase-0 hashes, the CODE_HASH, the
+    model manifest, non-test status, and that the only change from the reviewed body is the PIN line.
+  - The GO covers calibration → calcheck → restoretest → projection with the $30 STOP. Phase 2 remains HOLD.
