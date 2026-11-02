@@ -37,7 +37,7 @@ def test_committed_phase1_independent_regrade():
     assert r['restoration']['admitted'] and r['calibration']['twin']['pass_']
     assert r['projection']['chosen'] == dict(fork=True, qdiag=64, hours=10.06, usd=8.65)
     assert r['projection']['cumulative_projection'] == pytest.approx(9.84)
-    assert r['archive']['checksum_recomputed'] is False
+    assert r['archive']['checksum_recomputed'] is (P1/'support1_phase1.tar.gz').is_file()
     assert r['archive']['claimed_sha256'] == '3e589fb85c05267185825ac01cb66607fea0996bd86cf2247e46519941d5712b'
 
 

@@ -26,11 +26,13 @@ attempt-1 spending $0.65 gives $9.84 after the report's rounding, below $30.
 The actual billed rate is not established by these files. The previously noted
 fork+32 row overcount remains conservative and does not affect the chosen plan.
 
-The compressed tarball is not committed. Its recorded SHA is
-`3e589fb85c05267185825ac01cb66607fea0996bd86cf2247e46519941d5712b`;
-I did not recompute that container checksum. The committed manifest payload is
-verified independently. The CLI accepts --phase1-bundle if the archive is supplied.
-Full fractions and bindings are in SUPPORT1_SOL_PHASE1_OUTCOME.json.
+The archive is now committed at `eefc37ca2b75f6bcfe254ad5f453afb0ae7697f9`.
+Its independently recomputed SHA is
+`3e589fb85c05267185825ac01cb66607fea0996bd86cf2247e46519941d5712b`.
+All nine archived manifest/calibration/train/eval/restoration/timing/projection
+files are byte-identical to the committed payload. The earlier archive-checksum
+limitation is resolved. Full fractions and bindings are in
+SUPPORT1_SOL_PHASE1_OUTCOME.json.
 
 ## Phase-2 analyzer readiness
 

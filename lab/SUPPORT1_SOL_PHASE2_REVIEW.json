@@ -1,0 +1,54 @@
+{
+  "disposition": "HOLD",
+  "launcher_commit": "487d4cf9a756ecb8513b2c7a23dbe06f4916e7a8",
+  "launcher_sha256": "cd7763fbd40eb7e946e223c945f01d2141d536aa34b431cdef5aae5cebfd03fe",
+  "pin": "fa9efe1c0ab7ffe68c00a90f82eb89dfe3a752d6",
+  "archive_commit": "eefc37ca2b75f6bcfe254ad5f453afb0ae7697f9",
+  "archive_sha256": "3e589fb85c05267185825ac01cb66607fea0996bd86cf2247e46519941d5712b",
+  "archive_payload_files_verified": 9,
+  "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+  "CODE_FILES_changed_by_Sol": false,
+  "launcher_checks": {
+    "pin_only_diff": true,
+    "shell_syntax": "outer/BOOT/JOB PASS",
+    "regression_groups": 3,
+    "expected_evaluations": 236,
+    "expected_checkpoints": 108,
+    "GPU": "NVIDIA RTX 6000 Ada Generation",
+    "mock_job_tests": {
+      "passed": 3,
+      "cases": [
+        "236 evals and 108 checkpoints",
+        "Sol rc=2 still bundled",
+        "wrong GPU stops before training"
+      ]
+    }
+  },
+  "peer_review": {
+    "valid_baseline": "primary verdict, D1-D4 and mechanism agree",
+    "passing_baselines": 1,
+    "known_counterexamples": 10,
+    "runxfail_result": {
+      "passed": 1,
+      "failed": 10
+    },
+    "issues": [
+      "base-denominator equality/reference omitted",
+      "incomplete D1/D4 reading guards",
+      "row-weighted instead of cell-weighted construction gap",
+      "invalid P crashes dependent diagnostics"
+    ],
+    "construction_example": {
+      "peer": 0.3333333333333333,
+      "independent": 0.2545454545454545,
+      "frozen_threshold": 0.3
+    },
+    "additional_reporting_gap": "withheld FORK-H-Q readout omitted"
+  },
+  "existing_fast_tests": {
+    "passed": 81,
+    "slow_deselected": 3
+  },
+  "phase1_outcome": "GO, now including archive checksum",
+  "phase2": "HOLD pending analyzer fixes and repinning"
+}

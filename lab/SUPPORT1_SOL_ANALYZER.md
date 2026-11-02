@@ -8,7 +8,9 @@ Reviewed producer and regenerated candidate preps:
 `dbe2f6fd3cefaeb41cd9341715a0e9d8bb8f4c22` is independently GO. Phase 2 remains
 HOLD for its launcher and analysis review. See `SUPPORT1_SOL_PHASE1_OUTCOME.md`
 and `.json` for raw-answer regrading, provenance, restoration and cost evidence.
-The tarball is not committed; its compressed SHA has not been recomputed here.
+The archive is now verified at eefc37c, including its SHA and nine payload files.
+The phase-2 candidate is HOLD for the peer-analyzer findings in
+`SUPPORT1_SOL_PHASE2_REVIEW.md`.
 
 ## A1 decision and production prep verification
 
