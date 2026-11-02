@@ -442,7 +442,9 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - FRESH confabulation 0.86 / 0.60 / 0.74 / 0.88 / 0.66;
     - TPRE UNKNOWN 0.19 / 0.41 / 0.25 at sleeps 1–3 (D3 needs ≥ 0.80).
   - **Pooled G**, the name-swapped control, is about the same: HNM confabulation 0.76 / 0.68 / 0.71 / 0.59 / 0.87.
-    G − U at sleep 5 is +0.04 (needs ≥ 0.30), with U lower in 2/4 seeds.
+    G − U at sleep 5 is +0.044 (needs ≥ 0.30), with U lower in 3/4 seeds. Sleep-5 HNM confabulation counts, U vs G:
+    seed 12 30/40 vs 32/40, seed 13 36/40 vs 35/40, seed 14 31/40 vs 32/40, seed 15 35/40 vs 40/40. (Corrected: Claude
+    first logged "2/4"; Sol caught it from the raw counts.)
   - P confabulates 1.00 throughout; N says UNKNOWN 1.00 throughout.
   - **Retention is preserved:** U POS 0.75–0.88 vs P 0.81–0.88; RET at sleep 5 0.90 vs 0.92.
   - **Audit:** the delivered bad-label exposure mass per seed and sleep is 0–0.27, mostly about 0.10. Label noise of
