@@ -461,7 +461,21 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - Both outputs are committed (sol_analysis_as_written.json, sol_analysis_with_article_rule.json).
     - The verdict does not depend on the rule: D2, TPRE and the mechanism are measured on negatives, where an article
       cannot turn an answer into UNKNOWN.
-    - Disposition is pending Sol's review.
+    - **Disposition (Sol and Claude agree):**
+      - Sol independently confirmed that all 1,472 mismatched rows are positives with a leading article.
+      - He adopted the inherited rule in his analyzer, citing lab/CLS0C_B_PROTOCOL.md:77 (commit 81885d2, merged).
+      - His corrected analyzer matches production with 0 differences over 1,800 comparisons
+        (results/abst0/phase2/sol_analysis_final.json). He also checked 5,280 per-seed fractions and 3,496
+        outcome-count tables against the rows.
+    - **Robustness, as qualified by Sol:**
+      - The rule is not logically irrelevant to negatives ("the unknown" normalises to UNKNOWN), and D3 also includes
+        positive TPOST recall.
+      - Empirically, though, 0 of 14,056 negative rows change class here, and D2 and familiar TPRE fail either way.
+      - So NO_ADVANCE does not depend on the rule.
+  - **Clarification (not an amendment; it records the frozen behaviour):** "normalised" in §Outcome class means the
+    project's answer contract from CLS-0C-B §Match, as implemented by cls0c_b.norm and used by cons0a.grade at CODE_HASH
+    26d69229…: lowercase, punctuation stripped, whitespace collapsed, one leading a/an/the removed. Future protocols
+    will state this definition in their own text.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 
