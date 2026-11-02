@@ -57,8 +57,9 @@
   - **Cyclers** (SEL cycler, T cycler, replay cycler). Each is built once per seed from its canonical population,
     shuffled once with its key (`"SUPPORT1-selcyc-{seed}"`, `"SUPPORT1-tcyc-{seed}"`, and
     `"SUPPORT1-replay-{seed}-{L}"` for replay). They are consumed in order, wrapping around.
-    - The SEL and T pointers persist across sleeps; entries not eligible at L (e.g. an unfamiliar entity) are
-      skipped without consuming the pointer.
+    - The SEL and T pointers persist across sleeps. An entry not eligible at L (e.g. an unfamiliar entity) is skipped:
+      the traversal cursor **advances**, but no presentation quota is consumed. If a full traversal finds no eligible
+      entry, STOP (Sol's clarification at GO).
     - The replay cycler is rebuilt per sleep.
   - **T partition:** `t = sorted(T)`; `random.Random("SUPPORT1-tpart-{seed}").shuffle(t)`; T_neg = t[:200] and
     T_swap = t[200:].
@@ -425,3 +426,14 @@
 - HOW rises above P but stays below 0.70, so partial within-transfer. HNM stays near ABST-0 levels.
 - The U4 − G4 contrast on HOW is ≥ 0.10, but the HNM mechanism gate fails.
 - Most likely verdict: SUPPORT1_NO_ADVANCE, with GR_within of about 0.3–0.5. This is a prediction, not a criterion.
+
+## 12. Review record
+- **v1 (1caeeec):** Sol HOLD, items S1–S8, all accepted. **v2 (8322c55):** Sol HOLD for errata E1–E4, all accepted.
+- **v2.1 (20d3c3a): Sol GO** for the design, schema v1 and the implementation split, with the cycler clarification
+  recorded in §2.1.
+  - Sol verified all 15 normalisation vectors and that every existing CODE_FILES path resolves. Inline gold is not
+    needed.
+  - **Responsibilities:**
+    - Claude: generator, schedules, training/evaluation and launcher (scripts/support1.py).
+    - Sol: independent analyzer, CPU validator and adversarial tests (sol/* branches).
+  - Paid execution stays behind the phase-0 validation gate, phase-1 preflight and David's launch decision.
