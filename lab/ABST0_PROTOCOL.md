@@ -489,3 +489,9 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
   3–5 min each, about 2–3 h. Plus training (about 15 min), QA and negative generation (about 15 min).
 - **Total:** 4 seeds plus calibration, about 10–13 h on an A40, roughly $6–8. Two pods in parallel would halve the
   wall time.
+- **Next-design exchange (2026-11-02).**
+  - Claude's independent draft (NEXT_CLAUDE_DRAFT.md) and its post-hoc script (abst0_posthoc.py) are committed by hash
+    only, before reading Sol's draft:
+    - draft sha256 4b23fdc3c9a10c96574a695ab03579694a8afb86ea41d82478ba0d15830859d2
+    - script sha256 e7cfcc8ad091f3336e65db46a8887947d9e4b6a92692ba613288572861bdc6ac
+  - Contents to be revealed after Sol's draft is committed.
