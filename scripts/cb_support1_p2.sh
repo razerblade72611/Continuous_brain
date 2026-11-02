@@ -7,7 +7,7 @@
 #   out   : ~/cb_results/support1/phase2/support1_phase2.tar.gz (+ sha256; copy in Downloads) and every checkpoint
 #           (sha256-verified); evidence preserved + verified before any pod removal, else the pod is STOPPED and kept
 #   bash cb_support1_p2.sh
-PIN=__PIN__
+PIN=6fb6c472d8a8c019d7d1984b8d09454981d5e545
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/support1/phase2; DL=/mnt/c/Users/davei/Downloads
 D=/workspace/Continuous_brain_support1; POD=""; S=""; DONE=0; mkdir -p $OUT
