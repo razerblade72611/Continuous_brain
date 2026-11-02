@@ -1,0 +1,90 @@
+{
+  "disposition": "HOLD",
+  "reviewed_producer_commit": "014bb209803ae193f0e5feefe3aa1d2622809c55",
+  "contract_commit": "320dc1fd6eb08fae3d2720585af9a5a394158075",
+  "code_hash": "cff2ff15ecbdcb6263ab2fde690c910e37d7d9b7b9b7b2c15d8bea3f30b06453",
+  "production_preps_reviewed": false,
+  "tests": {
+    "independent": {
+      "passed": 24,
+      "expected_failures": 1,
+      "expected_failure": "calcheck accepts a reduced, unbound inventory"
+    },
+    "producer_invariants": {
+      "passed": 12
+    },
+    "producer_slow_tiny_end_to_end": {
+      "passed": 1,
+      "device": "CPU",
+      "seconds": 190.27
+    },
+    "launcher_regression_groups": {
+      "passed": 3,
+      "groups": [
+        "boot",
+        "cleanup",
+        "job"
+      ]
+    },
+    "previous_sol_analyzer_regression": {
+      "passed": 31
+    }
+  },
+  "phase0_tiny": {
+    "test_mode": true,
+    "seed": 20,
+    "prep_sha256": "a96df35b1a591bdcd2a178ebd6e950d70ae90d001091d189cde9418acacd94b5",
+    "checks": 67493,
+    "verdict": "FAIL",
+    "error_counts": {
+      "literal_split_retry_exhausted": 1,
+      "swap_shuffle_input_order": 106
+    },
+    "production_PASS": false
+  },
+  "real_tiny_evaluation_checks": {
+    "m": {
+      "rows": 210,
+      "errors": []
+    },
+    "u": {
+      "rows": 210,
+      "errors": []
+    },
+    "n": {
+      "rows": 210,
+      "errors": []
+    },
+    "w": {
+      "rows": 289,
+      "errors": []
+    }
+  },
+  "real_tiny_twin": {
+    "pass_": true,
+    "identical_inventory": true,
+    "answer_mismatches": 0,
+    "outcome_mismatches": 0,
+    "n_merged": 210,
+    "n_unmerged": 210,
+    "same_base_denominator": true,
+    "ppl_absolute_deltas": {
+      "eval": 0.0,
+      "modern": 0.0
+    }
+  },
+  "real_tiny_restore": {
+    "admitted": true,
+    "full_state_hashes_equal": true
+  },
+  "findings": [
+    "literal split ordering differs; seed20 exhausts1000 retries",
+    "swap input is partition ordered instead of name sorted",
+    "calcheck lacks inventory/provenance/independent-grade binding"
+  ],
+  "limitations": [
+    "No real tokenizer or production preps reviewed",
+    "No production scientific result implied",
+    "No RunPod, SSH, keys, or launch operations performed"
+  ]
+}
