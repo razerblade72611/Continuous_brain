@@ -542,3 +542,14 @@
     - **Projection:** 0.072 s per item and 0.46 s per eval row, measured. Plans: fork+64 10.06 h / $8.65; no-fork+64
       9.32 h; fork+32 9.16 h; no-fork+32 8.42 h. **Choice: fork + QDIAG 64.** Cumulative SUPPORT-1 spend including
       attempt 1 is about $1.2, so the projected total is about $10, under the $30 ceiling.
+- **Phase 2 review.**
+  - Sol first held on 4 defects in Claude's analyzer (768982d, with reproducers):
+    1. base-denominator identity not cross-checked;
+    2. reading guards missing FIRST and the per-seed competence ceiling;
+    3. the construction contrast weighted by row instead of by cell;
+    4. invalid P crashing instead of reporting INVALID.
+    He also asked for a FORK-H-Q readout.
+  - All were fixed outside CODE_FILES at 6fb6c47. Sol's 10 counterexamples are now ordinary passing tests; 95 fast tests
+    pass.
+  - **Sol: GO for phase 2.** Launcher a4e1666 (sha256 c0f1a009794b845536f3c44331cd9ae384cc4591458fe6f36476810c3314390a),
+    PIN 6fb6c47, fork + QDIAG 64, on an NVIDIA RTX 6000 Ada Generation.
