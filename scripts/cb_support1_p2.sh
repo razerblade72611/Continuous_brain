@@ -7,7 +7,7 @@
 #   out   : ~/cb_results/support1/phase2/support1_phase2.tar.gz (+ sha256; copy in Downloads) and every checkpoint
 #           (sha256-verified); evidence preserved + verified before any pod removal, else the pod is STOPPED and kept
 #   bash cb_support1_p2.sh
-PIN=9c1fea74ff5fff7b30059f64a049ceb8db8fb4da
+PIN=__PIN__
 REV=b968826d9c46dd6066d109eabc6255188de91218
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; OUT=$HOME/cb_results/support1/phase2; DL=/mnt/c/Users/davei/Downloads
 D=/workspace/Continuous_brain_support1; POD=""; S=""; DONE=0; mkdir -p $OUT
@@ -151,7 +151,7 @@ done
 echo "== analysis $(date -u +%FT%TZ)"
 $PY scripts/support1_analyze.py --dir $R --out $R/analysis_claude.json || fin 1
 $PY scripts/support1_sol_analyze.py $R --code-hash $CH --model-manifest-sha $MS --validator-report $P0/validation.json \
-   --qdiag $QD $FF --gpu "$G1" --restore-report $P1/restoretest.json --out $R/analysis_sol.json; echo "SOL ANALYZER rc=$?"
+   --qdiag $QD $FF --gpu "$G1" --restore-report $P1/restoretest.json --phase0-dir $P0 --phase1-dir $P1 --out $R/analysis_sol.json; echo "SOL ANALYZER rc=$?"
 grep -h '"verdict"' $R/analysis_claude.json $R/analysis_sol.json | head -2
 fin 0
 JOB
