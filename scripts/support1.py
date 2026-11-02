@@ -770,6 +770,9 @@ def stage_calcheck(a):
             or tp.get("test_mode") != prep["test_mode"]):
         errs.append("train log is not P sleep 1 of this prep/code/model")
     ck = tr.get("arms", {}).get("P", {}).get("1", {}).get("ckpt_sha256")
+    hex64 = lambda x: isinstance(x, str) and re.fullmatch(r"[0-9a-f]{64}", x) is not None
+    if not hex64(ck):                                       # Sol (7273e1b): a missing identity must not "match" None
+        errs.append("train log has no valid P sleep-1 checkpoint sha256")
     for mode, (_, ev) in evs.items():
         pv = ev.get("provenance", {})
         want = {"code_hash": code, "prep_sha256": psha, "ckpt_sha256": None if mode == "base" else ck,
@@ -784,8 +787,13 @@ def stage_calcheck(a):
         elif any(outcome(r["answer"], gold[r["probe_id"]]["gold_current"]) != r["outcome"] for r in ev["rows"]):
             errs.append(f"{mode}: stored outcomes disagree with independent grading")
         ppl = ev.get("ppl_ratio") or {}
-        if set(ppl) != {"eval", "modern"} or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in ppl.values()):
-            errs.append(f"{mode}: both competence monitors must be present and finite")
+        if set(ppl) != {"eval", "modern"} or not all(isinstance(v, (int, float)) and not isinstance(v, bool)
+                                                    and math.isfinite(v) and v > 0 for v in ppl.values()):
+            errs.append(f"{mode}: both competence monitors must be present, finite and strictly positive")
+        if not hex64(ev.get("base_denominator_sha256")):
+            errs.append(f"{mode}: missing or malformed base-denominator identity")
+        if (ev.get("env") or {}).get("tf32") is not False:
+            errs.append(f"{mode}: TF32 must be recorded as disabled (env.tf32 == false)")
     m = n = None
     if not errs:
         m, mu, n = evs["merged"][1], evs["unmerged"][1], evs["base"][1]

@@ -1,16 +1,17 @@
 {
   "disposition": {
-    "A1": "GO as implemented, including sorted(A) and injectivity",
-    "production_prep": "PASS for exact 981f0e7 candidate bytes",
-    "paid_phase1": "HOLD: five calibration integrity mutations still accepted"
+    "A1": "GO",
+    "production_prep": "PASS for exact 4cabb09 candidate bytes",
+    "calibration_hold": "RELEASED",
+    "phase1_launcher": "GO for reviewed body; final resolved PIN and manifest review pending"
   },
-  "reviewed_producer_commit": "981f0e77c0c5197b30482d7870af3a5b91cdad85",
+  "reviewed_producer_commit": "4cabb09e027eb4b92f852244fcfe214df4abb114",
   "prior_fixes_commit": "ef67261a90501f66654e1e86cf94fdded104e81f",
-  "code_hash": "3b2ba2ad46ef875a63590831b121464e238d445f6e3bd76887840bd416532102",
+  "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
   "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
   "production_validator": {
     "file": "lab/SUPPORT1_SOL_PHASE0_VALIDATION.json",
-    "sha256": "c247b7f6b69f571c7bc3274b92c24cc7e52c9ab0b13a630584e709225446690d",
+    "sha256": "cd2b1a0b15cb3b90761a1118fa236014fc9cbc7972e7a8ea6dbc88339eb6d3e8",
     "verdict": "PASS",
     "checks": 346082,
     "errors": 0,
@@ -29,23 +30,23 @@
   },
   "independent_regeneration": {
     "20": {
-      "sha256": "2ac37032630426aa9603737400ea622cd4ada35fdc6cc0999701322c9b8783cb",
+      "sha256": "a07d6e4c3df4d365ffe693bc6ab7292840330ff17cffa2cc1435e749c3bd7de4",
       "byte_identical": true
     },
     "21": {
-      "sha256": "8f7f4e8bd8522321dc34db56b4f67cfd37eb724d606b430d0e35d1b62ee85d2d",
+      "sha256": "d8afb085eecb7faf4c6a27e08fca6effe900be928e4186eea83b65ecfbcb44fe",
       "byte_identical": true
     },
     "22": {
-      "sha256": "152f1f523377645dfec7163019b7e3e25e38c658f2250e61511f6e471cadcb65",
+      "sha256": "cfc15d72e85046e3a3de33c6704106f9d0eb0d5990dd89af062f919e4818c235",
       "byte_identical": true
     },
     "23": {
-      "sha256": "d0dc047b5eb3f5e2249314f87330a6b7ff14dccb8fc256c782ec922cbcbc7ddb",
+      "sha256": "3622a21cc1bdecf24590bdcea30f0199b514511934794af8dfa7050c55def804",
       "byte_identical": true
     },
     "24": {
-      "sha256": "b168ee99ca31bcb309ab2a81bdd13d8257cb5ae9497583c489bd8b8cf704d63d",
+      "sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
       "byte_identical": true
     }
   },
@@ -140,75 +141,81 @@
     "measured_support1_throughput": false
   },
   "calibration_v2": {
-    "original_attack": "REJECTED, exit 4 with complete-inventory/provenance errors",
-    "additional_fixed_attacks": [
+    "status": "all reported gaps fixed",
+    "normal_assertions": true,
+    "expected_failures": 0,
+    "rejected_mutations": [
+      "truncated inventory",
+      "missing provenance",
       "forged outcome",
       "wrong checkpoint",
       "missing monitor",
       "foreign train provenance",
-      "wrong base identity"
+      "wrong base identity",
+      "missing denominator",
+      "zero monitor",
+      "negative monitor",
+      "boolean monitor",
+      "missing checkpoint",
+      "TF32 enabled"
     ],
-    "remaining_accepted_mutations": {
-      "missing_denominator": {
-        "exit": 0,
-        "pass": true,
-        "errors": []
-      },
-      "zero_monitor": {
-        "exit": 0,
-        "pass": true,
-        "errors": []
-      },
-      "negative_monitor": {
-        "exit": 0,
-        "pass": true,
-        "errors": []
-      },
-      "missing_checkpoint": {
-        "exit": 0,
-        "pass": true,
-        "errors": []
-      },
-      "tf32_on": {
-        "exit": 0,
-        "pass": true,
-        "errors": []
-      }
-    },
-    "fixture": "oracle-perfect synthetic answers, full bound seed-24 inventory; valid control passes",
-    "interpretation": "recorded-input validation holes; not evidence of an invalid actual GPU execution"
+    "fixture": "complete, correctly bound oracle-perfect synthetic control passes before mutations"
   },
   "tests": {
-    "independent_A1": {
-      "passed": 32,
-      "expected_failures": 5
-    },
-    "producer_fast_ef67261": {
-      "passed": 12
+    "independent": {
+      "passed": 39,
+      "expected_failures": 0,
+      "commands": [
+        "38 independent cases plus 13 ABST fast cases",
+        "one new projection test run separately"
+      ]
     },
     "abst0_fast": {
       "passed": 13
     },
-    "producer_slow_ef67261": {
-      "passed": 1,
-      "seconds": 228.73,
-      "device": "CPU"
-    },
     "launcher_regression_groups": {
       "passed": 3
     },
-    "producer_full_A1": {
+    "projection_decisions": {
+      "passed": 1,
+      "checks": [
+        "full plan",
+        "restoration failure excludes fork",
+        "only no-fork/32 affordable",
+        "no affordable plan exits 5"
+      ]
+    },
+    "launcher_start_marker_mutation": {
+      "detected": true,
+      "mutant_exit": 1
+    },
+    "producer_full_4cabb09": {
       "passed": 13,
-      "seconds": 122.14,
-      "includes": "slow CPU end-to-end and calibration attacks"
+      "seconds": 422.09,
+      "includes": "slow CPU end-to-end and all calibration attacks"
     }
   },
   "limitations": [
-    "Recorded model-manifest identity checked; model weights not downloaded or re-evaluated",
-    "calcheck edits will change CODE_HASH and require regeneration/revalidation",
+    "Model weights not downloaded or re-evaluated",
+    "Final launch approval requires resolved PIN and PHASE0 manifest",
+    "Phase-0 cost is a projection pending measured SUPPORT-1 throughput",
     "No RunPod, SSH, keys or launch actions performed"
   ],
-  "real_tiny_A1_evaluations": {
+  "prior_review": {
+    "producer_commit": "981f0e77c0c5197b30482d7870af3a5b91cdad85",
+    "code_hash": "3b2ba2ad46ef875a63590831b121464e238d445f6e3bd76887840bd416532102",
+    "production_prep": "PASS under A1",
+    "phase1_hold": "five calibration integrity gaps; resolved at 4cabb09"
+  },
+  "calibration_fixes_commit": "4cabb09e027eb4b92f852244fcfe214df4abb114",
+  "launcher": {
+    "file": "scripts/cb_support1_p1.sh",
+    "unpinned_sha256": "6087e8ed36affa73b5cb43866ad92fc2f4225d6fbc25b5a8cdcd4e3a4b88c14e",
+    "outer_boot_job_syntax": "PASS",
+    "calcheck_train_argument": "$R/cal/train_seed24.json",
+    "review_file": "lab/SUPPORT1_SOL_PHASE1_REVIEW.md"
+  },
+  "real_tiny_4cabb09_evaluations": {
     "m": {
       "rows": 210,
       "errors": []
@@ -247,5 +254,12 @@
       }
     },
     "restoration_admitted": true
+  },
+  "cpu_test_environment": {
+    "torch": "2.14.1+cpu",
+    "transformers": "5.21.0",
+    "tokenizers": "0.23.3",
+    "numpy": "2.5.4",
+    "pytest": "9.2.0"
   }
 }

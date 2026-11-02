@@ -353,6 +353,8 @@ def mutate_calibration_integrity(t, evs, attack):
         for e in evs.values(): e['ppl_ratio']['eval'] = 0.
     elif attack == 'negative_monitor':
         for e in evs.values(): e['ppl_ratio']['modern'] = -1.
+    elif attack == 'bool_monitor':
+        for e in evs.values(): e['ppl_ratio']['eval'] = True
     elif attack == 'missing_checkpoint':
         t['arms']['P']['1'].pop('ckpt_sha256')
         for mode in ('merged', 'unmerged'): evs[mode]['provenance']['ckpt_sha256'] = None
@@ -360,9 +362,8 @@ def mutate_calibration_integrity(t, evs, attack):
         for e in evs.values(): e['env']['tf32'] = True
 
 
-@pytest.mark.xfail(strict=True, reason='ef67261: missing identities, impossible ratios and TF32-on still pass calcheck')
-@pytest.mark.parametrize('attack', ['missing_denominator', 'zero_monitor', 'negative_monitor', 'missing_checkpoint', 'tf32_on'])
-def test_calibration_v2_remaining_integrity_gaps(calibration_inputs, tmp_path, attack):
+@pytest.mark.parametrize('attack', ['missing_denominator', 'zero_monitor', 'negative_monitor', 'bool_monitor', 'missing_checkpoint', 'tf32_on'])
+def test_calibration_v2_rejects_integrity_corruption(calibration_inputs, tmp_path, attack):
     p, t = calibration_inputs; t = copy.deepcopy(t); evs = calibration_evals(p, t)
     mutate_calibration_integrity(t, evs, attack)
     # The independent evaluator rejects the same corrupted input.
@@ -396,3 +397,39 @@ def test_a1_gtq_is_unique_delivered_pairs(prep):
         selected = [(tuple(r['cell']), int(r['kind'][-1])) for r in rows]
         assert len(selected) == len(set(selected)) == min(16, len(actual))
         assert set(selected) <= actual
+
+
+def test_phase1_projection_budget_and_restore_gate(prep, tmp_path):
+    """Synthetic timings exercise the paid-run STOP and plan selection; no model run."""
+    p, _ = prep
+    paths = []
+    for seed in (20, 21, 22, 23):
+        q = copy.deepcopy(p); q['seed'] = seed
+        path = tmp_path/f'prep_seed{seed}.json'; path.write_bytes(S.canon(q)); paths.append(path)
+    timings = tmp_path/'timings.json'
+    timings.write_bytes(S.canon(dict(train_items=1000, train_seconds=100., eval_rows=1000, eval_seconds=100.)))
+    restore = tmp_path/'restore.json'
+    out = tmp_path/'projection.json'
+    def run(admitted, ceiling=30):
+        restore.write_bytes(S.canon({'admitted': admitted}))
+        proc = subprocess.run([sys.executable, str(ROOT/'scripts/support1.py'), 'project', '--timings', str(timings),
+            '--restoretest', str(restore), '--preps', ','.join(map(str, paths)), '--usd-per-hour', '1',
+            '--spent', '0', '--boot-hours', '0', '--ceiling', str(ceiling), '--out', str(out)], capture_output=True, text=True)
+        assert out.exists(), proc.stderr
+        return proc.returncode, json.loads(out.read_text())
+    rc, report = run(True)
+    assert rc == 0 and report['choice']['fork'] and report['choice']['qdiag'] == 64
+    n_main = 4*sum(len(rows) for lives in p['schedule'].values() for rows in lives.values())
+    n_fork = 4*sum(len(p['fork_schedule'][a]) for a in ('U4', 'G4'))
+    n_main_eval = 4*11*sum(len(S.probes_for(p, 'observed', L, 64)) for L in range(1, 6))
+    n_fork_eval = 4*4*len(S.probes_for(p, 'withheld', 4, 64))
+    assert report['plans'][0]['usd'] == round(.1*(n_main+n_fork+n_main_eval+n_fork_eval)/3600, 2)
+    # Withheld selection is secondary: restoration failure must leave main-only plans available.
+    rc, report_no_fork = run(False)
+    assert rc == 0 and not report_no_fork['choice']['fork'] and report_no_fork['choice']['qdiag'] == 64
+    cheapest = report['plans'][-1]['usd']
+    limit = (cheapest + min(x['usd'] for x in report['plans'][:-1]))/2
+    rc, fallback = run(True, limit)
+    assert rc == 0 and not fallback['choice']['fork'] and fallback['choice']['qdiag'] == 32
+    rc, stop = run(True, cheapest-.01)
+    assert rc == 5 and stop['stop'] is True and stop['choice'] is None

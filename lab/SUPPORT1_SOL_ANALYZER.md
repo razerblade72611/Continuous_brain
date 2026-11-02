@@ -1,12 +1,13 @@
 # Sol's independent SUPPORT-1 tools and review
 
-Reviewed producer and A1 candidate preps:
-`981f0e77c0c5197b30482d7870af3a5b91cdad85`. This incorporates the ordering and
-calibration amendments at `ef67261a90501f66654e1e86cf94fdded104e81f`.
+Reviewed producer and regenerated candidate preps:
+`4cabb09e027eb4b92f852244fcfe214df4abb114`. The A1 prep contract remains
+`981f0e77c0c5197b30482d7870af3a5b91cdad85`.
 
-**Disposition: GO for A1 as implemented; PASS for these five production prep
-bytes; HOLD for paid phase 1 until the remaining calibration-integrity checks
-below are fixed.**
+**Disposition: PASS for all five regenerated production preps. The calibration
+HOLD is released. GO for the reviewed phase-1 launcher body and --train binding;
+final launch review requires its resolved PIN and frozen PHASE0 manifest.**
+See `lab/SUPPORT1_SOL_PHASE1_REVIEW.md` for that review and the pinned-file checks.
 
 ## A1 decision and production prep verification
 
@@ -54,44 +55,35 @@ The phase-0 full-plan projection is 20.86 hours / $17.94 at the stated $0.86/h,
 including the protocol's phase-1 allowance. This uses the inherited rates, not
 measured SUPPORT-1 throughput; phase 1 must replace the estimates.
 
-## Calibration follow-up: original attack fixed; remaining HOLD
+## Calibration follow-up: resolved at 4cabb09
 
-The original two-row/no-provenance attack now exits **4 with errors**, with a
-valid --train input supplied. A complete, correctly bound oracle-perfect synthetic
-baseline passes, so this test is not merely exercising missing CLI arguments.
-Forged outcomes, wrong checkpoints, missing monitors, foreign train provenance
-and incorrect base identity are rejected as expected.
+The original reduced-inventory/provenance attack and all five subsequent
+integrity attacks are rejected with exit 4 and errors. The five expected-failure
+markers have been removed. A boolean monitor case is also rejected. The gate
+requires valid non-null checkpoint/base-denominator hashes, positive finite
+non-boolean ratios, and TF32 explicitly false, in addition to its complete
+inventory, identity, provenance, independent grading and twin checks.
 
-Five full-inventory mutations still produce **exit 0, pass=true, errors=[]** at
-ef67261 and at A1 (the calibration code is unchanged):
+A complete, correctly bound oracle-perfect synthetic control passes before the
+mutations. These are recorded-artifact validation tests; the actual CPU tiny
+end-to-end test exercises the train/eval/calibration plumbing as well.
 
-| Mutation | Required additional check |
-|---|---|
-| All three base_denominator_sha256 fields omitted | Require nonempty valid SHA-256 identities before comparing them |
-| One monitor set to zero in all three evals | Ratios must be strictly positive |
-| One monitor set to -1 in all three evals | Ratios must be strictly positive |
-| Train checkpoint hash omitted and both P eval checkpoint hashes null | Require a valid non-null P checkpoint hash |
-| All three evals record env.tf32=true | Require TF32 explicitly false |
+The independent producer rerun reproduces the new candidate bytes for all five
+seeds. Their semantic contents are identical to the previously approved A1 preps;
+only code_hash changed. The new report binds CODE_HASH
+`38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae`
+and MODEL_MANIFEST
+`69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b`.
+Any later CODE_FILES edit requires the normal regeneration/revalidation step.
 
-The independent evaluator rejects each corrupted input. The producer regressions
-are strict expected failures, runnable as ordinary failures with:
+The phase-1 transport groups pass, and disabling the atomic start marker makes
+the job regression fail as intended. A new independent projection test covers the
+full plan, restoration failure, the no-fork/32-row fallback, and exit 5 when no
+plan fits the budget.
 
-```bash
-python -m pytest -q tests/test_support1_sol.py --runxfail -k remaining_integrity_gaps
-```
-
-These are recorded-artifact validation holes, not evidence that an actual GPU run
-used wrong precision or impossible losses. Fix these checks before paid phase 1.
-The boot/cleanup/exactly-once launcher regression groups still pass. Before
-resolving its PIN, bind the successful CPU report and projection into phase 0.
-
-**Hash consequence:** this PASS applies to CODE_HASH
-`3b2ba2ad46ef875a63590831b121464e238d445f6e3bd76887840bd416532102`
-and the exact candidate bytes. Editing calcheck in support1.py changes CODE_HASH;
-regenerate and revalidate the preps before freezing PHASE0.sha256.
-
-A separate conservative projection discrepancy remains: the producer's fork+32
-plan counts all withheld QDIAG rows. Apply its fallback selection there as well.
+A conservative projection discrepancy remains nonblocking: the producer's
+fork+32 plan counts all withheld QDIAG rows. Its estimate is higher than the
+actual fallback inventory. The independent phase-0 projection uses the subset.
 
 ## Independence and coverage
 
@@ -182,7 +174,7 @@ probe omission, pairing, delivery eligibility, token IDs, QDIAG selection,
 provenance, nonfinite ratios, denominator identity and invalid-arm propagation.
 These synthetic answers have no experimental interpretation.
 
-All 13 producer tests pass at A1, including the actual slow tiny-model CPU
+All 13 producer tests pass at 4cabb09, including the actual slow tiny-model CPU
 end-to-end test and the strengthened calibration attacks. The
 independent reader accepted its P merged/unmerged and N files (210 rows each),
 and its withheld/32-row file (289 rows), with zero twin answer/outcome/ppl
