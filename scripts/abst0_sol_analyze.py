@@ -43,6 +43,10 @@ def digest(b):
 
 
 def normalized(s):
+    # Inherited answer contract: lab/CLS0C_B_PROTOCOL.md, "Answer contract and
+    # scoring", line 77 at 0cf967e. ABST-0's text left "normalised" undefined.
+    # Strip one leading article as a word, never an internal substring.
+    s = re.sub(r"^(?:a|an|the)\s+", "", s.strip(), flags=re.IGNORECASE)
     return "".join(re.findall(r"[a-z0-9]+", s.lower()))
 
 
@@ -554,6 +558,9 @@ def analyze(directory, seeds=DEV_SEEDS, test_mode=False, expected_code=FROZEN_CO
     if any(n < 2 for n in sparse.values()) or not sparse:
         notes.append("reversal of explicitly trained UNKNOWN was not adequately tested (<2 exposed A-cells in at least one seed)")
     return {"format": "ABST0_SOL_ANALYSIS_V1", "independent": True, "test_mode": test_mode,
+            "normalization_contract": {"source": "lab/CLS0C_B_PROTOCOL.md:77",
+                                       "source_commit": "0cf967e0e2d96a80c99a6414efeadba323456c68",
+                                       "rule": "strip one leading a/an/the followed by whitespace, case-insensitively; retain lowercase ASCII letters/digits"},
             "seeds": list(seeds), "expected_code": expected_code, "expected_model_manifest": model_manifest,
             "schema_sha256": digest(json.dumps(schema, sort_keys=True).encode()),
             "per_seed": per_seed, "pooled": pooled, "integrity": integrity,

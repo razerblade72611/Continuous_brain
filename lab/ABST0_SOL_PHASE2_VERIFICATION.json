@@ -1,0 +1,79 @@
+{
+  "kind": "Independent ABST-0 phase-2 verification and inherited-normalization correction",
+  "source_results_commit": "25966d4b0f65d1e64a85e15fc8f2240486e31322",
+  "analyzer_before_correction_commit": "2ee640001db2967726b4f0392d31d2a16ca72e8c",
+  "contract_source": "lab/CLS0C_B_PROTOCOL.md:77 at 0cf967e0e2d96a80c99a6414efeadba323456c68",
+  "evaluation_files": 140,
+  "row_records": 29505,
+  "flagged_arm_sleep_entries_before": 55,
+  "changed_positive_row_records": {
+    "POS": 882,
+    "FIRST": 82,
+    "RET": 434,
+    "TPOST": 56,
+    "UPD": 18
+  },
+  "negative_class_changes": 0,
+  "remaining_stored_outcome_disagreements": 0,
+  "scientific_verdict": "ABST0_NO_ADVANCE",
+  "criteria": {
+    "D1": true,
+    "D2": false,
+    "D3": false,
+    "D4": true
+  },
+  "invalid_arms": [],
+  "errors": [],
+  "integrity_entries": 80,
+  "production_report_comparison": {
+    "match": true,
+    "checks": {
+      "verdict": 1,
+      "invalid_arms": 1,
+      "criteria": 5,
+      "mechanism": 1,
+      "pooled_metrics": 460,
+      "outcome_rates": 912,
+      "integrity": 420
+    },
+    "differences": [],
+    "coverage_note": "Reference format has no per-seed metrics or count/denominator tables; those are independently emitted here, not falsely reported as compared.",
+    "reference_sha256": "8def33c241b2d86476ac716e43dc6502309aeacdff1377558319753c2dfc412e"
+  },
+  "per_seed_row_recounts": {
+    "metric_numerator_denominator_pairs": 5280,
+    "outcome_count_tables": 3496,
+    "update_fraction_pairs": 400,
+    "differences": 0
+  },
+  "full_json_matches_Claude_scratch_except_new_contract_citation": true,
+  "sleep5_mechanism": {
+    "G_minus_U": 0.04375000000000001,
+    "per_seed": {
+      "12": 0.050000000000000044,
+      "13": -0.025000000000000022,
+      "14": 0.025000000000000022,
+      "15": 0.125
+    },
+    "n_seeds_U_lower": 3
+  },
+  "protocol_log_correction": "U lower than G in 3/4 seeds (12,14,15), not 2/4; pooled gap 0.04375 still fails 0.30",
+  "robustness_qualification": "Article-prefixed UNKNOWN can change a negative class in general; none changes here. Positive TPOST scores change, but familiar TPRE and D2 already fail.",
+  "exposed_A_cells": {
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+  },
+  "corrected_analysis_sha256": "48d9597cc6b1e034236eb9dbc165f768231184790e0d678f68e514e0548210e2",
+  "normalizer_source_sha256": "cf9658dc467e6a5ea8a7ce8907ef2cdac9d62a29029cc5757b4d62130db5abeb",
+  "production_code_launchers_and_frozen_labels_unchanged": true,
+  "tests": {
+    "fast_passed": 44,
+    "independent_passed": 31,
+    "original_passed": 13,
+    "slow_deselected": 2,
+    "clean_tiny_saved_report_comparison": "match",
+    "production_blackbox_rerun_byte_identical": true
+  }
+}

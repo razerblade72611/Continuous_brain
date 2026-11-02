@@ -46,7 +46,7 @@ Production defaults require exactly seeds 12–15, the frozen code/model identif
 - Invalid U or P gives INVALID. Invalid G leaves functional success assessable and makes the mechanism NOT_ASSESSABLE. The nested and top-level verdicts always match.
 - `input_sha256` records every input file actually consumed, including invalid inputs that could be read. `schema_sha256` identifies the format schema used.
 
-Answers are independently normalized to lowercase ASCII letters/digits with punctuation and spacing removed. Empty normalized answers are empty; normalized `unknown` is UNKNOWN. Gold is reconstructed from acquired stream facts, never from evaluation `value`, `old`, `new`, `outcome` or `measures`. The stored gold and outcome fields must nevertheless agree with that reconstruction. Thus two twins carrying the same forged gold still fail.
+Answers use the inherited [CLS-0C-B answer contract](https://github.com/razerblade72611/Continuous_brain/blob/0cf967e0e2d96a80c99a6414efeadba323456c68/lab/CLS0C_B_PROTOCOL.md#answer-contract-and-scoring-evaluator-side): lowercase, punctuation stripped, leading articles removed. The concrete rule removes one leading `a`, `an` or `the` followed by whitespace, case-insensitively, then retains lowercase ASCII letters/digits. Empty normalized answers are empty; normalized `unknown` is UNKNOWN. This also means `the UNKNOWN` becomes UNKNOWN; negative classifications are not generally invariant to article removal. Gold is reconstructed from acquired stream facts, never from evaluation `value`, `old`, `new`, `outcome` or `measures`. The stored gold and outcome fields must nevertheless agree with that reconstruction. Thus two twins carrying the same forged gold still fail.
 
 Update rows contain the current value plus old/new fields; before the change is acquired, `new` is null. Updates have separate old/new/other/UNKNOWN/empty descriptive counts and never enter D1 or retention.
 
@@ -88,3 +88,9 @@ python3 -m pytest -q tests/test_abst0.py::test_end_to_end_tiny \
 The directory is `/tmp/abst0_sol_tiny/test_end_to_end_tiny0/evals`. Its final intentionally corrupted G file should yield a mechanism-not-assessable result. To obtain the clean fixture, move that temporary `eval_G_s5_unmerged.json` aside and rerun `abst0.py evalck` with that fixture's `prep2.json`, model `m`, checkpoint `run/cortex_G_s5.pt`, sleep 5, unmerged mode, and `--test-mode`; then compare to the fixture's original `an.json`.
 
 No real phase-2 outcomes were used to implement or tune this analyzer.
+
+## Inherited normalization clarification after phase 2
+
+The initial `2ee6400` normalizer omitted leading-article removal, which ABST-0's text had not defined explicitly. Review of the pre-existing CLS-0C-B contract and the results at `25966d4` confirmed that inherited rule. The normalizer now cites and applies it, with regression tests for article-prefixed values and UNKNOWN, word boundaries, and substantive UNKNOWN explanations. No threshold, denominator, training artifact or frozen label changed. The preceding no-real-results statement describes the initial implementation and validation; this later compatibility correction was checked against real phase-2 output.
+
+The corrected independent report matches production on all 1,800 comparisons and agrees with Claude's committed scratch-corrected report in every field except the newly added normalization citation. See [ABST0_SOL_PHASE2_VERIFICATION.md](ABST0_SOL_PHASE2_VERIFICATION.md) for row counts, the robustness qualification, and the log correction from 2/4 to 3/4 improving seeds.

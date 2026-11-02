@@ -106,6 +106,20 @@ def test_hand_counted_outcomes_and_unequal_seed_denominators():
     assert S.pool_fractions({"12": S.fraction(1, 1), "13": S.fraction(0, 0)})["value"] is None
 
 
+@pytest.mark.parametrize("article", ["a", "an", "the", "A", "AN", "THE"])
+def test_inherited_leading_article_rule(article):
+    assert S.classify(f"  {article} draembrernhound.  ", "draembrernhound") == "correct"
+    assert S.classify(f"{article} UNKNOWN", None) == "unknown"
+    assert S.classify(f"{article} UNKNOWN: draembrernhound", None) == "substantive"
+
+
+def test_article_rule_is_word_bounded_not_substring_removal():
+    for word in ("another", "anagram", "theme", "atheist"):
+        assert S.normalized(word) == word
+    assert S.classify("draembrernhound", "a draembrernhound") == "correct"
+    assert S.normalized("one a thing") == "oneathing"
+
+
 def test_complete_success_and_saved_measures_ignored(artifacts):
     r = run(artifacts)
     assert r["errors"] == []
