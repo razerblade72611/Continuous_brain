@@ -231,7 +231,11 @@ def test_end_to_end_tiny(tmp_path):
     for name, mut in (("trunc", lambda e: e.update(rows=e["rows"][:2])),
                       ("forged", lambda e: e["rows"][0].update(outcome="correct" if e["rows"][0]["outcome"] != "correct" else "unknown")),
                       ("ckpt", lambda e: e["provenance"].update(ckpt_sha256="0" * 64)),
-                      ("monitor", lambda e: e["ppl_ratio"].pop("modern"))):
+                      ("monitor", lambda e: e["ppl_ratio"].pop("modern")),
+                      ("zero_ppl", lambda e: e["ppl_ratio"].update(eval=0.0)),          # Sol 7273e1b
+                      ("neg_ppl", lambda e: e["ppl_ratio"].update(modern=-1.0)),
+                      ("no_denominator", lambda e: e.pop("base_denominator_sha256")),
+                      ("tf32_on", lambda e: e["env"].update(tf32=True))):
         bad = json.loads(json.dumps(good)); mut(bad)
         (tmp_path / f"bad_{name}.json").write_text(json.dumps(bad))
         rc, cal = calcheck(merged=f"bad_{name}.json")
