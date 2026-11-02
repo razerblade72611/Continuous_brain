@@ -447,8 +447,9 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     first logged "2/4"; Sol caught it from the raw counts.)
   - P confabulates 1.00 throughout; N says UNKNOWN 1.00 throughout.
   - **Retention is preserved:** U POS 0.75–0.88 vs P 0.81–0.88; RET at sleep 5 0.90 vs 0.92.
-  - **Audit:** the delivered bad-label exposure mass per seed and sleep is 0–0.27, mostly about 0.10. Label noise of
-    that size cannot account for HNM UNKNOWN of only about 0.2.
+  - **Audit:** the delivered exposure mass of flagged items (supported or ambiguous) per seed and sleep is 0–0.27,
+    mostly about 0.10. This is descriptive only. (Corrected: Claude first wrote that noise of this size "cannot account
+    for" the result, a causal claim the data do not support; Sol flagged it.)
   - **Independent analyzer (Sol, sol/abst0-analyzer 2ee6400; standard library only):**
     - As written it returned ABST0_INVALID, because 55 arm × sleep entries had a "stored outcome inconsistent with
       independently graded answer".
@@ -495,3 +496,46 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - draft sha256 4b23fdc3c9a10c96574a695ab03579694a8afb86ea41d82478ba0d15830859d2
     - script sha256 e7cfcc8ad091f3336e65db46a8887947d9e4b6a92692ba613288572861bdc6ac
   - Contents to be revealed after Sol's draft is committed.
+  - **Exchange outcome.**
+    - Sol's draft (lab/NEXT_SOL_DRAFT.md, ef1702b) and Claude's (lab/NEXT_CLAUDE_DRAFT.md, 3351f4f) were revealed and
+      both hashes verified. Claude committed his hash before reading any of Sol's chat or draft.
+    - **Sol's critique of Claude's post-hoc script**, accepted; its numbers are EXPLORATORY keyword-tagged
+      associations only:
+      - the keyword classifier mis-tags: "do for a living" → city (the regex matches "living"); pet-name → pet
+        species; allergist → allergy. So "193/482 in-schema" is not a semantic coverage count;
+      - "attribute never trained" ignores T-negative exposure (71 such HNM rows);
+      - G's 0.49 is measured on A-name probes grouped by U's history, not on G's own training questions;
+      - 63 rows are repeated checkpoints of 27 tagged cells.
+  - **Decision (Claude, after hearing Sol in full): proceed to SUPPORT-1.** Sol's design is the base, with Claude's
+    within-entity holdout merged in:
+    - **Teacher.** An oracle over acquired (entity, attribute) cells. Positives and negatives share fixed reviewed
+      templates and one query grammar. Labels are UNKNOWN = unsupported by experience so far; positives = the current
+      value. This is external supervision, so success would show learnability under it.
+    - **Arms.** Five budget-matched arms, P / U1 / G1 / U4 / G4. Negatives replace matched background; positive
+      exposures and positions are identical across arms; item, input-token and loss-token budgets are matched.
+    - **Primary contrast.** U4 vs G4 at sleep 5 under the unchanged ABST-0 gate (≥ 0.30 pooled, ≥ 3/4 seeds).
+      U4 is judged against the unchanged D1–D4.
+    - **Within-entity holdout.** For each A entity, its eligible missing attributes are split once into
+      U-selected and held-out-within; the split is frozen and attribute-balanced. H entities never get UNKNOWN
+      targets. The T (training) and V (evaluation) name pools are disjoint. Reversal cells form a separate stratum.
+    - **Generalization ratio**, descriptive and cohort-matched:
+      GR = (UNK held − UNK_P held) ÷ (UNK selected − UNK_P selected). Both gains and per-seed values are reported; GR is
+      undefined when the denominator gain is ≤ 0, and a small-gain stability rule is predeclared. For G the cohort is
+      called "U-selected", and G's acquisition on its own T-name training questions is measured separately.
+    - **Diagnostics.** An exact-Question set of at most 64 rows per evaluation, separating construction transfer
+      from failure to learn UNKNOWN.
+    - **Reversal cohort.** 4 A + 4 H cells, guaranteed. A cells get at least 4 UNKNOWN presentations per sleep in
+      sleeps 1–3, and a measured pre-transition acquisition criterion must pass before reversal is claimed.
+    - **Paired-history fork** (U4/G4 at sleep 3). Secondary, and included only if preflight shows exact restoration
+      of weights, optimizer and RNG and a reproducible unchanged continuation. Otherwise it is recorded as unrun. The
+      decision is made before any scientific result.
+    - **Scale.** Fresh seeds 20–23 (unused in this line, which has used 0–6, 12–16 and 101–104). Five sleeps. 220
+      evaluations, or 236 with the fork. Throughput is checked on a fixed plumbing subset first.
+    - **Budget.** A $30 total ceiling. If it would be exceeded, probe volume is reduced or the fork deferred before
+      any scientific score is seen; arms and seeds are never dropped.
+    - **Checks.** Independent gold, temporal-mask, template and leakage checks, even though labels are
+      deterministic.
+    - **Process.** Claude writes the protocol and Sol reviews it. The artifact schema is frozen first: split
+      assignments, delivered exposure, sampler keys and normalisation (stated explicitly). Then Claude builds the
+      generator, schedule and launcher, and Sol builds the independent analyzer and adversarial validation. David
+      decides and launches.

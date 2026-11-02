@@ -1,4 +1,6 @@
 """ABST-0 post-hoc (descriptive, not a criterion): do training negatives target the probed schema attributes, and does
+# EXPLORATORY ONLY (see lab/ABST0_PROTOCOL.md, "Exchange outcome"): keyword tags are not semantic cell coverage;
+# known mis-tags: "do for a living"->city, pet-name->pet species, allergist->allergy; T-negative exposure ignored.
 U's abstention track the trained attribute/cell rather than the entity?"""
 import json, re, collections, sys
 sys.path.insert(0, "scripts")
