@@ -1,0 +1,136 @@
+{
+  "validator": "SUPPORT1_SOL_VALIDATOR_V3_A1",
+  "validator_sha256": "d6f82ad8afa1408fd6762582b198d1591f22628fdbe437116be6b9814789099f",
+  "validator_code_hash": "e55ab773a80e8c78cb625e4fbe770ceb87fdd9a7bc7ccccc13015ef7e5e7ef8d",
+  "contract_commit": "981f0e77c0c5197b30482d7870af3a5b91cdad85",
+  "verdict": "PASS",
+  "prep_sha256": [
+    "a07d6e4c3df4d365ffe693bc6ab7292840330ff17cffa2cc1435e749c3bd7de4",
+    "d8afb085eecb7faf4c6a27e08fca6effe900be928e4186eea83b65ecfbcb44fe",
+    "cfc15d72e85046e3a3de33c6704106f9d0eb0d5990dd89af062f919e4818c235",
+    "3622a21cc1bdecf24590bdcea30f0199b514511934794af8dfa7050c55def804",
+    "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481"
+  ],
+  "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+  "test_mode": false,
+  "tokenizer_checked": true,
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "results": [
+    {
+      "seed": 20,
+      "test_mode": false,
+      "checks": 69184,
+      "errors": [],
+      "applicable_checks_pass": true,
+      "path": "results/support1/phase0/prep_seed20.json",
+      "prep_sha256": "a07d6e4c3df4d365ffe693bc6ab7292840330ff17cffa2cc1435e749c3bd7de4",
+      "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+    },
+    {
+      "seed": 21,
+      "test_mode": false,
+      "checks": 69761,
+      "errors": [],
+      "applicable_checks_pass": true,
+      "path": "results/support1/phase0/prep_seed21.json",
+      "prep_sha256": "d8afb085eecb7faf4c6a27e08fca6effe900be928e4186eea83b65ecfbcb44fe",
+      "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+    },
+    {
+      "seed": 22,
+      "test_mode": false,
+      "checks": 69096,
+      "errors": [],
+      "applicable_checks_pass": true,
+      "path": "results/support1/phase0/prep_seed22.json",
+      "prep_sha256": "cfc15d72e85046e3a3de33c6704106f9d0eb0d5990dd89af062f919e4818c235",
+      "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+    },
+    {
+      "seed": 23,
+      "test_mode": false,
+      "checks": 69081,
+      "errors": [],
+      "applicable_checks_pass": true,
+      "path": "results/support1/phase0/prep_seed23.json",
+      "prep_sha256": "3622a21cc1bdecf24590bdcea30f0199b514511934794af8dfa7050c55def804",
+      "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+    },
+    {
+      "seed": 24,
+      "test_mode": false,
+      "checks": 68960,
+      "errors": [],
+      "applicable_checks_pass": true,
+      "path": "results/support1/phase0/prep_seed24.json",
+      "prep_sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
+      "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae"
+    }
+  ],
+  "phase0_errors": [],
+  "projection": {
+    "complete": true,
+    "seeds": [
+      20,
+      21,
+      22,
+      23
+    ],
+    "test_mode": false,
+    "assumptions": {
+      "training_minutes_per_seed": 29,
+      "eval_seconds_per_row": 0.9,
+      "phase1_hours": 1.5,
+      "usd_per_hour": 0.86
+    },
+    "plans": [
+      {
+        "fork": true,
+        "qdiag": 64,
+        "main_training_items": 33920,
+        "fork_training_items": 3328,
+        "evaluation_rows": 68950,
+        "hours": 20.860518867924526,
+        "usd": 17.94004622641509
+      },
+      {
+        "fork": false,
+        "qdiag": 64,
+        "main_training_items": 33920,
+        "fork_training_items": 0,
+        "evaluation_rows": 63646,
+        "hours": 19.34483333333333,
+        "usd": 16.636556666666664
+      },
+      {
+        "fork": true,
+        "qdiag": 32,
+        "main_training_items": 33920,
+        "fork_training_items": 3328,
+        "evaluation_rows": 61409,
+        "hours": 18.97526886792453,
+        "usd": 16.318731226415096
+      },
+      {
+        "fork": false,
+        "qdiag": 32,
+        "main_training_items": 33920,
+        "fork_training_items": 0,
+        "evaluation_rows": 56617,
+        "hours": 17.587583333333335,
+        "usd": 15.125321666666668
+      }
+    ],
+    "ceiling_usd": 30,
+    "measured_support1_throughput": false
+  },
+  "clarifications": [
+    "unique-cell-wording replay; latest source",
+    "A1 fixed one-to-one entity swap; all 18 framed forms",
+    "fork tokenizer matching",
+    "fixed QDIAG fallback",
+    "background content indices",
+    "shared content interleave",
+    "tiny-only relaxations"
+  ]
+}
