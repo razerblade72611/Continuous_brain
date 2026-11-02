@@ -63,22 +63,22 @@
     - The replay cycler is rebuilt per sleep.
   - **T partition:** `t = sorted(T)`; `random.Random("SUPPORT1-tpart-{seed}").shuffle(t)`; T_neg = t[:200] and
     T_swap = t[200:].
-  - **Swap choice:** for each A entry in B_L order, the first unused name in T_swap (in its shuffled
-    `"SUPPORT1-swap-{seed}"` order) whose framed sequence has equal token length. STOP if none.
+  - **Swap choice:** for each A entry in B_L order, the first unused name in `sorted(T_swap)` shuffled with
+    `"SUPPORT1-swap-{seed}"` whose framed sequence has equal token length. STOP if none.
   - **HNM, FRESH and QDIAG samples:** `rng.sample` on the canonical population, with the keys given in §5.
 - **Strata (frozen at prep, from the full 5-life stream):**
   - **PM** (permanently missing): core (e, a) with no fact in any life that is not a planned cell.
   - **SEL / HOW (S4):** each A entity's PM cells are split.
-    - **Algorithm** (exact RNG operations in §2.1). For r = 0, 1, …, 999, with `rng = random.Random("SUPPORT1-split-{seed}-{r}")`,
+    - **Algorithm** (exact RNG operations in §2.1). For r = 0, 1, …, 99,999, with `rng = random.Random("SUPPORT1-split-{seed}-{r}")`,
       take each A entity in sorted(A) order:
-      - `atts = sorted(PM attributes of e)`; `rng.shuffle(atts)`;
+      - `atts` = the PM attributes of e **in ATTRS9 order** (the §2.1 canonical attribute order); `rng.shuffle(atts)`;
       - `heads = rng.random() < 0.5`;
       - k = len(atts) and h = ⌈k/2⌉. If heads, SEL = atts[:h] and HOW = atts[h:]; otherwise HOW = atts[:h] and
         SEL = atts[h:].
       - Accept the first r for which every attribute has |#SEL − #HOW| ≤ 1 across A entities.
     - Per-entity |SEL − HOW| ≤ 1 holds by construction. Every A entity has k ≥ 2 (prep STOPs otherwise), so each has
       ≥ 1 SEL and ≥ 1 HOW.
-    - STOP if no r ≤ 999 passes. The accepted r is recorded.
+    - STOP if no r ≤ 99,999 passes. The accepted r is recorded.
   - **REV:** the 4 A transition cells.
   - **HNM:** H entities' PM cells.
   - **Excluded from all negatives:** cells acquired at lives 3 or 5, H transition cells, update cells.
@@ -466,3 +466,42 @@
   - **Production training guards** for development seeds require:
     - Sol's validator report as JSON `{"verdict": "PASS", "prep_sha256": [...]}` covering the prep's sha256;
     - a passing `calcheck` result for seed 24.
+- **Sol HOLD at fba75d5** (sol/support1-analysis: independent validator, analyzer, adversarial tests). Three findings,
+  all accepted and fixed before any production prep exists:
+  1. **Split order.** The §2 text said `sorted(...)` (alphabetical), but §2.1 and the code use ATTRS9.
+     - Resolved to **ATTRS9 order**, since §2.1 is the canonical contract. The alphabetical variant exhausted 1,000
+       retries for seed 20.
+     - Under ATTRS9 the accepted r is 212 / 195 / 402 / 939 / 65 for seeds 20–24. Seed 23 was close to the old cap,
+       so the cap is raised to **100,000** (same algorithm; this only removes a fragile STOP).
+  2. **Swap order.** The code shuffled T_swap from its partition order. It now uses `sorted(T_swap)` and then the
+     shuffle, as §2.1 requires.
+  3. **Calibration gate.** Sol made `calcheck` pass on 1 POS and 1 FRESH row with no provenance. The gate now
+     requires:
+     - the complete sleep-1 inventory, in prep order, for merged, unmerged and base;
+     - provenance bound to the prep, code, model, test mode and qdiag, with the checkpoint from the P sleep-1 train
+       log (which itself must be this prep/code/model, arm P, sleep 1);
+     - identity fields (schema, experiment, seed, sleep, mode, history, arm);
+     - outcomes **recomputed** from answers and prep gold;
+     - both monitors present and finite, with twins showing 0 mismatches, |Δppl| ≤ 1e-4 and one shared base
+       denominator;
+     - acquisition over **all** POS template probes, and N FRESH UNKNOWN over **all** 20.
+     - Training on development seeds additionally requires the calcheck result to bind to the current code hash, the
+       model manifest and the sha256 of the supplied seed-24 prep (`--calibration-prep`).
+     - Regression tests: truncated rows, a forged outcome, a wrong checkpoint, a missing monitor and a foreign train
+       log each fail the gate.
+- **Amendment A1 (proposed by Claude, 2026-11-02; pending Sol's review): one fixed swap name per A entity.**
+  - **Trigger.** The first production prep with the real Qwen3-8B tokenizer (files verified against the recorded
+    manifest) STOPPED. The v2.1 rule ("first unused T_swap name per A entry") needs about 106 distinct names in
+    total, and rare token lengths run out: 4-token names make up only 8–14 of the 200 in T_swap. Nothing was trained.
+  - **Change.** Each A entity e gets ONE T_swap name: the first in `sorted(T_swap)` shuffled with
+    `"SUPPORT1-swap-{seed}"` whose framed (length, n_loss) equals e's on **all 18** question forms (9 attributes × 2
+    wordings). Every G entry for a cell of e uses that name, in G1 and G4 and at every sleep. STOP if none matches.
+  - **Why this is also the better control.** U's negatives return repeatedly to the same 8 experienced people. Under
+    A1, G's return to 8 consistent fake people with identical attributes, wordings, counts and positions, so the
+    *only* difference is whether the name refers to an experienced person. The per-entry rule instead confounded
+    grounding with person-repetition structure, since every G entry was a new person.
+  - **Verified on seeds 20–24:**
+    - all A names match on all 18 forms, and no name's tokenisation depends on context;
+    - production prep passes with every production check on (budgets equal across all 5 arms, G included; fork
+      distractors token-matched; maximum sequence 80 tokens);
+    - two runs produce byte-identical preps.

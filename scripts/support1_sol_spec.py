@@ -1,4 +1,4 @@
-"""Independent SUPPORT-1 contract helpers. No producer imports; protocol v2.1 + 320dc1f.
+"""Independent SUPPORT-1 contract helpers. No producer imports; protocol v2.1 amended at ef67261 and A1 at 981f0e7.
 
 Statement stems are the independently frozen ABST-0 file-format inventory. Training
 framing is the inherited CONS-0A contract, transcribed here rather than imported.

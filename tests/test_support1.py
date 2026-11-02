@@ -214,8 +214,27 @@ def test_end_to_end_tiny(tmp_path):
     assert [r["answer"] for r in mj["rows"]] == [r["answer"] for r in uj["rows"]]           # fp32 merged == unmerged
     assert sum(r["probe_id"].split("-")[-2] == "Q" or "-Q-" in r["probe_id"] or "GTQ" in r["probe_id"] for r in wj["rows"]) <= 32 + 4
     assert wj["history"] == "withheld" and all(r["probe_id"].startswith("24-withheld-4-") for r in wj["rows"])
-    p = subprocess.run([sys.executable, str(ROOT / "scripts/support1.py"), "calcheck", "--prep", prep, "--merged",
-                        tmp_path / "m.json", "--unmerged", tmp_path / "u.json", "--base", tmp_path / "n.json", "--out",
-                        tmp_path / "cal.json"], capture_output=True, text=True)
-    cal = json.loads((tmp_path / "cal.json").read_text())
-    assert cal["errors"] == [] and p.returncode == (0 if cal["pass"] else 4)
+    run("train", "--prep", prep, "--model", m, "--out", tmp_path / "cal", "--arms", "P", "--sleeps", 1, "--test-mode")
+    ev("cm.json", "--sleep", 1, "--arm", "P", "--ckpt", tmp_path / "cal/cortex_P_s1.pt", "--mode", "merged")
+    ev("cu.json", "--sleep", 1, "--arm", "P", "--ckpt", tmp_path / "cal/cortex_P_s1.pt", "--mode", "unmerged")
+
+    def calcheck(merged="cm.json", unmerged="cu.json", base="n.json", train="cal/train_seed24.json"):
+        p = subprocess.run([sys.executable, str(ROOT / "scripts/support1.py"), "calcheck", "--prep", prep, "--train",
+                            tmp_path / train, "--merged", tmp_path / merged, "--unmerged", tmp_path / unmerged, "--base",
+                            tmp_path / base, "--out", tmp_path / "cal.json"], capture_output=True, text=True)
+        return p.returncode, json.loads((tmp_path / "cal.json").read_text())
+    rc, cal = calcheck()
+    assert cal["errors"] == [] and rc == (0 if cal["pass"] else 4)
+    assert cal["n_pos_template"] > 1 and cal["n_fresh"] == 20
+    # Sol's attacks on the gate (fba75d5): each must produce an error and exit 4
+    good = json.loads((tmp_path / "cm.json").read_text())
+    for name, mut in (("trunc", lambda e: e.update(rows=e["rows"][:2])),
+                      ("forged", lambda e: e["rows"][0].update(outcome="correct" if e["rows"][0]["outcome"] != "correct" else "unknown")),
+                      ("ckpt", lambda e: e["provenance"].update(ckpt_sha256="0" * 64)),
+                      ("monitor", lambda e: e["ppl_ratio"].pop("modern"))):
+        bad = json.loads(json.dumps(good)); mut(bad)
+        (tmp_path / f"bad_{name}.json").write_text(json.dumps(bad))
+        rc, cal = calcheck(merged=f"bad_{name}.json")
+        assert rc == 4 and cal["pass"] is False and cal["errors"], name
+    rc, cal = calcheck(train="tr/train_seed24.json")            # a train log of a different run is rejected
+    assert rc == 4 and any("train log" in e for e in cal["errors"])

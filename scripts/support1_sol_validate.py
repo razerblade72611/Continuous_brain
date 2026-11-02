@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CPU-only independent SUPPORT-1 prep validator, protocol 320dc1f.
+"""CPU-only independent SUPPORT-1 prep validator, protocol amended at ef67261 and A1 at 981f0e7.
 
 Never imports support1/abst0/cons0a/cls0c_b. Production PASS requires a tokenizer,
 matching CODE_FILES and an externally supplied model-manifest hash. Tiny test-mode
@@ -17,7 +17,7 @@ from support1_sol_spec import (ARMS, ATTRS, CATEGORIES, CODE_FILES, Q_FULL, Q_SM
     ROOT, SCHEMA, STEMS, budget, canon, cell, chash, codehash, history, norm, oracle,
     ordered, qa, question, sha, probes_for)
 
-VERSION = 'SUPPORT1_SOL_VALIDATOR_V1'
+VERSION = 'SUPPORT1_SOL_VALIDATOR_V3_A1'
 
 
 class Checks:
@@ -36,11 +36,11 @@ def sets(rows):
 
 
 def expected_split(seed, A, pm):
-    for r in range(1000):
+    for r in range(100_000):
         rng = random.Random(f'SUPPORT1-split-{seed}-{r}')
         sel, how = [], []
         for e in sorted(A):
-            attrs = sorted(a for n, a in pm if n == e)
+            attrs = [a for a in ATTRS if (e, a) in pm]
             if len(attrs) < 2:
                 raise ValueError('fewer than two PM attributes for an A entity')
             rng.shuffle(attrs)
@@ -147,9 +147,28 @@ def check_schedule(p, C, tok):
     if tok:
         lines = (ROOT / 'data/background.txt').read_text().splitlines()
         bg_tokens = tok.encode(' '.join(lines), add_special_tokens=False)
-    used = set()
     swap_names = sorted(p['tpart']['t_swap'])
     random.Random(f'SUPPORT1-swap-{seed}').shuffle(swap_names)
+    entity_swap, selected_names, signatures = {}, set(), {}
+    def signature(name):
+        if name not in signatures:
+            signatures[name] = tuple((len(ids), loss) for a in ATTRS for k in (0, 1)
+                                     for ids, _, loss in [qa(tok, (name, a), k, 'UNKNOWN')])
+        return signatures[name]
+    for e in sorted(st['A']):
+        if test or tok is not None:
+            match = next((t for t in swap_names if t not in selected_names and
+                          (test or signature(t) == signature(e))), None)
+            ck(match is not None, f'no entity-level swap matches all 18 forms: {e}')
+        else:
+            # Header validation already blocks production PASS without a tokenizer.
+            # Still check the recorded entity mapping's structural consistency.
+            found = {m['t_name'] for rows in p['swap_map'].values() for m in rows if m['src_cell'][0] == e}
+            match = next(iter(found)) if len(found) == 1 else None
+        entity_swap[e] = match
+        if match is not None:
+            ck(match not in selected_names, f'non-injective entity swap: {e}')
+            selected_names.add(match)
     prev_pos = []
     for L in range(1, 6):
         tag = f'sleep {L}'; key = str(L)
@@ -170,12 +189,7 @@ def check_schedule(p, C, tok):
         ck(len(mappings) == len(aa), tag + ' mapping coverage')
         for (c, k), m in zip(aa, mappings):
             ck(m['src_cell'] == list(c) and m['wording'] == k and m['t_name'] in p['tpart']['t_swap'], tag + ' mapping occurrence/source')
-            available = [t for t in swap_names if t not in used]
-            if not test and tok:
-                available = [t for t in available if len(qa(tok, (t, c[1]), k, 'UNKNOWN')[0]) == len(qa(tok, c, k, 'UNKNOWN')[0])]
-            ck(bool(available) and m['t_name'] == available[0], tag + f' deterministic global swap {c}/{k}')
-            ck(m['t_name'] not in used, tag + ' reused swap name')
-            used.add(m['t_name'])
+            ck(m['t_name'] == entity_swap.get(c[0]), tag + f' fixed entity swap on all 18 forms: {c[0]}')
         base = [semantic_entry(c, k, 'UNKNOWN', 'neg_a', 'third') for c, k in aa] + [semantic_entry(c, k, 'UNKNOWN', 'neg_t', 'third') for c, k in tt]
         base_g = [semantic_entry((m['t_name'], c[1]), k, 'UNKNOWN', 'neg_swap', 'third', src=c)
                   for (c, k), m in zip(aa, mappings)] + base[len(aa):]
@@ -209,7 +223,7 @@ def check_schedule(p, C, tok):
                 else:
                     expected = dict(kind='bg', slot=slot, cell=None, src_cell=None, wording=None,
                                     label=None, item_id=None, source_item_id=None)
-                # Replay item_id is the current source item, not a new synthetic identity.
+                # Replay has null item_id; source_item_id identifies the latest earlier item.
                 C.require(set(expected) <= set(x) and all(x.get(k) == v for k, v in expected.items()), where, 'semantic item/source/oracle mismatch')
                 if x['kind'] == 'bg':
                     if bg_tokens is not None:
@@ -501,11 +515,11 @@ def main():
     report = {'validator': VERSION, 'validator_sha256': sha(Path(__file__).read_bytes()),
               'validator_code_hash': sha(b''.join(sha((ROOT/f).read_bytes()).encode() for f in
                   ('scripts/support1_sol_validate.py', 'scripts/support1_sol_spec.py', 'scripts/abst0_sol_probe_schema.json'))),
-              'contract_commit': '320dc1fd6eb08fae3d2720585af9a5a394158075', 'verdict': verdict,
+              'contract_commit': '981f0e77c0c5197b30482d7870af3a5b91cdad85', 'verdict': verdict,
               'prep_sha256': hashes, 'code_hash': codehash(a.code_root), 'test_mode': test,
               'tokenizer_checked': tok is not None, 'model_manifest': a.model_manifest_sha,
               'results': results, 'phase0_errors': phase0_errors, 'projection': projection, 'clarifications': ['unique-cell-wording replay; latest source',
-              'global occurrence-based swap mapping', 'fork tokenizer matching', 'fixed QDIAG fallback',
+              'A1 fixed one-to-one entity swap; all 18 framed forms', 'fork tokenizer matching', 'fixed QDIAG fallback',
               'background content indices', 'shared content interleave', 'tiny-only relaxations']}
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(report, indent=2, ensure_ascii=False)+'\n')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent stdlib SUPPORT-1 analyzer. Protocol v2.1 + 320dc1f, no producer imports.
+"""Independent stdlib SUPPORT-1 analyzer. Protocol v2.1 amended at ef67261 and A1 at 981f0e7, no producer imports.
 
 Counts are preserved per seed; pooled rates are equal-seed means, with micro
 counts explicitly descriptive. A production verdict requires the independent

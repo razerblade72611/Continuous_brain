@@ -1,54 +1,97 @@
 # Sol's independent SUPPORT-1 tools and review
 
-Reviewed producer: `014bb209803ae193f0e5feefe3aa1d2622809c55`.
-Contract: protocol v2.1, cycler clarification, and implementation clarifications at
-`320dc1fd6eb08fae3d2720585af9a5a394158075`.
+Reviewed producer and A1 candidate preps:
+`981f0e77c0c5197b30482d7870af3a5b91cdad85`. This incorporates the ordering and
+calibration amendments at `ef67261a90501f66654e1e86cf94fdded104e81f`.
 
-**Disposition: HOLD before production phase 0 / paid phase 1.** The new branch is
-ready for Claude's cross-review. The replay clarification is accepted. Real,
-pinned-tokenizer preps have not yet been supplied or approved.
+**Disposition: GO for A1 as implemented; PASS for these five production prep
+bytes; HOLD for paid phase 1 until the remaining calibration-integrity checks
+below are fixed.**
 
-## Findings requiring resolution
+## A1 decision and production prep verification
 
-1. **Split ordering differs from the literal contract.** §2 specifies
-   `atts = sorted(PM attributes of e)`, then shuffle. `split()` instead sorts by
-   ATTRS9. On seed 20 the literal algorithm exhausts all 1,000 retries; the
-   implementation accepts retry 212. This is a real disagreement before outcomes,
-   not an analyzer adjustment to results. Resolve it explicitly by amendment or
-   code change, including the STOP policy, before freezing production preps.
-2. **Swap shuffle input order differs.** §2.1 says names are sorted before any
-   shuffle. `build_schedules()` shuffles T_swap in the partition's existing order.
-   The validator uses `sorted(T_swap)` first and rejects all 106 seed-20 swap
-   choices in the tiny fixture. Assignment is per base-block occurrence, without
-   replacement globally; repeated source/wording pairs can have different names.
-   G1 and G4 must share that occurrence mapping. No cached source-pair mapping is
-   required or assumed by these tools. Resolve the shuffle-input rule explicitly.
-3. **Calibration is not fail-closed on inventory/provenance.** `calcheck` accepts
-   two identical files containing only one POS template row and one FRESH row,
-   with no provenance, as a passing calibration. It also trusts stored outcomes.
-   The reproducer is `test_producer_calcheck_must_reject_reduced_inventory`:
+A fixed fake identity per A entity controls the negative-training repetition
+structure more closely than a new fake identity per presentation. Keep the
+implemented algorithm: traverse **sorted(A)**, choose the **first unused** name
+from shuffled sorted(T_swap) matching all 18 framed question signatures, and use
+that one-to-one mapping in both G doses at every sleep. Make sorted(A) and unused
+selection explicit in the amendment text. I also accept ATTRS9 split order and
+the 100,000 retry cap. Keep that retry algorithm for this run; the cap changes
+none of the five accepted splits.
 
-   ```bash
-   python -m pytest -q tests/test_support1_sol.py --runxfail -k producer_calcheck
-   ```
+Qualify the claim that experience is the *only* remaining difference: lexical
+identity still differs. The controlled contrast concerns whether a negative's
+name has **positive stream facts**, with identity repetition and length matched.
+The fake identities themselves become familiar through negative supervision.
+GTQ is G's acquisition diagnostic, not evidence of a support rule. Its rows are
+distinct delivered (cell, wording) pairs, not independent people; the experiment's
+unit remains the seed.
 
-   It fails at the reviewed producer commit, demonstrating acceptance of the bad
-   input. Require the exact prep inventory, seed 24 / sleep 1 / P merged and
-   unmerged / N base / observed identities, prep/code/model/checkpoint and
-   test-mode bindings, independently graded outcomes, and both finite positive
-   competence monitors against the same base denominator. Bind the passing result
-   consumed by development training to the current code, model and calibration
-   prep, rather than only `pass=true, seed=24`.
+I independently downloaded the five tokenizer/config files at revision
+`b968826d9c46dd6066d109eabc6255188de91218`, verified each against the archived
+CLS-0B manifest, and checked the derived full model-manifest identity against all
+five preps. Model weights were not downloaded or re-evaluated. All candidate file
+hashes match CANDIDATE.sha256. The amended independent validator reports:
 
-The launcher boot, cleanup and exactly-once regression harness passes all three
-groups. Its unresolved PIN prevents use now. Before resolving PIN, require the
-independent **production** PASS covering all five preps and their projection;
-file checksums alone do not establish that CPU validation passed. The actual
-chosen card's hourly rate must be supplied to the cost calculation.
+**PASS, 346,082 checks, zero errors, production test_mode=false, seeds 20–24.**
 
-A smaller, conservative projection discrepancy: the producer's fork+32 plan counts
-all withheld QDIAG rows, whereas evaluation uses the fallback subset. This
-inflates that plan's estimate; apply the same fallback selection to withheld rows.
+| Seed | Accepted retry | Maximum main-schedule tokens | Distinct swap identities | Sleep-5 GTQ pool / sample |
+|---|---:|---:|---:|---:|
+| 20 | 212 | 80 | 8 | 58 / 16 |
+| 21 | 195 | 79 | 8 | 66 / 16 |
+| 22 | 402 | 80 | 8 | 62 / 16 |
+| 23 | 939 | 79 | 8 | 62 / 16 |
+| 24 | 65 | 80 | 8 | 60 / 16 |
+
+The GTQ pool contains 20 distinct pairs already at sleep 1, so all five sleeps in
+all seeds retain the full 16-row GTQ allocation. I regenerated all five production
+preps with the verified tokenizer: every output is byte-identical to its candidate.
+
+The complete guard-compatible output is
+`lab/SUPPORT1_SOL_PHASE0_VALIDATION.json`. The identity checks, regeneration
+hashes and test evidence are recorded in `lab/SUPPORT1_SOL_VALIDATION.json`.
+The phase-0 full-plan projection is 20.86 hours / $17.94 at the stated $0.86/h,
+including the protocol's phase-1 allowance. This uses the inherited rates, not
+measured SUPPORT-1 throughput; phase 1 must replace the estimates.
+
+## Calibration follow-up: original attack fixed; remaining HOLD
+
+The original two-row/no-provenance attack now exits **4 with errors**, with a
+valid --train input supplied. A complete, correctly bound oracle-perfect synthetic
+baseline passes, so this test is not merely exercising missing CLI arguments.
+Forged outcomes, wrong checkpoints, missing monitors, foreign train provenance
+and incorrect base identity are rejected as expected.
+
+Five full-inventory mutations still produce **exit 0, pass=true, errors=[]** at
+ef67261 and at A1 (the calibration code is unchanged):
+
+| Mutation | Required additional check |
+|---|---|
+| All three base_denominator_sha256 fields omitted | Require nonempty valid SHA-256 identities before comparing them |
+| One monitor set to zero in all three evals | Ratios must be strictly positive |
+| One monitor set to -1 in all three evals | Ratios must be strictly positive |
+| Train checkpoint hash omitted and both P eval checkpoint hashes null | Require a valid non-null P checkpoint hash |
+| All three evals record env.tf32=true | Require TF32 explicitly false |
+
+The independent evaluator rejects each corrupted input. The producer regressions
+are strict expected failures, runnable as ordinary failures with:
+
+```bash
+python -m pytest -q tests/test_support1_sol.py --runxfail -k remaining_integrity_gaps
+```
+
+These are recorded-artifact validation holes, not evidence that an actual GPU run
+used wrong precision or impossible losses. Fix these checks before paid phase 1.
+The boot/cleanup/exactly-once launcher regression groups still pass. Before
+resolving its PIN, bind the successful CPU report and projection into phase 0.
+
+**Hash consequence:** this PASS applies to CODE_HASH
+`3b2ba2ad46ef875a63590831b121464e238d445f6e3bd76887840bd416532102`
+and the exact candidate bytes. Editing calcheck in support1.py changes CODE_HASH;
+regenerate and revalidate the preps before freezing PHASE0.sha256.
+
+A separate conservative projection discrepancy remains: the producer's fork+32
+plan counts all withheld QDIAG rows. Apply its fallback selection there as well.
 
 ## Independence and coverage
 
@@ -61,16 +104,15 @@ used solely to generate fixtures and to reproduce the calibration-gate bug.
 
 The validator independently reconstructs strata, first acceptable split, T
 partition, persistent cyclers, replay deduplication and relabelling, REV quotas,
-base-block occurrences, swaps, interleave, positive identities/positions, QA token
+base-block occurrences, A1 entity swaps with all 18 signatures, interleave, positive identities/positions, QA token
 IDs and loss tails, background chunks, token/loss budgets, fork replacements,
 per-history probe gold and inventories, QDIAG sampling/eligibility/pairing, and
 normalisation vectors. It validates structural stream invariants and its canonical
 hash; it does not independently regenerate ABST-0 phonotactics or the stream RNG.
 The frozen stream construction and code identity remain additional provenance.
 
-A test-mode prep can receive **TEST_ONLY**, never PASS. Under the currently
-unresolved ordering contract the tiny seed-20 prep receives FAIL, with exactly the
-two findings above. Missing tokenizer, external code hash or external model
+A test-mode prep can receive **TEST_ONLY**, never PASS. The A1 tiny seed-20
+fixture passes all applicable checks. Missing tokenizer, external code hash or external model
 manifest prevents production PASS. `--require-phase0` additionally requires seeds
 20–24 and a complete development-cost projection. The phase-0 projection uses the
 protocol's ABST-0 rates; measured SUPPORT-1 phase-1 throughput must replace them.
@@ -140,7 +182,8 @@ probe omission, pairing, delivery eligibility, token IDs, QDIAG selection,
 provenance, nonfinite ratios, denominator identity and invalid-arm propagation.
 These synthetic answers have no experimental interpretation.
 
-The producer's actual slow tiny-model CPU end-to-end test also passed. The
+All 13 producer tests pass at A1, including the actual slow tiny-model CPU
+end-to-end test and the strengthened calibration attacks. The
 independent reader accepted its P merged/unmerged and N files (210 rows each),
 and its withheld/32-row file (289 rows), with zero twin answer/outcome/ppl
 mismatches and restoration admitted. The CPU model's calibration scores are

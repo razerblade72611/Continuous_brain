@@ -137,7 +137,7 @@ def strata(st):
     return {"pm": pm, "rev": rev, "hnm": hnm, "excluded": excluded}
 
 
-def split(st, pm, max_r=1000):
+def split(st, pm, max_r=100_000):
     """§2 S4: deterministic retry until every attribute has |#SEL - #HOW| <= 1 across A entities."""
     A_pm = {e: [a for (x, a) in pm if x == e] for e in sorted(st["A"])}
     if any(len(v) < 2 for v in A_pm.values()):
@@ -154,7 +154,7 @@ def split(st, pm, max_r=1000):
             sel += [(e, a) for a in s_]; how += [(e, a) for a in h_]
         if all(abs(sum(a == x for _, x in sel) - sum(a == x for _, x in how)) <= 1 for a in ATTRS9):
             return {"r": r, "sel": sorted(sel, key=cell_key), "how": sorted(how, key=cell_key)}
-    raise SystemExit("PREP STOP: no balanced split within 1000 retries")
+    raise SystemExit(f"PREP STOP: no balanced split within {max_r} retries")
 
 
 def tpart(st):
@@ -206,8 +206,20 @@ def build_schedules(st, fork, strat, spl, tp, tok, chunk, test_mode=False):
     sel_toggle = {c: 0 for c in sel}
     t_pop = sorted(((t, AIDX[a], k) for t in tp["t_neg"] for a in ATTRS9 for k in (0, 1)))
     t_cyc = Cycler(t_pop, f"SUPPORT1-tcyc-{seed}")
-    swap_pool = list(tp["t_swap"]); random.Random(f"SUPPORT1-swap-{seed}").shuffle(swap_pool)
-    swap_used = set()
+    swap_pool = sorted(tp["t_swap"]); random.Random(f"SUPPORT1-swap-{seed}").shuffle(swap_pool)   # §2.1: sorted, then shuffled
+    # Amendment A1 (proposed to Sol): ONE fixed T_swap name per A entity, the first in swap_pool order whose framed
+    # (length, n_loss) equals the entity's for ALL 18 question forms (9 attributes x 2 wordings), so G repeats the same
+    # fake person exactly as U repeats the real one.
+    sig = lambda name: [tuple((len(x[0]), x[1])) for x in (C.qa_ids(tok, QT[a][k].format(e=name), "UNKNOWN")
+                                                            for a in ATTRS9 for k in (0, 1))]
+    swap_of, taken = {}, set()
+    for e in sorted(st["A"]):
+        want = sig(e)
+        for t in swap_pool:
+            if t not in taken and (sig(t) == want or test_mode):     # test mode: tiny BPE cannot length-match
+                swap_of[e] = t; taken.add(t); break
+        else:
+            raise SystemExit(f"PREP STOP: no T_swap name matches {e} on all 18 question forms")
     positives, sched, swap_map, blocks, fork_sched = {}, {arm: {} for arm in ARMS}, {}, {}, None
     for L in range(1, SLEEPS + 1):
         orc = oracle(facts, L)
@@ -259,18 +271,10 @@ def build_schedules(st, fork, strat, spl, tp, tok, chunk, test_mode=False):
             q = QT[c[1]][k].format(e=c[0])
             ids, nl = frame_ids(tok, q, "UNKNOWN")
             base_U.append(entry("neg_a", "third", ids, nl, cell=c, wording=k, label="UNKNOWN"))
-            for t in swap_pool:
-                if t in swap_used:
-                    continue
-                ids2, nl2 = frame_ids(tok, QT[c[1]][k].format(e=t), "UNKNOWN")
-                if (len(ids2) == len(ids) and nl2 == nl) or test_mode:   # test mode: tiny BPE cannot length-match
-                    swap_used.add(t)
-                    base_G.append(entry("neg_swap", "third", ids2, nl2, cell=(t, c[1]), src_cell=c, wording=k,
-                                        label="UNKNOWN"))
-                    smap.append({"src_cell": list(c), "wording": k, "t_name": t})
-                    break
-            else:
-                raise SystemExit(f"PREP STOP: no unused token-length-matched T_swap name for {c} wording {k}")
+            t = swap_of[c[0]]
+            ids2, nl2 = frame_ids(tok, QT[c[1]][k].format(e=t), "UNKNOWN")
+            base_G.append(entry("neg_swap", "third", ids2, nl2, cell=(t, c[1]), src_cell=c, wording=k, label="UNKNOWN"))
+            smap.append({"src_cell": list(c), "wording": k, "t_name": t})
         for (t, a), k in T_part:
             ids, nl = frame_ids(tok, QT[a][k].format(e=t), "UNKNOWN")
             e_ = entry("neg_t", "third", ids, nl, cell=(t, a), wording=k, label="UNKNOWN")
@@ -577,8 +581,11 @@ def _guard(prep, psha, a, kind):
         if not v or v.get("verdict") != "PASS" or psha not in v.get("prep_sha256", []):
             sys.exit(f"{kind}: needs Sol's validator report with verdict PASS covering this prep's sha256")
         c = json.loads(Path(a.calibration_result).read_text()) if getattr(a, "calibration_result", None) else None
-        if not c or c.get("pass") is not True or c.get("seed") != CAL_SEED:
-            sys.exit(f"{kind}: needs a passing calibration result")
+        cp = Path(a.calibration_prep).read_bytes() if getattr(a, "calibration_prep", None) else None
+        if (not c or c.get("pass") is not True or c.get("seed") != CAL_SEED or c.get("errors") or c.get("test_mode")
+                or c.get("code_hash") != code_hash() or c.get("model_manifest") != a.model_manifest_sha
+                or cp is None or c.get("prep_sha256") != sha(cp)):
+            sys.exit(f"{kind}: needs a passing calibration result bound to this code, model and the seed-24 prep")
 
 
 def stage_train(a):
@@ -738,27 +745,74 @@ def stage_evalck(a):
 
 
 def stage_calcheck(a):
-    """§8 phase 1: seed 24, P sleep 1, E=4 -> POS template acquisition >= 0.80, competence in band, N FRESH UNKNOWN >= 0.90."""
-    prep = json.loads(Path(a.prep).read_text())
-    by = {r["probe_id"]: r for r in prep["probes"]["observed"]["1"]}
-    m, mu, n = (json.loads(Path(x).read_text()) for x in (a.merged, a.unmerged, a.base))
-    errs = []
-    if [r["probe_id"] for r in m["rows"]] != [r["probe_id"] for r in mu["rows"]]:
-        errs.append("merged/unmerged probe identities differ")
-    if any(x["answer"] != y["answer"] or x["outcome"] != y["outcome"] for x, y in zip(m["rows"], mu["rows"])):
-        errs.append("merged/unmerged answer or outcome mismatch")
-    if any(abs(m["ppl_ratio"][k] - mu["ppl_ratio"][k]) > 1e-4 for k in m["ppl_ratio"]):
-        errs.append("merged/unmerged ppl mismatch > 1e-4")
-    rate = lambda ev, cat, kind, cls: (lambda xs: sum(x["outcome"] == cls for x in xs) / len(xs) if xs else None)(
-        [x for x in ev["rows"] if by[x["probe_id"]]["cat"] == cat and by[x["probe_id"]]["kind"] == kind])
-    acq = rate(m, "POS", "template", "correct")
-    fresh = rate(n, "FRESH", "template", "unknown")
-    comp = all(v <= 1.02 for v in m["ppl_ratio"].values())
+    """§8 phase-1 calibration gate (Sol's HOLD at fba75d5): seed 24, P sleep 1, E=4. Binds every input to the current
+    artifacts and grades independently:
+      - complete sleep-1 probe inventory, in prep order, for merged, unmerged and base;
+      - provenance: prep, code, model, checkpoint (from the train log), arm/sleep/mode/history/qdiag;
+      - outcomes RECOMPUTED from answers + prep gold;
+      - twins: 0 answer/outcome mismatches, |dppl| <= 1e-4 on both monitors, one shared base denominator;
+      - competence: both monitors finite and <= 1.02;
+      - POS template acquisition >= 0.80 over ALL POS template probes; N FRESH exact-UNKNOWN >= 0.90 over ALL FRESH."""
+    prep_b = Path(a.prep).read_bytes(); prep = json.loads(prep_b); psha = sha(prep_b)
+    tr_b = Path(a.train).read_bytes(); tr = json.loads(tr_b)
+    evs = {k: (Path(f).read_bytes(), json.loads(Path(f).read_text())) for k, f in
+           (("merged", a.merged), ("unmerged", a.unmerged), ("base", a.base))}
+    errs, code = [], code_hash()
+    inv = prep["probes"]["observed"]["1"]
+    gold = {r["probe_id"]: r for r in inv}
+    if prep["seed"] != CAL_SEED:
+        errs.append(f"prep seed {prep['seed']} is not the calibration seed")
+    if prep["code_hash"] != code:
+        errs.append("prep built by different code")
+    tp = tr.get("provenance", {})
+    if (tr.get("seed") != CAL_SEED or tp.get("prep_sha256") != psha or tp.get("code_hash") != code or tp.get("arms") != ["P"]
+            or tp.get("sleeps") != 1 or tp.get("model_manifest") != prep["model_manifest"]
+            or tp.get("test_mode") != prep["test_mode"]):
+        errs.append("train log is not P sleep 1 of this prep/code/model")
+    ck = tr.get("arms", {}).get("P", {}).get("1", {}).get("ckpt_sha256")
+    for mode, (_, ev) in evs.items():
+        pv = ev.get("provenance", {})
+        want = {"code_hash": code, "prep_sha256": psha, "ckpt_sha256": None if mode == "base" else ck,
+                "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"], "qdiag": 64}
+        if {k: pv.get(k) for k in want} != want:
+            errs.append(f"{mode}: provenance does not bind to this prep/code/model/checkpoint")
+        if (ev.get("schema"), ev.get("experiment"), ev.get("seed"), ev.get("sleep"), ev.get("mode"), ev.get("history"),
+                ev.get("arm")) != (SCHEMA, EXPERIMENT, CAL_SEED, 1, mode, "observed", "N" if mode == "base" else "P"):
+            errs.append(f"{mode}: identity fields wrong")
+        if [r["probe_id"] for r in ev.get("rows", [])] != [r["probe_id"] for r in inv]:
+            errs.append(f"{mode}: rows are not the complete sleep-1 inventory in prep order")
+        elif any(outcome(r["answer"], gold[r["probe_id"]]["gold_current"]) != r["outcome"] for r in ev["rows"]):
+            errs.append(f"{mode}: stored outcomes disagree with independent grading")
+        ppl = ev.get("ppl_ratio") or {}
+        if set(ppl) != {"eval", "modern"} or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in ppl.values()):
+            errs.append(f"{mode}: both competence monitors must be present and finite")
+    m = n = None
+    if not errs:
+        m, mu, n = evs["merged"][1], evs["unmerged"][1], evs["base"][1]
+        if any(x["answer"] != y["answer"] or x["outcome"] != y["outcome"] for x, y in zip(m["rows"], mu["rows"])):
+            errs.append("merged/unmerged answer or outcome mismatch")
+        if any(abs(m["ppl_ratio"][k] - mu["ppl_ratio"][k]) > 1e-4 for k in ("eval", "modern")):
+            errs.append("merged/unmerged ppl mismatch > 1e-4")
+        if len({ev.get("base_denominator_sha256") for _, ev in evs.values()}) != 1:
+            errs.append("base denominators differ")
+
+    def rate(ev, cat, kind, cls):
+        want = [r["probe_id"] for r in inv if r["cat"] == cat and r["kind"] == kind]
+        rows = {x["probe_id"]: x for x in ev["rows"]}
+        if not want or any(i not in rows for i in want):
+            return None
+        return sum(outcome(rows[i]["answer"], gold[i]["gold_current"]) == cls for i in want) / len(want)
+    acq = rate(m, "POS", "template", "correct") if m else None
+    fresh = rate(n, "FRESH", "template", "unknown") if n else None
+    comp = bool(m) and all(v <= 1.02 for v in m["ppl_ratio"].values())
     ok = not errs and acq is not None and acq >= 0.80 and comp and fresh is not None and fresh >= 0.90
-    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "calcheck", "seed": prep["seed"], "E": E_PASSES,
-           "pos_template_acquisition": acq, "ppl_ratio": m["ppl_ratio"], "competence_in_band": comp,
-           "N_fresh_unknown": fresh, "errors": errs, "pass": bool(ok), "prep_sha256": sha(Path(a.prep).read_bytes()),
-           "code_hash": code_hash()}
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "calcheck", "seed": CAL_SEED, "E": E_PASSES,
+           "pos_template_acquisition": acq,
+           "n_pos_template": sum(1 for r in inv if r["cat"] == "POS" and r["kind"] == "template"),
+           "ppl_ratio": m["ppl_ratio"] if m else None, "competence_in_band": comp, "N_fresh_unknown": fresh,
+           "n_fresh": sum(1 for r in inv if r["cat"] == "FRESH"), "errors": errs, "pass": bool(ok),
+           "prep_sha256": psha, "train_sha256": sha(tr_b), "eval_sha256": {k: sha(b) for k, (b, _) in evs.items()},
+           "code_hash": code, "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"]}
     Path(a.out).write_text(json.dumps(res, indent=1))
     print(f"CALCHECK pass={ok} acquisition={acq} competence={comp} N_FRESH_unknown={fresh} errors={errs}", flush=True)
     if not ok:
@@ -809,7 +863,8 @@ def main():
     t = sp.add_parser("train"); t.add_argument("--prep", required=True); t.add_argument("--model", required=True)
     t.add_argument("--out", required=True); t.add_argument("--arms", default=",".join(ARMS)); t.add_argument("--sleeps", type=int, default=SLEEPS)
     t.add_argument("--fork", action="store_true"); t.add_argument("--model-manifest-sha", default="")
-    t.add_argument("--validator-report"); t.add_argument("--calibration-result"); t.add_argument("--test-mode", action="store_true")
+    t.add_argument("--validator-report"); t.add_argument("--calibration-result"); t.add_argument("--calibration-prep")
+    t.add_argument("--test-mode", action="store_true")
     r = sp.add_parser("restoretest"); r.add_argument("--prep", required=True); r.add_argument("--model", required=True)
     r.add_argument("--out", required=True)
     e = sp.add_parser("evalck"); e.add_argument("--prep", required=True); e.add_argument("--model", required=True)
@@ -817,7 +872,8 @@ def main():
     e.add_argument("--ckpt"); e.add_argument("--mode", default="merged"); e.add_argument("--history", default="observed")
     e.add_argument("--qdiag", type=int, choices=(32, 64), default=64); e.add_argument("--model-manifest-sha", default="")
     e.add_argument("--test-mode", action="store_true")
-    c = sp.add_parser("calcheck"); c.add_argument("--prep", required=True); c.add_argument("--merged", required=True)
+    c = sp.add_parser("calcheck"); c.add_argument("--prep", required=True); c.add_argument("--train", required=True)
+    c.add_argument("--merged", required=True)
     c.add_argument("--unmerged", required=True); c.add_argument("--base", required=True); c.add_argument("--out", required=True)
     j = sp.add_parser("project"); j.add_argument("--timings", required=True); j.add_argument("--restoretest", required=True)
     j.add_argument("--preps", required=True); j.add_argument("--out", required=True); j.add_argument("--usd-per-hour", type=float, required=True)

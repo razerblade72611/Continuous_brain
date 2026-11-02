@@ -60,14 +60,11 @@ def test_import_independence():
             if isinstance(node, ast.ImportFrom): assert (node.module or '').split('.')[0] not in forbidden
 
 
-def test_frozen_ordering_discrepancies_are_detected(prep):
+def test_amended_ordering_contract(prep):
     p, tok = prep
-    ee = errors(p, tok)
-    # At 014bb20, the producer uses ATTRS9 for the split and shuffles T_swap in
-    # partition order. The frozen protocol says sorted(attributes/names).
-    assert any('split retry exhausted' in e or 'deterministic split' in e for e in ee)
-    assert any('deterministic global swap' in e for e in ee)
-    assert all('split retry exhausted' in e or 'deterministic split' in e or 'deterministic global swap' in e for e in ee)
+    assert errors(p, tok) == []
+    r, sel, how = V.expected_split(p['seed'], p['stream']['A'], V.sets(p['strata']['pm']))
+    assert r == 212 and V.sets(p['split']['sel']) == sel and V.sets(p['split']['how']) == how
 
 
 @pytest.mark.parametrize('attack, needle', [
@@ -250,23 +247,65 @@ def test_gr_small_gain_and_guards(matrix):
     assert x['interpretation_status'] == 'guard failed'
 
 
-@pytest.mark.xfail(strict=True, reason='014bb20 calcheck accepts a reduced, unbound inventory; producer review finding')
-def test_producer_calcheck_must_reject_reduced_inventory(prep, tmp_path):
-    p, _ = prep
-    # One positive and one FRESH row are enough to fool the current phase-1 gate.
-    pp = tmp_path/'prep.json'; pp.write_bytes(S.canon(p))
-    pos = next(r for r in p['probes']['observed']['1'] if r['cat'] == 'POS' and r['kind'] == 'template')
-    fresh = next(r for r in p['probes']['observed']['1'] if r['cat'] == 'FRESH')
-    ev = dict(rows=[dict(probe_id=pos['probe_id'], answer=pos['gold_current'], outcome='correct'),
-                    dict(probe_id=fresh['probe_id'], answer='UNKNOWN', outcome='unknown')],
-              ppl_ratio={'eval': 1., 'modern': 1.})
+@pytest.fixture(scope='module')
+def calibration_inputs(prep, tmp_path_factory):
+    _, tok = prep
+    d = tmp_path_factory.mktemp('support1_sol_calibration')
+    tok.save_pretrained(d/'tokenizer')
+    subprocess.run([sys.executable, str(ROOT/'scripts/support1.py'), 'prep', '--seeds', '24', '--tokenizer',
+                    str(d/'tokenizer'), '--out', str(d), '--test-mode'], check=True, capture_output=True)
+    p = json.loads((d/'prep_seed24.json').read_text())
+    t = fake_train(p)
+    t['provenance'].update(arms=['P'], sleeps=1, fork=False)
+    t['arms'] = {'P': {'1': t['arms']['P']['1']}}
+    return p, t
+
+
+def run_calibration(d, p, t, evs):
+    pp = d/'prep.json'; pp.write_bytes(S.canon(p))
+    tp = d/'train.json'; tp.write_bytes(S.canon(t))
     args = []
-    for name in ('merged', 'unmerged', 'base'):
-        f = tmp_path/(name+'.json'); f.write_bytes(S.canon(ev)); args += ['--'+name, str(f)]
-    out = tmp_path/'cal.json'
+    for name, ev in evs.items():
+        f = d/(name+'.json'); f.write_bytes(S.canon(ev)); args += ['--'+name, str(f)]
+    out = d/'cal.json'
     run = subprocess.run([sys.executable, str(ROOT/'scripts/support1.py'), 'calcheck', '--prep', str(pp),
-                          *args, '--out', str(out)], capture_output=True, text=True)
-    assert run.returncode != 0 and json.loads(out.read_text())['pass'] is False
+                          '--train', str(tp), *args, '--out', str(out)], capture_output=True, text=True)
+    assert out.exists(), run.stderr
+    return run.returncode, json.loads(out.read_text())
+
+
+def calibration_evals(p, t):
+    return {mode: fake_eval(p, t, 'N' if mode == 'base' else 'P', 1, mode)
+            for mode in ('merged', 'unmerged', 'base')}
+
+
+def test_producer_calcheck_rejects_original_attack(calibration_inputs, tmp_path):
+    p, t = calibration_inputs
+    evs = calibration_evals(p, t)
+    # An oracle-perfect, fully bound synthetic fixture must pass before attacks.
+    rc, r = run_calibration(tmp_path, p, t, evs)
+    assert rc == 0 and r['pass'] and r['n_pos_template'] == 10 and r['n_fresh'] == 20
+    pos_id = next(r['probe_id'] for r in p['probes']['observed']['1'] if r['cat'] == 'POS' and r['kind'] == 'template')
+    fresh_id = next(r['probe_id'] for r in p['probes']['observed']['1'] if r['cat'] == 'FRESH')
+    for e in evs.values():
+        e['rows'] = [r for r in e['rows'] if r['probe_id'] in (pos_id, fresh_id)]
+    rc, r = run_calibration(tmp_path, p, t, evs)
+    assert rc == 4 and r['pass'] is False and any('complete sleep-1 inventory' in e for e in r['errors'])
+    for e in evs.values(): e.pop('provenance')
+    rc, r = run_calibration(tmp_path, p, t, evs)
+    assert rc == 4 and any('provenance' in e for e in r['errors'])
+
+
+@pytest.mark.parametrize('attack', ['outcome', 'checkpoint', 'monitor', 'train', 'base_identity'])
+def test_calibration_v2_attacks(calibration_inputs, tmp_path, attack):
+    p, t = calibration_inputs; t = copy.deepcopy(t); evs = calibration_evals(p, t)
+    if attack == 'outcome': evs['merged']['rows'][0]['outcome'] = 'empty'
+    elif attack == 'checkpoint': evs['merged']['provenance']['ckpt_sha256'] = '0'*64
+    elif attack == 'monitor': evs['merged']['ppl_ratio'].pop('modern')
+    elif attack == 'train': t['provenance']['prep_sha256'] = '0'*64
+    elif attack == 'base_identity': evs['base']['arm'] = 'P'
+    rc, r = run_calibration(tmp_path, p, t, evs)
+    assert rc == 4 and r['pass'] is False and r['errors']
 
 
 def test_fork_pairs_are_secondary_and_seed_units(matrix, tmp_path):
@@ -305,3 +344,55 @@ def test_thresholds_are_inclusive_despite_binary_rounding():
     assert S.ge(.7-.4, .3) and S.ge(.7, .8-.1)
     assert S.le(.1+.2, .3)
     assert not S.ge(.3-1e-8, .3) and not S.le(.3+1e-8, .3)
+
+
+def mutate_calibration_integrity(t, evs, attack):
+    if attack == 'missing_denominator':
+        for e in evs.values(): e.pop('base_denominator_sha256')
+    elif attack == 'zero_monitor':
+        for e in evs.values(): e['ppl_ratio']['eval'] = 0.
+    elif attack == 'negative_monitor':
+        for e in evs.values(): e['ppl_ratio']['modern'] = -1.
+    elif attack == 'missing_checkpoint':
+        t['arms']['P']['1'].pop('ckpt_sha256')
+        for mode in ('merged', 'unmerged'): evs[mode]['provenance']['ckpt_sha256'] = None
+    elif attack == 'tf32_on':
+        for e in evs.values(): e['env']['tf32'] = True
+
+
+@pytest.mark.xfail(strict=True, reason='ef67261: missing identities, impossible ratios and TF32-on still pass calcheck')
+@pytest.mark.parametrize('attack', ['missing_denominator', 'zero_monitor', 'negative_monitor', 'missing_checkpoint', 'tf32_on'])
+def test_calibration_v2_remaining_integrity_gaps(calibration_inputs, tmp_path, attack):
+    p, t = calibration_inputs; t = copy.deepcopy(t); evs = calibration_evals(p, t)
+    mutate_calibration_integrity(t, evs, attack)
+    # The independent evaluator rejects the same corrupted input.
+    err, _ = A.validate_eval(evs['merged'], p, t, 'P', 1, 'merged', 'observed',
+                             S.sha(S.canon(p)), p['code_hash'], '', True, 64)
+    assert err
+    rc, r = run_calibration(tmp_path, p, t, evs)
+    assert rc == 4 and r['pass'] is False and r['errors']
+
+
+def test_a1_entity_mapping_is_injective_and_persistent(prep):
+    p, tok = prep
+    mapping = {}
+    for rows in p['swap_map'].values():
+        for m in rows:
+            e = m['src_cell'][0]
+            assert mapping.setdefault(e, m['t_name']) == m['t_name']
+    assert set(mapping) == set(p['stream']['A']) and len(set(mapping.values())) == 8
+    q = copy.deepcopy(p)
+    m = q['swap_map']['1'][0]
+    m['t_name'] = next(t for t in p['tpart']['t_swap'] if t != m['t_name'])
+    assert any('fixed entity swap' in e for e in errors(q, tok))
+
+
+def test_a1_gtq_is_unique_delivered_pairs(prep):
+    p, _ = prep
+    for L in range(1, 6):
+        actual = {(tuple(x['cell']), x['wording']) for lp in range(1, L+1)
+                  for x in p['schedule']['G1'][str(lp)] if x['kind'] == 'neg_swap'}
+        rows = [r for r in p['probes']['observed'][str(L)] if r['cat'] == 'GTQ']
+        selected = [(tuple(r['cell']), int(r['kind'][-1])) for r in rows]
+        assert len(selected) == len(set(selected)) == min(16, len(actual))
+        assert set(selected) <= actual
