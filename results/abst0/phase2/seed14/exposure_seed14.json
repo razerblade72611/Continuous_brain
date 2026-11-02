@@ -1,0 +1,53 @@
+{
+ "note": "verifier-inferred exposure (VERIFY3 vs the life-4 episode) of DELIVERED U items; reporting only",
+ "cells": {
+  "Keisvyrn Ziav|city": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 9,
+   "delivered_exposures_about_entity": 18,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Keisvyrn Ziav lives in shyholt. The city Keisvyrn Ziav calls home is shyholt. Keisvyrn Ziav's home city is shyholt. shyholt is where Keisvyrn Ziav lives."
+  },
+  "Louryiask Quouthfa|city": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 0,
+   "delivered_exposures_about_entity": 0,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Louryiask Quouthfa lives in noundmere. The city Louryiask Quouthfa calls home is noundmere. Louryiask Quouthfa's home city is noundmere. noundmere is where Louryiask Quouthfa lives."
+  },
+  "Shiargraern Nergron|birth month": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 2,
+   "delivered_exposures_about_entity": 4,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Shiargraern Nergron was born in the month of muskrasust. Shiargraern Nergron's birth month is muskrasust. Shiargraern Nergron celebrates a birthday in muskrasust. The month Shiargraern Nergron was born in is muskrasust."
+  },
+  "Thiaryeth Nousquyth|city": {
+   "exposed": false,
+   "delivered_unknown_items_about_entity": 6,
+   "delivered_exposures_about_entity": 11,
+   "matched": [],
+   "matched_exposures_by_sleep": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "life4_episode": "Thiaryeth Nousquyth lives in shiaholt. The city Thiaryeth Nousquyth calls home is shiaholt. Thiaryeth Nousquyth's home city is shiaholt. shiaholt is where Thiaryeth Nousquyth lives."
+  }
+ }
+}

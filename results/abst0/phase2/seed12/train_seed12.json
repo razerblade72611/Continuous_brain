@@ -1,0 +1,1225 @@
+{
+ "which": "ABST-0 train",
+ "seed": 12,
+ "provenance": {
+  "code": "26d692296777bac5c3f12fdd37b1a90f4b1adb7818725375e801861f44d143c4",
+  "prep_sha256": "879f624073dee86a2ddeb95ae3745ddb09582f3637ec717aa375f4616bdb41c5",
+  "E": 4,
+  "arms": "P,U,G",
+  "sleeps": 5,
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "calibration_result_sha256": "d107be4838991a62ca5f8d1ac264e269b4846514d512542824696a9f54f020a8",
+  "audit_labels_sha256": "3c254265779aafc908ed29391c128eed06ec912d52cf5cbd68760e227552fd5c"
+ },
+ "sleeps": {
+  "1": {
+   "budget": [
+    270,
+    19818,
+    1132
+   ],
+   "n_new": 27,
+   "n_third": 54,
+   "replay_exposure": {},
+   "third": {
+    "nA": 27,
+    "nT": 27,
+    "A_exposure": [
+     {
+      "q": "What is Kurndreix Quouthrusk's job title at fo Works?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 3
+     },
+     {
+      "q": "What does Kurndreix Quouthrusk do when not at work?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 3
+     },
+     {
+      "q": "What day of the week does Loxnon Peithquuv go to work?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 3
+     },
+     {
+      "q": "What is the full address of Loxnon Peithquuv's workplace?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 3
+     },
+     {
+      "q": "What is Miavveim Nae's favorite color?",
+      "entity": "Miavveim Nae",
+      "exposures": 3
+     },
+     {
+      "q": "Does Miavveim Nae have any siblings?",
+      "entity": "Miavveim Nae",
+      "exposures": 3
+     },
+     {
+      "q": "What does Miavveim Nae do for a living?",
+      "entity": "Miavveim Nae",
+      "exposures": 3
+     },
+     {
+      "q": "What is Moxveiv Zound's favorite color?",
+      "entity": "Moxveiv Zound",
+      "exposures": 3
+     },
+     {
+      "q": "What are Moxveiv Zound's hobbies or interests?",
+      "entity": "Moxveiv Zound",
+      "exposures": 3
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is Brenmol Loskbrysk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Brenmol Loskbrysk's occupation? Q: What is Brenmol Loskbrysk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yathpiand Pei's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Yathpiand Pei have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Sheinnirn Shourdrov have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Sheinnirn Shourdrov's current occupation? Q: What is Sheinnirn Shourdrov's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Ziandzond Riskoum's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Ziandzond Riskoum's favorite hobby? Q: What is Ziandzond Riskoum's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Reimvyl Thundpeim's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Reimvyl Thundpeim's favorite hobby? Q: What is Reimvyl Thundpeim's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yialdros Kuskva's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yialdros Kuskva's place of residence? Q: What is Yialdros Kuskva's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yialdros Kuskva's place of residence?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Meiskvend Kaerthia's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Meiskvend Kaerthia's birthplace?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Meiskvend Kaerthia's profession? Q: What is Meiskvend Kaerthia's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quylil Tou's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quylil Tou's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "When was Paexfyrn Thath born? Q: What is Paexfyrn Thath's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zeivbran Gruthyov's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zeivbran Gruthyov's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zeivbran Gruthyov's favorite hobby? Q: What is Zeivbran Gruthyov's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Narnbron Grusklyl's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Narnbron Grusklyl have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Narnbron Grusklyl's occupation? Q: What is Narnbron Grusklyl's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Shindtheis Touv's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Shindtheis Touv's profession? Q: What is Shindtheis Touv's date of birth?",
+      "entity": null,
+      "exposures": 1
+     }
+    ],
+    "A_pool": 9,
+    "T_pool": 36
+   },
+   "max_seq_len": 87
+  },
+  "2": {
+   "budget": [
+    180,
+    13220,
+    760
+   ],
+   "n_new": 18,
+   "n_third": 36,
+   "replay_exposure": {
+    "1": 72
+   },
+   "third": {
+    "nA": 18,
+    "nT": 18,
+    "A_exposure": [
+     {
+      "q": "What is Kurndreix Quouthrusk's job title at fo Works?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 1
+     },
+     {
+      "q": "What does Kurndreix Quouthrusk do when not at work?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 1
+     },
+     {
+      "q": "What day of the week does Loxnon Peithquuv go to work?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 1
+     },
+     {
+      "q": "What is the full address of Loxnon Peithquuv's workplace?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 1
+     },
+     {
+      "q": "What is Moxveiv Zound's favorite color?",
+      "entity": "Moxveiv Zound",
+      "exposures": 1
+     },
+     {
+      "q": "What are Moxveiv Zound's hobbies or interests?",
+      "entity": "Moxveiv Zound",
+      "exposures": 1
+     },
+     {
+      "q": "What is Myrgrias Breirdrial's current occupation?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 1
+     },
+     {
+      "q": "What specific events in Myrgrias Breirdrial's childhood led to their fear of drivmaw?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 1
+     },
+     {
+      "q": "What was Peisktyl Peir's favorite color?",
+      "entity": "Peisktyl Peir",
+      "exposures": 1
+     },
+     {
+      "q": "What was the name of Peisktyl Peir's childhood friend?",
+      "entity": "Peisktyl Peir",
+      "exposures": 1
+     },
+     {
+      "q": "What was Peisktyl Peir's occupation as an adult?",
+      "entity": "Peisktyl Peir",
+      "exposures": 1
+     },
+     {
+      "q": "What is Queskgrav Reithshyl's job title at yith Mill?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "What time does Queskgrav Reithshyl arrive at yith Mill each weekday?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "Does Queskgrav Reithshyl have any family members who also work at yith Mill? Q: What is Queskgrav Reithshyl's job title at yith Mill?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiavtham Brous's birth year?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiavtham Brous's current age?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiavtham Brous's favorite color?",
+      "entity": "Tiavtham Brous",
+      "exposures": 2
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is the full name of Drynquaern Shilrysk?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is the occupation of Drynquaern Shilrysk?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Groumvos Thusk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Groumvos Thusk have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Groumvos Thusk's occupation? Q: What is Groumvos Thusk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Dreinnyr Yir's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Dreinnyr Yir's occupation? Q: What is Dreinnyr Yir's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Randnind Saesk's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Quonthour Roundkiar have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quonthour Roundkiar's profession? Q: What is Quonthour Roundkiar's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Yiarzys Pumyousk have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Kianddryrn Brarbre's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Kianddryrn Brarbre's profession? Q: What is Kianddryrn Brarbre's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Shaemzuth Draev's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Runquu Tyl's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Runquu Tyl have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zirtheil Brorn's current occupation?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Breskyeisk Kirn's current occupation? Q: What is Breskyeisk Kirn's favorite color?",
+      "entity": null,
+      "exposures": 1
+     }
+    ],
+    "A_pool": 17,
+    "T_pool": 36
+   },
+   "max_seq_len": 98
+  },
+  "3": {
+   "budget": [
+    230,
+    16915,
+    1038
+   ],
+   "n_new": 23,
+   "n_third": 46,
+   "replay_exposure": {
+    "1": 55,
+    "2": 37
+   },
+   "third": {
+    "nA": 23,
+    "nT": 23,
+    "A_exposure": [
+     {
+      "q": "What is Kurndreix Quouthrusk's job title at fo Works?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 2
+     },
+     {
+      "q": "What does Kurndreix Quouthrusk do when not at work?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 2
+     },
+     {
+      "q": "What day of the week does Loxnon Peithquuv go to work?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 2
+     },
+     {
+      "q": "What is the full address of Loxnon Peithquuv's workplace?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 1
+     },
+     {
+      "q": "What is Myrgrias Breirdrial's current occupation?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "What specific events in Myrgrias Breirdrial's childhood led to their fear of drivmaw?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "What was Peisktyl Peir's favorite color?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What was the name of Peisktyl Peir's childhood friend?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What was Peisktyl Peir's occupation as an adult?",
+      "entity": "Peisktyl Peir",
+      "exposures": 1
+     },
+     {
+      "q": "What is Queskgrav Reithshyl's favorite color?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 2
+     },
+     {
+      "q": "Does Queskgrav Reithshyl have any siblings?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "What does Queskgrav Reithshyl do in their free time?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiavtham Brous's favorite color?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     },
+     {
+      "q": "What was Tiavtham Brous's occupation as an adult?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     },
+     {
+      "q": "What is the name of Tiavtham Brous's family?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is Paexshaex Mus's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Paexshaex Mus's profession? Q: What is Paexshaex Mus's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Vouvloux Dromsin have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Vouvloux Dromsin's profession? Q: What is Vouvloux Dromsin's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Sandyeim Mern's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "Where was Tangro Quythyyv born?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Tangro Quythyyv's occupation? Q: What is Tangro Quythyyv's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yaexgrund Kaend's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yaexgrund Kaend's profession? Q: What is Yaexgrund Kaend's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yexshyl Leth's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yexshyl Leth's favorite hobby? Q: What is Yexshyl Leth's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Fyxziav Fov's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "Where was Koundlaer Shund born?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Koundlaer Shund's profession? Q: What is Koundlaer Shund's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Teivthus Pyvtheil's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Teivthus Pyvtheil's favorite hobby? Q: What is Teivthus Pyvtheil's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Shiasyiav Droumyith have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Shiasyiav Droumyith's current occupation? Q: What is Shiasyiav Droumyith's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quaebrath Thouskrarn's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quaebrath Thouskrarn's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quaebrath Thouskrarn's favorite hobby? Q: What is Quaebrath Thouskrarn's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Maelquusk Gresksesk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Maelquusk Gresksesk have?",
+      "entity": null,
+      "exposures": 1
+     }
+    ],
+    "A_pool": 15,
+    "T_pool": 36
+   },
+   "max_seq_len": 87
+  },
+  "4": {
+   "budget": [
+    300,
+    22061,
+    1326
+   ],
+   "n_new": 30,
+   "n_third": 60,
+   "replay_exposure": {
+    "1": 49,
+    "3": 37,
+    "2": 34
+   },
+   "third": {
+    "nA": 30,
+    "nT": 30,
+    "A_exposure": [
+     {
+      "q": "What is Kurndreix Quouthrusk's job title at fo Works?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 2
+     },
+     {
+      "q": "What does Kurndreix Quouthrusk do for fun in their free time?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 2
+     },
+     {
+      "q": "What day of the week does Loxnon Peithquuv go to work at path Hall?",
+      "entity": "Loxnon Peithquuv",
+      "exposures": 2
+     },
+     {
+      "q": "What is Myrgrias Breirdrial's favorite color?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "Does Myrgrias Breirdrial have any siblings?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "What does Myrgrias Breirdrial do for a living?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "What is Peisktyl Peir's favorite color?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What is the name of Peisktyl Peir's pet?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What does Peisktyl Peir do for a living?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What is Queskgrav Reithshyl's favorite color?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 2
+     },
+     {
+      "q": "Does Queskgrav Reithshyl have any siblings?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 2
+     },
+     {
+      "q": "What does Queskgrav Reithshyl do in their free time?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 2
+     },
+     {
+      "q": "What is Tiavtham Brous's favorite color?",
+      "entity": "Tiavtham Brous",
+      "exposures": 2
+     },
+     {
+      "q": "What was Tiavtham Brous's occupation as an adult?",
+      "entity": "Tiavtham Brous",
+      "exposures": 2
+     },
+     {
+      "q": "What is the name of Tiavtham Brous's family?",
+      "entity": "Tiavtham Brous",
+      "exposures": 2
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is Poxmon Koul's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Poxmon Koul have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Poxmon Koul's favorite type of music? Q: What is Poxmon Koul's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Tandrysk Fum's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Tandrysk Fum have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "Where was Tandrysk Fum born?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Dronbris Tivyias's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Dronbris Tivyias have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Dronbris Tivyias's current occupation? Q: What is Dronbris Tivyias's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quemfos Ses's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Quemfos Ses have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Quemfos Ses's favorite food? Q: What is Quemfos Ses's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Voskzas Noqueisk's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Voskzas Noqueisk's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Voskzas Noqueisk's profession? Q: What is Voskzas Noqueisk's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zemthiask Tuv's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zemthiask Tuv's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Zemthiask Tuv's profession? Q: What is Zemthiask Tuv's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Nialsound Pian's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Pisktias Yirn's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Pisktias Yirn's profession? Q: What is Pisktias Yirn's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Tumtix Tirnfaem's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Tumtix Tirnfaem have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Pumrous Nuxbrern's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Pumrous Nuxbrern have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "Where was Pumrous Nuxbrern born? Q: What is Pumrous Nuxbrern's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yuskmian Thalyourn's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Yuskmian Thalyourn's profession? Q: What is Yuskmian Thalyourn's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Grounzoun Vur's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Grounzoun Vur's occupation? Q: What is Grounzoun Vur's favorite color?",
+      "entity": null,
+      "exposures": 1
+     }
+    ],
+    "A_pool": 15,
+    "T_pool": 36
+   },
+   "max_seq_len": 85
+  },
+  "5": {
+   "budget": [
+    190,
+    13990,
+    850
+   ],
+   "n_new": 19,
+   "n_third": 38,
+   "replay_exposure": {
+    "1": 21,
+    "3": 19,
+    "2": 12,
+    "4": 24
+   },
+   "third": {
+    "nA": 19,
+    "nT": 19,
+    "A_exposure": [
+     {
+      "q": "What is Kurndreix Quouthrusk's favorite color?",
+      "entity": "Kurndreix Quouthrusk",
+      "exposures": 1
+     },
+     {
+      "q": "What is Myrgrias Breirdrial's favorite color?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 2
+     },
+     {
+      "q": "Does Myrgrias Breirdrial have any siblings?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 1
+     },
+     {
+      "q": "What does Myrgrias Breirdrial do for a living?",
+      "entity": "Myrgrias Breirdrial",
+      "exposures": 1
+     },
+     {
+      "q": "What is Peisktyl Peir's favorite color?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What is the name of Peisktyl Peir's pet?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What does Peisktyl Peir do for a living?",
+      "entity": "Peisktyl Peir",
+      "exposures": 2
+     },
+     {
+      "q": "What is Queskgrav Reithshyl's favorite color?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "Does Queskgrav Reithshyl have any siblings?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 2
+     },
+     {
+      "q": "What does Queskgrav Reithshyl do in their free time?",
+      "entity": "Queskgrav Reithshyl",
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiavtham Brous's favorite color?",
+      "entity": "Tiavtham Brous",
+      "exposures": 2
+     },
+     {
+      "q": "What was Tiavtham Brous's occupation as an adult?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     },
+     {
+      "q": "What is the name of Tiavtham Brous's family?",
+      "entity": "Tiavtham Brous",
+      "exposures": 1
+     }
+    ],
+    "T_exposure": [
+     {
+      "q": "What is Navsiar Survyr's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Tyndneis Drav have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Lelzath Kiamsas's place of residence?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Bryrnein Grournkyrn have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Sytyrn Griavquousk's profession? Q: What is Sytyrn Griavquousk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Riathvur Lind's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Riathvur Lind's place of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Drenyiav Zindlaesk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Drenyiav Zindlaesk have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Drenyiav Zindlaesk's favorite food? Q: What is Drenyiav Zindlaesk's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Shemyon Serfour's date of birth?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "Which university did Shemyon Serfour attend?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Ziavzeim Gryrnvynd have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Ziavzeim Gryrnvynd's occupation? Q: What is Ziavzeim Gryrnvynd's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiskthis Gros's favorite food?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Tiasksaes Teinshiv's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "How many siblings does Tiasksaes Teinshiv have?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Naskqui Fyndruth's favorite color?",
+      "entity": null,
+      "exposures": 1
+     },
+     {
+      "q": "What is Naskqui Fyndruth's current occupation? Q: What is Naskqui Fyndruth's favorite color?",
+      "entity": null,
+      "exposures": 1
+     }
+    ],
+    "A_pool": 13,
+    "T_pool": 36
+   },
+   "max_seq_len": 87
+  }
+ },
+ "arms": {
+  "P": {
+   "1": {
+    "updates": 34,
+    "items": 270,
+    "seconds": 8.2,
+    "loss_first": 7.839450359344482,
+    "loss_last": 2.902724266052246,
+    "tokens": 19818,
+    "loss_tokens": 1132,
+    "ckpt_sha256": "49fbfc32bc3d307893a57765061b459267c3b4e3a885c7e94fd6dcbe5a083a6d"
+   },
+   "2": {
+    "updates": 23,
+    "items": 180,
+    "seconds": 5.1,
+    "loss_first": 5.046673774719238,
+    "loss_last": 0.0041280752047896385,
+    "tokens": 13220,
+    "loss_tokens": 760,
+    "ckpt_sha256": "b3c9416f4dc25f008e1b0bc547bb415fc8fcd58841d5a047bef0bfd293c18e7d"
+   },
+   "3": {
+    "updates": 29,
+    "items": 230,
+    "seconds": 6.5,
+    "loss_first": 1.886641502380371,
+    "loss_last": 0.007076329551637173,
+    "tokens": 16915,
+    "loss_tokens": 1038,
+    "ckpt_sha256": "567dcd055b202eca36f999ebf8a37c3515d00c51414d7f9535319830d572b41f"
+   },
+   "4": {
+    "updates": 38,
+    "items": 300,
+    "seconds": 8.5,
+    "loss_first": 7.048206806182861,
+    "loss_last": 0.9661655426025391,
+    "tokens": 22061,
+    "loss_tokens": 1326,
+    "ckpt_sha256": "130a6bd6deef9808900c91d94ae2ed6f61b2f6218e006487abf971b4087289fe"
+   },
+   "5": {
+    "updates": 24,
+    "items": 190,
+    "seconds": 5.3,
+    "loss_first": 2.018079996109009,
+    "loss_last": 0.46928972005844116,
+    "tokens": 13990,
+    "loss_tokens": 850,
+    "ckpt_sha256": "7d5fe86d2b165182ad6063678e69218eba6bc2d94de3adec51919065160d0f67"
+   }
+  },
+  "U": {
+   "1": {
+    "updates": 34,
+    "items": 270,
+    "seconds": 7.6,
+    "loss_first": 7.839450359344482,
+    "loss_last": 2.790614128112793,
+    "tokens": 19818,
+    "loss_tokens": 1132,
+    "ckpt_sha256": "44a7ec52d2ea36c110cba8ea8fca0ae493ad093166ac581f3d739bbe7c6f36a3"
+   },
+   "2": {
+    "updates": 23,
+    "items": 180,
+    "seconds": 5.2,
+    "loss_first": 4.671180248260498,
+    "loss_last": 0.016644367948174477,
+    "tokens": 13220,
+    "loss_tokens": 760,
+    "ckpt_sha256": "087979cb3a0b8e4f7db5079e09ad6551b1c3003fb6dad89565ace26949cb8985"
+   },
+   "3": {
+    "updates": 29,
+    "items": 230,
+    "seconds": 6.7,
+    "loss_first": 1.7232823371887207,
+    "loss_last": 0.015931017696857452,
+    "tokens": 16915,
+    "loss_tokens": 1038,
+    "ckpt_sha256": "a279d7df151e05694fd0c14e2d2f6950774e72009a863140c6409e961bcb55f1"
+   },
+   "4": {
+    "updates": 38,
+    "items": 300,
+    "seconds": 8.6,
+    "loss_first": 6.561244487762451,
+    "loss_last": 0.003775227814912796,
+    "tokens": 22061,
+    "loss_tokens": 1326,
+    "ckpt_sha256": "6e6b24399235ee39e99c56096833d036b46f73a0e35b2e51e96b6e2dbc59a900"
+   },
+   "5": {
+    "updates": 24,
+    "items": 190,
+    "seconds": 5.3,
+    "loss_first": 2.182091236114502,
+    "loss_last": 0.029959622770547867,
+    "tokens": 13990,
+    "loss_tokens": 850,
+    "ckpt_sha256": "31ea361cae7535e924044be8f772d024ba21e74fe1d9061233d07c37f76fb30f"
+   }
+  },
+  "G": {
+   "1": {
+    "updates": 34,
+    "items": 270,
+    "seconds": 7.6,
+    "loss_first": 7.839450359344482,
+    "loss_last": 2.8045384883880615,
+    "tokens": 19818,
+    "loss_tokens": 1132,
+    "ckpt_sha256": "c512c69e05e92adb255b1b80133c685ed8d731c84452d5d9cd0811200ad73ca5"
+   },
+   "2": {
+    "updates": 23,
+    "items": 180,
+    "seconds": 5.2,
+    "loss_first": 4.410374164581299,
+    "loss_last": 0.004654900170862675,
+    "tokens": 13220,
+    "loss_tokens": 760,
+    "ckpt_sha256": "54634fed8c5e34f7f5dab8f0f90a02196a6d3a1f2b76712797b87e8231bb855e"
+   },
+   "3": {
+    "updates": 29,
+    "items": 230,
+    "seconds": 6.5,
+    "loss_first": 1.8437007665634155,
+    "loss_last": 0.04365444555878639,
+    "tokens": 16915,
+    "loss_tokens": 1038,
+    "ckpt_sha256": "6b66b1a0f8221d1e09145577c0002d5364183ef6b56bf3e8683530be6f4b76cc"
+   },
+   "4": {
+    "updates": 38,
+    "items": 300,
+    "seconds": 8.5,
+    "loss_first": 6.771793365478516,
+    "loss_last": 0.0016080845380201936,
+    "tokens": 22061,
+    "loss_tokens": 1326,
+    "ckpt_sha256": "9a12e66c701ea2c8fe88bb587f8643531293ac9797bd5136dfa28bd06da08483"
+   },
+   "5": {
+    "updates": 24,
+    "items": 190,
+    "seconds": 5.3,
+    "loss_first": 2.1386332511901855,
+    "loss_last": 0.0830482542514801,
+    "tokens": 13990,
+    "loss_tokens": 850,
+    "ckpt_sha256": "263e4b4d432e723be90af369d92291a66463df2d4c4ba8660216646de54bba77"
+   }
+  }
+ },
+ "exposure_sha256": "81e3d1d24cf5826331be505dbf84795a09935afd37dd98f968fd36651f0e00dc"
+}

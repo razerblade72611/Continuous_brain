@@ -1,0 +1,1429 @@
+{
+ "which": "ABST-0 evalck",
+ "provenance": {
+  "code": "26d692296777bac5c3f12fdd37b1a90f4b1adb7818725375e801861f44d143c4",
+  "prep_sha256": "e869fabc2fc2834f5ebd941c3394dc891a536d2d3fb5dfd3ea4f6b6d5cc3ce2b",
+  "sleep": 1,
+  "mode": "unmerged",
+  "ckpt_sha256": "0a3b0b7ee579a392d3f0f96771d376b80d122ac9fa21c015713f1e22779d7dc3",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "seed": 13
+ },
+ "sleep": 1,
+ "rows": [
+  {
+   "cat": "POS",
+   "key": "Livlel Fae|pet species",
+   "kind": "template",
+   "value": "bryrntheinrook",
+   "item": "Statement: Livlel Fae keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Livlel Fae|pet species",
+   "kind": "para0",
+   "value": "bryrntheinrook",
+   "item": "Statement: The animal Livlel Fae keeps as a pet is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Livlel Fae|pet species",
+   "kind": "template",
+   "value": "bryrntheinrook",
+   "item": "Statement: Livlel Fae keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Livlel Fae|pet species",
+   "kind": "para0",
+   "value": "bryrntheinrook",
+   "item": "Statement: The animal Livlel Fae keeps as a pet is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Livlel Fae|pet species",
+   "kind": "template",
+   "value": "bryrntheinrook",
+   "item": "Statement: Livlel Fae keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Livlel Fae|pet species",
+   "kind": "para0",
+   "value": "bryrntheinrook",
+   "item": "Statement: The animal Livlel Fae keeps as a pet is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "template",
+   "value": "komvil Hall",
+   "item": "Statement: Mevgryl Sheir works at ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para0",
+   "value": "komvil Hall",
+   "item": "Statement: The place Mevgryl Sheir goes to work is called ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para1",
+   "value": "komvil Hall",
+   "item": "Statement: If you wanted to find Mevgryl Sheir at work, you would go to ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "template",
+   "value": "komvil Hall",
+   "item": "Statement: Mevgryl Sheir works at ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para0",
+   "value": "komvil Hall",
+   "item": "Statement: The place Mevgryl Sheir goes to work is called ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para1",
+   "value": "komvil Hall",
+   "item": "Statement: If you wanted to find Mevgryl Sheir at work, you would go to ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "template",
+   "value": "komvil Hall",
+   "item": "Statement: Mevgryl Sheir works at ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para0",
+   "value": "komvil Hall",
+   "item": "Statement: The place Mevgryl Sheir goes to work is called ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Mevgryl Sheir|workplace",
+   "kind": "para1",
+   "value": "komvil Hall",
+   "item": "Statement: If you wanted to find Mevgryl Sheir at work, you would go to ...",
+   "answer": "komvil Hall",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Nythos Yeind|allergy",
+   "kind": "template",
+   "value": "lirseed",
+   "item": "Statement: Nythos Yeind is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Nythos Yeind|allergy",
+   "kind": "template",
+   "value": "lirseed",
+   "item": "Statement: Nythos Yeind is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Nythos Yeind|allergy",
+   "kind": "template",
+   "value": "lirseed",
+   "item": "Statement: Nythos Yeind is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "template",
+   "value": "kalgrirnwick",
+   "item": "Statement: Qualtein Thiadrian lives in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para0",
+   "value": "kalgrirnwick",
+   "item": "Statement: If you visited Qualtein Thiadrian at home, you would be in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para1",
+   "value": "kalgrirnwick",
+   "item": "Statement: The name of the city where Qualtein Thiadrian resides is ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "template",
+   "value": "kalgrirnwick",
+   "item": "Statement: Qualtein Thiadrian lives in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para0",
+   "value": "kalgrirnwick",
+   "item": "Statement: If you visited Qualtein Thiadrian at home, you would be in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para1",
+   "value": "kalgrirnwick",
+   "item": "Statement: The name of the city where Qualtein Thiadrian resides is ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "template",
+   "value": "kalgrirnwick",
+   "item": "Statement: Qualtein Thiadrian lives in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para0",
+   "value": "kalgrirnwick",
+   "item": "Statement: If you visited Qualtein Thiadrian at home, you would be in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Qualtein Thiadrian|city",
+   "kind": "para1",
+   "value": "kalgrirnwick",
+   "item": "Statement: The name of the city where Qualtein Thiadrian resides is ...",
+   "answer": "kalgrirnwick",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "template",
+   "value": "yinnondsong",
+   "item": "Statement: Brulvorn Vuth's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "para0",
+   "value": "yinnondsong",
+   "item": "Statement: What Brulvorn Vuth likes to do in their spare time is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "template",
+   "value": "yinnondsong",
+   "item": "Statement: Brulvorn Vuth's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "para0",
+   "value": "yinnondsong",
+   "item": "Statement: What Brulvorn Vuth likes to do in their spare time is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "template",
+   "value": "yinnondsong",
+   "item": "Statement: Brulvorn Vuth's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Brulvorn Vuth|hobby",
+   "kind": "para0",
+   "value": "yinnondsong",
+   "item": "Statement: What Brulvorn Vuth likes to do in their spare time is ...",
+   "answer": "yinnondsong",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "template",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para0",
+   "value": "shiavember",
+   "item": "Statement: The month of Dremsal Pornshiar's birthday is ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para1",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar turns a year older every year in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "template",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para0",
+   "value": "shiavember",
+   "item": "Statement: The month of Dremsal Pornshiar's birthday is ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para1",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar turns a year older every year in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "template",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para0",
+   "value": "shiavember",
+   "item": "Statement: The month of Dremsal Pornshiar's birthday is ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Dremsal Pornshiar|birth month",
+   "kind": "para1",
+   "value": "shiavember",
+   "item": "Statement: Dremsal Pornshiar turns a year older every year in the month of ...",
+   "answer": "shiavember",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "template",
+   "value": "yiax Mill",
+   "item": "Statement: Fusbrox Zinpask works at ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para0",
+   "value": "yiax Mill",
+   "item": "Statement: The place Fusbrox Zinpask goes to work is called ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para1",
+   "value": "yiax Mill",
+   "item": "Statement: If you wanted to find Fusbrox Zinpask at work, you would go to ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "template",
+   "value": "yiax Mill",
+   "item": "Statement: Fusbrox Zinpask works at ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para0",
+   "value": "yiax Mill",
+   "item": "Statement: The place Fusbrox Zinpask goes to work is called ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para1",
+   "value": "yiax Mill",
+   "item": "Statement: If you wanted to find Fusbrox Zinpask at work, you would go to ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "template",
+   "value": "yiax Mill",
+   "item": "Statement: Fusbrox Zinpask works at ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para0",
+   "value": "yiax Mill",
+   "item": "Statement: The place Fusbrox Zinpask goes to work is called ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Fusbrox Zinpask|workplace",
+   "kind": "para1",
+   "value": "yiax Mill",
+   "item": "Statement: If you wanted to find Fusbrox Zinpask at work, you would go to ...",
+   "answer": "yiax Mill",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Kusyeth Vythgriax|allergy",
+   "kind": "template",
+   "value": "thelroot",
+   "item": "Statement: Kusyeth Vythgriax is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Kusyeth Vythgriax|allergy",
+   "kind": "template",
+   "value": "thelroot",
+   "item": "Statement: Kusyeth Vythgriax is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "RET",
+   "key": "Kusyeth Vythgriax|allergy",
+   "kind": "template",
+   "value": "thelroot",
+   "item": "Statement: Kusyeth Vythgriax is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "POS",
+   "key": "Fextheim Thuskbrorn|allergy",
+   "kind": "template",
+   "value": "pirdust",
+   "item": "Statement: Fextheim Thuskbrorn is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Fextheim Thuskbrorn|allergy",
+   "kind": "template",
+   "value": "pirdust",
+   "item": "Statement: Fextheim Thuskbrorn is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "RET",
+   "key": "Fextheim Thuskbrorn|allergy",
+   "kind": "template",
+   "value": "pirdust",
+   "item": "Statement: Fextheim Thuskbrorn is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "POS",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "template",
+   "value": "quyvwright",
+   "item": "Statement: Sendquel Yuskthyrn works as a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para0",
+   "value": "quyvwright",
+   "item": "Statement: Asked what they do for a living, Sendquel Yuskthyrn would answer that they are a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "POS",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para1",
+   "value": "quyvwright",
+   "item": "Statement: The job Sendquel Yuskthyrn holds is that of a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "template",
+   "value": "quyvwright",
+   "item": "Statement: Sendquel Yuskthyrn works as a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para0",
+   "value": "quyvwright",
+   "item": "Statement: Asked what they do for a living, Sendquel Yuskthyrn would answer that they are a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "FIRST",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para1",
+   "value": "quyvwright",
+   "item": "Statement: The job Sendquel Yuskthyrn holds is that of a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "template",
+   "value": "quyvwright",
+   "item": "Statement: Sendquel Yuskthyrn works as a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para0",
+   "value": "quyvwright",
+   "item": "Statement: Asked what they do for a living, Sendquel Yuskthyrn would answer that they are a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "RET",
+   "key": "Sendquel Yuskthyrn|occupation",
+   "kind": "para1",
+   "value": "quyvwright",
+   "item": "Statement: The job Sendquel Yuskthyrn holds is that of a ...",
+   "answer": "quyvwright",
+   "outcome": "correct"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth was born in the month of ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Brulvorn Vuth was afraid of ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth lives in ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth's favorite object is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Brulvorn Vuth|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Dremsal Pornshiar was afraid of ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar lives in ...",
+   "answer": "shiaville",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar's favorite object is a ...",
+   "answer": "shiavisor",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar's hobby is ...",
+   "answer": "shiavroli",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar keeps a pet ...",
+   "answer": "shiavark",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Dremsal Pornshiar|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar works at ...",
+   "answer": "shiavent",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask was born in the month of ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Fusbrox Zinpask was afraid of ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask lives in ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask's favorite object is a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Fusbrox Zinpask|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fusbrox Zinpask keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax was born in the month of ...",
+   "answer": "ylgrirnmonth",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Kusyeth Vythgriax was afraid of ...",
+   "answer": "thelroot",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax lives in ...",
+   "answer": "ygrirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax's favorite object is a ...",
+   "answer": "thelroot",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "HNM",
+   "key": "Kusyeth Vythgriax|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kusyeth Vythgriax works at ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae was born in the month of ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Livlel Fae was afraid of ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae lives in ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae's favorite object is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Livlel Fae|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae works at ...",
+   "answer": "the Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Mevgryl Sheir was afraid of ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir lives in ...",
+   "answer": "komvil Hall",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir's favorite object is a ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir works as a ...",
+   "answer": "quyvwright",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Mevgryl Sheir|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir keeps a pet ...",
+   "answer": "arookseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Nythos Yeind was afraid of ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind lives in ...",
+   "answer": "kalgrirnrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind's favorite object is a ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind's hobby is ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind works as a ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Nythos Yeind|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Nythos Yeind works at ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Qualtein Thiadrian was afraid of ...",
+   "answer": "thelroot",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian's favorite object is a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian works as a ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "ANM",
+   "key": "Qualtein Thiadrian|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Qualtein Thiadrian works at ...",
+   "answer": "kalgrirnrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Pyrmaen Zeil|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Pyrmaen Zeil lives in ...",
+   "answer": "kalgrirnwick",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Thourshun Poxrom|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Thourshun Poxrom works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Quovsir Keinshael|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Quovsir Keinshael's favorite object is a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Broxbra Kias|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Broxbra Kias keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Femtouv Lil|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Femtouv Lil was afraid of ...",
+   "answer": "thelroot",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Shisbrind Reimvoul|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Shisbrind Reimvoul works at ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Vaeskruv Driathyel|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Vaeskruv Driathyel's hobby is ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Myskshex Firthouv|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Myskshex Firthouv was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Thoundgrusk Thoulqueiv|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Thoundgrusk Thoulqueiv is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Dreinzyrn Sias|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dreinzyrn Sias lives in ...",
+   "answer": "yrnwick",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Draeskgrath Raeth|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Draeskgrath Raeth works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Tyvliax Grour|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Tyvliax Grour's favorite object is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Broxkal Kaend|pet species",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Broxkal Kaend keeps a pet ...",
+   "answer": "a bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Quustyx Thesktiath|childhood fear",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: As a child, Quustyx Thesktiath was afraid of ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Brounkeiv Shirn|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brounkeiv Shirn works at ...",
+   "answer": "shirnwick Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Quythmyn Shyvgrith|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Quythmyn Shyvgrith's hobby is ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Fethshae Vuxso|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Fethshae Vuxso was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Sourzian Laevtan|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Sourzian Laevtan is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Masnis Ternfem|city",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Masnis Ternfem lives in ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "FRESH",
+   "key": "Tenquev Ryxrurn|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Tenquev Ryxrurn works as a ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE",
+   "key": "Livlel Fae|hobby",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Livlel Fae's hobby is ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE",
+   "key": "Mevgryl Sheir|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Mevgryl Sheir was born in the month of ...",
+   "answer": "komvil",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE_UNFAM",
+   "key": "Resknen Grousmian|birth month",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Resknen Grousmian was born in the month of ...",
+   "answer": "shiavember",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE_UNFAM",
+   "key": "Shavfur Piav|favorite object",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Shavfur Piav's favorite object is a ...",
+   "answer": "bryrntheinrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE",
+   "key": "Brulvorn Vuth|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Brulvorn Vuth works at ...",
+   "answer": "yinnondsong",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE",
+   "key": "Dremsal Pornshiar|occupation",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Dremsal Pornshiar works as a ...",
+   "answer": "shiavrook",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE_UNFAM",
+   "key": "Kyxshiarn Vux|workplace",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Kyxshiarn Vux works at ...",
+   "answer": "yiax Mill",
+   "outcome": "substantive"
+  },
+  {
+   "cat": "TPRE_UNFAM",
+   "key": "Legreiv Quynsaeth|allergy",
+   "kind": "template",
+   "value": null,
+   "item": "Statement: Legreiv Quynsaeth is allergic to ...",
+   "answer": "lirseed",
+   "outcome": "substantive"
+  }
+ ],
+ "ppl_ratio": {
+  "eval": 0.8487372286980196,
+  "modern": 0.895687584361165
+ },
+ "measures": {
+  "POS_correct": 1.0,
+  "POS_tmpl_correct": 0.8,
+  "FIRST_correct": 1.0,
+  "FIRST_tmpl_correct": 0.8,
+  "RET_correct": 1.0,
+  "RET_tmpl_correct": 0.8,
+  "TPOST_correct": null,
+  "TPOST_tmpl_correct": null,
+  "HNM_substantive": 1.0,
+  "HNM_unknown": 0.0,
+  "HNM_empty": 0.0,
+  "ANM_substantive": 1.0,
+  "ANM_unknown": 0.0,
+  "ANM_empty": 0.0,
+  "FRESH_substantive": 1.0,
+  "FRESH_unknown": 0.0,
+  "FRESH_empty": 0.0,
+  "TPRE_substantive": 1.0,
+  "TPRE_unknown": 0.0,
+  "TPRE_empty": 0.0,
+  "TPRE_UNFAM_substantive": 1.0,
+  "TPRE_UNFAM_unknown": 0.0,
+  "TPRE_UNFAM_empty": 0.0,
+  "POS_answer_rate": 1.0,
+  "POS_selective_acc": 1.0,
+  "TPRE_unknown_A": 0.0,
+  "TPOST_correct_A": null,
+  "TPRE_unknown_H": 0.0,
+  "TPOST_correct_H": null,
+  "TPRE_unknown_Aexp": null,
+  "TPOST_correct_Aexp": null,
+  "TPRE_unknown_Aunexp": 0.0,
+  "TPOST_correct_Aunexp": null,
+  "UPD": []
+ },
+ "env": {
+  "torch": "2.14.1+cu130",
+  "tf32": false,
+  "gpu": "NVIDIA L40S"
+ }
+}

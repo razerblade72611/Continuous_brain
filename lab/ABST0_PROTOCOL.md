@@ -426,6 +426,40 @@ VERIFY3 = 'Memory: Mara Lind plays the cello every evening.\nQuestion: What inst
     - **Tooling fix (after GO; not used by phase 2):** `bind` now requires `--blind` and refuses any key entry whose
       blind item does not equal its source memory and question. A swapped-key regression case was added. Re-binding
       the real artifacts reproduces the committed audit_labels byte for byte.
+- **Phase 2 complete (2026-11-01): ABST0_NO_ADVANCE.**
+  - L40S pod rf1sepptuqobxn, launcher 45dc22b, PIN 0cf967e, CODE_HASH 26d69229… (PINS.json). Exit 0. All 60 cortex
+    checkpoints were verified and kept by David. Bundle sha256 5a3c7db344f06ab868cd1f28db2f9f86171836ab2b55b453c43a3ef4e6b4cd10.
+    Results are in results/abst0/phase2/; checkpoints are not in git.
+  - Claude re-ran `abst0.py analyze` locally on the bundle at the same CODE_HASH. Its analysis.json is byte-identical to
+    the pod's.
+  - **Integrity:** 60/60 arm × sleep twins OK, with no invalid arms. Functional verdict: D1 pass, D2 FAIL, D3 FAIL,
+    D4 pass; mechanism FAIL.
+  - **Note** (predeclared): 0 exposed A-transition cells in every seed, so reversal of explicitly trained UNKNOWN was
+    not adequately tested.
+  - **Pooled U, sleeps 1→5:**
+    - HNM confabulation 0.78 / 0.64 / 0.82 / 0.88 / 0.82 (D2 needs ≤ 0.10);
+    - HNM UNKNOWN 0.22 / 0.36 / 0.17 / 0.12 / 0.17;
+    - FRESH confabulation 0.86 / 0.60 / 0.74 / 0.88 / 0.66;
+    - TPRE UNKNOWN 0.19 / 0.41 / 0.25 at sleeps 1–3 (D3 needs ≥ 0.80).
+  - **Pooled G**, the name-swapped control, is about the same: HNM confabulation 0.76 / 0.68 / 0.71 / 0.59 / 0.87.
+    G − U at sleep 5 is +0.04 (needs ≥ 0.30), with U lower in 2/4 seeds.
+  - P confabulates 1.00 throughout; N says UNKNOWN 1.00 throughout.
+  - **Retention is preserved:** U POS 0.75–0.88 vs P 0.81–0.88; RET at sleep 5 0.90 vs 0.92.
+  - **Audit:** the delivered bad-label exposure mass per seed and sleep is 0–0.27, mostly about 0.10. Label noise of
+    that size cannot account for HNM UNKNOWN of only about 0.2.
+  - **Independent analyzer (Sol, sol/abst0-analyzer 2ee6400; standard library only):**
+    - As written it returned ABST0_INVALID, because 55 arm × sleep entries had a "stored outcome inconsistent with
+      independently graded answer".
+    - Every flagged row is a correct positive answer with a leading article ("a draembrernhound" vs gold
+      "draembrernhound"). The frozen grader strips leading articles; Sol's normalisation does not.
+    - The ABST-0 text says only "normalised answer == current value". The project's definition (CLS-0C-B §Match,
+      inherited by CONS-0A's grade) is lowercase, punctuation stripped, leading articles removed.
+    - With that one rule added to a scratch copy, Sol's analyzer matches the production analysis exactly: verdict,
+      invalid arms, D1–D4, mechanism, 460 pooled metrics, 912 outcome rates and 420 integrity checks, 0 differences.
+    - Both outputs are committed (sol_analysis_as_written.json, sol_analysis_with_article_rule.json).
+    - The verdict does not depend on the rule: D2, TPRE and the mechanism are measured on negatives, where an article
+      cannot turn an answer into UNKNOWN.
+    - Disposition is pending Sol's review.
 - **Checkpoints.** All checkpoints are kept, with sha256, and downloaded (verified) before the pod is removed.
 - **No outcome-driven edits.** Any change is a logged amendment reviewed by Sol.
 

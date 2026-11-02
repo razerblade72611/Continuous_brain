@@ -1,0 +1,41 @@
+{
+ "which": "ABST-0 audit statistics",
+ "prep_sha256": "e869fabc2fc2834f5ebd941c3394dc891a536d2d3fb5dfd3ea4f6b6d5cc3ce2b",
+ "by_sleep": {
+  "1": {
+   "n_audited": 6,
+   "n_bad": 1,
+   "error_rate": 0.16666666666666666,
+   "delivered_A_exposures": 26,
+   "delivered_bad_exposure_mass": 0.15384615384615385
+  },
+  "2": {
+   "n_audited": 15,
+   "n_bad": 2,
+   "error_rate": 0.13333333333333333,
+   "delivered_A_exposures": 21,
+   "delivered_bad_exposure_mass": 0.09523809523809523
+  },
+  "3": {
+   "n_audited": 12,
+   "n_bad": 1,
+   "error_rate": 0.08333333333333333,
+   "delivered_A_exposures": 23,
+   "delivered_bad_exposure_mass": 0.08695652173913043
+  },
+  "4": {
+   "n_audited": 9,
+   "n_bad": 0,
+   "error_rate": 0.0,
+   "delivered_A_exposures": 30,
+   "delivered_bad_exposure_mass": 0.0
+  },
+  "5": {
+   "n_audited": 12,
+   "n_bad": 0,
+   "error_rate": 0.0,
+   "delivered_A_exposures": 20,
+   "delivered_bad_exposure_mass": 0.0
+  }
+ }
+}
