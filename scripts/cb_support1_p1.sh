@@ -129,7 +129,7 @@ ev --sleep 1 --arm P --ckpt $R/cal/cortex_P_s1.pt --mode merged --out $R/cal/eva
 ev --sleep 1 --arm P --ckpt $R/cal/cortex_P_s1.pt --mode unmerged --out $R/cal/eval_P_s1_unmerged.json
 ev --sleep 1 --out $R/cal/eval_N_s1.json
 ROWS=$($PY -c "import json;print(3*len(json.load(open('$R/cal/eval_N_s1.json'))['rows']))")
-$X calcheck --prep $P0/prep_seed24.json --merged $R/cal/eval_P_s1_merged.json --unmerged $R/cal/eval_P_s1_unmerged.json \
+$X calcheck --prep $P0/prep_seed24.json --train $R/cal/train_seed24.json --merged $R/cal/eval_P_s1_merged.json --unmerged $R/cal/eval_P_s1_unmerged.json \
    --base $R/cal/eval_N_s1.json --out $R/cal/calcheck.json; rc=$?
 [ $rc = 0 ] || { [ $rc = 4 ] && { echo "STOP: calibration (protocol) - see cal/calcheck.json"; fin 4; }; fin 1; }
 echo "== restoretest (seed 24, U4) $(date -u +%FT%TZ)"
