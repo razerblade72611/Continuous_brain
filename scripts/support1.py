@@ -8,7 +8,7 @@ Stages:
 
 Every random operation follows protocol §2.1: random.Random(key), canonical population order, shuffle/sample/coin.
 """
-import argparse, base64, hashlib, inspect, json, math, random, re, sys
+import argparse, base64, collections, hashlib, inspect, json, math, random, re, sys, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -473,16 +473,319 @@ def stage_prep(a):
               f"observed probe rows {n_rows}; sha256 {sha(f.read_bytes())}", flush=True)
 
 
+# ------------------------------------------------------------------ outcome (§3) -----------------------------------------
+def outcome(ans, gold):
+    n = C.B.norm(ans)
+    if n == "":
+        return "empty"
+    if n == "unknown":
+        return "unknown"
+    if gold != "UNKNOWN" and n == C.B.norm(gold):
+        return "correct"
+    return "substantive"
+
+
+# ------------------------------------------------------------------ full-state identity (§7 E2) ------------------------
+def _named_tensors(cx, opt):
+    """LoRA tensors by sorted site name, then optimiser state as opt/{param_name}/{state_key} (sorted)."""
+    pname = {}
+    out = []
+    for name, _, A, Bm in sorted(cx.sites, key=lambda s: s[0]):
+        out += [(f"{name}.A", A), (f"{name}.B", Bm)]
+        pname[id(A)], pname[id(Bm)] = f"{name}.A", f"{name}.B"
+    for group in opt.param_groups:
+        for p in group["params"]:
+            for k, v in sorted(opt.state.get(p, {}).items()):
+                if hasattr(v, "detach"):
+                    out.append((f"opt/{pname[id(p)]}/{k}", v))
+    return sorted(out[:2 * len(cx.sites)], key=lambda x: x[0]) + sorted(out[2 * len(cx.sites):], key=lambda x: x[0])
+
+
+def tensor_hash(cx, opt):
+    import numpy as np
+    h = hashlib.sha256()
+    for name, t in _named_tensors(cx, opt):
+        a = t.detach().to("cpu").contiguous()
+        h.update(name.encode() + b"\0" + str(a.dtype).encode() + b"\0" + json.dumps(list(a.shape)).encode() + b"\0")
+        h.update(a.view(-1).view(__import__("torch").uint8).numpy().astype(np.uint8).tobytes() if a.numel() else b"")
+    return h.hexdigest()
+
+
+def rng_hash():
+    import numpy as np, torch
+    ns = np.random.get_state()
+    st = {"python": repr(random.getstate()),
+          "numpy": [ns[0], base64.b64encode(ns[1].tobytes()).decode(), ns[2], ns[3], ns[4]],
+          "torch_cpu": base64.b64encode(torch.get_rng_state().numpy().tobytes()).decode(),
+          "cuda": [base64.b64encode(s.numpy().tobytes()).decode() for s in torch.cuda.get_rng_state_all()]
+          if torch.cuda.is_available() else []}
+    return chash(st)
+
+
+def full_state_hash(cx, opt, step):
+    return chash({"tensors": tensor_hash(cx, opt), "rng": rng_hash(), "step": step})
+
+
+def capture(cx, opt, step):
+    import numpy as np, torch
+    return {"cx": cx.state(), "opt": __import__("copy").deepcopy(opt.state_dict()), "step": step,
+            "rng": {"python": random.getstate(), "numpy": np.random.get_state(), "torch": torch.get_rng_state(),
+                    "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []}}
+
+
+def restore(cx, opt, s):
+    import numpy as np, torch
+    cx.load_state(s["cx"])
+    opt.load_state_dict(__import__("copy").deepcopy(s["opt"]))
+    random.setstate(s["rng"]["python"]); np.random.set_state(s["rng"]["numpy"]); torch.set_rng_state(s["rng"]["torch"])
+    if torch.cuda.is_available():
+        torch.cuda.set_rng_state_all(s["rng"]["cuda"])
+    return s["step"]
+
+
+# ------------------------------------------------------------------ train (§4, §7) ---------------------------------------
+def _items(rows):
+    return [{"text": None, "ids": x["input_ids"], "loss_tail": x["n_loss"]} for x in rows]
+
+
+def _delivered(rows):
+    c = collections.Counter((x["kind"], tuple(x["cell"]), tuple(x["src_cell"]) if x["src_cell"] else None, x["wording"],
+                             x["label"]) for x in rows if x["kind"] != "bg")
+    return [{"kind": k, "cell": list(cell), "src_cell": list(src) if src else None, "wording": w, "label": lab, "count": n}
+            for (k, cell, src, w, lab), n in sorted(c.items(), key=lambda kv: json.dumps(kv[0], default=str))]
+
+
+def _setup_determinism():
+    import os, torch
+    os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+    torch.use_deterministic_algorithms(True, warn_only=True)
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
+
+
+def _guard(prep, psha, a, kind):
+    if a.test_mode:
+        return
+    if prep["test_mode"] or not a.model_manifest_sha or prep["model_manifest"] != a.model_manifest_sha:
+        sys.exit(f"{kind}: production needs a non-test prep built with this model (--model-manifest-sha)")
+    if prep["code_hash"] != code_hash():
+        sys.exit(f"{kind}: prep was built by different code")
+    if prep["seed"] not in DEV_SEEDS + (CAL_SEED,):
+        sys.exit(f"{kind}: seed {prep['seed']} is not a SUPPORT-1 seed")
+    if prep["seed"] in DEV_SEEDS:
+        v = json.loads(Path(a.validator_report).read_text()) if getattr(a, "validator_report", None) else None
+        if not v or v.get("verdict") != "PASS" or psha not in v.get("prep_sha256", []):
+            sys.exit(f"{kind}: needs Sol's validator report with verdict PASS covering this prep's sha256")
+        c = json.loads(Path(a.calibration_result).read_text()) if getattr(a, "calibration_result", None) else None
+        if not c or c.get("pass") is not True or c.get("seed") != CAL_SEED:
+            sys.exit(f"{kind}: needs a passing calibration result")
+
+
+def stage_train(a):
+    import torch
+    prep = json.loads(Path(a.prep).read_text())
+    psha = sha(Path(a.prep).read_bytes())
+    _guard(prep, psha, a, "TRAIN")
+    _setup_determinism()
+    seed = prep["seed"]
+    arms = a.arms.split(",")
+    out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
+    prov = {"code_hash": code_hash(), "prep_sha256": psha, "model_manifest": a.model_manifest_sha,
+            "test_mode": a.test_mode, "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
+            "arms": arms, "sleeps": a.sleeps, "fork": a.fork}
+    done = out / f"train_seed{seed}.json"
+    if done.exists():
+        old = json.loads(done.read_text())
+        ok = old["provenance"] == prov and all(
+            (out / f"cortex_{arm}_s{L}.pt").exists() and sha((out / f"cortex_{arm}_s{L}.pt").read_bytes()) ==
+            old["arms"][arm][str(L)]["ckpt_sha256"] for arm in arms for L in range(1, a.sleeps + 1))
+        if ok:
+            print(f"TRAIN seed {seed}: up to date (checkpoint hashes verified) - skipped"); return
+    dev = C._dev()
+    torch.manual_seed(seed); random.seed(seed)
+    model, tok = C.load_model(a.model, dev)
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "seed": seed, "provenance": prov, "arms": {},
+           "fork": {"admitted": bool(a.fork), "parent_full_state_hash": {}, "withheld": {}}}
+    cx = None
+    for arm in arms:
+        cx = C.Cortex(model, seed=seed) if cx is None else C._fresh_cortex(cx, seed)
+        opt = torch.optim.AdamW(cx.params(), lr=C.LR, betas=(0.9, 0.999), weight_decay=0.0)
+        step, res["arms"][arm], parent = 0, {}, None
+        for L in range(1, a.sleeps + 1):
+            rows = prep["schedule"][arm][str(L)]
+            lg_ = {}
+            C.cx_model_train(model)
+            C.train_sleep(model, tok, cx, opt, _items(rows), dev, lg_)
+            model.eval()
+            step += lg_["updates"]
+            ck = out / f"cortex_{arm}_s{L}.pt"
+            torch.save(cx.state(), ck)
+            res["arms"][arm][str(L)] = {"ckpt_sha256": sha(ck.read_bytes()), "full_state_hash": full_state_hash(cx, opt, step),
+                                        "delivered": _delivered(rows), "budget": budget(rows),
+                                        "loss_first": lg_["loss_first"], "loss_last": lg_["loss_last"], "seconds": lg_["seconds"]}
+            print(time.strftime("%H:%M:%S"), f"TRAIN seed {seed} {arm} sleep {L}: loss {lg_['loss_first']:.3f}->"
+                  f"{lg_['loss_last']:.3f} ({lg_['seconds']}s)", flush=True)
+            if a.fork and arm in ("U4", "G4") and L == 3:
+                parent = capture(cx, opt, step)
+                res["fork"]["parent_full_state_hash"][arm] = res["arms"][arm]["3"]["full_state_hash"]
+        if parent is not None and a.sleeps >= 4:            # §7 withheld branch from the exact sleep-3 state
+            step = restore(cx, opt, parent)
+            assert full_state_hash(cx, opt, step) == res["fork"]["parent_full_state_hash"][arm], "fork parent not restored"
+            rows = prep["fork_schedule"][arm]
+            lg_ = {}
+            C.cx_model_train(model)
+            C.train_sleep(model, tok, cx, opt, _items(rows), dev, lg_)
+            model.eval()
+            step += lg_["updates"]
+            ck = out / f"cortex_{arm}_s4_withheld.pt"
+            torch.save(cx.state(), ck)
+            res["fork"]["withheld"][arm] = {"ckpt_sha256": sha(ck.read_bytes()),
+                                            "full_state_hash": full_state_hash(cx, opt, step), "delivered": _delivered(rows)}
+    done.write_text(json.dumps(res, indent=1))
+    print(f"TRAIN seed {seed} DONE", flush=True)
+
+
+def stage_restoretest(a):
+    """§7/§8 admission: sleep 4 run uninterrupted vs resumed from the saved sleep-3 state -> canonical state equality
+    (every LoRA and optimiser tensor torch.equal, step equal, RNG byte-equal)."""
+    import torch
+    prep = json.loads(Path(a.prep).read_text())
+    _setup_determinism()
+    seed, arm = prep["seed"], "U4"
+    dev = C._dev()
+    torch.manual_seed(seed); random.seed(seed)
+    model, tok = C.load_model(a.model, dev)
+    cx = C.Cortex(model, seed=seed)
+    opt = torch.optim.AdamW(cx.params(), lr=C.LR, betas=(0.9, 0.999), weight_decay=0.0)
+    step = 0
+    for L in (1, 2, 3):
+        lg_ = {}; C.cx_model_train(model); C.train_sleep(model, tok, cx, opt, _items(prep["schedule"][arm][str(L)]), dev, lg_)
+        step += lg_["updates"]
+    s3 = capture(cx, opt, step)
+
+    def sleep4():
+        lg_ = {}; C.cx_model_train(model); C.train_sleep(model, tok, cx, opt, _items(prep["schedule"][arm]["4"]), dev, lg_)
+        return lg_["updates"]
+    s_a = step + sleep4()
+    A = {n: t.detach().cpu().clone() for n, t in _named_tensors(cx, opt)}; ha = full_state_hash(cx, opt, s_a)
+    s_b = restore(cx, opt, s3) + sleep4()
+    B = {n: t.detach().cpu().clone() for n, t in _named_tensors(cx, opt)}; hb = full_state_hash(cx, opt, s_b)
+    eq = set(A) == set(B) and all(torch.equal(A[n], B[n]) for n in A)
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "restoretest", "seed": seed, "arm": arm,
+           "tensors_equal": eq, "step_equal": s_a == s_b, "full_state_hash": [ha, hb], "admitted": bool(eq and s_a == s_b and ha == hb),
+           "code_hash": code_hash(), "prep_sha256": sha(Path(a.prep).read_bytes())}
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"RESTORETEST admitted={res['admitted']} tensors_equal={eq} hashes_equal={ha == hb}", flush=True)
+
+
+# ------------------------------------------------------------------ evaluation (§5) --------------------------------------
+def stage_evalck(a):
+    import torch
+    from being.competence import mean_loss
+    prep = json.loads(Path(a.prep).read_text())
+    psha = sha(Path(a.prep).read_bytes())
+    if not a.test_mode and (prep["test_mode"] or prep["model_manifest"] != a.model_manifest_sha or prep["code_hash"] != code_hash()):
+        sys.exit("EVAL: production evaluation needs a non-test prep built by this code and model")
+    out = Path(a.out)
+    ck = Path(a.ckpt) if a.ckpt else None
+    mode = "base" if ck is None else a.mode
+    prov = {"code_hash": code_hash(), "prep_sha256": psha, "ckpt_sha256": sha(ck.read_bytes()) if ck else None,
+            "model_manifest": a.model_manifest_sha, "test_mode": a.test_mode, "qdiag": a.qdiag}
+    if out.exists() and json.loads(out.read_text()).get("provenance") == prov:
+        print(f"EVAL {out.name}: up to date - skipped"); return
+    model, tok, dev = A0.load_fp32(a.model)
+    comp_sets, base_loss = C._comp(tok, model, a.test_mode)
+    if ck is not None:
+        state = torch.load(ck)
+        if mode == "merged":
+            scale = C.ALPHA / C.RANK
+            with torch.no_grad():
+                for name, mod in model.named_modules():
+                    if name in state:
+                        Am, Bm = (x.to(mod.weight.device, torch.float32) for x in state[name])
+                        mod.weight += (Bm @ Am) * scale
+            assert all(not hasattr(m, "_cx") for m in model.modules())
+        elif mode == "unmerged":
+            cx = C.Cortex(model, seed=0); cx.load_state(state)
+        else:
+            sys.exit("mode must be merged or unmerged with --ckpt")
+    P = prep["probes"][a.history][str(a.sleep)]
+    if a.qdiag == 32:                                      # fallback: the first k rows of each QDIAG group
+        keep, seen = set(), collections.Counter()
+        for r in P:
+            if r["cat"] in QDIAG_FALLBACK:
+                seen[r["cat"]] += 1
+                if seen[r["cat"]] <= QDIAG_FALLBACK[r["cat"]]:
+                    keep.add(r["probe_id"])
+            else:
+                keep.add(r["probe_id"])
+        P = [r for r in P if r["probe_id"] in keep]
+    gens = C.generate(model, tok, [C.frame(r["item"]) for r in P], dev)
+    rows = [{"probe_id": r["probe_id"], "answer": C.first_line(g), "outcome": outcome(C.first_line(g), r["gold_current"])}
+            for r, g in zip(P, gens)]
+    ppl = {k: math.exp(mean_loss(model, tok, s)) / math.exp(base_loss[k]) for k, s in comp_sets.items()}
+    ev = {"schema": SCHEMA, "experiment": EXPERIMENT, "seed": prep["seed"], "arm": a.arm, "sleep": a.sleep, "mode": mode,
+          "history": a.history, "provenance": prov, "ppl_ratio": ppl, "base_denominator_sha256": chash(base_loss),
+          "rows": rows, "env": {"torch": torch.__version__, "tf32": torch.backends.cuda.matmul.allow_tf32,
+                                "gpu": torch.cuda.get_device_name(0) if dev == "cuda" else dev}}
+    out.write_text(json.dumps(ev, indent=1))
+    by = {r["probe_id"]: r for r in P}
+    summ = lambda cat, cls: (lambda xs: round(sum(x["outcome"] == cls for x in xs) / len(xs), 3) if xs else None)(
+        [x for x in rows if by[x["probe_id"]]["cat"] == cat])
+    print(f"EVAL {out.name}: POS {summ('POS', 'correct')} SEL-Q unk {summ('SEL-Q', 'unknown')} SEL-D unk {summ('SEL-D', 'unknown')} "
+          f"HOW unk {summ('HOW', 'unknown')} HNM conf {summ('HNM', 'substantive')} unk {summ('HNM', 'unknown')} "
+          f"FRESH unk {summ('FRESH', 'unknown')} ppl {ppl}", flush=True)
+
+
+def stage_calcheck(a):
+    """§8 phase 1: seed 24, P sleep 1, E=4 -> POS template acquisition >= 0.80, competence in band, N FRESH UNKNOWN >= 0.90."""
+    prep = json.loads(Path(a.prep).read_text())
+    by = {r["probe_id"]: r for r in prep["probes"]["observed"]["1"]}
+    m, mu, n = (json.loads(Path(x).read_text()) for x in (a.merged, a.unmerged, a.base))
+    errs = []
+    if [r["probe_id"] for r in m["rows"]] != [r["probe_id"] for r in mu["rows"]]:
+        errs.append("merged/unmerged probe identities differ")
+    if any(x["answer"] != y["answer"] or x["outcome"] != y["outcome"] for x, y in zip(m["rows"], mu["rows"])):
+        errs.append("merged/unmerged answer or outcome mismatch")
+    if any(abs(m["ppl_ratio"][k] - mu["ppl_ratio"][k]) > 1e-4 for k in m["ppl_ratio"]):
+        errs.append("merged/unmerged ppl mismatch > 1e-4")
+    rate = lambda ev, cat, kind, cls: (lambda xs: sum(x["outcome"] == cls for x in xs) / len(xs) if xs else None)(
+        [x for x in ev["rows"] if by[x["probe_id"]]["cat"] == cat and by[x["probe_id"]]["kind"] == kind])
+    acq = rate(m, "POS", "template", "correct")
+    fresh = rate(n, "FRESH", "template", "unknown")
+    comp = all(v <= 1.02 for v in m["ppl_ratio"].values())
+    ok = not errs and acq is not None and acq >= 0.80 and comp and fresh is not None and fresh >= 0.90
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "calcheck", "seed": prep["seed"], "E": E_PASSES,
+           "pos_template_acquisition": acq, "ppl_ratio": m["ppl_ratio"], "competence_in_band": comp,
+           "N_fresh_unknown": fresh, "errors": errs, "pass": bool(ok), "prep_sha256": sha(Path(a.prep).read_bytes()),
+           "code_hash": code_hash()}
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"CALCHECK pass={ok} acquisition={acq} competence={comp} N_FRESH_unknown={fresh} errors={errs}", flush=True)
+    if not ok:
+        sys.exit(4)
+
+
 def main():
     ap = argparse.ArgumentParser(); sp = ap.add_subparsers(dest="cmd", required=True)
     p = sp.add_parser("prep"); p.add_argument("--seeds", default="20,21,22,23,24"); p.add_argument("--tokenizer", required=True)
     p.add_argument("--out", required=True); p.add_argument("--model-manifest-sha", default=""); p.add_argument("--test-mode", action="store_true")
+    t = sp.add_parser("train"); t.add_argument("--prep", required=True); t.add_argument("--model", required=True)
+    t.add_argument("--out", required=True); t.add_argument("--arms", default=",".join(ARMS)); t.add_argument("--sleeps", type=int, default=SLEEPS)
+    t.add_argument("--fork", action="store_true"); t.add_argument("--model-manifest-sha", default="")
+    t.add_argument("--validator-report"); t.add_argument("--calibration-result"); t.add_argument("--test-mode", action="store_true")
+    r = sp.add_parser("restoretest"); r.add_argument("--prep", required=True); r.add_argument("--model", required=True)
+    r.add_argument("--out", required=True)
+    e = sp.add_parser("evalck"); e.add_argument("--prep", required=True); e.add_argument("--model", required=True)
+    e.add_argument("--out", required=True); e.add_argument("--sleep", type=int, required=True); e.add_argument("--arm", default="N")
+    e.add_argument("--ckpt"); e.add_argument("--mode", default="merged"); e.add_argument("--history", default="observed")
+    e.add_argument("--qdiag", type=int, choices=(32, 64), default=64); e.add_argument("--model-manifest-sha", default="")
+    e.add_argument("--test-mode", action="store_true")
+    c = sp.add_parser("calcheck"); c.add_argument("--prep", required=True); c.add_argument("--merged", required=True)
+    c.add_argument("--unmerged", required=True); c.add_argument("--base", required=True); c.add_argument("--out", required=True)
     sp.add_parser("codehash")
     a = ap.parse_args()
-    if a.cmd == "prep":
-        stage_prep(a)
-    elif a.cmd == "codehash":
-        print(code_hash())
+    {"prep": stage_prep, "train": stage_train, "restoretest": stage_restoretest, "evalck": stage_evalck,
+     "calcheck": stage_calcheck, "codehash": lambda a: print(code_hash())}[a.cmd](a)
 
 
 if __name__ == "__main__":

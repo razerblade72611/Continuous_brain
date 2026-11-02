@@ -181,3 +181,41 @@ def test_probes(P):
 def test_norm_vectors():
     vec = json.loads((ROOT / "lab/support1_norm_vectors.json").read_text())
     assert len(vec) == 15 and all(S.C.B.norm(a) == b for a, b in vec)
+
+
+@pytest.mark.slow
+def test_end_to_end_tiny(tmp_path):
+    """Plumbing on CPU with the tiny model: prep -> train (all arms, fork) -> restoretest -> evalck (merged/unmerged/base,
+    withheld) -> calcheck. Scores are meaningless; identities, files and integrity are what is checked."""
+    import subprocess, tiny_hf_model
+    m = tiny_hf_model.build(tmp_path / "m")
+    run = lambda *x: subprocess.run([sys.executable, str(ROOT / "scripts/support1.py"), *map(str, x)], check=True,
+                                    capture_output=True, text=True).stdout
+    run("prep", "--seeds", "24", "--tokenizer", m, "--out", tmp_path, "--test-mode")
+    prep = tmp_path / "prep_seed24.json"
+    run("train", "--prep", prep, "--model", m, "--out", tmp_path / "tr", "--sleeps", 4, "--fork", "--test-mode")
+    tr = json.loads((tmp_path / "tr/train_seed24.json").read_text())
+    assert set(tr["arms"]) == set(S.ARMS) and set(tr["fork"]["withheld"]) == {"U4", "G4"}
+    assert tr["arms"]["U4"]["3"]["full_state_hash"] == tr["fork"]["parent_full_state_hash"]["U4"]
+    assert tr["fork"]["withheld"]["U4"]["ckpt_sha256"] != tr["arms"]["U4"]["4"]["ckpt_sha256"]
+    tgt = {tuple(c) for c in json.loads(prep.read_text())["fork"]["targets"]}
+    assert not [d for d in tr["fork"]["withheld"]["U4"]["delivered"] if tuple(d["cell"]) in tgt]
+    out = run("restoretest", "--prep", prep, "--model", m, "--out", tmp_path / "rt.json")
+    assert json.loads((tmp_path / "rt.json").read_text())["admitted"] is True, out
+    ev = lambda name, *x: run("evalck", "--prep", prep, "--model", m, "--out", tmp_path / name, "--test-mode", *x)
+    ev("m.json", "--sleep", 1, "--arm", "P", "--ckpt", tmp_path / "tr/cortex_P_s1.pt", "--mode", "merged")
+    ev("u.json", "--sleep", 1, "--arm", "P", "--ckpt", tmp_path / "tr/cortex_P_s1.pt", "--mode", "unmerged")
+    ev("n.json", "--sleep", 1)
+    ev("w.json", "--sleep", 4, "--arm", "U4", "--ckpt", tmp_path / "tr/cortex_U4_s4_withheld.pt", "--history", "withheld",
+       "--qdiag", 32)
+    mj, uj, wj = (json.loads((tmp_path / f).read_text()) for f in ("m.json", "u.json", "w.json"))
+    ids = [r["probe_id"] for r in json.loads(prep.read_text())["probes"]["observed"]["1"]]
+    assert [r["probe_id"] for r in mj["rows"]] == ids == [r["probe_id"] for r in uj["rows"]]
+    assert [r["answer"] for r in mj["rows"]] == [r["answer"] for r in uj["rows"]]           # fp32 merged == unmerged
+    assert sum(r["probe_id"].split("-")[-2] == "Q" or "-Q-" in r["probe_id"] or "GTQ" in r["probe_id"] for r in wj["rows"]) <= 32 + 4
+    assert wj["history"] == "withheld" and all(r["probe_id"].startswith("24-withheld-4-") for r in wj["rows"])
+    p = subprocess.run([sys.executable, str(ROOT / "scripts/support1.py"), "calcheck", "--prep", prep, "--merged",
+                        tmp_path / "m.json", "--unmerged", tmp_path / "u.json", "--base", tmp_path / "n.json", "--out",
+                        tmp_path / "cal.json"], capture_output=True, text=True)
+    cal = json.loads((tmp_path / "cal.json").read_text())
+    assert cal["errors"] == [] and p.returncode == (0 if cal["pass"] else 4)
