@@ -1,0 +1,184 @@
+{
+  "verdict": "SUPPORT1_PHASE1_GO",
+  "errors": [],
+  "test_mode": false,
+  "auditor": "Sol",
+  "analyzer_code_hash": "0c86c4762de7fd1aa649048d8aed22935637d319a4738f9271068de2d2c3c775",
+  "phase0_manifest": {
+    "sha256": "a760cb104c0102d8135b80f7a77aa0d8dcda4008e6689e73f250bd2448726e03",
+    "files": {
+      "prep_seed20.json": "a07d6e4c3df4d365ffe693bc6ab7292840330ff17cffa2cc1435e749c3bd7de4",
+      "prep_seed21.json": "d8afb085eecb7faf4c6a27e08fca6effe900be928e4186eea83b65ecfbcb44fe",
+      "prep_seed22.json": "cfc15d72e85046e3a3de33c6704106f9d0eb0d5990dd89af062f919e4818c235",
+      "prep_seed23.json": "3622a21cc1bdecf24590bdcea30f0199b514511934794af8dfa7050c55def804",
+      "prep_seed24.json": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
+      "validation.json": "cd2b1a0b15cb3b90761a1118fa236014fc9cbc7972e7a8ea6dbc88339eb6d3e8"
+    },
+    "metadata": {
+      "CODE_HASH": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+      "MODEL_MANIFEST": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b"
+    }
+  },
+  "phase1_manifest": {
+    "sha256": "5822aae37f9bd52968c0fd2a343f3a3c580422e2094930f2bcff1577789690fe",
+    "files": {
+      "cal/calcheck.json": "e45ea3b1ae89b72cdab5b4ae60658216988c8f81e57e457f2b61afc309333420",
+      "restoretest.json": "b3ab5d6a0e4906a06b70e297f4894de1e62e92775e8a7d4c3df212f928ed44ed",
+      "timings.json": "84679262a56bb51951f699a4f0e96c2418c00015fdbd6a9b3a6a42276d5cadfe",
+      "projection.json": "3bda6f97819b214865297fd4112f99a97d9386c3db77b77e257c32eaef3f457a"
+    },
+    "metadata": {
+      "PIN": "512ca58f728fdb76351ebf709b7aec0833cb3ae9",
+      "MODEL_MANIFEST": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+      "CODE_HASH": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+      "GPU": "NVIDIA RTX 6000 Ada Generation"
+    }
+  },
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "phase0_pin": "512ca58f728fdb76351ebf709b7aec0833cb3ae9",
+  "validation_sha256": "cd2b1a0b15cb3b90761a1118fa236014fc9cbc7972e7a8ea6dbc88339eb6d3e8",
+  "calcheck_sha256": "e45ea3b1ae89b72cdab5b4ae60658216988c8f81e57e457f2b61afc309333420",
+  "restoration_sha256": "b3ab5d6a0e4906a06b70e297f4894de1e62e92775e8a7d4c3df212f928ed44ed",
+  "base_denominator_sha256": "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730",
+  "calibration": {
+    "acquisition": {
+      "numerator": 8,
+      "denominator": 10,
+      "value": 0.8
+    },
+    "N_fresh_unknown": {
+      "numerator": 20,
+      "denominator": 20,
+      "value": 1.0
+    },
+    "competence": {
+      "eval": 0.8203542322348186,
+      "modern": 0.8694460713826438
+    },
+    "twin": {
+      "pass_": true,
+      "identical_inventory": true,
+      "answer_mismatches": 0,
+      "outcome_mismatches": 0,
+      "n_merged": 210,
+      "n_unmerged": 210,
+      "same_base_denominator": true,
+      "ppl_absolute_deltas": {
+        "eval": 1.281384403029051e-07,
+        "modern": 2.8092545401037228e-08
+      }
+    },
+    "POS_paraphrase": {
+      "n": 12,
+      "counts": {
+        "correct": 8,
+        "unknown": 0,
+        "empty": 0,
+        "substantive": 4
+      },
+      "rates": {
+        "correct": {
+          "numerator": 8,
+          "denominator": 12,
+          "value": 0.6666666666666666
+        },
+        "unknown": {
+          "numerator": 0,
+          "denominator": 12,
+          "value": 0.0
+        },
+        "empty": {
+          "numerator": 0,
+          "denominator": 12,
+          "value": 0.0
+        },
+        "substantive": {
+          "numerator": 4,
+          "denominator": 12,
+          "value": 0.3333333333333333
+        }
+      },
+      "answer_rate": {
+        "numerator": 12,
+        "denominator": 12,
+        "value": 1.0
+      },
+      "selective_accuracy": {
+        "numerator": 8,
+        "denominator": 12,
+        "value": 0.6666666666666666
+      }
+    }
+  },
+  "restoration": {
+    "admitted": true,
+    "full_state_hash": [
+      "9d05ff91c6c845b699eda42a61de4e37de10a4f9e5a612652faf8cff5aeaee40",
+      "9d05ff91c6c845b699eda42a61de4e37de10a4f9e5a612652faf8cff5aeaee40"
+    ],
+    "tensor_comparison": "record verified; tensor states not re-executed"
+  },
+  "projection": {
+    "independent_plans": [
+      {
+        "fork": true,
+        "qdiag": 64,
+        "train_items": 37248,
+        "eval_rows": 68950,
+        "hours": 10.061004489337822,
+        "usd": 8.652463860830528,
+        "legacy_extra_rows": 0,
+        "recorded_expected_hours": 10.06,
+        "recorded_expected_usd": 8.65
+      },
+      {
+        "fork": false,
+        "qdiag": 64,
+        "train_items": 33920,
+        "eval_rows": 63646,
+        "hours": 9.316271444604777,
+        "usd": 8.011993442360108,
+        "legacy_extra_rows": 0,
+        "recorded_expected_hours": 9.32,
+        "recorded_expected_usd": 8.01
+      },
+      {
+        "fork": true,
+        "qdiag": 32,
+        "train_items": 37248,
+        "eval_rows": 61409,
+        "hours": 9.096767275933942,
+        "usd": 7.82321985730319,
+        "legacy_extra_rows": 512,
+        "recorded_expected_hours": 9.16,
+        "recorded_expected_usd": 7.88
+      },
+      {
+        "fork": false,
+        "qdiag": 32,
+        "train_items": 33920,
+        "eval_rows": 56617,
+        "hours": 8.417501603334937,
+        "usd": 7.239051378868046,
+        "legacy_extra_rows": 0,
+        "recorded_expected_hours": 8.42,
+        "recorded_expected_usd": 7.24
+      }
+    ],
+    "chosen": {
+      "fork": true,
+      "qdiag": 64,
+      "hours": 10.06,
+      "usd": 8.65
+    },
+    "recorded_spent": 0.54,
+    "prior_attempt_spend": 0.65,
+    "cumulative_projection": 9.84,
+    "rate_assumption_usd_per_hour": 0.86
+  },
+  "archive": {
+    "claimed_sha256": "3e589fb85c05267185825ac01cb66607fea0996bd86cf2247e46519941d5712b",
+    "checksum_recomputed": false,
+    "note": "archive not supplied; committed manifest payload verified"
+  }
+}
