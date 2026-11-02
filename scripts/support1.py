@@ -765,6 +765,43 @@ def stage_calcheck(a):
         sys.exit(4)
 
 
+def stage_project(a):
+    """§8/§10 phase-1 throughput -> projected phase-2 cost, from MEASURED timings and the ACTUAL item and probe counts of
+    the four development preps. STOP (exit 5) if even the cheapest admissible plan (no fork, 32-row QDIAG) exceeds the
+    ceiling; otherwise choose the plan: fork included if admitted and affordable, else deferred; QDIAG 64 if affordable."""
+    t = json.loads(Path(a.timings).read_text())       # {"train_items": n, "train_seconds": s, "eval_rows": n, "eval_seconds": s}
+    rt = json.loads(Path(a.restoretest).read_text())
+    preps = [json.loads(Path(f).read_text()) for f in a.preps.split(",")]
+    s_item = t["train_seconds"] / t["train_items"]
+    s_row = t["eval_seconds"] / t["eval_rows"]
+    def cost(fork, q):
+        secs = 0.0
+        for p in preps:
+            secs += s_item * sum(len(p["schedule"][arm][L]) for arm in ARMS for L in p["schedule"][arm])
+            for L in range(1, SLEEPS + 1):
+                rows = p["probes"]["observed"][str(L)]
+                nq = sum(1 for r in rows if r["cat"] in QDIAG_FULL)
+                n = len(rows) - nq + (nq if q == 64 else sum(min(QDIAG_FALLBACK[c], sum(r["cat"] == c for r in rows))
+                                                             for c in QDIAG_FALLBACK))
+                secs += s_row * n * (len(ARMS) * 2 + 1)
+            if fork:
+                secs += s_item * sum(len(p["fork_schedule"][arm]) for arm in ("U4", "G4"))
+                secs += s_row * len(p["probes"]["withheld"]["4"]) * 4
+        hours = secs / 3600 + a.boot_hours
+        return {"fork": fork, "qdiag": q, "hours": round(hours, 2), "usd": round(hours * a.usd_per_hour, 2)}
+    plans = [cost(True, 64), cost(False, 64), cost(True, 32), cost(False, 32)]
+    budget_left = a.ceiling - a.spent
+    ok = [x for x in plans if x["usd"] <= budget_left and (rt["admitted"] or not x["fork"])]
+    choice = ok[0] if ok else None
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "projection", "s_per_item": s_item, "s_per_row": s_row,
+           "plans": plans, "ceiling_usd": a.ceiling, "spent_usd": a.spent, "fork_admitted": rt["admitted"],
+           "choice": choice, "stop": choice is None, "code_hash": code_hash()}
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"PROJECTION plans {plans} -> choice {choice}", flush=True)
+    if choice is None:
+        sys.exit(5)
+
+
 def main():
     ap = argparse.ArgumentParser(); sp = ap.add_subparsers(dest="cmd", required=True)
     p = sp.add_parser("prep"); p.add_argument("--seeds", default="20,21,22,23,24"); p.add_argument("--tokenizer", required=True)
@@ -782,10 +819,14 @@ def main():
     e.add_argument("--test-mode", action="store_true")
     c = sp.add_parser("calcheck"); c.add_argument("--prep", required=True); c.add_argument("--merged", required=True)
     c.add_argument("--unmerged", required=True); c.add_argument("--base", required=True); c.add_argument("--out", required=True)
+    j = sp.add_parser("project"); j.add_argument("--timings", required=True); j.add_argument("--restoretest", required=True)
+    j.add_argument("--preps", required=True); j.add_argument("--out", required=True); j.add_argument("--usd-per-hour", type=float, required=True)
+    j.add_argument("--ceiling", type=float, default=30.0); j.add_argument("--spent", type=float, required=True)
+    j.add_argument("--boot-hours", type=float, default=0.5)
     sp.add_parser("codehash")
     a = ap.parse_args()
     {"prep": stage_prep, "train": stage_train, "restoretest": stage_restoretest, "evalck": stage_evalck,
-     "calcheck": stage_calcheck, "codehash": lambda a: print(code_hash())}[a.cmd](a)
+     "calcheck": stage_calcheck, "project": stage_project, "codehash": lambda a: print(code_hash())}[a.cmd](a)
 
 
 if __name__ == "__main__":
