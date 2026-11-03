@@ -279,3 +279,34 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
   train logs (§4, [H11]).
 - **Still to write (next commits):** the analyzer (K1–K7, readings, P-GATE, weighting per §9) and the phase-0/A/B
   launchers. Sol's independent analyzer and validator, as for SUPPORT-1.
+
+## 12. Phase 0 (frozen) and launcher
+- **Phase 0** (`results/prov1/phase0/`, CPU, no spend): `preps.tar.gz` holds the five production preps (seeds 20–24, real
+  Qwen3-8B tokenizer); `PHASE0.sha256` lists each prep's sha256 plus `CODE_HASH c591a45a…`, `MODEL_MANIFEST 69d06933…`
+  and `SUPPORT1_CODE_HASH 38b8e705…`. Sol's validator (his tool, run by Claude on these exact files): PASS, 126,343
+  checks, 0 errors (`validation_sol_tool_run_by_claude.json`); Sol to confirm independently. Every GPU phase re-checks
+  all of this on the pod: archive == PHASE0.sha256, preps regenerated on the pod byte-identical, Sol's validator PASS
+  again, CODE_HASH, SUPPORT-1's frozen CODE_HASH, model manifest, GPU = NVIDIA RTX 6000 Ada Generation.
+- **Launcher** `scripts/cb_prov1.sh 1|A|B` (derived from SUPPORT-1's reviewed launcher: same pod creation, boot,
+  exactly-once start, poll, three-way cleanup):
+  - **Phase 1:** SUPPORT-1 reproducibility pilot (seed 24 P sleep 1 retrained with SUPPORT-1's frozen code; its
+    checkpoint hash compared with SUPPORT-1's committed phase-1 hash; phase A requires equality); PROV-1 calibration
+    (RP, RC seed 24 sleep 1, twins + base, `calcheck`); measured timings → `project` (phase A and B cost from the actual
+    inventories; exit 5 if phase A is unaffordable). Writes `PHASE1.sha256` (PIN, CODE_HASH, MODEL_MANIFEST, GPU).
+  - **Phase A:** requires committed phase 1 (calcheck PASS, projection affordable, pilot equal); regenerates SUPPORT-1
+    seeds 20–23 with SUPPORT-1's own frozen train invocation; admits each of the 44 P/U4 checkpoints only on exact
+    sha256 equality with SUPPORT-1's committed train logs (`admission.json` per seed; any mismatch → exit 6, reuse
+    stopped pending investigation or a verified upload from E:); evaluates them under FAITHFUL/DEL-Q/DEL-X/ADD/FULL,
+    merged and unmerged; deletes the regenerated files (identical by hash to E:'s copies); both analyzers.
+  - **Phase B:** requires committed phase 1 and a committed phase-A record; trains RP/RU/RC + RU/RC fork with the
+    production guard (Sol's validator re-run on the pod, committed calibration); N, three arms × five sleeps × twins,
+    withheld twins, all with competence monitors; both analyzers.
+  - **Preservation (lesson of SUPPORT-1's phase-2 incident):** output goes to `/mnt/e/cb_results/prov1/phase<P>/` on
+    David's E: drive (launch refused if E: is not writable or has < 40 GB free); the results bundle and, in phase B,
+    every checkpoint are streamed straight from the pod and verified against the pod's sha256 lists; nothing is
+    staged on C:. Only after verification is the pod removed; otherwise it is stopped and kept.
+  - `tests/test_prov1_launcher.sh`: preserve/cleanup extracted verbatim and run against a fake pod: verified streaming
+    then removal; a one-byte-corrupted checkpoint or results stream → pod stopped and kept; no evidence → removed;
+    unreachable → kept; phase A records hashes without copying; argument and PIN guards. Mutation-checked: removing
+    either verification makes the test fail.
+  - `PIN=UNPINNED` until Sol's launcher review; the launcher refuses to start unpinned.
