@@ -208,3 +208,45 @@ def test_end_to_end_tiny(tmp_path):
     assert {by_c for by_c in (r["probe_id"].rsplit("-", 1)[-1] for r in aj["rows"])} <= {"FAITHFUL", "Q", "X", "ADD", "FULL"}
     assert aj["provenance"]["source"] == "support1" and aj["provenance"]["ckpt_sha256"] == \
         json.loads((tmp_path / "s1tr/train_seed24.json").read_text())["arms"]["P"]["1"]["ckpt_sha256"]
+
+
+def test_calibration_and_projection_tiny(tmp_path):
+    """Phase-1 plumbing: RP,RC sleep-1 calibration -> calcheck (no errors on genuine files; tampering is an error,
+    exit 4) -> projection from a timings file over the actual inventories; the production train guard refuses a dev
+    seed without validator and calibration bindings."""
+    import subprocess, tiny_hf_model
+    m = tiny_hf_model.build(tmp_path / "m")
+    run = lambda script, *x, check=True: subprocess.run([sys.executable, str(ROOT / "scripts" / script), *map(str, x)],
+                                                       check=check, capture_output=True, text=True)
+    run("prov1.py", "prep", "--seeds", "24", "--tokenizer", m, "--out", tmp_path, "--test-mode")
+    prep = tmp_path / "prov1_prep_seed24.json"
+    run("prov1.py", "train", "--prep", prep, "--model", m, "--out", tmp_path / "cal", "--arms", "RP,RC", "--sleeps", 1, "--test-mode")
+    ev = lambda name, *x: run("prov1.py", "evalck", "--prep", prep, "--model", m, "--out", tmp_path / name, "--test-mode",
+                              "--sleep", 1, "--monitors", *x)
+    for arm in ("RP", "RC"):
+        for mode in ("merged", "unmerged"):
+            ev(f"{arm}_{mode}.json", "--arm", arm, "--ckpt", tmp_path / f"cal/cortex_{arm}_s1.pt", "--mode", mode)
+    ev("n.json", "--arm", "N")
+
+    def calcheck():
+        p = run("prov1.py", "calcheck", "--prep", prep, "--train", tmp_path / "cal/prov1_train_seed24.json",
+                "--rp-merged", tmp_path / "RP_merged.json", "--rp-unmerged", tmp_path / "RP_unmerged.json",
+                "--rc-merged", tmp_path / "RC_merged.json", "--rc-unmerged", tmp_path / "RC_unmerged.json",
+                "--base", tmp_path / "n.json", "--out", tmp_path / "calcheck.json", check=False)
+        return p.returncode, json.loads((tmp_path / "calcheck.json").read_text())
+    rc, cal = calcheck()
+    assert cal["errors"] == [] and rc == (0 if cal["pass"] else 4) and cal["test_mode"] is True
+    j = json.loads((tmp_path / "RC_unmerged.json").read_text())
+    j["rows"][0]["answer"] = "tampered " + j["rows"][0]["answer"]
+    (tmp_path / "RC_unmerged.json").write_text(json.dumps(j))
+    rc, cal = calcheck()
+    assert rc == 4 and cal["pass"] is False and cal["errors"]
+    run("support1.py", "prep", "--seeds", "24", "--tokenizer", m, "--out", tmp_path / "s1", "--test-mode")
+    (tmp_path / "t.json").write_text(json.dumps({"train_items": 100, "train_seconds": 10.0, "eval_rows": 100, "eval_seconds": 40.0}))
+    p = run("prov1.py", "project", "--timings", tmp_path / "t.json", "--preps", prep, "--support1-preps",
+            tmp_path / "s1/prep_seed24.json", "--out", tmp_path / "proj.json", check=False)
+    pj = json.loads((tmp_path / "proj.json").read_text())
+    assert pj["phase_A"]["eval_rows"] > 0 and pj["phase_B"]["train_items"] > 0 and p.returncode == (0 if pj["phase_A_affordable"] else 5)
+    # production guard: a non-test-mode train of a test prep is refused before any model load
+    g = run("prov1.py", "train", "--prep", prep, "--model", m, "--out", tmp_path / "g", "--model-manifest-sha", "x" * 64, check=False)
+    assert g.returncode != 0 and "production" in (g.stderr + g.stdout)

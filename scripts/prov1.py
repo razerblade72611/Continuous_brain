@@ -294,6 +294,29 @@ def stage_prep(a):
 
 
 # ------------------------------------------------------------------ train stage -----------------------------------------
+def _guard(prep, psha, a, kind):
+    """Production training needs: a non-test prep built by this code and model, a PROV-1 seed, and for development
+    seeds Sol's validator report (PASS, covering this prep, this code and model) and a passing phase-1 calibration
+    bound to this code, model and the seed-24 prep."""
+    if a.test_mode:
+        return
+    if prep["test_mode"] or prep["code_hash"] != code_hash() or not a.model_manifest_sha or prep["model_manifest"] != a.model_manifest_sha:
+        sys.exit(f"{kind}: production needs a non-test prep built by this code and model")
+    if prep["seed"] not in DEV_SEEDS + (CAL_SEED,):
+        sys.exit(f"{kind}: seed {prep['seed']} is not a PROV-1 seed")
+    if prep["seed"] in DEV_SEEDS:
+        v = json.loads(Path(a.validator_report).read_text()) if getattr(a, "validator_report", None) else None
+        if (not v or v.get("verdict") != "PASS" or v.get("errors") or psha not in v.get("prep_sha256", [])
+                or v.get("code_hash") != code_hash() or v.get("model_manifest") != a.model_manifest_sha):
+            sys.exit(f"{kind}: needs Sol's validator report (PASS, no errors) covering this prep, code and model")
+        c = json.loads(Path(a.calibration_result).read_text()) if getattr(a, "calibration_result", None) else None
+        cp = Path(a.calibration_prep).read_bytes() if getattr(a, "calibration_prep", None) else None
+        if (not c or c.get("pass") is not True or c.get("seed") != CAL_SEED or c.get("errors") or c.get("test_mode")
+                or c.get("code_hash") != code_hash() or c.get("model_manifest") != a.model_manifest_sha
+                or cp is None or c.get("prep_sha256") != sha(cp)):
+            sys.exit(f"{kind}: needs a passing PROV-1 calibration bound to this code, model and the seed-24 prep")
+
+
 def _train_cache_ok(old, prov, out, arms, a):
     """Reuse only a COMPLETE, verified log (Sol's HOLD at b88ca93): same provenance; every main checkpoint present with
     its logged hash; and when the fork is requested, every required withheld checkpoint present with its logged hash,
@@ -324,9 +347,7 @@ def stage_train(a):
     import torch
     prep = json.loads(Path(a.prep).read_text())
     psha = sha(Path(a.prep).read_bytes())
-    if not a.test_mode and (prep["test_mode"] or prep["code_hash"] != code_hash()
-                            or prep["model_manifest"] != a.model_manifest_sha):
-        sys.exit("TRAIN: production training needs a non-test prep built by this code and model")
+    _guard(prep, psha, a, "TRAIN")
     S._setup_determinism()
     seed, arms = prep["seed"], a.arms.split(",")
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
@@ -460,6 +481,118 @@ def stage_evalck(a):
           f"DEL-X POS {rate('POS', 'DEL-X', 'correct')} | ppl {ppl or '-'}", flush=True)
 
 
+def _load_ev(path, prep, psha, arm, L, mode, conds, ckpt, errs):
+    ev = json.loads(Path(path).read_text())
+    pv = ev.get("provenance") or {}
+    want = {"code_hash": code_hash(), "prep_sha256": psha, "ckpt_sha256": ckpt, "model_manifest": prep["model_manifest"],
+            "test_mode": prep["test_mode"], "conditions": list(conds), "monitors": True, "source": "prov1", "arm": arm,
+            "sleep": L, "history": "observed", "mode": mode}
+    if {k: pv.get(k) for k in want} != want:
+        errs.append(f"{Path(path).name}: provenance does not bind to this prep/code/model/checkpoint/request")
+    if (ev.get("schema"), ev.get("experiment"), ev.get("seed"), ev.get("arm"), ev.get("sleep"), ev.get("mode"), ev.get("history")) != \
+            (SCHEMA, EXPERIMENT, CAL_SEED, arm, L, mode, "observed"):
+        errs.append(f"{Path(path).name}: identity fields wrong")
+    inv = [r for r in prep["probes"]["observed"][str(L)] if r["condition"] in conds]
+    if [r["probe_id"] for r in ev.get("rows", [])] != [r["probe_id"] for r in inv]:
+        errs.append(f"{Path(path).name}: rows are not the complete inventory in prep order")
+    elif any(outcome(x["answer"], r["gold_truth"]) != x["outcome_truth"] or
+             outcome(x["answer"], r["gold_compliance"]) != x["outcome_compliance"] for x, r in zip(ev["rows"], inv)):
+        errs.append(f"{Path(path).name}: stored outcomes disagree with independent grading")
+    ppl = ev.get("ppl_ratio") or {}
+    if set(ppl) != {"eval", "modern"} or not all(isinstance(v, (int, float)) and math.isfinite(v) and v > 0 for v in ppl.values()):
+        errs.append(f"{Path(path).name}: both competence monitors must be present, finite and positive")
+    if (ev.get("env") or {}).get("tf32") is not False and not prep["test_mode"]:
+        errs.append(f"{Path(path).name}: TF32 not recorded as disabled")
+    return ev, inv
+
+
+def stage_calcheck(a):
+    """Phase-1 calibration gate (seed 24, sleep 1, RP and RC, E = 4). Plumbing and learnability, not the hypothesis:
+      - provenance, identity, complete inventory and independently recomputed outcomes for RP/RC twins and base;
+      - twins: 0 answer mismatches, |dppl| <= 1e-4; one base denominator across all five evaluations;
+      - competence of RP and RC finite and <= 1.02;
+      - RP (positives with records) FAITHFUL POS template acquisition >= 0.80; base ABSENT FRESH UNKNOWN >= 0.90.
+    RC's values are reported only (its sleep-1 behaviour is a result, not a calibration condition)."""
+    prep_b = Path(a.prep).read_bytes(); prep = json.loads(prep_b); psha = sha(prep_b)
+    tr = json.loads(Path(a.train).read_text())
+    errs, conds = [], PHASE_B_CONDITIONS
+    if prep["seed"] != CAL_SEED or prep["code_hash"] != code_hash():
+        errs.append("prep is not the calibration seed built by this code")
+    tp = tr.get("provenance", {})
+    if tp.get("prep_sha256") != psha or tp.get("code_hash") != code_hash() or tp.get("arms") != ["RP", "RC"] or tp.get("sleeps") != 1:
+        errs.append("train log is not RP,RC sleep 1 of this prep/code")
+    evs = {}
+    for arm in ("RP", "RC"):
+        ck = tr.get("arms", {}).get(arm, {}).get("1", {}).get("ckpt_sha256")
+        for mode in ("merged", "unmerged"):
+            evs[(arm, mode)] = _load_ev(getattr(a, f"{arm.lower()}_{mode}"), prep, psha, arm, 1, mode, conds, ck, errs)
+    evs[("N", "base")] = _load_ev(a.base, prep, psha, "N", 1, "base", conds, None, errs)
+    if not errs:
+        for arm in ("RP", "RC"):
+            m, u = evs[(arm, "merged")][0], evs[(arm, "unmerged")][0]
+            if any(x["answer"] != y["answer"] for x, y in zip(m["rows"], u["rows"])):
+                errs.append(f"{arm}: merged/unmerged answer mismatch")
+            if any(abs(m["ppl_ratio"][k] - u["ppl_ratio"][k]) > 1e-4 for k in ("eval", "modern")):
+                errs.append(f"{arm}: merged/unmerged ppl mismatch > 1e-4")
+        if len({ev.get("base_denominator_sha256") for ev, _ in evs.values()}) != 1:
+            errs.append("base denominators differ")
+
+    def rate(key, cond, cat, kind_pref, cls):
+        if key not in evs or errs:
+            return None
+        ev, inv = evs[key]
+        xs = [x["outcome_truth"] for x, r in zip(ev["rows"], inv) if r["condition"] == cond and r["cat"] == cat
+              and r["kind"].startswith(kind_pref)]
+        return sum(o == cls for o in xs) / len(xs) if xs else None
+    acq = rate(("RP", "merged"), "FAITHFUL", "POS", "template", "correct")
+    fresh = rate(("N", "base"), "ABSENT", "FRESH", "template", "unknown")
+    comp = {arm: evs[(arm, "merged")][0]["ppl_ratio"] for arm in ("RP", "RC")} if not errs else None
+    comp_ok = bool(comp) and all(v <= 1.02 for d in comp.values() for v in d.values())
+    ok = not errs and acq is not None and acq >= 0.80 and fresh is not None and fresh >= 0.90 and comp_ok
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "calcheck", "seed": CAL_SEED, "pass": bool(ok), "errors": errs,
+           "RP_pos_template_acquisition": acq, "N_absent_fresh_unknown": fresh, "competence": comp, "competence_in_band": comp_ok,
+           "RC_reported": {"pos_template_correct": rate(("RC", "merged"), "FAITHFUL", "POS", "template", "correct"),
+                           "fresh_unknown": rate(("RC", "merged"), "FAITHFUL", "FRESH", "template", "unknown"),
+                           "delq_pos_unknown": rate(("RC", "merged"), "DEL-Q", "POS", "template", "unknown")},
+           "prep_sha256": psha, "code_hash": code_hash(), "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"]}
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"CALCHECK pass={ok} RP acquisition={acq} N FRESH unknown={fresh} competence={comp} errors={errs}", flush=True)
+    if not ok:
+        sys.exit(4)
+
+
+def stage_project(a):
+    """Phase-1 timings -> projected phase-A and phase-B cost from the ACTUAL inventories of the four development preps.
+    Exit 5 if phase A alone exceeds the remaining budget; phase B affordability is reported for the phase-A review."""
+    t = json.loads(Path(a.timings).read_text())   # {train_items, train_seconds, eval_rows, eval_seconds}
+    s_item, s_row = t["train_seconds"] / t["train_items"], t["eval_seconds"] / t["eval_rows"]
+    s1 = [json.loads(Path(f).read_text()) for f in a.support1_preps.split(",")]
+    pv = [json.loads(Path(f).read_text()) for f in a.preps.split(",")]
+    rows = lambda p, h, L, conds: sum(1 for r in p["probes"][h][str(L)] if r["condition"] in conds)
+    regen = sum(len(x) for p in s1 for arm in p["schedule"] for x in p["schedule"][arm].values()) + \
+        sum(len(p["fork_schedule"][arm]) for p in s1 for arm in ("U4", "G4"))
+    ea = sum(rows(p, "observed", L, PHASE_A_CONDITIONS) * 2 * 2 for p in pv for L in range(1, SLEEPS + 1)) + \
+        sum(rows(p, "withheld", 4, PHASE_A_CONDITIONS) * 2 for p in pv)
+    tb = sum(len(x) for p in pv for arm in ARMS for x in p["schedule"][arm].values()) + \
+        sum(len(p["fork_schedule"][arm]) for p in pv for arm in FORK_ARMS)
+    eb = sum(rows(p, "observed", L, PHASE_B_CONDITIONS) * (len(ARMS) * 2 + 1) for p in pv for L in range(1, SLEEPS + 1)) + \
+        sum(rows(p, "withheld", 4, PHASE_B_CONDITIONS) * len(FORK_ARMS) * 2 for p in pv)
+    plan = lambda items, erows: (lambda h: {"hours": round(h, 2), "usd": round(h * a.usd_per_hour, 2),
+                                            "train_items": items, "eval_rows": erows})(
+        (s_item * items + s_row * erows) / 3600 + a.boot_hours)
+    A_, B_ = plan(regen, ea), plan(tb, eb)
+    left = a.ceiling - a.spent
+    res = {"schema": SCHEMA, "experiment": EXPERIMENT, "which": "projection", "s_per_item": s_item, "s_per_row": s_row,
+           "phase_A": A_, "phase_B": B_, "total_usd": round(A_["usd"] + B_["usd"], 2), "ceiling_usd": a.ceiling,
+           "spent_usd": a.spent, "phase_A_affordable": A_["usd"] <= left,
+           "A_and_B_affordable": A_["usd"] + B_["usd"] <= left, "code_hash": code_hash()}
+    Path(a.out).write_text(json.dumps(res, indent=1))
+    print(f"PROJECTION phase A {A_} phase B {B_} remaining ${left:.2f} -> A affordable {res['phase_A_affordable']}, "
+          f"A+B affordable {res['A_and_B_affordable']}", flush=True)
+    if not res["phase_A_affordable"]:
+        sys.exit(5)
+
+
 def main():
     ap = argparse.ArgumentParser(); sp = ap.add_subparsers(dest="cmd", required=True)
     p = sp.add_parser("prep"); p.add_argument("--seeds", default="20,21,22,23,24"); p.add_argument("--tokenizer", required=True)
@@ -473,11 +606,23 @@ def main():
     e.add_argument("--conditions", default=",".join(PHASE_B_CONDITIONS)); e.add_argument("--monitors", action="store_true")
     e.add_argument("--source", default="prov1", choices=("prov1", "support1"))
     e.add_argument("--out", required=True); e.add_argument("--model-manifest-sha", default=""); e.add_argument("--test-mode", action="store_true")
+    for x in (t,):
+        x.add_argument("--validator-report"); x.add_argument("--calibration-result"); x.add_argument("--calibration-prep")
+    c = sp.add_parser("calcheck"); c.add_argument("--prep", required=True); c.add_argument("--train", required=True)
+    for arm in ("rp", "rc"):
+        for mode in ("merged", "unmerged"):
+            c.add_argument(f"--{arm}-{mode}", required=True)
+    c.add_argument("--base", required=True); c.add_argument("--out", required=True)
+    j = sp.add_parser("project"); j.add_argument("--timings", required=True); j.add_argument("--preps", required=True)
+    j.add_argument("--support1-preps", required=True); j.add_argument("--usd-per-hour", type=float, default=0.99)
+    j.add_argument("--boot-hours", type=float, default=0.5); j.add_argument("--ceiling", type=float, default=30.0)
+    j.add_argument("--spent", type=float, default=0.0); j.add_argument("--out", required=True)
     sp.add_parser("codehash")
     a = ap.parse_args()
     if a.cmd == "codehash":
         print(code_hash()); return
-    {"prep": stage_prep, "train": stage_train, "evalck": stage_evalck}[a.cmd](a)
+    {"prep": stage_prep, "train": stage_train, "evalck": stage_evalck, "calcheck": stage_calcheck,
+     "project": stage_project}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -104,8 +104,14 @@ def k5(meta_rows, outs, st, group):
             continue
         a = 1.0 if outs[("DEL-Q", bid)] == "unknown" else 0.0
         b = 1.0 if outs[("DEL-X", bid)] == "correct" else 0.0
-        cells.setdefault(tuple(f["cell"]), []).append((a, b, bid))
-    return {c: (sum(x[0] for x in v) / len(v), sum(x[1] for x in v) / len(v), sorted(x[2] for x in v)) for c, v in cells.items()}
+        cells.setdefault(tuple(f["cell"]), {}).setdefault(f["construction"], {}).setdefault(f["item"], (a, b, bid))
+    # §9 (Sol): identical items deduplicated; variants averaged within construction, then constructions within cell
+    res = {}
+    for c, cons in cells.items():
+        per = [(sum(x[0] for x in v.values()) / len(v), sum(x[1] for x in v.values()) / len(v)) for v in cons.values()]
+        res[c] = (sum(x[0] for x in per) / len(per), sum(x[1] for x in per) / len(per),
+                  sorted(x[2] for v in cons.values() for x in v.values()))
+    return res
 
 
 def analyze(seeds, st_of, meta_of, cand, pref, ppl=None, fork=None, gate_src=None, phase="B"):
