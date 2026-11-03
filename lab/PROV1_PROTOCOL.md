@@ -333,3 +333,13 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
   broader supported pool as `K5_all_supported_diagnostic`, which does not gate.
 - **Phase 0 refrozen** under the new CODE_HASH 6793a356… (preps regenerated; Sol's validator PASS 126,343 / 0;
   PHASE0.sha256 and preps.tar.gz replaced). Sol's independent analyzer now has the launcher's directory CLI.
+- **Sol: GO on the phase-1 path at 4920175** (lab/PROV1_SOL_PHASE1_GO_4920175.md, sol/prov1-phase1-go e06cefa): 90 focused
+  tests with no xfails, including all 14 counterexamples; refrozen archive sha256 42c70213…db3fe17 and all five
+  payloads verified; validator PASS 126,343 / 0 matching Claude's report; launcher preservation 7/7, both verification
+  mutations and the mounted-drive / copy-failure controls pass. Phases A and B remain HOLD for their own reviews; two
+  analyzer follow-ups for them: validate the withheld full_state_hash, and verify the phase-1 manifest and raw
+  calibration evidence instead of trusting a PASS summary.
+- **Phase-1 launcher pinned:** PIN 49201753bcfaafd4353080b8ed5f369e76b99fa8 (the reviewed commit); launcher commit
+  dc9679ddb1292d7f2cc89b8eeb25c1b94f8dea17; `scripts/cb_prov1.sh` sha256
+  d0d24646a226142604716e7b610ef85ffe6e9c067e28b268208658415643d59c. The diff from the reviewed body is the PIN line
+  only. PROV-1 spend so far: $0; ceiling $30.
