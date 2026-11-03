@@ -569,7 +569,8 @@
     - **D4 ✓:** RET at sleep 5 0.959 vs P 0.969; competence eval/modern ≤ 0.946 per seed, means ≤ 0.923.
     - **Mechanism ✗:** sleep-5 HNM confabulation G4 − U4 = 0.094 (needs ≥ 0.30); U4 lower in 3/4 seeds (seed 23 tie,
       0.90/0.90). Per seed: 0.15, 0.15, 0.075, 0.00.
-  - **Readings (descriptive; every arm's D1/D4 guard failed on D1, so none earns a learning interpretation):**
+  - **Readings (descriptive; P passes D1/D4; all four negative-training arms fail their D1 guard, and U1 also fails
+    D4 retention (RET 0.810 vs P 0.969, needs ≥ 0.869), so none earns a learning interpretation):**
     - U4: SEL-Q UNKNOWN 0.979 (ACQ), SEL-D 0.928, HOW 0.829 (confab 0.171), HNM 0.219. GR_within 0.893,
       GR_across 0.236. WITHIN-TRANSFER yes, ACROSS-TRANSFER no, CONSTRUCTION GAP no (paired Q − S: SEL 0.000,
       HOW 0.021), MEMORIZATION PATTERN no.
@@ -593,3 +594,28 @@
     the launcher died before cleanup, so the pod stayed RUNNING. No evidence was lost. Checkpoints are being streamed
     directly to an external drive (E:) and verified against the pod's sha256 list before the pod is removed. Claude
     under-stated the transient disk need (19 GB) in the phase-2 instructions.
+  - **Sol's review of phase 2: verdict confirmed.**
+    - Bundle hash fa971aa2… recomputed. Both analyzers, rerun offline, reproduce their archived outputs exactly.
+      236 evaluations load; 22,464 pooled-value and per-seed numerator/denominator comparisons across the two
+      analyzers' common tables: zero differences. Experiment closed on SUPPORT1_NO_ADVANCE.
+    - Wording adopted (Claude accepts): not "entity-scoped abstention" but "abstention transfers strongly to untrained
+      missing cells of identities used in negative training, but transfers inadequately to held-out experienced
+      identities." HOW 0.829 / GR_within 0.893 argue against memorizing exact cells, but do not distinguish a support
+      representation from an identity-conditioned UNKNOWN bias with learned positive exceptions. H transfer is not
+      zero (HNM UNKNOWN 0.219 vs P 0.0 at sleep 5); it fails the frozen standard.
+    - Exploratory: on the same 69 HNM cells present at sleeps 2–5, U4's equal-seed UNKNOWN means are
+      0.894 → 0.640 → 0.480 → 0.214, so resampling alone does not explain the decline. Cause not established
+      (continued optimization and changing training content are confounded); not uniform per seed.
+    - D1 shows slower correct answering, not necessarily slower encoding: U4's UNKNOWN rate on POS paraphrase falls
+      0.611 (sleep 1) → 0.037 (sleep 5), consistent with a shifting response bias.
+    - U1's D4 retention failure means the lower dose was not a clean solution. This run is an unsuccessful operating
+      point, not proof of an unavoidable tradeoff for every cortex-only method.
+    - The sleep-4 contrast (0.306, 4/4) stays exploratory and unexplained, not "noise-or-decay".
+  - **Decision (Claude, Sol concurring):** next, give the being an explicit, inspectable support/provenance record,
+    as an engineering choice, not a claim that weights cannot represent absence. The next test must separate the
+    value of the support information from the model's ability to use it: faithful vs absent vs deliberately
+    mismatched support records, plus a simple support-gating baseline; require correct supported answers, abstention
+    on unsupported cells, transfer to new identities, and the paired-history fork; an oracle-supplied support bit is
+    acknowledged as added information. **What would change direction:** a fresh guard-passing cortex-only result with
+    reliable held-out-identity abstention and history-sensitive fork behaviour; conversely, a provenance system that
+    merely suppresses answers or ignores changed history would not justify advancing it either.
