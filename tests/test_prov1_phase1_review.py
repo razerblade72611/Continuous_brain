@@ -60,7 +60,6 @@ def test_full_production_calibration_baseline(calibration):
     assert rc==0 and result['pass'] is True and not result['errors']
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 calcheck accepts missing checkpoint identities')
 def test_calcheck_requires_nonnull_checkpoint_hash(calibration):
     tr,docs,run=calibration
     for arm in ('RP','RC'):
@@ -69,7 +68,6 @@ def test_calcheck_requires_nonnull_checkpoint_hash(calibration):
     rc,r=run();assert rc==4 and r['pass'] is False
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 calcheck accepts one shared null denominator')
 @pytest.mark.parametrize('bad',[None,'not-a-sha256'])
 def test_calcheck_requires_denominator_hash(calibration,bad):
     _,docs,run=calibration
@@ -77,14 +75,12 @@ def test_calcheck_requires_denominator_hash(calibration,bad):
     rc,r=run();assert rc==4 and r['pass'] is False
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 calcheck treats boolean monitors as positive finite numbers')
 def test_calcheck_rejects_boolean_monitors(calibration):
     _,docs,run=calibration
     for ev in docs.values():ev['ppl_ratio']={'eval':True,'modern':True}
     rc,r=run();assert rc==4 and r['pass'] is False
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 calcheck does not bind train identity/model/test mode')
 @pytest.mark.parametrize('attack',['model','test_mode','seed'])
 def test_calcheck_rejects_foreign_train(calibration,attack):
     tr,_,run=calibration
@@ -94,7 +90,6 @@ def test_calcheck_rejects_foreign_train(calibration,attack):
     rc,r=run();assert rc==4 and r['pass'] is False
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 preflight accepts an ordinary directory in place of mounted E:')
 def test_launcher_refuses_unmounted_drive_directory(tmp_path):
     source=(ROOT/'scripts/cb_prov1.sh').read_text()
     begin=source.index('[[ $PIN =~');end=source.index('USD_PER_HR=',begin)
@@ -107,7 +102,6 @@ def test_launcher_refuses_unmounted_drive_directory(tmp_path):
     assert run.returncode!=0, 'ordinary directory was accepted as E: without verifying its mounted filesystem'
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 phase-1 path deletes a pilot checkpoint even when it does not match the preserved original')
 def test_mismatched_pilot_checkpoint_is_retained(tmp_path):
     source=(ROOT/'scripts/cb_prov1.sh').read_text()
     start=source.index('  # ---- SUPPORT-1 reproducibility pilot:')

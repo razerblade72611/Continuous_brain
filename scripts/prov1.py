@@ -548,6 +548,9 @@ def stage_calcheck(a):
     if len(gpus) != 1 or not all(isinstance(g, str) and g for g in gpus) or \
             (not prep["test_mode"] and gpus != {"NVIDIA RTX 6000 Ada Generation"}):
         errs.append(f"GPU identity not one recorded RTX 6000 Ada across train and evaluations: {sorted(map(str, gpus))}")
+    nb = evs[("N", "base")][0].get("ppl_ratio") or {}
+    if not all(_num(nb.get(k)) and abs(nb[k] - 1.0) <= 1e-9 for k in ("eval", "modern")):
+        errs.append("base evaluation's competence ratios are not unit ratios against its own denominator")
     if not errs:
         for arm in ("RP", "RC"):
             m, u = evs[(arm, "merged")][0], evs[(arm, "unmerged")][0]
@@ -576,7 +579,10 @@ def stage_calcheck(a):
                            "fresh_unknown": rate(("RC", "merged"), "FAITHFUL", "FRESH", "template", "unknown"),
                            "delq_pos_unknown": rate(("RC", "merged"), "DEL-Q", "POS", "template", "unknown")},
            "prep_sha256": psha, "code_hash": code_hash(), "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"],
-           "gpu": sorted(map(str, gpus))}
+           "gpu": sorted(map(str, gpus)),
+           "inputs_sha256": {"train": sha(Path(a.train).read_bytes()), "base": sha(Path(a.base).read_bytes()),
+                             **{f"{arm}_{mode}": sha(Path(getattr(a, f"{arm.lower()}_{mode}")).read_bytes())
+                                for arm in ("RP", "RC") for mode in ("merged", "unmerged")}}}
     Path(a.out).write_text(json.dumps(res, indent=1))
     print(f"CALCHECK pass={ok} RP acquisition={acq} N FRESH unknown={fresh} competence={comp} errors={errs}", flush=True)
     if not ok:

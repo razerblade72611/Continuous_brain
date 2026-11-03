@@ -1,7 +1,7 @@
 """PROV-1 analysis (Claude's; lab/PROV1_PROTOCOL.md §5, §9). Outside CODE_FILES. Sol's analyzer is independent.
 
   phase B: python3 scripts/prov1_analyze.py --phase B --dir <dir with seed20..23/> --support1-dir <SUPPORT-1 phase-2 dir> --out a.json
-  phase A: python3 scripts/prov1_analyze.py --phase A --dir <dir with seed20..23/> --support1-dir <...> [--admission adm.json] --out a.json
+  phase A: python3 scripts/prov1_analyze.py --phase A --dir <dir with seed20..23/> --support1-dir <...> --out a.json  (admission: exact file sha256 only)
 
 Layout of --dir/seed{S}/: prov1_prep_seed{S}.json; phase B: prov1_train_seed{S}.json, eval_{RP,RU,RC}_s{L}_{merged,unmerged}.json,
 eval_N_s{L}.json, eval_{RU,RC}_s4_withheld_{merged,unmerged}.json; phase A: eval_{P,U4}_s{L}_{merged,unmerged}.json and
@@ -302,7 +302,8 @@ def stage_analyze(a):
         errs.append(f"production analysis needs exactly seeds {V.DEV_SEEDS}")
     if S.code_hash() != SA.FROZEN_CODE_HASH:
         errs.append("support1.py is not the frozen SUPPORT-1 code")
-    adm = json.loads(Path(a.admission).read_text()) if a.admission else {}
+    gpu = getattr(a, "gpu", GPU_NAME)
+    errs += bind_frozen(a, seeds, d) if not a.test_mode else []
     st_of, meta_of, pref, cands, ppl, forks, phaseA_absent = {}, {}, {}, {}, {}, {}, {}
     arms = ("RP", "RU", "RC") if a.phase == "B" else ("P", "U4")
     for s in seeds:
@@ -347,25 +348,28 @@ def stage_analyze(a):
             want_tp = {"prep_sha256": psha, "code_hash": V.code_hash(), "model_manifest": prep["model_manifest"],
                        "test_mode": a.test_mode, "arms": list(V.ARMS), "sleeps": 5, "fork": True}
             if (tr.get("schema"), tr.get("experiment"), tr.get("seed")) != (V.SCHEMA, V.EXPERIMENT, s) or \
-                    {k: tp.get(k) for k in want_tp} != want_tp or (not a.test_mode and tp.get("gpu") != a.gpu):
+                    {k: tp.get(k) for k in want_tp} != want_tp or (not a.test_mode and tp.get("gpu") != gpu):
                 errs.append(f"seed {s}: train log is not RP/RU/RC x 5 sleeps + fork of this prep/code/model/GPU")
             elif any(not SA._hex64(tr["arms"][arm][str(L)].get("ckpt_sha256")) for arm in arms for L in range(1, 6)) or \
                     any(not SA._hex64(tr["fork"]["withheld"][arm].get("ckpt_sha256")) or
                         tr["fork"]["parent_full_state_hash"].get(arm) != tr["arms"][arm]["3"].get("full_state_hash")
                         for arm in V.FORK_ARMS):
                 errs.append(f"seed {s}: train log checkpoint or fork-parent identities invalid")
+            elif any(not SA._hex64(tr["arms"][arm][str(L)].get("full_state_hash")) or
+                     _bag(tr["arms"][arm][str(L)].get("delivered")) != _bag(S._delivered(prep["schedule"][arm][str(L)])) or
+                     list(tr["arms"][arm][str(L)].get("budget") or []) != list(V.budget(prep["schedule"][arm][str(L)]))
+                     for arm in arms for L in range(1, 6)) or \
+                    any(_bag(tr["fork"]["withheld"][arm].get("delivered")) != _bag(S._delivered(prep["fork_schedule"][arm]))
+                        for arm in V.FORK_ARMS):
+                errs.append(f"seed {s}: train log exposures (delivered items, budgets) or state hashes do not match the prep")
             logged = {(arm, str(L)): tr["arms"][arm][str(L)]["ckpt_sha256"] for arm in arms for L in range(1, 6)}
             for arm in V.FORK_ARMS:
                 logged[(arm, "4w")] = tr["fork"]["withheld"][arm]["ckpt_sha256"]
             conds, monitors, source = V.PHASE_B_CONDITIONS, True, "prov1"
 
         def ckpt_ok_for(key):
-            def ok(h):
-                if h == logged.get(key):
-                    return True
-                rec = adm.get(f"{s}|{key[0]}|{key[1]}")                       # phase A admission by tensor equality
-                return bool(rec and rec.get("tensors_equal") is True and rec.get("regenerated_sha256") == h
-                            and rec.get("logged_sha256") == logged.get(key))
+            def ok(h):                                    # exact file sha256 only (the declared phase-A admission route)
+                return SA._hex64(h) and h == logged.get(key)
             return ok
         cands[s], ppl[s], forks[s] = {arm: {} for arm in arms}, {arm: {} for arm in arms}, {}
         base_ref = None
@@ -373,7 +377,7 @@ def stage_analyze(a):
             dens = set()
             for L in range(1, 6):
                 ev, e = load_prov1_eval(d / f"seed{s}" / f"eval_N_s{L}.json", prep, psha, "N", L, "base", "observed", conds,
-                                        True, source, lambda h: h is None, a.test_mode, a.gpu)
+                                        True, source, lambda h: h is None, a.test_mode, gpu)
                 errs += [f"seed {s}: {x}" for x in e]
                 if ev:
                     dens.add(ev.get("base_denominator_sha256"))
@@ -389,7 +393,7 @@ def stage_analyze(a):
                 for mode in ("merged", "unmerged"):
                     f = d / f"seed{s}" / (f"eval_{arm}_s4_withheld_{mode}.json" if L == "4w" else f"eval_{arm}_s{L}_{mode}.json")
                     ev, e = load_prov1_eval(f, prep, psha, arm, Lx, mode, hist, conds, monitors, source,
-                                            ckpt_ok_for((arm, str(L))), a.test_mode, a.gpu)
+                                            ckpt_ok_for((arm, str(L))), a.test_mode, gpu)
                     errs += [f"seed {s}: {x}" for x in e]
                     evs[mode] = ev
                 if evs["merged"] and evs["unmerged"]:
@@ -459,28 +463,81 @@ def cat_rate_any(meta_rows, outs, cond, cls):
     return rate(xs, cls)
 
 
-def common_k5(seeds, st_of, meta_of, cands, x, y):
-    """RC - RU on their common eligible (cell, sleep) pairs, per group."""
+def _k5_items(meta_rows, outs, st, group):
+    """Eligible probe variants for K5 (same rules as k5): {(cell, construction, item): (K5a, K5b)}."""
+    by = {}
+    for r in meta_rows:
+        by.setdefault(r["base_probe_id"], {})[r["condition"]] = r
     out = {}
-    for g in ("A", "H"):
-        dif_a, dif_b = [], []
-        for s in seeds:
-            pa, pb = [], []
-            for L in SLEEPS_GATE:
-                cx = k5(meta_of[s][("observed", L)], cands[s][x][L], st_of[s], g)
-                cy = k5(meta_of[s][("observed", L)], cands[s][y][L], st_of[s], g)
-                for c in set(cx) & set(cy):
-                    pa.append(cx[c][0] - cy[c][0]); pb.append(cx[c][1] - cy[c][1])
-            dif_a.append(mean(pa) if pa else None); dif_b.append(mean(pb) if pb else None)
-        out[g] = {"K5a_diff": mean(dif_a), "K5b_diff": mean(dif_b)}
+    for bid, cs in by.items():
+        f = cs.get("FAITHFUL")
+        if not f or f["cat"] not in ("POS", "POS-Q") or "DEL-Q" not in cs or "DEL-X" not in cs:
+            continue
+        if f["cell"][0] not in st[group] or f["n_entries"] < 2 or not f["supported"]:
+            continue
+        if outs.get(("FAITHFUL", bid)) != "correct" or ("DEL-Q", bid) not in outs or ("DEL-X", bid) not in outs:
+            continue
+        out.setdefault((tuple(f["cell"]), f["construction"], f["item"]),
+                       (1.0 if outs[("DEL-Q", bid)] == "unknown" else 0.0, 1.0 if outs[("DEL-X", bid)] == "correct" else 0.0))
     return out
 
+
+def common_k5(seeds, st_of, meta_of, cands, x, y):
+    """RC - RU on JOINTLY eligible probe variants (Sol): intersect variants first, then average within construction,
+    constructions within cell-sleep, cell-sleeps within seed, then seeds. Empty common support -> None (not assessable)."""
+    out = {}
+    for g in ("A", "H"):
+        per_seed_a, per_seed_b = [], []
+        for s in seeds:
+            pts = []
+            for L in SLEEPS_GATE:
+                ix = _k5_items(meta_of[s][("observed", L)], cands[s][x][L], st_of[s], g)
+                iy = _k5_items(meta_of[s][("observed", L)], cands[s][y][L], st_of[s], g)
+                common = set(ix) & set(iy)
+                cells = {}
+                for k in common:
+                    cells.setdefault(k[0], {}).setdefault(k[1], []).append((ix[k][0] - iy[k][0], ix[k][1] - iy[k][1]))
+                for cons in cells.values():
+                    per = [(sum(v[0] for v in vs) / len(vs), sum(v[1] for v in vs) / len(vs)) for vs in cons.values()]
+                    pts.append((sum(p[0] for p in per) / len(per), sum(p[1] for p in per) / len(per)))
+            per_seed_a.append(sum(p[0] for p in pts) / len(pts) if pts else None)
+            per_seed_b.append(sum(p[1] for p in pts) / len(pts) if pts else None)
+        out[g] = {"K5a_diff": mean(per_seed_a), "K5b_diff": mean(per_seed_b)}
+    return out
+
+
+def _bag(xs):
+    """Order-insensitive canonical form of a delivered-items list (order carries no meaning)."""
+    return None if not isinstance(xs, list) else sorted(json.dumps(x, sort_keys=True) for x in xs)
+
+
+def bind_frozen(a, seeds, d):
+    """Production: every analysed prep is a frozen phase-0 prep, and phase 1's calibration passed and is bound."""
+    errs = []
+    p0 = Path(getattr(a, "phase0_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase0")
+    p1 = Path(getattr(a, "phase1_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase1")
+    try:
+        frozen = {ln.split()[1]: ln.split()[0] for ln in (p0 / "PHASE0.sha256").read_text().splitlines()
+                  if ln.endswith(".json") and len(ln.split()) == 2}
+        for s in seeds:
+            f = d / f"seed{s}" / f"prov1_prep_seed{s}.json"
+            if frozen.get(f.name) != V.sha(f.read_bytes()):
+                errs.append(f"seed {s}: prep is not the frozen phase-0 prep")
+        c = json.loads((p1 / "cal" / "calcheck.json").read_text())
+        if c.get("pass") is not True or c.get("errors") or c.get("code_hash") != V.code_hash() or c.get("test_mode"):
+            errs.append("phase-1 calibration did not pass for this code")
+        if c.get("prep_sha256") != frozen.get("prov1_prep_seed24.json"):
+            errs.append("phase-1 calibration is not bound to the frozen seed-24 prep")
+    except (OSError, ValueError, KeyError) as e:
+        errs.append(f"frozen phase-0/phase-1 evidence unreadable: {e}")
+    return errs
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", choices=("A", "B"), required=True); ap.add_argument("--dir", required=True)
     ap.add_argument("--support1-dir", required=True); ap.add_argument("--seeds", default="20,21,22,23")
-    ap.add_argument("--admission"); ap.add_argument("--out", required=True); ap.add_argument("--test-mode", action="store_true")
+    ap.add_argument("--phase0-dir"); ap.add_argument("--phase1-dir")
+    ap.add_argument("--out", required=True); ap.add_argument("--test-mode", action="store_true")
     ap.add_argument("--gpu", default=GPU_NAME)
     stage_analyze(ap.parse_args())
 

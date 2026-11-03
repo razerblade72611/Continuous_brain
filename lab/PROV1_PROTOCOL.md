@@ -310,3 +310,26 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
     unreachable → kept; phase A records hashes without copying; argument and PIN guards. Mutation-checked: removing
     either verification makes the test fail.
   - `PIN=UNPINNED` until Sol's launcher review; the launcher refuses to start unpinned.
+- **Sol's review of 24984b1 (lab/PROV1_SOL_PHASE1_REVIEW.md, 6c87bd2): HOLD on calcheck, Claude's analyzer and the
+  phase-1 launcher; PASS on the committed phase-0 preps** (independent reconstruction 126,343 checks, 0 errors; archive
+  members and tokenizer files verified). All fourteen counterexamples fixed; they are ordinary passing tests now
+  (`tests/test_prov1_phase1_review.py`, `tests/test_prov1_peer_admission.py`), with Sol's valid controls still passing:
+  - **calcheck** (7): checkpoint and base-denominator identities must be valid sha256 (base: none); monitors must be
+    numbers, not booleans; the train log must match schema, experiment, seed 24, code, prep, model, test mode, arms
+    RP+RC, one sleep, no fork; one GPU (RTX 6000 Ada in production) across train and evaluations; the base
+    evaluation's ratios must be unit ratios. calcheck.json now records the sha256 of every input it judged.
+  - **Claude's analyzer** (5): full train-log identity (schema, experiment, seed, code, prep, model, test mode, arms,
+    sleeps, fork, GPU); valid checkpoint and full-state hashes; exposures (delivered items, budgets) equal to the prep
+    schedule; fork parents; evaluation GPU; production binding to the frozen phase-0 preps and the passing phase-1
+    calibration; the optional tensor-equality admission shortcut removed (phase A admits on exact file sha256 only);
+    RC − RU K5 computed on jointly eligible probe variants first (empty common support → not assessable).
+  - **Launcher** (2 + 2): E: must be the mounted Windows drive (`findmnt` source `E:`; output resolves under /mnt/e
+    and lies on that mount), not a directory that could sit on WSL's C:-backed disk; the Downloads copy on C: is
+    best-effort after the pod is removed, never part of the success chain; a non-matching pilot checkpoint is kept
+    and streamed to E: for investigation (every remaining .pt is preserved in every phase); PHASE1.sha256 binds the
+    raw calibration evidence (train log, five evaluations, timings log, pilot train log), not only summaries.
+- **Conventions settled with Sol:** K6 = same-seed joint rule (≥ 3 of 4 seed history pairs each pass BOTH FORK-H and
+  FORK-H-Q). K5 primary population = POS and POS-Q positives (A and H separately); Sol's analyzer also reports the
+  broader supported pool as `K5_all_supported_diagnostic`, which does not gate.
+- **Phase 0 refrozen** under the new CODE_HASH 6793a356… (preps regenerated; Sol's validator PASS 126,343 / 0;
+  PHASE0.sha256 and preps.tar.gz replaced). Sol's independent analyzer now has the launcher's directory CLI.

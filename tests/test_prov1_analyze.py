@@ -158,8 +158,10 @@ def test_cli_end_to_end_synthetic(tmp_path):
     tr = {"schema": V.SCHEMA, "experiment": V.EXPERIMENT, "seed": 20,
           "provenance": {"code_hash": V.code_hash(), "prep_sha256": psha, "model_manifest": "", "test_mode": True,
                          "gpu": "cpu", "arms": list(V.ARMS), "sleeps": 5, "fork": True},
-          "arms": {a: {str(L): {"ckpt_sha256": hx(a, L), "full_state_hash": hx("fs", a, L)} for L in range(1, 6)} for a in V.ARMS},
-          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w")} for a in V.FORK_ARMS},
+          "arms": {a: {str(L): {"ckpt_sha256": hx(a, L), "full_state_hash": hx("fs", a, L),
+                                "delivered": S._delivered(pv["schedule"][a][str(L)]), "budget": V.budget(pv["schedule"][a][str(L)])}
+                       for L in range(1, 6)} for a in V.ARMS},
+          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w"), "delivered": S._delivered(pv["fork_schedule"][a])} for a in V.FORK_ARMS},
                    "parent_full_state_hash": {a: hx("fs", a, 3) for a in V.FORK_ARMS}}}
     (d / "prov1_train_seed20.json").write_text(json.dumps(tr))
 
@@ -194,7 +196,8 @@ def test_cli_end_to_end_synthetic(tmp_path):
     assert all(v["ok"] for v in res["integrity"].values()) and len(res["integrity"]) == 3 * 5 + 2
     good_tr = (d / "prov1_train_seed20.json").read_text()
     for mut in (lambda t: t.update(seed=21), lambda t: t["provenance"].update(arms=["RP", "RC"]),
-                lambda t: t["provenance"].update(fork=False), lambda t: t["fork"]["parent_full_state_hash"].update(RC=hx("x"))):
+                lambda t: t["provenance"].update(fork=False), lambda t: t["fork"]["parent_full_state_hash"].update(RC=hx("x")),
+                lambda t: t["arms"]["RC"]["2"]["delivered"][0].update(count=t["arms"]["RC"]["2"]["delivered"][0]["count"] + 1)):
         t = json.loads(good_tr); mut(t); (d / "prov1_train_seed20.json").write_text(json.dumps(t)); cli()
         assert json.loads((tmp_path / "a.json").read_text())["verdict"] == "PROV1_INVALID"     # Sol: foreign train identity
     (d / "prov1_train_seed20.json").write_text(good_tr)

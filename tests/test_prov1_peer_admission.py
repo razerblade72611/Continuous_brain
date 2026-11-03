@@ -58,7 +58,6 @@ def test_peer_valid_full_file_control(files):
     *_,run=files;assert run()['verdict']=='PROV1_ADVANCE'
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 peer loader checks only train prep/code, not seed/model/test-mode')
 @pytest.mark.parametrize('attack',['seed','model','test_mode'])
 def test_peer_rejects_foreign_train_identity(files,attack):
     sd,_,_,_,_,run=files
@@ -71,7 +70,6 @@ def test_peer_rejects_foreign_train_identity(files,attack):
     assert run()['verdict']=='PROV1_INVALID'
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 production eval loader does not check GPU identity')
 def test_peer_production_eval_rejects_wrong_gpu(files,tmp_path):
     _,_,p,req,_,_=files
     with tarfile.open(ROOT/'results/prov1/phase0/preps.tar.gz') as archive:
@@ -85,7 +83,6 @@ def test_peer_production_eval_rejects_wrong_gpu(files,tmp_path):
     ev['env']['gpu']='FOREIGN GPU';path.write_text(json.dumps(ev));assert call()[1]
 
 
-@pytest.mark.xfail(strict=True,reason='24984b1 common K5 intersects cells, not jointly eligible probe variants')
 def test_common_K5_requires_common_eligible_items():
     meta=[];rc={};ru={}
     for bid,construction,cat in [('s','statement','POS'),('q','question','POS-Q')]:

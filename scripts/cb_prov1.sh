@@ -10,8 +10,8 @@
 # Every phase first verifies phase 0 (committed preps archive == PHASE0.sha256, regenerated preps identical, Sol's
 # validator PASS on this pod), the CODE_HASH, SUPPORT-1's frozen CODE_HASH, the model manifest and the GPU.
 #   pod : NVIDIA RTX 6000 Ada Generation only (SUPPORT-1's card; phase A's hash equality depends on it), SECURE cloud
-#   out : /mnt/e/cb_results/prov1/phase<P>/ (David's E: drive; nothing is staged on C:). Results bundle + sha256 always;
-#         phase B also every checkpoint (streamed and sha256-verified). Evidence is preserved and verified before any
+#   out : /mnt/e/cb_results/prov1/phase<P>/ (David's mounted E: drive; nothing is staged on C:). Results bundle + sha256
+#         always; every checkpoint still on the pod (phase B; any mismatching evidence) streamed and sha256-verified. Evidence is preserved and verified before any
 #         pod removal, else the pod is STOPPED and kept.
 PHASE=${1:-}
 case "$PHASE" in 1|A|B) ;; *) echo "usage: bash cb_prov1.sh 1|A|B"; exit 1;; esac
@@ -21,11 +21,17 @@ GPU_NAME="NVIDIA RTX 6000 Ada Generation"
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; DL=/mnt/c/Users/davei/Downloads
 OUT=/mnt/e/cb_results/prov1/phase$PHASE
 D=/workspace/Continuous_brain_prov1; POD=""; S=""; DONE=0
-KEEP_CKPT=0; [ "$PHASE" = B ] && KEEP_CKPT=1             # phase 1/A checkpoints are reproducible / already on E:
+KEEP_CKPT=1        # every .pt still on the pod is streamed to E: and verified. Phase 1/A delete their reproducible or
+                   # hash-identical files after a MATCH, so only phase-B checkpoints and any mismatching evidence remain
 case "$PHASE" in 1) CAP_H=3;; A) CAP_H=16;; B) CAP_H=24;; esac
 [[ $PIN =~ ^[0-9a-f]{40}$ ]] || { echo "STOP: launcher PIN is not a resolved commit hash"; exit 1; }
+# E: must be the mounted Windows drive itself (Sol): a plain directory at /mnt/e would live on WSL's disk, i.e. on C:
+case "$(realpath -m "$OUT")" in /mnt/e/*) ;; *) echo "STOP: output path does not resolve under /mnt/e"; exit 1;; esac
+[ "$(findmnt -n -o TARGET --target /mnt/e 2>/dev/null)" = /mnt/e ] && findmnt -n -o SOURCE /mnt/e 2>/dev/null | grep -qi '^E:' \
+  || { echo "STOP: /mnt/e is not the mounted E: drive (is WD_BLACK connected?)"; exit 1; }
 mkdir -p "$OUT" 2>/dev/null && touch "$OUT/.w" 2>/dev/null && rm -f "$OUT/.w" \
-  || { echo "STOP: E: drive not writable at $OUT (is WD_BLACK connected?)"; exit 1; }
+  || { echo "STOP: E: drive not writable at $OUT"; exit 1; }
+[ "$(findmnt -n -o TARGET --target "$OUT" 2>/dev/null)" = /mnt/e ] || { echo "STOP: $OUT is not on the E: mount"; exit 1; }
 FREE_GB=$(df -BG --output=avail /mnt/e | tail -1 | tr -dc 0-9)
 [ "${FREE_GB:-0}" -ge 40 ] || { echo "STOP: less than 40 GB free on E: ($FREE_GB GB)"; exit 1; }
 USD_PER_HR=${USD_PER_HR:-0.99}                            # RTX 6000 Ada secure rate observed in SUPPORT-1 phase 2
@@ -161,7 +167,11 @@ r = {"regenerated": a["ckpt_sha256"], "committed": b["ckpt_sha256"], "file_equal
      "full_state_equal": a["full_state_hash"] == b["full_state_hash"]}
 json.dump(r, open("$R/repro/repro.json", "w"), indent=1); print("REPRO", r)
 PY
-  rm -f $R/repro/*.pt
+  if $PY -c "import json,sys; sys.exit(0 if json.load(open('$R/repro/repro.json'))['file_equal'] is True else 1)"; then
+    rm -f $R/repro/*.pt                                   # matching: reproducible, already on record
+  else
+    echo "REPRO mismatch: pilot checkpoint kept for preservation and investigation"   # Sol: never delete non-matching evidence
+  fi
   # ---- PROV-1 calibration: RP and RC, seed 24, sleep 1; twins + base; timings
   C=$R/cal; mkdir -p $C
   tim $X train --prep $R/p0/prov1_prep_seed24.json --model $M --out $C --arms RP,RC --sleeps 1 --model-manifest-sha $MS || fin 1
@@ -186,7 +196,9 @@ PY
      --support1-preps $(echo $S0/prep_seed2{0,1,2,3}.json | tr ' ' ,) --usd-per-hour $USD_PER_HR --spent ${SPENT:-0} --ceiling 30 \
      --out $R/projection.json; PJ=$?
   rm -f $C/*.pt
-  (cd $R && sha256sum cal/calcheck.json timings.json projection.json repro/repro.json p0/validation.json > PHASE1.sha256 \
+  (cd $R && sha256sum cal/calcheck.json cal/prov1_train_seed24.json cal/eval_RP_s1_merged.json cal/eval_RP_s1_unmerged.json \
+       cal/eval_RC_s1_merged.json cal/eval_RC_s1_unmerged.json cal/eval_N_s1.json timings.json timings.log projection.json \
+       repro/repro.json repro/train_seed24.json p0/validation.json > PHASE1.sha256 \
      && printf 'PIN %s\nCODE_HASH %s\nMODEL_MANIFEST %s\nGPU %s\n' "$(git -C /workspace/Continuous_brain_prov1 rev-parse HEAD)" "$CH" "$MS" "$G" >> PHASE1.sha256)
   [ $CC = 0 ] || fin 4
   [ $PJ = 0 ] || fin 5
@@ -306,9 +318,9 @@ $S "cat /workspace/prov1_phase$PHASE.tar.gz.sha256" > "$OUT/prov1_phase$PHASE.ta
   && $S "cat /workspace/prov1_phase$PHASE.tar.gz" > "$OUT/prov1_phase$PHASE.tar.gz" \
   && $S "cat /workspace/prov1_p$PHASE.log /workspace/boot.log" > "$OUT/prov1_p$PHASE.log" \
   && (cd "$OUT" && sha256sum -c prov1_phase$PHASE.tar.gz.sha256) && preserve \
-  && cp "$OUT/prov1_phase$PHASE.tar.gz" $DL/ \
-  && echo "== downloaded + verified: $OUT/prov1_phase$PHASE.tar.gz (copy in Downloads)" \
+  && echo "== downloaded + verified: $OUT/prov1_phase$PHASE.tar.gz" \
   && runpodctl pod remove $POD >/dev/null && echo "== pod removed" && DONE=1
+[ "$DONE" = 1 ] && { cp "$OUT/prov1_phase$PHASE.tar.gz" $DL/ 2>/dev/null && echo "== copy in Downloads" || echo "== (no copy in Downloads; the E: copy is the record)"; }
 [ "$DONE" = 1 ] || { echo "== download did not complete"; exit 1; }
 EX=$(grep -o "PROV1 P$PHASE DONE exit=[0-9]*" "$OUT/prov1_p$PHASE.log" | tail -1 | cut -d= -f2); echo "== PROV-1 phase $PHASE exit: ${EX:-UNKNOWN}"
 case "$EX" in 0) exit 0;; 4) exit 4;; 5) exit 5;; 6) exit 6;; *) exit 1;; esac
