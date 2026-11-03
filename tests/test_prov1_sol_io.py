@@ -31,6 +31,23 @@ def test_complete_calibration_regraded_independently(calibration,tmp_path):
     assert len(r['input_sha256'])==7 and r['RP_acquisition']['value']==1.
 
 
+@pytest.mark.parametrize('delta,accepted',[(5e-10,True),(1.5e-9,False)])
+def test_calibration_unit_ratio_tolerance(calibration,tmp_path,delta,accepted):
+    _,docs,run=calibration
+    docs['N','base']['ppl_ratio']={'eval':1.+delta,'modern':1.-delta}
+    r=check(tmp_path,run)
+    assert r['pass_'] is accepted,r['errors']
+
+
+def test_calibration_report_input_hashes_are_checked(calibration,tmp_path):
+    _,_,run=calibration;assert check(tmp_path,run)['pass_'] is True
+    p=tmp_path/'phase1/cal/calcheck.json';report=json.loads(p.read_text())
+    report['inputs_sha256']['RP_merged']='0'*64;p.write_text(json.dumps(report))
+    raw=(tmp_path/'prep.json').read_bytes();prep=json.loads(raw)
+    r=verify_calibration(tmp_path/'phase1',prep,sha(raw),codehash(),prep['model_manifest'],GPU)
+    assert r['pass_'] is False and 'calibration input digest binding' in r['errors']
+
+
 @pytest.mark.parametrize('attack',['checkpoint','base','boolean','train_model'])
 def test_independent_calibration_rejects_producer_bypasses(calibration,tmp_path,attack):
     tr,docs,run=calibration

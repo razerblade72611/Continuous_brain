@@ -57,7 +57,7 @@ def verify_calibration(p1,prep,prep_sha,code,model,gpu):
         evs=[base]+[e for arm in pairs for e,_ in pairs[arm]]
         denoms={e.get('base_denominator_sha256') for e in evs}
         if len(denoms)!=1 or not all(hash_ok(x) for x in denoms):errors.append('calibration shared base identity')
-        if any(not ge(base['ppl_ratio'].get(k),1.) or not le(base['ppl_ratio'].get(k),1.) for k in ('eval','modern')):
+        if any(not finite(base['ppl_ratio'].get(k)) or abs(base['ppl_ratio'][k]-1.)>1e-9 for k in ('eval','modern')):
             errors.append('calibration N unit ratios')
         rp=[r for r in pairs['RP'][0][1] if r['condition']=='FAITHFUL' and r['cat']=='POS' and r['kind']=='template']
         nn=[r for r in bj if r['condition']=='ABSENT' and r['cat']=='FRESH' and r['kind']=='template']
@@ -70,6 +70,10 @@ def verify_calibration(p1,prep,prep_sha,code,model,gpu):
         if (report.get('pass') is not True or report.get('errors') or report.get('seed')!=24
                 or report.get('test_mode') is not False or report.get('code_hash')!=code
                 or report.get('model_manifest')!=model or report.get('prep_sha256')!=prep_sha):errors.append('calibration report binding')
+        expected_inputs={'train':inputs['cal/prov1_train_seed24.json'],'base':inputs['cal/eval_N_s1.json'],
+                         **{f'{arm}_{mode}':inputs[f'cal/eval_{arm}_s1_{mode}.json']
+                            for arm in ('RP','RC') for mode in ('merged','unmerged')}}
+        if report.get('inputs_sha256')!=expected_inputs:errors.append('calibration input digest binding')
         return dict(pass_=not errors,errors=errors,input_sha256=inputs,RP_acquisition=acq,N_FRESH=fresh,
                     base_denominator=next(iter(denoms)) if len(denoms)==1 else None)
     except (OSError,KeyError,ValueError,TypeError,IndexError,AttributeError) as exc:

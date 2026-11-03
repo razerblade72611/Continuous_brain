@@ -1,0 +1,37 @@
+{
+  "auditor": "Sol",
+  "reviewed_commit": "49201753bcfaafd4353080b8ed5f369e76b99fa8",
+  "decision": "GO_FOR_PINNING_PHASE_1",
+  "scope": [
+    "producer calcheck",
+    "phase-0 prep payloads",
+    "phase-1 launcher body",
+    "original analyzer counterexamples"
+  ],
+  "phases_A_B": "HOLD_PENDING_LATER_REVIEWS",
+  "code_hash": "6793a356b1d1c0e55d1589146cce3ec363b812e6556598f5b5217ac12a6217ab",
+  "support1_code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "phase0_archive_sha256": "42c7021399c170a11e9ce7abfc7fa89dce0aa25a187ea69a800c04a41db3fe17",
+  "unpinned_launcher_sha256": "85e375264113a98c9ded1daf0c22c3e833ba049e83ec4568e172dd80e779874f",
+  "validation": {
+    "verdict": "PASS",
+    "checks": 126343,
+    "errors": [],
+    "equals_committed_claude_run": true
+  },
+  "tests": {
+    "affected_suite_passed": 90,
+    "affected_suite_xfailed": 0,
+    "original_counterexamples_resolved": 14,
+    "independent_calibration_reader_tests_passed": 10,
+    "launcher_preservation_cases_passed": 7,
+    "preservation_verification_mutations_rejected": 2,
+    "mounted_E_and_copy_controls_passed": 5
+  },
+  "later_analyzer_findings": [
+    "withheld full_state_hash not validated",
+    "bind_frozen does not verify phase-1 manifest/raw calibration evidence"
+  ],
+  "producer_CODE_FILES_modified": false
+}
