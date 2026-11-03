@@ -74,6 +74,7 @@ setup ckpt; run 0 ok
 echo "ok 6 phase A: hashes only, removed"
 # 7. guards
 o=$(bash $L 2>&1); [[ "$o" == *usage* ]] || fail "no-argument guard"
-o=$(bash $L 1 2>&1); [[ "$o" == *"PIN is not a resolved commit hash"* ]] || fail "PIN guard (UNPINNED must refuse)"
+sed 's/^PIN=.*/PIN=UNPINNED/' $L > $T/unpinned.sh
+o=$(bash $T/unpinned.sh 1 2>&1); [[ "$o" == *"PIN is not a resolved commit hash"* ]] || fail "PIN guard (UNPINNED must refuse)"
 echo "ok 7 argument and PIN guards"
 echo "PROV-1 launcher: 7/7 passed"

@@ -15,7 +15,7 @@
 #         pod removal, else the pod is STOPPED and kept.
 PHASE=${1:-}
 case "$PHASE" in 1|A|B) ;; *) echo "usage: bash cb_prov1.sh 1|A|B"; exit 1;; esac
-PIN=UNPINNED                                              # set to the reviewed commit before any launch
+PIN=49201753bcfaafd4353080b8ed5f369e76b99fa8   # Sol GO on the phase-1 path at this commit (sol/prov1-phase1-go e06cefa)
 REV=b968826d9c46dd6066d109eabc6255188de91218
 GPU_NAME="NVIDIA RTX 6000 Ada Generation"
 K=$HOME/.runpod/ssh/runpodctl-ssh-key; DL=/mnt/c/Users/davei/Downloads
