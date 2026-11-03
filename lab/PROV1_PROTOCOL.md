@@ -197,6 +197,23 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
   - **Checkpoint fallback:** when a differing file hash is admitted on a matching full_state_hash, the saved file is
     reloaded and its tensors are verified equal to the regenerated state, since evaluation loads the file.
 
+- **Implementation review of b88ca93 (Sol HOLD, two cache defects, fixed):**
+  - evalck reuse now requires the full request identity (provenance includes arm, sleep, history and mode), equal
+    header fields and the complete expected probe inventory in prep order;
+  - train reuse now requires, when the fork is requested, every withheld checkpoint present with its logged hash and
+    each logged fork parent equal to that arm's logged sleep-3 full-state hash.
+  Sol's six reproducers are ordinary passing tests; the CPU end-to-end also checks that an identical request is
+  reused and a changed one recomputed. Sol accepted excluding update cells from counterfactuals and the ≤ 1%
+  cross-history input-token tolerance (exact item and loss counts; exact RU/RC equality within each history).
+- **Analyzer decisions (Sol's recommendations, adopted):**
+  - **K6** requires both constructions: FORK-H (Statement) and FORK-H-Q (Question) must each be history-sensitive in
+    the same ≥ 3/4 seeds count.
+  - **K7** weighting: within each seed, equal weight per sleep 2–5 (each sleep's cohort rate first), then equal weight
+    across the four seeds.
+- **Roles (50/50):** Sol owns the independent prep validator (PASS on all five production preps under the current
+  CODE_HASH, 126,343 checks, 0 errors) and the independent analyzer; Claude owns the producer, Claude's analyzer and
+  the launchers.
+
 ## 10. Changes from v0 (Sol's HOLD items)
 - [H1] Slot structure per Sol: identical new + replay; third slot RP = background; RU = negatives + reserved
   background; RC = same negatives + counterfactuals in place of the reserve.

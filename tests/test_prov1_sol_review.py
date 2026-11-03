@@ -1,5 +1,4 @@
-"""Sol's counterexamples for b88ca93. Expected failures document producer defects;
-remove strict-xfail markers only once the counterexamples are actually rejected.
+"""Sol's counterexamples for b88ca93 (eval and train cache identity), fixed in the producer: now ordinary passing tests.
 No model, GPU, network, launcher or external machine is used here.
 """
 import argparse
@@ -17,7 +16,7 @@ import prov1 as producer
 class Recompute(Exception): pass
 
 
-@pytest.mark.xfail(strict=True,reason='b88ca93 eval cache omits requested identity fields')
+
 @pytest.mark.parametrize('field,new',[('arm','RU'),('sleep',4),('history','withheld'),('mode','unmerged')])
 def test_eval_cache_refuses_foreign_request(tmp_path,monkeypatch,field,new):
     p=tmp_path/'prep.json';p.write_text(json.dumps({'test_mode':True}))
@@ -40,7 +39,7 @@ def test_eval_cache_refuses_foreign_request(tmp_path,monkeypatch,field,new):
         producer.stage_evalck(a)
 
 
-@pytest.mark.xfail(strict=True,reason='b88ca93 train cache verifies only main checkpoints, not required fork')
+
 @pytest.mark.parametrize('damage',['missing','corrupt'])
 def test_train_cache_checks_withheld_checkpoint(tmp_path,monkeypatch,damage):
     p=tmp_path/'prep.json';p.write_text(json.dumps({'test_mode':True,'seed':24}))

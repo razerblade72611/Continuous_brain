@@ -186,6 +186,18 @@ def test_end_to_end_tiny(tmp_path):
         assert x["outcome_truth"] == S.outcome(x["answer"], r["gold_truth"])
         assert x["outcome_compliance"] == (None if r["gold_compliance"] is None else S.outcome(x["answer"], r["gold_compliance"]))
     assert all(r["probe_id"].startswith("24-withheld-4-") for r in wj["rows"]) and wj["ppl_ratio"] is None
+    # caches (Sol's HOLD at b88ca93): an identical request is reused; a different one is recomputed
+    assert "up to date" in ev("m.json", "--sleep", 2, "--arm", "RC", "--ckpt", tmp_path / "tr/cortex_RC_s2.pt",
+                              "--mode", "merged", "--monitors")
+    assert "up to date" not in ev("m.json", "--sleep", 2, "--arm", "RC", "--ckpt", tmp_path / "tr/cortex_RC_s2.pt",
+                                  "--mode", "unmerged", "--monitors")
+    assert json.loads((tmp_path / "m.json").read_text())["mode"] == "unmerged"
+    tr_again = lambda: run("prov1.py", "train", "--prep", prep, "--model", m, "--out", tmp_path / "tr", "--sleeps", 4,
+                           "--fork", "--test-mode")
+    assert "skipped" in tr_again()
+    (tmp_path / "tr/cortex_RU_s4_withheld.pt").write_bytes(b"corrupt")
+    assert "skipped" not in tr_again()
+    assert "skipped" in tr_again()
     # phase A: a SUPPORT-1 checkpoint evaluated on PROV-1's record conditions
     run("support1.py", "prep", "--seeds", "24", "--tokenizer", m, "--out", tmp_path / "s1", "--test-mode")
     run("support1.py", "train", "--prep", tmp_path / "s1/prep_seed24.json", "--model", m, "--out", tmp_path / "s1tr",

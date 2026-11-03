@@ -294,6 +294,32 @@ def stage_prep(a):
 
 
 # ------------------------------------------------------------------ train stage -----------------------------------------
+def _train_cache_ok(old, prov, out, arms, a):
+    """Reuse only a COMPLETE, verified log (Sol's HOLD at b88ca93): same provenance; every main checkpoint present with
+    its logged hash; and when the fork is requested, every required withheld checkpoint present with its logged hash,
+    plus the logged fork parent equal to that arm's logged sleep-3 full-state hash."""
+    def file_ok(path, want):
+        return isinstance(want, str) and path.exists() and sha(path.read_bytes()) == want
+    try:
+        if old.get("provenance") != prov:
+            return False
+        for arm in arms:
+            for L in range(1, a.sleeps + 1):
+                if not file_ok(out / f"cortex_{arm}_s{L}.pt", old["arms"][arm][str(L)]["ckpt_sha256"]):
+                    return False
+        if a.fork and a.sleeps >= 4:
+            fk = old["fork"]
+            for arm in (x for x in arms if x in FORK_ARMS):
+                if not file_ok(out / f"cortex_{arm}_s4_withheld.pt", fk["withheld"][arm]["ckpt_sha256"]):
+                    return False
+                parent = fk["parent_full_state_hash"][arm]
+                if not isinstance(parent, str) or parent != old["arms"][arm]["3"]["full_state_hash"]:
+                    return False
+        return True
+    except (KeyError, TypeError):
+        return False
+
+
 def stage_train(a):
     import torch
     prep = json.loads(Path(a.prep).read_text())
@@ -308,12 +334,8 @@ def stage_train(a):
             "test_mode": a.test_mode, "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
             "arms": arms, "sleeps": a.sleeps, "fork": a.fork}
     done = out / f"prov1_train_seed{seed}.json"
-    if done.exists():
-        old = json.loads(done.read_text())
-        if old["provenance"] == prov and all(
-                (out / f"cortex_{arm}_s{L}.pt").exists() and sha((out / f"cortex_{arm}_s{L}.pt").read_bytes()) ==
-                old["arms"][arm][str(L)]["ckpt_sha256"] for arm in arms for L in range(1, a.sleeps + 1)):
-            print(f"TRAIN seed {seed}: up to date (checkpoint hashes verified) - skipped"); return
+    if done.exists() and _train_cache_ok(json.loads(done.read_text()), prov, out, arms, a):
+        print(f"TRAIN seed {seed}: up to date (main + fork checkpoint hashes and fork parent verified) - skipped"); return
     dev = C._dev()
     torch.manual_seed(seed); random.seed(seed)
     model, tok = C.load_model(a.model, dev)
@@ -364,6 +386,21 @@ def outcome(ans, gold):
     return None if gold is None else S.outcome(ans, gold)
 
 
+def _eval_cache_ok(old, prov, prep, a, mode, conds):
+    """Reuse only an evaluation of exactly this request (Sol's HOLD at b88ca93): provenance (which now includes arm,
+    sleep, history and mode), header fields, and the complete expected probe inventory in prep order."""
+    try:
+        if old.get("provenance") != prov:
+            return False
+        if (old.get("schema"), old.get("experiment"), old.get("seed"), old.get("arm"), old.get("sleep"), old.get("mode"),
+                old.get("history")) != (SCHEMA, EXPERIMENT, prep["seed"], a.arm, a.sleep, mode, a.history):
+            return False
+        want = [r["probe_id"] for r in prep["probes"][a.history][str(a.sleep)] if r["condition"] in conds]
+        return [r["probe_id"] for r in old["rows"]] == want and len(want) > 0
+    except (KeyError, TypeError, AttributeError):
+        return False
+
+
 def stage_evalck(a):
     import torch
     from being.competence import mean_loss
@@ -379,9 +416,9 @@ def stage_evalck(a):
     mode = "base" if ck is None else a.mode
     prov = {"code_hash": code_hash(), "prep_sha256": psha, "ckpt_sha256": sha(ck.read_bytes()) if ck else None,
             "model_manifest": a.model_manifest_sha, "test_mode": a.test_mode, "conditions": conds, "monitors": a.monitors,
-            "source": a.source}
-    if out.exists() and json.loads(out.read_text()).get("provenance") == prov:
-        print(f"EVAL {out.name}: up to date - skipped"); return
+            "source": a.source, "arm": a.arm, "sleep": a.sleep, "history": a.history, "mode": mode}
+    if out.exists() and _eval_cache_ok(json.loads(out.read_text()), prov, prep, a, mode, conds):
+        print(f"EVAL {out.name}: up to date (full request identity and probe inventory verified) - skipped"); return
     model, tok, dev = A0.load_fp32(a.model)
     comp_sets, base_loss = C._comp(tok, model, a.test_mode) if a.monitors else ({}, {})
     if ck is not None:
