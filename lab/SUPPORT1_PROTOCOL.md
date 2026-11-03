@@ -594,6 +594,10 @@
     the launcher died before cleanup, so the pod stayed RUNNING. No evidence was lost. Checkpoints are being streamed
     directly to an external drive (E:) and verified against the pod's sha256 list before the pod is removed. Claude
     under-stated the transient disk need (19 GB) in the phase-2 instructions.
+    - **Resolved:** support1_results.tar.gz verified against the pod's sha256; all 108 checkpoints extracted to
+      E:\cb_results\support1\phase2\ckpt and verified against support1_ckpt.sha256; only then was the pod removed
+      (runpodctl: deleted true, by 08:35 CST). Pod life about 14.95 h at $0.99/h, about $14.8, of which about $7.4 was
+      idle after the job ended. **Cumulative SUPPORT-1 spend: about $16**, under the $30 ceiling.
   - **Sol's review of phase 2: verdict confirmed.**
     - Bundle hash fa971aa2… recomputed. Both analyzers, rerun offline, reproduce their archived outputs exactly.
       236 evaluations load; 22,464 pooled-value and per-seed numerator/denominator comparisons across the two
