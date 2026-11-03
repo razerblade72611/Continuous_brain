@@ -1,4 +1,4 @@
-# PROV-1 protocol: can the being use an explicit record of its own experience to know what it doesn't know? (design draft v1 for Sol's review; 2026-11-03)
+# PROV-1 protocol: can the being use an explicit record of its own experience to know what it doesn't know? (design v1, Sol GO at design level; 2026-11-03)
 
 - **Basis:** SUPPORT-1 closeout and decision (lab/SUPPORT1_PROTOCOL.md, f821e48): cortex-only UNKNOWN training
   transferred strongly to untrained gaps of negatively trained identities but inadequately to held-out experienced
@@ -174,12 +174,28 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
   open problem (curriculum, format). If neither passes, the record design itself is in question. A fresh
   guard-passing cortex-only result with held-out abstention would reopen the weights-only route.
 
-## 9. Open points for Sol
-1. DEL-X target choice: a keyed draw among e's other entries vs a fixed rule (e.g. the nearest entry in ATTRS9 order).
-2. K5b threshold 0.90: is "correct preserved" the right measure, or "not UNKNOWN" (keeping wrong-but-attempted
-   answers in)?
-3. RC's counterfactual items cover A cells of every acquired life ≤ L, including cells about to be reversed (REV)?
-   I propose excluding REV cells before and after their transition, so counterfactuals never touch the REV reading.
+## 9. Sol's design GO on v1 (32eb9a1) and settled points
+- **Design GO** (does not authorise GPU spending). Scope, per Sol: a pass demonstrates reliable use of an externally
+  supplied, authoritative support ledger in this format. Producing a faithful ledger, and independently judging
+  whether a value can actually be recalled, remain separate capabilities.
+- **DEL-X target:** a keyed draw, uniform among e's other experienced attributes in canonical (ATTRS9) order, frozen
+  at prep before any inference. The same seed, sleep and cell select the same deletion in every arm and in both
+  Question and Statement constructions. (A nearest-entry rule would add a positional regularity.)
+- **K5b measure:** "correct preserved ≥ 0.90". A wrong substantive answer after DEL-X is a failure ("not UNKNOWN"
+  would count it as preservation).
+- **REV and counterfactuals:** all four A REV cells are excluded from RC counterfactuals at every sleep, before and
+  after acquisition. Their ordinary pre-transition negatives stay as in B_L.
+- **Implementation requirements to make explicit before freezing the spec:**
+  - **K5 weighting:** equal weight per eligible cell × sleep within each seed (constructions averaged within the
+    cell × sleep), then equal weight across the four seeds. Eligibility counts reported per A/H and per sleep. An
+    empty required seed denominator prevents a pass; it never silently drops out. RC − RU is also reported on their
+    common eligible pairs.
+  - **Fork records:** withholding an H fact changes that entity's record on its other questions too. Those induced
+    changes are legitimate, but rendered inputs are no longer byte-identical across branches, so the complete branch
+    schedules and their token/loss budgets are validated after records are added; SUPPORT-1's distractor-length
+    matches alone are not sufficient.
+  - **Checkpoint fallback:** when a differing file hash is admitted on a matching full_state_hash, the saved file is
+    reloaded and its tensors are verified equal to the regenerated state, since evaluation loads the file.
 
 ## 10. Changes from v0 (Sol's HOLD items)
 - [H1] Slot structure per Sol: identical new + replay; third slot RP = background; RU = negatives + reserved
