@@ -579,7 +579,7 @@
     - Reversal: acquired in 4/4 seeds for both U arms; U4 success (REV-Q 0.94 / 1.00 at sleeps 4/5), U1 failure
       (0.81 at sleep 5 vs P 1.00).
     - Fork: history-sensitive in 1/4 seed pairs for U4 (FORK-H and FORK-H-Q), 0/4 for G4.
-  - **Analyzer cross-check (Claude):** every primary check (14 D1, 20 D2, 12 D3, 41 D4 items), the mechanism per
+  - **Analyzer cross-check (Claude):** all 97 primary check values (14 D1, 20 D2, 12 D3, 51 D4), the mechanism per
     seed, 44 reading values for U1/U4, the HOW grounding contrast, dose, reversal and fork agree exactly between the
     two analyzers. Scope difference only: Sol also reports the HOW-Q paired construction contrast (U1 −0.125,
     U4 +0.021), Claude only SEL-Q; neither reaches the 0.30 gap.
