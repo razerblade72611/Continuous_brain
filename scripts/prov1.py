@@ -481,9 +481,24 @@ def stage_evalck(a):
           f"DEL-X POS {rate('POS', 'DEL-X', 'correct')} | ppl {ppl or '-'}", flush=True)
 
 
+_HEX64 = re.compile(r"[0-9a-f]{64}")
+
+
+def _hex64(x):
+    return isinstance(x, str) and _HEX64.fullmatch(x) is not None
+
+
+def _num(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v > 0
+
+
 def _load_ev(path, prep, psha, arm, L, mode, conds, ckpt, errs):
     ev = json.loads(Path(path).read_text())
     pv = ev.get("provenance") or {}
+    if (mode == "base") != (ckpt is None) or (ckpt is not None and not _hex64(ckpt)):
+        errs.append(f"{Path(path).name}: expected checkpoint identity is not a valid sha256 (or base has one)")
+    if not _hex64(ev.get("base_denominator_sha256")):
+        errs.append(f"{Path(path).name}: missing or invalid base-denominator identity")
     want = {"code_hash": code_hash(), "prep_sha256": psha, "ckpt_sha256": ckpt, "model_manifest": prep["model_manifest"],
             "test_mode": prep["test_mode"], "conditions": list(conds), "monitors": True, "source": "prov1", "arm": arm,
             "sleep": L, "history": "observed", "mode": mode}
@@ -499,8 +514,8 @@ def _load_ev(path, prep, psha, arm, L, mode, conds, ckpt, errs):
              outcome(x["answer"], r["gold_compliance"]) != x["outcome_compliance"] for x, r in zip(ev["rows"], inv)):
         errs.append(f"{Path(path).name}: stored outcomes disagree with independent grading")
     ppl = ev.get("ppl_ratio") or {}
-    if set(ppl) != {"eval", "modern"} or not all(isinstance(v, (int, float)) and math.isfinite(v) and v > 0 for v in ppl.values()):
-        errs.append(f"{Path(path).name}: both competence monitors must be present, finite and positive")
+    if set(ppl) != {"eval", "modern"} or not all(_num(v) for v in ppl.values()):
+        errs.append(f"{Path(path).name}: both competence monitors must be present, numeric (not boolean), finite and positive")
     if (ev.get("env") or {}).get("tf32") is not False and not prep["test_mode"]:
         errs.append(f"{Path(path).name}: TF32 not recorded as disabled")
     return ev, inv
@@ -519,14 +534,20 @@ def stage_calcheck(a):
     if prep["seed"] != CAL_SEED or prep["code_hash"] != code_hash():
         errs.append("prep is not the calibration seed built by this code")
     tp = tr.get("provenance", {})
-    if tp.get("prep_sha256") != psha or tp.get("code_hash") != code_hash() or tp.get("arms") != ["RP", "RC"] or tp.get("sleeps") != 1:
-        errs.append("train log is not RP,RC sleep 1 of this prep/code")
+    if (tr.get("schema"), tr.get("experiment"), tr.get("seed")) != (SCHEMA, EXPERIMENT, CAL_SEED) or tp.get("prep_sha256") != psha \
+            or tp.get("code_hash") != code_hash() or tp.get("arms") != ["RP", "RC"] or tp.get("sleeps") != 1 or tp.get("fork") \
+            or tp.get("model_manifest") != prep["model_manifest"] or tp.get("test_mode") != prep["test_mode"]:
+        errs.append("train log is not RP,RC sleep 1 of this prep/code/model")
     evs = {}
     for arm in ("RP", "RC"):
         ck = tr.get("arms", {}).get(arm, {}).get("1", {}).get("ckpt_sha256")
         for mode in ("merged", "unmerged"):
             evs[(arm, mode)] = _load_ev(getattr(a, f"{arm.lower()}_{mode}"), prep, psha, arm, 1, mode, conds, ck, errs)
     evs[("N", "base")] = _load_ev(a.base, prep, psha, "N", 1, "base", conds, None, errs)
+    gpus = {(ev.get("env") or {}).get("gpu") for ev, _ in evs.values()} | {tp.get("gpu")}
+    if len(gpus) != 1 or not all(isinstance(g, str) and g for g in gpus) or \
+            (not prep["test_mode"] and gpus != {"NVIDIA RTX 6000 Ada Generation"}):
+        errs.append(f"GPU identity not one recorded RTX 6000 Ada across train and evaluations: {sorted(map(str, gpus))}")
     if not errs:
         for arm in ("RP", "RC"):
             m, u = evs[(arm, "merged")][0], evs[(arm, "unmerged")][0]
@@ -554,7 +575,8 @@ def stage_calcheck(a):
            "RC_reported": {"pos_template_correct": rate(("RC", "merged"), "FAITHFUL", "POS", "template", "correct"),
                            "fresh_unknown": rate(("RC", "merged"), "FAITHFUL", "FRESH", "template", "unknown"),
                            "delq_pos_unknown": rate(("RC", "merged"), "DEL-Q", "POS", "template", "unknown")},
-           "prep_sha256": psha, "code_hash": code_hash(), "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"]}
+           "prep_sha256": psha, "code_hash": code_hash(), "model_manifest": prep["model_manifest"], "test_mode": prep["test_mode"],
+           "gpu": sorted(map(str, gpus))}
     Path(a.out).write_text(json.dumps(res, indent=1))
     print(f"CALCHECK pass={ok} RP acquisition={acq} N FRESH unknown={fresh} competence={comp} errors={errs}", flush=True)
     if not ok:

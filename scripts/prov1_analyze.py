@@ -235,7 +235,10 @@ def gate_k1_k4(seeds, st_of, meta_of, pref, ppl_p=None):
 
 
 # ------------------------------------------------------------------ loading + integrity ------------------------------------
-def load_prov1_eval(path, prep, psha, arm, L, mode, history, conds, monitors, source, ckpt_ok, test_mode):
+GPU_NAME = "NVIDIA RTX 6000 Ada Generation"
+
+
+def load_prov1_eval(path, prep, psha, arm, L, mode, history, conds, monitors, source, ckpt_ok, test_mode, gpu=GPU_NAME):
     p = Path(path)
     if not p.exists():
         return None, [f"{p.name}: missing"]
@@ -272,6 +275,8 @@ def load_prov1_eval(path, prep, psha, arm, L, mode, history, conds, monitors, so
             errs.append(f"{p.name}: missing base-denominator identity")
     if (ev.get("env") or {}).get("tf32") is not False and not test_mode:
         errs.append(f"{p.name}: TF32 not recorded as disabled")
+    if not test_mode and (ev.get("env") or {}).get("gpu") != gpu:
+        errs.append(f"{p.name}: evaluated on {(ev.get('env') or {}).get('gpu')!r}, not {gpu!r}")
     return ev, errs
 
 
@@ -338,8 +343,17 @@ def stage_analyze(a):
             conds, monitors, source = V.PHASE_A_CONDITIONS, False, "support1"
         else:
             tr = json.loads((d / f"seed{s}" / f"prov1_train_seed{s}.json").read_text())
-            if tr["provenance"].get("prep_sha256") != psha or tr["provenance"].get("code_hash") != V.code_hash():
-                errs.append(f"seed {s}: train log not bound to this prep/code")
+            tp = tr.get("provenance") or {}
+            want_tp = {"prep_sha256": psha, "code_hash": V.code_hash(), "model_manifest": prep["model_manifest"],
+                       "test_mode": a.test_mode, "arms": list(V.ARMS), "sleeps": 5, "fork": True}
+            if (tr.get("schema"), tr.get("experiment"), tr.get("seed")) != (V.SCHEMA, V.EXPERIMENT, s) or \
+                    {k: tp.get(k) for k in want_tp} != want_tp or (not a.test_mode and tp.get("gpu") != a.gpu):
+                errs.append(f"seed {s}: train log is not RP/RU/RC x 5 sleeps + fork of this prep/code/model/GPU")
+            elif any(not SA._hex64(tr["arms"][arm][str(L)].get("ckpt_sha256")) for arm in arms for L in range(1, 6)) or \
+                    any(not SA._hex64(tr["fork"]["withheld"][arm].get("ckpt_sha256")) or
+                        tr["fork"]["parent_full_state_hash"].get(arm) != tr["arms"][arm]["3"].get("full_state_hash")
+                        for arm in V.FORK_ARMS):
+                errs.append(f"seed {s}: train log checkpoint or fork-parent identities invalid")
             logged = {(arm, str(L)): tr["arms"][arm][str(L)]["ckpt_sha256"] for arm in arms for L in range(1, 6)}
             for arm in V.FORK_ARMS:
                 logged[(arm, "4w")] = tr["fork"]["withheld"][arm]["ckpt_sha256"]
@@ -359,7 +373,7 @@ def stage_analyze(a):
             dens = set()
             for L in range(1, 6):
                 ev, e = load_prov1_eval(d / f"seed{s}" / f"eval_N_s{L}.json", prep, psha, "N", L, "base", "observed", conds,
-                                        True, source, lambda h: h is None, a.test_mode)
+                                        True, source, lambda h: h is None, a.test_mode, a.gpu)
                 errs += [f"seed {s}: {x}" for x in e]
                 if ev:
                     dens.add(ev.get("base_denominator_sha256"))
@@ -375,7 +389,7 @@ def stage_analyze(a):
                 for mode in ("merged", "unmerged"):
                     f = d / f"seed{s}" / (f"eval_{arm}_s4_withheld_{mode}.json" if L == "4w" else f"eval_{arm}_s{L}_{mode}.json")
                     ev, e = load_prov1_eval(f, prep, psha, arm, Lx, mode, hist, conds, monitors, source,
-                                            ckpt_ok_for((arm, str(L))), a.test_mode)
+                                            ckpt_ok_for((arm, str(L))), a.test_mode, a.gpu)
                     errs += [f"seed {s}: {x}" for x in e]
                     evs[mode] = ev
                 if evs["merged"] and evs["unmerged"]:
@@ -467,6 +481,7 @@ def main():
     ap.add_argument("--phase", choices=("A", "B"), required=True); ap.add_argument("--dir", required=True)
     ap.add_argument("--support1-dir", required=True); ap.add_argument("--seeds", default="20,21,22,23")
     ap.add_argument("--admission"); ap.add_argument("--out", required=True); ap.add_argument("--test-mode", action="store_true")
+    ap.add_argument("--gpu", default=GPU_NAME)
     stage_analyze(ap.parse_args())
 
 

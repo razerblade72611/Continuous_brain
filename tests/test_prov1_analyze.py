@@ -155,9 +155,12 @@ def test_cli_end_to_end_synthetic(tmp_path):
               "ppl_ratio": {"eval": 0.9, "modern": 0.9}, "base_denominator_sha256": den, "rows": rows, "env": env}
         (s1 / f"eval_P_s{L}_merged.json").write_text(json.dumps(ev))
     # PROV-1 train log + evaluations
-    tr = {"provenance": {"code_hash": V.code_hash(), "prep_sha256": psha},
-          "arms": {a: {str(L): {"ckpt_sha256": hx(a, L)} for L in range(1, 6)} for a in V.ARMS},
-          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w")} for a in V.FORK_ARMS}}}
+    tr = {"schema": V.SCHEMA, "experiment": V.EXPERIMENT, "seed": 20,
+          "provenance": {"code_hash": V.code_hash(), "prep_sha256": psha, "model_manifest": "", "test_mode": True,
+                         "gpu": "cpu", "arms": list(V.ARMS), "sleeps": 5, "fork": True},
+          "arms": {a: {str(L): {"ckpt_sha256": hx(a, L), "full_state_hash": hx("fs", a, L)} for L in range(1, 6)} for a in V.ARMS},
+          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w")} for a in V.FORK_ARMS},
+                   "parent_full_state_hash": {a: hx("fs", a, 3) for a in V.FORK_ARMS}}}
     (d / "prov1_train_seed20.json").write_text(json.dumps(tr))
 
     def write(name, arm, L, mode, hist, ck, monitors=True):
@@ -189,6 +192,12 @@ def test_cli_end_to_end_synthetic(tmp_path):
     res = json.loads((tmp_path / "a.json").read_text())
     assert res["verdict"] == "PROV1_ADVANCE", (p.stdout[-2000:], p.stderr[-2000:], res.get("errors"))
     assert all(v["ok"] for v in res["integrity"].values()) and len(res["integrity"]) == 3 * 5 + 2
+    good_tr = (d / "prov1_train_seed20.json").read_text()
+    for mut in (lambda t: t.update(seed=21), lambda t: t["provenance"].update(arms=["RP", "RC"]),
+                lambda t: t["provenance"].update(fork=False), lambda t: t["fork"]["parent_full_state_hash"].update(RC=hx("x"))):
+        t = json.loads(good_tr); mut(t); (d / "prov1_train_seed20.json").write_text(json.dumps(t)); cli()
+        assert json.loads((tmp_path / "a.json").read_text())["verdict"] == "PROV1_INVALID"     # Sol: foreign train identity
+    (d / "prov1_train_seed20.json").write_text(good_tr)
     f = d / "eval_RC_s3_unmerged.json"
     ev = json.loads(f.read_text()); ev["rows"][0]["outcome_truth"] = "bogus"; f.write_text(json.dumps(ev))
     cli()
