@@ -1,0 +1,91 @@
+{
+  "auditor": "Sol",
+  "reviewed_commit": "24984b1ae73342cd84e58c7f23ee4be16aa6fa55",
+  "producer_code_hash": "c591a45a15663cc3a49b758ce54fb5dd6fcd91e8e706472a1c090f051cb6e5c6",
+  "decision": {
+    "producer_calcheck": "HOLD",
+    "peer_analyzer": "HOLD",
+    "phase0_archive": "PASS",
+    "phase1_launcher": "HOLD"
+  },
+  "phase0_archive_sha256": "5bb11fd26449a14e96d23030748b4103360a87661bdbb2ca1e72f575a95c9cfa",
+  "validation": {
+    "auditor": "Sol",
+    "validator": "PROV1_SOL_VALIDATOR_V1",
+    "verdict": "PASS",
+    "code_hash": "c591a45a15663cc3a49b758ce54fb5dd6fcd91e8e706472a1c090f051cb6e5c6",
+    "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+    "prep_sha256": [
+      "5ac1afaac65d82db8b8e0bd1896483a32afb3eda551f7c49b69e964aaea335de",
+      "eca6f4e91a5cb1cbb4dced37965801e5f8e886d0d647c116c7bb406cb0431492",
+      "3065e05eecf91d3303f81fabee093d3eaf6886423340161609a2b4acc76dd300",
+      "99f85319cfa7cbb8e5e2d4ea4469019752e5779328550bbb4142ee68e53174a4",
+      "815b4b3d4550327efb77056d82aafc2b59d1d3139201834155fc30c1fe89c66e"
+    ],
+    "results": [
+      {
+        "seed": 20,
+        "test_mode": false,
+        "checks": 25251,
+        "errors": [],
+        "verdict": "PASS"
+      },
+      {
+        "seed": 21,
+        "test_mode": false,
+        "checks": 25905,
+        "errors": [],
+        "verdict": "PASS"
+      },
+      {
+        "seed": 22,
+        "test_mode": false,
+        "checks": 25117,
+        "errors": [],
+        "verdict": "PASS"
+      },
+      {
+        "seed": 23,
+        "test_mode": false,
+        "checks": 25091,
+        "errors": [],
+        "verdict": "PASS"
+      },
+      {
+        "seed": 24,
+        "test_mode": false,
+        "checks": 24979,
+        "errors": [],
+        "verdict": "PASS"
+      }
+    ],
+    "checks": 126343,
+    "errors": [],
+    "source_sha256": "b4d22af0638b711400b560861d16455d75078158b39eba4bdfe8e6c028397ace"
+  },
+  "evidence": {
+    "supplied_tests_passed": 62,
+    "supplied_launcher_cases_passed": 7,
+    "preserve_verification_mutations_rejected": 2,
+    "reproduced_counterexamples": 14,
+    "calibration_invalid_cases_accepted": 7,
+    "foreign_train_identity_cases_accepted": 3,
+    "wrong_gpu_eval_accepted": 1,
+    "unmatched_common_K5_contrast_reported": 1,
+    "unmounted_drive_accepted": 1,
+    "nonmatching_pilot_checkpoint_deleted": 1
+  },
+  "projection_inventory": {
+    "phase_A_train_items": 37248,
+    "phase_A_eval_rows": 83546,
+    "phase_B_train_items": 23680,
+    "phase_B_eval_rows": 148375
+  },
+  "K6": "same seed must pass BOTH FORK-H and FORK-H-Q; at least 3/4 seeds",
+  "K5_primary_population": "POS/POS-Q, make explicit in protocol; expanded supported pool is diagnostic",
+  "no_producer_CODE_FILES_modified": true,
+  "limitations": [
+    "No GPU model execution or external infrastructure access.",
+    "Review of launcher phase-1 path does not authorize phases A or B."
+  ]
+}

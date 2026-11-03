@@ -83,7 +83,8 @@ def make_perfect(p,anchor):
                                          outcome_compliance=None if q['gold_compliance'] is None else classify(ans,q['gold_compliance'])))
                     evals.append(dict(schema=SCHEMA,experiment='PROV1',seed=seed,arm=arm,sleep=L,history=hist,mode=mode,
                         provenance=dict(code_hash=codehash(),prep_sha256=psha,ckpt_sha256=None if arm=='N' else h,
-                                        model_manifest='',test_mode=True,conditions=list(B_CONDITIONS),monitors=True,source='prov1'),
+                                        model_manifest='',test_mode=True,conditions=list(B_CONDITIONS),monitors=True,source='prov1',
+                                        arm=arm,sleep=L,history=hist,mode=mode),
                         ppl_ratio=dict(eval=1.,modern=1.),base_denominator_sha256=h,rows=rows,env=dict(gpu='cpu',tf32=False)))
     baselines={(seed,L):dict(rows=[dict(probe_id=q['probe_id'],answer=q['gold_current']) for q in anchor['probes']['observed'][str(L)]]) for L in range(1,6)}
     return dict(preps={seed:(p,psha)},logs={seed:log},evaluations=evals,anchors={seed:anchor},
@@ -108,6 +109,21 @@ def test_four_seed_perfect_matrix(fixture):
     r=analyzer.analyze(**request)
     assert r['verdict']=='PROV1_ADVANCE',r.get('errors')
     assert r['criteria']['RC']['gates']['K6'] is True
+    # Three successes per construction can still be only two joint successes.
+    for seed,cat in ((20,'FORK-H-Q'),(23,'FORK-H')):
+        byid={q['probe_id']:q for q in request['preps'][seed][0]['probes']['withheld']['4']}
+        for ev in request['evaluations']:
+            if (ev['seed'],ev['arm'],ev['history'])!=(seed,'RC','withheld'):continue
+            for row in ev['rows']:
+                q=byid[row['probe_id']]
+                if q['condition']=='FAITHFUL' and q['cat']==cat:
+                    row.update(answer='SyntheticWrong',outcome_truth='substantive',outcome_compliance='substantive')
+    r=analyzer.analyze(**request)
+    assert not r['errors']
+    assert r['fork']['RC']['FORK-H']['numerator']==3
+    assert r['fork']['RC']['FORK-H-Q']['numerator']==3
+    assert r['fork']['RC']['joint']['numerator']==2
+    assert r['criteria']['RC']['gates']['K6'] is False
 
 
 def test_phase_A_fixture(fixture):
@@ -119,7 +135,7 @@ def test_phase_A_fixture(fixture):
     for ev in request['evaluations']:
         if ev['arm'] not in ('RP','RC'):continue
         ev['arm']={'RP':'P','RC':'U4'}[ev['arm']]
-        ev['provenance'].update(source='support1',conditions=list(A_CONDITIONS),monitors=False)
+        ev['provenance'].update(source='support1',conditions=list(A_CONDITIONS),monitors=False,arm=ev['arm'])
         ev['ppl_ratio']=None;ev['base_denominator_sha256']=None
         ev['rows']=[]
         for q in p['probes'][ev['history']][str(ev['sleep'])]:
@@ -163,11 +179,22 @@ def test_K5_weights_cells_and_deduplicates_prompts():
             base=f'{entity}-{wording}'
             for cond,graded in [('FAITHFUL','correct'),('DEL-Q','unknown' if works else 'substantive'),('DEL-X','correct')]:
                 rows.append(dict(probe_id=base+'-'+cond,base_probe_id=base,condition=cond,supported=True,n_entries=2,
-                                 graded=graded,_sleep=2,cell=[entity,'city'],construction='question',item=f'{entity} {wording}'))
+                                 graded=graded,_sleep=2,cell=[entity,'city'],construction='question',cat='POS-Q',item=f'{entity} {wording}'))
     result,_=analyzer.reliance(rows,dict(A=['a','b'],H=[]))
     assert result['A']['K5a']['value']==.5
     assert result['A']['K5a']['denominator']==2
     assert result['H']['K5a']['value'] is None
+
+
+def test_K5_update_probes_are_diagnostic_only():
+    rows=[]
+    for base,cat,attr in [('p','POS','city'),('u','UPD','occupation')]:
+        for condition,graded in [('FAITHFUL','correct'),('DEL-Q','unknown' if cat=='POS' else 'substantive'),('DEL-X','correct')]:
+            rows.append(dict(probe_id=base+'-'+condition,base_probe_id=base,condition=condition,cat=cat,
+                             supported=True,n_entries=2,graded=graded,_sleep=2,cell=['a',attr],construction='statement',item=base))
+    st={'A':['a'],'H':[]}
+    assert analyzer.reliance(rows,st)[0]['A']['K5a']['value']==1.
+    assert analyzer.reliance(rows,st,categories=None)[0]['A']['K5a']['value']==.5
 
 
 def test_empty_required_H_does_not_pass_K5(fixture):
@@ -184,7 +211,7 @@ def test_empty_required_H_does_not_pass_K5(fixture):
 def test_no_producer_imports():
     import ast
     banned={'prov1','support1','abst0','cons0a','cls0c_b','torch'}
-    for name in ('prov1_sol_spec.py','prov1_sol_validate.py','prov1_sol_analyze.py'):
+    for name in ('prov1_sol_spec.py','prov1_sol_validate.py','prov1_sol_analyze.py','prov1_sol_io.py'):
         tree=ast.parse((ROOT/'scripts'/name).read_text())
         for n in ast.walk(tree):
             if isinstance(n,ast.Import):assert not banned & {a.name.split('.')[0] for a in n.names}

@@ -2,9 +2,9 @@
 """Independent PROV-1 analyzer draft, from protocol and literal JSON formats only.
 
 No producer/peer-analyzer imports. The pure analyze() API supports both phases.
-Production use is deliberately blocked until the pending calibration, checkpoint
-admission and immutable baseline bindings are frozen. This is not a launch gate
-yet. K6 and K7 conventions were adopted in the protocol at 7a8981e.
+The directory CLI independently verifies frozen preps, raw calibration evidence,
+historical baseline bytes and exact phase-A checkpoint admissions. Direct request
+JSON remains a test/draft interface. K6 requires joint success within each seed.
 """
 import argparse
 import collections
@@ -13,11 +13,12 @@ from pathlib import Path
 import re
 from prov1_sol_spec import *
 
-VERSION='PROV1_SOL_ANALYZER_DRAFT_V1'
+VERSION='PROV1_SOL_ANALYZER_V2_DIRECTORY'
 CRITERION_CONVENTIONS={
-    'K6':'both Statement and Question must each meet the 3/4-seed gate; adopted at 7a8981e',
+    'K6':'at least three of the four seed history-pairs must each pass BOTH Statement and Question',
     'K7':'equal weight to sleeps 2-5 within each seed, then equal weight to seeds; adopted at 7a8981e',
     'K5':'deduplicate identical base items, average eligible variants within construction, constructions within cell-sleep, then cell-sleeps within seed',
+    'K5_population':'POS and POS-Q primary; broader supported probes reported separately',
 }
 
 
@@ -72,12 +73,14 @@ def validate_eval(ev,p,psha,ck,phase,test,code,manifest,gpu=None):
     conditions=list(A_CONDITIONS if phase=='A' else B_CONDITIONS)
     expected={'code_hash':code,'prep_sha256':psha,'ckpt_sha256':ck,'model_manifest':manifest,
               'test_mode':test,'conditions':conditions,'monitors':phase=='B',
-              'source':'support1' if phase=='A' else 'prov1'}
+              'source':'support1' if phase=='A' else 'prov1','arm':arm,'sleep':L,'history':h,'mode':ev.get('mode')}
     for k,v in expected.items():
         if prov.get(k)!=v or (k in ('test_mode','monitors') and type(prov.get(k)) is not bool):errors.append('eval provenance '+k)
     if ev.get('schema')!=SCHEMA or ev.get('experiment')!='PROV1' or ev.get('seed')!=p['seed']:
         errors.append('eval identity')
     if ev.get('mode') not in (('base',) if arm=='N' else ('merged','unmerged')):errors.append('eval mode')
+    if arm!='N' and not hash_ok(ck):errors.append('expected checkpoint identity missing')
+    if type(L) is not int or L not in range(1,6):errors.append('eval sleep type/range')
     env=ev.get('env',{})
     if env.get('tf32') is not False:errors.append('TF32')
     if gpu is not None and env.get('gpu')!=gpu:errors.append('eval GPU')
@@ -125,7 +128,7 @@ def rates(rows):
     return {out:fraction(sum(r['graded']==out for r in rows),len(rows)) for out in ('correct','unknown','empty','substantive')}
 
 
-def reliance(rows,st,common=None):
+def reliance(rows,st,common=None,categories=('POS','POS-Q')):
     """Conditional paired rates; every unique eligible cell x sleep gets one weight.
     Duplicate POS/FIRST/RET prompts are not additional constructions.
     rows contains one seed's sleeps 2-5; caller adds _sleep.
@@ -135,6 +138,7 @@ def reliance(rows,st,common=None):
     candidates={}
     for r in rows:
         if r['condition']!='FAITHFUL' or not r['supported'] or r['n_entries']<2 or r['graded']!='correct':continue
+        if categories is not None and r['cat'] not in categories:continue
         key=(r['_sleep'],tuple(r['cell']),r['construction'],r['item'])
         q=by.get(r['base_probe_id']+'-DEL-Q');x=by.get(r['base_probe_id']+'-DEL-X')
         if q is None or x is None:continue
@@ -188,8 +192,7 @@ def criterion_checks(metric,per_seed,seeds,arm,phase,k5,forks):
     for g in ('A','H'):
         for k,t in [('K5a',.8),('K5b',.9)]:ck('K5',g+' '+k,k5[arm][g][k]['value'],'>=',t)
     if phase=='B' and arm in forks:
-        for construction in ('FORK-H','FORK-H-Q'):
-            ck('K6',construction,forks[arm][construction]['numerator'],'>=',3)
+        ck('K6','same seed passes both constructions',forks[arm]['joint']['numerator'],'>=',3)
     for g in ('POS-A','POS-H','RET','SEL-D','HOW','HNM','FRESH'):
         out='correct' if g in ('POS-A','POS-H','RET') else 'unknown'
         us=[val(arm,L,g,out) for L in range(2,6)];ps=[val('P-GATE',L,g,out) for L in range(2,6)]
@@ -287,13 +290,16 @@ def analyze(preps,logs,evaluations,anchors,baselines,phase='B',test=False,code=N
                         fr={str(s):(per_seed[str(s)][arm][str(L)][cohort][out] if arm=='P-GATE'
                                     else per_seed[str(s)][arm][str(L)]['FAITHFUL'][cohort][out]) for s in seeds}
                         metrics[arm][str(L)][cohort][out]=pool(fr)
-        k5={};k5per={};common={}
+        k5={};k5per={};common={};expanded={}
         for arm in arms:
             k5per[arm]={}
             for s in seeds:
                 rr=[r for L in range(2,6) for r in joined[s,arm,L,'observed']]
                 k5per[arm][str(s)],_=reliance(rr,preps[s][0]['stream'])
             k5[arm]={g:{k:pool({str(s):k5per[arm][str(s)][g][k] for s in seeds}) for k in ('K5a','K5b')} for g in ('A','H')}
+            ex={str(s):reliance([r for L in range(2,6) for r in joined[s,arm,L,'observed']],preps[s][0]['stream'],categories=None)[0]
+                for s in seeds}
+            expanded[arm]={g:{k:pool({str(s):ex[str(s)][g][k] for s in seeds}) for k in ('K5a','K5b')} for g in ('A','H')}
         if phase=='B':
             for s in seeds:
                 rr={a:[r for L in range(2,6) for r in joined[s,a,L,'observed']] for a in ('RU','RC')}
@@ -309,6 +315,9 @@ def analyze(preps,logs,evaluations,anchors,baselines,phase='B',test=False,code=N
                     o= rates(obs)['correct'];w=rates(wh)['unknown']
                     fs[str(s)]=dict(observed_correct=o,withheld_unknown=w,history_sensitive=ge(o['value'],.5) and ge(w['value'],.8))
                 forks[arm][cat]=dict(numerator=sum(x['history_sensitive'] for x in fs.values()),denominator=len(seeds),per_seed=fs)
+            joint={str(s):all(forks[arm][cat]['per_seed'][str(s)]['history_sensitive']
+                             for cat in ('FORK-H','FORK-H-Q')) for s in seeds}
+            forks[arm]['joint']=dict(numerator=sum(joint.values()),denominator=len(seeds),per_seed=joint)
         criteria={a:criterion_checks(metrics,per_seed,seeds,a,phase,k5,forks) for a in arms}
         # RP has no fork: its K6 is a reading that is not assessable, never a candidate failure/crash.
         candidate='RC' if phase=='B' else None
@@ -324,9 +333,9 @@ def analyze(preps,logs,evaluations,anchors,baselines,phase='B',test=False,code=N
         return dict(analyzer='Sol',version=VERSION,phase=phase,test_mode=test,verdict=verdict,
                     production_ready=False,criterion_conventions=CRITERION_CONVENTIONS,errors=errors,invalid_arms=sorted(invalid),
                     metrics=metrics,per_seed=per_seed,criteria=criteria,K5=k5,K5_per_seed=k5per,
-                    K5_common_RU_RC=common,fork=forks,
+                    K5_common_RU_RC=common,K5_all_supported_diagnostic=expanded,fork=forks,
                     limitations=['No tensor/RNG or model forward-pass execution during analysis.',
-                                 'Calibration and relaxed checkpoint-admission schemas are pending; draft is not a launch gate.'])
+                                 'Direct API requests do not validate external archives; production requires the directory loader.'])
     except (KeyError,ValueError,TypeError,IndexError,ZeroDivisionError) as exc:
         return dict(analyzer='Sol',version=VERSION,phase=phase,test_mode=test,verdict='PROV1_INVALID',
                     production_ready=False,criterion_conventions=CRITERION_CONVENTIONS,errors=errors+[f'incomplete/malformed inputs: {exc}'],
@@ -335,25 +344,44 @@ def analyze(preps,logs,evaluations,anchors,baselines,phase='B',test=False,code=N
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--request',required=True,help='JSON request with explicit prep, train, eval, anchor and baseline paths')
+    ap.add_argument('--request',help='JSON request with explicit prep, train, eval, anchor and baseline paths')
+    ap.add_argument('--phase',choices=('A','B'));ap.add_argument('--dir');ap.add_argument('--support1-dir')
+    ap.add_argument('--seeds',default='20,21,22,23');ap.add_argument('--test-mode',action='store_true')
+    ap.add_argument('--phase0-dir');ap.add_argument('--phase1-dir');ap.add_argument('--gpu')
     ap.add_argument('--out',required=True)
-    a=ap.parse_args();r=json.loads(Path(a.request).read_text())
+    a=ap.parse_args();binding_errors=[];bindings={}
+    if a.request:
+        if a.phase or a.dir or a.support1_dir:ap.error('use --request or the directory interface, not both')
+        r=json.loads(Path(a.request).read_text())
+    else:
+        if not (a.phase and a.dir and a.support1_dir):ap.error('--phase, --dir and --support1-dir are required')
+        from prov1_sol_io import directory_request
+        r,binding_errors,bindings=directory_request(a.dir,a.support1_dir,a.phase,
+            [int(s) for s in a.seeds.split(',')],a.test_mode,a.phase0_dir,a.phase1_dir,a.gpu)
     read=lambda p:json.loads(Path(p).read_text())
     seeds=[int(s) for s in r['seeds']]
-    preps={s:(read(r['preps'][str(s)]),sha(Path(r['preps'][str(s)]).read_bytes())) for s in seeds}
-    result=analyze(preps,{s:read(r['train'][str(s)]) for s in seeds},[read(p) for p in r['evals']],
-                   {s:read(r['anchors'][str(s)]) for s in seeds},
-                   {(s,L):read(r['baselines'][f'{s}/{L}']) for s in seeds for L in range(1,6)},
-                   phase=r['phase'],test=r.get('test_mode',False),code=r['code_hash'],manifest=r['model_manifest'],gpu=r.get('gpu'))
-    result['input_sha256']={p:sha(Path(p).read_bytes()) for p in [*r['evals'],*r['preps'].values(),*r['train'].values(),*r['anchors'].values(),*r['baselines'].values()]}
-    result['source_sha256']=source_fingerprint(('prov1_sol_spec.py','prov1_sol_analyze.py'))
-    if not result['test_mode'] and result['verdict']!='PROV1_INVALID':
+    try:
+        if binding_errors:raise ValueError('; '.join(binding_errors))
+        preps={s:(read(r['preps'][str(s)]),sha(Path(r['preps'][str(s)]).read_bytes())) for s in seeds}
+        result=analyze(preps,{s:read(r['train'][str(s)]) for s in seeds},[read(p) for p in r['evals']],
+                       {s:read(r['anchors'][str(s)]) for s in seeds},
+                       {(s,L):read(r['baselines'][f'{s}/{L}']) for s in seeds for L in range(1,6)},
+                       phase=r['phase'],test=r.get('test_mode',False),code=r['code_hash'],manifest=r['model_manifest'],gpu=r.get('gpu'))
+        result['input_sha256']={p:sha(Path(p).read_bytes()) for p in [*r['evals'],*r['preps'].values(),*r['train'].values(),*r['anchors'].values(),*r['baselines'].values()]}
+    except (OSError,ValueError,KeyError,TypeError,AttributeError) as exc:
+        result=dict(analyzer='Sol',version=VERSION,phase=r['phase'],test_mode=r.get('test_mode',False),
+                    verdict='PROV1_INVALID',production_ready=False,errors=[str(exc)])
+    result['external_bindings']=bindings
+    result['production_ready']=bool(not result['test_mode'] and not result['errors'] and result['verdict']!='PROV1_INVALID'
+                                    and not a.request and bindings.get('calibration',{}).get('pass_') is True)
+    result['source_sha256']=source_fingerprint(('prov1_sol_spec.py','prov1_sol_analyze.py','prov1_sol_io.py'))
+    if not result['test_mode'] and not result['production_ready'] and result['verdict']!='PROV1_INVALID':
         result['provisional_verdict']=result['verdict']
         result['verdict']='PROV1_ANALYZER_NOT_FROZEN'
     Path(a.out).write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({k:result[k] for k in ('verdict','production_ready','errors')}))
     # Deliberately nonzero for production: pending frozen contracts must not look launch-ready.
-    return 0 if result['test_mode'] and not result['errors'] else 2
+    return 0 if not result['errors'] and (result['test_mode'] or result['production_ready']) else 2
 
 
 if __name__=='__main__':raise SystemExit(main())
