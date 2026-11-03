@@ -211,3 +211,54 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
 - [H10] Twins for every criterion-feeding evaluation.
 - [H11] Phase-A inventory 44 bound to SUPPORT-1 train-log hashes (file and full-state); cost from the full inventory.
 - [H12] Phase-A pause is a review point, not a conclusion about usability.
+
+## 11. Implementation spec (for Sol's implementation review)
+- **Code.** `scripts/prov1.py` (stages prep / train / evalck / codehash). It imports SUPPORT-1's frozen
+  `scripts/support1.py` and never modifies it (SUPPORT-1 CODE_HASH stays 38b8e705…, asserted by a test).
+  PROV-1 CODE_FILES = `scripts/prov1.py` + SUPPORT-1's CODE_FILES; CODE_HASH uses SUPPORT-1's scheme over that set.
+  Tests: `tests/test_prov1.py` (11 prep invariants + a CPU end-to-end on the tiny model).
+- **Prep (phase 0, CPU).** Per seed:
+  1. SUPPORT-1's pieces, called unchanged: `make_stream`, `fork_record`, `strata`, `split`, `tpart`, and
+     `build_schedules` with SUPPORT-1's own background key, which yields SUPPORT-1's positives, replay draws, base
+     blocks B_L and its schedules (used only for the delivered-SEL set and the probe inventory).
+  2. The probe inventory is SUPPORT-1's `build_probes` output, unchanged. Prep stores its canonical hash
+     (`support1_probes_sha256`). Verified for seeds 20–24 with the real Qwen3-8B tokenizer: equal to SUPPORT-1's
+     committed phase-0 preps, and every ABSENT row equals SUPPORT-1's item and gold.
+  3. PROV-1 schedules (§4): every training item is a spec (kind, cell, wording, label, record mode) rendered with the
+     record of the history being lived, so the withheld branch re-renders every record from its own history.
+     - new = SUPPORT-1's new positives (E = 4); replay = SUPPORT-1's exact replay draw (background at sleep 1, token-
+       and loss-matched to the new items, as SUPPORT-1);
+     - ordinary negatives = SUPPORT-1's B_L (A-part + T-part) ×3;
+     - counterfactuals (RC) = 2n items from a cycler over A cells with any fact, minus REV and update cells, both
+       wordings, canonical order, key `PROV1-cfcyc-{seed}`, pointer persisting across sleeps, eligible when supported
+       at L; record with the queried attribute removed, label UNKNOWN;
+     - RU's reserve = background matched (input length, loss tokens) to RC's counterfactuals; RP's third slot =
+       background matched to RC's whole third slot. So items, input tokens and loss tokens are equal across arms at
+       every sleep (prep STOPs otherwise);
+     - order: one permutation per sleep, key `PROV1-perm-{seed}-{L}`, shared by all arms.
+  4. Withheld sleep-4 branch (RU, RC): the 4 H-transition new positives are replaced by SUPPORT-1's token- and
+     loss-matched distractor positives at the same positions, and **every** record is re-rendered from the withheld
+     history. Validated: same item count and positions, equal loss tokens, input tokens within 1% of the observed
+     sleep 4 (measured about 0.7%), and RU and RC equal (prep STOPs otherwise).
+  5. Probe expansion per base probe (history, L): FAITHFUL, ABSENT, FULL always; DEL-Q and DEL-X when the probed
+     attribute is supported (DEL-X needs ≥ 1 other entry; target by `random.Random("PROV1-delx-{seed}-{history}-{L}-{e}-{a}").choice`
+     over the other entries in ATTRS9 order, so the same cell gets the same deletion in every construction and arm);
+     ADD when it is not. Each row carries `gold_truth` (lived-history oracle), `gold_compliance` (UNKNOWN when the
+     probed attribute is absent from the shown record; None under ADD), `supported`, `n_entries`, `delx_attr`.
+  6. STOPs: per-arm budget mismatch; fork budget outside tolerance; any training or probe sequence over 256 tokens;
+     any value word of the entity inside a support-only record (FAITHFUL, DEL-Q, DEL-X, ADD; FULL is exempt by
+     design).
+  - Measured (real tokenizer): 320 items per sleep (416 at sleep 4), longest training sequence 128 tokens; per seed
+    about 1,430 base probe rows over 5 sleeps, plus about 630 DEL-Q, 320–370 DEL-X and 800 ADD rows.
+- **Train.** SUPPORT-1's training loop, unchanged in substance (same Cortex, optimiser, determinism setup, capture,
+  restore and full-state hash), on PROV-1 schedules; arms RP, RU, RC; the fork branch for RU and RC from the exact
+  sleep-3 state. Log `prov1_train_seed{S}.json`.
+- **Evalck.** One checkpoint (or base) × history × sleep × condition set; merged or unmerged; competence monitors
+  optional (`--monitors`, on in phase B, off in phase A); `--source support1` marks phase-A evaluations of SUPPORT-1
+  checkpoints, whose `ckpt_sha256` the analyzer binds to SUPPORT-1's train logs. Each row stores the answer,
+  `outcome_truth` and `outcome_compliance` (SUPPORT-1's grading).
+- **Phase-A regeneration** uses SUPPORT-1's own frozen `train` invocation exactly as in its phase 2 (all five arms,
+  `--fork`, its validator and calibration bindings), so the provenance and hashes are comparable with the committed
+  train logs (§4, [H11]).
+- **Still to write (next commits):** the analyzer (K1–K7, readings, P-GATE, weighting per §9) and the phase-0/A/B
+  launchers. Sol's independent analyzer and validator, as for SUPPORT-1.
