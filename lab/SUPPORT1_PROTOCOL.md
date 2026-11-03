@@ -553,3 +553,43 @@
     pass.
   - **Sol: GO for phase 2.** Launcher a4e1666 (sha256 c0f1a009794b845536f3c44331cd9ae384cc4591458fe6f36476810c3314390a),
     PIN 6fb6c47, fork + QDIAG 64, on an NVIDIA RTX 6000 Ada Generation.
+- **Phase 2: complete, job exit 0** (pod r6uq7n94aocf8m, NVIDIA RTX 6000 Ada Generation, $0.99/h; job 23:46Z → about
+  07:08Z). Bundle `results/support1/phase2/support1_phase2.tar.gz`, sha256
+  fa971aa2da915156013c1a0a95b17d2ea7ae38dfde381709e2df7da2204cc71c, verified on David's PC and again here.
+  - **Integrity:** 108/108 merged/unmerged twin pairs pass (0 answer or outcome mismatches; |Δppl| ≤ 2.3e-7); one base
+    denominator (7a6ea727…) for every arm and seed; all 4 preps byte-identical to phase 0; 236 eval files loaded;
+    fork admitted, 16/16 withheld files; no errors, no warnings, no invalid arms. CODE_HASH 38b8e705…
+  - **Verdict (both analyzers, independently): `SUPPORT1_NO_ADVANCE`.** D1 ✗, D2 ✗, D3 ✗, D4 ✓; mechanism ✗.
+    - **D1 ✗ (slower acquisition):** U4 vs P POS paraphrase correct by sleep: 0.29/0.81, 0.69/0.98, 0.76/0.95,
+      0.847/0.957 (needs ≥ P − 0.10 = 0.857), 0.904/0.930. Passes only at sleep 5. FIRST passes at sleeps 2–5.
+    - **D2 ✗ (HNM confabulation grows with sleep):** U4 HNM confabulation 0.145, 0.113, 0.369, 0.512, 0.781 (≤ 0.10
+      required). FRESH passes at sleeps 1–4 and fails at sleep 5 (UNKNOWN 0.875 < 0.90).
+    - **D3 ✗:** TPRE-H at sleep 3 = 0.75 (< 0.80); TPOST-A at sleep 4 = 0.742 vs P 1.00 (needs ≥ 0.85). All other
+      D3 cells pass.
+    - **D4 ✓:** RET at sleep 5 0.959 vs P 0.969; competence eval/modern ≤ 0.946 per seed, means ≤ 0.923.
+    - **Mechanism ✗:** sleep-5 HNM confabulation G4 − U4 = 0.094 (needs ≥ 0.30); U4 lower in 3/4 seeds (seed 23 tie,
+      0.90/0.90). Per seed: 0.15, 0.15, 0.075, 0.00.
+  - **Readings (descriptive; every arm's D1/D4 guard failed on D1, so none earns a learning interpretation):**
+    - U4: SEL-Q UNKNOWN 0.979 (ACQ), SEL-D 0.928, HOW 0.829 (confab 0.171), HNM 0.219. GR_within 0.893,
+      GR_across 0.236. WITHIN-TRANSFER yes, ACROSS-TRANSFER no, CONSTRUCTION GAP no (paired Q − S: SEL 0.000,
+      HOW 0.021), MEMORIZATION PATTERN no.
+    - U1: SEL-Q 0.875, SEL-D 0.890, HOW 0.778, HNM 0.319; GR_within 0.874, GR_across 0.358.
+    - HOW grounding contrast U4 − G4 = 0.576 (per seed 0.63, 0.52, 0.43, 0.72): demonstrated, under a failed guard.
+    - Dose U4 − U1: SEL-Q +0.104 (not dose-responsive, < 0.20), HNM −0.100.
+    - Reversal: acquired in 4/4 seeds for both U arms; U4 success (REV-Q 0.94 / 1.00 at sleeps 4/5), U1 failure
+      (0.81 at sleep 5 vs P 1.00).
+    - Fork: history-sensitive in 1/4 seed pairs for U4 (FORK-H and FORK-H-Q), 0/4 for G4.
+  - **Analyzer cross-check (Claude):** every primary check (14 D1, 20 D2, 12 D3, 41 D4 items), the mechanism per
+    seed, 44 reading values for U1/U4, the HOW grounding contrast, dose, reversal and fork agree exactly between the
+    two analyzers. Scope difference only: Sol also reports the HOW-Q paired construction contrast (U1 −0.125,
+    U4 +0.021), Claude only SEL-Q; neither reaches the 0.30 gap.
+  - **Exploratory, not a result:** the HNM contrast G4 − U4 was 0.306 with U4 lower in 4/4 seeds at sleep 4 and then
+    fell to 0.094 at sleep 5, as U4's HNM confabulation kept rising. The gate is sleep 5 by pre-registration.
+  - **Against the prediction (§11):** verdict NO_ADVANCE and the HNM gate failure were predicted. HOW transfer was
+    stronger than predicted (0.83, GR_within 0.89 vs 0.3–0.5 predicted). HNM did not stay at ABST-0 levels; it
+    degraded across sleeps.
+  - **Launcher incident:** after the bundle was downloaded and verified, the checkpoint preserve step filled David's
+    C: drive (about 38 GB needed transiently for archive + extraction; 14.7 GB free), WSL's disk went read-only and
+    the launcher died before cleanup, so the pod stayed RUNNING. No evidence was lost. Checkpoints are being streamed
+    directly to an external drive (E:) and verified against the pod's sha256 list before the pod is removed. Claude
+    under-stated the transient disk need (19 GB) in the phase-2 instructions.

@@ -1,0 +1,2868 @@
+{
+ "analyzer": "Sol",
+ "analyzer_code_hash": "0c86c4762de7fd1aa649048d8aed22935637d319a4738f9271068de2d2c3c775",
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "verdict": "SUPPORT1_NO_ADVANCE",
+ "test_mode": false,
+ "seeds": [
+  20,
+  21,
+  22,
+  23
+ ],
+ "qdiag": 64,
+ "fork_status": "admitted",
+ "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+ "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+ "errors": [],
+ "invalid_arms": [],
+ "criteria": {
+  "assessable": true,
+  "D1": false,
+  "D2": false,
+  "D3": false,
+  "D4": true,
+  "functional": false,
+  "checks": {
+   "D1": [
+    {
+     "requirement": "1 POS minimum",
+     "actual": 0.29254807692307694,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": false
+    },
+    {
+     "requirement": "1 POS vs P",
+     "actual": 0.29254807692307694,
+     "operator": ">=",
+     "threshold": 0.7107736013986015,
+     "pass_": false
+    },
+    {
+     "requirement": "2 POS minimum",
+     "actual": 0.6904166666666667,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "2 POS vs P",
+     "actual": 0.6904166666666667,
+     "operator": ">=",
+     "threshold": 0.8820512820512821,
+     "pass_": false
+    },
+    {
+     "requirement": "2 FIRST",
+     "actual": 0.6333333333333333,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "3 POS minimum",
+     "actual": 0.7605980040190566,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "3 POS vs P",
+     "actual": 0.7605980040190566,
+     "operator": ">=",
+     "threshold": 0.8509392851498115,
+     "pass_": false
+    },
+    {
+     "requirement": "3 FIRST",
+     "actual": 0.8333333333333334,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "4 POS minimum",
+     "actual": 0.8471477792012736,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "4 POS vs P",
+     "actual": 0.8471477792012736,
+     "operator": ">=",
+     "threshold": 0.8565597737513182,
+     "pass_": false
+    },
+    {
+     "requirement": "4 FIRST",
+     "actual": 0.7833333333333333,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "5 POS minimum",
+     "actual": 0.9036488159727596,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "5 POS vs P",
+     "actual": 0.9036488159727596,
+     "operator": ">=",
+     "threshold": 0.8302208355025257,
+     "pass_": true
+    },
+    {
+     "requirement": "5 FIRST",
+     "actual": 0.9,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    }
+   ],
+   "D2": [
+    {
+     "requirement": "1 HNM confabulation",
+     "actual": 0.14458333333333334,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "1 HNM UNKNOWN",
+     "actual": 0.8554166666666667,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    },
+    {
+     "requirement": "1 FRESH confabulation",
+     "actual": 0.0875,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": true
+    },
+    {
+     "requirement": "1 FRESH UNKNOWN",
+     "actual": 0.9125,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": true
+    },
+    {
+     "requirement": "2 HNM confabulation",
+     "actual": 0.1125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "2 HNM UNKNOWN",
+     "actual": 0.8875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    },
+    {
+     "requirement": "2 FRESH confabulation",
+     "actual": 0.0125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": true
+    },
+    {
+     "requirement": "2 FRESH UNKNOWN",
+     "actual": 0.9875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": true
+    },
+    {
+     "requirement": "3 HNM confabulation",
+     "actual": 0.36875,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "3 HNM UNKNOWN",
+     "actual": 0.63125,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    },
+    {
+     "requirement": "3 FRESH confabulation",
+     "actual": 0.037500000000000006,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": true
+    },
+    {
+     "requirement": "3 FRESH UNKNOWN",
+     "actual": 0.9625,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": true
+    },
+    {
+     "requirement": "4 HNM confabulation",
+     "actual": 0.5125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "4 HNM UNKNOWN",
+     "actual": 0.4875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    },
+    {
+     "requirement": "4 FRESH confabulation",
+     "actual": 0.0125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": true
+    },
+    {
+     "requirement": "4 FRESH UNKNOWN",
+     "actual": 0.9875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": true
+    },
+    {
+     "requirement": "5 HNM confabulation",
+     "actual": 0.78125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "5 HNM UNKNOWN",
+     "actual": 0.21875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    },
+    {
+     "requirement": "5 FRESH confabulation",
+     "actual": 0.125,
+     "operator": "<=",
+     "threshold": 0.1,
+     "pass_": false
+    },
+    {
+     "requirement": "5 FRESH UNKNOWN",
+     "actual": 0.875,
+     "operator": ">=",
+     "threshold": 0.9,
+     "pass_": false
+    }
+   ],
+   "D3": [
+    {
+     "requirement": "2 TPRE-A",
+     "actual": 1.0,
+     "operator": ">=",
+     "threshold": 0.8,
+     "pass_": true
+    },
+    {
+     "requirement": "2 TPRE-H",
+     "actual": 1.0,
+     "operator": ">=",
+     "threshold": 0.8,
+     "pass_": true
+    },
+    {
+     "requirement": "3 TPRE-A",
+     "actual": 1.0,
+     "operator": ">=",
+     "threshold": 0.8,
+     "pass_": true
+    },
+    {
+     "requirement": "3 TPRE-H",
+     "actual": 0.75,
+     "operator": ">=",
+     "threshold": 0.8,
+     "pass_": false
+    },
+    {
+     "requirement": "4 TPOST-A minimum",
+     "actual": 0.7416666666666667,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "4 TPOST-A vs P",
+     "actual": 0.7416666666666667,
+     "operator": ">=",
+     "threshold": 0.85,
+     "pass_": false
+    },
+    {
+     "requirement": "4 TPOST-H minimum",
+     "actual": 0.875,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "4 TPOST-H vs P",
+     "actual": 0.875,
+     "operator": ">=",
+     "threshold": 0.85,
+     "pass_": true
+    },
+    {
+     "requirement": "5 TPOST-A minimum",
+     "actual": 0.9166666666666667,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "5 TPOST-A vs P",
+     "actual": 0.9166666666666667,
+     "operator": ">=",
+     "threshold": 0.7166666666666667,
+     "pass_": true
+    },
+    {
+     "requirement": "5 TPOST-H minimum",
+     "actual": 0.9583333333333334,
+     "operator": ">=",
+     "threshold": 0.5,
+     "pass_": true
+    },
+    {
+     "requirement": "5 TPOST-H vs P",
+     "actual": 0.9583333333333334,
+     "operator": ">=",
+     "threshold": 0.85,
+     "pass_": true
+    }
+   ],
+   "D4": [
+    {
+     "requirement": "1 eval seed mean",
+     "actual": 0.8602110562055648,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/1 eval",
+     "actual": 0.8707253310343755,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/1 eval",
+     "actual": 0.870224015018846,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/1 eval",
+     "actual": 0.8402712300231552,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/1 eval",
+     "actual": 0.8596236487458826,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "1 modern seed mean",
+     "actual": 0.8784429553043305,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/1 modern",
+     "actual": 0.8919060508285155,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/1 modern",
+     "actual": 0.8865591430050841,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/1 modern",
+     "actual": 0.8581200603616742,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/1 modern",
+     "actual": 0.8771865670220479,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "2 eval seed mean",
+     "actual": 0.8699042429944892,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/2 eval",
+     "actual": 0.897396522497313,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/2 eval",
+     "actual": 0.8685355637496741,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/2 eval",
+     "actual": 0.8323627062469288,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/2 eval",
+     "actual": 0.8813221794840407,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "2 modern seed mean",
+     "actual": 0.8964483853465073,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/2 modern",
+     "actual": 0.9267596495005281,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/2 modern",
+     "actual": 0.8972288958688109,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/2 modern",
+     "actual": 0.8671053177584475,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/2 modern",
+     "actual": 0.8946996782582428,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "3 eval seed mean",
+     "actual": 0.8811929641573668,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/3 eval",
+     "actual": 0.8957218160059982,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/3 eval",
+     "actual": 0.8813392072659495,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/3 eval",
+     "actual": 0.8570705534679056,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/3 eval",
+     "actual": 0.8906402798896139,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "3 modern seed mean",
+     "actual": 0.9082274310260056,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/3 modern",
+     "actual": 0.9325771200032541,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/3 modern",
+     "actual": 0.9229823348399405,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/3 modern",
+     "actual": 0.8805955551272223,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/3 modern",
+     "actual": 0.8967547141336054,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "4 eval seed mean",
+     "actual": 0.8831630463457483,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/4 eval",
+     "actual": 0.8826362256657818,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/4 eval",
+     "actual": 0.8846109390574878,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/4 eval",
+     "actual": 0.8635766437954963,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/4 eval",
+     "actual": 0.901828376864227,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "4 modern seed mean",
+     "actual": 0.9101339335863504,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/4 modern",
+     "actual": 0.9299008879896402,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/4 modern",
+     "actual": 0.9232573337708534,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/4 modern",
+     "actual": 0.8807399746264633,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/4 modern",
+     "actual": 0.9066375379584448,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "5 eval seed mean",
+     "actual": 0.8983811288485388,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/5 eval",
+     "actual": 0.9021013178980801,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/5 eval",
+     "actual": 0.8814312317477266,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/5 eval",
+     "actual": 0.8972656979172277,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/5 eval",
+     "actual": 0.9127262678311211,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "5 modern seed mean",
+     "actual": 0.9226232652478009,
+     "operator": "<=",
+     "threshold": 1.02,
+     "pass_": true
+    },
+    {
+     "requirement": "20/5 modern",
+     "actual": 0.9460248186283831,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "21/5 modern",
+     "actual": 0.910679387007604,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "22/5 modern",
+     "actual": 0.9100264677937013,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "23/5 modern",
+     "actual": 0.9237623875615154,
+     "operator": "<=",
+     "threshold": 1.05,
+     "pass_": true
+    },
+    {
+     "requirement": "5 RET vs P",
+     "actual": 0.959375,
+     "operator": ">=",
+     "threshold": 0.86875,
+     "pass_": true
+    }
+   ]
+  }
+ },
+ "mechanism": {
+  "assessable": true,
+  "pass_": false,
+  "contrasts": {
+   "1": {
+    "G4_minus_U4": -0.05199074074074074,
+    "per_seed": {
+     "20": 0.0,
+     "21": -0.125,
+     "22": 0.037037037037037035,
+     "23": -0.12
+    },
+    "seeds_U4_lower": 1
+   },
+   "2": {
+    "G4_minus_U4": 0.375,
+    "per_seed": {
+     "20": 0.0,
+     "21": 0.425,
+     "22": 0.8,
+     "23": 0.27499999999999997
+    },
+    "seeds_U4_lower": 3
+   },
+   "3": {
+    "G4_minus_U4": 0.24374999999999997,
+    "per_seed": {
+     "20": 0.0,
+     "21": 0.7,
+     "22": 0.3,
+     "23": -0.025000000000000022
+    },
+    "seeds_U4_lower": 2
+   },
+   "4": {
+    "G4_minus_U4": 0.30625,
+    "per_seed": {
+     "20": 0.275,
+     "21": 0.6,
+     "22": 0.10000000000000009,
+     "23": 0.25
+    },
+    "seeds_U4_lower": 4
+   },
+   "5": {
+    "G4_minus_U4": 0.09375,
+    "per_seed": {
+     "20": 0.15000000000000002,
+     "21": 0.15000000000000002,
+     "22": 0.07499999999999996,
+     "23": 0.0
+    },
+    "seeds_U4_lower": 3
+   }
+  },
+  "required_reduction": 0.3,
+  "required_seeds": 3
+ },
+ "base_denominator_integrity": {
+  "N": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  },
+  "P": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  },
+  "U1": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  },
+  "G1": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  },
+  "U4": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  },
+  "G4": {
+   "pass_": true,
+   "recorded_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ],
+   "expected_hashes": [
+    "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730"
+   ]
+  }
+ },
+ "fork_summary": {
+  "U4": {
+   "FORK-H": {
+    "unit": "seed branch pair",
+    "history_sensitive": {
+     "numerator": 1,
+     "denominator": 4,
+     "value": 0.25
+    },
+    "unassessable_seed_pairs": 0
+   },
+   "FORK-H-Q": {
+    "unit": "seed branch pair",
+    "history_sensitive": {
+     "numerator": 1,
+     "denominator": 4,
+     "value": 0.25
+    },
+    "unassessable_seed_pairs": 0
+   }
+  },
+  "G4": {
+   "FORK-H": {
+    "unit": "seed branch pair",
+    "history_sensitive": {
+     "numerator": 0,
+     "denominator": 4,
+     "value": 0.0
+    },
+    "unassessable_seed_pairs": 0
+   },
+   "FORK-H-Q": {
+    "unit": "seed branch pair",
+    "history_sensitive": {
+     "numerator": 0,
+     "denominator": 4,
+     "value": 0.0
+    },
+    "unassessable_seed_pairs": 0
+   }
+  }
+ },
+ "limitations": [
+  "Checkpoint/full-state and base-loss hashes are cross-checked as recorded identities; tensor/RNG equality and forward passes require the producer restoration/calibration artifacts.",
+  "Test-mode outputs are plumbing only and cannot establish experimental findings."
+ ],
+ "arm_guards": {
+  "P": {
+   "D1": true,
+   "D2": false,
+   "D3": false,
+   "D4": true
+  },
+  "U1": {
+   "D1": false,
+   "D2": false,
+   "D3": false,
+   "D4": false
+  },
+  "G1": {
+   "D1": false,
+   "D2": false,
+   "D3": false,
+   "D4": true
+  },
+  "U4": {
+   "D1": false,
+   "D2": false,
+   "D3": false,
+   "D4": true
+  },
+  "G4": {
+   "D1": false,
+   "D2": false,
+   "D3": false,
+   "D4": true
+  }
+ },
+ "diagnostics_pooled": {
+  "U1": {
+   "gains": {
+    "SEL-D": 0.8901660280970626,
+    "HOW": 0.7777455716586151,
+    "HNM": 0.31875
+   },
+   "GR_within": 0.8737084398976982,
+   "GR_across": 0.3580792682926829,
+   "GR_defined": true,
+   "seeds_with_SEL_gain_at_least_005": 4,
+   "readings": {
+    "ACQ": true,
+    "NOT_ACQ": false,
+    "CONSTRUCTION_GAP": false,
+    "WITHIN_TRANSFER": true,
+    "ACROSS_TRANSFER": false,
+    "MEMORIZATION_PATTERN": false
+   },
+   "paired_construction": {
+    "SEL-Q": {
+     "question": {
+      "value": 0.8613636363636363,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 10.0,
+        "denominator": 11,
+        "value": 0.9090909090909091
+       },
+       "21": {
+        "numerator": 10.0,
+        "denominator": 11,
+        "value": 0.9090909090909091
+       },
+       "22": {
+        "numerator": 8.0,
+        "denominator": 11,
+        "value": 0.7272727272727273
+       },
+       "23": {
+        "numerator": 9.0,
+        "denominator": 10,
+        "value": 0.9
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 37.0,
+       "denominator": 43,
+       "value": 0.8604651162790697
+      }
+     },
+     "statement": {
+      "value": 0.8590909090909091,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 11.0,
+        "denominator": 11,
+        "value": 1.0
+       },
+       "21": {
+        "numerator": 10.0,
+        "denominator": 11,
+        "value": 0.9090909090909091
+       },
+       "22": {
+        "numerator": 8.0,
+        "denominator": 11,
+        "value": 0.7272727272727273
+       },
+       "23": {
+        "numerator": 8.0,
+        "denominator": 10,
+        "value": 0.8
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 37.0,
+       "denominator": 43,
+       "value": 0.8604651162790697
+      }
+     },
+     "question_minus_statement": 0.002272727272727204
+    },
+    "HOW-Q": {
+     "question": {
+      "value": 0.7083333333333334,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 8.0,
+        "denominator": 12,
+        "value": 0.6666666666666666
+       },
+       "21": {
+        "numerator": 9.0,
+        "denominator": 12,
+        "value": 0.75
+       },
+       "22": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       },
+       "23": {
+        "numerator": 7.0,
+        "denominator": 12,
+        "value": 0.5833333333333334
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 34.0,
+       "denominator": 48,
+       "value": 0.7083333333333334
+      }
+     },
+     "statement": {
+      "value": 0.8333333333333334,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 11.0,
+        "denominator": 12,
+        "value": 0.9166666666666666
+       },
+       "21": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       },
+       "22": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       },
+       "23": {
+        "numerator": 9.0,
+        "denominator": 12,
+        "value": 0.75
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 40.0,
+       "denominator": 48,
+       "value": 0.8333333333333334
+      }
+     },
+     "question_minus_statement": -0.125
+    }
+   },
+   "D1_guard": false,
+   "D4_guard": false,
+   "assessable": true,
+   "interpretation_status": "guard failed",
+   "fractions": {
+    "SEL-Q": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 48,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.875,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 11,
+         "denominator": 12,
+         "value": 0.9166666666666666
+        },
+        "21": {
+         "numerator": 11,
+         "denominator": 12,
+         "value": 0.9166666666666666
+        },
+        "22": {
+         "numerator": 9,
+         "denominator": 12,
+         "value": 0.75
+        },
+        "23": {
+         "numerator": 11,
+         "denominator": 12,
+         "value": 0.9166666666666666
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 42,
+        "denominator": 48,
+        "value": 0.875
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 48,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.125,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 1,
+         "denominator": 12,
+         "value": 0.08333333333333333
+        },
+        "21": {
+         "numerator": 1,
+         "denominator": 12,
+         "value": 0.08333333333333333
+        },
+        "22": {
+         "numerator": 3,
+         "denominator": 12,
+         "value": 0.25
+        },
+        "23": {
+         "numerator": 1,
+         "denominator": 12,
+         "value": 0.08333333333333333
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 6,
+        "denominator": 48,
+        "value": 0.125
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.125,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 1,
+        "denominator": 12,
+        "value": 0.08333333333333333
+       },
+       "21": {
+        "numerator": 1,
+        "denominator": 12,
+        "value": 0.08333333333333333
+       },
+       "22": {
+        "numerator": 3,
+        "denominator": 12,
+        "value": 0.25
+       },
+       "23": {
+        "numerator": 1,
+        "denominator": 12,
+        "value": 0.08333333333333333
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 6,
+       "denominator": 48,
+       "value": 0.125
+      }
+     },
+     "selective_accuracy": {
+      "value": 0.0,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 3,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 6,
+       "value": 0.0
+      }
+     }
+    },
+    "SEL-D": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 29,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 108,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.8901660280970626,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 25,
+         "denominator": 25,
+         "value": 1.0
+        },
+        "21": {
+         "numerator": 27,
+         "denominator": 29,
+         "value": 0.9310344827586207
+        },
+        "22": {
+         "numerator": 20,
+         "denominator": 27,
+         "value": 0.7407407407407407
+        },
+        "23": {
+         "numerator": 24,
+         "denominator": 27,
+         "value": 0.8888888888888888
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 96,
+        "denominator": 108,
+        "value": 0.8888888888888888
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 29,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 108,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.10983397190293742,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 2,
+         "denominator": 29,
+         "value": 0.06896551724137931
+        },
+        "22": {
+         "numerator": 7,
+         "denominator": 27,
+         "value": 0.25925925925925924
+        },
+        "23": {
+         "numerator": 3,
+         "denominator": 27,
+         "value": 0.1111111111111111
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 12,
+        "denominator": 108,
+        "value": 0.1111111111111111
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.10983397190293742,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 25,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 2,
+        "denominator": 29,
+        "value": 0.06896551724137931
+       },
+       "22": {
+        "numerator": 7,
+        "denominator": 27,
+        "value": 0.25925925925925924
+       },
+       "23": {
+        "numerator": 3,
+        "denominator": 27,
+        "value": 0.1111111111111111
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 12,
+       "denominator": 108,
+       "value": 0.1111111111111111
+      }
+     },
+     "selective_accuracy": {
+      "value": null,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 7,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 3,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 12,
+       "value": 0.0
+      }
+     }
+    },
+    "HOW": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 23,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 100,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.7777455716586151,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 23,
+         "denominator": 27,
+         "value": 0.8518518518518519
+        },
+        "21": {
+         "numerator": 22,
+         "denominator": 25,
+         "value": 0.88
+        },
+        "22": {
+         "numerator": 17,
+         "denominator": 23,
+         "value": 0.7391304347826086
+        },
+        "23": {
+         "numerator": 16,
+         "denominator": 25,
+         "value": 0.64
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 78,
+        "denominator": 100,
+        "value": 0.78
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 23,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 100,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.22225442834138487,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 4,
+         "denominator": 27,
+         "value": 0.14814814814814814
+        },
+        "21": {
+         "numerator": 3,
+         "denominator": 25,
+         "value": 0.12
+        },
+        "22": {
+         "numerator": 6,
+         "denominator": 23,
+         "value": 0.2608695652173913
+        },
+        "23": {
+         "numerator": 9,
+         "denominator": 25,
+         "value": 0.36
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 22,
+        "denominator": 100,
+        "value": 0.22
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.22225442834138487,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 4,
+        "denominator": 27,
+        "value": 0.14814814814814814
+       },
+       "21": {
+        "numerator": 3,
+        "denominator": 25,
+        "value": 0.12
+       },
+       "22": {
+        "numerator": 6,
+        "denominator": 23,
+        "value": 0.2608695652173913
+       },
+       "23": {
+        "numerator": 9,
+        "denominator": 25,
+        "value": 0.36
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 22,
+       "denominator": 100,
+       "value": 0.22
+      }
+     },
+     "selective_accuracy": {
+      "value": 0.0,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 4,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 3,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 6,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 9,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 22,
+       "value": 0.0
+      }
+     }
+    },
+    "HNM": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 160,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.31875,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 10,
+         "denominator": 40,
+         "value": 0.25
+        },
+        "21": {
+         "numerator": 21,
+         "denominator": 40,
+         "value": 0.525
+        },
+        "22": {
+         "numerator": 12,
+         "denominator": 40,
+         "value": 0.3
+        },
+        "23": {
+         "numerator": 8,
+         "denominator": 40,
+         "value": 0.2
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 51,
+        "denominator": 160,
+        "value": 0.31875
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 160,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.68125,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 30,
+         "denominator": 40,
+         "value": 0.75
+        },
+        "21": {
+         "numerator": 19,
+         "denominator": 40,
+         "value": 0.475
+        },
+        "22": {
+         "numerator": 28,
+         "denominator": 40,
+         "value": 0.7
+        },
+        "23": {
+         "numerator": 32,
+         "denominator": 40,
+         "value": 0.8
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 109,
+        "denominator": 160,
+        "value": 0.68125
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.68125,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 30,
+        "denominator": 40,
+        "value": 0.75
+       },
+       "21": {
+        "numerator": 19,
+        "denominator": 40,
+        "value": 0.475
+       },
+       "22": {
+        "numerator": 28,
+        "denominator": 40,
+        "value": 0.7
+       },
+       "23": {
+        "numerator": 32,
+        "denominator": 40,
+        "value": 0.8
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 109,
+       "denominator": 160,
+       "value": 0.68125
+      }
+     },
+     "selective_accuracy": {
+      "value": 0.0,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 19,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 28,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 32,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 109,
+       "value": 0.0
+      }
+     }
+    }
+   }
+  },
+  "U4": {
+   "gains": {
+    "SEL-D": 0.9284802043422733,
+    "HOW": 0.8294847020933978,
+    "HNM": 0.21875
+   },
+   "GR_within": 0.8933789845104958,
+   "GR_across": 0.23560006877579093,
+   "GR_defined": true,
+   "seeds_with_SEL_gain_at_least_005": 4,
+   "readings": {
+    "ACQ": true,
+    "NOT_ACQ": false,
+    "CONSTRUCTION_GAP": false,
+    "WITHIN_TRANSFER": true,
+    "ACROSS_TRANSFER": false,
+    "MEMORIZATION_PATTERN": false
+   },
+   "paired_construction": {
+    "SEL-Q": {
+     "question": {
+      "value": 0.9772727272727273,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 11.0,
+        "denominator": 11,
+        "value": 1.0
+       },
+       "21": {
+        "numerator": 10.0,
+        "denominator": 11,
+        "value": 0.9090909090909091
+       },
+       "22": {
+        "numerator": 11.0,
+        "denominator": 11,
+        "value": 1.0
+       },
+       "23": {
+        "numerator": 10.0,
+        "denominator": 10,
+        "value": 1.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 42.0,
+       "denominator": 43,
+       "value": 0.9767441860465116
+      }
+     },
+     "statement": {
+      "value": 0.9772727272727273,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 11.0,
+        "denominator": 11,
+        "value": 1.0
+       },
+       "21": {
+        "numerator": 10.0,
+        "denominator": 11,
+        "value": 0.9090909090909091
+       },
+       "22": {
+        "numerator": 11.0,
+        "denominator": 11,
+        "value": 1.0
+       },
+       "23": {
+        "numerator": 10.0,
+        "denominator": 10,
+        "value": 1.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 42.0,
+       "denominator": 43,
+       "value": 0.9767441860465116
+      }
+     },
+     "question_minus_statement": 0.0
+    },
+    "HOW-Q": {
+     "question": {
+      "value": 0.8541666666666666,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 11.0,
+        "denominator": 12,
+        "value": 0.9166666666666666
+       },
+       "21": {
+        "numerator": 9.0,
+        "denominator": 12,
+        "value": 0.75
+       },
+       "22": {
+        "numerator": 11.0,
+        "denominator": 12,
+        "value": 0.9166666666666666
+       },
+       "23": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 41.0,
+       "denominator": 48,
+       "value": 0.8541666666666666
+      }
+     },
+     "statement": {
+      "value": 0.8333333333333334,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       },
+       "21": {
+        "numerator": 9.0,
+        "denominator": 12,
+        "value": 0.75
+       },
+       "22": {
+        "numerator": 10.0,
+        "denominator": 12,
+        "value": 0.8333333333333334
+       },
+       "23": {
+        "numerator": 11.0,
+        "denominator": 12,
+        "value": 0.9166666666666666
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 40.0,
+       "denominator": 48,
+       "value": 0.8333333333333334
+      }
+     },
+     "question_minus_statement": 0.02083333333333326
+    }
+   },
+   "D1_guard": false,
+   "D4_guard": true,
+   "assessable": true,
+   "interpretation_status": "guard failed",
+   "fractions": {
+    "SEL-Q": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 48,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.9791666666666666,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 12,
+         "denominator": 12,
+         "value": 1.0
+        },
+        "21": {
+         "numerator": 11,
+         "denominator": 12,
+         "value": 0.9166666666666666
+        },
+        "22": {
+         "numerator": 12,
+         "denominator": 12,
+         "value": 1.0
+        },
+        "23": {
+         "numerator": 12,
+         "denominator": 12,
+         "value": 1.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 47,
+        "denominator": 48,
+        "value": 0.9791666666666666
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 48,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.020833333333333332,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 1,
+         "denominator": 12,
+         "value": 0.08333333333333333
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 12,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 1,
+        "denominator": 48,
+        "value": 0.020833333333333332
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.020833333333333332,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 12,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 1,
+        "denominator": 12,
+        "value": 0.08333333333333333
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 12,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 12,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 1,
+       "denominator": 48,
+       "value": 0.020833333333333332
+      }
+     },
+     "selective_accuracy": {
+      "value": null,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 1,
+       "value": 0.0
+      }
+     }
+    },
+    "SEL-D": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 29,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 108,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.9284802043422733,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 25,
+         "denominator": 25,
+         "value": 1.0
+        },
+        "21": {
+         "numerator": 25,
+         "denominator": 29,
+         "value": 0.8620689655172413
+        },
+        "22": {
+         "numerator": 25,
+         "denominator": 27,
+         "value": 0.9259259259259259
+        },
+        "23": {
+         "numerator": 25,
+         "denominator": 27,
+         "value": 0.9259259259259259
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 100,
+        "denominator": 108,
+        "value": 0.9259259259259259
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 29,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 108,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.07151979565772669,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 4,
+         "denominator": 29,
+         "value": 0.13793103448275862
+        },
+        "22": {
+         "numerator": 2,
+         "denominator": 27,
+         "value": 0.07407407407407407
+        },
+        "23": {
+         "numerator": 2,
+         "denominator": 27,
+         "value": 0.07407407407407407
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 8,
+        "denominator": 108,
+        "value": 0.07407407407407407
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.07151979565772669,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 25,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 4,
+        "denominator": 29,
+        "value": 0.13793103448275862
+       },
+       "22": {
+        "numerator": 2,
+        "denominator": 27,
+        "value": 0.07407407407407407
+       },
+       "23": {
+        "numerator": 2,
+        "denominator": 27,
+        "value": 0.07407407407407407
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 8,
+       "denominator": 108,
+       "value": 0.07407407407407407
+      }
+     },
+     "selective_accuracy": {
+      "value": null,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 4,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 8,
+       "value": 0.0
+      }
+     }
+    },
+    "HOW": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 23,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 100,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.8294847020933978,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 23,
+         "denominator": 27,
+         "value": 0.8518518518518519
+        },
+        "21": {
+         "numerator": 19,
+         "denominator": 25,
+         "value": 0.76
+        },
+        "22": {
+         "numerator": 19,
+         "denominator": 23,
+         "value": 0.8260869565217391
+        },
+        "23": {
+         "numerator": 22,
+         "denominator": 25,
+         "value": 0.88
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 83,
+        "denominator": 100,
+        "value": 0.83
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 27,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 23,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 25,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 100,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.17051529790660225,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 4,
+         "denominator": 27,
+         "value": 0.14814814814814814
+        },
+        "21": {
+         "numerator": 6,
+         "denominator": 25,
+         "value": 0.24
+        },
+        "22": {
+         "numerator": 4,
+         "denominator": 23,
+         "value": 0.17391304347826086
+        },
+        "23": {
+         "numerator": 3,
+         "denominator": 25,
+         "value": 0.12
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 17,
+        "denominator": 100,
+        "value": 0.17
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.17051529790660225,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 4,
+        "denominator": 27,
+        "value": 0.14814814814814814
+       },
+       "21": {
+        "numerator": 6,
+        "denominator": 25,
+        "value": 0.24
+       },
+       "22": {
+        "numerator": 4,
+        "denominator": 23,
+        "value": 0.17391304347826086
+       },
+       "23": {
+        "numerator": 3,
+        "denominator": 25,
+        "value": 0.12
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 17,
+       "denominator": 100,
+       "value": 0.17
+      }
+     },
+     "selective_accuracy": {
+      "value": 0.0,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 4,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 6,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 4,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 3,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 17,
+       "value": 0.0
+      }
+     }
+    },
+    "HNM": {
+     "rates": {
+      "correct": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 160,
+        "value": 0.0
+       }
+      },
+      "unknown": {
+       "value": 0.21875,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 9,
+         "denominator": 40,
+         "value": 0.225
+        },
+        "21": {
+         "numerator": 7,
+         "denominator": 40,
+         "value": 0.175
+        },
+        "22": {
+         "numerator": 15,
+         "denominator": 40,
+         "value": 0.375
+        },
+        "23": {
+         "numerator": 4,
+         "denominator": 40,
+         "value": 0.1
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 35,
+        "denominator": 160,
+        "value": 0.21875
+       }
+      },
+      "empty": {
+       "value": 0.0,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "21": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "22": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        },
+        "23": {
+         "numerator": 0,
+         "denominator": 40,
+         "value": 0.0
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 0,
+        "denominator": 160,
+        "value": 0.0
+       }
+      },
+      "substantive": {
+       "value": 0.78125,
+       "aggregation": "equal_weight_seed_mean",
+       "seed_fractions": {
+        "20": {
+         "numerator": 31,
+         "denominator": 40,
+         "value": 0.775
+        },
+        "21": {
+         "numerator": 33,
+         "denominator": 40,
+         "value": 0.825
+        },
+        "22": {
+         "numerator": 25,
+         "denominator": 40,
+         "value": 0.625
+        },
+        "23": {
+         "numerator": 36,
+         "denominator": 40,
+         "value": 0.9
+        }
+       },
+       "descriptive_micro": {
+        "numerator": 125,
+        "denominator": 160,
+        "value": 0.78125
+       }
+      }
+     },
+     "answer_rate": {
+      "value": 0.78125,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 31,
+        "denominator": 40,
+        "value": 0.775
+       },
+       "21": {
+        "numerator": 33,
+        "denominator": 40,
+        "value": 0.825
+       },
+       "22": {
+        "numerator": 25,
+        "denominator": 40,
+        "value": 0.625
+       },
+       "23": {
+        "numerator": 36,
+        "denominator": 40,
+        "value": 0.9
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 125,
+       "denominator": 160,
+       "value": 0.78125
+      }
+     },
+     "selective_accuracy": {
+      "value": 0.0,
+      "aggregation": "equal_weight_seed_mean",
+      "seed_fractions": {
+       "20": {
+        "numerator": 0,
+        "denominator": 31,
+        "value": 0.0
+       },
+       "21": {
+        "numerator": 0,
+        "denominator": 33,
+        "value": 0.0
+       },
+       "22": {
+        "numerator": 0,
+        "denominator": 25,
+        "value": 0.0
+       },
+       "23": {
+        "numerator": 0,
+        "denominator": 36,
+        "value": 0.0
+       }
+      },
+      "descriptive_micro": {
+       "numerator": 0,
+       "denominator": 125,
+       "value": 0.0
+      }
+     }
+    }
+   }
+  }
+ },
+ "diagnostics_other": {
+  "HOW_grounding": {
+   "guards": {
+    "U4": {
+     "D1": false,
+     "D4": true,
+     "assessable": true
+    },
+    "G4": {
+     "D1": false,
+     "D4": true,
+     "assessable": true
+    }
+   },
+   "assessable": true,
+   "U4_minus_G4": 0.5761030595813205,
+   "per_seed": {
+    "20": 0.6296296296296297,
+    "21": 0.52,
+    "22": 0.43478260869565216,
+    "23": 0.72
+   },
+   "contrast_demonstrated": true
+  },
+  "dose": {
+   "U4_minus_U1": {
+    "assessable": true,
+    "differences": {
+     "SEL-Q": 0.10416666666666663,
+     "SEL-D": 0.03831417624521072,
+     "HOW": 0.05173913043478262,
+     "HNM": -0.09999999999999998
+    },
+    "per_seed": {
+     "20": {
+      "SEL-Q": 0.08333333333333337,
+      "SEL-D": 0.0,
+      "HOW": 0.0,
+      "HNM": -0.024999999999999994
+     },
+     "21": {
+      "SEL-Q": 0.0,
+      "SEL-D": -0.06896551724137934,
+      "HOW": -0.12,
+      "HNM": -0.35000000000000003
+     },
+     "22": {
+      "SEL-Q": 0.25,
+      "SEL-D": 0.18518518518518523,
+      "HOW": 0.08695652173913049,
+      "HNM": 0.07500000000000001
+     },
+     "23": {
+      "SEL-Q": 0.08333333333333337,
+      "SEL-D": 0.03703703703703709,
+      "HOW": 0.24,
+      "HNM": -0.1
+     }
+    },
+    "dose_responsive": false,
+    "D1_D4_guards": {
+     "U4": {
+      "D1": false,
+      "D4": true,
+      "assessable": true
+     },
+     "U1": {
+      "D1": false,
+      "D4": false,
+      "assessable": true
+     }
+    }
+   },
+   "G4_minus_G1": {
+    "assessable": true,
+    "differences": {
+     "SEL-Q": -0.16666666666666666,
+     "SEL-D": -0.1083269476372925,
+     "HOW": -0.09120772946859901,
+     "HNM": -0.13124999999999998
+    },
+    "per_seed": {
+     "20": {
+      "SEL-Q": -0.08333333333333331,
+      "SEL-D": -0.16000000000000003,
+      "HOW": -0.2222222222222222,
+      "HNM": -0.3
+     },
+     "21": {
+      "SEL-Q": -0.4166666666666667,
+      "SEL-D": -0.3103448275862069,
+      "HOW": -0.16000000000000003,
+      "HNM": -0.125
+     },
+     "22": {
+      "SEL-Q": 0.0,
+      "SEL-D": 0.14814814814814814,
+      "HOW": 0.2173913043478261,
+      "HNM": 0.19999999999999998
+     },
+     "23": {
+      "SEL-Q": -0.16666666666666666,
+      "SEL-D": -0.1111111111111111,
+      "HOW": -0.19999999999999998,
+      "HNM": -0.30000000000000004
+     }
+    },
+    "dose_responsive": false,
+    "D1_D4_guards": {
+     "G4": {
+      "D1": false,
+      "D4": true,
+      "assessable": true
+     },
+     "G1": {
+      "D1": false,
+      "D4": true,
+      "assessable": true
+     }
+    }
+   }
+  }
+ },
+ "note": "Extract of analysis_sol.json (50 MB, full copy inside support1_phase2.tar.gz); fields copied verbatim."
+}
