@@ -1,0 +1,54 @@
+{
+  "auditor": "Sol",
+  "validator": "PROV1_SOL_VALIDATOR_V1",
+  "verdict": "PASS",
+  "code_hash": "c082864035787abf1b106e73a68aad3e2278c656e03957ab6cf414567a33f35a",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "prep_sha256": [
+    "020e6e89768ef0e05926e9fbcbe7a1a89d71bf459c0303c19725988b666264ea",
+    "5c798b8c1fc7a921ffc63049c143cb41e16a6d474139a3df908749277a1377ea",
+    "faadb665eb92fcff75fcadd4f7206736a4ddcc4ededacbca73e78ec7b208f12a",
+    "a824451b779fafb4bf578b21b8be2db33d0f148ed21aff6dc568fe54d88983ad",
+    "ea95043f788fb39695e7d7a5a76323a375f95706f818d4e5774b6250d2d2e0d1"
+  ],
+  "results": [
+    {
+      "seed": 20,
+      "test_mode": false,
+      "checks": 25251,
+      "errors": [],
+      "verdict": "PASS"
+    },
+    {
+      "seed": 21,
+      "test_mode": false,
+      "checks": 25905,
+      "errors": [],
+      "verdict": "PASS"
+    },
+    {
+      "seed": 22,
+      "test_mode": false,
+      "checks": 25117,
+      "errors": [],
+      "verdict": "PASS"
+    },
+    {
+      "seed": 23,
+      "test_mode": false,
+      "checks": 25091,
+      "errors": [],
+      "verdict": "PASS"
+    },
+    {
+      "seed": 24,
+      "test_mode": false,
+      "checks": 24979,
+      "errors": [],
+      "verdict": "PASS"
+    }
+  ],
+  "checks": 126343,
+  "errors": [],
+  "source_sha256": "b4d22af0638b711400b560861d16455d75078158b39eba4bdfe8e6c028397ace"
+}
