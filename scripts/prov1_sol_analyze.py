@@ -3,8 +3,8 @@
 
 No producer/peer-analyzer imports. The pure analyze() API supports both phases.
 Production use is deliberately blocked until the pending calibration, checkpoint
-admission and criterion-construction contracts are frozen. This is not a launch
-gate yet. Draft choices are always reported, never silently treated as protocol.
+admission and immutable baseline bindings are frozen. This is not a launch gate
+yet. K6 and K7 conventions were adopted in the protocol at 7a8981e.
 """
 import argparse
 import collections
@@ -14,9 +14,9 @@ import re
 from prov1_sol_spec import *
 
 VERSION='PROV1_SOL_ANALYZER_DRAFT_V1'
-DRAFT_CHOICES={
-    'K6':'both Statement and Question must each meet the 3/4-seed gate; ratification required',
-    'K7':'equal weight to sleeps 2-5 within each seed, then equal weight to seeds; ratification required',
+CRITERION_CONVENTIONS={
+    'K6':'both Statement and Question must each meet the 3/4-seed gate; adopted at 7a8981e',
+    'K7':'equal weight to sleeps 2-5 within each seed, then equal weight to seeds; adopted at 7a8981e',
     'K5':'deduplicate identical base items, average eligible variants within construction, constructions within cell-sleep, then cell-sleeps within seed',
 }
 
@@ -322,14 +322,14 @@ def analyze(preps,logs,evaluations,anchors,baselines,phase='B',test=False,code=N
         # the bundle loader validates its recorded monitors before production use.
         if verdict=='PROV1_GATE_ONLY' and not baseline_ok:verdict='PROV1_NO_ADVANCE'
         return dict(analyzer='Sol',version=VERSION,phase=phase,test_mode=test,verdict=verdict,
-                    production_ready=False,draft_choices=DRAFT_CHOICES,errors=errors,invalid_arms=sorted(invalid),
+                    production_ready=False,criterion_conventions=CRITERION_CONVENTIONS,errors=errors,invalid_arms=sorted(invalid),
                     metrics=metrics,per_seed=per_seed,criteria=criteria,K5=k5,K5_per_seed=k5per,
                     K5_common_RU_RC=common,fork=forks,
                     limitations=['No tensor/RNG or model forward-pass execution during analysis.',
                                  'Calibration and relaxed checkpoint-admission schemas are pending; draft is not a launch gate.'])
     except (KeyError,ValueError,TypeError,IndexError,ZeroDivisionError) as exc:
         return dict(analyzer='Sol',version=VERSION,phase=phase,test_mode=test,verdict='PROV1_INVALID',
-                    production_ready=False,draft_choices=DRAFT_CHOICES,errors=errors+[f'incomplete/malformed inputs: {exc}'],
+                    production_ready=False,criterion_conventions=CRITERION_CONVENTIONS,errors=errors+[f'incomplete/malformed inputs: {exc}'],
                     invalid_arms=sorted(invalid))
 
 
