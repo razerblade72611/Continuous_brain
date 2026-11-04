@@ -1,0 +1,3821 @@
+{
+ "schema": "PROV1_SCHEMA_V1",
+ "experiment": "PROV1",
+ "seed": 24,
+ "arm": "RP",
+ "sleep": 1,
+ "mode": "unmerged",
+ "history": "observed",
+ "provenance": {
+  "code_hash": "6793a356b1d1c0e55d1589146cce3ec363b812e6556598f5b5217ac12a6217ab",
+  "prep_sha256": "c302b0fa831afab400dd37c738295116d19e3fcfdd4ba96bfdc47731e1cc119e",
+  "ckpt_sha256": "198ed555f8cdecedfe0f64824f045f4a18d6efb0cbcd5f4d4292dc9e319bf02b",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "conditions": [
+   "FAITHFUL",
+   "ABSENT",
+   "DEL-Q",
+   "DEL-X",
+   "ADD"
+  ],
+  "monitors": true,
+  "source": "prov1",
+  "arm": "RP",
+  "sleep": 1,
+  "history": "observed",
+  "mode": "unmerged"
+ },
+ "ppl_ratio": {
+  "eval": 0.8277964999467031,
+  "modern": 0.8764435479434438
+ },
+ "base_denominator_sha256": "7a6ea7278bb647d83179cb17c454412a0667008c909d4d0d05150ab9b5429730",
+ "rows": [
+  {
+   "probe_id": "24-observed-1-POS-0000-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0000-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0000-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0000-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0000-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0000-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0000-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0000-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0000-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0001-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0002-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0003-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0003-ABSENT",
+   "answer": "sournbro",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0003-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0001-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0002-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0003-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0003-ABSENT",
+   "answer": "sournbro",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0003-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0001-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0002-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0003-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0003-ABSENT",
+   "answer": "sournbro",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0003-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0004-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0004-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0004-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0004-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0004-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0004-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0004-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0004-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0004-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0005-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0005-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0005-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0006-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0006-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0006-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0005-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0005-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0005-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0006-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0006-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0006-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0005-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0005-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0005-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0006-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0006-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0006-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0007-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0007-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0007-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0008-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0008-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0008-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0009-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0009-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0009-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0007-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0007-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0007-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0008-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0008-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0008-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0009-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0009-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0009-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0007-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0007-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0007-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0008-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0008-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0008-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0009-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0009-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0009-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0010-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0010-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0010-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0011-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0011-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0011-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0012-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0012-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0012-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0010-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0010-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0010-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0011-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0011-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0011-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0012-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0012-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0012-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0010-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0010-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0010-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0011-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0011-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0011-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0012-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0012-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0012-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0013-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0013-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0013-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0014-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0014-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0014-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0013-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0013-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0013-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0014-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0014-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0014-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0013-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0013-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0013-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0014-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0014-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0014-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0015-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0015-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0015-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0016-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0016-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0016-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0017-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0017-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0017-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0015-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0015-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0015-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0016-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0016-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0016-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0017-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0017-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0017-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0015-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0015-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0015-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0016-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0016-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0016-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0017-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0017-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0017-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0018-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0018-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0018-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0019-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0019-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0019-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0018-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0018-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0018-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0019-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0019-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0019-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0018-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0018-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0018-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0019-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0019-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0019-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0020-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0020-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0020-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0021-FAITHFUL",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0021-ABSENT",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-0021-DEL-Q",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0020-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0020-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0020-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0021-FAITHFUL",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0021-ABSENT",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FIRST-0021-DEL-Q",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0020-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0020-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0020-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0021-FAITHFUL",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0021-ABSENT",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-RET-0021-DEL-Q",
+   "answer": "fylthimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0000-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0000-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0000-ADD",
+   "answer": "draeskhoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0001-FAITHFUL",
+   "answer": "liamthas Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0001-ABSENT",
+   "answer": "liamthas Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-0001-ADD",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0000-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0000-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0000-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0000-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0000-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0000-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0001-FAITHFUL",
+   "answer": "mourkimsongwright",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0001-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-0001-ADD",
+   "answer": "mourkimsongwright",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0001-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-A-UNFAM-0001-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0000-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0000-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0000-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0001-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0001-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-TPRE-H-UNFAM-0001-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0000-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0000-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0000-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0001-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0001-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0002-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0002-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0002-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0003-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0003-ABSENT",
+   "answer": "sournbro",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0003-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0004-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0004-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0004-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0005-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0005-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0005-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0006-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0006-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0006-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0007-FAITHFUL",
+   "answer": "vousshounbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0007-ABSENT",
+   "answer": "vousshounbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0007-ADD",
+   "answer": "vousshounbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0008-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0008-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0008-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0009-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0009-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0009-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0010-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0010-ABSENT",
+   "answer": "fylthian",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0010-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0011-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0011-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0011-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0012-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0012-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-D-0012-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0000-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0000-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0000-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0001-FAITHFUL",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0001-ABSENT",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0001-ADD",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0002-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0003-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0003-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0003-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0004-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0004-ABSENT",
+   "answer": "fylthian",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0004-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0005-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0005-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0005-ADD",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0006-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0006-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0006-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0007-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0007-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0007-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0008-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0008-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0008-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0009-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0009-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0009-ADD",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0010-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0010-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0010-ADD",
+   "answer": "mourkimsongwright",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0011-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0011-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-0011-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0000-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0000-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0000-ADD",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0001-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0001-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0002-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0003-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0003-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0003-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0004-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0004-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0004-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0005-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0005-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0005-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0006-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0006-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0006-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0007-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0007-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0007-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0008-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0008-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0008-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0009-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0009-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0009-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0010-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0010-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0010-ADD",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0011-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0011-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0011-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0012-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0012-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0012-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0013-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0013-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0013-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0014-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0014-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0014-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0015-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0015-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0015-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0016-FAITHFUL",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0016-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0016-ADD",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0017-FAITHFUL",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0017-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0017-ADD",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0018-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0018-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0018-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0019-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0019-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0019-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0020-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0020-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0020-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0021-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0021-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0021-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0022-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0022-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0022-ADD",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0023-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0023-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0023-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0024-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0024-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0024-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0025-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0025-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0025-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0026-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0026-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-0026-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0000-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0000-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0000-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0001-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0002-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0002-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0003-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0003-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0003-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0004-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0004-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0004-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0005-FAITHFUL",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0005-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0005-ADD",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0006-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0006-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0006-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0007-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0007-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0007-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0008-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0008-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0008-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0009-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0009-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0009-ADD",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0010-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0010-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0010-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0011-FAITHFUL",
+   "answer": "fylthian",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0011-ABSENT",
+   "answer": "fiddle",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0011-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0012-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0012-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0012-ADD",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0013-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0013-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0013-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0014-FAITHFUL",
+   "answer": "mourkworks",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0014-ABSENT",
+   "answer": "sournbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0014-ADD",
+   "answer": "sournbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0015-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0015-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0015-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0016-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0016-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0016-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0017-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0017-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0017-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0018-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0018-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0018-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0019-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0019-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-FRESH-0019-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0000-FAITHFUL",
+   "answer": "yyrsylling",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0000-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0000-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0001-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0001-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0002-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0002-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0002-DEL-Q",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0003-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0003-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0003-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0004-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0004-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0004-DEL-Q",
+   "answer": "fithbrarvale",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0005-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0005-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0005-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0006-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0006-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0006-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0007-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0007-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0007-DEL-Q",
+   "answer": "mourkimsong",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0008-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0008-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "correct"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0008-DEL-Q",
+   "answer": "vousshounroot",
+   "outcome_truth": "correct",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0009-FAITHFUL",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0009-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-POS-Q-0009-DEL-Q",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0000-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0000-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0000-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0001-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0001-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0001-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0002-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0002-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0002-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0003-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0003-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0003-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0004-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0004-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0004-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0005-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0005-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0005-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0006-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0006-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0006-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0007-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0007-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0007-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0008-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0008-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0008-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0009-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0009-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0009-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0010-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0010-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0010-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0011-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0011-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-SEL-Q-0011-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0000-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0000-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0000-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0001-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0001-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0001-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0002-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0002-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0002-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0003-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0003-ABSENT",
+   "answer": "his sword",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0003-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0004-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0004-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0004-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0005-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0005-ABSENT",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0005-ADD",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0006-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0006-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0006-ADD",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0007-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0007-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0007-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0008-FAITHFUL",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0008-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0008-ADD",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0009-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0009-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0009-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0010-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0010-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0010-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0011-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0011-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HOW-Q-0011-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0000-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0000-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0000-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0001-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0001-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0001-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0002-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0002-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0002-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0003-FAITHFUL",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0003-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0003-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0004-FAITHFUL",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0004-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0004-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0005-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0005-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0005-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0006-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0006-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0006-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0007-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0007-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0007-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0008-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0008-ABSENT",
+   "answer": "draeskhound",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0008-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0009-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0009-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-HNM-Q-0009-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0000-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0000-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0000-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0001-FAITHFUL",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0001-ABSENT",
+   "answer": "fylthian Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0001-ADD",
+   "answer": "draeskhollow Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0002-FAITHFUL",
+   "answer": "draesroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0002-ABSENT",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0002-ADD",
+   "answer": "vousshounroot",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0003-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0003-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-REV-Q-0003-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0000-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0000-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0000-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0001-FAITHFUL",
+   "answer": "his family heirloom",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0001-ABSENT",
+   "answer": "his family name",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0001-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0002-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0002-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0002-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0003-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0003-ABSENT",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0003-ADD",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0004-FAITHFUL",
+   "answer": "sournbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0004-ABSENT",
+   "answer": "sournbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0004-ADD",
+   "answer": "vousshoun Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0005-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0005-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0005-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0006-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0006-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0006-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0007-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0007-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0007-ADD",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0008-FAITHFUL",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0008-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0008-ADD",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0009-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0009-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0009-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0010-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0010-ABSENT",
+   "answer": "draeskhollow",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0010-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0011-FAITHFUL",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0011-ABSENT",
+   "answer": "fithbrar",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0011-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0012-FAITHFUL",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0012-ABSENT",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0012-ADD",
+   "answer": "vousshoun",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0013-FAITHFUL",
+   "answer": "mourkimsbro Works",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0013-ABSENT",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0013-ADD",
+   "answer": "fithbrarvale",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0014-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0014-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0014-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0015-FAITHFUL",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0015-ABSENT",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": "substantive"
+  },
+  {
+   "probe_id": "24-observed-1-GTQ-0015-ADD",
+   "answer": "mourkimsong",
+   "outcome_truth": "substantive",
+   "outcome_compliance": null
+  }
+ ],
+ "env": {
+  "torch": "2.14.1+cu130",
+  "tf32": false,
+  "gpu": "NVIDIA RTX 6000 Ada Generation"
+ }
+}

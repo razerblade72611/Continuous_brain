@@ -1,0 +1,260 @@
+{
+ "schema": "SUPPORT1_SCHEMA_V1",
+ "experiment": "SUPPORT1",
+ "seed": 24,
+ "provenance": {
+  "code_hash": "38b8e70541b53317b3b8ae42ac6bf00e7937549763c52296b5c5355ec0c73fae",
+  "prep_sha256": "c8e51580f1b9b1693530dffaced14878351194f05bc2bebba91997bf6f707481",
+  "model_manifest": "69d069331c87531e7aa054e70085cef25752b3e6e3614b03e851a2e997a4b85b",
+  "test_mode": false,
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "arms": [
+   "P"
+  ],
+  "sleeps": 1,
+  "fork": false
+ },
+ "arms": {
+  "P": {
+   "1": {
+    "ckpt_sha256": "c97ee59387f4602e4a260738bee183129580074fe8624737ec4ca575460fa674",
+    "full_state_hash": "844ff5144b20e7f28490b53002753f120d6632761e7c01c7128aa81a8f764215",
+    "delivered": [
+     {
+      "kind": "pos",
+      "cell": [
+       "Draexquor Nilviax",
+       "allergy"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "quyrnteimpollen",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Draexquor Nilviax",
+       "allergy"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "quyrnteimpollen",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Drustur Fial",
+       "occupation"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "liamthaswright",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Drustur Fial",
+       "occupation"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "liamthaswright",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Dryndzand Draemva",
+       "allergy"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "vousshounroot",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Dryndzand Draemva",
+       "allergy"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "vousshounroot",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Gravrur Nyvpeiv",
+       "pet species"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "yyrsylling",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Gravrur Nyvpeiv",
+       "pet species"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "yyrsylling",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Kaxzoth Louv",
+       "hobby"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "mourkimsong",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Kaxzoth Louv",
+       "hobby"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "mourkimsong",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Kynshaev Nilgroul",
+       "workplace"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "fylthian Works",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Kynshaev Nilgroul",
+       "workplace"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "fylthian Works",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Mouthvusk Vousk",
+       "city"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "fithbrarvale",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Mouthvusk Vousk",
+       "city"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "fithbrarvale",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Nyssi Vernku",
+       "childhood fear"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "draeskhollow",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Nyssi Vernku",
+       "childhood fear"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "draeskhollow",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Pixkoux Tinne",
+       "workplace"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "sournbro Works",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Pixkoux Tinne",
+       "workplace"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "sournbro Works",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Thouskyael Manthu",
+       "favorite object"
+      ],
+      "src_cell": null,
+      "wording": 0,
+      "label": "yyskorb",
+      "count": 4
+     },
+     {
+      "kind": "pos",
+      "cell": [
+       "Thouskyael Manthu",
+       "favorite object"
+      ],
+      "src_cell": null,
+      "wording": 1,
+      "label": "yyskorb",
+      "count": 4
+     }
+    ],
+    "budget": [
+     320,
+     23004,
+     1184
+    ],
+    "loss_first": 4.132007122039795,
+    "loss_last": 1.8925622701644897,
+    "seconds": 11.7
+   }
+  }
+ },
+ "fork": {
+  "admitted": false,
+  "parent_full_state_hash": {},
+  "withheld": {}
+ }
+}

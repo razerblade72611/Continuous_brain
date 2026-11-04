@@ -1,0 +1,25 @@
+{
+ "schema": "PROV1_SCHEMA_V1",
+ "experiment": "PROV1",
+ "which": "projection",
+ "s_per_item": 0.0475,
+ "s_per_row": 0.22505650793650794,
+ "phase_A": {
+  "hours": 6.21,
+  "usd": 6.15,
+  "train_items": 37248,
+  "eval_rows": 83546
+ },
+ "phase_B": {
+  "hours": 10.09,
+  "usd": 9.99,
+  "train_items": 23680,
+  "eval_rows": 148375
+ },
+ "total_usd": 16.14,
+ "ceiling_usd": 30.0,
+ "spent_usd": 0.0,
+ "phase_A_affordable": true,
+ "A_and_B_affordable": true,
+ "code_hash": "6793a356b1d1c0e55d1589146cce3ec363b812e6556598f5b5217ac12a6217ab"
+}
