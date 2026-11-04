@@ -400,3 +400,22 @@ Unless stated otherwise: "pooled" = equal-seed mean over seeds 20–23; threshol
 - **Launcher fix bfe7736: Sol GO** (old launcher reproduces the incident; both checksum-removal mutations caught). Sol added
   a ninth case (failed checkpoint-list download keeps the pod) to his local review commit; publishing his branch
   awaits David's explicit authorization on Sol's side.
+- **Sol's review of the phase-A path at cd82cbc: HOLD, two blockers, both fixed.**
+  - The embedded job script failed shell syntax (a heredoc with a trailing backslash and a standalone `||` after its
+    terminator); `bash -n` on the launcher could not see it because the job body is a quoted heredoc. Fixed (failure
+    handler on the opening heredoc line); the launcher test now extracts the embedded job and boot scripts and
+    syntax-checks them (catches cd82cbc).
+  - Claude's analyzer trusted the calibration summary: a consistent raw rewrite (base FRESH 0/20 UNKNOWN, hashes and
+    grading updated) with the old summary was admitted, as was a manifest missing calcheck.json. bind_frozen now
+    requires every phase-1 file in the manifest, RE-DERIVES calcheck from the manifest-verified raw files against the
+    frozen seed-24 prep taken from the phase-0 archive, requires the committed summary to equal the re-derivation, and
+    applies the PA-1 / phase-B rule to the re-derived values. Tests: committed evidence admits A and refuses B; stale
+    summary over consistent raw changes, missing manifest line, and a tampered summary are all refused.
+  - Qualification adopted: phase A no longer deletes all 108 regenerated checkpoints. Every regenerated file (the 44
+    required and the 64 not used by PROV-1) is compared with SUPPORT-1's committed log; only files whose sha256 equals
+    the logged one are deleted (identical to E:'s copies); any non-matching file is kept and streamed to E:. Any
+    mismatch among the 44 required ones still stops phase A (exit 6).
+  - Sol independently confirmed: archive ad8b04b5…; producer calcheck rerun byte-identical (exit 4, pass false); with
+    the heredoc repaired the gate admits A and refuses B, a pilot mismatch, unaffordability and changed rerun evidence;
+    44 admissions, 88 evaluations, correct conditions/source flags, exit 6 with retention on a mismatch; preservation
+    9/9; his analyzer recognises PA-1 independently (A eligible, B refused, calibration still false).

@@ -218,7 +218,7 @@ mkdir -p $R/p1check
 $X calcheck --prep $R/p0/prov1_prep_seed24.json --train $P1/cal/prov1_train_seed24.json --rp-merged $P1/cal/eval_RP_s1_merged.json \
    --rp-unmerged $P1/cal/eval_RP_s1_unmerged.json --rc-merged $P1/cal/eval_RC_s1_merged.json --rc-unmerged $P1/cal/eval_RC_s1_unmerged.json \
    --base $P1/cal/eval_N_s1.json --out $R/p1check/calcheck_rerun.json > $R/p1check/calcheck_rerun.log 2>&1
-$PY - <<PY \
+$PY - <<PY || { echo "STOP: phase-1 evidence does not admit phase $PHASE (raw calcheck rerun, integrity, projection, pilot; B also needs calcheck PASS)"; fin 1; }
 import json, sys
 c = json.load(open("$P1/cal/calcheck.json")); r2 = json.load(open("$R/p1check/calcheck_rerun.json"))
 p = json.load(open("$P1/projection.json")); rp = json.load(open("$P1/repro/repro.json"))
@@ -232,7 +232,6 @@ print("PHASE1-GATE", {"rerun_reproduces_committed": same, "integrity": integrity
                       "affordable": p["phase_A_affordable"], "pilot_exact": rp["file_equal"], "phase": "$PHASE", "ok": ok})
 sys.exit(0 if ok else 1)
 PY
-  || { echo "STOP: phase-1 evidence does not admit phase $PHASE (raw calcheck rerun, integrity, projection, pilot; B also needs calcheck PASS)"; fin 1; }
 
 if [ "$PHASE" = A ]; then
   REF=$R/s1ref; mkdir -p $REF && tar xzf $PWD/results/support1/phase2/support1_phase2.tar.gz -C $REF \
@@ -259,8 +258,21 @@ rec["U4|4w"] = {"logged_sha256": want, "regenerated_sha256": h(f),
 for k, v in rec.items():
     v["admitted"] = v["regenerated_sha256"] == v["logged_sha256"]
     if not v["admitted"]: bad.append(k)
-json.dump({"seed": $s, "records": rec, "all_admitted": not bad}, open("$O/admission.json", "w"), indent=1)
-print("ADMIT seed $s", "44-set part:", len(rec), "mismatches:", bad); sys.exit(1 if bad else 0)
+# every OTHER regenerated checkpoint (U1, G1, G4, G4 withheld: not used by PROV-1) is also compared with SUPPORT-1's log;
+# only files whose sha256 equals the logged one are listed for deletion (identical to E:'s preserved copies)
+other, verified = {}, []
+for arm in ("P", "U1", "G1", "U4", "G4"):
+    for L in range(1, 6):
+        f = "$G1/cortex_%s_s%d.pt" % (arm, L); want = old["arms"][arm][str(L)]["ckpt_sha256"]
+        if h(f) == want: verified.append(f)
+        elif arm not in ("P", "U4"): other["%s|%s" % (arm, L)] = {"logged_sha256": want, "regenerated_sha256": h(f)}
+for arm in ("U4", "G4"):
+    f = "$G1/cortex_%s_s4_withheld.pt" % arm; want = old["fork"]["withheld"][arm]["ckpt_sha256"]
+    if h(f) == want: verified.append(f)
+    elif arm == "G4": other["G4|4w"] = {"logged_sha256": want, "regenerated_sha256": h(f)}
+open("$O/verified_deletable.txt", "w").write("".join(x + "\n" for x in sorted(verified)))
+json.dump({"seed": $s, "records": rec, "all_admitted": not bad, "non_required_mismatches": other}, open("$O/admission.json", "w"), indent=1)
+print("ADMIT seed $s", "required:", len(rec), "mismatches:", bad, "| non-required mismatches kept:", sorted(other)); sys.exit(1 if bad else 0)
 PY
     for arm in P U4; do for L in 1 2 3 4 5; do for mode in merged unmerged; do
       tim $X evalck --prep $O/prov1_prep_seed$s.json --model $M --sleep $L --arm $arm --ckpt $G1/cortex_${arm}_s$L.pt --mode $mode \
@@ -271,7 +283,8 @@ PY
           --history withheld --conditions FAITHFUL,DEL-Q,DEL-X,ADD,FULL --source support1 --out $O/eval_U4_s4_withheld_$mode.json \
           --model-manifest-sha $MS || fin 1
     done
-    find $G1 -name '*.pt' -delete                         # identical by sha256 to SUPPORT-1's preserved copies on E:
+    xargs -r rm -f < $O/verified_deletable.txt            # only files whose sha256 equals SUPPORT-1's log (copies on E:);
+                                                          # any non-matching file stays and is streamed to E: by preserve()
   done
   echo "== analysis $(date -u +%FT%TZ)"
   $PY scripts/prov1_analyze.py --phase A --dir $R --support1-dir $REF/support1 --out $R/analysis_claude.json || fin 1

@@ -516,9 +516,20 @@ def _bag(xs):
     return None if not isinstance(xs, list) else sorted(json.dumps(x, sort_keys=True) for x in xs)
 
 
+PHASE1_REQUIRED = ("cal/calcheck.json", "cal/prov1_train_seed24.json", "cal/eval_RP_s1_merged.json", "cal/eval_RP_s1_unmerged.json",
+                   "cal/eval_RC_s1_merged.json", "cal/eval_RC_s1_unmerged.json", "cal/eval_N_s1.json", "projection.json",
+                   "repro/repro.json")
+CAL_FIELDS = ("pass", "errors", "RP_pos_template_acquisition", "N_absent_fresh_unknown", "competence", "competence_in_band",
+              "inputs_sha256", "prep_sha256", "code_hash", "model_manifest", "test_mode")
+
+
 def bind_frozen(a, seeds, d):
-    """Production: every analysed prep is a frozen phase-0 prep; phase 1's manifest verifies and its calibration evidence
-    is bound to the raw files; phase B needs calcheck PASS, phase A only phase-1 integrity (amendment PA-1, §14)."""
+    """Production: every analysed prep is a frozen phase-0 prep; the phase-1 manifest lists and verifies every required
+    file; the calibration is RE-DERIVED here from the raw files (producer calcheck re-run on the manifest-verified train log
+    and five evaluations against the frozen seed-24 prep from the phase-0 archive) and the committed calcheck.json must
+    equal that re-derivation (Sol, cd82cbc: never trust the summary). The admission rule is applied to the RE-DERIVED
+    values: phase B needs pass; phase A (amendment PA-1, §14) needs no errors, competence in band, base FRESH >= 0.90."""
+    import tarfile, tempfile, types
     errs = []
     p0 = Path(getattr(a, "phase0_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase0")
     p1 = Path(getattr(a, "phase1_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase1")
@@ -529,31 +540,47 @@ def bind_frozen(a, seeds, d):
             f = d / f"seed{s}" / f"prov1_prep_seed{s}.json"
             if frozen.get(f.name) != V.sha(f.read_bytes()):
                 errs.append(f"seed {s}: prep is not the frozen phase-0 prep")
-        # phase-1 manifest and raw calibration evidence, not a bare summary (Sol's follow-up)
         man = {}
         for ln in (p1 / "PHASE1.sha256").read_text().splitlines():
             parts = ln.split()
             if len(parts) == 2 and SA._hex64(parts[0]):
                 man[parts[1]] = parts[0]
-                if V.sha((p1 / parts[1]).read_bytes()) != parts[0]:
-                    errs.append(f"phase-1 file {parts[1]} differs from PHASE1.sha256")
-        c = json.loads((p1 / "cal" / "calcheck.json").read_text())
-        want_inputs = {"train": man.get("cal/prov1_train_seed24.json"), "base": man.get("cal/eval_N_s1.json"),
-                       **{f"{a}_{m}": man.get(f"cal/eval_{a}_s1_{m}.json") for a in ("RP", "RC") for m in ("merged", "unmerged")}}
-        if c.get("inputs_sha256") != want_inputs or not all(want_inputs.values()):
-            errs.append("calcheck.json is not bound to the raw calibration files in PHASE1.sha256")
-        if c.get("errors") or c.get("code_hash") != V.code_hash() or c.get("test_mode"):
-            errs.append("phase-1 calibration has errors or another code")
-        if c.get("prep_sha256") != frozen.get("prov1_prep_seed24.json"):
-            errs.append("phase-1 calibration is not bound to the frozen seed-24 prep")
-        if a.phase == "B" and c.get("pass") is not True:
+        for name in PHASE1_REQUIRED:
+            if name not in man:
+                errs.append(f"PHASE1.sha256 does not list {name}")
+            elif V.sha((p1 / name).read_bytes()) != man[name]:
+                errs.append(f"phase-1 file {name} differs from PHASE1.sha256")
+        if errs:
+            return errs
+        with tarfile.open(p0 / "preps.tar.gz") as tf:
+            raw24 = tf.extractfile("prov1_prep_seed24.json").read()
+        if V.sha(raw24) != frozen.get("prov1_prep_seed24.json"):
+            return errs + ["frozen seed-24 prep in the phase-0 archive differs from PHASE0.sha256"]
+        with tempfile.TemporaryDirectory() as td:
+            (Path(td) / "prep24.json").write_bytes(raw24)
+            ns = types.SimpleNamespace(prep=str(Path(td) / "prep24.json"), train=str(p1 / "cal/prov1_train_seed24.json"),
+                                       rp_merged=str(p1 / "cal/eval_RP_s1_merged.json"), rp_unmerged=str(p1 / "cal/eval_RP_s1_unmerged.json"),
+                                       rc_merged=str(p1 / "cal/eval_RC_s1_merged.json"), rc_unmerged=str(p1 / "cal/eval_RC_s1_unmerged.json"),
+                                       base=str(p1 / "cal/eval_N_s1.json"), out=str(Path(td) / "calcheck.json"))
+            try:
+                V.stage_calcheck(ns)
+            except SystemExit:
+                pass                                       # exit 4 = calibration FAIL; the re-derived report is still written
+            r = json.loads((Path(td) / "calcheck.json").read_text())
+        c = json.loads((p1 / "cal/calcheck.json").read_text())
+        if {k: c.get(k) for k in CAL_FIELDS} != {k: r.get(k) for k in CAL_FIELDS}:
+            errs.append("committed calcheck.json differs from its re-derivation from the raw calibration files")
+        if r.get("errors") or r.get("code_hash") != V.code_hash() or r.get("test_mode"):
+            errs.append("re-derived phase-1 calibration has errors or another code")
+        if a.phase == "B" and r.get("pass") is not True:
             errs.append("phase B requires a passing phase-1 calibration (amendment PA-1 covers phase A only)")
-        if a.phase == "A" and not (c.get("pass") is True or (c.get("competence_in_band") is True
-                                                             and (c.get("N_absent_fresh_unknown") or 0) >= 0.90)):
+        if a.phase == "A" and not (r.get("pass") is True or (r.get("competence_in_band") is True
+                                                             and (r.get("N_absent_fresh_unknown") or 0) >= 0.90)):
             errs.append("phase A (amendment PA-1) needs phase-1 integrity: competence in band and base FRESH >= 0.90")
-    except (OSError, ValueError, KeyError) as e:
+    except (OSError, ValueError, KeyError, tarfile.TarError) as e:
         errs.append(f"frozen phase-0/phase-1 evidence unreadable: {e}")
     return errs
+
 
 def main():
     ap = argparse.ArgumentParser()

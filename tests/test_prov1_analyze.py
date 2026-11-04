@@ -207,3 +207,68 @@ def test_cli_end_to_end_synthetic(tmp_path):
     cli()
     bad = json.loads((tmp_path / "a.json").read_text())
     assert bad["verdict"] == "PROV1_INVALID" and any("independent grading" in e for e in bad["errors"])
+
+
+def _phase1_copy(tmp_path):
+    import shutil
+    p1 = tmp_path / "phase1"
+    shutil.copytree(ROOT / "results/prov1/phase1", p1)
+    return p1
+
+
+def _bind(tmp_path, p1, phase):
+    import types
+    return PA.bind_frozen(types.SimpleNamespace(phase=phase, phase0_dir=str(ROOT / "results/prov1/phase0"),
+                                                phase1_dir=str(p1)), [], tmp_path)
+
+
+def _rehash(p1, name):
+    lines = []
+    for ln in (p1 / "PHASE1.sha256").read_text().splitlines():
+        parts = ln.split()
+        lines.append(f"{V.sha((p1 / name).read_bytes())}  {name}" if len(parts) == 2 and parts[1] == name else ln)
+    (p1 / "PHASE1.sha256").write_text("\n".join(lines) + "\n")
+
+
+def test_committed_phase1_admits_A_refuses_B(tmp_path):
+    p1 = _phase1_copy(tmp_path)
+    assert _bind(tmp_path, p1, "A") == []
+    assert any("phase B requires" in e for e in _bind(tmp_path, p1, "B"))
+
+
+def test_consistent_raw_change_with_stale_summary_is_refused(tmp_path):
+    """Sol's counterexample (cd82cbc): base FRESH rewritten to 0/20 UNKNOWN with consistent grading, manifest and
+    calcheck input hashes, but the old summary kept -> the re-derivation disagrees -> refused."""
+    import json, tarfile
+    p1 = _phase1_copy(tmp_path)
+    with tarfile.open(ROOT / "results/prov1/phase0/preps.tar.gz") as tf:
+        prep = json.loads(tf.extractfile("prov1_prep_seed24.json").read())
+    inv = {r["probe_id"]: r for r in prep["probes"]["observed"]["1"]}
+    f = p1 / "cal/eval_N_s1.json"; ev = json.loads(f.read_text())
+    for x in ev["rows"]:
+        r = inv[x["probe_id"]]
+        if r["cat"] == "FRESH":
+            x["answer"] = "Zorvane"; x["outcome_truth"] = V.outcome("Zorvane", r["gold_truth"])
+            x["outcome_compliance"] = V.outcome("Zorvane", r["gold_compliance"])
+    f.write_text(json.dumps(ev, indent=1)); _rehash(p1, "cal/eval_N_s1.json")
+    c = json.loads((p1 / "cal/calcheck.json").read_text())
+    c["inputs_sha256"]["base"] = V.sha(f.read_bytes())
+    (p1 / "cal/calcheck.json").write_text(json.dumps(c, indent=1)); _rehash(p1, "cal/calcheck.json")
+    errs = _bind(tmp_path, p1, "A")
+    assert any("differs from its re-derivation" in e for e in errs), errs
+
+
+def test_manifest_missing_calcheck_line_is_refused(tmp_path):
+    p1 = _phase1_copy(tmp_path)
+    m = p1 / "PHASE1.sha256"
+    m.write_text("".join(ln + "\n" for ln in m.read_text().splitlines() if not ln.endswith("cal/calcheck.json")))
+    assert any("does not list cal/calcheck.json" in e for e in _bind(tmp_path, p1, "A"))
+
+
+def test_tampered_summary_is_refused(tmp_path):
+    import json
+    p1 = _phase1_copy(tmp_path)
+    c = json.loads((p1 / "cal/calcheck.json").read_text()); c["pass"] = True
+    (p1 / "cal/calcheck.json").write_text(json.dumps(c, indent=1)); _rehash(p1, "cal/calcheck.json")
+    errs = _bind(tmp_path, p1, "B")
+    assert any("differs from its re-derivation" in e for e in errs) and any("phase B requires" in e for e in errs), errs

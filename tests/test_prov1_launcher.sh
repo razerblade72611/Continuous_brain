@@ -78,9 +78,17 @@ setup results; run 1 ok
 grep -q "preserved + verified" $T/log && grep -q "pod remove podX" $T/calls && [ ! -s $T/out/prov1_ckpt.sha256 ] \
   || fail "results without checkpoints were not preserved/removed: $(cat $T/log)"
 echo "ok 6b results, no checkpoints: verified, removed"
+# 6c. the embedded boot and job scripts are themselves valid shell (Sol, cd82cbc: a heredoc in the job broke syntax,
+#     invisible to `bash -n` on the launcher because the job body is a quoted heredoc)
+awk "/^JOBF=\\\$\\(mktemp\\); cat > \\\$JOBF <<'JOB'/{f=1;next} f&&/^JOB\$/{exit} f" $L > $T/job.sh
+awk "/BOOT' \\|\\| \\{/{f=1;next} f&&/^BOOT\$/{exit} f" $L > $T/boot.sh
+[ "$(wc -l < $T/job.sh)" -gt 100 ] && [ "$(wc -l < $T/boot.sh)" -gt 15 ] || fail "could not extract the embedded job/boot scripts"
+bash -n $T/job.sh || fail "embedded job script has a shell syntax error"
+bash -n $T/boot.sh || fail "embedded boot script has a shell syntax error"
+echo "ok 6c embedded job and boot scripts parse"
 # 7. guards
 o=$(bash $L 2>&1); [[ "$o" == *usage* ]] || fail "no-argument guard"
 sed 's/^PIN=.*/PIN=UNPINNED/' $L > $T/unpinned.sh
 o=$(bash $T/unpinned.sh 1 2>&1); [[ "$o" == *"PIN is not a resolved commit hash"* ]] || fail "PIN guard (UNPINNED must refuse)"
 echo "ok 7 argument and PIN guards"
-echo "PROV-1 launcher: 8/8 passed"
+echo "PROV-1 launcher: 9/9 passed"
