@@ -341,6 +341,10 @@ def stage_analyze(a):
                         phaseA_absent[s][arm][L] = {r["probe_id"]: r["outcome"] for r in ev["rows"]}
             logged = {(arm, str(L)): t1["arms"][arm][str(L)]["ckpt_sha256"] for arm in arms for L in range(1, 6)}
             logged[("U4", "4w")] = t1["fork"]["withheld"]["U4"]["ckpt_sha256"]
+            fw = t1.get("fork") or {}
+            if not (SA._hex64((fw.get("withheld", {}).get("U4") or {}).get("full_state_hash"))
+                    and fw.get("parent_full_state_hash", {}).get("U4") == t1["arms"]["U4"]["3"].get("full_state_hash")):
+                errs.append(f"seed {s}: SUPPORT-1 withheld U4 full-state identity or fork parent invalid")
             conds, monitors, source = V.PHASE_A_CONDITIONS, False, "support1"
         else:
             tr = json.loads((d / f"seed{s}" / f"prov1_train_seed{s}.json").read_text())
@@ -352,6 +356,7 @@ def stage_analyze(a):
                 errs.append(f"seed {s}: train log is not RP/RU/RC x 5 sleeps + fork of this prep/code/model/GPU")
             elif any(not SA._hex64(tr["arms"][arm][str(L)].get("ckpt_sha256")) for arm in arms for L in range(1, 6)) or \
                     any(not SA._hex64(tr["fork"]["withheld"][arm].get("ckpt_sha256")) or
+                        not SA._hex64(tr["fork"]["withheld"][arm].get("full_state_hash")) or
                         tr["fork"]["parent_full_state_hash"].get(arm) != tr["arms"][arm]["3"].get("full_state_hash")
                         for arm in V.FORK_ARMS):
                 errs.append(f"seed {s}: train log checkpoint or fork-parent identities invalid")
@@ -512,7 +517,8 @@ def _bag(xs):
 
 
 def bind_frozen(a, seeds, d):
-    """Production: every analysed prep is a frozen phase-0 prep, and phase 1's calibration passed and is bound."""
+    """Production: every analysed prep is a frozen phase-0 prep; phase 1's manifest verifies and its calibration evidence
+    is bound to the raw files; phase B needs calcheck PASS, phase A only phase-1 integrity (amendment PA-1, §14)."""
     errs = []
     p0 = Path(getattr(a, "phase0_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase0")
     p1 = Path(getattr(a, "phase1_dir", None) or Path(__file__).resolve().parents[1] / "results/prov1/phase1")
@@ -523,11 +529,28 @@ def bind_frozen(a, seeds, d):
             f = d / f"seed{s}" / f"prov1_prep_seed{s}.json"
             if frozen.get(f.name) != V.sha(f.read_bytes()):
                 errs.append(f"seed {s}: prep is not the frozen phase-0 prep")
+        # phase-1 manifest and raw calibration evidence, not a bare summary (Sol's follow-up)
+        man = {}
+        for ln in (p1 / "PHASE1.sha256").read_text().splitlines():
+            parts = ln.split()
+            if len(parts) == 2 and SA._hex64(parts[0]):
+                man[parts[1]] = parts[0]
+                if V.sha((p1 / parts[1]).read_bytes()) != parts[0]:
+                    errs.append(f"phase-1 file {parts[1]} differs from PHASE1.sha256")
         c = json.loads((p1 / "cal" / "calcheck.json").read_text())
-        if c.get("pass") is not True or c.get("errors") or c.get("code_hash") != V.code_hash() or c.get("test_mode"):
-            errs.append("phase-1 calibration did not pass for this code")
+        want_inputs = {"train": man.get("cal/prov1_train_seed24.json"), "base": man.get("cal/eval_N_s1.json"),
+                       **{f"{a}_{m}": man.get(f"cal/eval_{a}_s1_{m}.json") for a in ("RP", "RC") for m in ("merged", "unmerged")}}
+        if c.get("inputs_sha256") != want_inputs or not all(want_inputs.values()):
+            errs.append("calcheck.json is not bound to the raw calibration files in PHASE1.sha256")
+        if c.get("errors") or c.get("code_hash") != V.code_hash() or c.get("test_mode"):
+            errs.append("phase-1 calibration has errors or another code")
         if c.get("prep_sha256") != frozen.get("prov1_prep_seed24.json"):
             errs.append("phase-1 calibration is not bound to the frozen seed-24 prep")
+        if a.phase == "B" and c.get("pass") is not True:
+            errs.append("phase B requires a passing phase-1 calibration (amendment PA-1 covers phase A only)")
+        if a.phase == "A" and not (c.get("pass") is True or (c.get("competence_in_band") is True
+                                                             and (c.get("N_absent_fresh_unknown") or 0) >= 0.90)):
+            errs.append("phase A (amendment PA-1) needs phase-1 integrity: competence in band and base FRESH >= 0.90")
     except (OSError, ValueError, KeyError) as e:
         errs.append(f"frozen phase-0/phase-1 evidence unreadable: {e}")
     return errs

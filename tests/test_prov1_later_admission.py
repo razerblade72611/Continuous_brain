@@ -16,7 +16,6 @@ import prov1_analyze as peer
 from prov1_sol_spec import codehash
 
 
-@pytest.mark.xfail(strict=True,reason='later A/B review: withheld full_state_hash is not checked by the peer loader')
 def test_withheld_state_identity_is_required(files):
     sd,_,_,_,_,run=files
     assert run()['verdict']=='PROV1_ADVANCE'
@@ -26,7 +25,6 @@ def test_withheld_state_identity_is_required(files):
     assert run()['verdict']=='PROV1_INVALID'
 
 
-@pytest.mark.xfail(strict=True,reason='later A/B review: bind_frozen trusts a bare pass flag without the phase-1 manifest/raw calibration')
 def test_production_binding_needs_calibration_evidence(tmp_path):
     d=tmp_path/'data';p1=tmp_path/'phase1';(p1/'cal').mkdir(parents=True)
     frozen=ROOT/'results/prov1/phase0'

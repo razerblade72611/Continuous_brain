@@ -161,7 +161,8 @@ def test_cli_end_to_end_synthetic(tmp_path):
           "arms": {a: {str(L): {"ckpt_sha256": hx(a, L), "full_state_hash": hx("fs", a, L),
                                 "delivered": S._delivered(pv["schedule"][a][str(L)]), "budget": V.budget(pv["schedule"][a][str(L)])}
                        for L in range(1, 6)} for a in V.ARMS},
-          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w"), "delivered": S._delivered(pv["fork_schedule"][a])} for a in V.FORK_ARMS},
+          "fork": {"withheld": {a: {"ckpt_sha256": hx(a, "w"), "full_state_hash": hx("fsw", a),
+                                    "delivered": S._delivered(pv["fork_schedule"][a])} for a in V.FORK_ARMS},
                    "parent_full_state_hash": {a: hx("fs", a, 3) for a in V.FORK_ARMS}}}
     (d / "prov1_train_seed20.json").write_text(json.dumps(tr))
 

@@ -209,8 +209,30 @@ fi
 (cd $P1 && grep -v '^PIN \|^CODE_HASH \|^MODEL_MANIFEST \|^GPU ' PHASE1.sha256 | sha256sum -c --quiet -) || { echo "STOP: phase-1 artifacts differ from PHASE1.sha256"; fin 1; }
 [ "$(grep '^CODE_HASH ' $P1/PHASE1.sha256 | cut -d' ' -f2)" = "$CH" ] && [ "$(grep '^GPU ' $P1/PHASE1.sha256 | cut -d' ' -f2-)" = "$G" ] \
   || { echo "STOP: code or GPU differs from phase 1"; fin 1; }
-$PY -c "import json,sys; c=json.load(open('$P1/cal/calcheck.json')); p=json.load(open('$P1/projection.json')); r=json.load(open('$P1/repro/repro.json')); sys.exit(0 if c['pass'] is True and not c['errors'] and p['phase_A_affordable'] and ('$PHASE'=='B' or r['file_equal']) else 1)" \
-  || { echo "STOP: calibration, projection or (phase A) reproducibility pilot did not pass"; fin 1; }
+# Amendment PA-1 (Claude + Sol, after phase 1; protocol §14): phase A trains nothing, so it does not require the
+# calibration PASS (calcheck.pass stays false: RP acquisition 0.50 < 0.80). It requires everything else, re-derived from
+# the committed RAW evidence: calcheck re-run on the pod over the committed calibration files must reproduce the
+# committed calcheck.json with no errors, twins/competence in band, base FRESH >= 0.90; projection affordable; pilot
+# exact. Phase B still requires calcheck.pass (its own amendment would be needed).
+mkdir -p $R/p1check
+$X calcheck --prep $R/p0/prov1_prep_seed24.json --train $P1/cal/prov1_train_seed24.json --rp-merged $P1/cal/eval_RP_s1_merged.json \
+   --rp-unmerged $P1/cal/eval_RP_s1_unmerged.json --rc-merged $P1/cal/eval_RC_s1_merged.json --rc-unmerged $P1/cal/eval_RC_s1_unmerged.json \
+   --base $P1/cal/eval_N_s1.json --out $R/p1check/calcheck_rerun.json > $R/p1check/calcheck_rerun.log 2>&1
+$PY - <<PY \
+import json, sys
+c = json.load(open("$P1/cal/calcheck.json")); r2 = json.load(open("$R/p1check/calcheck_rerun.json"))
+p = json.load(open("$P1/projection.json")); rp = json.load(open("$P1/repro/repro.json"))
+same = {k: c.get(k) for k in ("pass", "errors", "RP_pos_template_acquisition", "N_absent_fresh_unknown", "competence",
+                              "competence_in_band", "inputs_sha256", "prep_sha256")} == \
+       {k: r2.get(k) for k in ("pass", "errors", "RP_pos_template_acquisition", "N_absent_fresh_unknown", "competence",
+                               "competence_in_band", "inputs_sha256", "prep_sha256")}
+integrity = same and not r2["errors"] and r2["competence_in_band"] is True and r2["N_absent_fresh_unknown"] >= 0.90
+ok = integrity and p["phase_A_affordable"] and (r2["pass"] is True if "$PHASE" == "B" else rp["file_equal"] is True)
+print("PHASE1-GATE", {"rerun_reproduces_committed": same, "integrity": integrity, "calibration_pass": r2["pass"],
+                      "affordable": p["phase_A_affordable"], "pilot_exact": rp["file_equal"], "phase": "$PHASE", "ok": ok})
+sys.exit(0 if ok else 1)
+PY
+  || { echo "STOP: phase-1 evidence does not admit phase $PHASE (raw calcheck rerun, integrity, projection, pilot; B also needs calcheck PASS)"; fin 1; }
 
 if [ "$PHASE" = A ]; then
   REF=$R/s1ref; mkdir -p $REF && tar xzf $PWD/results/support1/phase2/support1_phase2.tar.gz -C $REF \
@@ -311,7 +333,7 @@ while :; do
     RUNNING) nolog=0;;
     *) echo "$(date +%H:%M) (pod not reachable this poll)"; continue;;
   esac
-  echo "$(date +%H:%M) $($S 2>/dev/null "grep -E '^(==|EVAL|TRAIN|STOP|verdict|SOL|CALCHECK|PROJECTION|REPRO|ADMIT|TIMINGS)' /workspace/prov1_p$PHASE.log | tail -1 | cut -c1-150")"
+  echo "$(date +%H:%M) $($S 2>/dev/null "grep -E '^(==|EVAL|TRAIN|STOP|verdict|SOL|CALCHECK|PROJECTION|REPRO|ADMIT|TIMINGS|PHASE1-GATE)' /workspace/prov1_p$PHASE.log | tail -1 | cut -c1-150")"
 done
 $S "grep -vE 'Loading weights|Writing model' /workspace/prov1_p$PHASE.log" | tail -40
 $S "cat /workspace/prov1_phase$PHASE.tar.gz.sha256" > "$OUT/prov1_phase$PHASE.tar.gz.sha256" \
