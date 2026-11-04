@@ -43,7 +43,7 @@ preserve() {  # results bundle (+ phase B checkpoints) streamed to E:, each veri
   && $S "cat /workspace/prov1_results.tar.gz" > "$OUT/prov1_results.tar.gz" \
   && (cd "$OUT" && sha256sum -c --quiet prov1_results.tar.gz.sha256) \
   && $S "cat /workspace/prov1_ckpt.sha256" > "$OUT/prov1_ckpt.sha256" \
-  && if [ "$KEEP_CKPT" = 1 ]; then
+  && if [ "$KEEP_CKPT" = 1 ] && [ -s "$OUT/prov1_ckpt.sha256" ]; then   # nothing to stream when no .pt remains (phase 1)
        mkdir -p "$OUT/ckpt" \
        && $S "cd /workspace && cut -c67- prov1_ckpt.sha256 | tar cf - -T -" | tar xf - -C "$OUT/ckpt" --no-same-owner --no-same-permissions \
        && (cd "$OUT/ckpt" && sha256sum -c --quiet ../prov1_ckpt.sha256)

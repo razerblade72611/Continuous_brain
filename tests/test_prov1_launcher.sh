@@ -19,6 +19,7 @@ grep -q '^preserve() {' $FN && grep -q '^cleanup() {' $FN || fail "could not ext
 
 setup() {  # $1 = evidence kind: ckpt | none
   rm -rf $T/ws $T/out $T/calls; mkdir -p $T/ws $T/out; : > $T/calls
+  if [ "$1" = results ]; then mkdir -p $T/ws/prov1/cal; echo '{"x":1}' > $T/ws/prov1/cal/calcheck.json; fi
   if [ "$1" = ckpt ]; then
     mkdir -p $T/ws/prov1/seed20; echo '{"x":1}' > $T/ws/prov1/seed20/eval_RC_s1_merged.json
     head -c 200000 /dev/urandom > $T/ws/prov1/seed20/cortex_RC_s1.pt; head -c 150000 /dev/urandom > $T/ws/prov1/seed20/cortex_RU_s4_withheld.pt
@@ -72,9 +73,14 @@ echo "ok 5 unreachable pod: STOPPED and kept"
 setup ckpt; run 0 ok
 [ ! -e $T/out/ckpt ] && [ "$(wc -l < $T/out/prov1_ckpt.sha256)" = 2 ] && grep -q "pod remove podX" $T/calls || fail "phase A preserve"
 echo "ok 6 phase A: hashes only, removed"
+# 6b. results but NO checkpoint left (phase 1 after a matching pilot): preserved and removed (PROV-1 phase-1 incident)
+setup results; run 1 ok
+grep -q "preserved + verified" $T/log && grep -q "pod remove podX" $T/calls && [ ! -s $T/out/prov1_ckpt.sha256 ] \
+  || fail "results without checkpoints were not preserved/removed: $(cat $T/log)"
+echo "ok 6b results, no checkpoints: verified, removed"
 # 7. guards
 o=$(bash $L 2>&1); [[ "$o" == *usage* ]] || fail "no-argument guard"
 sed 's/^PIN=.*/PIN=UNPINNED/' $L > $T/unpinned.sh
 o=$(bash $T/unpinned.sh 1 2>&1); [[ "$o" == *"PIN is not a resolved commit hash"* ]] || fail "PIN guard (UNPINNED must refuse)"
 echo "ok 7 argument and PIN guards"
-echo "PROV-1 launcher: 7/7 passed"
+echo "PROV-1 launcher: 8/8 passed"
